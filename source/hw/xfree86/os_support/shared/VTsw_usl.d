@@ -24,6 +24,7 @@ extern(C): __gshared:
  *
  */
 import build.xorg_config;
+import build.dix_config;
 
 //import x11.X;
 
@@ -68,6 +69,8 @@ import os.utils;
 alias FALSE = include.misc.FALSE;
 
 alias TRUE = include.misc.TRUE;
+import lnx_init;
+// import 
 /*
  * Handle the VT-switching interface for OSs that use USL-style ioctl()s
  * (this used to include the sysv, sco, and linux subdirs, but only linux
