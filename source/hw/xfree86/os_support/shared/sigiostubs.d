@@ -37,13 +37,13 @@ import hw.xfree86.os_support.xf86_os_support;
 import include.xf86_OSlib;
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
-int xf86InstallSIGIOHandler(int fd, void function(int, void*) f, void* closure)
-{
-    return 0;
-}
+// int xf86InstallSIGIOHandler(int fd, void function(int, void*) f, void* closure)
+// {
+//     return 0;
+// }
 
-//pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
-int xf86RemoveSIGIOHandler(int fd)
-{
-    return 0;
-}
+// //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
+// int xf86RemoveSIGIOHandler(int fd)
+// {
+//     return 0;
+// }

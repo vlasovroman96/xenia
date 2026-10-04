@@ -42,8 +42,8 @@ import include.windowstr;
 import include.xkbstr;
 
 
-// //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
-int XkbDDXSwitchScreen(DeviceIntPtr dev, KeyCode key, XkbAction* act)
-{
-    return 1;
-}
+// // //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
+// int XkbDDXSwitchScreen(DeviceIntPtr dev, KeyCode key, XkbAction* act)
+// {
+//     return 1;
+// }

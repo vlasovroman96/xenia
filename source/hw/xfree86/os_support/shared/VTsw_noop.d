@@ -32,29 +32,29 @@ import include.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;
 import include.xf86_OSlib;
 
-/*
- * No-op functions for OSs without VTs
- */
+// /*
+//  * No-op functions for OSs without VTs
+//  */
 
-//pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
-Bool xf86VTSwitchPending()
-{
-    return FALSE;
-}
+// //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
+// Bool xf86VTSwitchPending()
+// {
+//     return FALSE;
+// }
 
-//pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
-Bool xf86VTSwitchAway()
-{
-    return FALSE;
-}
+// //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
+// Bool xf86VTSwitchAway()
+// {
+//     return FALSE;
+// }
 
-//pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
-Bool xf86VTSwitchTo()
-{
-    return TRUE;
-}
+// //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
+// Bool xf86VTSwitchTo()
+// {
+//     return TRUE;
+// }
 
-Bool xf86VTActivate(int vtno)
-{
-    return TRUE;
-}
+// Bool xf86VTActivate(int vtno)
+// {
+//     return TRUE;
+// }

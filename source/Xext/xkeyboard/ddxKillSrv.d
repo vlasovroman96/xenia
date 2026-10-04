@@ -43,11 +43,11 @@ import include.xkbstr;
 import dix.events;
 import os.utils;
 
-// //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
-int XkbDDXTerminateServer(DeviceIntPtr dev, KeyCode key, XkbAction* act)
-{
-    if (dev != inputInfo.keyboard)
-        GiveUp(1);
+// // //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
+// int XkbDDXTerminateServer(DeviceIntPtr dev, KeyCode key, XkbAction* act)
+// {
+//     if (dev != inputInfo.keyboard)
+//         GiveUp(1);
 
-    return 0;
-}
+//     return 0;
+// }
