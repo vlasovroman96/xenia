@@ -389,7 +389,7 @@ static if (CONFIG_UDEV_KMS) {
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
-private void socket_handler(int fd, int ready, void* data)
+private void udev_socket_handler(int fd, int ready, void* data)
 {
     cast(void) fd;
     cast(void) ready;
@@ -494,7 +494,7 @@ version (HAVE_UDEV_ENUMERATE_ADD_MATCH_TAG) {
 
     udev_enumerate_unref(enumerate);
 
-    SetNotifyFd(assumeNoGC(&udev_monitor_get_fd)(udev_monitor_), &socket_handler, X_NOTIFY_READ, null);
+    SetNotifyFd(assumeNoGC(&udev_monitor_get_fd)(udev_monitor_), &udev_socket_handler, X_NOTIFY_READ, null);
 
     return 1;
 }

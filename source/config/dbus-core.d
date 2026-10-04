@@ -158,7 +158,7 @@ private dbus_core_info bus_info = { fd: -1 };
 
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
-private void socket_handler(int fd, int ready, void* data)
+private void dbus_socket_handler(int fd, int ready, void* data)
 {
     dbus_core_info* info = cast(dbus_core_info*)data;
 
@@ -264,7 +264,7 @@ private int connect_to_bus()
     }
 
     resolve!"dbus_error_free"()(&error);
-    SetNotifyFd(bus_info.fd, &socket_handler, X_NOTIFY_READ, &bus_info);
+    SetNotifyFd(bus_info.fd, &dbus_socket_handler, X_NOTIFY_READ, &bus_info);
 
     for (hook = bus_info.hooks; hook; hook = hook.next) {
         if (hook.connect)

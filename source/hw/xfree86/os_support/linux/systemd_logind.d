@@ -96,6 +96,7 @@ alias TRUE = include.misc.TRUE;
 
 import externs.attrs;;
 import xf86platformBus;
+import build.dix_config;
 
 
 static if(SYSTEMD_LOGIND) {
