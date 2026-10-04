@@ -120,7 +120,7 @@ Bool xf86VTSwitchTo()
 
 Bool xf86VTActivate(int vtno)
 {
-version (VT_ACTIVATE) {
+static if (VT_ACTIVATE) {
     if (ioctl(xf86Info.consoleFd, VT_ACTIVATE, vtno) < 0) {
         return FALSE;
     }
