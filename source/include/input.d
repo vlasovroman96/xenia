@@ -349,7 +349,7 @@ int InitIntegerFeedbackClassDeviceStruct(DeviceIntPtr, IntegerCtrlProcPtr);
 
 int InitKeyboardDeviceStructFromString(DeviceIntPtr dev, const(char)* keymap, int keymap_length, BellProcPtr bell_func, KbdCtrlProcPtr ctrl_func);
 
-int ProcessInputEvents();
+// int ProcessInputEvents();
 
 int InitInput(int, char**);
 int CloseInput();

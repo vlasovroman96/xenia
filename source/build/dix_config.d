@@ -15,6 +15,7 @@ import std.system;
 
 import std.system : Endian;
 public import cFix;
+import externs.linux.vt;
 
 enum X_LITTLE_ENDIAN = (std.system.endian == Endian.littleEndian);
 enum X_BIG_ENDIAN    = (std.system.endian == Endian.bigEndian);
@@ -288,3 +289,4 @@ enum _XTYPEDEF_POINTER = 1;
 
 enum NOTUSED = false;
 
+// enum VT_ACTIVATE = true;

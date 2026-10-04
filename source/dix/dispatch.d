@@ -167,6 +167,8 @@ import Xext.xf86bigfont;
 import os.WaitFor;
 import disconnect;
 import dix.dixfonts;
+import xf86Events;
+
 
 import externs.libdbus;
 

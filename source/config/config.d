@@ -44,6 +44,7 @@ import hw.xfree86.os_support.linux.systemd_logind;
 import os.log;
 import dix.events;
 import os.inputthread;
+import xf86Events;
 
 
 void config_pre_init()
