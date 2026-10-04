@@ -30,6 +30,8 @@ enum COMPILEDDEFAULTFONTPATH = "/usr/share/fonts/misc,/usr/share/fonts/TTF,/usr/
 
 enum CONFIG_NAMESPACE = 1;
 
+enum SYSTEMD_LOGIND = 0;
+
 enum CONFIG_SYSLOG = 1;
 
 enum CONFIG_UDEV = 1;

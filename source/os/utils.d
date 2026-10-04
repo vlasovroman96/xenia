@@ -1262,22 +1262,23 @@ version (Windows) {
             privsElevated = TRUE;
         }
         else {
-version (HAVE_ISSETUGID) {
-            privsElevated = issetugid();
-} else version (HAVE_GETRESUID) {
-            uid_t ruid = void, euid = void, suid = void;
-            gid_t rgid = void, egid = void, sgid = void;
+// static if (HAVE_ISSETUGID) {
+//             privsElevated = issetugid();
+// } else static if (HAVE_GETRESUID) {
+//             uid_t ruid = void, euid = void, suid = void;
+//             gid_t rgid = void, egid = void, sgid = void;
 
-            if ((getresuid(&ruid, &euid, &suid) == 0) &&
-                (getresgid(&rgid, &egid, &sgid) == 0)) {
-                privsElevated = (euid != suid) || (egid != sgid);
-            }
-            else {
-                printf("Failed getresuid or getresgid");
-                /* Something went wrong, make defensive assumption */
-                privsElevated = TRUE;
-            }
-} else {
+//             if ((getresuid(&ruid, &euid, &suid) == 0) &&
+//                 (getresgid(&rgid, &egid, &sgid) == 0)) {
+//                 privsElevated = (euid != suid) || (egid != sgid);
+//             }
+//             else {
+//                 printf("Failed getresuid or getresgid");
+//                 /* Something went wrong, make defensive assumption */
+//                 privsElevated = TRUE;
+//             }
+// } else 
+{
             if (getuid() == 0) {
                 /* running as root: uid==euid==0 */
                 privsElevated = FALSE;

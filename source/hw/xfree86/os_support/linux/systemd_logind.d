@@ -98,7 +98,8 @@ import externs.attrs;;
 import xf86platformBus;
 
 
-// import systemd_logind;
+static if(SYSTEMD_LOGIND) {
+    // / import systemd_logind;
 
 struct systemd_logind_info {
     DBusConnection* conn;
@@ -717,4 +718,16 @@ void systemd_logind_fini()
         systemd_logind_release_control(&logind_info);
 
     dbus_core_remove_hook(&core_hook);
+}
+
+}
+else {
+    void systemd_logind_init() {}
+    void systemd_logind_fini() {}
+    int systemd_logind_take_fd(int _major, int _minor, const(char)* path, Bool* paused_ret) => -1;
+    void systemd_logind_release_fd(int _major, int _minor, int fd) { close(fd); }
+    int systemd_logind_controls_session() => 0;
+
+    void systemd_logind_vtenter() {}
+    void systemd_logind_drop_master() {}
 }

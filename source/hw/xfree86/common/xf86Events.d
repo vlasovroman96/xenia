@@ -323,8 +323,8 @@ private void xf86DisableInputDeviceForVTSwitch(InputInfoPtr pInfo)
 
     xf86ReleaseKeys(pInfo.dev);
     ProcessInputEvents();
-    seatd_libseat_close_device(pInfo);
     DisableDevice(pInfo.dev, TRUE);
+    seatd_libseat_close_device(pInfo);
 }
 
 void xf86EnableInputDeviceForVTSwitch(InputInfoPtr pInfo)
