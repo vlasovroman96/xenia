@@ -42,7 +42,7 @@ import include.inputstr;
 import include.scrnintstr;
 // import ephyrlog;
 
-// version (GLAMOR) {
+// static if (GLAMOR) {
 // import include.glamor;
 // }
 import hw.kdrive.ephyr.ephyr_glamor;
@@ -576,7 +576,7 @@ Bool ephyrRandRSetConfig(ScreenPtr pScreen, Rotation randr, int rate, RRScreenSi
 
     scrpriv.win_width = screen.width;
     scrpriv.win_height = screen.height;
-version (GLAMOR) {
+static if (GLAMOR) {
     ephyr_glamor_set_window_size(scrpriv.glamor,
                                  scrpriv.win_width,
                                  scrpriv.win_height);
@@ -600,7 +600,7 @@ version (GLAMOR) {
             goto bail4;
     }
     else {
-version (GLAMOR) {
+static if (GLAMOR) {
         if (ephyr_glamor)
             ephyr_glamor_create_screen_resources(pScreen);
 }
@@ -883,7 +883,7 @@ Bool ephyrCreateResources(ScreenPtr pScreen)
                            scrpriv.randr,
                            &ephyrShadowUpdate, &ephyrWindowLinear);
     else {
-version (GLAMOR) {
+static if (GLAMOR) {
         if (ephyr_glamor) {
             if (!ephyr_glamor_create_screen_resources(pScreen))
                 return FALSE;

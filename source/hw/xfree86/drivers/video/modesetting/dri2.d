@@ -39,15 +39,26 @@ import build.dix_config;
 
 import core.stdc.errno;
 import core.stdc.time;
-
+import hw.xfree86.drivers.video.modesetting.present;
+import pageflip;
+import hw.xfree86.drivers.video.modesetting.drmmode_display;
+import externs.libdrm;
 import dix.dix_priv;
-
+import externs.X11.extensions.dri2tokens;
+import dix.gc;
 import include.list;
 import include.xf86;
 // import driver;
-// import dri2;
+import include.dri2;
+import include.xf86Crtc;
+import hw.xfree86.common.xf86Helper;
+import Xext.dri2.dri2;
+import hw.xfree86.drivers.video.modesetting.vblank;
+import hw.xfree86.drivers.video.modesetting.drmmode_display;
+import hw.xfree86.modes.xf86Crtc;
 
-version (GLAMOR) {
+static if (GLAMOR) {
+import hw.xfree86.drivers.video.modesetting.driver;
 
 enum ms_dri2_frame_event_type {
     MS_DRI2_QUEUE_SWAP,
@@ -101,9 +112,9 @@ private ms_dri2_resource* ms_get_resource(XID id, RESTYPE type)
     ptr = null;
     dixLookupResourceByType(&ptr, id, type, null, DixWriteAccess);
     if (ptr)
-        return ptr;
+        return cast(ms_dri2_resource*)ptr;
 
-    ms_dri2_resource* resource = cast(ms_dri2_resource*) calloc(1, typeof(*resource).sizeof);
+    ms_dri2_resource* resource = cast(ms_dri2_resource*) calloc(1, ms_dri2_resource.sizeof);
     if (resource is null)
         return null;
 
@@ -136,11 +147,11 @@ private DRI2Buffer2Ptr ms_dri2_create_buffer2(ScreenPtr screen, DrawablePtr draw
     CARD16 pitch = void;
     ms_dri2_buffer_private_ptr private_ = void;
 
-    buffer = calloc(1, (*buffer).sizeof);
+    buffer = cast(DRI2Buffer2Ptr)calloc(1, (_DRI2Buffer).sizeof);
     if (buffer is null)
         return null;
 
-    private_ = calloc(1, typeof(*private_).sizeof);
+    private_ = cast(ms_dri2_buffer_private_ptr)calloc(1, (ms_dri2_buffer_private_rec).sizeof);
     if (private_ is null) {
         free(buffer);
         return null;
@@ -234,7 +245,7 @@ private DRI2Buffer2Ptr ms_dri2_create_buffer(DrawablePtr drawable, uint attachme
 private void ms_dri2_reference_buffer(DRI2Buffer2Ptr buffer)
 {
     if (buffer) {
-        ms_dri2_buffer_private_ptr private_ = buffer.driverPrivate;
+        ms_dri2_buffer_private_ptr private_ = cast(ms_dri2_buffer_private_ptr)buffer.driverPrivate;
         private_.refcnt++;
     }
 }
@@ -245,7 +256,7 @@ private void ms_dri2_destroy_buffer2(ScreenPtr unused, DrawablePtr unused2, DRI2
         return;
 
     if (buffer.driverPrivate) {
-        ms_dri2_buffer_private_ptr private_ = buffer.driverPrivate;
+        ms_dri2_buffer_private_ptr private_ = cast(ms_dri2_buffer_private_ptr)buffer.driverPrivate;
         if (--private_.refcnt == 0) {
             dixDestroyPixmap(private_.pixmap, 0);
             free(private_);
@@ -263,8 +274,8 @@ private void ms_dri2_destroy_buffer(DrawablePtr drawable, DRI2Buffer2Ptr buffer)
 
 private void ms_dri2_copy_region2(ScreenPtr screen, DrawablePtr drawable, RegionPtr pRegion, DRI2BufferPtr destBuffer, DRI2BufferPtr sourceBuffer)
 {
-    ms_dri2_buffer_private_ptr src_priv = sourceBuffer.driverPrivate;
-    ms_dri2_buffer_private_ptr dst_priv = destBuffer.driverPrivate;
+    ms_dri2_buffer_private_ptr src_priv = cast(ms_dri2_buffer_private_ptr)sourceBuffer.driverPrivate;
+    ms_dri2_buffer_private_ptr dst_priv = cast(ms_dri2_buffer_private_ptr)destBuffer.driverPrivate;
     PixmapPtr src_pixmap = src_priv.pixmap;
     PixmapPtr dst_pixmap = dst_priv.pixmap;
     DrawablePtr src = (sourceBuffer.attachment == DRI2BufferFrontLeft)
@@ -297,10 +308,10 @@ private void ms_dri2_copy_region2(ScreenPtr screen, DrawablePtr drawable, Region
     if (!gc)
         return;
 
-    pCopyClip = REGION_CREATE(screen, null, 0);
-    REGION_COPY(screen, pCopyClip, pRegion);
+    pCopyClip = mixin(REGION_CREATE!("screen", "null", "0"));
+    mixin(REGION_COPY!("screen", "pCopyClip", "pRegion") ~";");
     if (translate)
-        REGION_TRANSLATE(screen, pCopyClip, off_x, off_y);
+        mixin(REGION_TRANSLATE!("screen", "pCopyClip", "off_x", "off_y") ~";");
     (*gc.funcs.ChangeClip) (gc, CT_REGION, pCopyClip, 0);
     ValidateGC(dst, gc);
 
@@ -363,7 +374,7 @@ private int ms_dri2_get_msc(DrawablePtr draw, CARD64* ust, CARD64* msc)
 
 private XID get_client_id(ClientPtr client)
 {
-    XID* ptr = dixGetPrivateAddr(&client.devPrivates, &ms_dri2_client_key);
+    XID* ptr = cast(XID*)dixGetPrivateAddr(&client.devPrivates, &ms_dri2_client_key);
     if (*ptr == 0)
         *ptr = FakeClientID(client.index);
     return *ptr;
@@ -418,7 +429,7 @@ private void ms_dri2_blit_swap(DrawablePtr drawable, DRI2BufferPtr dst, DRI2Buff
     box.y1 = 0;
     box.x2 = drawable.width;
     box.y2 = drawable.height;
-    REGION_INIT(pScreen, &region, &box, 0);
+    mixin(REGION_INIT!("pScreen", "&region", "&box", "0") ~";");
 
     ms_dri2_copy_region(drawable, &region, dst, src);
 }
@@ -432,7 +443,7 @@ struct ms_dri2_vblank_event {
 
 private void ms_dri2_flip_abort(modesettingPtr ms, void* data)
 {
-    ms_present_vblank_event* event = data;
+    ms_present_vblank_event* event = cast(ms_present_vblank_event*)data;
 
     ms.drmmode.dri2_flipping = FALSE;
     free(event);
@@ -440,10 +451,10 @@ private void ms_dri2_flip_abort(modesettingPtr ms, void* data)
 
 private void ms_dri2_flip_handler(modesettingPtr ms, ulong msc, ulong ust, void* data)
 {
-    ms_dri2_vblank_event* event = data;
-    uint frame = msc;
-    uint tv_sec = ust / 1000000;
-    uint tv_usec = ust % 1000000;
+    ms_dri2_vblank_event* event = cast(ms_dri2_vblank_event*)data;
+    uint frame = cast(uint)msc;
+    uint tv_sec = cast(uint)(ust / 1000000);
+    uint tv_usec = cast(uint)(ust % 1000000);
     DrawablePtr drawable = void;
     int status = void;
 
@@ -464,7 +475,7 @@ private Bool ms_dri2_schedule_flip(ms_dri2_frame_event_ptr info)
     ScreenPtr screen = draw.pScreen;
     ScrnInfoPtr scrn = xf86ScreenToScrn(screen);
     modesettingPtr ms = mixin(modesettingPTR!("scrn"));
-    ms_dri2_buffer_private_ptr back_priv = info.back.driverPrivate;
+    ms_dri2_buffer_private_ptr back_priv = cast(ms_dri2_buffer_private_ptr)info.back.driverPrivate;
     ms_dri2_vblank_event* event = void;
 
     event = cast(ms_dri2_vblank_event*) cast(ms_dri2_vblank_event*) calloc(1, ms_dri2_vblank_event.sizeof);
@@ -491,8 +502,8 @@ private Bool update_front(DrawablePtr draw, DRI2BufferPtr front)
 {
     ScreenPtr screen = draw.pScreen;
     PixmapPtr pixmap = get_drawable_pixmap(draw);
-    ms_dri2_buffer_private_ptr priv = front.driverPrivate;
-    modesettingPtr ms = modesettingPTR(xf86ScreenToScrn(screen));
+    ms_dri2_buffer_private_ptr priv = cast(ms_dri2_buffer_private_ptr)front.driverPrivate;
+    modesettingPtr ms = mixin(modesettingPTR!("xf86ScreenToScrn(screen)"));
     CARD32 size = void;
     CARD16 pitch = void;
     int name = void;
@@ -514,11 +525,11 @@ private Bool update_front(DrawablePtr draw, DRI2BufferPtr front)
 
 private Bool can_exchange(ScrnInfoPtr scrn, DrawablePtr draw, DRI2BufferPtr front, DRI2BufferPtr back)
 {
-    ms_dri2_buffer_private_ptr front_priv = front.driverPrivate;
-    ms_dri2_buffer_private_ptr back_priv = back.driverPrivate;
+    ms_dri2_buffer_private_ptr front_priv = cast(ms_dri2_buffer_private_ptr)front.driverPrivate;
+    ms_dri2_buffer_private_ptr back_priv = cast(ms_dri2_buffer_private_ptr)back.driverPrivate;
     PixmapPtr front_pixmap = void;
     PixmapPtr back_pixmap = back_priv.pixmap;
-    xf86CrtcConfigPtr config = XF86_CRTC_CONFIG_PTR(scrn);
+    xf86CrtcConfigPtr config = mixin(XF86_CRTC_CONFIG_PTR!("scrn"));
     int num_crtcs_on = 0;
     int i = void;
 
@@ -572,8 +583,8 @@ private Bool can_flip(ScrnInfoPtr scrn, DrawablePtr draw, DRI2BufferPtr front, D
 
 private void ms_dri2_exchange_buffers(DrawablePtr draw, DRI2BufferPtr front, DRI2BufferPtr back)
 {
-    ms_dri2_buffer_private_ptr front_priv = front.driverPrivate;
-    ms_dri2_buffer_private_ptr back_priv = back.driverPrivate;
+    ms_dri2_buffer_private_ptr front_priv = cast(ms_dri2_buffer_private_ptr)front.driverPrivate;
+    ms_dri2_buffer_private_ptr back_priv = cast(ms_dri2_buffer_private_ptr)back.driverPrivate;
     ScreenPtr screen = draw.pScreen;
     ScrnInfoPtr scrn = xf86ScreenToScrn(screen);
     modesettingPtr ms = mixin(modesettingPTR!("scrn"));
@@ -608,12 +619,12 @@ private void ms_dri2_exchange_buffers(DrawablePtr draw, DRI2BufferPtr front, DRI
 
 private void ms_dri2_frame_event_handler(ulong msc, ulong usec, void* data)
 {
-    ms_dri2_frame_event_ptr frame_info = data;
+    ms_dri2_frame_event_ptr frame_info = cast(ms_dri2_frame_event_ptr)data;
     DrawablePtr drawable = frame_info.drawable;
     ScreenPtr screen = frame_info.screen;
     ScrnInfoPtr scrn = xf86ScreenToScrn(screen);
-    uint tv_sec = usec / 1000000;
-    uint tv_usec = usec % 1000000;
+    uint tv_sec = cast(uint)(usec / 1000000);
+    uint tv_usec = cast(uint)(usec % 1000000);
 
     if (!drawable) {
         ms_dri2_del_frame_event(frame_info);
@@ -627,10 +638,11 @@ private void ms_dri2_frame_event_handler(ulong msc, ulong usec, void* data)
             ms_dri2_exchange_buffers(drawable, frame_info.front, frame_info.back);
             break;
         }
+        goto case;
         /* else fall through to blit */
     case MS_DRI2_QUEUE_SWAP:
         ms_dri2_blit_swap(drawable, frame_info.front, frame_info.back);
-        DRI2SwapComplete(frame_info.client, drawable, msc, tv_sec, tv_usec,
+        DRI2SwapComplete(frame_info.client, drawable, cast(int)msc, tv_sec, tv_usec,
                          DRI2_BLIT_COMPLETE,
                          frame_info.client ? frame_info.event_complete : null,
                          frame_info.event_data);
@@ -639,7 +651,7 @@ private void ms_dri2_frame_event_handler(ulong msc, ulong usec, void* data)
     case MS_DRI2_WAIT_MSC:
         if (frame_info.client)
             DRI2WaitMSCComplete(frame_info.client, drawable,
-                                msc, tv_sec, tv_usec);
+                                cast(int)msc, tv_sec, tv_usec);
         break;
 
     default:
@@ -654,7 +666,7 @@ private void ms_dri2_frame_event_handler(ulong msc, ulong usec, void* data)
 
 private void ms_dri2_frame_event_abort(void* data)
 {
-    ms_dri2_frame_event_ptr frame_info = data;
+    ms_dri2_frame_event_ptr frame_info = cast(ms_dri2_frame_event_ptr)data;
 
     ms_dri2_del_frame_event(frame_info);
 }
@@ -680,7 +692,7 @@ private int ms_dri2_schedule_wait_msc(ClientPtr client, DrawablePtr draw, CARD64
     if (!crtc)
         goto out_complete;
 
-    wait_info = calloc(1, typeof(*wait_info).sizeof);
+    wait_info = cast(ms_dri2_frame_event_ptr)calloc(1, ms_dri2_frame_event.sizeof);
     if (!wait_info)
         goto out_complete;
 
@@ -732,7 +744,7 @@ private int ms_dri2_schedule_wait_msc(ClientPtr client, DrawablePtr draw, CARD64
             goto out_free;
         }
 
-        wait_info.frame = queued_msc;
+        wait_info.frame = cast(int)queued_msc;
         DRI2BlockClient(client, draw);
         return TRUE;
     }
@@ -770,7 +782,7 @@ private int ms_dri2_schedule_wait_msc(ClientPtr client, DrawablePtr draw, CARD64
         goto out_free;
     }
 
-    wait_info.frame = queued_msc;
+    wait_info.frame = cast(int)queued_msc;
 
     DRI2BlockClient(client, draw);
 
@@ -779,7 +791,7 @@ private int ms_dri2_schedule_wait_msc(ClientPtr client, DrawablePtr draw, CARD64
  out_free:
     ms_dri2_del_frame_event(wait_info);
  out_complete:
-    DRI2WaitMSCComplete(client, draw, target_msc, 0, 0);
+    DRI2WaitMSCComplete(client, draw, cast(int)target_msc, 0, 0);
     return TRUE;
 }
 
@@ -808,7 +820,7 @@ private int ms_dri2_schedule_swap(ClientPtr client, DrawablePtr draw, DRI2Buffer
     if (!crtc)
         goto blit_fallback;
 
-    frame_info = calloc(1, typeof(*frame_info).sizeof);
+    frame_info = cast(ms_dri2_frame_event_ptr)calloc(1, ms_dri2_frame_event.sizeof);
     if (!frame_info)
         goto blit_fallback;
 
@@ -882,8 +894,8 @@ private int ms_dri2_schedule_swap(ClientPtr client, DrawablePtr draw, DRI2Buffer
             goto blit_fallback;
         }
 
-        *target_msc = queued_msc + flip;
-        frame_info.frame = *target_msc;
+        *target_msc = cast(int)(queued_msc + flip);
+        frame_info.frame = cast(int)*target_msc;
 
         return TRUE;
     }
@@ -925,7 +937,7 @@ private int ms_dri2_schedule_swap(ClientPtr client, DrawablePtr draw, DRI2Buffer
 
     /* Adjust returned value for 1 fame pageflip offset of flip > 0 */
     *target_msc = queued_msc + flip;
-    frame_info.frame = *target_msc;
+    frame_info.frame = cast(int)(*target_msc);
 
     return TRUE;
 
@@ -940,12 +952,12 @@ private int ms_dri2_schedule_swap(ClientPtr client, DrawablePtr draw, DRI2Buffer
 
 private int ms_dri2_frame_event_client_gone(void* data, XID id)
 {
-    ms_dri2_resource* resource = data;
+    ms_dri2_resource* resource = cast(ms_dri2_resource*)data;
 
     while (!xorg_list_is_empty(&resource.list)) {
-        ms_dri2_frame_event_ptr info = xorg_list_first_entry(&resource.list,
-                                  ms_dri2_frame_event_rec,
-                                  client_resource);
+        ms_dri2_frame_event_ptr info = mixin(xorg_list_first_entry!("&resource.list",
+                                  "ms_dri2_frame_event_rec",
+                                  "client_resource"));
 
         xorg_list_del(&info.client_resource);
         info.client = null;
@@ -957,12 +969,12 @@ private int ms_dri2_frame_event_client_gone(void* data, XID id)
 
 private int ms_dri2_frame_event_drawable_gone(void* data, XID id)
 {
-    ms_dri2_resource* resource = data;
+    ms_dri2_resource* resource = cast(ms_dri2_resource*)data;
 
     while (!xorg_list_is_empty(&resource.list)) {
-        ms_dri2_frame_event_ptr info = xorg_list_first_entry(&resource.list,
-                                  ms_dri2_frame_event_rec,
-                                  drawable_resource);
+        ms_dri2_frame_event_ptr info = mixin(xorg_list_first_entry!("&resource.list",
+                                  "ms_dri2_frame_event_rec",
+                                  "drawable_resource"));
 
         xorg_list_del(&info.drawable_resource);
         info.drawable = null;
@@ -1023,15 +1035,15 @@ Bool ms_dri2_screen_init(ScreenPtr screen)
     info.deviceName = drmGetDeviceNameFromFd(ms.fd);
 
     info.version_ = 9;
-    info.CreateBuffer = ms_dri2_create_buffer;
-    info.DestroyBuffer = ms_dri2_destroy_buffer;
-    info.CopyRegion = ms_dri2_copy_region;
-    info.ScheduleSwap = ms_dri2_schedule_swap;
-    info.GetMSC = ms_dri2_get_msc;
-    info.ScheduleWaitMSC = ms_dri2_schedule_wait_msc;
-    info.CreateBuffer2 = ms_dri2_create_buffer2;
-    info.DestroyBuffer2 = ms_dri2_destroy_buffer2;
-    info.CopyRegion2 = ms_dri2_copy_region2;
+    info.CreateBuffer = &ms_dri2_create_buffer;
+    info.DestroyBuffer = &ms_dri2_destroy_buffer;
+    info.CopyRegion = &ms_dri2_copy_region;
+    info.ScheduleSwap = &ms_dri2_schedule_swap;
+    info.GetMSC = &ms_dri2_get_msc;
+    info.ScheduleWaitMSC = &ms_dri2_schedule_wait_msc;
+    info.CreateBuffer2 = &ms_dri2_create_buffer2;
+    info.DestroyBuffer2 = &ms_dri2_destroy_buffer2;
+    info.CopyRegion2 = &ms_dri2_copy_region2;
 
     /* Ask Glamor to obtain the DRI driver name via EGL_MESA_query_driver, */
     if (ms.glamor.egl_get_driver_name)
@@ -1051,7 +1063,7 @@ Bool ms_dri2_screen_init(ScreenPtr screen)
         }
 
         info.numDrivers = 2;
-        info.driverNames = driver_names;
+        info.driverNames = driver_names.ptr;
     } else {
         /* EGL_MESA_query_driver was unavailable; let dri2.c select the
          * driver and fill in these fields for us.

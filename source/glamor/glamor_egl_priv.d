@@ -15,11 +15,12 @@ version = MESA_EGL_NO_X11_HEADERS;
 version = EGL_NO_X11;
 public import Xext.glx.fix;
 // public import Xext.glx.fix;
+import include.xf86Crtc;
 
 public import include.scrnintstr;
 public import glamor.glamor_egl_ext;
 
-version (GLAMOR_HAS_GBM) {
+static if (GLAMOR_HAS_GBM) {
 public import externs.libdrm;
 }
 
@@ -31,7 +32,7 @@ struct glamor_egl_priv_t {
     int exact_glvnd_vendor; /* If the glvnd vendor should be assumed valid with no checks */
     void* server_private;
 
-version (GLAMOR_HAS_GBM) {
+static if (GLAMOR_HAS_GBM) {
     gbm_device* gbm;
     int fast_gbm_import;
 }

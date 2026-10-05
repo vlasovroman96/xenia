@@ -166,7 +166,7 @@ void * xf86LoadDrvSubModule(DriverPtr drv, const(char)* name);
 // void * xf86LoadSubModule(ScrnInfoPtr pScrn, const(char)* name);
 // void * xf86LoadOneModule(const(char)* name, void* optlist);
 void  xf86UnloadSubModule(void* mod);
-void  xf86LoaderCheckSymbol(const(char)* name);
+// void  xf86LoaderCheckSymbol(const(char)* name);
 // void  xf86SetBackingStore(ScreenPtr pScreen);
 // void  xf86SetSilkenMouse(ScreenPtr pScreen);
 // void  xf86ConfigFbEntity(ScrnInfoPtr pScrn, int scrnFlag, int entityIndex, EntityProc init, EntityProc enter, EntityProc leave, void* private_);

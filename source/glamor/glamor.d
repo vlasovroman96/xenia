@@ -1028,7 +1028,7 @@ Bool glamor_get_drawable_modifiers(DrawablePtr draw, uint format, uint* num_modi
 
 private int _glamor_fds_from_pixmap(ScreenPtr screen, PixmapPtr pixmap, int* fds, uint* strides, uint* offsets, CARD32* size, ulong* modifier)
 {
-version (GLAMOR_HAS_GBM) {
+static if (GLAMOR_HAS_GBM) {
     glamor_pixmap_private* pixmap_priv = glamor_get_pixmap_private(pixmap);
     glamor_screen_private* glamor_priv = glamor_get_screen_private(pixmap.drawable.pScreen);
 

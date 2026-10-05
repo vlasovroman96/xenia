@@ -36,9 +36,9 @@ public import include.pixmapstr;
 public import include.gcstruct;
 public import include.picturestr;
 public import include.fb;
-version (GLAMOR_FOR_XORG) {
+// static if (GLAMOR_FOR_XORG) {
 public import xf86xv;
-}
+// }
 import externs.drm;
 
 import glamor.glamor;
@@ -364,11 +364,11 @@ int glamor_validate_gc(GCPtr gc, c_ulong changes, DrawablePtr drawable);
 
 enum HAS_GLAMOR_DESTROY_GC = 1;
 
-int glamor_finish(ScreenPtr screen);
+// int glamor_finish(ScreenPtr screen);
 enum HAS_GLAMOR_TEXT = 1;
 
-version (GLAMOR_FOR_XORG) {
+// static if (GLAMOR_FOR_XORG) {
 int glamor_xv_init(ScreenPtr pScreen, int num_texture_ports);
-}
+// }
 
                           /* GLAMOR_H */

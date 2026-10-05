@@ -223,9 +223,9 @@ struct _DRI2InfoRec {
 }alias DRI2InfoRec = _DRI2InfoRec;
 alias DRI2InfoPtr = DRI2InfoRec*;
 
-void  DRI2ScreenInit(ScreenPtr pScreen, DRI2InfoPtr info);
+// void  DRI2ScreenInit(ScreenPtr pScreen, DRI2InfoPtr info);
 
-void  DRI2CloseScreen(ScreenPtr pScreen);
+// void  DRI2CloseScreen(ScreenPtr pScreen);
 
 // void  DRI2HasSwapControl(ScreenPtr pScreen);
 
@@ -272,17 +272,17 @@ void  ProcDRI2WaitMSCReply(ClientPtr client, CARD64 ust, CARD64 msc, CARD64 sbc)
 // void  DRI2WaitSBC(ClientPtr client, DrawablePtr pDraw, CARD64 target_sbc);
 // void  DRI2ThrottleClient(ClientPtr client, DrawablePtr pDraw);
 
-void  DRI2CanFlip(DrawablePtr pDraw);
+// void  DRI2CanFlip(DrawablePtr pDraw);
 
 void  DRI2CanExchange(DrawablePtr pDraw);
 
 /* Note: use *only* for MSC related waits */
-void  DRI2BlockClient(ClientPtr client, DrawablePtr pDraw);
+// void  DRI2BlockClient(ClientPtr client, DrawablePtr pDraw);
 
-void  DRI2SwapComplete(ClientPtr client, DrawablePtr pDraw, int frame, uint tv_sec, uint tv_usec, int type, DRI2SwapEventPtr swap_complete, void* swap_data);
-void  DRI2WaitMSCComplete(ClientPtr client, DrawablePtr pDraw, int frame, uint tv_sec, uint tv_usec);
+// void  DRI2SwapComplete(ClientPtr client, DrawablePtr pDraw, int frame, uint tv_sec, uint tv_usec, int type, DRI2SwapEventPtr swap_complete, void* swap_data);
+// void  DRI2WaitMSCComplete(ClientPtr client, DrawablePtr pDraw, int frame, uint tv_sec, uint tv_usec);
 
 // void  DRI2GetParam(ClientPtr client, DrawablePtr pDrawable, CARD64 param, BOOL* is_param_recognized, CARD64* value);
 
-void  DRI2UpdatePrime(DrawablePtr pDraw, DRI2BufferPtr pDest);
+// void  DRI2UpdatePrime(DrawablePtr pDraw, DRI2BufferPtr pDest);
 

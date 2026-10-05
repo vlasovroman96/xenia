@@ -84,7 +84,7 @@ void glamor_solid(PixmapPtr pixmap, int x, int y, int width, int height, c_ulong
     FreeScratchGC(gc);
 }
 
-// version (GLAMOR_PRIV_H) {} else {
+// static if (GLAMOR_PRIV_H) {} else {
 // static assert(0, This file can only be included by glamor_priv.h);
 // }
 

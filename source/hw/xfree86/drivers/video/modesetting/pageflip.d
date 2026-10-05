@@ -31,6 +31,8 @@ import core.stdc.errno;
 import os.xserver_poll;
 
 import externs.libdrm;
+import os.utils;
+import hw.xfree86.modes.xf86Crtc;
 
 import hw.xfree86.drivers.video.modesetting.driver;
 import hw.xfree86.drivers.video.modesetting.drmmode_bo;
@@ -86,7 +88,7 @@ void ms_drain_drm_events(ScreenPtr screen)
         ms_flush_drm_events_timeout(screen, -1);
 }
 
-version (GLAMOR) {
+static if (GLAMOR) {
 
 /*
  * Event data for an in progress flip.
@@ -143,7 +145,7 @@ private void ms_pageflip_free(ms_crtc_pageflip* flip)
  */
 private void ms_pageflip_handler(ulong msc, ulong ust, void* data)
 {
-    ms_crtc_pageflip* flip = data;
+    ms_crtc_pageflip* flip = cast(ms_crtc_pageflip*)data;
     ms_flipdata* flipdata = flip.flipdata;
     ScreenPtr screen = flipdata.screen;
     ScrnInfoPtr scrn = xf86ScreenToScrn(screen);
@@ -170,7 +172,7 @@ private void ms_pageflip_handler(ulong msc, ulong ust, void* data)
  */
 private void ms_pageflip_abort(void* data)
 {
-    ms_crtc_pageflip* flip = data;
+    ms_crtc_pageflip* flip = cast(ms_crtc_pageflip*)data;
     ms_flipdata* flipdata = flip.flipdata;
     ScreenPtr screen = flipdata.screen;
     ScrnInfoPtr scrn = xf86ScreenToScrn(screen);
@@ -384,7 +386,7 @@ Bool ms_do_pageflip(ScreenPtr screen, PixmapPtr new_front, void* event, xf86Crtc
 {
     ScrnInfoPtr scrn = xf86ScreenToScrn(screen);
     modesettingPtr ms = mixin(modesettingPTR!("scrn"));
-    xf86CrtcConfigPtr config = XF86_CRTC_CONFIG_PTR(scrn);
+    xf86CrtcConfigPtr config = mixin(XF86_CRTC_CONFIG_PTR!("scrn"));
     gbm_bo* new_front_bo = void;
     uint flags = void;
     int i = void;
@@ -490,7 +492,7 @@ Bool ms_do_pageflip(ScreenPtr screen, PixmapPtr new_front, void* event, xf86Crtc
             ref_crtc && crtc != ref_crtc)
             flags |= DRM_MODE_PAGE_FLIP_ASYNC;
 
-        flip_status = queue_flip_on_crtc(screen, crtc, flipdata,
+        flip_status = cast(queue_flip_status)queue_flip_on_crtc(screen, crtc, flipdata,
                                          ref_crtc, flags);
 
         switch (flip_status) {
@@ -553,7 +555,7 @@ error_free_event:
     return FALSE;
 }
 
-Bool ms_tearfree_dri_abort(xf86CrtcPtr crtc, Bool function(void* data, void* match_data) match, void* match_data)
+Bool ms_tearfree_dri_abort(xf86CrtcPtr crtc, Bool function(void* data, void* match_data) @nogc nothrow match, void* match_data)
 {
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr) crtc.driver_private;
     drmmode_tearfree_ptr trf = &drmmode_crtc.tearfree;
@@ -588,7 +590,7 @@ void ms_tearfree_dri_abort_all(xf86CrtcPtr crtc)
      * time and MSC for this CRTC.
      */
     ms_get_crtc_ust_msc(crtc, &usec, &msc);
-    mixin(xorg_list_for_each_entry_safe!("flip", "tmp", "trf.dri_flip_list", "node", q{
+    mixin(xorg_list_for_each_entry_safe!("flip", "tmp", "&trf.dri_flip_list", "node", q{
         ms_pageflip_handler(msc, usec, flip);
     }));
     xorg_list_init(&trf.dri_flip_list);
@@ -598,7 +600,7 @@ private void ms_tearfree_dri_notify(drmmode_tearfree_ptr trf, ulong msc, ulong u
 {
     ms_crtc_pageflip* flip = void, tmp = void;
 
-    mixin(xorg_list_for_each_entry_safe!("flip", "tmp", "trf.dri_flip_list", "node", q{
+    mixin(xorg_list_for_each_entry_safe!("flip", "tmp", "&trf.dri_flip_list", "node", q{
         /* If a TearFree flip was already pending at the time this DRI client's
          * pixmap was copied, then the pixmap isn't contained in this TearFree
          * flip, but will be part of the next TearFree flip instead.
@@ -614,7 +616,7 @@ private void ms_tearfree_dri_notify(drmmode_tearfree_ptr trf, ulong msc, ulong u
 
 private void ms_tearfree_flip_abort(void* data)
 {
-    xf86CrtcPtr crtc = data;
+    xf86CrtcPtr crtc = cast(xf86CrtcPtr)data;
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr) crtc.driver_private;
     drmmode_tearfree_ptr trf = &drmmode_crtc.tearfree;
 
@@ -624,7 +626,7 @@ private void ms_tearfree_flip_abort(void* data)
 
 private void ms_tearfree_flip_handler(ulong msc, ulong usec, void* data)
 {
-    xf86CrtcPtr crtc = data;
+    xf86CrtcPtr crtc = cast(xf86CrtcPtr)data;
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr) crtc.driver_private;
     drmmode_tearfree_ptr trf = &drmmode_crtc.tearfree;
 

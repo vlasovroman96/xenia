@@ -32,15 +32,18 @@ import core.stdc.config: c_long, c_ulong;
  */
 
 import build.dix_config;
+import dix.pixmap;
 
 import core.stdc.errno;
 import core.sys.posix.sys.ioctl;
 import core.sys.posix.sys.mman;
 import core.sys.posix.unistd;
 
+import include.glamor;
 import dix.dix_priv;
 import os.fmt;
 import present.present_priv;
+import glamor.glamor;
 
 import include.inputstr;
 import include.xf86str;
@@ -1156,7 +1159,7 @@ private int drmmode_crtc_set_mode(xf86CrtcPtr crtc, Bool test_only)
     if (!drmmode_crtc_get_fb_id(crtc, &fb_id, &x, &y))
         return 1;
 
-version (GLAMOR) {
+static if (GLAMOR) {
     /* Make sure any pending drawing will be visible in a new scanout buffer */
     if (drmmode.glamor_gbm)
         glamor_finish(crtc.scrn.pScreen);
@@ -1605,7 +1608,7 @@ private void drmmode_crtc_dpms(xf86CrtcPtr crtc, int mode)
     }
 }
 
-version (GLAMOR) {
+static if (GLAMOR) {
 private PixmapPtr create_pixmap_for_fbcon(drmmode_ptr drmmode, ScrnInfoPtr pScrn, int fbcon_id)
 {
     PixmapPtr pixmap = drmmode.fbcon_pixmap;
@@ -1648,7 +1651,7 @@ out_free_fb:
 
 void drmmode_copy_fb(ScrnInfoPtr pScrn, drmmode_ptr drmmode)
 {
-version (GLAMOR) {
+static if (GLAMOR) {
     xf86CrtcConfigPtr xf86_config = mixin(XF86_CRTC_CONFIG_PTR!("pScrn"));
     ScreenPtr pScreen = xf86ScrnToScreen(pScrn);
     PixmapPtr src = void, dst = void;
@@ -1713,7 +1716,7 @@ void drmmode_copy_damage(xf86CrtcPtr crtc, PixmapPtr dst, RegionPtr dmg, Bool em
     if (empty)
         RegionEmpty(dmg);
 
-version (GLAMOR) {
+static if (GLAMOR) {
     /* Wait until the GC operations finish */
     mixin(modesettingPTR!("crtc.scrn")).glamor.finish(pScreen);
 }
@@ -2412,8 +2415,8 @@ private void drmmode_clear_pixmap(PixmapPtr pixmap)
 {
     ScreenPtr screen = pixmap.drawable.pScreen;
     GCPtr gc = void;
-version (GLAMOR) {
-    modesettingPtr ms = modesettingPTR(xf86ScreenToScrn(screen));
+static if (GLAMOR) {
+    modesettingPtr ms = mixin(modesettingPTR!("xf86ScreenToScrn(screen)"));
 
     if (ms.drmmode.glamor_gbm) {
         ms.glamor.clear_pixmap(pixmap);
@@ -4038,7 +4041,7 @@ private void drmmode_clones_init(ScrnInfoPtr scrn, drmmode_ptr drmmode, drmModeR
 
 private Bool drmmode_set_pixmap_bo(drmmode_ptr drmmode, PixmapPtr pixmap, gbm_bo* bo)
 {
-version (GLAMOR) {
+static if (GLAMOR) {
     ScrnInfoPtr scrn = drmmode.scrn;
     modesettingPtr ms = mixin(modesettingPTR!("scrn"));
 
@@ -4358,7 +4361,7 @@ Bool drmmode_pre_init(ScrnInfoPtr pScrn, drmmode_ptr drmmode, int cpp)
 
 Bool drmmode_init(ScrnInfoPtr pScrn, drmmode_ptr drmmode)
 {
-version (GLAMOR) {
+static if (GLAMOR) {
     ScreenPtr pScreen = xf86ScrnToScreen(pScrn);
     modesettingPtr ms = mixin(modesettingPTR!("pScrn"));
 

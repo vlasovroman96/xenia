@@ -72,7 +72,7 @@ import externs.xcb.shape;
 import externs.xcb.xcb_keysyms;
 import externs.xcb.randr;
 import externs.xcb.xkb;
-version (GLAMOR) {
+static if (GLAMOR) {
 import externs.xcb.glx;
 import epoxy.common;
 import Xext.glx.fix;
@@ -573,7 +573,7 @@ int hostx_init()
     attr_mask |= XCB_CW_EVENT_MASK;
 
     EPHYR_DBG("mark");
-version (GLAMOR) {
+static if (GLAMOR) {
     if (ephyr_glamor)
         HostX.conn = ephyr_glamor_connect();
     else
@@ -1008,7 +1008,7 @@ else {
     scrpriv.win_x = x;
     scrpriv.win_y = y;
 
-version (GLAMOR) {
+static if (GLAMOR) {
     if (ephyr_glamor) {
         *bytes_per_line = 0;
         ephyr_glamor_set_window_size(scrpriv.glamor,
@@ -1064,7 +1064,7 @@ void hostx_paint_rect(KdScreenInfo* screen, int sx, int sy, int dx, int dy, int 
 
     EPHYR_DBG("painting in screen %d\n", scrpriv.mynum);
 
-version (GLAMOR) {
+static if (GLAMOR) {
     if (ephyr_glamor) {
         BoxRec box = void;
         RegionRec region = void;
@@ -1574,7 +1574,7 @@ _:
     return is_ok;
 }
 
-version (GLAMOR) {
+static if (GLAMOR) {
 
 enum GLX_EXTENSIONS =          3;
 

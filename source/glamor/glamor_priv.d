@@ -45,7 +45,7 @@ public import include.misyncstr;
 }
 
 public import Xext.glx.fix;
-version (GLAMOR_HAS_GBM) {
+static if (GLAMOR_HAS_GBM) {
 version = MESA_EGL_NO_X11_HEADERS;
 version = EGL_NO_X11;
 public import Xext.glx.fix;
@@ -436,7 +436,7 @@ struct glamor_pixmap_private {
     GLuint pbo;
     RegionRec prepare_region;
     Bool prepared;
-version (GLAMOR_HAS_GBM) {
+static if (GLAMOR_HAS_GBM) {
     EGLImageKHR image;
     Bool used_modifiers;
 }
@@ -857,7 +857,7 @@ void glamor_xv_init_port(glamor_port_private* port_priv);
 // void glamor_xv_core_init(ScreenPtr screen);
 // void glamor_xv_render(glamor_port_private* port_priv, int id);
 
-Bool glamor_set_pixmap_texture(PixmapPtr pixmap, uint tex);
+// Bool glamor_set_pixmap_texture(PixmapPtr pixmap, uint tex);
 
 // void glamor_set_pixmap_type(PixmapPtr pixmap, glamor_pixmap_type_t type);
 

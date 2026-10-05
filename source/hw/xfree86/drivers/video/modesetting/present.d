@@ -36,6 +36,8 @@ import core.sys.posix.sys.ioctl;
 import core.sys.posix.sys.time;
 import core.sys.posix.sys.types;
 import core.stdc.time;
+import pageflip;
+import externs.X11.extensions.dpmsconst;
 
 import include.present;
 
@@ -164,7 +166,7 @@ private void ms_present_abort_vblank(RRCrtcPtr crtc, ulong event_id, ulong msc)
 {
     ScreenPtr screen = crtc.pScreen;
     ScrnInfoPtr scrn = xf86ScreenToScrn(screen);
-version (GLAMOR) {
+static if (GLAMOR) {
     xf86CrtcPtr xf86_crtc = cast(xf86CrtcPtr)crtc.devPrivate;
 
     /* Check if this is a fake flip routed through TearFree and abort it */
@@ -180,7 +182,7 @@ version (GLAMOR) {
  */
 private void ms_present_flush(WindowPtr window)
 {
-version (GLAMOR) {
+static if (GLAMOR) {
     ScreenPtr screen = window.drawable.pScreen;
     ScrnInfoPtr scrn = xf86ScreenToScrn(screen);
     modesettingPtr ms = mixin(modesettingPTR!("scrn"));
@@ -190,7 +192,7 @@ version (GLAMOR) {
 }
 }
 
-version (GLAMOR) {
+static if (GLAMOR) {
 
 /**
  * Callback for the DRM event queue when a flip has completed on all pipes
@@ -200,10 +202,10 @@ version (GLAMOR) {
 private void ms_present_flip_handler(modesettingPtr ms, ulong msc, ulong ust, void* data)
 {
     ms_present_vblank_event* event = cast(ms_present_vblank_event*)data;
-
-    DebugPresent(("\t\tms:fc %lld msc %llu ust %llu\n",
-                  cast(long) event.event_id,
-                  cast(long) msc, cast(long) ust));
+// 
+    // DebugPresent(("\t\tms:fc %lld msc %llu ust %llu\n",
+                //   cast(long) event.event_id,
+                //   cast(long) msc, cast(long) ust));
 
     if (event.unflip)
         ms.drmmode.present_flipping = FALSE;
@@ -218,7 +220,7 @@ private void ms_present_flip_abort(modesettingPtr ms, void* data)
 {
     ms_present_vblank_event* event = cast(ms_present_vblank_event*)data;
 
-    DebugPresent(("\t\tms:fa %lld\n", cast(long) event.event_id));
+    // DebugPresent(("\t\tms:fa %lld\n", cast(long) event.event_id));
 
     free(event);
 }
@@ -399,8 +401,8 @@ private Bool ms_present_flip(RRCrtcPtr crtc, ulong event_id, ulong target_msc, P
     if (!event)
         return FALSE;
 
-    DebugPresent(("\t\tms:pf %lld msc %llu\n",
-                  cast(long) event_id, cast(long) target_msc));
+    // DebugPresent(("\t\tms:pf %lld msc %llu\n",
+                //   cast(long) event_id, cast(long) target_msc));
 
     event.event_id = event_id;
     event.unflip = FALSE;
@@ -508,12 +510,12 @@ shared static this()
         capabilities: PresentCapabilityNone
     );
 
-    version (GLAMOR)
+    static if (GLAMOR)
     {
         ms_present_screen_info.check_flip = null;
-        ms_present_screen_info.check_flip2 = ms_present_check_flip;
-        ms_present_screen_info.flip = ms_present_flip;
-        ms_present_screen_info.unflip = ms_present_unflip;
+        ms_present_screen_info.check_flip2 = &ms_present_check_flip;
+        ms_present_screen_info.flip = &ms_present_flip;
+        ms_present_screen_info.unflip = &ms_present_unflip;
     }
 }
 

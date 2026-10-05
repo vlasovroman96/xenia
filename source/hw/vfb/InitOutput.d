@@ -80,7 +80,7 @@ import include.miline;
 import include.glx_extinit;
 import include.randrstr;
 
-version (GLAMOR) {
+static if (GLAMOR) {
 import include.glamor;
 import glamor.glamor_egl;
 
@@ -133,7 +133,7 @@ version (HAVE_MMAP) {
 static if(CONFIG_MITSHM){
     int shmid;
 } /* CONFIG_MITSHM */
-version (GLAMOR) {
+static if (GLAMOR) {
     int dri_fd;
 }
 }alias vfbScreenInfo = _VfbScreenInfo;
@@ -164,7 +164,7 @@ alias MMAPPED_FILE_FB = fbMemType.MMAPPED_FILE_FB;
  fbMemType fbmemtype = NORMAL_MEMORY_FB;
  char needswap = 0;
  Bool Render = TRUE;
-version (GLAMOR) {
+static if (GLAMOR) {
  Bool use_glamor = FALSE;
  char* render_node = null;
 }
@@ -313,7 +313,7 @@ static if(CONFIG_MITSHM){
     ErrorF("-shmem                 put framebuffers in shared memory\n");
 } /* CONFIG_MITSHM */
 
-version (GLAMOR) {
+static if (GLAMOR) {
     ErrorF("-glamor                enable glamor render acceleration\n");
     ErrorF("-dri </dev/dri/renderDxxx>  render device to use\n");
 }
@@ -437,7 +437,7 @@ static if(CONFIG_MITSHM){
     }
 } /* CONFIG_MITSHM */
 
-version (GLAMOR) {
+static if (GLAMOR) {
     if (strcmp(argv[i], "-glamor") == 0) {
         use_glamor = TRUE;
         return 1;
@@ -814,7 +814,7 @@ version (INTERNAL_VS_EXTERNAL_PADDING) {} else {
     dixDestroyPixmap(pScreen.dev, 0);
     pScreen.dev = null;
 
-version (GLAMOR) {
+static if (GLAMOR) {
     if (pvfb.dri_fd >= 0) {
         close(pvfb.dri_fd);
         pvfb.dri_fd = -1;
@@ -826,7 +826,7 @@ version (GLAMOR) {
     return pScreen.CloseScreen(pScreen);
 }
 
-version (GLAMOR) {
+static if (GLAMOR) {
  Bool vfbGlamorInit(ScreenPtr pScreen)
 {
     vfbScreenInfoPtr pvfb = &vfbScreens[pScreen.myNum];
@@ -1082,7 +1082,7 @@ static if (RANDR_13_INTERFACE) {
 
     if (Render) {
         fbPictureInit(pScreen, 0, 0);
-version (GLAMOR) {
+static if (GLAMOR) {
         vfbGlamorInit(pScreen);
 }
     }

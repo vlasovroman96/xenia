@@ -143,7 +143,7 @@ int ddxProcessArgument(int argc, char** argv, int i)
         return 1;
     }
 
-version (GLAMOR) {
+static if (GLAMOR) {
     if (!strcmp(argv[i], "-glamor")) {
         fbCurrScreen.fbForceGlamor = TRUE;
         return 1;

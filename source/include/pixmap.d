@@ -112,14 +112,14 @@ int PixmapScreenInit(ScreenPtr);
 
 enum HAS_DIRTYTRACKING_ROTATION = 1;
 enum HAS_DIRTYTRACKING_DRAWABLE_SRC = 1;
-int PixmapStartDirtyTracking(DrawablePtr src, PixmapPtr slave_dst, int x, int y, int dst_x, int dst_y, Rotation rotation);
+// int PixmapStartDirtyTracking(DrawablePtr src, PixmapPtr slave_dst, int x, int y, int dst_x, int dst_y, Rotation rotation);
 
-int PixmapStopDirtyTracking(DrawablePtr src, PixmapPtr slave_dst);
+// int PixmapStopDirtyTracking(DrawablePtr src, PixmapPtr slave_dst);
 
 /* helper function, drivers can do this themselves if they can do it more
    efficiently */
-int PixmapSyncDirtyHelper(PixmapDirtyUpdatePtr dirty);
+// int PixmapSyncDirtyHelper(PixmapDirtyUpdatePtr dirty);
 
-int PixmapDirtyCopyArea(PixmapPtr dst, DrawablePtr src, int x, int y, int dst_x, int dst_y, RegionPtr dirty_region);
+// int PixmapDirtyCopyArea(PixmapPtr dst, DrawablePtr src, int x, int y, int dst_x, int dst_y, RegionPtr dirty_region);
 
                           /* PIXMAP_H */

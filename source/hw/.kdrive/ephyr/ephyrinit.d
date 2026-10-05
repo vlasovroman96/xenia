@@ -135,7 +135,7 @@ void ddxUseMsg()
     ErrorF("-output <NAME>       Attempt to run Xephyr fullscreen (restricted to given output geometry)\n");
     ErrorF("-grayscale           Simulate 8bit grayscale\n");
     ErrorF("-resizeable          Make Xephyr windows resizeable\n");
-version (GLAMOR) {
+static if (GLAMOR) {
     ErrorF("-glamor              Enable 2D acceleration using glamor\n");
     ErrorF("-glamor_gles2        Enable 2D acceleration using glamor (with GLES2 only)\n");
     ErrorF("-glamor-skip-present Skip presenting the output when using glamor (for internal testing optimization)\n");
@@ -259,7 +259,7 @@ int ddxProcessArgument(int argc, char** argv, int i)
         EphyrWantResize = 1;
         return 1;
     }
-version (GLAMOR) {
+static if (GLAMOR) {
     if(!strcmp (argv[i], "-glamor")) {
         ephyr_glamor = TRUE;
         ephyrFuncs.initAccel = ephyr_glamor_init;
