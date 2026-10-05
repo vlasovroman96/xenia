@@ -379,7 +379,7 @@ private int DoCreateContext(__GLXclientState* cl, GLXContextID gcId, GLXContextI
      */
     glxc.resetNotificationStrategy = GLX_NO_RESET_NOTIFICATION_ARB;
 
-version (GLX_CONTEXT_RELEASE_BEHAVIOR_ARB) {
+static if (GLX_CONTEXT_RELEASE_BEHAVIOR_ARB) {
     /* The GLX_ARB_context_flush_control spec says:
      *
      *     "The default value [for GLX_CONTEXT_RELEASE_BEHAVIOR] is
@@ -652,7 +652,7 @@ int xorgGlxMakeCurrent(ClientPtr client, GLXContextTag tag, XID drawId, XID read
     if (prevglxc) {
         /* Flush the previous context if needed. */
         Bool need_flush = !prevglxc.isDirect;
-version (GLX_CONTEXT_RELEASE_BEHAVIOR_ARB) {
+static if (GLX_CONTEXT_RELEASE_BEHAVIOR_ARB) {
         if (prevglxc.releaseBehavior == GLX_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB)
             need_flush = GL_FALSE;
 }

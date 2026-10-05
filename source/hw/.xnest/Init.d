@@ -60,7 +60,7 @@ Bool xnestDoFullGeneration = TRUE;
 
 /* Xnest doesn't support GLX yet, so we don't link it, but still have
    satisfy DIX's symbol requirements */
-version (GLXEXT) {
+static if (GLXEXT) {
 void GlxExtensionInit()
 {
 }

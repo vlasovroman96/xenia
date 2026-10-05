@@ -90,6 +90,7 @@ version (DISABLE_EXT_DPMS) {
 
 version (DISABLE_EXT_MITSHM) {
 }
+import glx.vndext;
 
 import miext.extinit_priv;
 
@@ -155,20 +156,20 @@ private const ExtensionModule[] staticExtensions = () {
 
     result ~= ExtensionModule(&RenderExtensionInit, "RENDER", &noRenderExtension);
 
-    static if(build.xlibre_server.RANDR)result ~= ExtensionModule(&RRExtensionInit, "RANDR", &noRRExtension);
-    version (DISABLE_EXT_COMPOSITE) result ~= ExtensionModule(&CompositeExtensionInit, "COMPOSITE", &noCompositeExtension);
+    result ~= ExtensionModule(&RRExtensionInit, "RANDR", &noRRExtension);
     result ~= ExtensionModule(&CompositeExtensionInit, "COMPOSITE", &noCompositeExtension);
+    // result ~= ExtensionModule(&CompositeExtensionInit, "COMPOSITE", &noCompositeExtension);
 
     result ~= ExtensionModule(&DamageExtensionInit, "DAMAGE", &noDamageExtension);
 
-    static if(SCREENSAVER)result ~= ExtensionModule(&ScreenSaverExtensionInit, "MIT-SCREEN-SAVER", &noScreenSaverExtension);
+    result ~= ExtensionModule(&ScreenSaverExtensionInit, "MIT-SCREEN-SAVER", &noScreenSaverExtension);
     version (DBE) result ~= ExtensionModule(&DbeExtensionInit, "DOUBLE-BUFFER", &noDbeExtension);
     version (XRECORD) result ~= ExtensionModule(&RecordExtensionInit, "RECORD", &noTestExtensions);
-    static if(DPMSExtension) result ~= ExtensionModule(&DPMSExtensionInit, "DPMS", &noDPMSExtension);
-    static if(build.xlibre_server.PRESENT)result ~= ExtensionModule(&present_extension_init, "Present", null);
-    static if(DRI2)result ~= ExtensionModule(&DRI2ExtensionInit, DRI2_NAME, &noDRI2Extension);
-    static if(DRI3)result ~= ExtensionModule(&dri3_extension_init, "DRI3", null);
-    static if(build.xlibre_server.RES)result ~= ExtensionModule(&ResExtensionInit, "X-Resource", &noResExtension);
+    result ~= ExtensionModule(&DPMSExtensionInit, "DPMS", &noDPMSExtension);
+    result ~= ExtensionModule(&present_extension_init, "Present", null);
+    result ~= ExtensionModule(&DRI2ExtensionInit, DRI2_NAME, &noDRI2Extension);
+    result ~= ExtensionModule(&dri3_extension_init, "DRI3", null);
+    result ~= ExtensionModule(&ResExtensionInit, "X-Resource", &noResExtension);
 
     version (XV)
     {
@@ -177,7 +178,7 @@ private const ExtensionModule[] staticExtensions = () {
     }
 
     // version (XSELINUX) result ~= ExtensionModule(&SELinuxExtensionInit, "SELinux", &noSELinuxExtension);
-    // version (GLXEXT) result ~= ExtensionModule(&GlxExtensionInit, "GLX", &noGlxExtension);
+    result ~= ExtensionModule(&GlxExtensionInit, "GLX", &noGlxExtension);
     // result ~= ExtensionModule(&GlxExtensionInit, "GLX", &noGlxExtension);
 
     return result;

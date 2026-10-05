@@ -34,6 +34,7 @@ template HasVersion(string versionId) {
  *
  */
 import build.dix_config;
+import glx.glxext;
 
 import externs.drm;
 import core.sys.posix.unistd;
@@ -1320,7 +1321,7 @@ void glamor_egl_screen_init(ScreenPtr screen, glamor_context* glamor_ctx)
 static if(DRI3){
     glamor_screen_private* glamor_priv = glamor_get_screen_private(screen);
 }
-version (GLXEXT) {
+static if (GLXEXT) {
     static Bool vendor_initialized = FALSE;
 }
 
@@ -1363,7 +1364,7 @@ static if(DRI3){
         }
     }
 }
-version (GLXEXT) {
+static if (GLXEXT) {
     if (!vendor_initialized) {
         GlxPushProvider(&glamor_provider);
         xorgGlxCreateVendor();

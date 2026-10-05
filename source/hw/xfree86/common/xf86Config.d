@@ -142,7 +142,7 @@ enum SYS_CONFIGDIRPATH =	"%D/X11/%X";
 enum PROJECTROOT =	"/usr/X11R6";
 
 
-private ModuleDefault[4] ModuleDefaults = [
+private ModuleDefault[2] ModuleDefaults = [
     ModuleDefault("glx",TRUE,null),
     ModuleDefault(null, FALSE, null)
 ];
@@ -946,7 +946,7 @@ static if(build.xlibre_server.XF86VIDMODE){
         }
     }
 
-version (GLXEXT) {
+static if (GLXEXT) {
     xf86Info.glxVisuals = XF86_GlxVisualsTypical;
     xf86Info.glxVisualsFrom = X_DEFAULT;
     if ((s = xf86GetOptValString(FlagOptions.ptr, FLAG_GLX_VISUALS))!is null) {
