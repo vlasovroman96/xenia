@@ -429,11 +429,11 @@ struct _RRClient {
 }alias RRClientRec = _RRClient;
 alias RRClientPtr = _RRClient*;
 
-version (RANDR_12_INTERFACE) {
+static if (RANDR_12_INTERFACE) {
 /*
  * Set the range of sizes for the screen
  */
-void  RRScreenSetSizeRange(ScreenPtr pScreen, CARD16 minWidth, CARD16 minHeight, CARD16 maxWidth, CARD16 maxHeight);
+// void  RRScreenSetSizeRange(ScreenPtr pScreen, CARD16 minWidth, CARD16 minHeight, CARD16 maxWidth, CARD16 maxHeight);
 }
 
 /* rrscreen.c */

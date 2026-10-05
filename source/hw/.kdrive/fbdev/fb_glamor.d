@@ -21,7 +21,7 @@ version (XV) {
 import hw.kdrive.src.kxv; 
 }
 
-version (WITH_LIBDRM) {
+static if (WITH_LIBDRM) {
 import externs.libdrm;
 }
 
@@ -37,7 +37,7 @@ Bool fbdevInitAccel(ScreenPtr pScreen)
     if (config.fbdev_dri_path) {
         scrpriv.dri_fd = open(config.fbdev_dri_path, O_RDWR);
         if (scrpriv.dri_fd >= 0) {
-version (WITH_LIBDRM) {
+static if (WITH_LIBDRM) {
             if (config.fbdev_drm_master) {
                 drmSetMaster(scrpriv.dri_fd);
             } else {
@@ -108,7 +108,7 @@ version (XV) {
 
 void fbdevEnableAccel(ScreenPtr pScreen)
 {
-version (WITH_LIBDRM) {
+static if (WITH_LIBDRM) {
     mixin(KdScreenPriv!("pScreen"));
     KdScreenInfo* screen = pScreenPriv.screen;
     FbdevScrPriv* scrpriv = screen.driver;
@@ -122,7 +122,7 @@ version (WITH_LIBDRM) {
 
 void fbdevDisableAccel(ScreenPtr pScreen)
 {
-version (WITH_LIBDRM) {
+static if (WITH_LIBDRM) {
     mixin(KdScreenPriv!("pScreen"));
     KdScreenInfo* screen = pScreenPriv.screen;
     FbdevScrPriv* scrpriv = screen.driver;

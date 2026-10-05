@@ -1,4 +1,4 @@
-module hw.xfree86.xorg_wrapper;
+module hw.xfree86..xorg-wrapper;
 @nogc nothrow:
 extern(C): __gshared:
 
@@ -49,11 +49,11 @@ import core.sys.posix.sys.types;
 static if (HasVersion!"__FreeBSD__" || HasVersion!"__FreeBSD_kernel__") {
 // import sys/consio;
 }
-import core.sys.posix.unistd;
-version (WITH_LIBDRM) {
+// import core.sys.posix.unistd;
+// static if (WITH_LIBDRM) {
 // import drm;
 import externs.libdrm; /* For DRM_DEV_NAME */
-}
+// }
 
 import include.misc;
 
@@ -199,7 +199,7 @@ version (linux) {
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 int main(int argc, char** argv)
 {
-version (WITH_LIBDRM) {
+static if (WITH_LIBDRM) {
     drm_mode_card_res res = void;
 }
     char[PATH_MAX] buf = void;
@@ -238,7 +238,7 @@ version (WITH_LIBDRM) {
         default: break;}
     }
 
-version (WITH_LIBDRM) {
+static if (WITH_LIBDRM) {
     /* Detect if we need root rights, except when overridden by the config */
     if (needs_root_rights == -1) {
         for (i = 0; i < 16; i++) {

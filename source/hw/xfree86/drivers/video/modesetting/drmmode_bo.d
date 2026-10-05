@@ -46,11 +46,11 @@ struct bo_priv_t {
     Bool used_modifiers;
 }
 
-version (GBM_HAVE_BO_USE_LINEAR) {} else {
+static if (GBM_HAVE_BO_USE_LINEAR) {} else {
 enum GBM_BO_USE_LINEAR = 0;
 }
 
-version (GBM_HAVE_BO_USE_FRONT_RENDERING) {} else {
+static if (GBM_HAVE_BO_USE_FRONT_RENDERING) {} else {
 enum GBM_BO_USE_FRONT_RENDERING = 0;
 }
 
@@ -178,15 +178,15 @@ pragma(inline, true) private gbm_bo* gbm_bo_create_and_map(gbm_device* gbm, bo_p
         return null;
     }
 
-version (GBM_BO_WITH_MODIFIERS) {
+static if (GBM_BO_WITH_MODIFIERS) {
     if (count && modifiers) {
         data.used_modifiers = TRUE;
-version (GBM_BO_WITH_MODIFIERS2) {
+static if (GBM_BO_WITH_MODIFIERS2) {
         mixin(TRY_CREATE!(`gbm_bo_create_with_modifiers2`, `data`, `do_map`,
-                   `gbm`, `width`, `height`, `format`, `modifiers`, `count`, `flags`));
+                   [`gbm`, `width`, `height`, `format`, `modifiers`, `count`, `flags`]));
 }
         mixin(TRY_CREATE!(`gbm_bo_create_with_modifiers`, `data`, `do_map`,
-                   `gbm`, `width`, `height`, `format`, `modifiers`, `count`));
+                   [`gbm`, `width`, `height`, `format`, `modifiers`, `count`]));
     }
 }
 
@@ -231,7 +231,7 @@ pragma(inline, true) private gbm_bo* gbm_create_front_bo(drmmode_ptr drmmode, Bo
                                                 GBM_BO_USE_WRITE | GBM_BO_USE_SCANOUT,
                                               ];
 
-version (GBM_BO_WITH_MODIFIERS) {
+static if (GBM_BO_WITH_MODIFIERS) {
     num_modifiers = get_modifiers_set(drmmode.scrn, format, &modifiers,
                                       FALSE, TRUE, TRUE);
 }
@@ -245,7 +245,7 @@ version (GBM_BO_WITH_MODIFIERS) {
                                                front_flag_list.ptr,
                                                mixin(ARRAY_SIZE!("front_flag_list")));
 
-version (GBM_BO_WITH_MODIFIERS) {
+static if (GBM_BO_WITH_MODIFIERS) {
     free(modifiers);
 }
 
@@ -356,8 +356,8 @@ int drmmode_bo_import(drmmode_ptr drmmode, gbm_bo* bo, uint* fb_id)
     uint width = gbm_bo_get_width(bo);
     uint height = gbm_bo_get_height(bo);
 
-version (GBM_BO_WITH_MODIFIERS) {
-    modesettingPtr ms = modesettingPTR(drmmode.scrn);
+static if (GBM_BO_WITH_MODIFIERS) {
+    modesettingPtr ms = mixin(modesettingPTR!("drmmode.scrn"));
     if (bo && ms.kms_has_modifiers &&
         gbm_bo_get_modifier(bo) != DRM_FORMAT_MOD_INVALID) {
         int num_fds = void;

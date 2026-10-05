@@ -347,9 +347,9 @@ static this()
 
     modesetting.driverFunc = &ms_driver_func;
 
-    version (XSERVER_LIBPCIACCESS)
+    static if (XSERVER_LIBPCIACCESS)
     {
-        modesetting.supported_devices = ms_device_match;
+        modesetting.supported_devices = ms_device_match.ptr;
         modesetting.PciProbe = &ms_pci_probe;
     }
     else
@@ -358,7 +358,7 @@ static this()
         modesetting.PciProbe = null;
     }
 
-    version (XSERVER_PLATFORM_BUS)
+    static if (XSERVER_PLATFORM_BUS)
     {
         modesetting.platformProbe = &ms_platform_probe;
     }

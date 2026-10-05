@@ -59,6 +59,8 @@ import include.gcstruct;
 import include.input;
 import mi.mipointer;
 import mi.micmap;
+import glx.glxext;
+
 import core.sys.posix.sys.types;
 version (HAVE_MMAP) {
 import core.sys.posix.sys.mman;

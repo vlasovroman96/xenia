@@ -59,13 +59,14 @@ import core.sys.linux.sys.s;
 
 }
 import glamor.glamor;
+import glx.glxext;
 
 enum EGL_NO_DISPLAY = cast(EGLDisplay)null;
 version (HAVE_SYS_MKDEV_H) {
 import sys.mkdev;          /* for major() & minor() on Solaris */
 }
 
-version (WITH_LIBDRM) {
+static if (WITH_LIBDRM) {
 import externs.libdrm;
 // import drm.drm_fourcc;
 }
@@ -338,7 +339,7 @@ void glamor_egl_set_pixmap_image(PixmapPtr pixmap, EGLImageKHR image, Bool used_
 
 Bool glamor_egl_create_textured_pixmap(PixmapPtr pixmap, int handle, int stride)
 {
-version (WITH_LIBDRM) {
+static if (WITH_LIBDRM) {
     ScreenPtr screen = pixmap.drawable.pScreen;
     glamor_egl_priv_t* glamor_egl = glamor_egl_get_screen_private(screen);
     int ret = void, fd = void;
@@ -356,7 +357,7 @@ version (WITH_LIBDRM) {
     if (!glamor_back_pixmap_from_fd(pixmap, fd,
                                     pixmap.drawable.width,
                                     pixmap.drawable.height,
-                                    stride,
+                                    cast(ushort)stride,
                                     pixmap.drawable.depth,
                                     pixmap.drawable.bitsPerPixel)) {
         LogMessage(X_ERROR,
@@ -383,7 +384,7 @@ static if (GLAMOR_HAS_GBM) {
     Bool ret = FALSE;
 
     glamor_egl = glamor_egl_get_screen_private(screen);
-version (GBM_BO_FD_FOR_PLANE) {
+static if (GBM_BO_FD_FOR_PLANE) {
     ulong modifier = gbm_bo_get_modifier(bo);
     const(int) num_planes = gbm_bo_get_plane_count(bo);
     int[GBM_MAX_PLANES] fds = void;
@@ -446,14 +447,13 @@ alias NUM_PLANE_ATTRS = PlaneAttrs.NUM_PLANE_ATTRS;
                                   externs.epoxydefs.EGL_NO_CONTEXT,
                                   EGL_NATIVE_PIXMAP_KHR, bo, null);
     }
-version (GBM_BO_FD_FOR_PLANE) {
+static if (GBM_BO_FD_FOR_PLANE) {
     if (image == null &&
         glamor_egl.dmabuf_capable) {
-enum string ADD_ATTR(string attrs, string num, string attr) = `
-        do {                                                            
-            assert(((` ~ num ~ `) + 1) < (attrs.sizeof / typeof((` ~ attrs ~ `)[0]).sizeof)); 
+enum string ADD_ATTR(string attrs, string num, string attr) = `  {                                                      
+            assert(((` ~ num ~ `) + 1) < (`~attrs~`.sizeof / typeof((` ~ attrs ~ `)[0]).sizeof)); 
             (` ~ attrs ~ `)[(` ~ num ~ `)++] = (` ~ attr ~ `);                                  
-        } while (0)`;
+        } `;
         mixin(ADD_ATTR!(`img_attrs`, `attr_num`, `EGL_WIDTH`));
         mixin(ADD_ATTR!(`img_attrs`, `attr_num`, `gbm_bo_get_width(bo)`));
         mixin(ADD_ATTR!(`img_attrs`, `attr_num`, `EGL_HEIGHT`));
@@ -479,7 +479,7 @@ enum string ADD_ATTR(string attrs, string num, string attr) = `
                                   externs.epoxydefs.EGL_NO_CONTEXT,
                                   EGL_LINUX_DMA_BUF_EXT,
                                   null,
-                                  img_attrs);
+                                  img_attrs.ptr);
 
         if (image != null) {
             glamor_egl.fast_gbm_import = FALSE;
@@ -564,7 +564,7 @@ Bool glamor_make_pixmap_exportable(PixmapPtr pixmap, Bool modifiers_ok)
         return FALSE;
     }
 
-version (GBM_BO_WITH_MODIFIERS) {
+static if (GBM_BO_WITH_MODIFIERS) {
     if (modifiers_ok && glamor_egl.dmabuf_capable) {
         uint num_modifiers = void;
         ulong* modifiers = null;
@@ -574,7 +574,7 @@ version (GBM_BO_WITH_MODIFIERS) {
         }
 
         if (num_modifiers > 0) {
-version (GBM_BO_WITH_MODIFIERS2) {
+static if (GBM_BO_WITH_MODIFIERS2) {
             /* TODO: Is scanout ever used? If so, where? */
             bo = gbm_bo_create_with_modifiers2(glamor_egl.gbm, width, height,
                                                format, modifiers, num_modifiers,
@@ -709,8 +709,8 @@ int glamor_egl_fds_from_pixmap(ScreenPtr screen, PixmapPtr pixmap, int* fds, uin
 static if (HasVersion!"GLAMOR_HAS_GBM" && HasVersion!"WITH_LIBDRM") {
     gbm_bo* bo = void;
     int num_fds = void;
-version (GBM_BO_WITH_MODIFIERS) {
-version (GBM_BO_FD_FOR_PLANE) {} else {
+static if (GBM_BO_WITH_MODIFIERS) {
+static if (GBM_BO_FD_FOR_PLANE) {} else {
     int first_handle = void;
 }
     int i = void;
@@ -723,10 +723,10 @@ version (GBM_BO_FD_FOR_PLANE) {} else {
     if (!bo)
         return 0;
 
-version (GBM_BO_WITH_MODIFIERS) {
+static if (GBM_BO_WITH_MODIFIERS) {
     num_fds = gbm_bo_get_plane_count(bo);
     for (i = 0; i < num_fds; i++) {
-version (GBM_BO_FD_FOR_PLANE) {
+static if (GBM_BO_FD_FOR_PLANE) {
         fds[i] = gbm_bo_get_fd_for_plane(bo, i);
 } else {
         gbm_bo_handle plane_handle = gbm_bo_get_handle_for_plane(bo, i);
@@ -1426,7 +1426,7 @@ pragma(inline, true) Bool glamor_egl_fd_is_render_node(int fd)
 
 pragma(inline, true) int glamor_egl_render_node_from_fd(int fd)
 {
-version (WITH_LIBDRM) {
+static if (WITH_LIBDRM) {
     const(char)* render_name = void;
 
     render_name = drmGetRenderDeviceNameFromFd(fd);
@@ -2105,7 +2105,7 @@ enum string GLAMOR_CHECK_EGL_EXTENSION(string EXT) = `
         goto glamor_no_dri;
     }
 
-version (GBM_BO_WITH_MODIFIERS) {
+static if (GBM_BO_WITH_MODIFIERS) {
     if (epoxy_has_egl_extension(glamor_egl.display,
                                 "EGL_EXT_image_dma_buf_import") &&
         epoxy_has_egl_extension(glamor_egl.display,

@@ -81,7 +81,7 @@ version (CONFIG_UDEV) {
 
 void config_odev_probe(config_odev_probe_proc_ptr probe_callback)
 {
-static if (HasVersion!"CONFIG_UDEV" && HasVersion!"CONFIG_UDEV_KMS") {
+static if (CONFIG_UDEV && CONFIG_UDEV_KMS) {
     config_udev_odev_probe(probe_callback);
 }
 }

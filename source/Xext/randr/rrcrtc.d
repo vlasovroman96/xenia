@@ -1391,7 +1391,7 @@ int ProcRRSetCrtcConfig(ClientPtr client)
             return BadMatch;
         }
 
-version (RANDR_12_INTERFACE) {
+static if (RANDR_12_INTERFACE) {
         /*
          * Check screen size bounds if the DDX provides a 1.2 interface
          * for setting screen size. Else, assume the CrtcSet sets

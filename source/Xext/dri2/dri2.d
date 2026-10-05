@@ -40,7 +40,7 @@ import core.stdc.errno;
 import dix.dix_priv;
 import os.client_priv;
 
-version (WITH_LIBDRM) {
+static if (WITH_LIBDRM) {
 import externs.libdrm;;
 }
 import include.list;
@@ -1298,7 +1298,7 @@ import Xext.dri2.pci_ids.pci_id_driver_map;
 
 private char* dri2_probe_driver_name(ScreenPtr pScreen, DRI2InfoPtr info)
 {
-version (WITH_LIBDRM) {
+static if (WITH_LIBDRM) {
     int i = void, j = void;
     char* driver = null;
     drmDevicePtr dev = void;
@@ -1437,8 +1437,8 @@ Bool DRI2ScreenInit(ScreenPtr pScreen, DRI2InfoPtr info)
          * it relies on the old method (using libdrm) or fails
          */
         if (!ds.LegacyAuthMagic) {
-version (WITH_LIBDRM) {
-            ds.LegacyAuthMagic = drmAuthMagic;
+static if (WITH_LIBDRM) {
+            ds.LegacyAuthMagic = &drmAuthMagic;
 } else {
             goto err_out;
 }

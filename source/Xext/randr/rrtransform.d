@@ -245,7 +245,7 @@ Bool RRTransformCompute(int x, int y, int width, int height, Rotation rotation, 
                                      f_scale_dy);
     }
 
-version (RANDR_12_INTERFACE) {
+static if (RANDR_12_INTERFACE) {
     if (rr_transform) {
         if (!pixman_transform_multiply
             (transform, &rr_transform.transform, transform))

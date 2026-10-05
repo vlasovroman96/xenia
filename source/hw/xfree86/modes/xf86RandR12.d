@@ -99,7 +99,7 @@ struct _xf86RandR12Info {
 }alias XF86RandRInfoRec = _xf86RandR12Info;
 alias XF86RandRInfoPtr = _xf86RandR12Info*;
 
-version (RANDR_12_INTERFACE) {
+static if (RANDR_12_INTERFACE) {
 
 
 }

@@ -277,7 +277,7 @@ private Bool ms_present_check_unflip(RRCrtcPtr crtc, WindowPtr window, PixmapPtr
     if (!ms.drmmode.glamor)
         return FALSE;
 
-version (GBM_BO_WITH_MODIFIERS) {
+static if (GBM_BO_WITH_MODIFIERS) {
     /* Check if buffer format/modifier is supported by all active CRTCs */
     gbm = ms.glamor.gbm_bo_from_pixmap(screen, pixmap);
     if (gbm) {

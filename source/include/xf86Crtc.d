@@ -310,7 +310,7 @@ struct _xf86Crtc {
      */
     void* driver_private;
 
-// version (RANDR_12_INTERFACE) {
+// static if (RANDR_12_INTERFACE) {
     /**
      * RandR crtc
      *
@@ -620,7 +620,7 @@ struct _xf86Output {
      */
     Bool non_desktop;
 
-version (RANDR_12_INTERFACE) {
+static if (RANDR_12_INTERFACE) {
     /**
      * RandR 1.2 output structure.
      *
@@ -805,7 +805,7 @@ struct _xf86CrtcConfig {
 
     char* name;
     const(xf86ProviderFuncsRec)* provider_funcs;
-version (RANDR_12_INTERFACE) {
+static if (RANDR_12_INTERFACE) {
     RRProviderPtr randr_provider;
 } else {
     void* randr_provider;
@@ -915,7 +915,7 @@ void  xf86OutputRename(xf86OutputPtr output, const(char)* name);
 
 // void  xf86SetScrnInfoModes(ScrnInfoPtr pScrn);
 
-version (RANDR_13_INTERFACE) {
+static if (RANDR_13_INTERFACE) {
 alias ScreenInitRetType =	int;
 } else {
 alias ScreenInitRetType =	Bool;

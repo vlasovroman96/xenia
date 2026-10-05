@@ -178,7 +178,7 @@ enum string MAX(string a,string b) = `((` ~ a ~ `) > (` ~ b ~ `) ? (` ~ a ~ `) :
 enum string msGetSpritePriv(string dev, string ms, string screen) =`
     dixLookupScreenPrivate(&(`~dev~`).devPrivates, &(`~ms~`).drmmode.spritePrivateKeyRec, (`~screen~`))
  `;
-enum GBM_BO_USE_FRONT_RENDERING = 0;
+// enum GBM_BO_USE_FRONT_RENDERING = 0;
 
 
 
@@ -521,7 +521,7 @@ Bool drmmode_is_format_supported(ScrnInfoPtr scrn, uint format, ulong modifier, 
     return TRUE;
 }
 
-version (GBM_BO_WITH_MODIFIERS) {
+static if (GBM_BO_WITH_MODIFIERS) {
 uint get_modifiers_set(ScrnInfoPtr scrn, uint format, ulong** modifiers, Bool enabled_crtc_only, Bool exclude_multiplane, Bool async_flip)
 {
     xf86CrtcConfigPtr xf86_config = mixin(XF86_CRTC_CONFIG_PTR!("scrn"));
@@ -4369,7 +4369,7 @@ static if (GLAMOR) {
         if (!ms.glamor.init(pScreen, GLAMOR_USE_EGL_SCREEN)) {
             return FALSE;
         }
-version (GBM_BO_WITH_MODIFIERS) {
+static if (GBM_BO_WITH_MODIFIERS) {
         ms.glamor.set_drawable_modifiers_func(pScreen, &get_drawable_modifiers);
 }
     }

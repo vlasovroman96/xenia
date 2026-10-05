@@ -464,7 +464,7 @@ Bool xf86CrtcRotate(xf86CrtcPtr crtc)
                 return FALSE;
             }
         }
-version (RANDR_12_INTERFACE) {
+static if (RANDR_12_INTERFACE) {
         if (transform) {
             if (transform.nparams) {
                 new_params = cast(XFixed*) calloc(transform.nparams, XFixed.sizeof);

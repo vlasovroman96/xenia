@@ -34,6 +34,8 @@ import dix.dix_priv;
 import dix.screen_hooks_priv;
 import randr.randrstr_priv;
 import xf86Mode;
+import randr.rrproperty;
+import externs.X11.Xatom;
 
 import edid_priv;
 import xf86_priv;
@@ -131,7 +133,7 @@ xf86CrtcPtr xf86CrtcCreate(ScrnInfoPtr scrn, const(xf86CrtcFuncsRec)* funcs)
     crtc.version_ = XF86_CRTC_VERSION;
     crtc.scrn = scrn;
     crtc.funcs = funcs;
-version (RANDR_12_INTERFACE) {
+static if (RANDR_12_INTERFACE) {
     crtc.randr_crtc = null;
 }
     crtc.rotation = RR_Rotate_0;
@@ -688,7 +690,7 @@ xf86OutputPtr xf86OutputCreate(ScrnInfoPtr scrn, const(xf86OutputFuncsRec)* func
      * Use the old per-screen monitor section for the first output
      */
     output.use_screen_monitor = (xf86_config.num_output == 0);
-version (RANDR_12_INTERFACE) {
+static if (RANDR_12_INTERFACE) {
     output.randr_output = null;
 }
     if (name) {
@@ -822,9 +824,12 @@ private void xf86CrtcCloseScreen(CallbackListPtr* pcbl, ScreenPtr screen, void* 
 /*
  * Called at ScreenInit time to set up
  */
-alias xf86CrtcScreenInitType = Bool;
-version (RANDR_13_INTERFACE) {
+static if (RANDR_13_INTERFACE) {
 alias xf86CrtcScreenInitType = int;
+}
+else {
+alias xf86CrtcScreenInitType = Bool;
+
 }
 
 xf86CrtcScreenInitType xf86CrtcScreenInit(ScreenPtr screen)
@@ -863,7 +868,7 @@ xf86CrtcScreenInitType xf86CrtcScreenInit(ScreenPtr screen)
 static if(XFreeXDGA){
     _xf86_di_dga_init_internal(screen);
 }
-version (RANDR_13_INTERFACE) {
+static if (RANDR_13_INTERFACE) {
     return RANDR_INTERFACE_VERSION;
 } else {
     return TRUE;
@@ -2975,7 +2980,7 @@ Bool xf86SetSingleMode(ScrnInfoPtr pScrn, DisplayModePtr desired, Rotation rotat
         }
     }
     xf86DisableUnusedFunctions(pScrn);
-version (RANDR_12_INTERFACE) {
+static if (RANDR_12_INTERFACE) {
     xf86RandR12TellChanged(pScrn.pScreen);
 }
     return ok;
@@ -3076,7 +3081,7 @@ void xf86DisableUnusedFunctions(ScrnInfoPtr pScrn)
     }
 }
 
-version (RANDR_12_INTERFACE) {
+static if (RANDR_12_INTERFACE) {
 
 enum EDID_ATOM_NAME =		"EDID";
 
@@ -3187,7 +3192,7 @@ void xf86OutputSetTile(xf86OutputPtr output, xf86CrtcTileInfo* tile_info)
         output.tile_info = *tile_info;
     else
         memset(&output.tile_info, 0, typeof(output.tile_info).sizeof);
-version (RANDR_12_INTERFACE) {
+static if (RANDR_12_INTERFACE) {
     xf86OutputSetTileProperty(output);
 }
 }
@@ -3201,7 +3206,7 @@ void xf86OutputSetEDID(xf86OutputPtr output, xf86MonPtr edid_mon)
     xf86CrtcConfigPtr config = mixin(XF86_CRTC_CONFIG_PTR!("scrn"));
     Bool debug_modes = config.debug_modes || xf86Initialising;
 
-version (RANDR_12_INTERFACE) {
+static if (RANDR_12_INTERFACE) {
     int size = void;
 }
 
@@ -3222,7 +3227,7 @@ version (RANDR_12_INTERFACE) {
     if (output == xf86CompatOutput(scrn) && !scrn.is_gpu)
         xf86SetDDCproperties(scrn, edid_mon);
 
-version (RANDR_12_INTERFACE) {
+static if (RANDR_12_INTERFACE) {
     /* Set the RandR output properties */
     size = 0;
     if (edid_mon) {
@@ -3461,7 +3466,7 @@ void xf86ProviderSetup(ScrnInfoPtr scrn, const(xf86ProviderFuncsRec)* funcs, con
 
     xf86_config.name = strdup(name);
     xf86_config.provider_funcs = funcs;
-version (RANDR_12_INTERFACE) {
+static if (RANDR_12_INTERFACE) {
     xf86_config.randr_provider = null;
 }
 }
