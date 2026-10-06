@@ -631,7 +631,7 @@ enum string glamor_check_fbo_size(string _glamor_,string _w_, string _h_) = `((`
                                                     && (` ~ _h_ ~ `) <= ` ~ _glamor_ ~ `.max_fbo_size)`;
 
 pragma(inline, true) Bool GLAMOR_PIXMAP_PRIV_HAS_FBO(glamor_pixmap_private* pixmap_priv) {
-    mixin(BUG_RETURN_VAL!("pixmap_priv", "FALSE"));
+    mixin(BUG_RETURN_VAL!("!pixmap_priv", "FALSE"));
     return pixmap_priv.gl_fbo == GLAMOR_FBO_NORMAL;
 }
 
