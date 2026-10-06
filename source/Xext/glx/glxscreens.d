@@ -237,9 +237,9 @@ private void initGlxVisual(VisualPtr visual, __GLXconfig* config)
     visual.ColormapEntries = cast(short)(1 << maxBits);
     visual.nplanes = cast(short)(config.redBits + config.greenBits + config.blueBits);
 
-    visual.redMask = cast(ubyte)config.redMask;
-    visual.greenMask = cast(ubyte)config.greenMask;
-    visual.blueMask = cast(ubyte)config.blueMask;
+    visual.redMask = config.redMask;
+    visual.greenMask = config.greenMask;
+    visual.blueMask = config.blueMask;
     visual.offsetRed = findFirstSet(config.redMask);
     visual.offsetGreen = findFirstSet(config.greenMask);
     visual.offsetBlue = findFirstSet(config.blueMask);

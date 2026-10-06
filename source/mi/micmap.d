@@ -508,9 +508,9 @@ Bool miInitVisuals(VisualPtr* visualp, DepthPtr* depthp, int* nvisualp, int* nde
                 /* fall through */
                 goto case;
             case StaticColor:
-                visual.redMask = cast(ubyte)visuals.redMask;
-                visual.greenMask = cast(ubyte)visuals.greenMask;
-                visual.blueMask = cast(ubyte)visuals.blueMask;
+                visual.redMask = visuals.redMask;
+                visual.greenMask = visuals.greenMask;
+                visual.blueMask = visuals.blueMask;
                 visual.offsetRed = maskShift(visuals.redMask);
                 visual.offsetGreen = maskShift(visuals.greenMask);
                 visual.offsetBlue = maskShift(visuals.blueMask);
