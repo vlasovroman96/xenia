@@ -266,7 +266,9 @@ void glamor_egl_make_current(glamor_context* glamor_ctx)
     }
 }
 
-static if (HasVersion!"GLAMOR_HAS_GBM" && HasVersion!"WITH_LIBDRM") {
+public enum DRM_IOCTL_GEM_FLINK = 0xc008640a;
+
+static if (GLAMOR_HAS_GBM && WITH_LIBDRM) {
 int glamor_get_flink_name(int fd, int handle, int* name)
 {
     drm_gem_flink flink = void;
@@ -509,7 +511,7 @@ enum string ADD_ATTR(string attrs, string num, string attr) = `  {
 }
 }
 
-static if (HasVersion!"GLAMOR_HAS_GBM" && HasVersion!"WITH_LIBDRM") {
+static if (GLAMOR_HAS_GBM && WITH_LIBDRM) {
 void glamor_get_name_from_bo(int gbm_fd, gbm_bo* bo, int* name)
 {
     gbm_bo_handle handle = void;
@@ -706,7 +708,7 @@ static if (GLAMOR_HAS_GBM) {
 
 int glamor_egl_fds_from_pixmap(ScreenPtr screen, PixmapPtr pixmap, int* fds, uint* strides, uint* offsets, ulong* modifier)
 {
-static if (HasVersion!"GLAMOR_HAS_GBM" && HasVersion!"WITH_LIBDRM") {
+static if (GLAMOR_HAS_GBM && WITH_LIBDRM) {
     gbm_bo* bo = void;
     int num_fds = void;
 static if (GBM_BO_WITH_MODIFIERS) {
@@ -796,7 +798,7 @@ static if (GLAMOR_HAS_GBM) {
 
 int glamor_egl_fd_name_from_pixmap(ScreenPtr screen, PixmapPtr pixmap, CARD16* stride, CARD32* size)
 {
-static if (HasVersion!"GLAMOR_HAS_GBM" && HasVersion!"WITH_LIBDRM") {
+static if (GLAMOR_HAS_GBM && WITH_LIBDRM) {
     glamor_egl_priv_t* glamor_egl = void;
     gbm_bo* bo = void;
     int fd = -1;
@@ -813,7 +815,7 @@ static if (HasVersion!"GLAMOR_HAS_GBM" && HasVersion!"WITH_LIBDRM") {
     pixmap.devKind = gbm_bo_get_stride(bo);
 
     glamor_get_name_from_bo(glamor_egl.fd, bo, &fd);
-    *stride = pixmap.devKind;
+    *stride = cast(ushort)pixmap.devKind;
     *size = pixmap.devKind * gbm_bo_get_height(bo);
 
     gbm_bo_destroy(bo);
@@ -886,7 +888,7 @@ static if (GLAMOR_HAS_GBM) {
 
 PixmapPtr glamor_pixmap_from_fds(ScreenPtr screen, CARD8 num_fds, const(int)* fds, CARD16 width, CARD16 height, const(CARD32)* strides, const(CARD32)* offsets, CARD8 depth, CARD8 bpp, ulong modifier)
 {
-static if (HasVersion!"WITH_LIBDRM") {
+static if (WITH_LIBDRM) {
     PixmapPtr pixmap = void;
     glamor_egl_priv_t* glamor_egl = void;
     Bool ret = FALSE;
@@ -924,7 +926,7 @@ static if (HasVersion!"WITH_LIBDRM") {
     {
         if (num_fds == 1) {
             ret = glamor_back_pixmap_from_fd(pixmap, fds[0], width, height,
-                                             strides[0], depth, bpp);
+                                             cast(ushort)strides[0], depth, bpp);
         }
     }
 

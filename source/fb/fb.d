@@ -566,11 +566,11 @@ void fbUnrealizeFont(ScreenPtr pScreen, FontPtr pFont);
 
 void fbQueryBestSize(int class_, ushort* width, ushort* height, ScreenPtr pScreen);
 
-int _fbGetWindowPixmap(WindowPtr pWindow);
+// int _fbGetWindowPixmap(WindowPtr pWindow);
 
-int _fbSetWindowPixmap(WindowPtr pWindow, PixmapPtr pPixmap);
+// int _fbSetWindowPixmap(WindowPtr pWindow, PixmapPtr pPixmap);
 
-int fbSetupScreen(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp);        /* bits per pixel of frame buffer */
+// int fbSetupScreen(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp);        /* bits per pixel of frame buffer */
 
 static if (FB_ACCESS_WRAPPER) {
 int wfbFinishScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp, SetupWrapProcPtr setupWrap, FinishWrapProcPtr finishWrap);
@@ -578,9 +578,9 @@ int wfbFinishScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, in
 int wfbScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp, SetupWrapProcPtr setupWrap, FinishWrapProcPtr finishWrap);
 }
 
-int fbFinishScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp);
+// int fbFinishScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp);
 
-int fbScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp);
+// int fbScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp);
 
 /*
  * fbseg.c

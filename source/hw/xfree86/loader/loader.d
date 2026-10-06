@@ -225,9 +225,9 @@ int LoaderGetABIVersion(const(char)* abiclass)
          * between abi's.
          */
          int ver = LoaderVersionInfo.videodrvVersion;
-         version(CONFIG_LEGACY_NVIDIA_PADDING) {
+        //  version(CONFIG_LEGACY_NVIDIA_PADDING) {
             ver = is_nvidia_proprietary ?  ABI_NVIDIA_VERSION : LoaderVersionInfo.videodrvVersion;
-         }
+        //  }
         classes[1] = _Classes(ABI_CLASS_VIDEODRV, ver);
 
         classes[2] = _Classes(ABI_CLASS_XINPUT, LoaderVersionInfo.xinputVersion);

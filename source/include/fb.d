@@ -568,7 +568,7 @@ void fbQueryBestSize(int class_, ushort* width, ushort* height, ScreenPtr pScree
 
 int _fbGetWindowPixmap(WindowPtr pWindow);
 
-int _fbSetWindowPixmap(WindowPtr pWindow, PixmapPtr pPixmap);
+// int _fbSetWindowPixmap(WindowPtr pWindow, PixmapPtr pPixmap);
 
 int fbSetupScreen(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp);        /* bits per pixel of frame buffer */
 

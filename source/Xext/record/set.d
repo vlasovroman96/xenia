@@ -95,11 +95,11 @@ alias RecordSetIteratePtr = void*;
  * we approximate this using sizeof(void*) for older C standards as that
  * should be a valid assumption on all supported architectures.
  */
-static if (HasVersion!"__STDC__" && (__STDC_VERSION__ - 0 >= 201112L)) {
-enum string MinSetAlignment(string type) = `max(_Alignof(` ~ type ~ `), _Alignof(unsigned long))`;
-} else {
+// static if (HasVersion!"__STDC__" && (__STDC_VERSION__ - 0 >= 201112L)) {
+// enum string MinSetAlignment(string type) = `max(_Alignof(` ~ type ~ `), _Alignof(unsigned long))`;
+// } else {
 enum string MinSetAlignment(string type) = `cast(int)max((void*).sizeof, c_ulong.sizeof)`;
-}
+// }
 
 private int maxMemberInInterval(RecordSetInterval* pIntervals, int nIntervals)
 {

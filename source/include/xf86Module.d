@@ -80,11 +80,11 @@ enum ABI_ANSIC_VERSION =	SET_ABI_VERSION(1, 4);
 
 /* XXX This is a compile-time option that changes abi XXX */
 /* TODO: Remove this toggle in 26.0 */
-version (CONFIG_LEGACY_NVIDIA_PADDING) {
+// version (CONFIG_LEGACY_NVIDIA_PADDING) {
 enum ABI_VIDEODRV_VERSION =	SET_ABI_VERSION(28, 1);
-} else {
-enum ABI_VIDEODRV_VERSION =    SET_ABI_VERSION(28, 0);
-}
+// } else {
+// enum ABI_VIDEODRV_VERSION =    SET_ABI_VERSION(28, 0);
+// }
 enum ABI_XINPUT_VERSION =	SET_ABI_VERSION(26, 0);
 enum ABI_EXTENSION_VERSION =	SET_ABI_VERSION(11, 0);
 

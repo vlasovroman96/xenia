@@ -46,11 +46,11 @@ import glx.indirect_size;
 // version = PURE;
 // }
 
-static if (HasVersion!"__i386__" && HasVersion!"__GNUC__" && !HasVersion!"Windows") {
-enum FASTCALL = __attribute__((fastcall));
-} else {
-version = FASTCALL;
-}
+// static if (HasVersion!"X86_64" && HasVersion!"__GNUC__" && !HasVersion!"Windows") {
+// enum FASTCALL = __attribute__((fastcall));
+// } else {
+// version = FASTCALL;
+// }
 
 version (HAVE_ALIAS) {
 enum string ALIAS2(string from,string to) = `

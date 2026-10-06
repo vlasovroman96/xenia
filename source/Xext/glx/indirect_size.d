@@ -35,7 +35,7 @@ private template HasVersion(string versionId) {
  //import externs.GL.gl;
  import Xext.glx.fix;
 
-static if (!HasVersion!"_INDIRECT_SIZE_H_") {
+// static if (!HasVersion!"_INDIRECT_SIZE_H_") {
 // version = _INDIRECT_SIZE_H_;
 
 /**
@@ -54,11 +54,11 @@ static if (!HasVersion!"_INDIRECT_SIZE_H_") {
 // version = PURE;
 // }
 
-static if (HasVersion!"__i386__" && HasVersion!"__GNUC__" && !HasVersion!"Windows") {
-enum FASTCALL = __attribute__((fastcall));
-} else {
-version = FASTCALL;
-}
+// static if (HasVersion!"__i386__" && HasVersion!"__GNUC__" && !HasVersion!"Windows") {
+// enum FASTCALL = __attribute__((fastcall));
+// } else {
+// version = FASTCALL;
+// }
 
 // GLint __glCallLists_size(GLenum);
 // GLint __glFogfv_size(GLenum);
@@ -87,4 +87,4 @@ version = FASTCALL;
 // GLint __glPointParameterfv_size(GLenum);
 // GLint __glPointParameteriv_size(GLenum);
 
-} /* !defined( _INDIRECT_SIZE_H_ ) */
+// } /* !defined( _INDIRECT_SIZE_H_ ) */
