@@ -145,7 +145,7 @@ private egl_config* translate_eglconfig(ScreenPtr pScreen, egl_screen* screen, E
     EGLint value = void;
     bool valid_depth = void;
     int i = void;
-    egl_config* c = cast(egl_config*) calloc(1, (egl_config*).sizeof);
+    egl_config* c = cast(egl_config*) calloc(1, (egl_config).sizeof);
 
     if (!c)
         return chain;

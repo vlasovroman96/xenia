@@ -385,7 +385,7 @@ struct glamor_screen_private {
 }
 
 /* Allow overriding the default glamor screen init proc */
-void function(ScreenPtr screen, glamor_context* glamor_ctx) glamor_egl_screen_init2;
+// void function(ScreenPtr screen, glamor_context* glamor_ctx) glamor_egl_screen_init2;
 
 enum glamor_access_t {
     GLAMOR_ACCESS_RO,
