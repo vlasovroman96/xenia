@@ -197,8 +197,8 @@ auto safe_pad(int a)
 int __glXTypeSize(GLenum enm);
 int __glXImageSize(GLenum format, GLenum type, GLenum target, GLsizei w, GLsizei h, GLsizei d, GLint imageHeight, GLint rowLength, GLint skipImages, GLint skipRows, GLint alignment);
 
-uint glxMajorVersion;
-uint glxMinorVersion;
+// uint glxMajorVersion;
+// uint glxMinorVersion;
 
 // int __glXEventBase;
 

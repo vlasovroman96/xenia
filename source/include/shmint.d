@@ -63,7 +63,7 @@ struct _ShmFuncs {
 alias ShmFuncsPtr = _ShmFuncs*;
 
 static if (XTRANS_SEND_FDS) {
-enum SHM_FD_PASSING =  1;
+// enum SHM_FD_PASSING =  1;
 }
 
 version (SHM_FD_PASSING) {

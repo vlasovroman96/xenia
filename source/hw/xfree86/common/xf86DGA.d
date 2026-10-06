@@ -672,9 +672,9 @@ private int DGACreateColormap(int index, ClientPtr client, int id, int mode, int
         /* fall through */
     goto case StaticColor;
     case StaticColor:
-        pVisual.redMask = cast(ubyte)pMode.red_mask;
-        pVisual.greenMask = cast(ubyte)pMode.green_mask;
-        pVisual.blueMask = cast(ubyte)pMode.blue_mask;
+        pVisual.redMask = pMode.red_mask;
+        pVisual.greenMask = pMode.green_mask;
+        pVisual.blueMask = pMode.blue_mask;
         pVisual.offsetRed = BitsClear(cast(uint)pVisual.redMask);
         pVisual.offsetGreen = BitsClear(cast(uint)pVisual.greenMask);
         pVisual.offsetBlue = BitsClear(cast(uint)pVisual.blueMask);

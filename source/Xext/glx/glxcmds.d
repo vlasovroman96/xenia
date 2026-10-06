@@ -742,8 +742,8 @@ int __glXDisp_QueryVersion(__GLXclientState* cl, GLbyte* pc)
 
     GLuint major = req.majorVersion;
     GLuint minor = req.minorVersion;
-    cast(void) major;
-    cast(void) minor;
+    // cast(void) major;
+    // cast(void) minor;
 
     /*
      ** Server should take into consideration the version numbers sent by the
@@ -1002,24 +1002,11 @@ private int DoGetFBConfigs(__GLXclientState* cl, uint screen)
     if (!validGlxScreen(cl.client, screen, &pGlxScreen, &err))
         return err;
 
-    xGLXGetFBConfigsReply reply = {
-        type: X_Reply,
-        sequenceNumber: cast(ushort)client.sequence,
-        length: __GLX_FBCONFIG_ATTRIBS_LENGTH * pGlxScreen.numFBConfigs,
-        numFBConfigs: pGlxScreen.numFBConfigs,
-        numAttribs: __GLX_TOTAL_FBCONFIG_ATTRIBS
-    };
+    x_rpcbuf_t rpcbuf;
+        rpcbuf.swapped = client.swapped; 
+        rpcbuf.err_clear = TRUE ;
 
-    if (client.swapped) {
-        swaps(&reply.sequenceNumber);
-        swapl(&reply.length);
-        swapl(&reply.numFBConfigs);
-        swapl(&reply.numAttribs);
-    }
-
-    WriteToClient(client, xGLXGetFBConfigsReply.sizeof, &reply);
-
-    for (modes = pGlxScreen.fbconfigs; modes !is null; modes = modes.next) {
+    for (modes = pGlxScreen.fbconfigs; modes != null; modes = modes.next) {
         p = 0;
 
 enum string WRITE_PAIR(string tag,string value) = `
@@ -1090,13 +1077,17 @@ enum string WRITE_PAIR(string tag,string value) = `
         }
         assert(p == __GLX_FBCONFIG_ATTRIBS_LENGTH);
 
-        if (client.swapped) {
-            SwapLongs(cast(CARD32*)buf, __GLX_FBCONFIG_ATTRIBS_LENGTH);
-        }
-        WriteToClient(client, __GLX_SIZE_CARD32 * __GLX_FBCONFIG_ATTRIBS_LENGTH,
-                      cast(char*) buf);
+        x_rpcbuf_write_CARD32s(&rpcbuf, buf.ptr, __GLX_FBCONFIG_ATTRIBS_LENGTH);
     }
-    return Success;
+
+    xGLXGetFBConfigsReply reply;
+        reply.numFBConfigs = pGlxScreen.numFBConfigs;
+        reply.numAttribs = __GLX_TOTAL_FBCONFIG_ATTRIBS;
+
+    mixin(X_REPLY_FIELD_CARD32!("numFBConfigs"));
+    mixin(X_REPLY_FIELD_CARD32!("numAttribs"));
+
+    return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
 }
 
 int __glXDisp_GetFBConfigs(__GLXclientState* cl, GLbyte* pc)

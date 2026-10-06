@@ -1217,7 +1217,9 @@ int glamor_dri3_open_client(ClientPtr client, ScreenPtr screen, RRProviderPtr pr
     int fd = void;
     drm_magic_t magic = void;
 
-    fd = open(glamor_egl.device_path, O_RDWR|O_CLOEXEC);
+    fd = glamor_egl.device_path ?
+     open(glamor_egl.device_path, O_RDWR | O_CLOEXEC) :
+     dup(glamor_egl.fd);
     if (fd < 0)
         return BadAlloc;
 
@@ -1352,13 +1354,18 @@ static if(DRI3){
          * to stay out of the way and let it init DRI3 on its own.
          */
         if (!(glamor_priv.flags & GLAMOR_NO_DRI3)) {
+            // const dri3_screen_info_rec dri3_info = glamor_egl.dri3_info;
+
+
+static if( WITH_LIBDRM) {
+           glamor_egl.device_path = drmGetRenderDeviceNameFromFd(glamor_egl.fd);
+            if (!glamor_egl.device_path)
+                glamor_egl.device_path = drmGetDeviceNameFromFd2(glamor_egl.fd);
+}
             /* To do DRI3 device FD generation, we need to open a new fd
              * to the same device we were handed in originally.
              */
-            glamor_egl.device_path = drmGetRenderDeviceNameFromFd(glamor_egl.fd);
-            if (!glamor_egl.device_path)
-                glamor_egl.device_path = drmGetDeviceNameFromFd2(glamor_egl.fd);
-
+            
             if (!dri3_screen_init(screen, &glamor_dri3_info)) {
                 LogMessage(X_ERROR,
                            "Failed to initialize DRI3.\n");
@@ -1369,7 +1376,7 @@ static if(DRI3){
 static if (GLXEXT) {
     if (!vendor_initialized) {
         GlxPushProvider(&glamor_provider);
-        xorgGlxCreateVendor();
+        // xorgGlxCreateVendor();
         vendor_initialized = TRUE;
     }
 }

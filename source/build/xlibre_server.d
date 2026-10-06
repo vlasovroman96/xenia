@@ -25,7 +25,7 @@ static assert(0, "Include xorg-config.h when building the X server");
 enum COMPILEDDEFAULTFONTPATH = "/usr/share/fonts/misc,/usr/share/fonts/TTF,/usr/share/fonts/OTF,/usr/share/fonts/Type1,/usr/share/fonts/100dpi,/usr/share/fonts/75dpi";
 
 /* Support Composite Extension */
-enum COMPOSITE = 0;
+enum COMPOSITE = 1;
 
 /* Build DPMS extension */
 enum DPMSExtension = 0;
@@ -182,7 +182,7 @@ enum _XSERVER64 = 1;
 enum HAVE_XSHMFENCE = 1;
 enum SHM_FD_PASSING = 1;
 /* Use XTrans FD passing support */
-enum XTRANS_SEND_FDS = 0;
+enum XTRANS_SEND_FDS = 1;
 
 /* Ask fontsproto to make font path element names const */
 enum FONT_PATH_ELEMENT_NAME_CONST =    1;
