@@ -62,7 +62,7 @@ import dix.screen_hooks;
 // DevPrivateKeyRec glamor_pixmap_private_key;
 // DevPrivateKeyRec glamor_gc_private_key;
 
-// void function(ScreenPtr screen, glamor_context* glamor_ctx) glamor_egl_screen_init2 = &glamor_egl_screen_init;
+void function(ScreenPtr screen, glamor_context* glamor_ctx) glamor_egl_screen_init2 = &glamor_egl_screen_init;
 
 glamor_screen_private* glamor_get_screen_private(ScreenPtr screen)
 {
