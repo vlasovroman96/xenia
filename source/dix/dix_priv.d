@@ -245,7 +245,7 @@ enum DE_PRIORITYCHANGE = 4     /* set when a client's priority changes */;
 // int defaultScreenSaverBlanking;
 // int defaultScreenSaverAllowExposures;
 const(char)* display;
-int displayfd;
+int displayfd = -1;;
 // Bool explicit_display;
 
 Bool disableBackingStore;
@@ -405,7 +405,7 @@ alias ClientSleepProcPtr = Bool function(ClientPtr client, void* closure);
  */
 // Bool dixClientSignal(ClientPtr pClient);
 
-enum CLIENT_SIGNAL_ANY = (cast(void *)null);
+enum CLIENT_SIGNAL_ANY = (cast(void *)-1);
 /*
  * @brief signal to all sleeping clients matching client, func, closure
  *
