@@ -43,7 +43,7 @@ import include.globals;
 import glx.glxserver;
 import include.glx_extinit;
 import build.xlibre_server;
-// import glx.glxext;
+import glx.glxext;
 
 // private MODULESETUPPROTO glxSetup;
 
@@ -80,8 +80,8 @@ private void* glxSetup(void* module_, void* opts, int* errmaj, int* errmin)
 
     provider = cast(__GLXprovider*)LoaderSymbol("__glXDRI2Provider");
     if (provider)
-        GlxPushProvider(provider);
-    xorgGlxCreateVendor();
+        glx.glxext.xeniaGlxPushProvider(provider);
+    xeniaGlxCreateVendor();
 
     return module_;
 }

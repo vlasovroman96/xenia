@@ -59,7 +59,7 @@ import core.sys.linux.sys.s;
 
 }
 import glamor.glamor;
-// import glx.glxext;
+import glx.glxext;
 
 enum EGL_NO_DISPLAY = cast(EGLDisplay)null;
 version (HAVE_SYS_MKDEV_H) {
@@ -1375,8 +1375,8 @@ static if( WITH_LIBDRM) {
 }
 static if (GLXEXT) {
     if (!vendor_initialized) {
-        GlxPushProvider(&glamor_provider);
-        // xorgGlxCreateVendor();
+        xeniaGlxPushProvider(&glamor_provider);
+        xeniaGlxCreateVendor();
         vendor_initialized = TRUE;
     }
 }
@@ -1453,7 +1453,7 @@ pragma(inline, true) int glamor_egl_device_get_fd(EGLDeviceEXT device)
 {
     const(char)* dev_file = eglQueryDeviceStringEXT(device, EGL_DRM_DEVICE_FILE_EXT);
     if (!dev_file) {
-        return FALSE;
+        return -1;
     }
 
     return open(dev_file, O_RDWR);

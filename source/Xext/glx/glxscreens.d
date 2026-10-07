@@ -56,9 +56,9 @@ import glx.glxscreens_h;
 import dix.screen_hooks;
 import Xext.glx.fix;
 
-private DevPrivateKeyRec glxScreenPrivateKeyRec;
+DevPrivateKeyRec xeniaGlxScreenPrivateKeyRec;
 
-enum glxScreenPrivateKey = (&glxScreenPrivateKeyRec);
+enum xeniaGlxScreenPrivateKey = (&xeniaGlxScreenPrivateKeyRec);
 
 const(char)[4] GLServerVersion = "1.4";
 private const(char)[2432] GLServerExtensions = "GL_ARB_depth_texture "
@@ -167,14 +167,14 @@ private const(char)[2432] GLServerExtensions = "GL_ARB_depth_texture "
 
 private void glxCloseScreen(CallbackListPtr* pcbl, ScreenPtr pScreen, void* unused)
 {
-    __GLXscreen* pGlxScreen = glxGetScreen(pScreen);
+    __GLXscreen* pGlxScreen = xeniaGlxGetScreen(pScreen);
     dixScreenUnhookClose(pScreen, &glxCloseScreen);
     pGlxScreen.destroy(pGlxScreen);
 }
 
-__GLXscreen* glxGetScreen(ScreenPtr pScreen)
+__GLXscreen* xeniaGlxGetScreen(ScreenPtr pScreen)
 {
-    return cast(__GLXscreen*)dixLookupPrivate(&pScreen.devPrivates, glxScreenPrivateKey);
+    return cast(__GLXscreen*)dixLookupPrivate(&pScreen.devPrivates, xeniaGlxScreenPrivateKey);
 }
 
 GLint glxConvertToXVisualType(int visualType)
@@ -314,7 +314,7 @@ void __glXScreenInit(__GLXscreen* pGlxScreen, ScreenPtr pScreen)
     __GLXconfig* config = void;
     int i = void;
 
-    if (!dixRegisterPrivateKey(&glxScreenPrivateKeyRec, PRIVATE_SCREEN, 0))
+    if (!dixRegisterPrivateKey(&xeniaGlxScreenPrivateKeyRec, PRIVATE_SCREEN, 0))
         return;
 
     pGlxScreen.pScreen = pScreen;
@@ -405,7 +405,7 @@ void __glXScreenInit(__GLXscreen* pGlxScreen, ScreenPtr pScreen)
         initGlxVisual(visual, config);
     }
 
-    dixSetPrivate(&pScreen.devPrivates, glxScreenPrivateKey, pGlxScreen);
+    dixSetPrivate(&pScreen.devPrivates, xeniaGlxScreenPrivateKey, pGlxScreen);
 
     if (pGlxScreen.glvnd)
         __glXEnableExtension(pGlxScreen.glx_enable_bits.ptr, "GLX_EXT_libglvnd");

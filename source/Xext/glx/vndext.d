@@ -51,6 +51,7 @@ import dix.dix_priv;
 import dix.screenint_priv;
 import miext.extinit_priv;
 import dix.extension;
+import glx.glxscreens;
 
 
 Bool noGlxExtension = FALSE;
@@ -296,7 +297,7 @@ private void GlxFreeServerImports(GlxServerImports* imports)
     free(imports);
 }
 
-__gshared GlxServerExports glxServer = {
+__gshared GlxServerExports xeniaGlxServer = {
     majorVersion: GLXSERVER_VENDOR_ABI_MAJOR_VERSION,
     minorVersion: GLXSERVER_VENDOR_ABI_MINOR_VERSION,
 
@@ -322,5 +323,5 @@ __gshared GlxServerExports glxServer = {
 
 const(GlxServerExports)* glvndGetExports()
 {
-    return &glxServer;
+    return &xeniaGlxServer;
 }

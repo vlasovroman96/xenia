@@ -761,7 +761,7 @@ private Bool glxDRIEnterVT(ScrnInfoPtr scrn)
 {
     Bool ret = void;
     __GLXDRIscreen* screen = cast(__GLXDRIscreen*)
-        glxGetScreen(xf86ScrnToScreen(scrn));
+        xeniaGlxGetScreen(xf86ScrnToScreen(scrn));
 
     LogMessage(X_INFO, "AIGLX: Resuming AIGLX clients after VT switch\n");
 
@@ -783,7 +783,7 @@ private Bool glxDRIEnterVT(ScrnInfoPtr scrn)
 private void glxDRILeaveVT(ScrnInfoPtr scrn)
 {
     __GLXDRIscreen* screen = cast(__GLXDRIscreen*)
-        glxGetScreen(xf86ScrnToScreen(scrn));
+        xeniaGlxGetScreen(xf86ScrnToScreen(scrn));
 
     LogMessageVerb(X_INFO, -1, "AIGLX: Suspending AIGLX clients for VT switch\n");
 

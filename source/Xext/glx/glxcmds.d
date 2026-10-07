@@ -112,7 +112,7 @@ int validGlxScreen(ClientPtr client, int screen, __GLXscreen** pGlxScreen, int* 
         *err = BadValue;
         return FALSE;
     }
-    *pGlxScreen = glxGetScreen(pScreen);
+    *pGlxScreen = xeniaGlxGetScreen(pScreen);
 
     return TRUE;
 }
@@ -484,7 +484,7 @@ int __glXDisp_DestroyContext(__GLXclientState* cl, GLbyte* pc)
 
 __GLXcontext* __glXLookupContextByTag(__GLXclientState* cl, GLXContextTag tag)
 {
-    return cast(__GLXcontext*)glxServer.getContextTagPrivate(cl.client, tag);
+    return cast(__GLXcontext*)xeniaGlxServer.getContextTagPrivate(cl.client, tag);
 }
 
 private __GLXconfig* inferConfigForWindow(__GLXscreen* pGlxScreen, WindowPtr pWin)
@@ -617,7 +617,7 @@ int xorgGlxMakeCurrent(ClientPtr client, GLXContextTag tag, XID drawId, XID read
 
     /* Look up old context. If we have one, it must be in a usable state. */
     if (tag != 0) {
-        prevglxc = cast(__GLXcontext*)glxServer.getContextTagPrivate(client, tag);
+        prevglxc = cast(__GLXcontext*)xeniaGlxServer.getContextTagPrivate(client, tag);
 
         if (prevglxc && prevglxc.renderMode != GL_RENDER) {
             /* Oops.  Not in render mode render. */
@@ -687,7 +687,7 @@ static if (GLX_CONTEXT_RELEASE_BEHAVIOR_ARB) {
         }
     }
 
-    glxServer.setContextTagPrivate(client, newContextTag, glxc);
+    xeniaGlxServer.setContextTagPrivate(client, newContextTag, glxc);
     if (glxc)
         glxc.currentClient = client;
 

@@ -69,12 +69,12 @@ import glx.glxscreens_h;
  import Xext.glx.fix;
 
 
-__GLXscreen* glxGetScreen(ScreenPtr pScreen);
+__GLXscreen* xeniaGlxGetScreen(ScreenPtr pScreen);
 // __GLXclientState* glxGetClient(ClientPtr pClient);
 
 /************************************************************************/
 
-void __glXScreenInitVisuals(__GLXscreen* screen);
+void xeniaGlxScreenInitVisuals(__GLXscreen* screen);
 
 /*
 ** The last context used (from the server's perspective) is cached.

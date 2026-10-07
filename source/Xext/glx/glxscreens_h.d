@@ -143,7 +143,7 @@ struct __GLXscreen {
     ubyte[__GLX_EXT_BYTES] glx_enable_bits;
 }
 
-// void __glXScreenInit(__GLXscreen* screen, ScreenPtr pScreen);
+// void xeniaGlxScreenInit(__GLXscreen* screen, ScreenPtr pScreen);
 // void __glXScreenDestroy(__GLXscreen* screen);
 
                           /* !__GLX_screens_h__ */

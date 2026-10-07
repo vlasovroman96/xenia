@@ -1145,7 +1145,7 @@ version (none) {
         vfbPixmapDepths[32] = TRUE;
     }
 
-    xorgGlxCreateVendor();
+    xeniaGlxCreateVendor();
 
     for (i = 1; i <= 32; i++) {
         if (vfbPixmapDepths[i]) {

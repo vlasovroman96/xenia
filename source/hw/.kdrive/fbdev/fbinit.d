@@ -46,7 +46,7 @@ version(GLAMOR) {
 
     fbCurrScreen.fbdev_dri_path = null;
     fbCurrScreen.fbdev_auto_dri3 = FALSE;
-    fbCurrScreen.fbdev_drm_master = FALSE;
+    fbCurrScreen.fbdev_drm_master = TRUE;
 
     fbCurrScreen.es_allowed = TRUE;
     fbCurrScreen.force_es = FALSE;
