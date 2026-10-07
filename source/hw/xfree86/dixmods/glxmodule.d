@@ -43,7 +43,7 @@ import include.globals;
 import glx.glxserver;
 import include.glx_extinit;
 import build.xlibre_server;
-import glx.glxext;
+// import glx.glxext;
 
 // private MODULESETUPPROTO glxSetup;
 

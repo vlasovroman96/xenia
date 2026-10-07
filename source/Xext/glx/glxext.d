@@ -568,9 +568,9 @@ private void xorgGlxServerInit(CallbackListPtr* pcbl, void* param, void* ext)
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
-void xorgGlxCreateVendor()
+Bool xorgGlxCreateVendor()
 {
-    AddCallback(glxServer.extensionInitCallback, &xorgGlxServerInit, null);
+    return AddCallback(glxServer.extensionInitCallback, &xorgGlxServerInit, null);
 }
 
 /************************************************************************/

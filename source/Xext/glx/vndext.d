@@ -57,8 +57,8 @@ Bool noGlxExtension = FALSE;
 
 ExtensionEntry* GlxExtensionEntry;
 int GlxErrorBase = 0;
-private CallbackListRec vndInitCallbackList;
-private CallbackListPtr vndInitCallbackListPtr = &vndInitCallbackList;
+CallbackListRec vndInitCallbackList;
+CallbackListPtr vndInitCallbackListPtr = &vndInitCallbackList;
 
 private DevPrivateKeyRec glvXGLVScreenPrivKey;
 private DevPrivateKeyRec glvXGLVClientPrivKey;
@@ -247,6 +247,7 @@ void GlxExtensionInit()
 
     extEntry.base = 0;
 }
+
 
 private int GlxForwardRequest(GlxServerVendor* vendor, ClientPtr client)
 {

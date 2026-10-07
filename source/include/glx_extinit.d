@@ -43,12 +43,12 @@ struct __GLXprovider {
 }
 // __GLXprovider __glXDRISWRastProvider;
 
-// void GlxPushProvider(__GLXprovider* provider);
+void GlxPushProvider(__GLXprovider* provider);
 
 
 // } else { /* GLXEXT */
 
-// pragma(inline, true) void xorgGlxCreateVendor() {}
+void xorgGlxCreateVendor();
 
 // } /* GLEXT */
 

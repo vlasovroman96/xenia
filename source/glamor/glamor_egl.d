@@ -34,7 +34,7 @@ template HasVersion(string versionId) {
  *
  */
 import build.dix_config;
-import glx.glxext;
+// import glx.glxext;
 
 import externs.drm;
 import core.sys.posix.unistd;
@@ -52,14 +52,14 @@ import include.dri3;
 import dri3.dri3;
 import dix.gc;
 import core.sys.posix.stdlib : getenv, setenv, unsetenv;
-
+import include.glx_extinit;
 version (HAVE_SYS_SYSMACROS_H) {
 import sys.sysmacros; /* for major() & minor() */
 import core.sys.linux.sys.s;
 
 }
 import glamor.glamor;
-import glx.glxext;
+// import glx.glxext;
 
 enum EGL_NO_DISPLAY = cast(EGLDisplay)null;
 version (HAVE_SYS_MKDEV_H) {
