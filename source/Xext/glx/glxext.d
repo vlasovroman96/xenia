@@ -273,7 +273,7 @@ int __glXError(int error)
 
 __GLXclientState* glxGetClient(ClientPtr pClient)
 {
-    return cast(__GLXclientState*)dixLookupPrivate(&pClient.devPrivates, glxClientPrivateKey);
+    return cast(__GLXclientState*)dixLookupPrivate(&pClient.devPrivates, &glxClientPrivateKeyRec);
 }
 
 private void glxClientCallback(CallbackListPtr* list, void* closure, void* data)
