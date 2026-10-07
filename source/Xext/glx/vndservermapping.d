@@ -165,7 +165,7 @@ GlxContextTagInfo* GlxLookupContextTag(ClientPtr client, GLXContextTag tag)
 void GlxFreeContextTag(GlxContextTagInfo* tagInfo)
 {
     if (tagInfo !is null) {
-        tagInfo.vendor = null;
+        tagInfo.client = null;
         tagInfo.vendor = null;
         tagInfo.data = null;
         tagInfo.context = None;
