@@ -71,8 +71,8 @@ enum string REQUEST(alias type) =
 
 enum string ARRAY_SIZE(string a) = (a) ~ ".length";
 
-enum string REQUEST_SIZE_MATCH(alias req) = ` 
-        if ((`~req.stringof~`.sizeof >> 2) != client.req_len)                      
+enum string REQUEST_SIZE_MATCH(string req) = ` 
+        if (((`~req~`).sizeof >> 2) != client.req_len)                      
             return(BadLength); `;
 
 enum string REQUEST_AT_LEAST_SIZE(alias req) = `
@@ -206,6 +206,6 @@ struct DeviceEventInfoRec {
  * @param pScreen pointer to ScreenRec to query.
  * @return pointer to string, valid as long as the pScreen is, owned by DIX.
  */
-const(char)* dixGetDisplayName(ScreenPtr* pScreen);
+// const(char)* dixGetDisplayName(ScreenPtr* pScreen);
 
                           /* DIX_H */

@@ -70,7 +70,7 @@ int dispatch_CreateContext(ClientPtr client)
 {
     mixin(REQUEST!xGLXCreateContextReq);
     CARD32 screen = void, context = void;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     screen = GlxCheckSwap(client, stuff.screen);
     context = GlxCheckSwap(client, stuff.context);
     mixin(LEGAL_NEW_RESOURCE!("context", "client"));
@@ -97,7 +97,7 @@ int dispatch_DestroyContext(ClientPtr client)
     mixin(REQUEST!xGLXDestroyContextReq);
     CARD32 context = void;
     GlxServerVendor* vendor = null;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     context = GlxCheckSwap(client, stuff.context);
     vendor = glxServer.getXIDMap(context);
     if (vendor !is null) {
@@ -117,7 +117,7 @@ int dispatch_WaitGL(ClientPtr client)
     mixin(REQUEST!xGLXWaitGLReq);
     CARD32 contextTag = void;
     GlxServerVendor* vendor = null;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     contextTag = GlxCheckSwap(client, stuff.contextTag);
     vendor = glxServer.getContextTag(client, cast(uint)contextTag);
     if (vendor !is null) {
@@ -134,7 +134,7 @@ int dispatch_WaitX(ClientPtr client)
     mixin(REQUEST!xGLXWaitXReq);
     CARD32 contextTag = void;
     GlxServerVendor* vendor = null;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     contextTag = GlxCheckSwap(client, stuff.contextTag);
     vendor = glxServer.getContextTag(client, cast(uint)contextTag);
     if (vendor !is null) {
@@ -151,7 +151,7 @@ int dispatch_UseXFont(ClientPtr client)
     mixin(REQUEST!xGLXUseXFontReq);
     CARD32 contextTag = void;
     GlxServerVendor* vendor = null;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     contextTag = GlxCheckSwap(client, stuff.contextTag);
     vendor = glxServer.getContextTag(client, cast(uint)contextTag);
     if (vendor !is null) {
@@ -167,7 +167,7 @@ int dispatch_CreateGLXPixmap(ClientPtr client)
 {
     mixin(REQUEST!xGLXCreateGLXPixmapReq);
     CARD32 screen = void, glxpixmap = void;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     screen = GlxCheckSwap(client, stuff.screen);
     glxpixmap = GlxCheckSwap(client, stuff.glxpixmap);
     mixin(LEGAL_NEW_RESOURCE!("glxpixmap", "client"));

@@ -88,7 +88,7 @@ private int ProcDRI2QueryVersion(ClientPtr client)
         minorVersion: dri2_minor
     };
 
-    mixin(REQUEST_SIZE_MATCH!xDRI2QueryVersionReq);
+    mixin(REQUEST_SIZE_MATCH!"xDRI2QueryVersionReq");
 
     if (client.swapped) {
         swapl(&reply.majorVersion);
@@ -106,7 +106,7 @@ private int ProcDRI2Connect(ClientPtr client)
     const(char)* driverName = void;
     const(char)* deviceName = void;
 
-    mixin(REQUEST_SIZE_MATCH!xDRI2ConnectReq);
+    mixin(REQUEST_SIZE_MATCH!"xDRI2ConnectReq");
     if (!validDrawable(client, stuff.window, DixGetAttrAccess,
                        &pDraw, &status))
         return status;
@@ -135,7 +135,7 @@ private int ProcDRI2Authenticate(ClientPtr client)
     int status = void;
 
 
-    mixin(REQUEST_SIZE_MATCH!xDRI2AuthenticateReq);
+    mixin(REQUEST_SIZE_MATCH!"xDRI2AuthenticateReq");
     if (!validDrawable(client, stuff.window, DixGetAttrAccess,
                        &pDraw, &status))
         return status;
@@ -164,7 +164,7 @@ private int ProcDRI2CreateDrawable(ClientPtr client)
     DrawablePtr pDrawable = void;
     int status = void;
 
-    mixin(REQUEST_SIZE_MATCH!xDRI2CreateDrawableReq);
+    mixin(REQUEST_SIZE_MATCH!"xDRI2CreateDrawableReq");
 
     if (!validDrawable(client, stuff.drawable, DixAddAccess,
                        &pDrawable, &status))
@@ -184,7 +184,7 @@ private int ProcDRI2DestroyDrawable(ClientPtr client)
     DrawablePtr pDrawable = void;
     int status = void;
 
-    mixin(REQUEST_SIZE_MATCH!xDRI2DestroyDrawableReq);
+    mixin(REQUEST_SIZE_MATCH!"xDRI2DestroyDrawableReq");
     if (!validDrawable(client, stuff.drawable, DixRemoveAccess,
                        &pDrawable, &status))
         return status;
