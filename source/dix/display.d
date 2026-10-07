@@ -15,9 +15,9 @@ public import dix.dix_priv;
 // const(char)* display = "0";
 // int displayfd = -1;
 
-// const(char)* dixGetDisplayName(ScreenPtr* pScreen)
-// {
-//     // pScreen currently is ignored as the value is global,
-//     // but this might perhaps change in the future.
-//     return display;
-// }
+const(char)* dixGetDisplayName(ScreenPtr* pScreen)
+{
+    // pScreen currently is ignored as the value is global,
+    // but this might perhaps change in the future.
+    return display;
+}
