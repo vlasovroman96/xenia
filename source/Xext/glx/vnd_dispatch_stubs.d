@@ -193,12 +193,12 @@ int dispatch_GetVisualConfigs(ClientPtr client)
 {
     mixin(REQUEST!xGLXGetVisualConfigsReq);
     CARD32 screen = void;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     screen = GlxCheckSwap(client, stuff.screen);
 
     //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
     GlxServerVendor* vendor = vendorForScreen(client, screen);
-    if (vendor !is null) {
+    if (vendor != null) {
         int ret = void;
         ret = glxServer.forwardRequest(vendor, client);
         return ret;
@@ -212,7 +212,7 @@ int dispatch_DestroyGLXPixmap(ClientPtr client)
     mixin(REQUEST!xGLXDestroyGLXPixmapReq);
     CARD32 glxpixmap = void;
     GlxServerVendor* vendor = null;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     glxpixmap = GlxCheckSwap(client, stuff.glxpixmap);
     vendor = glxServer.getXIDMap(glxpixmap);
     if (vendor !is null) {
@@ -228,7 +228,7 @@ int dispatch_QueryExtensionsString(ClientPtr client)
 {
     mixin(REQUEST!xGLXQueryExtensionsStringReq);
     CARD32 screen = void;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     screen = GlxCheckSwap(client, stuff.screen);
 
     //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -246,7 +246,7 @@ int dispatch_QueryServerString(ClientPtr client)
 {
     mixin(REQUEST!xGLXQueryServerStringReq);
     CARD32 screen = void;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     screen = GlxCheckSwap(client, stuff.screen);
 
     //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -281,7 +281,7 @@ int dispatch_CreateNewContext(ClientPtr client)
 {
     mixin(REQUEST!xGLXCreateNewContextReq);
     CARD32 screen = void, context = void;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     screen = GlxCheckSwap(client, stuff.screen);
     context = GlxCheckSwap(client, stuff.context);
     mixin(LEGAL_NEW_RESOURCE!("context", "client"));
@@ -412,7 +412,7 @@ int dispatch_DestroyPbuffer(ClientPtr client)
     mixin(REQUEST!xGLXDestroyPbufferReq);
     CARD32 pbuffer = void;
     GlxServerVendor* vendor = null;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     pbuffer = GlxCheckSwap(client, stuff.pbuffer);
     vendor = glxServer.getXIDMap(pbuffer);
     if (vendor !is null) {
@@ -432,7 +432,7 @@ int dispatch_DestroyPixmap(ClientPtr client)
     mixin(REQUEST!xGLXDestroyPixmapReq);
     CARD32 glxpixmap = void;
     GlxServerVendor* vendor = null;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     glxpixmap = GlxCheckSwap(client, stuff.glxpixmap);
     vendor = glxServer.getXIDMap(glxpixmap);
     if (vendor !is null) {
@@ -452,7 +452,7 @@ int dispatch_DestroyWindow(ClientPtr client)
     mixin(REQUEST!xGLXDestroyWindowReq);
     CARD32 glxwindow = void;
     GlxServerVendor* vendor = null;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     glxwindow = GlxCheckSwap(client, stuff.glxwindow);
     vendor = glxServer.getXIDMap(glxwindow);
     if (vendor !is null) {
@@ -472,7 +472,7 @@ int dispatch_GetDrawableAttributes(ClientPtr client)
     mixin(REQUEST!xGLXGetDrawableAttributesReq);
     CARD32 drawable = void;
     GlxServerVendor* vendor = null;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     drawable = GlxCheckSwap(client, stuff.drawable);
     vendor = glxServer.getXIDMap(drawable);
     if (vendor !is null) {
@@ -488,7 +488,7 @@ int dispatch_GetFBConfigs(ClientPtr client)
 {
     mixin(REQUEST!xGLXGetFBConfigsReq);
     CARD32 screen = void;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     screen = GlxCheckSwap(client, stuff.screen);
 
     //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -507,7 +507,7 @@ int dispatch_QueryContext(ClientPtr client)
     mixin(REQUEST!xGLXQueryContextReq);
     CARD32 context = void;
     GlxServerVendor* vendor = null;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     context = GlxCheckSwap(client, stuff.context);
     vendor = glxServer.getXIDMap(context);
     if (vendor !is null) {
@@ -524,7 +524,7 @@ int dispatch_IsDirect(ClientPtr client)
     mixin(REQUEST!xGLXIsDirectReq);
     CARD32 context = void;
     GlxServerVendor* vendor = null;
-    mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
+    mixin(REQUEST_SIZE_MATCH!("*stuff"));
     context = GlxCheckSwap(client, stuff.context);
     vendor = glxServer.getXIDMap(context);
     if (vendor !is null) {

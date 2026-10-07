@@ -40,8 +40,8 @@
 typedef unsigned int CARD32;
 typedef unsigned char CARD8;
 typedef unsigned short CARD16;
-typedef short BYTE;
-typedef int BOOL;
+typedef unsigned char BYTE;
+typedef unsigned char BOOL;
 typedef int INT32;
 
 
