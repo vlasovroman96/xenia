@@ -1235,8 +1235,8 @@ int ProcTranslateCoords(ClientPtr client)
         reply.sameScreen = xTrue;
         reply.child = None;
         /* computing absolute coordinates -- adjust to destination later */
-        x = cast(ushort)(pWin.drawable.x + stuff.srcX);
-        y = cast(ushort)(pWin.drawable.y + stuff.srcY);
+        x = cast(short)(pWin.drawable.x + stuff.srcX);
+        y = cast(short)(pWin.drawable.y + stuff.srcY);
         pWin = pDst.firstChild;
         while (pWin) {
             BoxRec box = void;
