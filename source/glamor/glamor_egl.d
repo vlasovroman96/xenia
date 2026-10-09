@@ -1376,7 +1376,7 @@ static if( WITH_LIBDRM) {
 static if (GLXEXT) {
     if (!vendor_initialized) {
         xeniaGlxPushProvider(&glamor_provider);
-        xeniaGlxCreateVendor();
+        // xeniaGlxCreateVendor();
         vendor_initialized = TRUE;
     }
 }
