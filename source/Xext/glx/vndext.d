@@ -297,7 +297,7 @@ private void GlxFreeServerImports(GlxServerImports* imports)
     free(imports);
 }
 
-__gshared GlxServerExports xeniaGlxServer = {
+__gshared GlxServerExports glxServer = {
     majorVersion: GLXSERVER_VENDOR_ABI_MAJOR_VERSION,
     minorVersion: GLXSERVER_VENDOR_ABI_MINOR_VERSION,
 
@@ -320,6 +320,8 @@ __gshared GlxServerExports xeniaGlxServer = {
     forwardRequest: & GlxForwardRequest,
     setClientScreenVendor: &GlxSetClientScreenVendor,
 };
+
+alias xeniaGlxServer = glxServer;
 
 const(GlxServerExports)* glvndGetExports()
 {
