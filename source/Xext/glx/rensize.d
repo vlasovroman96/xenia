@@ -330,7 +330,7 @@ int __glXImageSize(GLenum format, GLenum type, GLenum target, GLsizei w, GLsizei
     }
 }
 
-/* XXX this is used elsewhere - should it be exported from xeniaGlxServer.h? */
+/* XXX this is used elsewhere - should it be exported from glxServer.h? */
 int __glXTypeSize(GLenum enm)
 {
     switch (enm) {

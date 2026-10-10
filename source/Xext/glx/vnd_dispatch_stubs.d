@@ -29,7 +29,7 @@ pragma(inline, true) GlxServerVendor* vendorForScreen(ClientPtr pClient, CARD32 
     if (!pScreen)
         return null;
 
-    return xeniaGlxServer.getVendorForScreen(pClient, pScreen);
+    return glxServer.getVendorForScreen(pClient, pScreen);
 }
 
 int dispatch_Render(ClientPtr client)
@@ -39,10 +39,10 @@ int dispatch_Render(ClientPtr client)
     GlxServerVendor* vendor = null;
     mixin(REQUEST_AT_LEAST_SIZE!("glxServer"));
     contextTag = GlxCheckSwap(client, stuff.contextTag);
-    vendor = xeniaGlxServer.getContextTag(client, cast(uint)contextTag);
+    vendor = glxServer.getContextTag(client, cast(uint)contextTag);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         return ret;
     } else {
         client.errorValue = cast(uint)contextTag;
@@ -56,10 +56,10 @@ int dispatch_RenderLarge(ClientPtr client)
     GlxServerVendor* vendor = null;
     mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
     contextTag = GlxCheckSwap(client, stuff.contextTag);
-    vendor = xeniaGlxServer.getContextTag(client, cast(uint)contextTag);
+    vendor = glxServer.getContextTag(client, cast(uint)contextTag);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         return ret;
     } else {
         client.errorValue = cast(uint)contextTag;
@@ -79,12 +79,12 @@ int dispatch_CreateContext(ClientPtr client)
     GlxServerVendor* vendor = vendorForScreen(client, screen);
     if (vendor !is null) {
         int ret = void;
-        if (!xeniaGlxServer.addXIDMap(context, vendor)) {
+        if (!glxServer.addXIDMap(context, vendor)) {
             return BadAlloc;
         }
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         if (ret != Success) {
-            xeniaGlxServer.removeXIDMap(context);
+            glxServer.removeXIDMap(context);
         }
         return ret;
     } else {
@@ -99,12 +99,12 @@ int dispatch_DestroyContext(ClientPtr client)
     GlxServerVendor* vendor = null;
     mixin(REQUEST_SIZE_MATCH!("*stuff"));
     context = GlxCheckSwap(client, stuff.context);
-    vendor = xeniaGlxServer.getXIDMap(context);
+    vendor = glxServer.getXIDMap(context);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         if (ret == Success) {
-            xeniaGlxServer.removeXIDMap(context);
+            glxServer.removeXIDMap(context);
         }
         return ret;
     } else {
@@ -119,10 +119,10 @@ int dispatch_WaitGL(ClientPtr client)
     GlxServerVendor* vendor = null;
     mixin(REQUEST_SIZE_MATCH!("*stuff"));
     contextTag = GlxCheckSwap(client, stuff.contextTag);
-    vendor = xeniaGlxServer.getContextTag(client, cast(uint)contextTag);
+    vendor = glxServer.getContextTag(client, cast(uint)contextTag);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         return ret;
     } else {
         client.errorValue = cast(uint)contextTag;
@@ -136,10 +136,10 @@ int dispatch_WaitX(ClientPtr client)
     GlxServerVendor* vendor = null;
     mixin(REQUEST_SIZE_MATCH!("*stuff"));
     contextTag = GlxCheckSwap(client, stuff.contextTag);
-    vendor = xeniaGlxServer.getContextTag(client, cast(uint)contextTag);
+    vendor = glxServer.getContextTag(client, cast(uint)contextTag);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         return ret;
     } else {
         client.errorValue = cast(uint)contextTag;
@@ -153,10 +153,10 @@ int dispatch_UseXFont(ClientPtr client)
     GlxServerVendor* vendor = null;
     mixin(REQUEST_SIZE_MATCH!("*stuff"));
     contextTag = GlxCheckSwap(client, stuff.contextTag);
-    vendor = xeniaGlxServer.getContextTag(client, cast(uint)contextTag);
+    vendor = glxServer.getContextTag(client, cast(uint)contextTag);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         return ret;
     } else {
         client.errorValue = cast(uint)contextTag;
@@ -176,12 +176,12 @@ int dispatch_CreateGLXPixmap(ClientPtr client)
     GlxServerVendor* vendor = vendorForScreen(client, screen);
     if (vendor !is null) {
         int ret = void;
-        if (!xeniaGlxServer.addXIDMap(glxpixmap, vendor)) {
+        if (!glxServer.addXIDMap(glxpixmap, vendor)) {
             return BadAlloc;
         }
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         if (ret != Success) {
-            xeniaGlxServer.removeXIDMap(glxpixmap);
+            glxServer.removeXIDMap(glxpixmap);
         }
         return ret;
     } else {
@@ -200,7 +200,7 @@ int dispatch_GetVisualConfigs(ClientPtr client)
     GlxServerVendor* vendor = vendorForScreen(client, screen);
     if (vendor != null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         return ret;
     } else {
         client.errorValue = cast(uint)screen;
@@ -214,10 +214,10 @@ int dispatch_DestroyGLXPixmap(ClientPtr client)
     GlxServerVendor* vendor = null;
     mixin(REQUEST_SIZE_MATCH!("*stuff"));
     glxpixmap = GlxCheckSwap(client, stuff.glxpixmap);
-    vendor = xeniaGlxServer.getXIDMap(glxpixmap);
+    vendor = glxServer.getXIDMap(glxpixmap);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         return ret;
     } else {
         client.errorValue = cast(uint)glxpixmap;
@@ -235,7 +235,7 @@ int dispatch_QueryExtensionsString(ClientPtr client)
     GlxServerVendor* vendor = vendorForScreen(client, screen);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         return ret;
     } else {
         client.errorValue = cast(uint)screen;
@@ -253,7 +253,7 @@ int dispatch_QueryServerString(ClientPtr client)
     GlxServerVendor* vendor = vendorForScreen(client, screen);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         return ret;
     } else {
         client.errorValue = cast(uint)screen;
@@ -267,10 +267,10 @@ int dispatch_ChangeDrawableAttributes(ClientPtr client)
     GlxServerVendor* vendor = null;
     mixin(REQUEST_AT_LEAST_SIZE!("*stuff"));
     drawable = GlxCheckSwap(client, stuff.drawable);
-    vendor = xeniaGlxServer.getXIDMap(drawable);
+    vendor = glxServer.getXIDMap(drawable);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         return ret;
     } else {
         client.errorValue = cast(uint)drawable;
@@ -290,12 +290,12 @@ int dispatch_CreateNewContext(ClientPtr client)
     GlxServerVendor* vendor = vendorForScreen(client, screen);
     if (vendor !is null) {
         int ret = void;
-        if (!xeniaGlxServer.addXIDMap(context, vendor)) {
+        if (!glxServer.addXIDMap(context, vendor)) {
             return BadAlloc;
         }
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         if (ret != Success) {
-            xeniaGlxServer.removeXIDMap(context);
+            glxServer.removeXIDMap(context);
         }
         return ret;
     } else {
@@ -316,12 +316,12 @@ int dispatch_CreatePbuffer(ClientPtr client)
     GlxServerVendor* vendor = vendorForScreen(client, screen);
     if (vendor !is null) {
         int ret = void;
-        if (!xeniaGlxServer.addXIDMap(pbuffer, vendor)) {
+        if (!glxServer.addXIDMap(pbuffer, vendor)) {
             return BadAlloc;
         }
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         if (ret != Success) {
-            xeniaGlxServer.removeXIDMap(pbuffer);
+            glxServer.removeXIDMap(pbuffer);
         }
         return ret;
     } else {
@@ -342,12 +342,12 @@ int dispatch_CreatePixmap(ClientPtr client)
     GlxServerVendor* vendor = vendorForScreen(client, screen);
     if (vendor !is null) {
         int ret = void;
-        if (!xeniaGlxServer.addXIDMap(glxpixmap, vendor)) {
+        if (!glxServer.addXIDMap(glxpixmap, vendor)) {
             return BadAlloc;
         }
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         if (ret != Success) {
-            xeniaGlxServer.removeXIDMap(glxpixmap);
+            glxServer.removeXIDMap(glxpixmap);
         }
         return ret;
     } else {
@@ -368,12 +368,12 @@ int dispatch_CreateWindow(ClientPtr client)
     GlxServerVendor* vendor = vendorForScreen(client, screen);
     if (vendor !is null) {
         int ret = void;
-        if (!xeniaGlxServer.addXIDMap(glxwindow, vendor)) {
+        if (!glxServer.addXIDMap(glxwindow, vendor)) {
             return BadAlloc;
         }
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         if (ret != Success) {
-            xeniaGlxServer.removeXIDMap(glxwindow);
+            glxServer.removeXIDMap(glxwindow);
         }
         return ret;
     } else {
@@ -394,12 +394,12 @@ int dispatch_CreateContextAttribsARB(ClientPtr client)
     GlxServerVendor* vendor = vendorForScreen(client, screen);
     if (vendor !is null) {
         int ret = void;
-        if (!xeniaGlxServer.addXIDMap(context, vendor)) {
+        if (!glxServer.addXIDMap(context, vendor)) {
             return BadAlloc;
         }
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         if (ret != Success) {
-            xeniaGlxServer.removeXIDMap(context);
+            glxServer.removeXIDMap(context);
         }
         return ret;
     } else {
@@ -414,12 +414,12 @@ int dispatch_DestroyPbuffer(ClientPtr client)
     GlxServerVendor* vendor = null;
     mixin(REQUEST_SIZE_MATCH!("*stuff"));
     pbuffer = GlxCheckSwap(client, stuff.pbuffer);
-    vendor = xeniaGlxServer.getXIDMap(pbuffer);
+    vendor = glxServer.getXIDMap(pbuffer);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         if (ret == Success) {
-            xeniaGlxServer.removeXIDMap(pbuffer);
+            glxServer.removeXIDMap(pbuffer);
         }
         return ret;
     } else {
@@ -434,12 +434,12 @@ int dispatch_DestroyPixmap(ClientPtr client)
     GlxServerVendor* vendor = null;
     mixin(REQUEST_SIZE_MATCH!("*stuff"));
     glxpixmap = GlxCheckSwap(client, stuff.glxpixmap);
-    vendor = xeniaGlxServer.getXIDMap(glxpixmap);
+    vendor = glxServer.getXIDMap(glxpixmap);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         if (ret == Success) {
-            xeniaGlxServer.removeXIDMap(glxpixmap);
+            glxServer.removeXIDMap(glxpixmap);
         }
         return ret;
     } else {
@@ -454,12 +454,12 @@ int dispatch_DestroyWindow(ClientPtr client)
     GlxServerVendor* vendor = null;
     mixin(REQUEST_SIZE_MATCH!("*stuff"));
     glxwindow = GlxCheckSwap(client, stuff.glxwindow);
-    vendor = xeniaGlxServer.getXIDMap(glxwindow);
+    vendor = glxServer.getXIDMap(glxwindow);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         if (ret == Success) {
-            xeniaGlxServer.removeXIDMap(glxwindow);
+            glxServer.removeXIDMap(glxwindow);
         }
         return ret;
     } else {
@@ -474,10 +474,10 @@ int dispatch_GetDrawableAttributes(ClientPtr client)
     GlxServerVendor* vendor = null;
     mixin(REQUEST_SIZE_MATCH!("*stuff"));
     drawable = GlxCheckSwap(client, stuff.drawable);
-    vendor = xeniaGlxServer.getXIDMap(drawable);
+    vendor = glxServer.getXIDMap(drawable);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         return ret;
     } else {
         client.errorValue = cast(uint)drawable;
@@ -495,7 +495,7 @@ int dispatch_GetFBConfigs(ClientPtr client)
     GlxServerVendor* vendor = vendorForScreen(client, screen);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         return ret;
     } else {
         client.errorValue = cast(uint)screen;
@@ -509,10 +509,10 @@ int dispatch_QueryContext(ClientPtr client)
     GlxServerVendor* vendor = null;
     mixin(REQUEST_SIZE_MATCH!("*stuff"));
     context = GlxCheckSwap(client, stuff.context);
-    vendor = xeniaGlxServer.getXIDMap(context);
+    vendor = glxServer.getXIDMap(context);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         return ret;
     } else {
         client.errorValue = cast(uint)context;
@@ -526,10 +526,10 @@ int dispatch_IsDirect(ClientPtr client)
     GlxServerVendor* vendor = null;
     mixin(REQUEST_SIZE_MATCH!("*stuff"));
     context = GlxCheckSwap(client, stuff.context);
-    vendor = xeniaGlxServer.getXIDMap(context);
+    vendor = glxServer.getXIDMap(context);
     if (vendor !is null) {
         int ret = void;
-        ret = xeniaGlxServer.forwardRequest(vendor, client);
+        ret = glxServer.forwardRequest(vendor, client);
         return ret;
     } else {
         client.errorValue = cast(uint)context;

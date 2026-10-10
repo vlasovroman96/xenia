@@ -321,9 +321,9 @@ __gshared GlxServerExports glxServer = {
     setClientScreenVendor: &GlxSetClientScreenVendor,
 };
 
-alias xeniaGlxServer = glxServer;
+// alias glxServer = glxServer;
 
 const(GlxServerExports)* glvndGetExports()
 {
-    return &xeniaGlxServer;
+    return &glxServer;
 }

@@ -343,7 +343,7 @@ private void GetGLXDrawableBytes(void* value, XID id, ResourceSizePtr size)
 private void xorgGlxCloseExtension(const(ExtensionEntry)* extEntry)
 {
     if (glvnd_vendor !is null) {
-        xeniaGlxServer.destroyVendor(glvnd_vendor);
+        glxServer.destroyVendor(glvnd_vendor);
         glvnd_vendor = null;
     }
     lastGLContext = null;
@@ -360,11 +360,11 @@ private int maybe_swap32(ClientPtr client, int x)
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
-private GlxServerVendor* vendorForScreen(ClientPtr client, int screen)
+private GlxServerVendor* vendorForScreenPriv(ClientPtr client, int screen)
 {
     screen = maybe_swap32(client, screen);
 
-    return xeniaGlxServer.getVendorForScreen(client, dixGetScreenPtr(cast(uint)screen));
+    return glxServer.getVendorForScreen(client, dixGetScreenPtr(cast(uint)screen));
 }
 
 /* this ought to be generated */
@@ -380,7 +380,7 @@ private int xorgGlxThunkRequest(ClientPtr client)
     case X_GLXvop_QueryContextInfoEXT: {
         xGLXQueryContextInfoEXTReq* req = cast(xGLXQueryContextInfoEXTReq*) (cast(void*)stuff);
         mixin(REQUEST_AT_LEAST_SIZE!("*req"));
-        if (((vendor = xeniaGlxServer.getXIDMap(maybe_swap32(client, req.context)))) is null)
+        if (((vendor = glxServer.getXIDMap(maybe_swap32(client, req.context)))) is null)
             return __glXError(GLXBadContext);
         break;
         }
@@ -388,7 +388,7 @@ private int xorgGlxThunkRequest(ClientPtr client)
     case X_GLXvop_GetFBConfigsSGIX: {
         xGLXGetFBConfigsSGIXReq* req = cast(xGLXGetFBConfigsSGIXReq*) (cast(void*)stuff);
         mixin(REQUEST_AT_LEAST_SIZE!("*req"));
-        if (((vendor = vendorForScreen(client, req.screen))) is null)
+        if (((vendor = vendorForScreenPriv(client, req.screen))) is null)
             return BadValue;
         break;
         }
@@ -397,7 +397,7 @@ private int xorgGlxThunkRequest(ClientPtr client)
         xGLXCreateContextWithConfigSGIXReq* req = cast(xGLXCreateContextWithConfigSGIXReq*) (cast(void*)stuff);
         mixin(REQUEST_AT_LEAST_SIZE!("*req"));
         resource = maybe_swap32(client, req.context);
-        if (((vendor = vendorForScreen(client, req.screen)) is null))
+        if (((vendor = vendorForScreenPriv(client, req.screen)) is null))
             return BadValue;
         break;
         }
@@ -406,7 +406,7 @@ private int xorgGlxThunkRequest(ClientPtr client)
         xGLXCreateGLXPixmapWithConfigSGIXReq* req = cast(xGLXCreateGLXPixmapWithConfigSGIXReq*) (cast(void*)stuff);
         mixin(REQUEST_AT_LEAST_SIZE!("*req"));
         resource = maybe_swap32(client, req.glxpixmap);
-        if (((vendor = vendorForScreen(client, req.screen)) is null))
+        if (((vendor = vendorForScreenPriv(client, req.screen)) is null))
             return BadValue;
         break;
         }
@@ -415,7 +415,7 @@ private int xorgGlxThunkRequest(ClientPtr client)
         xGLXCreateGLXPbufferSGIXReq* req = cast(xGLXCreateGLXPbufferSGIXReq*) (cast(void*)stuff);
         mixin(REQUEST_AT_LEAST_SIZE!("*req"));
         resource = maybe_swap32(client, req.pbuffer);
-        if (((vendor = vendorForScreen(client, req.screen)) is null))
+        if (((vendor = vendorForScreenPriv(client, req.screen)) is null))
             return BadValue;
         break;
         }
@@ -426,7 +426,7 @@ private int xorgGlxThunkRequest(ClientPtr client)
     case X_GLXvop_GetDrawableAttributesSGIX: {
         xGLXGetDrawableAttributesSGIXReq* req = cast(xGLXGetDrawableAttributesSGIXReq*) (cast(void*)stuff);
         mixin(REQUEST_AT_LEAST_SIZE!("*req"));
-        if (((vendor = xeniaGlxServer.getXIDMap(maybe_swap32(client,
+        if (((vendor = glxServer.getXIDMap(maybe_swap32(client,
                                                         req.drawable))) is null))
             return __glXError(GLXBadDrawable);
         break;
@@ -436,7 +436,7 @@ private int xorgGlxThunkRequest(ClientPtr client)
     default: {
         /* size checked by vnd layer already */
         GLXContextTag tag = maybe_swap32(client, stuff.contextTag);
-        vendor = xeniaGlxServer.getContextTag(client, tag);
+        vendor = glxServer.getContextTag(client, tag);
         if (!vendor)
             return __glXError(GLXBadContextTag);
         break;
@@ -446,19 +446,19 @@ private int xorgGlxThunkRequest(ClientPtr client)
     /* If we're creating a resource, add the map now */
     if (resource) {
         mixin(LEGAL_NEW_RESOURCE!("resource", "client"));
-        if (!xeniaGlxServer.addXIDMap(resource, vendor))
+        if (!glxServer.addXIDMap(resource, vendor))
             return BadAlloc;
     }
 
-    ret = xeniaGlxServer.forwardRequest(vendor, client);
+    ret = glxServer.forwardRequest(vendor, client);
 
     if (ret == Success && vendorCode == X_GLXvop_DestroyGLXPbufferSGIX) {
         xGLXDestroyGLXPbufferSGIXReq* req = cast(xGLXDestroyGLXPbufferSGIXReq*) (cast(void*)stuff);
-        xeniaGlxServer.removeXIDMap(maybe_swap32(client, req.pbuffer));
+        glxServer.removeXIDMap(maybe_swap32(client, req.pbuffer));
     }
 
     if (ret != Success)
-        xeniaGlxServer.removeXIDMap(resource);
+        glxServer.removeXIDMap(resource);
 
     return ret;
 }
@@ -513,15 +513,15 @@ private void xorgGlxInitGLVNDVendor()
 {
     if (glvnd_vendor is null) {
         GlxServerImports* imports = null;
-        imports = xeniaGlxServer.allocateServerImports();
+        imports = glxServer.allocateServerImports();
 
         if (imports !is null) {
             imports.extensionCloseDown = &xorgGlxCloseExtension;
             imports.handleRequest = &xorgGlxHandleRequest;
             imports.getDispatchAddress = &xorgGlxGetDispatchAddress;
             imports.makeCurrent = &xorgGlxMakeCurrent;
-            glvnd_vendor = xeniaGlxServer.createVendor(imports);
-            xeniaGlxServer.freeServerImports(imports);
+            glvnd_vendor = glxServer.createVendor(imports);
+            glxServer.freeServerImports(imports);
         }
     }
 }
@@ -542,7 +542,7 @@ private void xorgGlxServerInit(CallbackListPtr* pcbl, void* param, void* ext)
     mixin(DIX_FOR_EACH_SCREEN!q{
         __GLXprovider* p = void;
 
-        if (xeniaGlxServer.getVendorForScreen(null, walkScreen) !is null) {
+        if (glxServer.getVendorForScreen(null, walkScreen) !is null) {
             //LogMessage(X_INFO, "GLX: Another vendor is already registered for screen %d\n", walkScreenIdx);
             continue;
         }
@@ -559,7 +559,7 @@ private void xorgGlxServerInit(CallbackListPtr* pcbl, void* param, void* ext)
         }
 
         if (p) {
-            xeniaGlxServer.setScreenVendor(walkScreen, glvnd_vendor);
+            glxServer.setScreenVendor(walkScreen, glvnd_vendor);
         } else {
             LogMessage(X_INFO,
                        "GLX: no usable GL providers found for screen %d\n", walkScreenIdx);
@@ -570,7 +570,7 @@ private void xorgGlxServerInit(CallbackListPtr* pcbl, void* param, void* ext)
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 Bool xeniaGlxCreateVendor()
 {
-    return AddCallback(xeniaGlxServer.extensionInitCallback, &xorgGlxServerInit, null);
+    return AddCallback(glxServer.extensionInitCallback, &xorgGlxServerInit, null);
 }
 
 /************************************************************************/
