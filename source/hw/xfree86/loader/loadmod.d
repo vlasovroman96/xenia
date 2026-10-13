@@ -737,7 +737,7 @@ ModuleDescPtr DuplicateModule(ModuleDescPtr mod, ModuleDescPtr parent)
     return ret;
 }
 
-private const(char)*[12] compiled_in_modules = [
+private const(char)*[13] compiled_in_modules = [
     "ddc",
     "fb",
     "i2c",
@@ -747,6 +747,7 @@ private const(char)*[12] compiled_in_modules = [
     "extmod",
     "dri",
     "dri2",
+    "glx",
     null
 ];
 
@@ -754,17 +755,17 @@ static this() {
 bool isDRI3 = false;
 version( DRI3){
     isDRI3 = true;
-    compiled_in_modules[9] = "dri3";
-    compiled_in_modules[10] = null;
+    compiled_in_modules[10] = "dri3";
+    compiled_in_modules[11] = null;
 }
 version( PRESENT){
     static if(isDRI3) {
-        compiled_in_modules[10] = "present";
-        compiled_in_modules[11] = null;
+        compiled_in_modules[11] = "present";
+        compiled_in_modules[12] = null;
     }
     else {
-       compiled_in_modules[9] = "present"; 
-       compiled_in_modules[10] = null;
+       compiled_in_modules[10] = "present";
+       compiled_in_modules[11] = null;
     }
 }
 }

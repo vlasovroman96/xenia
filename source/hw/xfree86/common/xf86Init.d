@@ -93,6 +93,7 @@ import xf86Extensions;
 import xf86Xinput;
 // import xf86InPriv;
 import include.xf86Crtc;
+import glx.glxbuiltin : xeniaGlxBuiltinInit;
 import include.picturestr;
 import xf86Bus;
 import include.globals;
@@ -394,6 +395,13 @@ void InitOutput(int argc, char** argv)
         xf86OSPMClose = xf86OSPMOpen();
 
         xf86ExtensionInit();
+
+        /* GLX is implemented in this server; don't load system libglx.so. */
+        if (!xeniaGlxBuiltinInit()) {
+            LogMessageVerb(X_ERROR, 1,
+                           "Failed to initialize built-in GLX\n");
+            return;
+        }
 
         /* Load all modules specified explicitly in the config file */
         if ((modulelist = xf86ModulelistFromConfig(&optionlist)) !is null) {

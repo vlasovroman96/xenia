@@ -36,7 +36,8 @@
 		"source/hw/xnest/*",
 		"source/hw/xquartz/*",
 		"source/hw/xwin/*",
-		"source/hw/vfb/*"
+		"source/hw/vfb/*",
+		"source/hw/xfree86/dixmods/glxmodule.d"
 		
 	],
 	"lflags-posix-dmd": [
