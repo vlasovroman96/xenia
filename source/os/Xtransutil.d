@@ -287,7 +287,7 @@ static if (!HasVersion!"S_IFLNK" && !HasVersion!"S_ISLNK") {
     alias lstat_ = core.sys.posix.sys.stat.lstat;
 }
 
-private int trans_mkdir(const(char)* path, int mode)
+int trans_mkdir(const(char)* path, int mode)
 {
     stat_t buf = void;
 

@@ -219,7 +219,7 @@ version (__clang__) {
 }
 
 static if(UNIXCONN){
-private int trans_mkdir(const(char)*, int);
+// private int trans_mkdir(const(char)*, int);
 } /* UNIXCONN */
 
 version (__clang__) {
