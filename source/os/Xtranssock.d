@@ -1044,7 +1044,7 @@ static if (HasVersion!"BSD44SOCKETS" || HasVersion!"SUN_LEN") {
 
     if (abstract_) {
 	sockname.sun_path[0] = '\0';
-	namelen = cast(int)(offsetof!(sock_.sockaddr_un, "sun_path") + 1 + strlen(cast(char*)sockname.sun_path.ptr));
+	namelen = cast(int)(offsetof!(sock_.sockaddr_un, "sun_path") + 1 + strlen(cast(char*)sockname.sun_path.ptr + 1));
     }
     else
 	unlink (cast(char*)sockname.sun_path.ptr);
