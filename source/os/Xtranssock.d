@@ -82,7 +82,7 @@ version (XTHREADS) {
 // import externs.X11.Xthreads;
 }
 // import core.sys.posix.sys.stat;
-
+import std.conv;
 // import os.ossock;
 import x11.Xos;
 import build.xlibre_server;
@@ -95,7 +95,7 @@ import core.sys.posix.netdb;
 import os.ossock;
  import os.io_priv;
  import externs.attrs;
-
+import os.Xtransutil;
 
 alias listen = core.sys.posix.sys.socket.listen;
 alias socket = core.sys.posix.sys.socket.socket;
@@ -754,7 +754,7 @@ int set_sun_path(const(char)* port, const(char)* upath, char* path, int abstract
     if (!port || !*port || !path)
 	return -1;
 
-version (HAVE_ABSTRACT_SOCKETS) {
+static if (HAVE_ABSTRACT_SOCKETS) {
     if (port[0] == '@')
 	upath = "";
     else if (abstract_)
@@ -995,7 +995,7 @@ int _XSERVTransSocketUNIXCreateListener(XtransConnInfo ciptr, const(char)* port,
     char[108] tmpport = void;
 
     int abstract_ = 0;
-version (HAVE_ABSTRACT_SOCKETS) {
+static if (HAVE_ABSTRACT_SOCKETS) {
     abstract_ = ciptr.transptr.flags & TRANS_ABSTRACT;
 }
 
@@ -1006,15 +1006,15 @@ version (HAVE_ABSTRACT_SOCKETS) {
 
     oldUmask = umask (0);
 
-version (UNIX_DIR) {
+static if (UNIXCONN) {
 version (HAS_STICKY_DIR_BIT) {
     mode = octal!"01777";
 } else {
     mode = octal!"0777";
 }
-    if (!abstract_ && trans_mkdir(UNIX_DIR, mode) == -1) {
+    if (!abstract_ && trans_mkdir(UNIX_DIR.ptr, mode) == -1) {
 	prmsg (1, "SocketUNIXCreateListener: mkdir(%s) failed, errno = %d\n",
-	       UNIX_DIR, errno);
+	       UNIX_DIR.ptr, errno);
 	cast(void) umask (oldUmask);
 	return TRANS_CREATE_LISTENER_FAILED;
     }
@@ -1117,7 +1117,7 @@ static if (HAVE_ABSTRACT_SOCKETS) {
     {
 	int oldUmask = umask (0);
 
-version (UNIX_DIR) {
+static if  (UNIXCONN) {
 version (HAS_STICKY_DIR_BIT) {
 	mode = octal!"01777";
 } else {
@@ -1125,7 +1125,7 @@ version (HAS_STICKY_DIR_BIT) {
 }
         if (trans_mkdir(UNIX_DIR, mode) == -1) {
             prmsg (1, "SocketUNIXResetListener: mkdir(%s) failed, errno = %d\n",
-	    UNIX_DIR, errno);
+	    UNIX_DIR.ptr, errno);
 	    cast(void) umask (oldUmask);
 	    return TRANS_RESET_FAILURE;
         }
