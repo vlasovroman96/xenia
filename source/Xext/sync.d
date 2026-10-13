@@ -61,6 +61,7 @@ import core.stdc.stdio;
 //import x11.Xproto;
 //import x11.Xmd;
 // //import externs.X11.extensions.syncproto;
+import miext.sync.misyncfd;
 
 import dix.dix_priv;
 import dix.request_priv;
@@ -947,7 +948,7 @@ SyncObject* SyncCreate(ClientPtr client, XID id, ubyte type)
 
 int SyncCreateFenceFromFD(ClientPtr client, DrawablePtr pDraw, XID id, int fd, BOOL initially_triggered)
 {
-version (HAVE_XSHMFENCE) {
+static if (HAVE_XSHMFENCE) {
     SyncFence* pFence = void;
     int status = void;
 
@@ -969,7 +970,7 @@ version (HAVE_XSHMFENCE) {
 
 int SyncFDFromFence(ClientPtr client, DrawablePtr pDraw, SyncFence* pFence)
 {
-version (HAVE_XSHMFENCE) {
+static if (HAVE_XSHMFENCE) {
     return miSyncFDFromFence(pDraw, pFence);
 } else {
     return BadImplementation;

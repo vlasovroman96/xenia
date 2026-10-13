@@ -23,6 +23,7 @@ extern(C): __gshared:
  * OF THIS SOFTWARE.
  */
 import build.dix_config;
+import miext.sync.misyncshm;;
 
 import glamor.glamor_priv;
 import include.misyncshm;
@@ -93,7 +94,7 @@ static if (XSYNC) {
 			return FALSE;
 	}
 
-version (HAVE_XSHMFENCE) {
+static if (HAVE_XSHMFENCE) {
 	if (!miSyncShmScreenInit(screen))
 		return FALSE;
 } else {
