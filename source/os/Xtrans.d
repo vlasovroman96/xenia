@@ -193,7 +193,8 @@ shared static this()
 
 extern(C):
 
-enum string NUMTRANS =	"Xtransports.sizeof/Xtransport_table.sizeof";
+enum XTRANS_COUNT = 2 + ((IPv6 != 0) ? 1 : 0) + ((UNIXCONN != 0) ? 2 : 0);
+enum string NUMTRANS = "XTRANS_COUNT";
 
 /*
  * These are a few utility function used by the public interface functions.
