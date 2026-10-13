@@ -412,13 +412,13 @@ private int VerifyDisplayName(const(char)* d)
 
 const(char)*[4] defaultNoListenList = [
 // #ifndef LISTEN_TCP
-    // "tcp",
+    "tcp",
 // #endif
 // #ifndef LISTEN_UNIX
-    "unix",
+    // "unix",
 // #endif
 // #ifndef LISTEN_LOCAL
-    "local",
+    // "local",
 // #endif
     null
 ];
