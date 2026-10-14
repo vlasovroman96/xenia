@@ -43,7 +43,7 @@ import Xext.panoramiXsrv;
 import xfixes.xfixes;
 import externs.X11.extensions.damageproto;
 
-import include.damage;
+import dix.damage;
 import include.protocol_versions;
 import dix.dixstruct_priv;
 import include.privates;

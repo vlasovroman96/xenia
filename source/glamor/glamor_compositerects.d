@@ -34,7 +34,7 @@ import build.dix_config;
 import include.mipict;
 
 import glamor.glamor_priv;
-import include.damage;
+import dix.damage;
 import externs.X11.extensions.renderproto;
 import externs.attrs;
 import exa.exa_render;

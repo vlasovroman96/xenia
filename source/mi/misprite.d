@@ -56,7 +56,7 @@ import   mi.mipointer;
 import   mi.misprite;
 import   include.dixfontstr;
 import   dix.cursor;
-import   include.damage;
+import   dix.damage;
 import dix.events;
 import dix.devices;
 import include.input;

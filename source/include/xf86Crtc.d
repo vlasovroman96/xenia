@@ -31,7 +31,7 @@ public import include.randrstr;
 public import xf86Modes;
 public import xf86Cursor;
 public import include.xf86i2c;
-public import include.damage;
+public import dix.damage;
 public import include.picturestr;
 import include.rrtransform;
 import include.xf86Parser;

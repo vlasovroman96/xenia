@@ -29,8 +29,8 @@ public import include.scrnintstr;
 
 public import include.picturestr;
 
-public import include.damage;
-public import include.damage;
+public import dix.damage;
+public import dix.damage;
 import include.shadow;
 alias shadowBufPtr = _shadowBuf*;
 

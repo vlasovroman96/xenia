@@ -30,7 +30,7 @@ extern(C): __gshared:
 public import include.screenint;
 public import include.pixmap;
 public import include.gc;
-import include.damage;
+import dix.damage;
 import build.xlibre_server;
 
 

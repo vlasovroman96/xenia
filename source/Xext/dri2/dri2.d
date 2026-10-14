@@ -49,7 +49,7 @@ import include.windowstr;
 import include.dixstruct;
 import Xext.dri2.dri2_priv;
 import Xext.dri2.dri2int;
-import include.damage;
+import dix.damage;
 import include.dri2;
 import externs.X11.extensions.dri2tokens;
 import include.list;

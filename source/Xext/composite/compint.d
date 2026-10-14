@@ -66,7 +66,7 @@ public import composite.compext;
 public import  composite.compinit;
 
 // public import mi.mi;
-public import include.damage;
+public import dix.damage;
 public import xfixes.xfixes;
 // //public import externs.X11.extensions.compositeproto;
 import composite.compwindow;

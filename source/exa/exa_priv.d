@@ -48,7 +48,7 @@ public import include.fb;
 public import include.fboverlay;
 public import include.fbpict;
 public import include.glyphstr;
-public import include.damage;
+public import dix.damage;
 public import exa_accel;
 
 import include.exa_i;

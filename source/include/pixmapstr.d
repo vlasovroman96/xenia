@@ -53,7 +53,7 @@ public import include.pixmap;
 public import include.screenint;
 public import include.regionstr;
 public import include.privates;
-public import include.damage;
+public import dix.damage;
 // //public import externs.X11.extensions._randr;
 public import include.picturestr;
 

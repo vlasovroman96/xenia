@@ -1,4 +1,4 @@
-module include.damage;
+module dix.damage;
 @nogc nothrow:
 extern(C): __gshared:
 /*
@@ -59,7 +59,7 @@ import include.regionstr;
 import include.screenint;
 import include.privates;
 public import miext.damage.damage_;
-import include.damage;
+import dix.damage;
 
 // struct _Damage;
 

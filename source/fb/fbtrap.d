@@ -31,7 +31,7 @@ import include.mipict;
 import include.fb;
 
 import include.picturestr;
-import include.damage;
+import dix.damage;
 import externs.attrs;
 import render.mipict;
 import fb.fbpict;
