@@ -8,6 +8,7 @@
 	"copyright": "Copyright © 2026, Roman Vlasov",
 	"name": "xenia",
 	"dependencies": {
+		"dsl:libseat": "~master"
 	},
 	"targetType": "executable",
 	"dflags": [
