@@ -21,7 +21,7 @@ import build.xorg_config;
 import include.xf86;
 import include.xf86Priv;
 import include.xf86_OSlib;
-import include.compiler;
+import hw.xfree86.utils.compiler;
 
 /* The outb() isn't needed on my machine, but who knows ... -- ost */
 void xf86SlowBcopy(ubyte* src, ubyte* dst, int len)

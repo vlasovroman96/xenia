@@ -14,7 +14,7 @@ import core.stdc.stdlib;
 
 import include.xf86;
 import include.xf86_OSproc;;
-import include.compiler;
+import hw.xfree86.utils.compiler;
 import include.xf86Pci;
 version = _INT10_PRIVATE;
 version (none) {

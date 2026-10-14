@@ -63,7 +63,7 @@ import pageflip;
 import include.xf86;
 import include.xf86Priv;
 import include.xf86_OSproc;;
-import include.compiler;
+import hw.xfree86.utils.compiler;
 import include.xf86Pci;
 import mi.mipointer;
 import include.mipointrst;

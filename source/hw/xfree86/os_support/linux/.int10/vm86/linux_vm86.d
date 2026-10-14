@@ -9,7 +9,7 @@ import core.stdc.string;
 import include.xf86;
 import include.xf86_OSproc;;
 import include.xf86Pci;
-import include.compiler;
+import hw.xfree86.utils.compiler;
 version = _INT10_PRIVATE;
 // import xf86int10;
 

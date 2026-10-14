@@ -1,4 +1,4 @@
-module include.compiler;
+module hw.xfree86.utils.compiler;
 
 @nogc: nothrow:
 import core.stdc.stdint;

@@ -56,7 +56,7 @@ private Bool ExtendedEnabled = FALSE;
 
 version (__IA64__) {
 
-import include.compiler;
+import hw.xfree86.utils.compiler;
 import sys.io;
 
 } 

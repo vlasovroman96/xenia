@@ -35,7 +35,7 @@ import core.sys.posix.sys.stat;
 import os.cmdline;
 import os.osdep;
 
-import include.compiler;
+import hw.xfree86.utils.compiler;
 // import hw.kdrive.linux.linux;
 import xf86_priv;
 import include.xf86Priv;
