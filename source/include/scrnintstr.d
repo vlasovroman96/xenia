@@ -52,7 +52,7 @@ SOFTWARE.
 public import include.xlibre_ptrtypes;
 public import include.screenint;
 public import include.regionstr;
-public import include.colormap;
+public import dix.colormap;
 public import include.cursor;
 public import include.validate;
 //public import x11.Xproto;

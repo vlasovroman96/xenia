@@ -7,7 +7,7 @@ import core.stdc.config: c_long, c_ulong;
 //public import x11.Xdefs;
 // //public import x11.Xfuncproto;
 
-public import include.colormap;
+public import dix.colormap;
 public import include.privates;
 public import include.screenint;
 public import mi.micmap;

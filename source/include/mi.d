@@ -58,7 +58,7 @@ public import include.gc;
 public import include.input;
 public import include.cursor;
 public import include.privates;
-public import include.colormap;
+public import dix.colormap;
 public import include.events;
 import include.mistruct;
 import externs.X11.fonts.fontstruct;

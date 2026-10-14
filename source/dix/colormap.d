@@ -47,7 +47,11 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
 
 ******************************************************************/
+import x11.Xmd;
 
+enum DynamicClass =  1;
+
+alias Pixel = CARD32;
 import build.xlibre_server;
 import Xext.panoramiXsrv;
 //import x11.X;

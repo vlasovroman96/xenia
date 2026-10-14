@@ -1,4 +1,4 @@
-module include.colormapst;
+module dix.colormapst;
 
 /*
 
