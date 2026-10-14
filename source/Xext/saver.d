@@ -64,7 +64,7 @@ import include.extnsionst;
 import include.dixstruct;
 import include.resource;
 import include.gcstruct;
-import include.cursor;
+import dix.cursor;
 import Xext.xace;
 import include.inputstr;
 import externs.X11.extensions.saverproto;

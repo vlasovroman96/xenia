@@ -40,7 +40,7 @@ import os.inputthread;
 import dix.input_priv;
 import mi.mipointer_priv;
 
-import include.cursor;
+import dix.cursor;
 import mi.mipointer;
 import include.scrnintstr;
 import include.globals;

@@ -27,7 +27,7 @@ in this Software without prior written authorization from The Open Group.
 */
 
  
-public import include.cursor;
+public import dix.cursor;
 public import include.input;
 public import include.privates;
 

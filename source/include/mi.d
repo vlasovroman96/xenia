@@ -56,7 +56,7 @@ public import include.validate;
 public import include.window;
 public import include.gc;
 public import include.input;
-public import include.cursor;
+public import dix.cursor;
 public import include.privates;
 public import dix.colormap;
 public import include.events;

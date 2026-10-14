@@ -10,7 +10,7 @@ import mi.mipointer_priv;
 
 import include.xf86;
 import hw.xfree86.ramdac.xf86CursorPriv;
-import include.cursor;
+import dix.cursor;
 import hw.xfree86.common.xf86Helper;
 import dix.screen_hooks;
 import dix.events;

@@ -53,7 +53,7 @@ SOFTWARE.
 
 ********************************************************/
  
-public import include.cursor;
+public import dix.cursor;
 public import include.input;
 public import include.inputstr;
 

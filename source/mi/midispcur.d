@@ -44,7 +44,7 @@ import   dix.screenint_priv;
 
 import   include.misc;
 import   include.input;
-import   include.cursor;
+import   dix.cursor;
 import include.windowstr;
 import include.regionstr;
 import include.dixstruct;

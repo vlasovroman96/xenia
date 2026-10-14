@@ -28,7 +28,7 @@ import externs.xcb.xcb_aux;
 import include.screenint;
 import include.input;
 import include.misc;
-import include.cursor;
+import dix.cursor;
 import include.scrnintstr;
 import include.servermd;
 import include.mipointrst;

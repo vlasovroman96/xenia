@@ -59,7 +59,7 @@ import include.xf86;
 import include.misc;
 import include.dixstruct;
 import include.extnsionst;
-import include.cursor;
+import dix.cursor;
 import include.scrnintstr;
 import include.servermd;
 import dix.swaprep;

@@ -22,7 +22,7 @@ public import dix.resource_priv;
 public import dix.rpcbuf_priv;
 
 public import dix.callback;
-public import include.cursor;
+public import dix.cursor;
 public import include.dix;
 public import include.events;
 public import include.gc;

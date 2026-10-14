@@ -77,7 +77,7 @@ import os.log_priv;
 import include.scrnintstr;
 import include.resource;
 import include.dixstruct;
-import include.cursor;
+import dix.cursor;
 import include.misc;
 import include.opaque;
 import include.dixfontstr;

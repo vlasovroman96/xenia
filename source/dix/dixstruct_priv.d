@@ -12,7 +12,7 @@ import core.stdc.config: c_long, c_ulong;
 
 public import include.dix;
 public import include.resource;
-public import include.cursor;
+public import dix.cursor;
 public import include.gc;
 public import include.pixmap;
 public import include.privates;

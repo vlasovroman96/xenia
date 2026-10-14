@@ -54,7 +54,7 @@ public import include.validate;
 public import include.windowstr;
 public import include.input;
 public import include.resource;
-public import include.cursor;
+public import dix.cursor;
 public import include.dixstruct;
 public import include.gcstruct;
 public import include.servermd;

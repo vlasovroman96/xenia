@@ -150,7 +150,7 @@ import include.windowstr;
 import include.dixfont;
 import dix.colormap;
 import include.inputstr;
-import include.cursor;
+import dix.cursor;
 import Xext.xace;
 import core.stdc.assert_;
 import include.gcstruct;

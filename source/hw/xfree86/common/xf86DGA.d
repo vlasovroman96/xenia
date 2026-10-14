@@ -74,7 +74,7 @@ import xf86Extensions;
 import include.misc;
 import include.dixstruct;
 import include.extnsionst;
-import include.cursor;
+import dix.cursor;
 import include.scrnintstr;
 import dix.swaprep;
 import include.dgaproc;

@@ -11,7 +11,7 @@ extern(C): __gshared:
 public import include.misc;
 public import include.window;
 public import include.input;
-public import include.cursor;
+public import dix.cursor;
 
 /* @brief tells which client ID currently has a grab
  *

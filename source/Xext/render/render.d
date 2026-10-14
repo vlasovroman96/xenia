@@ -56,7 +56,7 @@ import include.extnsionst;
 import include.servermd;
 import render.picturestr_priv;
 import render.glyphstr_priv;
-import include.cursor;
+import dix.cursor;
 import Xext.xace;
 import include.protocol_versions;
 import dix.extension;

@@ -55,7 +55,7 @@ public import include.misc;
 public import include.regionstr;
 public import include.screenint;
 import include.propertyst;
-public import include.cursor;
+public import dix.cursor;
 
 enum TOTALLY_OBSCURED = 0;
 enum UNOBSCURED = 1;

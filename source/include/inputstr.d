@@ -60,7 +60,7 @@ public import pixman;
 public import include.input;
 public import include.window;
 public import include.dixstruct;
-public import include.cursor;
+public import dix.cursor;
 public import include.privates;
 import include.xkbsrv;
 import include.misyncstr;

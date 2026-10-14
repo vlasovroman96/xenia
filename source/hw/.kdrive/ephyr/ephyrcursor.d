@@ -37,7 +37,7 @@ import mi.mipointer_priv;
 import hw.kdrive.ephyr.ephyr;
 // import ephyrlog;
 import hw.kdrive.ephyr.hostx;
-import include.cursor;
+import dix.cursor;
 import externs.xcb.xcb_image;
 import hw.kdrive.src.kdrive;
 

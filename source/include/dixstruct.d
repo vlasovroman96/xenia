@@ -32,7 +32,7 @@ public import include.xlibre_ptrtypes;
 public import dix.callback;
 public import include.dix;
 public import include.resource;
-public import include.cursor;
+public import dix.cursor;
 public import include.gc;
 public import include.pixmap;
 public import include.privates;

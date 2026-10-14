@@ -62,7 +62,7 @@ import dix.swaprep;
 import include.inputstr;
 import include.scrnintstr;
 import include.globals;
-import include.cursor;
+import dix.cursor;
 import externs.X11.extensions.recordproto;
 import os.io;
 import os.utils;

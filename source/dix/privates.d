@@ -62,7 +62,7 @@ import include.windowstr;
 import include.resource;
 import include.privates;
 import include.gcstruct;
-import include.cursor;
+import dix.cursor;
 import include.inputstr;
 import include.scrnintstr;
 import include.extnsionst;

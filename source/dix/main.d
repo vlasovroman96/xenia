@@ -117,7 +117,7 @@ import include.resource;
 import include.dixstruct;
 import include.gcstruct;
 import include.extension;
-import include.cursor;
+import dix.cursor;
 import include.servermd;
 import include.dixfont;
 import include.extnsionst;

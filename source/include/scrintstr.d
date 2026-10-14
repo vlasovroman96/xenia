@@ -62,7 +62,7 @@ import include.screenint;
 import include.pixmap;
 import include.misc;
 import include.input;
-import include.cursor;
+import dix.cursor;
 
 
 //import x11.X;

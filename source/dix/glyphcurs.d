@@ -60,7 +60,7 @@ import include.scrnintstr;
 import include.gcstruct;
 import include.resource;
 import include.dix;
-import include.cursor;
+import dix.cursor;
 import include.opaque;
 import include.servermd;
 import dix.gc;

@@ -135,7 +135,7 @@ import os.screensaver;
 import include.windowstr;
 import include.dixfontstr;
 import include.gcstruct;
-import include.cursor;
+import dix.cursor;
 import include.scrnintstr;
 import include.servermd;
 import include.extnsionst;
