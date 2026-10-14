@@ -2,6 +2,7 @@
 	"fileVersion": 1,
 	"versions": {
 		"dsl": "~master",
-		"dsl-libseat": "~master"
+		"dsl-libseat": "~master",
+		"dsl-pixman": "~master"
 	}
 }
