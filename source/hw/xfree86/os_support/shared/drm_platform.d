@@ -78,7 +78,7 @@ private Bool get_drm_info(OdevAttributes* attribs, char* path, int delayed_index
     LogMessage(X_INFO, "Platform probe for %s\n", attribs.syspath);
 
     fd = seatd_libseat_open_graphics(path);
-    if (fd != -1) {
+    if (fd >= 0) {
         attribs.fd = fd;
         server_fd = TRUE;
     } else {
