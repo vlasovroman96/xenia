@@ -1,0 +1,1 @@
+This directory contains bindings for externs library or missed funcs in Dlang std library. 
