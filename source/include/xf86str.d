@@ -45,7 +45,7 @@ public import include.misc;
 // public import include.input;
 public import include.scrnintstr;
 public import include.pixmapstr;
-public import dix.colormapst;
+public import dix.colormap;
 public import include.xf86Module;
 public import include.xf86Opt;
 public import include.displaymode;

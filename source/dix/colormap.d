@@ -91,6 +91,12 @@ enum AllocPrivate = (-1);
 enum AllocTemporary = (-2);
 
 alias ColorCompareProcPtr = int function(EntryPtr, xrgb*);
+/* LOCO -- a local color for a PseudoColor cell. DirectColor maps always
+ * use the first value (called red) in the structure.  What channel they
+ * are really talking about depends on which map they are in. */
+ struct LOCO {
+    ushort red, green, blue;
+}
 
 
 

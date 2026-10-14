@@ -11,7 +11,7 @@ extern(C): __gshared:
 
 public import dix.screenint_priv;
 public import dix.colormap;
-public import dix.colormapst;
+public import dix.colormap;
 public import include.dix;
 public import include.window;
 
