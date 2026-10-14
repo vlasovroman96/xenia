@@ -33,6 +33,7 @@ import os.xserver_poll;
 import externs.libdrm;
 import os.utils;
 import hw.xfree86.modes.xf86Crtc;
+import externs.gbm;
 
 import hw.xfree86.drivers.video.modesetting.driver;
 import hw.xfree86.drivers.video.modesetting.drmmode_bo;

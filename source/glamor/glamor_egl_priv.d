@@ -16,6 +16,7 @@ version = EGL_NO_X11;
 public import Xext.glx.fix;
 // public import Xext.glx.fix;
 import include.xf86Crtc;
+import externs.gbm;
 
 public import include.scrnintstr;
 public import glamor.glamor_egl_ext;

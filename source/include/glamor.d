@@ -40,6 +40,7 @@ public import include.fb;
 public import xf86xv;
 // }
 import externs.drm;
+import externs.gbm;
 
 import glamor.glamor;
 

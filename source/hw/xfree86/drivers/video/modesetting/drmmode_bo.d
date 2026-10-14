@@ -27,6 +27,7 @@ import hw.xfree86.drivers.video.modesetting.driver;
 import hw.xfree86.drivers.video.modesetting.drmmode_bo;
 import std.array;
 import hw.xfree86.drivers.video.modesetting.drmmode_display;
+import externs.gbm;
 
 enum {
     GBM_FORMAT_RGB565      = 0x36314752, // 'R' 'G' '1' '6' little-endian

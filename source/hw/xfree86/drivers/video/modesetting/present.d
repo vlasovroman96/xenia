@@ -38,6 +38,7 @@ import core.sys.posix.sys.types;
 import core.stdc.time;
 import pageflip;
 import externs.X11.extensions.dpmsconst;
+import externs.gbm;
 
 import include.present;
 

@@ -17,7 +17,6 @@ __module externs.drm_;
 
 #include "xf86drmMode.h"
 #include "xf86drm.h"
-#include "gbm.h"
 
 #pragma attribute(pop)
 
