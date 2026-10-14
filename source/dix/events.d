@@ -3152,7 +3152,7 @@ static if(XINERAMA){
                 XineramaSetCursorPosition(pDev, pSprite.hotPhys.x,
                                           pSprite.hotPhys.y, FALSE);
             }
-            else            {
+            else{
                 (*pSprite.hotPhys.pScreen.SetCursorPosition) (pDev,
                                                                 pSprite.
                                                                 hotPhys.pScreen,
@@ -3167,7 +3167,6 @@ static if(XINERAMA){
 else 
 {
  /* XINERAMA */
-            {
                 (*pSprite.hotPhys.pScreen.SetCursorPosition) (pDev,
                                                                 pSprite.
                                                                 hotPhys.pScreen,
@@ -3176,8 +3175,8 @@ else
                                                                 pSprite.
                                                                 hotPhys.y,
                                                                 FALSE);
-            }
-        }
+}
+    }
 
         ev.root_x = cast(ushort)pSprite.hot.x;
         ev.root_y = cast(ushort)pSprite.hot.y;
@@ -3206,7 +3205,6 @@ else
         pSprite.win = newSpriteWin;
         PostNewCursor(pDev);
         return FALSE;
-    }
     }
     return TRUE;
 }

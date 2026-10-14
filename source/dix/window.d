@@ -2305,12 +2305,14 @@ static if(XINERAMA){
     if ((mask & CWBorderWidth) && (bw != mixin(wBorderWidth!("pWin"))))
         goto ActuallyDoSomething;
     if (mask & CWStackMode) {
-version (ROOTLESS) {} else {
+version (ROOTLESS) {
+        goto ActuallyDoSomething;
+} else {
         /* See above for why we always reorder in rootless mode. */
         if (pWin.nextSib != pSib)
-        goto ActuallyDoSomething;
-}
             goto ActuallyDoSomething;
+}
+
     }
     return Success;
 
