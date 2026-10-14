@@ -147,7 +147,7 @@ int ProcXIQueryPointer(ClientPtr client)
 
         const(int) buttons_size = bits_to_bytes(256); /* button map up to 255 */
         reply.buttons_len = cast(ushort)bytes_to_int32(buttons_size);
-        char* buttons = cast(char*)x_rpcbuf_reserve(&rpcbuf, buttons_size);
+        char* buttons = cast(char*)x_rpcbuf_reserve0(&rpcbuf, buttons_size);
         if (!buttons)
             return BadAlloc;
 
@@ -163,11 +163,18 @@ int ProcXIQueryPointer(ClientPtr client)
         reply.same_screen = xTrue;
         reply.win_x = double_to_fp1616(pSprite.hot.x - pWin.drawable.x);
         reply.win_y = double_to_fp1616(pSprite.hot.y - pWin.drawable.y);
-        for (t = pSprite.win; t; t = t.parent)
+        import os.log;
+        ErrorF("[XIQueryPointer] sprite=%p sprite.win=%p query.win=%p\n",
+            cast(void*)pSprite, cast(void*)pSprite.win, cast(void*)pWin);
+
+        for (t = pSprite.win; t; t = t.parent) {
+            ErrorF("[XIQueryPointer] t=%p\n", cast(void*)t);
+
             if (t.parent == pWin) {
                 reply.child = cast(uint)t.drawable.id;
                 break;
             }
+        }
     }
 
 static if(XINERAMA){
