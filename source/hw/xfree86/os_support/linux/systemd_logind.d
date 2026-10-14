@@ -178,7 +178,7 @@ int systemd_logind_take_fd(int _major, int _minor, const(char)* path, Bool* paus
 
     if (!assumeNoGC(&dbus_message_append_args)(msg, DBUS_TYPE_UINT32, &major,
                                        DBUS_TYPE_UINT32, &minor,
-                                       )) {
+                                       DBUS_TYPE_INVALID)) {
         LogMessage(X_ERROR, "systemd-logind: out of memory\n");
         goto cleanup;
     }
@@ -254,7 +254,7 @@ void systemd_logind_release_fd(int _major, int _minor, int fd)
 
     if (!assumeNoGC(&dbus_message_append_args)(msg, DBUS_TYPE_UINT32, &major,
                                        DBUS_TYPE_UINT32, &minor,
-                                       )) {
+                                       DBUS_TYPE_INVALID)) {
         LogMessage(X_ERROR, "systemd-logind: out of memory\n");
         goto cleanup;
     }
@@ -332,7 +332,7 @@ private void systemd_logind_ack_pause(systemd_logind_info* info, dbus_int32_t mi
 
     if (!assumeNoGC(&dbus_message_append_args)(msg, DBUS_TYPE_UINT32, &major,
                                        DBUS_TYPE_UINT32, &minor,
-                                       )) {
+                                       DBUS_TYPE_INVALID)) {
         LogMessage(X_ERROR, "systemd-logind: out of memory\n");
         goto cleanup;
     }
@@ -498,7 +498,7 @@ private DBusHandlerResult message_filter(DBusConnection* connection, DBusMessage
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 private void connect_hook(DBusConnection* connection, void* data)
 {
-    const(char)* session_type = "X11";
+    const(char)* session_type = "x11";
     systemd_logind_info* info = cast(systemd_logind_info*)data;
     DBusError error = void;
     DBusMessage* msg = null;
@@ -518,7 +518,7 @@ private void connect_hook(DBusConnection* connection, void* data)
 
     arg = getpid();
     if (!assumeNoGC(&dbus_message_append_args)(msg, DBUS_TYPE_UINT32, &arg,
-                                  )) {
+                                  DBUS_TYPE_INVALID)) {
         LogMessage(X_ERROR, "systemd-logind: out of memory\n");
         goto cleanup;
     }
@@ -557,7 +557,7 @@ private void connect_hook(DBusConnection* connection, void* data)
 
     arg = FALSE; /* Don't forcibly take over over the session */
     if (!assumeNoGC(&dbus_message_append_args)(msg, DBUS_TYPE_BOOLEAN, &arg,
-                                  )) {
+                                  DBUS_TYPE_INVALID)) {
         LogMessage(X_ERROR, "systemd-logind: out of memory\n");
         goto cleanup;
     }
@@ -581,7 +581,7 @@ private void connect_hook(DBusConnection* connection, void* data)
     }
 
     if (!assumeNoGC(&dbus_message_append_args)(msg, DBUS_TYPE_STRING, &session_type,
-                                  )) {
+                                  DBUS_TYPE_INVALID)) {
         LogMessage(X_ERROR, "systemd-logind: out of memory\n");
         goto cleanup;
     }
