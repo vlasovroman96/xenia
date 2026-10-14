@@ -2,9 +2,8 @@
 
 An ongoing effort to port the XLibre/Xorg X server from C to D.
 
-<img width="1920" height="1080" alt="Снимок экрана_20260927_163841" src="https://github.com/user-attachments/assets/83df6bc8-f420-4448-a813-8cec2df866cb" />
-
-Xenia X server (xfce4-session) on Arch Linux VM with Firefox and a terminal.
+<img width="1920" height="1080" alt="Снимок экрана_2026-10-14_10-36-50" src="https://github.com/user-attachments/assets/20688709-7e8e-4c2b-9fc0-4140bb8d0362" />
+Xenia X server (xfce4-session) on real machine+Arch Linux with Firefox and a terminal.
 
 ## Project Goal
 
