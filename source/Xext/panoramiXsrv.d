@@ -6,7 +6,7 @@ import core.stdc.config: c_long, c_ulong;
 public import build.dix_config;
 
 public import Xext.panoramiX;
-public import pixman;
+public import externs.pixman;
 import include.regionstr;
 import x11.Xproto;
 import include.screenint;

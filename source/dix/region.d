@@ -84,7 +84,7 @@ import include.regionstr;
 // //import x11.Xprotostr;
 // //import x11.Xfuncproto;
 import include.gc;
-import pixman;
+import externs.pixman;
 import externs.attrs;
 import os.log;
 import os.io;

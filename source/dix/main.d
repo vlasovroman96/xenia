@@ -79,7 +79,7 @@ Equipment Corporation.
 import build.xlibre_server;
 import config.version_config;
 
-import pixman;
+import externs.pixman;
 //import x11.X;
 // //import x11.Xos;            /* for unistd.h  */
 // //import x11.Xproto;

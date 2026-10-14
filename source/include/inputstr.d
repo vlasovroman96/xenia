@@ -56,7 +56,7 @@ import build.xlibre_server;
 public import externs.X11.extensions.XI2;
 // //public import externs.X11.extensions.XI2;
 
-public import pixman;
+public import externs.pixman;
 public import include.input;
 public import include.window;
 public import include.dixstruct;
