@@ -50,7 +50,7 @@ import os.connection;
 import xf86Xinput;
 import os.inputthread;
 import xf86platformBus;
-
+import externs.sys.sysmacros;
 import drm_platform;
 
 
