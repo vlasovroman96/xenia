@@ -36,7 +36,7 @@ import os.Xtransutil;
 // //import x11.Xos;
 
 static if (!HasVersion!"Windows") {
-import externs.sys.param;
+// import externs.sys.param;
 import core.sys.posix.sys.socket;
 import core.sys.linux.netinet.in_;
 import core.sys.posix.netdb;
