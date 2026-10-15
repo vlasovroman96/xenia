@@ -53,7 +53,7 @@ enum MISCSTRUCT_H = 1;
 
 public import include.misc;
 public import x11.Xprotostr;
-public import externs.pixman;
+public import dsl.pixman;
 
 alias DDXPointRec = xPoint;
 

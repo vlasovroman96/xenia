@@ -37,7 +37,7 @@ import core.stdc.stdlib;
 import core.stdc.stdint;
 import externs.xcb.xcb;
 import externs.xcb.xcb_aux;
-import externs.pixman;
+import dsl.pixman;
 import glamor.glamor_context;
 import glamor.glamor_egl;
 import glamor.glamor_priv;

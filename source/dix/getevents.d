@@ -35,7 +35,7 @@ import build.xlibre_server;
 
 import core.stdc.math;
 import core.stdc.limits;
-import externs.pixman;
+import dsl.pixman;
 //import x11.X;
 //import x11.keysym;
 //import x11.Xproto;

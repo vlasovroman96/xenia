@@ -29,7 +29,7 @@ extern(C): __gshared:
 public import include.privates;
 import include.picturestr;
 
-public import externs.pixman;
+public import dsl.pixman;
 public import glamor.glamor_render;
 import render.picture;
 

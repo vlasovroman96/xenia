@@ -27,7 +27,7 @@ import core.stdc.config: c_long, c_ulong;
 
  
 //public import x11.X;
-public import externs.pixman;
+public import dsl.pixman;
 
 public import include.scrnintstr;
 public import include.pixmap;

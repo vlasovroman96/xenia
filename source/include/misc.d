@@ -89,7 +89,7 @@ import include.dixstruct;
 public import core.stdc.stddef;
 public import core.stdc.stdint;
 public import core.sys.posix.pthread;
-import externs.pixman;
+import dsl.pixman;
 public import include.scrintstr;
 
 enum MAXSCREENS =	16;

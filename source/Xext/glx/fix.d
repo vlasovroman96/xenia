@@ -3,7 +3,7 @@ module Xext.glx.fix;
 // public import Xext.glx.fix;
 public import externs.epoxygl_;
 public import externs.glxproto;
-public import externs.pixman;
+public import dsl.pixman;
 public import externs.glxproto;
 public import externs.epoxydefs; 
 // public import externs.glxtokens;

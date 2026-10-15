@@ -51,7 +51,7 @@ SOFTWARE.
 import build.dix_config;
 
 import core.stdc.math;
-import externs.pixman;
+import dsl.pixman;
 // //import stdbool;
 //import x11.X;
 //import x11.Xproto;
