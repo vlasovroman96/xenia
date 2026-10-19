@@ -221,14 +221,15 @@ struct CompAlternateVisual {
 }
 
 static if(COMP_INCLUDE_RGB24_VISUAL) {
-    private CompAlternateVisual[1] altVisuals = [
-    {24, PIXMAN_r8g8b8}
+private CompAlternateVisual[2] altVisuals = [
+    {24, PIXMAN_r8g8b8},
+    {32, PIXMAN_a8r8g8b8}
 ];
 }
 else {
-    private CompAlternateVisual[2] altVisuals = [
-    {24, PIXMAN_r8g8b8},
+    private CompAlternateVisual[1] altVisuals = [
     {32, PIXMAN_a8r8g8b8}
+
 ];
 }
 
