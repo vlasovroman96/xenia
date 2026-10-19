@@ -178,11 +178,11 @@ int SaveScreens(int on, int mode);
 
 // void ResizeChildrenWinSize(WindowPtr, int, int, int, int);
 
-void SendShapeNotify(WindowPtr, int);
+// void SendShapeNotify(WindowPtr, int);
 
-RegionPtr CreateBoundingShape(WindowPtr);
+// RegionPtr CreateBoundingShape(WindowPtr);
 
-RegionPtr CreateClipShape(WindowPtr);
+// RegionPtr CreateClipShape(WindowPtr);
 
 // void SetRootClip(ScreenPtr pScreen, int enable);
 
