@@ -1272,9 +1272,9 @@ private int ProcSyncListSystemCounters(ClientPtr client)
            full protocol units.
         */
         x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)psci.pCounter.sync.id);
-        x_rpcbuf_write_INT32(&rpcbuf, cast(uint)(psci.resolution >> 32));
-        x_rpcbuf_write_INT32(&rpcbuf, cast(uint)psci.resolution);
-        x_rpcbuf_write_CARD16(&rpcbuf, cast(ubyte)namelen);
+        x_rpcbuf_write_INT32(&rpcbuf, cast(int)(psci.resolution >> 32));
+        x_rpcbuf_write_INT32(&rpcbuf, cast(int)psci.resolution);
+        x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)namelen);
         x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)psci.name, namelen);
         x_rpcbuf_pad(&rpcbuf);
 
