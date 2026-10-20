@@ -165,7 +165,7 @@ static if(DRI3){
     }
 } /* DRI3 */
 
-    if (pixmap)
+    if (pixmap) {}
         // DebugPresent(("q %" ~PRIu64 ~ " %p %"~ PRIu64 ~ ": %08" ~PRIx32 ~ " -> %08" ~PRIx32 ~ " (crtc %p) flip %d vsync %d serial %d\n",
         //               vblank.event_id, vblank, target_msc,
         //               vblank.pixmap.drawable.id, vblank.window.drawable.id,
@@ -258,7 +258,7 @@ present_notify_ptr notifies, int num_notifies, ulong target_msc, ulong crtc_msc)
             goto no_mem;
     }
 
-    if (pixmap)
+    if (pixmap) {}
         // DebugPresent(("q %" ~PRIu64 ~ " %p %"~ PRIu64 ~ ": %08" ~PRIx32 ~ " -> %08" ~PRIx32 ~ " (crtc %p) flip %d vsync %d serial %d\n",
         //               vblank.event_id, vblank, target_msc,
         //               vblank.pixmap.drawable.id, vblank.window.drawable.id,
