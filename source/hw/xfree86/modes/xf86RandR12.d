@@ -92,7 +92,7 @@ struct _xf86RandR12Info {
      *
      * See https://bugs.freedesktop.org/show_bug.cgi?id=21554
      */
-    xf86EnterVTProc* orig_EnterVT;
+    xf86EnterVTProc orig_EnterVT;
 
     Bool panning;
     ConstrainCursorHarderProcPtr orig_ConstrainCursorHarder;
@@ -912,7 +912,7 @@ void xf86RandR12CloseScreen(ScreenPtr pScreen)
 
     randrp = mixin(XF86RANDRINFO!(`pScreen`));
 static if (RANDR_12_INTERFACE) {
-    xf86ScreenToScrn(pScreen).EnterVT = *randrp.orig_EnterVT;
+    xf86ScreenToScrn(pScreen).EnterVT = randrp.orig_EnterVT;
     pScreen.ConstrainCursorHarder = randrp.orig_ConstrainCursorHarder;
 }
 
@@ -2015,9 +2015,9 @@ private Bool xf86RandR12EnterVT(ScrnInfoPtr pScrn)
     int i = void;
 
     if (randrp.orig_EnterVT) {
-        pScrn.EnterVT = *randrp.orig_EnterVT;
+        pScrn.EnterVT = randrp.orig_EnterVT;
         ret = pScrn.EnterVT(pScrn);
-        randrp.orig_EnterVT = &pScrn.EnterVT;
+        randrp.orig_EnterVT = pScrn.EnterVT;
         pScrn.EnterVT = &xf86RandR12EnterVT;
         if (!ret)
             return FALSE;
@@ -2319,7 +2319,7 @@ static if (RANDR_13_INTERFACE) {
     pScrn.PointerMoved = &xf86RandR12PointerMoved;
     pScrn.ChangeGamma = &xf86RandR12ChangeGamma;
 
-    randrp.orig_EnterVT = &pScrn.EnterVT;
+    randrp.orig_EnterVT = pScrn.EnterVT;
     pScrn.EnterVT = &xf86RandR12EnterVT;
 
     randrp.panning = FALSE;

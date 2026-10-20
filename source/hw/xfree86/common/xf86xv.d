@@ -263,7 +263,7 @@ Bool xf86XVScreenInit(ScreenPtr pScreen, XF86VideoAdaptorPtr* adaptors, int num)
     ScreenPriv.EnterVT = pScrn.EnterVT;
     ScreenPriv.LeaveVT = pScrn.LeaveVT;
     ScreenPriv.AdjustFrame = pScrn.AdjustFrame;
-    ScreenPriv.ModeSet = &pScrn.ModeSet;
+    ScreenPriv.ModeSet = pScrn.ModeSet;
 
     pScreen.WindowExposures = &xf86XVWindowExposures;
     pScreen.ClipNotify = &xf86XVClipNotify;
@@ -1128,7 +1128,7 @@ private void xf86XVCloseScreen(CallbackListPtr* pcbl, ScreenPtr pScreen, void* u
     pScrn.EnterVT = ScreenPriv.EnterVT;
     pScrn.LeaveVT = ScreenPriv.LeaveVT;
     pScrn.AdjustFrame = ScreenPriv.AdjustFrame;
-    pScrn.ModeSet = *ScreenPriv.ModeSet;
+    pScrn.ModeSet = ScreenPriv.ModeSet;
 
     for (c = 0, pa = pxvs.pAdaptors; c < pxvs.nAdaptors; c++, pa++) {
         xf86XVFreeAdaptor(pa);
@@ -1223,7 +1223,7 @@ private void xf86XVModeSet(ScrnInfoPtr pScrn)
     ScreenPriv = mixin(GET_XF86XV_SCREEN!(`pScreen`));
 
     if (ScreenPriv.ModeSet) {
-        pScrn.ModeSet = *ScreenPriv.ModeSet;
+        pScrn.ModeSet = ScreenPriv.ModeSet;
         (*pScrn.ModeSet) (pScrn);
         pScrn.ModeSet = &xf86XVModeSet;
     }

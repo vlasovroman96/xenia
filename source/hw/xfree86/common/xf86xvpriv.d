@@ -43,7 +43,7 @@ struct _XF86XVScreenRec {
     void function(ScrnInfoPtr, int, int) @nogc nothrow AdjustFrame;
     Bool function(ScrnInfoPtr) @nogc nothrow EnterVT;
     void function(ScrnInfoPtr) @nogc nothrow LeaveVT;
-    xf86ModeSetProc* ModeSet;
+    xf86ModeSetProc ModeSet;
 }alias XF86XVScreenRec = _XF86XVScreenRec;
 alias XF86XVScreenPtr = XF86XVScreenRec*;
 

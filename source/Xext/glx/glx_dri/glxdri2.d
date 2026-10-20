@@ -83,8 +83,8 @@ struct __GLXDRIscreen {
     void* driver;
     int fd;
 
-    xf86EnterVTProc* enterVT;
-    xf86LeaveVTProc* leaveVT;
+    xf86EnterVTProc enterVT;
+    xf86LeaveVTProc leaveVT;
 
     __DRIcoreExtension* core;
     __DRIdri2Extension* dri2;
@@ -765,12 +765,12 @@ private Bool glxDRIEnterVT(ScrnInfoPtr scrn)
 
     LogMessage(X_INFO, "AIGLX: Resuming AIGLX clients after VT switch\n");
 
-    scrn.EnterVT = *(screen.enterVT);
+    scrn.EnterVT = (screen.enterVT);
 
     ret = assumeNoGC(scrn.EnterVT)(scrn);
 
-    screen.enterVT = &scrn.EnterVT;
-    scrn.EnterVT = (&glxDRIEnterVT);
+    screen.enterVT = scrn.EnterVT;
+    scrn.EnterVT = &glxDRIEnterVT;
 
     if (!ret)
         return FALSE;
@@ -789,9 +789,9 @@ private void glxDRILeaveVT(ScrnInfoPtr scrn)
 
     glxSuspendClients();
 
-    scrn.LeaveVT = *(screen.leaveVT);
-    assumeNoGC(*screen.leaveVT) (scrn);
-    screen.leaveVT = &scrn.LeaveVT;
+    scrn.LeaveVT = (screen.leaveVT);
+    assumeNoGC(screen.leaveVT) (scrn);
+    screen.leaveVT = scrn.LeaveVT;
     scrn.LeaveVT = &glxDRILeaveVT;
 }
 
@@ -889,8 +889,8 @@ private void __glXDRIscreenDestroy(__GLXscreen* baseScreen)
         free(screen.driConfigs);
     }
 
-    pScrn.EnterVT = *(screen.enterVT);
-    pScrn.LeaveVT = *screen.leaveVT;
+    pScrn.EnterVT = (screen.enterVT);
+    pScrn.LeaveVT = screen.leaveVT;
 
     free(screen);
 }
@@ -968,9 +968,9 @@ private __GLXscreen* __glXDRIscreenProbe(ScreenPtr pScreen)
 
     __glXScreenInit(&screen.base, pScreen);
 
-    screen.enterVT = &pScrn.EnterVT;
+    screen.enterVT = pScrn.EnterVT;
     pScrn.EnterVT = &glxDRIEnterVT;
-    screen.leaveVT = &pScrn.LeaveVT;
+    screen.leaveVT = pScrn.LeaveVT;
     pScrn.LeaveVT = &glxDRILeaveVT;
 
     __glXsetGetProcAddress(&glXGetProcAddressARB);
