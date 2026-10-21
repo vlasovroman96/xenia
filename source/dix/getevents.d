@@ -1621,7 +1621,7 @@ version (XSERVER_DTRACE) {
      * overwrites those but we need them for scroll button emulation */
     valuator_mask_zero(&last_valuators);
     for (size_t idx = 0; idx < pDev.last.numValuators; idx++)
-        valuator_mask_set_double(&last_valuators, cast(int)idx, cast(ulong)pDev.last.valuators[idx]);
+        valuator_mask_set_double(&last_valuators, cast(int)idx, pDev.last.valuators[idx]);
 
     /* Turn a scroll button press into a smooth-scrolling event if
      * necessary. This only needs to cater for the XIScrollFlagPreferred
