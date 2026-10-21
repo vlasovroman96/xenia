@@ -357,7 +357,7 @@ int ProcXListInputDevices(ClientPtr client)
     x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
 
     /* allocate space for reply */
-    total_length = cast(int)(numdevs * ((xDeviceInfo).sizeof + size + namesize));
+    total_length = cast(int)(numdevs * (xDeviceInfo).sizeof + size + namesize);
     char* devbuf = cast(char*)x_rpcbuf_reserve(&rpcbuf, total_length);
     if (!devbuf) {
         free(skip);

@@ -244,10 +244,10 @@ static if(XINERAMA){
     else
         numSubpixel = numScreens;
 
-    rlength = cast(int)(nformat * ((xPictFormInfo).sizeof +
-               numScreens * ((xPictScreen).sizeof +
-               ndepth * ((xPictDepth).sizeof +
-               nvisual * ((xPictVisual).sizeof + numSubpixel * CARD32.sizeof)))));
+    rlength = cast(int)(nformat * (xPictFormInfo).sizeof +
+               numScreens * (xPictScreen).sizeof +
+               ndepth * (xPictDepth).sizeof +
+               nvisual * (xPictVisual).sizeof + numSubpixel * CARD32.sizeof);
 
     x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
 
