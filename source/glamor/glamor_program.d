@@ -761,7 +761,7 @@ glamor_program* glamor_setup_program_render(CARD8 op, PicturePtr src, PicturePtr
         }
     }
 
-    prog = &program_render.progs[source_type][alpha];
+    prog = &program_render.progs[alpha][source_type];
     if (!glamor_setup_one_program_render(screen, prog, source_type, alpha, prim, defines))
         return null;
 
