@@ -134,7 +134,7 @@ int ProcXIPassiveGrabDevice(ClientPtr client)
 
     mask_len = cast(int)min(xi2mask_mask_size(mask.xi2mask), stuff.mask_len * 4);
     xi2mask_set_one_mask(mask.xi2mask, stuff.deviceid,
-                         cast(ubyte*) &stuff[1], mask_len * 4);
+                         cast(ubyte*) &stuff[1], mask_len);
 
     memset(&param, 0, param.sizeof);
     param.grabtype = XI2;
