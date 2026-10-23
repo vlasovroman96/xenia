@@ -991,8 +991,8 @@ XI2Mask* xi2mask_new_with_size(size_t nmasks, size_t size)
     XI2Mask* mask = void;
 
     alloc_size = cast(int)((_XI2Mask).sizeof
-	       + nmasks * ((ubyte*).sizeof
-	       + nmasks * size));
+	       + nmasks * (ubyte*).sizeof
+	       + nmasks * size);
 
     mask = cast(XI2Mask*) calloc(1, alloc_size);
 
