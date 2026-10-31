@@ -55,7 +55,6 @@ import build.xlibre_server;
 
 static if(XFreeXDGA){
 //import externs.X11.extensions.xf86dgaproto;
-import include.dgaproc;
 import hw.xfree86.common.dgaproc_priv;
 }
 

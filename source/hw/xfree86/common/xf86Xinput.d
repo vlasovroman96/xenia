@@ -135,7 +135,6 @@ import ptrveloc;           /* dix pointer acceleration */
 import include.xserver_properties;
 
 static if(XFreeXDGA){
-import include.dgaproc;
 import hw.xfree86.common.dgaproc_priv;
 }
 extern(C) int fnmatch(const(char)* pattern, const(char)* str, int flags);

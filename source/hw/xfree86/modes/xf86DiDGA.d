@@ -29,7 +29,6 @@ import include.xf86DDC;
 
 import include.xf86;
 import include.xf86_OSproc;;
-import include.dgaproc;
 import hw.xfree86.common.dgaproc_priv;
 import include.xf86Crtc;
 import xf86Modes;

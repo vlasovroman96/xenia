@@ -80,7 +80,6 @@ import xf86Cursor;
 // import xf86platformBus_priv;
 
 static if(build.xlibre_server.XFreeXDGA){
-import include.dgaproc;
 import hw.xfree86.common.dgaproc_priv;
 }
 
