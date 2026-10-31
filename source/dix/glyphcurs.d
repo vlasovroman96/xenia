@@ -55,7 +55,7 @@ import dix.screenint_priv;
 
 import include.misc;
 // //import externs.X11.fonts.fontstruct;
-import include.dixfontstr;
+import dix.dixfonts;
 import include.scrnintstr;
 import include.gcstruct;
 import include.resource;

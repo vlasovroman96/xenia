@@ -26,7 +26,7 @@ extern(C): __gshared:
 public import    x11.X;
 public import    include.scrnintstr;
 public import    include.windowstr;
-public import    include.dixfontstr;
+public import    dix.dixfonts;
 public import    include.mi;
 public import    include.regionstr;
 public import    dix.globals;

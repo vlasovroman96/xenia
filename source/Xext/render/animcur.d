@@ -47,7 +47,7 @@ import include.servermd;
 import include.scrnintstr;
 import include.dixstruct;
 import dix.cursor;
-import include.dixfontstr;
+import dix.dixfonts;
 import include.opaque;
 import render.picturestr_priv;
 import include.inputstr;

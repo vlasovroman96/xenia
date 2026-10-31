@@ -80,7 +80,6 @@ import include.dixstruct;
 import dix.cursor;
 import include.misc;
 import include.opaque;
-import include.dixfontstr;
 import dix.dixfonts;
 import Xext.xace;
 import os.utils;
@@ -92,11 +91,47 @@ import os.log;
 import externs.gnu;
 import os.connection;
 import os.WaitFor;
+public import include.servermd;
+import Xext.xf86bigfont;
+import externs.X11.fonts.fontstruct;
+import fb.fbglyph;
 alias ClientPtr = include.dixstruct.ClientPtr;
 
 // static if (XF86BIGFONT) {
 import Xext.xf86bigfontsrv;
 // }
+
+enum string FONTREFCNT(string font) = `(` ~ font ~ `).refcnt`;
+
+/*
+ * for linear char sets
+ */
+enum string N1dChars(string pfont) = `(` ~ FONTLASTCOL!(pfont) ~ ` - ` ~ FONTFIRSTCOL!(pfont) ~ ` + 1)`;
+
+/*
+ * for 2D char sets
+ */
+enum string N2dChars(string pfont) = `(` ~ N1dChars!(pfont) ~ ` * 
+			 (` ~ FONTLASTROW!(pfont) ~ ` - ` ~ FONTFIRSTROW!(pfont) ~ ` + 1))`;
+
+// enum GLYPHPADBYTES = -1;
+
+
+static if (GLYPHPADBYTES == 0 || GLYPHPADBYTES == 1) {
+enum string	GLYPHWIDTHBYTESPADDED(string pci) = `(`~GLYPHWIDTHBYTES!(pci)~`)`;
+}
+
+static if (GLYPHPADBYTES == 2) {
+enum string	GLYPHWIDTHBYTESPADDED(string pci) = `((`~GLYPHWIDTHBYTES!(pci)~`+1) & ~0x1)`;
+}
+
+static if (GLYPHPADBYTES == 4) {
+enum string	GLYPHWIDTHBYTESPADDED(string pci) = `((`~GLYPHWIDTHBYTES!(pci)~`+3) & ~0x3)`;
+}
+
+static if (GLYPHPADBYTES == 8) {          /* for a cray? */
+enum string	GLYPHWIDTHBYTESPADDED(string pci) = `((`~GLYPHWIDTHBYTES!(pci)~`+7) & ~0x7)`;
+}
 
 enum XLFDMAXFONTNAMELEN =      256;
 struct list_font_state {

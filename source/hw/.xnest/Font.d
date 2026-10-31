@@ -29,7 +29,7 @@ import dix.dix_priv;
 
 import include.misc;
 import include.regionstr;
-import include.dixfontstr;
+import dix.dixfonts;
 import include.scrnintstr;
 
 import xnest_xcb;

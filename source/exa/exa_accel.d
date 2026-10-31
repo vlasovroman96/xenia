@@ -34,7 +34,7 @@ import core.stdc.config: c_long, c_ulong;
 import build.dix_config;
 import exa.exa_priv;
 // //import externs.X11.fonts.fontstruct;
-import include.dixfontstr;
+import dix.dixfonts;
 import include.exa_i;
 import exa.exa;
 import region;

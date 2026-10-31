@@ -33,7 +33,7 @@ import dix.screen_hooks_priv;
 
 import    include.scrnintstr;
 import    include.windowstr;
-import    include.dixfontstr;
+import    dix.dixfonts;
 import    include.mi;
 import    include.regionstr;
 import    dix.globals;

@@ -33,11 +33,10 @@ import externs.X11.fonts.libxfont2;
 
 import glamor.glamor_priv;
 import glamor.glamor_font;
-import include.dixfontstr;
+import dix.dixfonts;
 import glamor.glamor;
 import externs.attrs;
 import fb.fbglyph;
-import include.dixfontstr;
 
 
 private int glamor_font_private_index;

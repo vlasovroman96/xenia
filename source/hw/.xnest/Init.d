@@ -36,7 +36,7 @@ import include.misc;
 import include.scrnintstr;
 import include.windowstr;
 import include.servermd;
-import include.dixfontstr;
+import dix.dixfonts;
 
 import xnest_xcb;
 

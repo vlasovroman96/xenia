@@ -29,7 +29,7 @@ import build.dix_config;
 import externs.X11.fonts.fontstruct;
 
 import fb.fb_priv;
-import include.dixfontstr;
+import dix.dixfonts;
 import fb.fbbits;
 import fb.fbpush;
 import Xext.xf86bigfont;

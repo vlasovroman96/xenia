@@ -81,7 +81,7 @@ import include.os;
 import os.osdep;
 import include.dixstruct;
 import include.gcstruct;
-import include.dixfontstr;
+import dix.dixfonts;
 import include.extnsionst;
 import include.protocol_versions;
 

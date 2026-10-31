@@ -34,7 +34,7 @@ public import    x11.X;
 public import    include.scrnintstr;
 public import    include.windowstr;
 public import    externs.X11.fonts.font;
-public import    include.dixfontstr;
+public import    dix.dixfonts;
 public import    externs.X11.fonts.fontstruct;
 public import    include.mi;
 public import    include.regionstr;

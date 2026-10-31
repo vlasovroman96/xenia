@@ -28,7 +28,7 @@ import build.dix_config;
 import os.bug_priv;
 
 import glamor.glamor_priv;
-import include.dixfontstr;
+import dix.dixfonts;
 import glamor.glamor_transform;
 import include.servermd;
 //import x11.X;

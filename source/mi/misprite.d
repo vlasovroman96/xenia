@@ -54,7 +54,7 @@ import include.windowstr;
 import   include.gcstruct;
 import   mi.mipointer;
 import   mi.misprite;
-import   include.dixfontstr;
+import   dix.dixfonts;
 import   dix.cursor;
 import   dix.damage;
 import dix.events;

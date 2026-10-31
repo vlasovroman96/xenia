@@ -64,7 +64,7 @@ import build.dix_config;
 // //import   externs.X11.fonts.fontstruct;
 import	include.misc;
 import	include.gcstruct;
-import	include.dixfontstr;
+import	dix.dixfonts;
 import	include.mi;
 import Xext.xf86bigfont;
 

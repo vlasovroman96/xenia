@@ -24,7 +24,7 @@ import include.mi;
 import include.scrnintstr;
 import include.windowstr;
 import include.gcstruct;
-import include.dixfontstr;
+import dix.dixfonts;
 import include.xf86;
 import include.xf86str;
 import shadowfb;

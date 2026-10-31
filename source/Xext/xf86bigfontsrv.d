@@ -28,7 +28,7 @@ extern(C): __gshared:
  
 public import externs.X11.fonts.font;
 
-void XF86BigfontFreeFontShm(FontPtr);
+// void XF86BigfontFreeFontShm(FontPtr);
 void XF86BigfontCleanup();
 
 
