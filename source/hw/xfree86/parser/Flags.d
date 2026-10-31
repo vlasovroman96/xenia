@@ -62,7 +62,7 @@ import include.xf86Parser;
 import xf86tokens;
 import Configint;
 ////import x11.Xfuncproto;
-import include.Xprintf;
+import os.xprintf;
 import include.optionstr;
 import include.xf86Parser;
 import xf86tokens;

@@ -68,7 +68,6 @@ import core.stdc.errno;
 import core.stdc.string;
 
 import include.os;
-import include.Xprintf;
 import externs.gnu;
 import os.log;
 

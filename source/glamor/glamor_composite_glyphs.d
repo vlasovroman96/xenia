@@ -30,7 +30,7 @@ import core.stdc.stdio;
 import include.mipict;
 import os.bug_priv;
 
-import include.Xprintf;
+import os.xprintf;
 import glamor.glamor_priv;
 import glamor.glamor_transform;
 import glamor.glamor_transfer;

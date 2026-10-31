@@ -189,7 +189,7 @@ void* Xstrdup(const(char)* s);
 // void* XNFstrdup(const(char)* s);
 
 /* Include new X*asprintf API */
-public import include.Xprintf;
+public import os.xprintf;
 
 alias OsSigWrapperPtr = int function(int);
 
