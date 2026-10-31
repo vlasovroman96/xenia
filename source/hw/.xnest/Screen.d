@@ -44,7 +44,7 @@ import Drawable;
 import XNFont;
 import Color;
 import XNCursor;
-import include.events;
+import include.eventstr;
 import Init;
 import mi.mipointer;
 import Args;

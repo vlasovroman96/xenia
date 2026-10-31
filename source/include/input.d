@@ -58,7 +58,7 @@ public import include.screenint;
 public import core.stdc.stdint;
 public import include.window;             /* for WindowPtr */
 public import include.xkbrules;
-public import include.events;
+public import include.eventstr;
 public import include.list;
 public import include.os;
 import dix.inpututils_priv;

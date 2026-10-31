@@ -26,7 +26,7 @@ import include.windowstr;
 import include.servermd;
 
 import Display;
-import include.events;
+import include.eventstr;
 import Handlers;
 
 void xnestBlockHandler(void* blockData, void* timeout)

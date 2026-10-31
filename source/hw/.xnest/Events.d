@@ -40,7 +40,7 @@ import Color;
 import Display;
 import Screen;
 import XNWindow;
-import include.events;
+import include.eventstr;
 import Keyboard;
 import Pointer;
 import mi.mipointer;

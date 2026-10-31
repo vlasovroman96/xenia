@@ -23,7 +23,7 @@ public import dix.rpcbuf_priv;
 
 public import dix.callback;
 public import dix.cursor;
-public import include.events;
+public import include.eventstr;
 public import include.gc;
 public import include.input;
 public import include.os;

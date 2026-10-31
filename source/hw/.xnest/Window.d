@@ -43,7 +43,7 @@ import Screen;
 import XNGC;
 import Drawable;
 import Color;
-import include.events;
+import include.eventstr;
 import Args;
 
 DevPrivateKeyRec xnestWindowPrivateKeyRec;

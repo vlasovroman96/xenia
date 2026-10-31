@@ -44,7 +44,7 @@ import include.misc;
 import include.inputstr;
 import include.exevents;
 import include.eventstr;
-import include.events;
+import include.eventstr;
 import include.xkbstr;
 import externs.X11.extensions.XKB;
 import os.log;

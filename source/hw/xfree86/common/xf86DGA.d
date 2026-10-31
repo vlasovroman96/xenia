@@ -74,7 +74,7 @@ import dix.cursor;
 import include.scrnintstr;
 import dix.swaprep;
 import include.protocol_versions;
-import include.events;
+import include.eventstr;
 import hw.xfree86.common.xf86Helper;
 import xf86Globals;
 import dix.events;

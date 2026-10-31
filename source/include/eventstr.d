@@ -27,7 +27,6 @@ extern(C): __gshared:
 
  
 public import include.inputstr;
-public import include.events;
 
 import build.xlibre_server;/**
  * @file events.h
@@ -183,6 +182,7 @@ struct _DeviceEvent {
     uint resource; /**< Touch event resource, only for TOUCH_REPLAYING */
     DeviceEventSource source_type; /**< How this event was provoked */
 }
+alias DeviceEvent = _DeviceEvent;
 
 /**
  * Generated internally whenever a touch ownership chain changes - an owner
@@ -201,6 +201,7 @@ struct _TouchOwnershipEvent {
     uint resource;    /**< Provoking grab or event selection */
     uint flags;       /**< Flags to be copied into the generated event */
 }
+alias TouchOwnershipEvent = _TouchOwnershipEvent;
 
 /* Flags used in DeviceChangedEvent to signal if the slave has changed */
 enum DEVCHANGE_SLAVE_SWITCH = 0x2;
@@ -247,6 +248,7 @@ struct _DeviceChangedEvent {
         int max_keycode;
     }_Keys keys;
 }
+alias DeviceChangedEvent = _DeviceChangedEvent;
 
 // static if(build.xlibre_server.XFreeXDGA){
 /**
@@ -289,6 +291,7 @@ struct _RawDeviceEvent {
     }_Valuators valuators;
     uint flags;       /**< Flags to be copied into the generated event */
 }
+alias RawDeviceEvent = _RawDeviceEvent;
 
 struct _BarrierEvent {
     ubyte header; /**<  Always ET_Internal */
@@ -308,6 +311,7 @@ struct _BarrierEvent {
     int event_id;
     uint flags;
 }
+alias BarrierEvent = _BarrierEvent;
 
 struct _GestureEvent {
     ubyte header; /**< Always ET_Internal */
@@ -340,6 +344,7 @@ struct _GestureEvent {
     Window root;      /**< Root window of the event */
     uint flags;   /**< Flags to be copied into the generated event */
 }
+alias GestureEvent = _GestureEvent;
 
 version (XQUARTZ) {
 enum XQUARTZ_EVENT_MAXARGS = 5;
@@ -351,6 +356,8 @@ struct _XQuartzEvent {
     int subtype;          /**< Subtype defined by XQuartz DDX */
     uint[XQUARTZ_EVENT_MAXARGS] data; /**< Up to 5 32bit values passed to handler */
 }
+alias XQuartzEvent = _XQuartzEvent;
+
 }
 
 /**
@@ -377,6 +384,8 @@ version (XQUARTZ) {
 }
     GestureEvent gesture_event;
 }
+alias InternalEvent = _InternalEvent;
+
 
 // void LeaveWindow(DeviceIntPtr dev);
 

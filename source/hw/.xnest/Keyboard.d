@@ -44,7 +44,7 @@ import Display;
 import Screen;
 import Keyboard;
 import Args;
-import include.events;
+import include.eventstr;
 import include.xkbsrv;
 import dix.dix_priv;
 
