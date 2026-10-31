@@ -37,7 +37,6 @@ import include.xf86_OSproc;;
 //import x11.Xproto;
 
 import dix.screen_hooks_priv;
-import include.extinit;
 
 import include.scrnintstr;
 import include.resource;

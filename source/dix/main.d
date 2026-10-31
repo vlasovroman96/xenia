@@ -98,7 +98,6 @@ import dix.registry_priv;
 import dix.screensaver_priv;
 import dix.selection_priv;
 import dix.server_priv;
-import include.extinit;
 import os.audit_priv;
 import os.auth;
 import os.client_priv;

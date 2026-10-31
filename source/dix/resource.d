@@ -132,7 +132,6 @@ import dix.dixgrabs_priv;
 import dix.gc_priv;
 import dix.registry_priv;
 import dix.resource_priv;
-import include.extinit;
 import os.osdep;
 import os.probes_priv;
 import os.osinit;

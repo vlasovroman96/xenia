@@ -48,7 +48,6 @@ import dix.inpututils_priv;
 import dix.request_priv;
 import dix.rpcbuf_priv;
 import dix.screenint_priv;
-import include.extinit;
 import os.fmt;
 import Xext.panoramiXsrv;
 import Xi.handlers;

@@ -30,7 +30,6 @@ import build.dix_config;
 
 import dix.colormap_priv;
 import dix.screen_hooks_priv;
-import include.extinit;
 import os.osdep;
 import os.log;
 import include.misc;

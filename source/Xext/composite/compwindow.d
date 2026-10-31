@@ -50,7 +50,6 @@ import dix.dix_priv;
 import dix.resource_priv;
 import dix.screensaver_priv;
 import dix.window_priv;
-import include.extinit;
 import os.osdep;
 import Xext.panoramiXsrv;
 

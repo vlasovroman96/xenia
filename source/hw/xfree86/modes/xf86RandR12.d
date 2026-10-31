@@ -31,7 +31,6 @@ import Xext.panoramiXsrv;
 import dix.dix_priv;
 import dix.input_priv;
 import dix.screenint_priv;
-import include.extinit;
 import include.xf86DDC;
 
 import include.xf86;

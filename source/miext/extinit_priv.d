@@ -8,7 +8,6 @@ extern(C): __gshared:
  */
  
  import build.xlibre_server;
-public import include.extinit;
 
 static if(DRI2){
 //public import externs.X11.extensions.dri2proto;

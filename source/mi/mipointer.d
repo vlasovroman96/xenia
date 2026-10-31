@@ -60,7 +60,6 @@ import   dix.dix_priv;
 import   dix.input_priv;
 import   dix.inpututils_priv;
 import   dix.screen_hooks_priv;
-import   include.extinit;
 import   mi.mi_priv;
 import   mi.mipointer_priv;
 import os.inputthread;

@@ -69,7 +69,6 @@ import dix.rpcbuf_priv;
 import dix.screenint_priv;
 import dix.server_priv;
 import dix.swaprep;
-import include.extinit;
 import include.gcstruct;
 import os.auth;
 import os.log_priv;

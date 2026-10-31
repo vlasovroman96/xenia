@@ -39,7 +39,6 @@ import core.stdc.string;
 import externs.glxtokens;
 
 import dix.colormap_priv;
-import include.extinit;
 
 import include.windowstr;
 import include.os;
@@ -55,6 +54,8 @@ import glx.glxscreens_h;
  import dix.resource;
 import dix.screen_hooks;
 import Xext.glx.fix;
+import composite.compext;
+
 
 DevPrivateKeyRec xeniaGlxScreenPrivateKeyRec;
 

@@ -86,7 +86,6 @@ import region;
 import dix.dix_priv;
 import dix.screenint_priv;
 import dix.window_priv;
-import include.extinit;
 import mi.mi_priv;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;

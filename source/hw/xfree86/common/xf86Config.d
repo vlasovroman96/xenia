@@ -63,7 +63,6 @@ import dix.dix_priv;
 import dix.resource_priv;
 import dix.settings_priv;
 import dix.screensaver_priv;
-import include.extinit;
 import os.log_priv;
 import os.osdep;
 import xkb.xkbsrv_priv;

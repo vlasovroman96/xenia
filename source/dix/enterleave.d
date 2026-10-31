@@ -41,7 +41,6 @@ import dix.input_priv;
 import dix.inpututils_priv;
 import dix.screenint_priv;
 import dix.window_priv;
-import include.extinit;
 import os.bug_priv;
 
 import include.inputstr;

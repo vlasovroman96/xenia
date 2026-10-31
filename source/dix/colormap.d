@@ -61,7 +61,6 @@ import core.stdc.stdio;
 import core.stdc.string;
 import externs.strings;
 
-import include.extinit;
 import dix.colormap_priv;
 import dix.dix_priv;
 import dix.resource_priv;

@@ -47,7 +47,6 @@ import dsl.pixman;
 import dix.input_priv;
 import dix.inpututils_priv;
 import dix.screenint_priv;
-import include.extinit;
 import mi.mi_priv;
 import os.bug_priv;
 import os.probes_priv;

@@ -36,6 +36,7 @@ import core.sys.posix.sys.time;
 // import externs.gl;
 import externs.glxtokens;
 import externs.internal.dri_interface;
+import composite.compext;
 
 import miext.extinit_priv;
 

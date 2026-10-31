@@ -44,12 +44,12 @@ import build.xlibre_server;
 
 import core.sys.posix.sys.stat;
 import core.sys.posix.unistd;
+import composite.compext;
 
 //import x11.X;
 
 import dix.dix_priv;
 import dix.input_priv;
-import include.extinit;
 import include.xf86DDC;
 import mi.mi_priv;
 import os.log_priv;

@@ -28,7 +28,6 @@ import core.stdc.stdarg;
 import os.client_priv;
 
 import include.scrnintstr;
-import include.extnsionst;
 import include.pixmapstr;
 import include.regionstr;
 import include.gcstruct;

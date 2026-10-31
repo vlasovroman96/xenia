@@ -118,7 +118,6 @@ import dix.screensaver_priv;
 import dix.selection_priv;
 import dix.screenint_priv;
 import dix.window_priv;
-import include.extinit;
 import mi.mi_priv;         /* miPaintWindow */
 import os.auth;
 import os.client_priv;

@@ -79,7 +79,6 @@ import externs.X11.extensions.panoramiXproto;
 import dix.dix_priv;
 import dix.request_priv;
 import dix.screenint_priv;
-import include.extinit;
 import randr.randrstr_priv;
 import build.xlibre_server;
 

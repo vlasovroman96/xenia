@@ -40,7 +40,6 @@ import build.xorg_config;
 import region;
 
 import dix.screen_hooks_priv;
-import include.extinit;
 import Xext.xvdix_priv;
 
 import include.misc;

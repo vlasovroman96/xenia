@@ -54,7 +54,6 @@ import dix.eventconvert;
 import dix.exevents_priv;
 import dix.request_priv;
 import dix.screen_hooks_priv;
-import include.extinit;
 import mi.mi_priv;
 
 import include.xf86;

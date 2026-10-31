@@ -137,7 +137,6 @@ import dix.request_priv;
 import dix.resource_priv;
 import dix.screenint_priv;
 import dix.window_priv;
-import include.extinit;
 import os.bug_priv;
 import os.client_priv;
 import os.fmt;

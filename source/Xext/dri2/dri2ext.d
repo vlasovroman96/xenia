@@ -43,7 +43,6 @@ import build.xlibre_server;
 
 import dix.dix_priv;
 import dix.request_priv;
-import include.extinit;
 
 import include.dixstruct;
 import include.scrnintstr;

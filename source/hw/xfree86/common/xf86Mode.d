@@ -89,7 +89,6 @@ import Xext.panoramiXsrv;
 //import x11.X;
 
 import include.edid;
-import include.extinit;
 import os.log_priv;
 
 import xf86Modes;
