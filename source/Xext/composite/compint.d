@@ -55,7 +55,7 @@ public import include.windowstr;
 public import include.input;
 public import include.resource;
 public import dix.cursor;
-public import include.dixstruct;
+public import dix.dixstruct_priv;
 public import include.gcstruct;
 public import include.servermd;
 public import include.picturestr;

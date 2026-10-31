@@ -72,7 +72,7 @@ import include.fb;
 import include.xf86i2c;
 import include.xf86Crtc;
 import include.miscstruct;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import build.xlibre_server;
 import xf86pciBus;
 import hw.xfree86.modes.displaymode;

@@ -6,7 +6,7 @@ extern(C): __gshared:
  
 public import build.dix_config;
 
-public import include.dixstruct;
+public import dix.dixstruct_priv;
 // public import Xext.dpms;
 
 

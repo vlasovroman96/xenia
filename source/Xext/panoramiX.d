@@ -52,7 +52,7 @@ import include.misc;
 import dix.cursor;
 import dix.cursor;
 import include.extnsionst;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.gc;
 import include.gcstruct;
 import include.scrnintstr;

@@ -137,7 +137,6 @@ import present.present_priv;
 import Xext.xf86bigfontsrv; /* XF86BigfontCleanup() */
 import xkb.xkbsrv_priv;
 
-import include.dixstruct;
 // import include.picture;
 import mi.miinitext;
 import dix.dixstruct_priv;

@@ -63,7 +63,7 @@ import Xext.panoramiXsrv;
 
 import include.windowstr;
 import include.propertyst;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import dix.dispatch;
 import dix.swaprep;
 import Xext.xace;

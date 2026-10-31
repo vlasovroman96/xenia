@@ -40,7 +40,7 @@ import build.dix_config;
 import include.os;
 import os.osdep;
 import os.mitauth;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import externs.gnu;
 import core.sys.posix.unistd;
 import core.sys.posix.fcntl;

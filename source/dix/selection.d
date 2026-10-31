@@ -54,7 +54,7 @@ import dix.request_priv;
 import dix.selection_priv;
 
 import include.windowstr;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import dix.dispatch;
 import Xext.xace;
 import dix.selection_priv;;

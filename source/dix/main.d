@@ -113,7 +113,7 @@ import include.misc;
 import include.os;
 import include.windowstr;
 import include.resource;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.gcstruct;
 import include.extension;
 import dix.cursor;

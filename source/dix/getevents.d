@@ -58,7 +58,7 @@ import include.resource;
 import include.inputstr;
 import include.scrnintstr;
 import dix.cursor;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import mi.mipointer;
 import dix.events;
 import dix.eventconvert;

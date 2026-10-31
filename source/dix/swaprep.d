@@ -57,7 +57,7 @@ import build.dix_config;
 import dix.dix_priv;
 
 import include.misc;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.scrnintstr;
 import dix.swaprep;
 import os.io;

@@ -44,7 +44,7 @@ import miext.extinit_priv;
 
 import include.misc;
 import include.os;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.extnsionst;
 import dix.swaprep;
 import externs.X11.extensions.xcmiscproto;

@@ -27,7 +27,7 @@ import Xext.xace;
 
 import include.misc;
 import include.os;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.extnsionst;
 import dix.swaprep;
 import include.pixmapstr;

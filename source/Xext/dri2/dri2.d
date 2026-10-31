@@ -46,7 +46,7 @@ import externs.libdrm;;
 import include.list;
 import include.scrnintstr;
 import include.windowstr;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import Xext.dri2.dri2_priv;
 import Xext.dri2.dri2int;
 import dix.damage;

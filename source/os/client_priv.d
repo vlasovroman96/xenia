@@ -13,7 +13,7 @@ public import x11.Xdefs;
 // //public import x11.Xfuncproto;
 
 public import dix.callback;
-import include.dixstruct;
+import dix.dixstruct_priv;
 
 /* Client IDs. Use GetClientPid, GetClientCmdName and GetClientCmdArgs
  * instead of accessing the fields directly. */

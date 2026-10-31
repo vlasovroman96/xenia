@@ -59,7 +59,7 @@ import dix.request_priv;
 import tables;
 
 import include.misc;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.extnsionst;
 import include.gcstruct;
 import include.scrnintstr;

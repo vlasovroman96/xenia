@@ -84,7 +84,7 @@ public import x11.Xmd;
 public import x11.X;
 // public import x11.Xdefs;
 public import x11.Xprotostr;
-import include.dixstruct;
+import dix.dixstruct_priv;
 
 public import core.stdc.stddef;
 public import core.stdc.stdint;

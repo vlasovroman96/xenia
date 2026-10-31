@@ -26,7 +26,7 @@ public import externs.selinux.avc;
 
 public import include.globals;
 public import dix.dixaccess;
-public import include.dixstruct;
+public import dix.dixstruct_priv;
 public import include.privates;
 public import include.resource;
 public import include.inputstr;

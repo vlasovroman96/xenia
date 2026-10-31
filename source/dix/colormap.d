@@ -69,7 +69,7 @@ import os.osdep;
 import os.bug_priv;
 
 import include.misc;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.os;
 import include.scrnintstr;
 import include.resource;

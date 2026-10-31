@@ -58,7 +58,7 @@ import dix.dix_priv;
 import dix.reqhandlers_priv;
 
 import include.misc;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.extnsionst;         /* for SendEvent */
 import std.conv;
 import dix.events;

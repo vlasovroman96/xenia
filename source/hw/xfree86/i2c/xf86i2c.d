@@ -30,7 +30,7 @@ import include.pixmapstr;
 import include.validate;
 import include.resource;
 import include.gcstruct;
-import include.dixstruct;
+import dix.dixstruct_priv;
 
 import include.xf86i2c;
 import core.sys.posix.sys.time;

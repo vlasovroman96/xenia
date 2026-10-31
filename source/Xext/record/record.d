@@ -56,7 +56,7 @@ import Xext.panoramiX;
 import Xext.panoramiXsrv;
 import dix.dispatch;
 
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.extnsionst;
 import set;
 import dix.swaprep;

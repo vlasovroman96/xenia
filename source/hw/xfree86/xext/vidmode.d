@@ -52,7 +52,7 @@ import os.log_priv;
 import os.osdep;
 
 import include.misc;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.extnsionst;
 import include.scrnintstr;
 import include.servermd;

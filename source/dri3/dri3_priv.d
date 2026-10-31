@@ -29,7 +29,7 @@ public import include.scrnintstr;
 public import include.misc;
 public import include.list;
 public import include.windowstr;
-public import include.dixstruct;
+public import dix.dixstruct_priv;
 public import include.randrstr;
 public import dri3.dri3;
 import include.dri3;

@@ -52,7 +52,7 @@ import include.pixmapstr;
 import include.validate;
 import include.resource;
 import include.gcstruct;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.xvdix;
 import hw.xfree86.common.xf86xvpriv;
 

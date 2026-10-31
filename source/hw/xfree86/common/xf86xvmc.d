@@ -40,7 +40,7 @@ import dix.screen_hooks_priv;
 
 import include.scrnintstr;
 import include.resource;
-import include.dixstruct;
+import dix.dixstruct_priv;
 
 import hw.xfree86.common.xf86xvpriv;
 import include.xf86xvmc;

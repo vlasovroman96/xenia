@@ -63,7 +63,7 @@ import include.windowstr;
 import include.scrnintstr;
 import include.input;
 import dix.dixfonts;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.os;
 import dix.timestamp;
 

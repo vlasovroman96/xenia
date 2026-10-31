@@ -70,7 +70,7 @@ import   include.pixmapstr;
 import   include.scrnintstr;
 import   include.mipointrst;
 import   dix.cursor;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import   include.inputstr;
 import   dix.events;
 import dix.screen_hooks;

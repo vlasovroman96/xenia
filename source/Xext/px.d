@@ -40,7 +40,7 @@ public import externs.X11.extensions.panoramiXproto;
 public import include.scrnintstr; /* for screenInfo */
 
 public import include.gcstruct;
-public import include.dixstruct;
+public import dix.dixstruct_priv;
 
 /*
  *	PanoramiX definitions

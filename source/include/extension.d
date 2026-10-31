@@ -78,7 +78,7 @@ SOFTWARE.
 // //public import x11.Xfuncproto;
 
 public import include.xlibre_ptrtypes;
-public import include.dixstruct;
+public import dix.dixstruct_priv;
 
 alias InitExtension = void function();
 

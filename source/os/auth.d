@@ -40,7 +40,7 @@ import build.dix_config;
 static import   externs.X11.Xauth;
 import   include.misc;
 import os.osdep;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import   core.sys.posix.sys.types;
 import   core.sys.posix.sys.stat;
 import   core.stdc.errno;

@@ -42,7 +42,7 @@ import include.windowstr;
 import include.input;
 import include.resource;
 import dix.cursor;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.gcstruct;
 import include.servermd;
 import include.picturestr;

@@ -56,7 +56,7 @@ import include.pixmapstr;
 import include.validate;
 import include.resource;
 import include.gcstruct;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import hw.kdrive.src.kxv;
 import include.fourcc;
 import include.xf86xv;

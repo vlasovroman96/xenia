@@ -9,7 +9,7 @@ extern(C): __gshared:
 //public import x11.Xproto;
 
 public import dix.rpcbuf_priv; /* x_rpcbuf_t */
-public import include.dixstruct;
+public import dix.dixstruct_priv;
 public import include.misc;    /* bytes_to_int32 */
 public import include.os;      /* WriteToClient */
 import dix.request_priv;

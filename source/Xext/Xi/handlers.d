@@ -6,7 +6,7 @@ extern(C): __gshared:
  * Copyright © 2024 Enrico Weigelt, metux IT consult <info@metux.net>
  */
  
-import include.dixstruct;
+import dix.dixstruct_priv;
 
 // int ProcXAllowDeviceEvents(ClientPtr client);
 // int ProcXChangeDeviceControl(ClientPtr client);

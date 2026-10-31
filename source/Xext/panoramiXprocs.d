@@ -53,7 +53,7 @@ import include.opaque;
 import include.inputstr;
 import migc;
 import include.misc;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.resource;
 import panoramiXh;
 import dix.dixutils;

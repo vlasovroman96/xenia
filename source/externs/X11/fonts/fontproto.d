@@ -26,7 +26,7 @@ authorization from The XFree86 Project Inc..
  
 public import externs.X11.fonts.fontstruct;
 /* Externally provided functions required by libXfont */
-import include.dixstruct;
+import dix.dixstruct_priv;
 import x11.Xos;
 // extern struct _Client;
 alias ClientPtr = _Client*;

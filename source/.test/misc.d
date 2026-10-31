@@ -35,7 +35,7 @@ import os.fmt;
 
 import include.misc;
 import include.scrnintstr;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import test.tests_common;
 // import x11.Xmd;
 // import x11.Xdefs;

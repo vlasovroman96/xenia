@@ -75,7 +75,7 @@ import dix.dispatch;
 import include.scrnintstr;
 import include.os;
 import include.extnsionst;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.pixmapstr;
 import include.resource;
 import Xext.syncsrv;

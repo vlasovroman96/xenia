@@ -41,8 +41,6 @@ import include.extnsionst;
 import miext.extinit_priv;
 import dix.extension;
 
-alias ClientPtr = include.dixstruct._Client*;
-
 private int ProcBigReqDispatch(ClientPtr client)
 {
     mixin(X_REQUEST_HEAD_STRUCT!(xBigReqEnableReq));

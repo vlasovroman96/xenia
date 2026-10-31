@@ -90,7 +90,6 @@ import dix.dispatch;
 
 import include.os;
 import include.opaque;
-import include.dixstruct;
 import include.misc;
 import externs.X11.extensions.bigreqsproto;
 import core.stdc.stdio;

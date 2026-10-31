@@ -190,7 +190,7 @@ import os.auth;
 import os.client_priv;
 import os.osdep;
 
-import include.dixstruct;
+import dix.dixstruct_priv;
 
 import Xext.xace;
 

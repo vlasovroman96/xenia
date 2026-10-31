@@ -82,7 +82,7 @@ import include.windowstr;
 import include.inputstr;
 import include.scrnintstr;
 import dix.cursor;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import ptrveloc;
 import include.privates;
 import dix.dispatch;

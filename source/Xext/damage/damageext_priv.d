@@ -11,7 +11,7 @@ extern(C): __gshared:
  
 // // public //import stdbool;
 
-public import include.dixstruct;
+public import dix.dixstruct_priv;
 public import damageext.c;
 
 

@@ -10,7 +10,7 @@ extern(C): __gshared:
 //public import x11.Xdefs;
 //public import x11.Xproto;
 
-public import include.dixstruct;
+public import dix.dixstruct_priv;
 public import include.privates;
 import dix.timestamp;
 

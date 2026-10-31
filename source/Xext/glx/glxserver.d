@@ -37,7 +37,7 @@ extern(C): __gshared:
 import build.dix_config;
 public import x11.Xmd;
 public import include.misc;
-public import include.dixstruct;
+public import dix.dixstruct_priv;
 public import include.pixmapstr;
 public import include.gcstruct;
 public import include.extnsionst;

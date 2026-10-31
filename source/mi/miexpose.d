@@ -97,7 +97,7 @@ import include.gcstruct;
 import include.windowstr;
 import include.pixmap;
 import include.input;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import dix.events;
 import dix.gc;
 

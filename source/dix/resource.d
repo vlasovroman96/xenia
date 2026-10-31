@@ -144,7 +144,7 @@ import dix.dixutils;
 import include.misc;
 import include.os;
 import include.resource;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.opaque;
 import include.windowstr;
 import dix.dixfonts;

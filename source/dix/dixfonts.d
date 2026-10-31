@@ -76,7 +76,7 @@ import dix.atom;
 
 import include.scrnintstr;
 import include.resource;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import dix.cursor;
 import include.misc;
 import include.opaque;
@@ -95,7 +95,6 @@ public import include.servermd;
 import Xext.xf86bigfont;
 import externs.X11.fonts.fontstruct;
 import fb.fbglyph;
-alias ClientPtr = include.dixstruct.ClientPtr;
 
 // static if (XF86BIGFONT) {
 import Xext.xf86bigfontsrv;

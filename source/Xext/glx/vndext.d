@@ -40,7 +40,6 @@ import dix.dispatch;
 // // import core.stdc.string;
 // import include.scrnintstr;
 // // import include.windowstr;
-// // import include.dixstruct;
 import include.extnsionst;
 import include.glx_extinit;
 

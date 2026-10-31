@@ -44,7 +44,7 @@ import build.xlibre_server;
 import dix.dix_priv;
 import dix.request_priv;
 
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.scrnintstr;
 import include.pixmapstr;
 import include.extnsionst;

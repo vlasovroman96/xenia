@@ -31,7 +31,7 @@ public import	externs.X11.fonts.fsmasks;
 }
 
 import externs.X11.fonts.fontstruct;
-import include.dixstruct;
+import dix.dixstruct_priv;
 
 /* data structures */
 version (_XTYPEDEF_FONTPTR) {} else {

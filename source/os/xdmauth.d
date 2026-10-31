@@ -54,7 +54,7 @@ import os.xdmcp;
 }
 
 import os.xdmauth;
-import include.dixstruct;
+import dix.dixstruct_priv;
 
 version (HASXDMAUTH) {
 

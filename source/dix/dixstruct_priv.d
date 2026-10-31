@@ -15,10 +15,86 @@ public import dix.cursor;
 public import include.gc;
 public import include.pixmap;
 public import include.privates;
-public import include.dixstruct;
 import os.log;
 public import tables;
 import dix.dispatch;
+public import dix.globals;
+import os.client_priv;
+
+struct NewClientInfoRec {
+    ClientPtr client;
+    xConnSetupPrefix* prefix;
+    xConnSetup* setup;
+}
+
+enum ClientState { ClientStateInitial,
+    ClientStateRunning,
+    ClientStateRetained,
+    ClientStateGone
+}
+alias ClientStateInitial = ClientState.ClientStateInitial;
+alias ClientStateRunning = ClientState.ClientStateRunning;
+alias ClientStateRetained = ClientState.ClientStateRetained;
+alias ClientStateGone = ClientState.ClientStateGone;
+
+alias ReplySwapPtr = void function(ClientPtr, int, void*);
+
+
+struct SaveSetElt {
+    _Window* windowPtr;
+    Bool toRoot;
+    Bool map;
+}
+enum string SaveSetWindow(string ss) = `((` ~ ss ~ `).windowPtr)`;
+enum string SaveSetToRoot(string ss) = `((` ~ ss ~ `).toRoot)`;
+enum string SaveSetShouldMap(string ss) = `((` ~ ss ~ `).map)`;
+enum string SaveSetAssignWindow(string ss,string w) = `((` ~ ss ~ `).windowPtr = (` ~ w ~ `));`;
+enum string SaveSetAssignToRoot(string ss,string tr) = `((` ~ ss ~ `).toRoot = (` ~ tr ~ `));`;
+enum string SaveSetAssignMap(string ss,string m) = `((` ~ ss ~ `).map = (` ~ m ~ `));`;
+
+struct _Client {
+    void* requestBuffer;
+    void* osPrivate;             /* for OS layer, including scheduler */
+    xorg_list ready;      /* List of clients ready to run */
+    xorg_list output_pending; /* List of clients with output queued */
+    Mask clientAsMask;
+    ushort index;
+    ubyte majorOp, minorOp;
+    uint swapped: 1;
+    uint local: 1;
+    uint big_requests: 1; /* supports large requests */
+    uint clientGone: 1;
+    uint closeDownMode : 2;
+    uint clientState : 2;
+    char smart_priority = 0;
+    short noClientException;      /* this client died or needs to be killed */
+    int priority;
+    ReplySwapPtr pSwapReplyFunc;
+    XID errorValue;
+    int sequence;
+    int ignoreCount;            /* count for Attend/IgnoreClient */
+    uint numSaved;          /* amount of windows in saveSet */
+    SaveSetElt* saveSet;
+    @nogc nothrow int function(ClientPtr)* requestVector;
+    CARD32 req_len;             /* length of current request */
+    uint replyBytesRemaining;
+    PrivateRec* devPrivates;
+    ushort mapNotifyMask;
+    ushort newKeyboardNotifyMask;
+    ubyte xkbClientFlags;
+    KeyCode minKC, maxKC;
+
+    int smart_start_tick;
+    int smart_stop_tick;
+
+    DeviceIntPtr clientPtr;
+    _ClientId* clientIds;
+    int req_fds;
+}
+
+alias ClientPtr = _Client*;
+
+public import externs.X11.fonts.fontproto;
 
 pragma(inline, true) void SetReqFds(ClientPtr client, int req_fds) {
     if (client.req_fds != 0 && req_fds != client.req_fds)

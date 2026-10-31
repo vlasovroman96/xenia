@@ -79,7 +79,7 @@ import os.osdep;
 import include.misc;
 import include.os;
 import os.osdep;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.gcstruct;
 import dix.dixfonts;
 import include.extnsionst;

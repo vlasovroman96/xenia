@@ -16,7 +16,6 @@ import build.dix_config;
 // }
 
 import os.xhostname;
-// import include.dixstruct;
 // import include.picture;
 // import mi.miinitext;
 // import dix.dixstruct_priv;

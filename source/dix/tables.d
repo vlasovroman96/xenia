@@ -57,7 +57,6 @@ import dix.reqhandlers_priv;
 
 import include.windowstr;
 import include.extnsionst;
-import include.dixstruct;
 import dix.dixstruct_priv;
 import dix.dispatch;
 import dix.swaprep;

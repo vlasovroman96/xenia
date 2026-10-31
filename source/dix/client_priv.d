@@ -7,7 +7,7 @@ extern(C): __gshared:
  */
  
 public import dix.callback;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import dix.dispatch;
 
 /*

@@ -45,7 +45,7 @@ import dix.screen_hooks_priv;
 
 import include.servermd;
 import include.scrnintstr;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import dix.cursor;
 import dix.dixfonts;
 import include.opaque;

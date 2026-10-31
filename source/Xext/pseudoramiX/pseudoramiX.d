@@ -46,7 +46,7 @@ import miext.extinit_priv;
 
 import pseudoramiX;
 import include.extnsionst;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.window;
 import externs.X11.extensions.panoramiXproto;
 import os.log;

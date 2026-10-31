@@ -61,7 +61,7 @@ import include.windowstr;
 import include.scrnintstr;
 import include.pixmapstr;
 import include.extnsionst;
-import include.dixstruct;
+import dix.dixstruct_priv;
 import include.resource;
 import include.gcstruct;
 import dix.cursor;

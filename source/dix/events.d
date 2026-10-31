@@ -153,7 +153,6 @@ import include.windowstr;
 import include.inputstr;
 import include.scrnintstr;
 import dix.cursor;
-import include.dixstruct;
 import Xext.xace;
 import Xi.exglobals;
 import include.extnsionst;
