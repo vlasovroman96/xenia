@@ -56,7 +56,7 @@ import externs.attrs;
 import externs.X11.extensions.dri2tokens;
 import externs.internal.dri_interface;
 import glx.glxext;
-import include.dri2;
+import hw.xfree86.drivers.video.modesetting.dri2;
 import hw.xfree86.common.xf86Helper;
 import os.log;
 import include.optionstr;

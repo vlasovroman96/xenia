@@ -49,7 +49,7 @@ import dix.gc;
 import include.list;
 import include.xf86;
 // import driver;
-import include.dri2;
+import hw.xfree86.drivers.video.modesetting.dri2;
 import include.xf86Crtc;
 import hw.xfree86.common.xf86Helper;
 import Xext.dri2.dri2;
@@ -68,7 +68,193 @@ enum ms_dri2_frame_event_type {
 alias MS_DRI2_QUEUE_SWAP = ms_dri2_frame_event_type.MS_DRI2_QUEUE_SWAP;
 alias MS_DRI2_QUEUE_FLIP = ms_dri2_frame_event_type.MS_DRI2_QUEUE_FLIP;
 alias MS_DRI2_WAIT_MSC = ms_dri2_frame_event_type.MS_DRI2_WAIT_MSC;
+import x11.Xmd;
+import include.xlibre_ptrtypes;
 
+/* Version 2 structure (with format at the end) */
+struct _DRI2Buffer {
+    uint attachment;
+    uint name;
+    uint pitch;
+    uint cpp;
+    uint flags;
+    uint format;
+    void* driverPrivate;
+}alias DRI2BufferRec = _DRI2Buffer;
+alias DRI2BufferPtr = DRI2BufferRec*;
+
+alias DRI2Buffer2Rec = DRI2BufferRec;
+alias DRI2Buffer2Ptr = DRI2BufferRec*;
+alias DRI2SwapEventPtr = void function(ClientPtr client, void* data, int type, CARD64 ust, CARD64 msc, CARD32 sbc);
+
+alias DRI2CreateBuffersProcPtr = DRI2BufferPtr function(DrawablePtr pDraw, uint* attachments, int count);
+alias DRI2DestroyBuffersProcPtr = void function(DrawablePtr pDraw, DRI2BufferPtr buffers, int count);
+alias DRI2CopyRegionProcPtr = void function(DrawablePtr pDraw, RegionPtr pRegion, DRI2BufferPtr pDestBuffer, DRI2BufferPtr pSrcBuffer);
+alias DRI2WaitProcPtr = void function(WindowPtr pWin, uint sequence);
+alias DRI2AuthMagicProcPtr = int function(int fd, uint magic);
+alias DRI2AuthMagic2ProcPtr = int function(ScreenPtr pScreen, uint magic);
+
+/**
+ * Schedule a buffer swap
+ *
+ * This callback is used to support glXSwapBuffers and the OML_sync_control
+ * extension (see it for a description of the params).
+ *
+ * Drivers should queue an event for the frame count that satisfies the
+ * parameters passed in.  If the event is in the future (i.e. the conditions
+ * aren't currently satisfied), the server may block the client at the next
+ * GLX request using DRI2WaitSwap. When the event arrives, drivers should call
+ * \c DRI2SwapComplete, which will handle waking the client and returning
+ * the appropriate data.
+ *
+ * The DDX is responsible for doing a flip, exchange, or blit of the swap
+ * when the corresponding event arrives.  The \c DRI2CanFlip and
+ * \c DRI2CanExchange functions can be used as helpers for this purpose.
+ *
+ * \param client client pointer (used for block/unblock)
+ * \param pDraw drawable whose count we want
+ * \param pDestBuffer current front buffer
+ * \param pSrcBuffer current back buffer
+ * \param target_msc frame count to wait for
+ * \param divisor divisor for condition equation
+ * \param remainder remainder for division equation
+ * \param func function to call when the swap completes
+ * \param data data for the callback \p func.
+ */
+alias DRI2ScheduleSwapProcPtr = int function(ClientPtr client, DrawablePtr pDraw, DRI2BufferPtr pDestBuffer, DRI2BufferPtr pSrcBuffer, CARD64* target_msc, CARD64 divisor, CARD64 remainder, DRI2SwapEventPtr func, void* data);
+alias DRI2CreateBufferProcPtr = DRI2BufferPtr function(DrawablePtr pDraw, uint attachment, uint format);
+alias DRI2DestroyBufferProcPtr = void function(DrawablePtr pDraw, DRI2BufferPtr buffer);
+/**
+ * Notifies driver when DRI2GetBuffers reuses a dri2 buffer.
+ *
+ * Driver may rename the dri2 buffer in this notify if it is required.
+ *
+ * \param pDraw drawable whose count we want
+ * \param buffer buffer that will be returned to client
+ */
+alias DRI2ReuseBufferNotifyProcPtr = void function(DrawablePtr pDraw, DRI2BufferPtr buffer);
+/**
+ * Get current media stamp counter values
+ *
+ * This callback is used to support the SGI_video_sync and OML_sync_control
+ * extensions.
+ *
+ * Drivers should return the current frame counter and the timestamp from
+ * when the returned frame count was last incremented.
+ *
+ * The count should correspond to the screen where the drawable is currently
+ * visible.  If the drawable isn't visible (e.g. redirected), the server
+ * should return BadDrawable to the client, pending GLX spec updates to
+ * define this behavior.
+ *
+ * \param pDraw drawable whose count we want
+ * \param ust timestamp from when the count was last incremented.
+ * \param mst current frame count
+ */
+alias DRI2GetMSCProcPtr = int function(DrawablePtr pDraw, CARD64* ust, CARD64* msc);
+/**
+ * Schedule a frame count related wait
+ *
+ * This callback is used to support the SGI_video_sync and OML_sync_control
+ * extensions.  See those specifications for details on how to handle
+ * the divisor and remainder parameters.
+ *
+ * Drivers should queue an event for the frame count that satisfies the
+ * parameters passed in.  If the event is in the future (i.e. the conditions
+ * aren't currently satisfied), the driver should block the client using
+ * \c DRI2BlockClient.  When the event arrives, drivers should call
+ * \c DRI2WaitMSCComplete, which will handle waking the client and returning
+ * the appropriate data.
+ *
+ * \param client client pointer (used for block/unblock)
+ * \param pDraw drawable whose count we want
+ * \param target_msc frame count to wait for
+ * \param divisor divisor for condition equation
+ * \param remainder remainder for division equation
+ */
+alias DRI2ScheduleWaitMSCProcPtr = int function(ClientPtr client, DrawablePtr pDraw, CARD64 target_msc, CARD64 divisor, CARD64 remainder);
+
+alias DRI2InvalidateProcPtr = void function(DrawablePtr pDraw, void* data, XID id);
+
+/**
+ * DRI2 calls this hook when ever swap_limit is going to be changed. Default
+ * implementation for the hook only accepts one as swap_limit. If driver can
+ * support other swap_limits it has to implement supported limits with this
+ * callback.
+ *
+ * \param pDraw drawable whose swap_limit is going to be changed
+ * \param swap_limit new swap_limit that going to be set
+ * \return TRUE if limit is support, FALSE if not.
+ */
+alias DRI2SwapLimitValidateProcPtr = Bool function(DrawablePtr pDraw, int swap_limit);
+
+alias DRI2CreateBuffer2ProcPtr = DRI2BufferPtr function(ScreenPtr pScreen, DrawablePtr pDraw, uint attachment, uint format);
+alias DRI2DestroyBuffer2ProcPtr = void function(ScreenPtr pScreen, DrawablePtr pDraw, DRI2BufferPtr buffer);
+
+alias DRI2CopyRegion2ProcPtr = void function(ScreenPtr pScreen, DrawablePtr pDraw, RegionPtr pRegion, DRI2BufferPtr pDestBuffer, DRI2BufferPtr pSrcBuffer);
+
+/**
+ * \brief Get the value of a parameter.
+ *
+ * The parameter's \a value is looked up on the screen associated with
+ * \a pDrawable.
+ *
+ * \return \c Success or error code.
+ */
+alias DRI2GetParamProcPtr = int function(ClientPtr client, DrawablePtr pDrawable, CARD64 param, BOOL* is_param_recognized, CARD64* value);
+
+/**
+ * Version of the DRI2InfoRec structure defined in this header
+ */
+enum DRI2INFOREC_VERSION = 9;
+
+struct _DRI2InfoRec {
+    uint version_;       /**< Version of this struct */
+    int fd;
+    const(char)* driverName;
+    const(char)* deviceName;
+
+    DRI2CreateBufferProcPtr CreateBuffer;
+    DRI2DestroyBufferProcPtr DestroyBuffer;
+    DRI2CopyRegionProcPtr CopyRegion;
+    DRI2WaitProcPtr Wait;
+
+    /* added in version 4 */
+
+    DRI2ScheduleSwapProcPtr ScheduleSwap;
+    DRI2GetMSCProcPtr GetMSC;
+    DRI2ScheduleWaitMSCProcPtr ScheduleWaitMSC;
+
+    /* number of drivers in the driverNames array */
+    uint numDrivers;
+    /* array of driver names, indexed by DRI2Driver* driver types */
+    /* a name of NULL means that driver is not supported */
+    const(char*)* driverNames;
+
+    /* added in version 5 */
+
+    DRI2AuthMagicProcPtr AuthMagic;
+
+    /* added in version 6 */
+
+    DRI2ReuseBufferNotifyProcPtr ReuseBufferNotify;
+    DRI2SwapLimitValidateProcPtr SwapLimitValidate;
+
+    /* added in version 7 */
+    DRI2GetParamProcPtr GetParam;
+
+    /* added in version 8 */
+    /* AuthMagic callback which passes extra context */
+    /* If this is NULL the AuthMagic callback is used */
+    /* If this is non-NULL the AuthMagic callback is ignored */
+    DRI2AuthMagic2ProcPtr AuthMagic2;
+
+    /* added in version 9 */
+    DRI2CreateBuffer2ProcPtr CreateBuffer2;
+    DRI2DestroyBuffer2ProcPtr DestroyBuffer2;
+    DRI2CopyRegion2ProcPtr CopyRegion2;
+}alias DRI2InfoRec = _DRI2InfoRec;
+alias DRI2InfoPtr = DRI2InfoRec*;
 
 struct ms_dri2_frame_event {
     ScreenPtr screen;

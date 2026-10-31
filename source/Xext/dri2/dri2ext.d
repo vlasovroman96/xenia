@@ -52,7 +52,7 @@ import xfixes.xfixes;
 import Xext.dri2.dri2_priv;
 import Xext.dri2.dri2int;
 import include.protocol_versions;
-import include.dri2;
+import hw.xfree86.drivers.video.modesetting.dri2;
 import externs.X11.extensions.dri2tokens;
 import xfixes.region;
 import dix.extension;
