@@ -1,4 +1,4 @@
-module include.dixaccess;
+module dix.dixaccess;
 @nogc nothrow:
 extern(C): __gshared:
 /***********************************************************

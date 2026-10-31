@@ -55,7 +55,7 @@ public import include.xlibre_ptrtypes;
 
 public import dix.callback;
 public import include.misc;
-public import include.dixaccess;
+public import dix.dixaccess;
 import include.dixstruct;
 public import x11.Xprotostr;
 public import x11.Xmd;
