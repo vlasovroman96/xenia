@@ -42,8 +42,6 @@ import hw.xfree86.common.xf86Helper;
 import build.xlibre_server;
 import externs.X11.extensions.dpmsconst;
 import Xext.dpms;
-import include.optionstr;
-import xf86Option;
 import xf86VGAarbiter;
 
 static if(DPMSExtension) {

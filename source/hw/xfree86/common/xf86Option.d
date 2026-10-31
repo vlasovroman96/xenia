@@ -1,4 +1,4 @@
-module xf86Option;
+module hw.xfree86.common.xf86Option;
 @nogc nothrow:
 extern(C): __gshared:
 import core.stdc.config: c_long, c_ulong;
@@ -47,13 +47,20 @@ import include.xf86Optrec;
 import include.xf86Parser;
 import xf86platformBus;
 import xf86Bus;
-import include.optionstr;
-import Flags;
+import hw.xfree86.parser.Flags;
 import hw.xfree86.common.xf86Helper;
 import scan;
 import os.log;
 import externs.gnu;
 import xf86platformBus;
+
+struct XF86OptionRec {
+    GenericListRec list;
+    const(char)* opt_name;
+    const(char)* opt_val;
+    int opt_used;
+    const(char)* opt_comment;
+}
 /*
  * xf86CollectOptions collects the options from each of the config file
  * sections used by the screen and puts the combined list in pScrn->options.

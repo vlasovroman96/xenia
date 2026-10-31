@@ -45,7 +45,7 @@ import Configint;
 import x11.Xmd;
 import x11.Xdefs;
 import include.misc;
-import Flags;
+import hw.xfree86.parser.Flags;
 import scan;
 
 

@@ -39,8 +39,8 @@ import exa.exa_priv;
 import include.xf86str;
 import include.xf86;
 import hw.xfree86.common.xf86Helper;
-import xf86Option;
-import include.optionstr;
+import hw.xfree86.common.xf86Option;
+import hw.xfree86.parser.Flags;
 
 struct _ExaXorgScreenPrivRec {
     xf86EnableDisableFBAccessProc* SavedEnableDisableFBAccess;

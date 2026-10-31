@@ -16,11 +16,11 @@ import include.glamor;
 import glamor.glamor_egl;
 import glamor.glamor_egl_priv;
 import hw.xfree86.common.xf86Helper;
-import xf86Option;
+import hw.xfree86.common.xf86Option;
 import externs.gnu;
 import os.log;
 import xf86Globals;
-import include.optionstr;
+import hw.xfree86.parser.Flags;
 
 enum {
     GLAMOREGLOPT_RENDERING_API,

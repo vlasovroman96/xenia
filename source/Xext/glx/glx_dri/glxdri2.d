@@ -59,10 +59,10 @@ import glx.glxext;
 import hw.xfree86.drivers.video.modesetting.dri2;
 import hw.xfree86.common.xf86Helper;
 import os.log;
-import include.optionstr;
+import hw.xfree86.parser.Flags;
 import Xext.glx.fix;
 import dix.dixutils;
-import xf86Option;
+import hw.xfree86.common.xf86Option;
 
 alias BadLength = x11.X.BadLength;
 alias BadAlloc = x11.X.BadAlloc;

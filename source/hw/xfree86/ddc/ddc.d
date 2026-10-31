@@ -23,11 +23,11 @@ import include.xf86_OSproc;;
 import core.stdc.string;
 import edid_priv;
 import hw.xfree86.common.xf86Helper;
-import xf86Option;
+import hw.xfree86.common.xf86Option;
 import interpret_edid;
 import hw.xfree86.i2c.xf86i2c;
 import dix.events;
-import include.optionstr;
+import hw.xfree86.parser.Flags;
 
 
 enum RETRIES = 4;

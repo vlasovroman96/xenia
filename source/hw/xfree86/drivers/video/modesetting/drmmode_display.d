@@ -77,7 +77,7 @@ import pageflip;
 import include.xf86Cursor;
 import dix.gc;
 import xf86CursorRD;
-import xf86Option;
+import hw.xfree86.common.xf86Option;
 import externs.X11.Xatom;
 import randr.rrproperty;
 import externs.gnu;

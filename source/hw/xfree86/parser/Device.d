@@ -62,7 +62,7 @@ import Configint;
 import x11.Xmd;
 import x11.Xdefs;
 import include.misc;
-import Flags;
+import hw.xfree86.parser.Flags;
 import scan;
 
 private const(xf86ConfigSymTabRec)[24] DeviceTab = [

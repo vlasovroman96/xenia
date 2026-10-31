@@ -100,7 +100,7 @@ import include.xf86Priv;
 import os.log;
 import hw.xfree86.common.xf86Helper;
 import xf86Init;
-import xf86Option;
+import hw.xfree86.common.xf86Option;
 import xf86Bus;
 import hw.xfree86.modes.displaymode;
 

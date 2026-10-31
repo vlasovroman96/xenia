@@ -35,7 +35,7 @@ import core.stdc.config: c_long, c_ulong;
 public import x11.Xdefs;
 // //public import x11.Xfuncproto;
 
-public import include.xf86Optionstr;
+import hw.xfree86.parser.Flags;                
 
 struct OptFrequency {
     double freq = 0;

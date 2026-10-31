@@ -42,7 +42,6 @@ import include.xkbsrv;
 import include.xkbsrv;
 import dix.events;
 import include.scrnintstr;
-import include.optionstr;
 import externs.X11.extensions.XI2proto;
 import os.io;
 import os.utils;

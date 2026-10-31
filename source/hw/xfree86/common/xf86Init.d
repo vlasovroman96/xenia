@@ -104,7 +104,7 @@ import dix.property;
 import xf86AutoConfig_;
 import externs.X11.Xatom;
 import xf86VGAarbiter;
-import xf86Option;
+import hw.xfree86.common.xf86Option;
 import core.sys.posix.unistd;
 import xf86Events;
 import build.xlibre_server;

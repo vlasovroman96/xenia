@@ -60,7 +60,7 @@ import core.stdc.ctype;
 }
 
 import os.log;;
-import xf86Option;
+import hw.xfree86.common.xf86Option;
 import externs.gnu;
 import xf86Globals;
 import scan;

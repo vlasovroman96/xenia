@@ -1,4 +1,4 @@
-module Flags;
+module hw.xfree86.parser.Flags;
 @nogc nothrow:
 extern(C): __gshared:
 import core.stdc.config: c_long, c_ulong;
@@ -63,20 +63,26 @@ import xf86tokens;
 import Configint;
 ////import x11.Xfuncproto;
 import os.xprintf;
-import include.optionstr;
 import include.xf86Parser;
 import xf86tokens;
 import Configint;
 import x11.Xmd;
 import x11.Xdefs;
 import include.misc;
-import Flags;
 import scan;
 import core.stdc.string;
 import externs.gnu;
 import read;
 
+struct _InputOption {
+    GenericListRec list;
+    char* opt_name;
+    char* opt_val;
+    int opt_used;
+    char* opt_comment;
+}
 
+alias XF86OptionPtr = InputOption*;
 
 private const(xf86ConfigSymTabRec)[16] ServerFlagsTab = [
     {ENDSECTION, "endsection"},

@@ -67,6 +67,7 @@ public import include.list;
 
 public import core.sys.posix.sys.types;
 public import externs.regex;
+import hw.xfree86.parser.Flags;
 
 version = HAVE_PARSER_DECLS;
 

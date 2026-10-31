@@ -61,7 +61,7 @@ import core.sys.posix.fcntl;
 import read;
 import externs.gnu;
 import core.sys.posix.unistd ;
-import Flags;
+import hw.xfree86.parser.Flags;
 import os.log;
 import xf86Globals;
 import include.edid;

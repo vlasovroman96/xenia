@@ -68,7 +68,7 @@ import dix.resource;
 import dix.dixutils;
 import os.log;
 import xf86Globals;
-import xf86Option;
+import hw.xfree86.common.xf86Option;
 import core.stdc.stdio;
 import core.stdc.stdlib;
 import externs.gnu;

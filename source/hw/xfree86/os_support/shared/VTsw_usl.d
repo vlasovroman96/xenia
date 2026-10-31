@@ -41,7 +41,7 @@ import xf86Events;
 import xf86Globals;
 // import externs.sys.sysmacros;;
 // import os.utils;
-import xf86Option;
+import hw.xfree86.common.xf86Option;
 // import config.libhal;
 import include.misc;
 import externs.libdbus;

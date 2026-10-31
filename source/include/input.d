@@ -65,7 +65,7 @@ import dix.inpututils_priv;
 //public import externs.X11.extensions.XI2;
 import include.inputstr;
 import dix.input_priv;
-import include.optionstr;
+import hw.xfree86.parser.Flags;
 public import externs.X11.extensions.XI;
 public import dix.getevents;
 public import build.dix_config;

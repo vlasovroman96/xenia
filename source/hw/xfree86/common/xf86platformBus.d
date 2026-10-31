@@ -65,14 +65,13 @@ import xf86Globals;
 import hw.xfree86.common.xf86Xinput;
 import os.log;
 import xf86pciBus;
-import xf86Option;
+import hw.xfree86.common.xf86Option;
 import drm_platform;
 import core.stdc.string;
 import externs.gnu;
-import Flags;
 import hw.xfree86.common.xf86Helper;
 import dix.events;
-import include.optionstr;
+import hw.xfree86.parser.Flags;
 import randr.randr;
 
 
