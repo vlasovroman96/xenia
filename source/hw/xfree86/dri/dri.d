@@ -1,4 +1,4 @@
-module dri;
+module hw.xfree86.common.dri;
 @nogc nothrow:
 extern(C): __gshared:
 
@@ -104,6 +104,7 @@ alias va_end = core.stdc.stdarg.va_end;
 
 
 
+
 private int DRIEntPrivIndex = -1;
 private DevPrivateKeyRec DRIScreenPrivKeyRec;
 
@@ -132,6 +133,157 @@ private RESTYPE DRIContextPrivResType;
  * consistent message formatting.  The verbosity of these messages can be
  * easily changed here.
  */
+
+public import externs.pciaccess;
+
+public import include.scrnintstr;
+public import hw.xfree86.dri.xf86dri;
+import include.dristruct;
+
+/* Prototypes for DRI functions */
+
+alias DRISyncType = int;
+
+enum DRI_NO_SYNC = 0;
+enum DRI_2D_SYNC = 1;
+enum DRI_3D_SYNC = 2;
+
+alias DRIContextType = int;
+
+alias DRIContextPrivRec = _DRIContextPrivRec;
+alias DRIContextPrivPtr = _DRIContextPrivRec*;
+
+enum DRIContextFlags {
+    DRI_CONTEXT_2DONLY = 0x01,
+    DRI_CONTEXT_PRESERVED = 0x02,
+    DRI_CONTEXT_RESERVED = 0x04 /* DRI Only -- no kernel equivalent */
+}
+alias DRI_CONTEXT_2DONLY = DRIContextFlags.DRI_CONTEXT_2DONLY;
+alias DRI_CONTEXT_PRESERVED = DRIContextFlags.DRI_CONTEXT_PRESERVED;
+alias DRI_CONTEXT_RESERVED = DRIContextFlags.DRI_CONTEXT_RESERVED;
+
+
+enum DRI_NO_CONTEXT = 0;
+enum DRI_2D_CONTEXT = 1;
+enum DRI_3D_CONTEXT = 2;
+
+alias DRISwapMethod = int;
+
+enum DRI_HIDE_X_CONTEXT = 0;
+enum DRI_SERVER_SWAP =    1;
+enum DRI_KERNEL_SWAP =    2;
+
+alias DRIWindowRequests = int;
+
+enum DRI_NO_WINDOWS =       0;
+enum DRI_3D_WINDOWS_ONLY =  1;
+enum DRI_ALL_WINDOWS =      2;
+
+alias ClipNotifyPtr = void function(WindowPtr, int, int) @nogc nothrow;
+alias AdjustFramePtr = void function(ScrnInfoPtr pScrn, int x, int y) @nogc nothrow;
+
+/*
+ * These functions can be wrapped by the DRI.  Each of these have
+ * generic default funcs (initialized in DRICreateInfoRec) and can be
+ * overridden by the driver in its [driver]DRIScreenInit function.
+ */
+struct _DRIWrappedFuncsRec {
+    ScreenWakeupHandlerProcPtr WakeupHandler;
+    ScreenBlockHandlerProcPtr BlockHandler;
+    WindowExposuresProcPtr WindowExposures;
+    CopyWindowProcPtr CopyWindow;
+    ClipNotifyProcPtr ClipNotify;
+    AdjustFramePtr AdjustFrame;
+}alias DRIWrappedFuncsRec = _DRIWrappedFuncsRec;
+alias DRIWrappedFuncsPtr = DRIWrappedFuncsRec*;
+
+/*
+ * Prior to Xorg 6.8.99.8, the DRIInfoRec structure was implicitly versioned
+ * by the XF86DRI_*_VERSION defines in hw.xfree86.dri.xf86dristr.h.  These numbers were also
+ * being used to version the XFree86-DRI protocol.  Bugs #3066 and #3163
+ * showed that this was inadequate.  The DRIInfoRec structure is now versioned
+ * by the DRIINFO_*_VERSION defines in this file. - ajax, 2005-05-18.
+ *
+ * Revision history:
+ * 4.1.0 and earlier: DRIQueryVersion returns XF86DRI_*_VERSION.
+ * 4.2.0: DRIQueryVersion begins returning DRIINFO_*_VERSION.
+ * 5.0.0: frameBufferPhysicalAddress changed from CARD32 to pointer.
+ */
+
+enum DRIINFO_MAJOR_VERSION =   5;
+enum DRIINFO_MINOR_VERSION =   4;
+enum DRIINFO_PATCH_VERSION =   0;
+
+alias DRITexOffsetStartProcPtr = ulong function(PixmapPtr pPix) @nogc nothrow;
+alias DRITexOffsetFinishProcPtr = void function(PixmapPtr pPix) @nogc nothrow;
+
+struct _DRIInfoRec {
+    /* driver call back functions
+     *
+     * New fields should be added at the end for backwards compatibility.
+     * Bump the DRIINFO patch number to indicate bugfixes.
+     * Bump the DRIINFO minor number to indicate new fields.
+     * Bump the DRIINFO major number to indicate binary-incompatible changes.
+     */
+    Bool function(ScreenPtr pScreen, VisualPtr visual, drm_context_t hHWContext, void* pVisualConfigPriv, DRIContextType context) @nogc nothrow CreateContext;
+    void function(ScreenPtr pScreen, drm_context_t hHWContext, DRIContextType context) @nogc nothrow DestroyContext;
+    void function(ScreenPtr pScreen, DRISyncType syncType, DRIContextType readContextType, void* readContextStore, DRIContextType writeContextType, void* writeContextStore) @nogc nothrow SwapContext;
+    void function(WindowPtr pWin, RegionPtr prgn, CARD32 indx) @nogc nothrow InitBuffers;
+    void function(WindowPtr pWin, xPoint ptOldOrg, RegionPtr prgnSrc, CARD32 indx) @nogc nothrow MoveBuffers;
+    void function(ScreenPtr pScreen) @nogc nothrow TransitionTo3d;
+    void function(ScreenPtr pScreen) @nogc nothrow TransitionTo2d;
+
+    void function(WindowPtr pWin, CARD32 indx) @nogc nothrow SetDrawableIndex;
+    Bool function(ScreenPtr pScreen) @nogc nothrow OpenFullScreen;
+    Bool function(ScreenPtr pScreen) @nogc nothrow CloseFullScreen;
+
+    /* wrapped functions */
+    DRIWrappedFuncsRec wrap;
+
+    /* device info */
+    char* drmDriverName;
+    char* clientDriverName;
+    char* busIdString;
+    int ddxDriverMajorVersion;
+    int ddxDriverMinorVersion;
+    int ddxDriverPatchVersion;
+    void* frameBufferPhysicalAddress;
+    c_long frameBufferSize;
+    c_long frameBufferStride;
+    c_long SAREASize;
+    int maxDrawableTableEntry;
+    int ddxDrawableTableEntry;
+    c_long contextSize;
+    DRISwapMethod driverSwapMethod;
+    DRIWindowRequests bufferRequests;
+    int devPrivateSize;
+    void* devPrivate;
+    Bool createDummyCtx;
+    Bool createDummyCtxPriv;
+
+    /* New with DRI version 4.1.0 */
+    void function(ScreenPtr pScreen) @nogc nothrow TransitionSingleToMulti3D;
+    void function(ScreenPtr pScreen) @nogc nothrow TransitionMultiToSingle3D;
+
+    /* New with DRI version 5.1.0 */
+    void function(ScreenPtr pScreen, WindowPtr* ppWin, int num) @nogc nothrow ClipNotify;
+
+    /* New with DRI version 5.2.0 */
+    Bool allocSarea;
+    Bool keepFDOpen;
+
+    /* New with DRI version 5.3.0 */
+    DRITexOffsetStartProcPtr texOffsetStart;
+    DRITexOffsetFinishProcPtr texOffsetFinish;
+
+    /* New with DRI version 5.4.0 */
+    int dontMapFrameBuffer;
+    drm_handle_t hFrameBuffer;  /* Handle to framebuffer, either
+                                 * mapped by DDX driver or DRI */
+
+}alias DRIInfoRec = _DRIInfoRec;
+alias DRIInfoPtr = DRIInfoRec*;
+
 enum DRI_MSG_VERBOSITY = 1;
 
 pragma(inline, true) DRIScreenPrivPtr DRI_SCREEN_PRIV(ScreenPtr pScreen) {

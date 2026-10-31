@@ -6,8 +6,8 @@ extern(C): __gshared:
  * Copyright © 2024 Enrico Weigelt, metux IT consult <info@metux.net>
  */
  
-public import include.dri;
+public import hw.xfree86.common.dri;
 
-Bool DRIExtensionInit();
+// Bool DRIExtensionInit();
 
  /* _XSERVER_DRI_PRIV_H */
