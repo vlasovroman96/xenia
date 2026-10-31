@@ -49,6 +49,7 @@ import include.xf86Parser;
 import include.xf86Cursor;
 import include.scrintstr;
 import hw.xfree86.modes.xf86Crtc;
+import hw.xfree86.modes.displaymode;
 
 private Bool xf86_dga_get_modes(ScreenPtr pScreen)
 {

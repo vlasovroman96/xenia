@@ -25,6 +25,7 @@ public import include.xf86Pci;
 public import include.xf86DDC;
 
 public import include.globals;
+import hw.xfree86.modes.displaymode;
 // //public import externs.X11.extensions.dpmsconst;
 
 void  vgaHWGetIndex();

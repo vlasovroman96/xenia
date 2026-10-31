@@ -101,7 +101,7 @@ import os.utils;
 import mi.miinitext;
 import render.picture;
 import build.xlibre_server;
-
+import hw.xfree86.modes.displaymode;
 
 import include.picture;
 static if(DPMSExtension) {

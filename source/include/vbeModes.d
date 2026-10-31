@@ -34,7 +34,7 @@ extern(C): __gshared:
 //public import x11.Xdefs;
 // //public import x11.Xfuncproto;
 import include.vbe;
-
+import hw.xfree86.modes.displaymode;
 /*
  * This is intended to be stored in the DisplayModeRec's private area.
  * It includes all the information necessary to VBE information.

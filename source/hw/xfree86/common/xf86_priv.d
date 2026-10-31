@@ -10,7 +10,7 @@ public import os.osdep;
 public import include.xf86;
 public import xf86Configure;
 public import xf86Globals;
-
+import hw.xfree86.modes.displaymode;
 
 // Bool xf86DoConfigure;
 // Bool xf86DoConfigurePass1;

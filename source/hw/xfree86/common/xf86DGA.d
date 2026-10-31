@@ -89,6 +89,7 @@ import dix.extension;
 import dix.screen_hooks;
 import include.xkbstr;
 import include.eventstr;
+import hw.xfree86.modes.displaymode;
 
 DevPrivateKeyRec DGAScreenKeyRec;
 

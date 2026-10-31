@@ -7,7 +7,7 @@ public import build.xorg_config;
 public import include.xf86Cursor;
 public import include.mipointrst;
 public import include.mipointer;
-
+import hw.xfree86.modes.displaymode;
 
 struct _Xf86CursorScreenRec {
     Bool SWCursor;

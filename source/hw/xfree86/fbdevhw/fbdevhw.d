@@ -41,6 +41,7 @@ import hw.xfree86.common.xf86Helper;
 import externs.sys.sysmacros;
 import externs.attrs;
 import externs.X11.extensions.dpmsproto;
+import hw.xfree86.modes.displaymode;
 
 int getpagesize() {
     return cast(int)sysconf(_SC_PAGESIZE);

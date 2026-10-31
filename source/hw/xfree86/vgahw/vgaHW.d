@@ -38,7 +38,7 @@ import xf86pciBus;
 import include.optionstr;
 import include.xf86cmap;
 import dix.events;
-
+import hw.xfree86.modes.displaymode;
 
 
 enum SAVE_FONT1 = 1;

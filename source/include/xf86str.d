@@ -48,7 +48,7 @@ public import include.pixmapstr;
 public import dix.colormap;
 public import include.xf86Module;
 public import include.xf86Opt;
-public import include.displaymode;
+import hw.xfree86.modes.displaymode;
 import externs.pciaccess;
 import include.xf86Xinput;
 public import include.xf86platformBus;

@@ -41,6 +41,7 @@ public import include.xlibre_ptrtypes;
 public import include.xf86str;
 public import include.xf86Opt;
 public import core.stdc.stdarg;
+import hw.xfree86.modes.displaymode;
 //public import externs.X11.extensions._randr;
 import include.xf86Xinput;
 import os.log;

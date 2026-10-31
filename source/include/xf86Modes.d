@@ -37,6 +37,7 @@ public import include.xf86;
 public import include.xorgVersion;
 public import include.edid;
 public import include.xf86Parser;
+import hw.xfree86.modes.displaymode;
 
 void  xf86ModeHSync(const(DisplayModeRec)* mode);
 void  xf86ModeVRefresh(const(DisplayModeRec)* mode);

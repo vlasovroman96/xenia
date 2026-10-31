@@ -45,7 +45,7 @@ import interpret_edid;
 import include.edid;
 import xf86gtf;
 import hw.xfree86.common.xf86Helper;
-
+import hw.xfree86.modes.displaymode;
 
 private void handle_detailed_rblank(detailed_monitor_section* det_mon, void* data)
 {

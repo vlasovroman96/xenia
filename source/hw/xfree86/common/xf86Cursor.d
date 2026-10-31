@@ -55,6 +55,7 @@ import xf86Globals;
 import dix.events;
 import os.log;
 import build.xlibre_server;
+import hw.xfree86.modes.displaymode;
 
 static if(XFreeXDGA){
 import hw.xfree86.common.dgaproc_priv;

@@ -1,4 +1,4 @@
-module include.displaymode;
+module hw.xfree86.modes.displaymode;
 @nogc nothrow:
 extern(C): __gshared:
  

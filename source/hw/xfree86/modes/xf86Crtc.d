@@ -70,7 +70,7 @@ import xf86CursorRD;
 import xf86EdidModes;
 import ddc;
 import randr.rrcrtc;
-
+import hw.xfree86.modes.displaymode;
 
 version (XV) {
 import xf86xv;

@@ -48,7 +48,7 @@ import hw.xfree86.common.xf86Helper;
 import hw.xfree86.modes.xf86Crtc;
 import xf86Globals;
 import xf86CursorRD;
-
+import hw.xfree86.modes.displaymode;
 /*
  * Returns the rotation being performed by the server.  If the driver indicates
  * that it's handling the screen transform, then this returns RR_Rotate_0.

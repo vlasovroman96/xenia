@@ -94,7 +94,7 @@ import randr.rrcrtc;
 import randr.randr;
 import randr.rrinfo;
 import externs.gbm;
-
+import hw.xfree86.modes.displaymode;
 
 enum string msGetPixmapPriv(string drmmode, string p) =`(cast(msPixmapPrivPtr)dixGetPrivateAddr(&(`~p~`).devPrivates, &(`~drmmode~`).pixmapPrivateKeyRec))`;
 alias uint32_t = core.stdc.stdint.uint32_t;

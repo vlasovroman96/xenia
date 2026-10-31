@@ -2,7 +2,7 @@ module include.vidmodestr;
 @nogc nothrow:
 extern(C): __gshared:
  
-public import include.displaymode;
+public import hw.xfree86.modes.displaymode;
 import build.xlibre_server;
 
 enum VidModeSelectMode {

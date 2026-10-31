@@ -75,6 +75,7 @@ import include.miscstruct;
 import include.dixstruct;
 import build.xlibre_server;
 import xf86pciBus;
+import hw.xfree86.modes.displaymode;
 
 // import xf86xv;
 import externs.libdrm;

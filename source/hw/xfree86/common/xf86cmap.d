@@ -65,6 +65,7 @@ import hw.xfree86.modes.xf86Crtc;
 import include.xf86cmap;
 import dix.resource;
 import dix.dixutils;
+import hw.xfree86.modes.displaymode;
 
 enum string SCREEN_PROLOGUE(string pScreen, string field) = `((` ~ pScreen ~ `).` ~ field ~ ` = 
     (cast(CMapScreenPtr)dixLookupPrivate(&(` ~ pScreen ~ `).devPrivates, CMapScreenKey)).` ~ field ~ `)`;

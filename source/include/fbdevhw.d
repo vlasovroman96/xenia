@@ -6,6 +6,7 @@ extern(C): __gshared:
 public import include.xf86str;
 import externs.pciaccess;
 public import build.dix_config;
+import hw.xfree86.modes.displaymode;
 
 enum FBDEVHW_PACKED_PIXELS =		0       /* Packed Pixels        */;
 enum FBDEVHW_INTERLEAVED_PLANES =	2       /* Interleaved planes   */;

@@ -68,7 +68,7 @@ import build.xorg_config;
 import include.xf86;
 import xf86Modes;
 import core.stdc.string;
-
+import hw.xfree86.modes.displaymode;
 enum MARGIN_PERCENT =    1.8   /* % of active vertical image                */;
 enum CELL_GRAN =         8.0   /* assumed character cell granularity        */;
 enum MIN_PORCH =         1     /* minimum front porch                       */;

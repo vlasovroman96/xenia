@@ -16,7 +16,7 @@ import dix.screen_hooks;
 import dix.events;
 import include.privates;
 import dix.devices;
-
+import hw.xfree86.modes.displaymode;
 /* FIXME: This was added with the ABI change of the miPointerSpriteFuncs for
  * MPX.
  * inputInfo is needed to pass the core pointer as the default argument into

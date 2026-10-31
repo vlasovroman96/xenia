@@ -42,6 +42,8 @@ import Monitor;
 import externs.gnu;
 import os.log;
 import xf86Globals;
+import hw.xfree86.modes.displaymode;
+
 /**
  * Calculates the horizontal sync rate of a mode.
  */

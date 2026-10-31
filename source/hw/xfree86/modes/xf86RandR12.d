@@ -66,7 +66,7 @@ import randr.rrproperty;
 import randr.rrprovider;
 import include.xf86Crtc;
 import randr.rrinfo;
-
+import hw.xfree86.modes.displaymode;
 
 struct _xf86RandR12Info {
     int virtualX;

@@ -46,7 +46,7 @@ public import include.picturestr;
 import include.mipointer;
 import externs.pciaccess;
 import hw.xfree86.common.xf86Helper;
-
+import hw.xfree86.modes.displaymode;
 
 enum string WRAP_SCREEN(string x,string y) = `{pScreenPriv.` ~ x ~ ` = pScreen.` ~ x ~ `; pScreen.` ~ x ~ ` = &` ~ y ~ `;}`;
 
