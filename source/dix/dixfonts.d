@@ -82,7 +82,7 @@ import dix.cursor;
 import include.misc;
 import include.opaque;
 import include.dixfontstr;
-import include.dixfont;
+import dix.dixfonts;
 import Xext.xace;
 import os.utils;
 import dix.dixutils;
@@ -177,7 +177,9 @@ struct image_text_closure {
 }
 
 // FontPtr defaultFont;
-
+// version (OSX) {
+// enum InitFonts = Darwin_X_InitFonts;
+// }
 private FontPathElementPtr* font_path_elements = cast(FontPathElementPtr*) 0;
 private int num_fpes = 0;
 private xfont2_fpe_funcs_rec** fpe_functions;

@@ -148,7 +148,7 @@ import include.resource;
 import include.dixstruct;
 import include.opaque;
 import include.windowstr;
-import include.dixfont;
+import dix.dixfonts;
 import dix.colormap;
 import include.inputstr;
 import dix.cursor;

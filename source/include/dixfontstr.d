@@ -26,10 +26,9 @@ SOFTWARE.
 
  
 public import include.servermd;
-public import include.dixfont;
+public import dix.dixfonts;
 import Xext.xf86bigfont;
-// import ;
-// //public import externs.X11.fonts.fontstruct;
+import externs.X11.fonts.fontstruct;
 //public import x11.Xproto;         /* for xQueryFontReply */
 import fb.fbglyph;
 

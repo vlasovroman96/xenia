@@ -119,7 +119,7 @@ import include.gcstruct;
 import include.extension;
 import dix.cursor;
 import include.servermd;
-import include.dixfont;
+import dix.dixfonts;
 import include.extnsionst;
 import include.privates;
 import include.exevents;

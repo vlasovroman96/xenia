@@ -139,7 +139,7 @@ import dix.cursor;
 import include.scrnintstr;
 import include.servermd;
 import include.extnsionst;
-import include.dixfont;
+import dix.dixfonts;
 import dix.dispatch;
 import dix.swaprep;
 import dix.swapreq;
