@@ -39,8 +39,6 @@ import include.xf86;
 import include.xf86_OSproc;;
 import include.xf86_OSlib;
 import include.xf86Xinput;
-// import hw.xfree86.common.xisb;
-import include.xisb;
 // import hw.xfree86.common.xf86sbusBus_priv;;
 import hw.xfree86.os_support.bus.xf86Sbus_priv;
 import include.xf86sbusBus;
@@ -68,6 +66,15 @@ import dix.resource;
 import Xext.xvmc;
 import posix_tty;
 
+struct XISBuffer {
+    int fd;
+    int trace;
+    int block_duration;
+    ssize_t current;            /* bytes read */
+    ssize_t end;
+    ssize_t buffer_size;
+    ubyte* buf;
+}
 
 XISBuffer* XisbNew(int fd, ssize_t size)
 {

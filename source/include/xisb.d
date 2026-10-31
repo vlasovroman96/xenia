@@ -1,6 +1,6 @@
-module include.xisb;
-@nogc nothrow:
-extern(C): __gshared:
+// module include.xisb;
+// @nogc nothrow:
+// extern(C): __gshared:
 /*
  * Copyright (c) 1997  Metro Link Incorporated
  *
@@ -29,7 +29,7 @@ extern(C): __gshared:
  */
 
 	
-public import core.sys.posix.unistd;
+// public import core.sys.posix.unistd;
 // //public import x11.Xfuncproto;
 
 /******************************************************************************
@@ -37,15 +37,7 @@ public import core.sys.posix.unistd;
  *									structs, typedefs, #defines, enums
  *****************************************************************************/
 
-struct XISBuffer {
-    int fd;
-    int trace;
-    int block_duration;
-    ssize_t current;            /* bytes read */
-    ssize_t end;
-    ssize_t buffer_size;
-    ubyte* buf;
-}
+
 
 /******************************************************************************
  *		Declarations
@@ -53,12 +45,12 @@ struct XISBuffer {
  *											of globals.
  *											put locals in the .c file.
  *****************************************************************************/
-void * XisbNew(int fd, ssize_t size);
-void  XisbFree(XISBuffer* b);
-void  XisbRead(XISBuffer* b);
-void  XisbBlockDuration(XISBuffer* b, int block_duration);
+// void * XisbNew(int fd, ssize_t size);
+// void  XisbFree(XISBuffer* b);
+// void  XisbRead(XISBuffer* b);
+// void  XisbBlockDuration(XISBuffer* b, int block_duration);
 
-/*
- *	DO NOT PUT ANYTHING AFTER THIS ENDIF
- */
+// /*
+//  *	DO NOT PUT ANYTHING AFTER THIS ENDIF
+//  */
 
