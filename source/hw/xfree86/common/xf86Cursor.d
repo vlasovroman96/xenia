@@ -43,7 +43,6 @@ import mi.mipointer_priv;
 import dix.cursor;
 import mi.mipointer;
 import include.scrnintstr;
-import include.globals;
 
 import xf86_priv;
 import include.xf86Priv;

@@ -59,7 +59,6 @@ import include.scrnintstr;
 import include.window;
 import include.windowstr;
 import include.pixmapstr;
-import include.globals;
 import include.servermd;
 import include.resource;
 import render.picturestr_priv;

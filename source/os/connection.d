@@ -122,7 +122,6 @@ import os.probes_priv;
 
 import include.misc;               /* for typedef of pointer */
 import dix.dixstruct_priv;
-import include.globals;
 import Xext.xace;
 
 alias sockaddr = core.sys.posix.sys.socket.sockaddr;

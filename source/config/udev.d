@@ -40,7 +40,6 @@ import include.input;
 import include.inputstr;
 import config.config_backends;
 import include.os;
-import include.globals;
 import externs.attrs;
 import os.log;
 import dix.inpututils;

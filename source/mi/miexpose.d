@@ -99,7 +99,6 @@ import include.windowstr;
 import include.pixmap;
 import include.input;
 import include.dixstruct;
-import include.globals;
 import dix.events;
 import dix.gc;
 

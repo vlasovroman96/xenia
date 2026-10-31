@@ -24,7 +24,6 @@ import include.privates;
 import mioverlay;
 import migc;
 
-import include.globals;
 import include.mioverlay;
 import dix.screen_hooks;
 import dix.events;

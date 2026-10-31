@@ -58,7 +58,6 @@ public import dix.cursor;
 public import include.dixstruct;
 public import include.gcstruct;
 public import include.servermd;
-public import include.globals;
 public import include.picturestr;
 public import include.extnsionst;
 public import include.privates;

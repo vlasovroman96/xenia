@@ -36,7 +36,6 @@ import include.xf86DDC;
 
 import include.xf86;
 import include.os;
-import include.globals;
 import xf86Modes;
 import include.xf86Priv;
 import mi.mipointer;

@@ -119,7 +119,6 @@ import include.xf86;
 // import include.xf86Crtc;
 import include.picturestr;
 // import xf86Bus;
-import include.globals;
 import include.xserver_properties;
 import os.log;
 import externs.attrs;

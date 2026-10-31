@@ -32,7 +32,6 @@ from The Open Group.
  
 //public import x11.Xmd;
 
-public import include.globals;
 
 // bool bgNoneRoot;
 public import dix.window;

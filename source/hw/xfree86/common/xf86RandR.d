@@ -34,7 +34,6 @@ import include.extinit;
 import include.xf86DDC;
 
 import include.os;
-import include.globals;
 import xf86_priv;
 import include.xf86str;
 import include.xf86Priv;

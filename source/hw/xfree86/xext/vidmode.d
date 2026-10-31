@@ -57,7 +57,6 @@ import include.extnsionst;
 import include.scrnintstr;
 import include.servermd;
 import include.vidmodestr;
-import include.globals;
 import include.protocol_versions;
 import dix.extension;
 private int VidModeErrorBase;

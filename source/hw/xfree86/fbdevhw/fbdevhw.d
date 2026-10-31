@@ -35,7 +35,6 @@ import build.xlibre_server;
 
 import include.fbdevhw;
 import hw.xfree86.fbdevhw.fbpriv;
-import include.globals;
 import hw.xfree86.common.xf86Helper;
 // //import externs.X11.extensions.dpmsconst;
 import externs.sys.sysmacros;

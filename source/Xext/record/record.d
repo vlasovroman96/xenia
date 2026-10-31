@@ -62,7 +62,6 @@ import set;
 import dix.swaprep;
 import include.inputstr;
 import include.scrnintstr;
-import include.globals;
 import dix.cursor;
 import externs.X11.extensions.recordproto;
 import os.io;

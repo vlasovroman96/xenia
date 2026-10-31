@@ -60,7 +60,6 @@ import include.inputstr;
 import include.scrnintstr;
 import dix.cursor;
 import include.dixstruct;
-import include.globals;
 import mi.mipointer;
 import include.eventstr;
 import dix.eventconvert;

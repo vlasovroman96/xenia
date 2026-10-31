@@ -49,7 +49,6 @@ import include.extnsionst;
 import include.dixstruct;
 import include.window;
 import externs.X11.extensions.panoramiXproto;
-import include.globals;
 import os.log;
 import dix.extension;
 

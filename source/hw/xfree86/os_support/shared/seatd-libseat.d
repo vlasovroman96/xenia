@@ -46,7 +46,6 @@ import xf86platformBus;
 import xf86Xinput;
 import xf86Xinput_priv;
 import include.xf86Priv;
-import include.globals;
 
 import config.hotplug_priv;
 
@@ -95,7 +94,6 @@ import xf86Xinput;
 import include.xf86Crtc;
 import include.picturestr;
 import xf86Bus;
-import include.globals;
 import include.xserver_properties;
 import os.log;
 import externs.attrs;

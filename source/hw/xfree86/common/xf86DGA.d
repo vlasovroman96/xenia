@@ -63,7 +63,6 @@ import include.xf86Priv;
 import hw.xfree86.common.dgaproc_priv;
 import include.pixmapstr;
 import include.inputstr;
-import include.globals;
 import include.servermd;
 import mi.micmap;
 import include.xkbsrv;

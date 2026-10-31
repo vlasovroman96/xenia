@@ -102,7 +102,6 @@ import    include.scrnintstr;
 import    include.validate;
 import    include.windowstr;
 import    include.regionstr;
-import    include.globals;
 import    composite.compint;
 import composite.compwindow;
 

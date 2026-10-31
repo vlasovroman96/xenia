@@ -140,7 +140,6 @@ import dix.cursor;
 import include.dixstruct;
 import include.gcstruct;
 import include.servermd;
-import include.globals;
 import composite.compint;
 import include.privates;
 import Xext.xace;

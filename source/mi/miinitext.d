@@ -98,7 +98,6 @@ import include.misc;
 import include.extension;
 import mi.micmap;
 import include.os;
-import include.globals;
 import Xext.xres;
 import mi.miinitext;
 import os.log;

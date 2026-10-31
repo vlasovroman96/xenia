@@ -60,7 +60,6 @@ import include.misc;
 import include.dixstruct;
 import include.scrnintstr;
 import dix.swaprep;
-import include.globals;
 import os.io;
 import os.log;
 import std.conv;

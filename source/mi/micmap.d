@@ -43,7 +43,6 @@ import os.osdep;
 
 import include.scrnintstr;
 import include.resource;
-import include.globals;
 import mi.micmap;
 import dix.resource;
 import dix.colormap;
