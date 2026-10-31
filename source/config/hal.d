@@ -60,7 +60,7 @@ import config.dbus_core;
 import externs.attrs;
 import os.log;
 import dix.inpututils;
-import xf86Xinput;
+import hw.xfree86.common.xf86Xinput;
 
 
 enum LIBHAL_PROP_KEY = "input.X11_options.";

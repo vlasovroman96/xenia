@@ -34,7 +34,7 @@ import include.misc;
 
 version = SEATD_LIBSEAT;
 version (SEATD_LIBSEAT) {
-public import xf86Xinput;
+public import hw.xfree86.common.xf86Xinput;
 public import hw.xfree.os_support.shrd.seatd_libseat;
 // public import 
 

@@ -46,7 +46,7 @@ import dix.inpututils;
 import externs.gnu;
 import os.string;
 import os.connection;
-import xf86Xinput;
+import hw.xfree86.common.xf86Xinput;
 import os.inputthread;
 import xf86platformBus;
 import externs.sys.sysmacros;

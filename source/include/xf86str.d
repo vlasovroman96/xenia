@@ -50,7 +50,7 @@ public import include.xf86Module;
 public import include.xf86Opt;
 import hw.xfree86.modes.displaymode;
 import externs.pciaccess;
-import include.xf86Xinput;
+import hw.xfree86.common.xf86Xinput;
 public import include.xf86platformBus;
 /**
  * Integer type that is of the size of the addressable memory (machine size).

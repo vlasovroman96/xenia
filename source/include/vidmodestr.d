@@ -57,7 +57,7 @@ union vidMonitorValue {
     float f;
 }
 
-alias VidModeExtensionInitProcPtr = Bool function(ScreenPtr pScreen);
+alias VidModeExtensionInitProcPtr = x11.Xdefs.Bool function(ScreenPtr pScreen);
 alias VidModeGetMonitorValueProcPtr = vidMonitorValue function(ScreenPtr pScreen, int valtyp, int indx);
 alias VidModeGetEnabledProcPtr = Bool function();
 alias VidModeGetAllowNonLocalProcPtr = Bool function();

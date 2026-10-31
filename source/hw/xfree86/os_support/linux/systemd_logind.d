@@ -40,7 +40,6 @@ import config.dbus_core;
 // import hw.xfree86.os_support.xf86_os_support;
 // import xf86_priv;
 // // import xf86platformBus_priv;
-// import xf86Xinput_priv;
 // import include.xf86Priv;
 // import include.globals;
 // import core.sys.posix.sys.ioctl;
@@ -70,7 +69,6 @@ import xf86Option;
 import include.misc;
 import externs.libdbus;
 import core.sys.posix.sys.select;
-import include.xf86Xinput;
 import config.hotplug_priv;
 
 
@@ -84,7 +82,7 @@ import os.log;
 import config.libhal;
 import os.connection;
 import include.xf86;
-import xf86Xinput;
+import hw.xfree86.common.xf86Xinput;
 import xf86Init;
 import xf86platformBus_priv;
 import lnx_init;

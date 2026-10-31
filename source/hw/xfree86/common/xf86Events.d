@@ -84,7 +84,6 @@ import hw.xfree86.common.dgaproc_priv;
 }
 
 import include.inputstr;
-import xf86Xinput_priv;
 import mi.mipointer;
 import include.xkbsrv;
 import include.xkbsrv;

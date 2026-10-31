@@ -42,7 +42,7 @@ import core.stdc.ctype;
 import include.os;
 import include.xf86;
 import xf86Opt_priv;
-import xf86Xinput;
+import hw.xfree86.common.xf86Xinput;
 import include.xf86Optrec;
 import include.xf86Parser;
 import xf86platformBus;

@@ -90,7 +90,7 @@ import include.xf86_OSlib;
 import xf86cmap;
 import mi.mipointer;
 import xf86Extensions;
-import xf86Xinput;
+import hw.xfree86.common.xf86Xinput;
 // import xf86InPriv;
 import include.xf86Crtc;
 import glx.glxbuiltin : xeniaGlxBuiltinInit;

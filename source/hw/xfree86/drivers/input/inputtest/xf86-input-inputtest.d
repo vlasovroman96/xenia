@@ -44,7 +44,6 @@ import include.exevents;
 import include.input;
 import include.xkbsrv;
 import include.xf86;
-import xf86Xinput_priv;
 import include.xserver_properties;
 import include.os;
 import os.log;
@@ -56,10 +55,12 @@ import xf86Option;
 import include.optionstr;
 import dix.devices;
 import dix.inpututils;
-import xf86Xinput;
+import hw.xfree86.common.xf86Xinput;
 import std.conv;
 import xkb.xkbInit;
 import hw.xfree86.drivers.input.inputtest.xf86_input_inputtest_protocol;
+import xf86Events;
+
 
 enum MAX_POINTER_NUM_AXES = 5 /* x, y, hscroll, vscroll, [pressure] */;
 enum MAX_TOUCH_NUM_AXES = 5 /* x, y, hscroll, vscroll, pressure */;

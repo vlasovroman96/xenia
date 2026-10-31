@@ -112,7 +112,6 @@ import include.xf86_OSlib;
 // import xf86cmap;
 import mi.mipointer;
 // import xf86Extensions;
-import include.xf86Xinput;
 import include.xf86;
 
 // import xf86InPriv;

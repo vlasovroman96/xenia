@@ -33,8 +33,7 @@ extern(C): __gshared:
  */
 import build.xorg_config;
 import build.xlibre_server;
-import include.xf86Xinput;
-// import include.xf86;
+import include.xf86;
 import x11.X;
 // import include.os;
 // import include.windowstr;
@@ -43,7 +42,7 @@ import x11.X;
 // import include.xf86Priv;
 import include.xf86Parser;
 // import include.privates;
-// import xf86Xinput;
+import hw.xfree86.common.xf86Xinput;
 // // import xf86InPriv;
 // import xf86Config;
 // import include.xf86Xinput;

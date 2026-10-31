@@ -1,4 +1,4 @@
-module xf86Xinput;
+module hw.xfree86.common.xf86Xinput;
 @nogc nothrow:
 extern(C): __gshared:
 import core.stdc.config: c_long, c_ulong;
@@ -67,7 +67,6 @@ import dix.screenint_priv;
 import xf86_priv;
 import include.xf86Priv;
 import xf86Config;
-import xf86Xinput_priv;
 import Xi.XIstubs;
 import include.xf86Optrec;
 import mi.mipointer;
@@ -94,7 +93,6 @@ import dix.events;
 import dix.inpututils;
 import xf86platformBus_priv;
 import xf86Globals;
-import xf86Xinput;
 import os.log;
 import xf86pciBus;
 import xf86Option;
@@ -141,6 +139,58 @@ extern(C) int fnmatch(const(char)* pattern, const(char)* str, int flags);
 enum FNM_PATHNAME = 1 << 0;
 import include.xkbsrv;
 import include.xf86Parser;
+
+/* Input device flags */
+enum XI86_ALWAYS_CORE =	0x04    /* device always controls the pointer */;
+/* the device sends Xinput and core pointer events */
+enum XI86_SEND_CORE_EVENTS =	XI86_ALWAYS_CORE;
+/* 0x08 is reserved for legacy XI86_SEND_DRAG_EVENTS, do not use for now */
+/* server-internal only */
+enum XI86_DEVICE_DISABLED =    0x10    /* device was disabled before vt switch */;
+enum XI86_SERVER_FD =		0x20	/* fd is managed by xserver */;
+
+/* Input device driver capabilities */
+enum XI86_DRV_CAP_SERVER_FD =	0x01;
+
+/* This holds the input driver entry and module include.information. */
+struct _InputDriverRec {
+    int driverVersion;
+    const(char)* driverName;
+    void function(int flags) Identify;
+    int function(_InputDriverRec* drv, _InputInfoRec* pInfo, int flags) @nogc nothrow PreInit;
+    void function(_InputDriverRec* drv, _InputInfoRec* pInfo, int flags) @nogc nothrow UnInit;
+    void* module_;
+    const(char)** default_options;
+    int capabilities;
+}alias InputDriverRec = _InputDriverRec;
+alias InputDriverPtr = _InputDriverRec*;
+
+/* This is to input devices what the ScrnInfoRec is to screens. */
+
+struct _InputInfoRec {
+    _InputInfoRec* next;
+    char* name;
+    char* driver;
+
+    int flags;
+
+    Bool function(DeviceIntPtr device, int what) @nogc nothrow device_control;
+    void function(_InputInfoRec* local) @nogc nothrow read_input;
+    int function(_InputInfoRec* local, xDeviceCtl* control) @nogc nothrow control_proc;
+    int function(ClientPtr client, DeviceIntPtr dev, int mode) @nogc nothrow switch_mode;
+    int function(_InputInfoRec* local, int* valuators, int first_valuator, int num_valuators) @nogc nothrow set_device_valuators;
+
+    int fd;
+    int major;
+    int minor;
+    DeviceIntPtr dev;
+    void* private_;
+    const(char)* type_name;
+    InputDriverPtr drv;
+    void* module_;
+    XF86OptionPtr options;
+    InputAttributes* attrs;
+}
 
 /* Valuator verification macro */
 enum string XI_VERIFY_VALUATORS(string num_valuators) = `

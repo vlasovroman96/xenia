@@ -33,7 +33,6 @@ import build.xorg_config;
 
 import xf86_priv;
 import include.xf86Priv;
-import xf86Xinput_priv;
 import include.xf86_OSproc;;
 import xf86Globals;
 import dix.devices;

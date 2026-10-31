@@ -43,8 +43,7 @@ static if(XSERVER_PLATFORM_BUS){
 import xf86platformBus_priv;
 import xf86platformBus;
 }
-import xf86Xinput;
-import xf86Xinput_priv;
+import hw.xfree86.common.xf86Xinput;
 import include.xf86Priv;
 
 import config.hotplug_priv;
@@ -89,7 +88,7 @@ import include.xf86_OSlib;
 import xf86cmap;
 import mi.mipointer;
 import xf86Extensions;
-import xf86Xinput;
+import hw.xfree86.common.xf86Xinput;
 // import xf86InPriv;
 import include.xf86Crtc;
 import include.picturestr;

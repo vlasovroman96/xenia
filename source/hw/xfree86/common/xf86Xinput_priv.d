@@ -6,7 +6,6 @@ extern(C): __gshared:
  * Copyright © 2024 Enrico Weigelt, metux IT consult <info@metux.net>
  */
  
-public import include.xf86Xinput;
 import include.xf86;
 
 // InputInfoPtr xf86InputDevs;

@@ -63,7 +63,7 @@ import include.xf86sbusBus;
 import externs.linux.fbio;
 import xf86platformBus_priv;
 import xf86Globals;
-import xf86Xinput;
+import hw.xfree86.common.xf86Xinput;
 import os.log;
 import xf86pciBus;
 import xf86Option;

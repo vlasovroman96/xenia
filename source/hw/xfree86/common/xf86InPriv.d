@@ -27,7 +27,6 @@ extern(C): __gshared:
  * the sale, use or other dealings in this Software without prior written
  * authorization from the copyright holder(s) and author(s).
  */
- import include.xf86Xinput;
  public import xf86Globals;
 
 /* xf86Globals.c */

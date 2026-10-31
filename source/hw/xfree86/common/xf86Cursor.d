@@ -48,7 +48,7 @@ import xf86_priv;
 import include.xf86Priv;
 import include.xf86_OSproc;;
 
-import xf86Xinput;
+import hw.xfree86.common.xf86Xinput;
 import hw.xfree86.common.xf86Helper;
 import xf86Globals;
 import dix.events;
