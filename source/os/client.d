@@ -282,7 +282,7 @@ version (OSX) {
 
         /* Determine exact size instead of relying on kern.argmax */
         size_t len = void;
-        if (sysctl(mib.ptr, mixin(ARRAY_SIZE!("mib.ptr")), null, &len, null, 0) != 0) {
+        if (sysctl(mib.ptr, mib.length, null, &len, null, 0) != 0) {
             ErrorF("Failed to query KERN_PROC_ARGS length for PID %d: %s\n", pid, strerror(errno));
             return;
         }
@@ -290,7 +290,7 @@ version (OSX) {
         /* Read KERN_PROC_ARGS contents. Similar to /proc/pid/cmdline
          * the process name and each argument are separated by NUL byte. */
         char* procargs = cast(char*) calloc(1, len);
-        if (sysctl(mib.ptr, mixin(ARRAY_SIZE!("mib.ptr")), procargs, &len, null, 0) != 0) {
+        if (sysctl(mib.ptr, mib.length, procargs, &len, null, 0) != 0) {
             ErrorF("Failed to get KERN_PROC_ARGS for PID %d: %s\n", pid, strerror(errno));
             free(procargs);
             return;

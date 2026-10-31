@@ -319,8 +319,8 @@ private void init_pointer(InputInfoPtr pInfo)
     has_pressure = cast(bool)xf86SetBoolOption(pInfo.options, "PointerHasPressure",
                                      false);
 
-    init_button_map(btnmap.ptr, mixin(ARRAY_SIZE!("btnmap")));
-    init_button_labels(btnlabels.ptr, mixin(ARRAY_SIZE!("btnlabels")));
+    init_button_map(btnmap.ptr, btnmap.length);
+    init_button_labels(btnlabels.ptr, btnlabels.length);
 
     axislabels[num_axes++] = XIGetKnownProperty(AXIS_LABEL_PROP_REL_X);
     axislabels[num_axes++] = XIGetKnownProperty(AXIS_LABEL_PROP_REL_Y);
@@ -372,8 +372,8 @@ private void init_pointer_absolute(InputInfoPtr pInfo)
     has_pressure = cast(bool)xf86SetBoolOption(pInfo.options, "PointerHasPressure",
                                      false);
 
-    init_button_map(btnmap.ptr, mixin(ARRAY_SIZE!("btnmap")));
-    init_button_labels(btnlabels.ptr, mixin(ARRAY_SIZE!("btnlabels")));
+    init_button_map(btnmap.ptr, btnmap.length);
+    init_button_labels(btnlabels.ptr, btnlabels.length);
 
     axislabels[num_axes++] = XIGetKnownProperty(AXIS_LABEL_PROP_ABS_X);
     axislabels[num_axes++] = XIGetKnownProperty(AXIS_LABEL_PROP_ABS_Y);
@@ -445,8 +445,8 @@ private void init_touch(InputInfoPtr pInfo)
     int nbuttons = 7;
     int ntouches = TOUCH_MAX_SLOTS;
 
-    init_button_map(btnmap.ptr, mixin(ARRAY_SIZE!("btnmap")));
-    init_button_labels(btnlabels.ptr, mixin(ARRAY_SIZE!("btnlabels")));
+    init_button_map(btnmap.ptr, btnmap.length);
+    init_button_labels(btnlabels.ptr, btnlabels.length);
 
     axislabels[num_axes++] = XIGetKnownProperty(AXIS_LABEL_PROP_ABS_MT_POSITION_X);
     axislabels[num_axes++] = XIGetKnownProperty(AXIS_LABEL_PROP_ABS_MT_POSITION_Y);

@@ -442,7 +442,7 @@ private DisplayModePtr FindDMTMode(int hsize, int vsize, int refresh, Bool rb)
     int i = void;
     const(DisplayModeRec)* ret = void;
 
-    for (i = 0; i < mixin(ARRAY_SIZE!("DMTModes")); i++) {
+    for (i = 0; i < DMTModes.length; i++) {
         ret = &DMTModes[i];
 
         if (!rb && xf86ModeIsReduced(ret))
@@ -554,7 +554,7 @@ private void DDCModeDoInterlaceQuirks(DisplayModePtr mode)
     ];
     int i = void;
 
-    for (i = 0; i < mixin(ARRAY_SIZE!("cea_interlaced")); i++) {
+    for (i = 0; i < cea_interlaced.length; i++) {
         if ((mode.HDisplay == cea_interlaced[i].w) &&
             (mode.VDisplay == cea_interlaced[i].h / 2)) {
             mode.VDisplay *= 2;

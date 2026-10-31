@@ -1733,7 +1733,7 @@ private void drmmode_destroy_tearfree_shadow(xf86CrtcPtr crtc)
     if (trf.flip_seq)
         ms_drm_abort_seq(crtc.scrn, trf.flip_seq);
 
-    for (i = 0; i < mixin(ARRAY_SIZE!("trf.buf")); i++) {
+    for (i = 0; i < trf.buf.length; i++) {
         if (trf.buf[i].px) {
             drmmode_shadow_fb_destroy(crtc, trf.buf[i].px, cast(void*)cast(c_long)1,
                                       trf.buf[i].bo, &trf.buf[i].fb_id);
@@ -1758,7 +1758,7 @@ private Bool drmmode_create_tearfree_shadow(xf86CrtcPtr crtc)
 
     /* Destroy the old mode's buffers and make new ones */
     drmmode_destroy_tearfree_shadow(crtc);
-    for (i = 0; i < mixin(ARRAY_SIZE!("trf.buf")); i++) {
+    for (i = 0; i < trf.buf.length; i++) {
         trf.buf[i].px = drmmode_shadow_fb_create(crtc, null, w, h,
                                                   &trf.buf[i].bo,
                                                   &trf.buf[i].fb_id);
@@ -3793,7 +3793,7 @@ private void drmmode_create_name(ScrnInfoPtr pScrn, drmModeConnectorPtr koutput,
     return;
 
  fallback:
-    if (koutput.connector_type >= mixin(ARRAY_SIZE!("output_names")))
+    if (koutput.connector_type >= output_names.length)
         snprintf(name, 32, "Unknown%d-%d", koutput.connector_type, koutput.connector_type_id);
     else if (pScrn.is_gpu)
         snprintf(name, 32, "%s-%d-%d", output_names[koutput.connector_type], pScrn.scrnIndex - GPU_SCREEN_OFFSET + 1, koutput.connector_type_id);

@@ -480,7 +480,7 @@ private ModeStatus xf86LookupMode(ScrnInfoPtr scrp, DisplayModePtr modep, ClockR
         M_T_DRIVER,
         0
     ];
-    const(int) ntypes = mixin(ARRAY_SIZE!("types"));
+    const(int) ntypes = types.length;
 
     strategy &= ~(LOOKUP_CLKDIV2 | LOOKUP_OPTIONAL_TOLERANCES);
 
@@ -1813,7 +1813,7 @@ static if(XINERAMA){
                 M_T_DRIVER,
                 0
             ];
-            const(int) ntypes = mixin(ARRAY_SIZE!("types"));
+            const(int) ntypes = types.length;
             int n;
 
             /*

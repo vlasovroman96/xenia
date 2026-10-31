@@ -583,7 +583,7 @@ private void ReplaceCursor(CursorPtr pCursor, TestCursorFunc testCursor, void* c
     for (clientIndex = 0; clientIndex < currentMaxClients; clientIndex++) {
         if (!clients[clientIndex])
             continue;
-        for (resIndex = 0; resIndex < mixin(ARRAY_SIZE!("CursorRestypes")); resIndex++) {
+        for (resIndex = 0; resIndex < CursorRestypes.length; resIndex++) {
             rcl.type = CursorRestypes[resIndex];
             /*
              * This function walks the entire client resource database

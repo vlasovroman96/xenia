@@ -163,5 +163,5 @@ void xf86ExtensionInit()
 
     initializeExtensionModules();
 
-    LoadExtensionList(cast(ExtensionModule*)extensionModules.ptr, mixin(ARRAY_SIZE!("extensionModules")), TRUE);
+    LoadExtensionList(cast(ExtensionModule*)extensionModules.ptr, extensionModules.length, TRUE);
 }

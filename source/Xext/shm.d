@@ -1208,7 +1208,7 @@ version (HAVE_MEMFD_CREATE) {
 }
 
 version (O_TMPFILE) {
-    for (int i = 0; i < mixin(ARRAY_SIZE!("shmdirs.ptr")); i++) {
+    for (int i = 0; i < shmdirs.length; i++) {
         import std.conv.octal;
         fd = open(shmdirs[i], O_TMPFILE|O_RDWR|O_CLOEXEC|O_EXCL, octal!"666");
         if (fd >= 0) {
@@ -1219,9 +1219,9 @@ version (O_TMPFILE) {
     ErrorF ("Not using O_TMPFILE\n");
 }
 
-    for (int i = 0; i < mixin(ARRAY_SIZE!("shmdirs.ptr")); i++) {
+    for (int i = 0; i < shmdirs.length; i++) {
         char[PATH_MAX] template_ = void;
-        snprintf(template_, mixin(ARRAY_SIZE!("template_")), "%s/shmfd-XXXXXX", shmdirs[i]);
+        snprintf(template_, template_.length, "%s/shmfd-XXXXXX", shmdirs[i]);
 version (HAVE_MKOSTEMP) {
         fd = mkostemp(template_, O_CLOEXEC);
 } else {

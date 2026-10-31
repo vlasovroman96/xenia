@@ -704,7 +704,7 @@ private void DeliverStateNotifyEvent(DeviceIntPtr dev, WindowPtr win)
         evcount += ((nval - 3) + 6)/6;
     }
 
-    mixin(BUG_RETURN!("evcount > mixin(ARRAY_SIZE!(`sev`))"));
+    mixin(BUG_RETURN!("evcount > sev.length"));
 
     FixDeviceStateNotify(dev, ev, k, b, v, first);
 

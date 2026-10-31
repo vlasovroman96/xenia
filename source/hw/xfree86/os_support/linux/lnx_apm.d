@@ -112,12 +112,12 @@ private int lnxPMGetEventFromOs(int fd, pmEvent* events, int num)
     if (n > num)
         n = num;
     for (i = 0; i < n; i++) {
-        for (j = 0; j < mixin(ARRAY_SIZE!("LinuxToXF86.ptr")); j++)
+        for (j = 0; j < LinuxToXF86.length; j++)
             if (LinuxToXF86[j].apmLinux == linuxEvents[i]) {
                 events[i] = LinuxToXF86[j].xf86;
                 break;
             }
-        if (j == mixin(ARRAY_SIZE!("LinuxToXF86.ptr")))
+        if (j == LinuxToXF86.length)
             events[i] = XF86_APM_UNKNOWN;
     }
     return n;

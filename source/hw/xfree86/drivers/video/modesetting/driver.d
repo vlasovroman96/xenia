@@ -917,7 +917,7 @@ private void ms_tearfree_update_damages(ScreenPtr pScreen)
         RegionIntersect(&region, &region, dirty);
 
         if (trf.buf[0].px) {
-            for (i = 0; i < mixin(ARRAY_SIZE!("trf.buf")); i++)
+            for (i = 0; i < trf.buf.length; i++)
                 RegionUnion(&trf.buf[i].dmg, &trf.buf[i].dmg, &region);
         } else {
             /* Just notify the kernel of the damages if TearFree isn't used */

@@ -149,7 +149,7 @@ private int ProcXFixesDispatch(ClientPtr client)
     mixin(REQUEST!xReq);
     XFixesClientPtr pXFixesClient = mixin(GetXFixesClient!("client"));
 
-    if (pXFixesClient.major_version >= mixin(ARRAY_SIZE!("version_requests")))
+    if (pXFixesClient.major_version >= version_requests.length)
         return BadRequest;
     if (stuff.data > version_requests[pXFixesClient.major_version])
         return BadRequest;

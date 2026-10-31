@@ -1434,7 +1434,7 @@ private void include_bit_test_macros()
     ubyte[9] mask = 0;
     int i = void;
 
-    for (i = 0; i < mixin(ARRAY_SIZE!("mask.ptr")); i++) {
+    for (i = 0; i < mask.length; i++) {
         assert(mixin(BitIsOn!("mask.ptr", "i")) == 0);
         mixin(SetBit!("mask.ptr", "i"));
         assert(mixin(BitIsOn!("mask.ptr", "i")) == 1);

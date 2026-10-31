@@ -323,7 +323,7 @@ private PatternPtr InitPatterns(const(char)** patternlist)
     if (patternlist) {
         for (i = 0, s = patternlist; *s; i++, s++)
             if (*s is cast(char*)DEFAULT_LIST)
-                i += mixin(ARRAY_SIZE!("stdPatterns")) - 1 - 1;
+                i += stdPatterns.length - 1 - 1;
         patterns = cast(PatternPtr)calloc(i + 1, PatternRec.sizeof);
         if (!patterns) {
             return null;

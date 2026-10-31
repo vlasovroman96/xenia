@@ -120,12 +120,12 @@ private _ReservedExt[35] reservedExt = [
     { "XVideo-MotionCompensation",  EXTENSION_MAJOR_XVMC }
 ];
 
-pragma(msg, ARRAY_SIZE!("reservedExt.ptr"));
-pragma(msg, reservedExt.length);
+// pragma(msg, ARRAY_SIZE!("reservedExt.ptr"));
+// pragma(msg, reservedExt.length);
 
 private int checkReserved(const(char)* name)
 {
-    for (int i = 0; i<mixin(ARRAY_SIZE!("reservedExt")); i++) {
+    for (int i = 0; i< reservedExt.length; i++) {
         if (strcmp(name, reservedExt[i].name) == 0) {
             if (reservedExt[i].id < (RESERVED_EXTENSIONS + EXTENSION_BASE))
                 return reservedExt[i].id;

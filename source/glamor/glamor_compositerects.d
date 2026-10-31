@@ -67,7 +67,7 @@ private Bool _pixman_region_init_clipped_rectangles(pixman_region16_t* region, u
     pixman_bool_t ret = void;
     uint i = void, j = void;
 
-    if (num_rects > mixin(ARRAY_SIZE!("stack_boxes"))) {
+    if (num_rects > stack_boxes.length) {
         boxes = cast(pixman_box16_t*) calloc(num_rects, pixman_box16_t.sizeof);
         if (boxes is null)
             return FALSE;

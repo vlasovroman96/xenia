@@ -305,7 +305,7 @@ private Bool compAddAlternateVisuals(ScreenPtr pScreen, CompScreenPtr cs)
 {
     int ret = 0;
 
-    for (int alt = 0; alt < mixin(ARRAY_SIZE!("altVisuals")); alt++)
+    for (int alt = 0; alt < altVisuals.length; alt++)
         ret |= compAddAlternateVisual(pScreen, cs, altVisuals.ptr + alt);
 
     return ret;

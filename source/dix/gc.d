@@ -438,7 +438,7 @@ int ChangeGCXIDs(ClientPtr client, GCPtr pGC, BITS32 mask, CARD32* pC32)
     }
     for (int i = Ones(mask); i--;)
         vals[i].val = pC32[i];
-    for (int i = 0; i < mixin(ARRAY_SIZE!("xidfields")); ++i) {
+    for (int i = 0; i < xidfields.length; ++i) {
         int offset = void, rc = void;
         XID id = void;
 

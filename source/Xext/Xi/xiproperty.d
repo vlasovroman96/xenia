@@ -352,7 +352,7 @@ Atom XIGetKnownProperty(const(char)* name)
     if (!name)
         return None;
 
-    for (i = 0; i < mixin(ARRAY_SIZE!("dev_properties")); i++) {
+    for (i = 0; i < dev_properties.length; i++) {
         if (strcmp(name, dev_properties[i].name) == 0) {
             if (dev_properties[i].type == None)
                 dev_properties[i].type = dixAddAtom(dev_properties[i].name);
@@ -367,7 +367,7 @@ void XIResetProperties()
 {
     int i = void;
 
-    for (i = 0; i < mixin(ARRAY_SIZE!("dev_properties")); i++)
+    for (i = 0; i < dev_properties.length; i++)
         dev_properties[i].type = None;
 }
 

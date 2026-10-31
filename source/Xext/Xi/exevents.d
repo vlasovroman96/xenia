@@ -1318,7 +1318,7 @@ private void TouchCopyValuatorData(DeviceEvent* ev, TouchPointInfoPtr ti)
 {
     int i = void;
 
-    for (i = 0; i < mixin(ARRAY_SIZE!("ev.valuators.data")); i++)
+    for (i = 0; i < ev.valuators.data.length; i++)
         if (mixin(BitIsOn!("ev.valuators.mask", "i")))
             valuator_mask_set_double(ti.valuators, i, ev.valuators.data[i]);
 }

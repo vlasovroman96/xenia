@@ -851,7 +851,7 @@ private const(BuiltinColor)[783] BuiltinColors = [
 Bool dixLookupBuiltinColor(char* name, uint len, ushort* pred, ushort* pgreen, ushort* pblue)
 {
     int low = 0;
-    int high = mixin(ARRAY_SIZE!("BuiltinColors")) - 1;
+    int high = BuiltinColors.length - 1;
 
     while (high >= low) {
         int mid = (low + high) / 2;

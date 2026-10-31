@@ -152,13 +152,13 @@ private void number_formatting()
 
     xorgLogVerbosity = -1;
 
-    for (i = 0; i < mixin(ARRAY_SIZE!("unsigned_tests.ptr")); i++)
+    for (i = 0; i < unsigned_tests.length; i++)
         assert(check_number_format_test(unsigned_tests[i]));
 
-    for (i = 0; i < mixin(ARRAY_SIZE!("signed_tests.ptr")); i++)
+    for (i = 0; i < signed_tests.length; i++)
         assert(check_signed_number_format_test(signed_tests[i]));
 
-    for (i = 0; i < mixin(ARRAY_SIZE!("float_tests.ptr")); i++)
+    for (i = 0; i < float_tests.length; i++)
         assert(check_float_format_test(float_tests[i]));
 }
 // #pragma GCC diagnostic pop
@@ -377,7 +377,7 @@ version (__sun) { /* Solaris doesn't autoadd "0x" to %p format */
     } while(ptr);
 
 
-    for (i = 0; i < mixin(ARRAY_SIZE!("float_tests.ptr")); i++) {
+    for (i = 0; i < float_tests.length; i++) {
         double d = float_tests[i];
         char[30] expected = 0;
         sprintf(expected.ptr, "(EE) %.2f\n", d);

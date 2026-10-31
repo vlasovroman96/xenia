@@ -659,7 +659,7 @@ private int eventToDeviceEvent(DeviceEvent* ev, xEvent** xi)
     btlen = cast(int)bytes_to_int32(bits_to_bytes(MAX_BUTTONS));
     len += btlen * 4;           /* buttonmask len */
 
-    vallen = count_bits(ev.valuators.mask.ptr, mixin(ARRAY_SIZE!("ev.valuators.mask")));
+    vallen = count_bits(ev.valuators.mask.ptr, ev.valuators.mask.length);
     len += vallen * 2 * uint.sizeof;       /* axisvalues */
     vallen = cast(int)bytes_to_int32(bits_to_bytes(MAX_VALUATORS));
     len += vallen * 4;          /* valuators mask */

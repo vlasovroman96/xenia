@@ -1769,7 +1769,7 @@ Bool glamor_egl_try_big_gl_api(glamor_egl_priv_t* glamor_egl)
     glamor_egl.context = glamor_egl_create_context(glamor_egl.display,
                                                     config_attrib_list.ptr,
                                                     ctx_attrib_lists.ptr,
-                                                    mixin(ARRAY_SIZE!("ctx_attrib_lists")));
+                                                    ctx_attrib_lists.length);
 
     if (glamor_egl.context == externs.epoxydefs.EGL_NO_CONTEXT) {
         LogMessage(X_ERROR, "Failed to create GL context\n");
@@ -1826,7 +1826,7 @@ Bool glamor_egl_try_gles_api(glamor_egl_priv_t* glamor_egl)
     glamor_egl.context = glamor_egl_create_context(glamor_egl.display,
                                                     config_attrib_list.ptr,
                                                     ctx_attrib_lists.ptr,
-                                                    mixin(ARRAY_SIZE!("ctx_attrib_lists")));
+                                                    ctx_attrib_lists.length);
 
     if (glamor_egl.context == externs.epoxydefs.EGL_NO_CONTEXT) {
         LogMessage(X_ERROR, "Failed to create GLES context\n");

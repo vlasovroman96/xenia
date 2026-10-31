@@ -244,7 +244,7 @@ static if (GBM_BO_WITH_MODIFIERS) {
                                                format,
                                                modifiers, num_modifiers,
                                                front_flag_list.ptr,
-                                               mixin(ARRAY_SIZE!("front_flag_list")));
+                                               front_flag_list.length);
 
 static if (GBM_BO_WITH_MODIFIERS) {
     free(modifiers);
@@ -284,7 +284,7 @@ pragma(inline, true) private gbm_bo* gbm_create_cursor_bo(drmmode_ptr drmmode, B
                                                 format,
                                                 null, 0,
                                                 cursor_flag_list.ptr,
-                                                mixin(ARRAY_SIZE!("cursor_flag_list")));
+                                                cursor_flag_list.length);
 }
 
 gbm_bo* gbm_create_best_bo(drmmode_ptr drmmode, Bool do_map, uint width, uint height, int type)
