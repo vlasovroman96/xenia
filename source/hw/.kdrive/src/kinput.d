@@ -61,7 +61,7 @@ import include.xkbsrv;
 import Xi.XIstubs;            /* even though we don't use stubs.  cute, no? */
 import include.exevents;
 import Xi.exglobals;
-import include.eventstr;
+import dix.events;
 import include.xserver_properties;
 import include.optionstr;
 

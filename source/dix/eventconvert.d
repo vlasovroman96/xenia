@@ -48,7 +48,7 @@ import dix.inpututils_priv;
 
 import include.inputstr;
 import include.misc;
-import include.eventstr;
+import dix.events;
 import Xi.exglobals;
 import Xi.xiquerydevice;
 import include.xkbsrv;

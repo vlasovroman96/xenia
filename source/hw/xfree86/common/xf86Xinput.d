@@ -76,7 +76,7 @@ import seatd_libseat;
 
 import include.exevents;           /* AddInputDevice */
 import Xi.exglobals;
-import include.eventstr;
+import dix.events;
 import include.optionstr;
 import xf86Module_priv;
 import xf86Opt_priv;

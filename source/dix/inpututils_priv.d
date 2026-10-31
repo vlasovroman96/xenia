@@ -26,7 +26,7 @@ extern(C): __gshared:
  */
  
 public import include.input;
-public import include.eventstr;
+public import dix.events;
 import dix.inpututils_priv;
 import externs.X11.extensions.XI2proto;
 // public // //import externs.X11.extensions.XI2proto;

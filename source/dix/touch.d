@@ -44,7 +44,7 @@ import os.log_priv;
 
 import include.inputstr;
 import include.scrnintstr;
-import include.eventstr;
+import dix.events;
 import Xi.exglobals;
 import include.windowstr;
 import dix.devices;

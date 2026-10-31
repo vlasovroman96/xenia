@@ -68,7 +68,7 @@ import include.xkbsrv;
 import Xi.exglobals;
 import mi.mipointer;
 import include.xserver_properties;
-import include.eventstr;
+import dix.events;
 import externs.X11.extensions.xtestproto;
 import externs.X11.extensions.xtestconst;
 import dix.dixutils;

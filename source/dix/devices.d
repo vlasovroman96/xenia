@@ -88,7 +88,7 @@ import include.privates;
 import dix.dispatch;
 import dix.swaprep;
 import mi.mipointer;
-import include.eventstr;
+import dix.events;
 import Xi.exglobals;
 import Xi.xiquerydevice;      /* for SizeDeviceClasses */
 import Xi.xiproperty;

@@ -72,7 +72,7 @@ import   include.mipointrst;
 import   dix.cursor;
 import include.dixstruct;
 import   include.inputstr;
-import   include.eventstr;
+import   dix.events;
 import dix.screen_hooks;
 import dix.events;
 import dix.devices;

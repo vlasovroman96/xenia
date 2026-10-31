@@ -40,7 +40,7 @@ import include.misc;
 import include.inputstr;
 import include.xkbsrv;
 import include.xkbsrv;
-import include.eventstr;
+import dix.events;
 import include.scrnintstr;
 import include.optionstr;
 import externs.X11.extensions.XI2proto;

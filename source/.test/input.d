@@ -51,7 +51,7 @@ import include.resource;
 import include.windowstr;
 import include.inputstr;
 import Xi.exglobals;
-import include.eventstr;
+import dix.events;
 // import assert;
 
 import test.tests_common;

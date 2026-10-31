@@ -62,7 +62,7 @@ import   include.pixmapstr;
 import   dix.cursor;
 import   mi.mipointer;
 import   include.scrnintstr;
-import   include.eventstr;
+import   dix.events;
 import os.utils;
 import dix.inpututils;
 import dix.events;

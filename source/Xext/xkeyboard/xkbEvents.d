@@ -52,7 +52,7 @@ import include.xkbstr;
 import include.misc;
 import include.inputstr;
 import include.exevents;
-import include.eventstr;
+import dix.events;
 import mi.mipointer;
 import include.xkbstr;
 import os.WaitFor;

@@ -59,7 +59,7 @@ public import include.input;
 public import dix.cursor;
 public import include.privates;
 public import dix.colormap;
-public import include.eventstr;
+public import dix.events;
 import include.mistruct;
 import externs.X11.fonts.fontstruct;
 public import mi.micopy; 

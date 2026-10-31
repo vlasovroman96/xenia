@@ -45,7 +45,7 @@ import Screen;
 import Pointer;
 import Keyboard;
 import Handlers;
-import include.eventstr;
+import dix.events;
 import Init;
 import Args;
 import Drawable;

@@ -69,7 +69,7 @@ import xkb.xkbsrv_priv;
 import include.os;
 import include.misc;
 import include.inputstr;
-import include.eventstr;
+import dix.events;
 import xkb.xkbgeom_priv;
 import externs.X11.extensions.XKB;
 import externs.X11.extensions.XKBproto;

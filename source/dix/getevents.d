@@ -60,7 +60,7 @@ import include.scrnintstr;
 import dix.cursor;
 import include.dixstruct;
 import mi.mipointer;
-import include.eventstr;
+import dix.events;
 import dix.eventconvert;
 import include.windowstr;
 import include.xkbsrv;

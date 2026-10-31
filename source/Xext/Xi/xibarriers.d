@@ -65,7 +65,7 @@ import include.windowstr;
 import Xext.xace;
 import include.list;
 import Xi.exglobals;
-import include.eventstr;
+import dix.events;
 import externs.X11.extensions.xfixesproto;
 import dix.devices;
 import dix.dixutils;

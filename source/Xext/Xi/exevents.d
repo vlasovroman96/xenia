@@ -112,11 +112,10 @@ import include.windowstr;
 import include.miscstruct;
 import include.extnsionst;
 import Xi.exglobals;
-import include.eventstr;
+import dix.events;
 import include.scrnintstr;
 import Xext.xace;
 import Xi.xiquerydevice;      /* For List*Info */
-import include.eventstr;
 import dix.devices;
 import os.log;
 import os.log_priv;

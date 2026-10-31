@@ -23,7 +23,7 @@ public import dix.rpcbuf_priv;
 
 public import dix.callback;
 public import dix.cursor;
-public import include.eventstr;
+public import dix.events;
 public import include.gc;
 public import include.input;
 public import include.os;
@@ -188,13 +188,13 @@ Bool DeliverGestureEventToOwner(DeviceIntPtr dev, GestureInfoPtr gi, InternalEve
 
 // void DoFocusEvents(DeviceIntPtr dev, WindowPtr fromWin, WindowPtr toWin, int mode);
 
-int SetInputFocus(ClientPtr client, DeviceIntPtr dev, Window focusID, CARD8 revertTo, Time ctime, Bool followOK);
+// int SetInputFocus(ClientPtr client, DeviceIntPtr dev, Window focusID, CARD8 revertTo, Time ctime, Bool followOK);
 
 // int GrabDevice(ClientPtr client, DeviceIntPtr dev, uint this_mode, uint other_mode, Window grabWindow, uint ownerEvents, Time ctime, GrabMask* mask, int grabtype, Cursor curs, Window confineToWin, CARD8* status);
 
-void InitEvents();
+// void InitEvents();
 
-void CloseDownEvents();
+// void CloseDownEvents();
 
 // void DeleteWindowFromAnyEvents(WindowPtr pWin, Bool freeResources);
 
