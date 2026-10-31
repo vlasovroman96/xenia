@@ -55,7 +55,7 @@ import xkb.XKBMAlloc;
 import os.log;
 alias XkbNumRequiredTypes = xkb.XKBMAlloc.XkbNumRequiredTypes;
 import xkb.XKBGAlloc;
-
+import dix.atom;
 
 
 private Atom XkbInternAtom(char* str, Bool only_if_exists)

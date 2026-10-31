@@ -41,6 +41,7 @@ import core.sys.posix.sys.socket;
 import core.sys.linux.netinet.in_;
 import core.sys.posix.netdb;
 }
+import dix.dispatch;
 
 import core.stdc.errno;
 import core.stdc.stdio;

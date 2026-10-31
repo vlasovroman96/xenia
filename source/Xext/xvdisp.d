@@ -45,7 +45,6 @@ import Xext.panoramiX;
 import Xext.panoramiXsrv;
 import Xext.shm_priv;
 import Xext.xvdix_priv;
-
 import include.misc;
 import include.scrnintstr;
 import include.windowstr;
@@ -64,7 +63,8 @@ import include.misc;
 import os.log;
 import Xext.xvmain;
 import dix.screen_hooks;
-
+import dix.atom;
+import dix.dispatch;
 
 static if(XINERAMA){
 c_ulong XvXRTPort;

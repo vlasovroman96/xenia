@@ -30,7 +30,6 @@ public import x11.Xmd;
 public import include.xlibre_ptrtypes;
 
 public import dix.callback;
-public import include.dix;
 public import include.resource;
 public import dix.cursor;
 public import include.gc;

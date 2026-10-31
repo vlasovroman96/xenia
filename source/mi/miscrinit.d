@@ -43,7 +43,6 @@ import include.servermd;
 import include.misc;
 import include.scrnintstr;
 import include.pixmapstr;
-import include.dix;
 import include.miline;
 import dix.dixutils;
 import mi.mivaltree;

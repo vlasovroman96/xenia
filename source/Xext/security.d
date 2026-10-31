@@ -47,7 +47,7 @@ import os.audit_priv;
 import os.auth;
 import os.client_priv;
 import os.osdep;
-
+import dix.atom;
 import include.scrnintstr;
 import include.inputstr;
 import include.windowstr;
@@ -64,6 +64,7 @@ import dix.extension;
 import dix.events;
 import os.WaitFor;
 import registry;
+import dix.dispatch;
 
 
 enum XSecurityAllEventMasks = 1<<0;

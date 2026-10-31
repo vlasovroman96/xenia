@@ -70,7 +70,7 @@ import dix.swaprep;
 import Xext.xace;
 import dix.swapreq;
 import dix.events;
-
+import dix.atom;
 
 /*****************************************************************
  * Property Stuff

@@ -29,7 +29,7 @@ import dix.dix_priv;
 import dix.request_priv;
 import randr.randrstr_priv;
 import randr.rrdispatch_priv;
-
+import dix.atom;
 import include.propertyst;
 import dix.swaprep;
 import randr.randrstr_priv;

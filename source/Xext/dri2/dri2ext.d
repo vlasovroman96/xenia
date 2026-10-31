@@ -55,7 +55,6 @@ import Xext.dri2.dri2int;
 import include.protocol_versions;
 import include.dri2;
 import externs.X11.extensions.dri2tokens;
-import include.dix;
 import xfixes.region;
 import dix.extension;
 import dix.dixutils;

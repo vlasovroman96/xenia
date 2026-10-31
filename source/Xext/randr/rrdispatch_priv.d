@@ -8,7 +8,6 @@ extern(C): __gshared:
  * @brief: prototypes for the individual request handlers
  */
  
-public import include.dix;
 import include.xlibre_ptrtypes;
 
 /* screen related dispatch */

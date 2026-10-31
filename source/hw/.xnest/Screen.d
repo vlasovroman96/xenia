@@ -30,7 +30,6 @@ import mi.mi_priv;
 import mi.mipointer_priv;
 
 import include.scrnintstr;
-import include.dix;
 import mi.micmap;
 import include.resource;
 

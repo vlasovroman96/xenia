@@ -3,7 +3,7 @@
  * Do not change! Changing this file implies a protocol change!
  */
  extern(C): @nogc: nothrow:
-import atom;
+import dix.atom;
 import os.log;;
 
 import externs.X11.Xatom;

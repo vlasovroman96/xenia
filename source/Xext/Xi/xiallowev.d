@@ -56,6 +56,7 @@ import externs.X11.extensions.XI;
 import dix.devices;
 import dix.dixutils;
 import dix.events;
+import dix.timestamp;
 
 int ProcXIAllowEvents(ClientPtr client)
 {

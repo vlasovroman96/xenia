@@ -9,7 +9,6 @@ extern(C): __gshared:
 //public import x11.Xdefs;
 
 public import dix.callback;
-public import include.dix;
 public import include.resource;
 import dix.resource;
 import build.xlibre_server;

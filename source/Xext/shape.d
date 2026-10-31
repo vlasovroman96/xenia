@@ -47,6 +47,7 @@ import dix.window_priv;
 import miext.extinit_priv;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
+import dix.dispatch;
 
 import include.misc;
 import include.os;

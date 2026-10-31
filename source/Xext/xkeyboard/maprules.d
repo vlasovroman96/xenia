@@ -48,7 +48,6 @@ import xkb.xkbrules_priv;
 
 import include.misc;
 import include.inputstr;
-import include.dix;
 import include.os;
 import include.xkbsrv;
 import include.xkbsrv;

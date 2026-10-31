@@ -65,6 +65,7 @@ public import include.privates;
 import include.xkbsrv;
 import include.misyncstr;
 import include.xkbstr;
+import dix.timestamp;
 
 
 alias CARD8 = x11.Xmd.CARD8;

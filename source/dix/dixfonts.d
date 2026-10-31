@@ -73,6 +73,7 @@ import include.extinit;
 import include.gcstruct;
 import os.auth;
 import os.log_priv;
+import dix.atom;
 
 import include.scrnintstr;
 import include.resource;

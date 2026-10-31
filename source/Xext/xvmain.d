@@ -80,11 +80,13 @@ SOFTWARE.
 import build.xlibre_server;
 import Xext.panoramiXsrv;
 import core.stdc.string;
+import dix.dispatch;
 //import x11.X;
 //import x11.Xproto;
 // //import externs.X11.extensions.Xv;
 // //import externs.X11.extensions.Xvproto;
 
+import dix.timestamp;
 import dix.dix_priv;
 import dix.screen_hooks_priv;
 import miext.extinit_priv;

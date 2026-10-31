@@ -54,7 +54,7 @@ import dix.request_priv;
 import dix.rpcbuf_priv;
 import dix.screen_hooks_priv;
 import dix.screenint_priv;
-
+import dix.atom;
 import xfixes.xfixesint;
 import include.scrnintstr;
 import dix.cursor;

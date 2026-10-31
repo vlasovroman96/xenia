@@ -54,6 +54,7 @@ import os.client_priv;
 import os.osdep;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
+import dix.dispatch;
 
 import include.dixstruct;
 import include.extnsionst;

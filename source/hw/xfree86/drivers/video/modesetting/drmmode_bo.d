@@ -11,8 +11,6 @@ import core.stdc.stdint;
 
 import build.dix_config;
 
-import include.dix; /* ARRAY_SIZE() */
-
 import dix.dix_priv;
 
 // import externs.libdrm;;

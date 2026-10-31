@@ -10,7 +10,6 @@ public import x11.Xdefs;
 // public import x11.Xdefs;
 
 
-public import include.dix; /* ClientPtr */
 import os.io;
 import os.Xtransint;
 

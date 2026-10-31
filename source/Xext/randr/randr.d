@@ -45,6 +45,7 @@ import dix.dixutils;
 import dix.extension;
 import os.io;
 import dix.events;
+import dix.timestamp;
 
 /* From render.h */
 // enum SubPixelUnknown = 0;

@@ -52,7 +52,6 @@ import build.dix_config;
 //import x11.keysym;
 
 import dix.dix_priv;
-import include.dix;
 import externs.gnu;
 
 struct BuiltinColor {

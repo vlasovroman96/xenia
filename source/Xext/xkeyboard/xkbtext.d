@@ -39,10 +39,9 @@ import core.stdc.stdlib;
 import externs.X11.extensions.XKM;
 
 import xkb.xkbtext_priv;
-
+import dix.atom;
 import include.misc;
 import include.inputstr;
-import include.dix;
 import include.xkbsrv;
 import include.xkbsrv;
 import xkb.xkbgeom_priv;

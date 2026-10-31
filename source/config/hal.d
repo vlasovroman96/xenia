@@ -54,7 +54,6 @@ import core.sys.posix.sys.select;
 
 import os.log_priv;
 
-import include.dix;
 import include.os;
 
 import config.dbus_core;

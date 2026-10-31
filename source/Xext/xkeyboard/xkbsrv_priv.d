@@ -13,7 +13,6 @@ import core.stdc.config: c_long, c_ulong;
 
 public import xkb.xkbrules_priv;
 
-public import include.dix;
 public import include.input;
 public import include.misc;
 public import include.privates;

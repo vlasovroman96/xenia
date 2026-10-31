@@ -7,11 +7,10 @@ template HasVersion(string versionId) {
 }
 
 import build.dix_config;
-
+import dix.request_priv;
 import dix.dix_priv;
 import dix.screenint_priv;
 
-import include.dix;
 import include.vndserver;
 import glx.vndext;
 import glx.vndserver_priv;;

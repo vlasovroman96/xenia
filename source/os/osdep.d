@@ -58,6 +58,8 @@ public import build.dix_config;
 
 //public import x11.Xdefs;
 
+import include.xlibre_ptrtypes;
+import x11.Xmd;
 public import core.stdc.limits;
 public import core.stdc.signal;
 public import core.stdc.stddef;
@@ -90,7 +92,6 @@ enum string __has_builtin(string x) = `0     /* Compatibility with older compile
 enum MILLI_PER_MIN = (1000 * 60);
 enum MILLI_PER_SECOND = (1000);
 
-public import include.dix;
 public import os.ospoll;
 
 ospoll* server_poll;

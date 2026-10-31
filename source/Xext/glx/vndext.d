@@ -35,6 +35,7 @@ import x11.X;
 // import dix.callback
 import include.privates;
 import glx.vndserver_priv;
+import dix.dispatch;
 
 // // import core.stdc.string;
 // import include.scrnintstr;

@@ -16,14 +16,13 @@ import core.stdc.config: c_long, c_ulong;
 //public import x11.Xdefs;
 // // //public import x11.Xfuncproto;
 //public import externs.X11.extensions.XI;
-
+import dix.atom;
 public import dix.input_priv;
 public import dix.resource_priv;
 public import dix.rpcbuf_priv;
 
 public import dix.callback;
 public import dix.cursor;
-public import include.dix;
 public import include.events;
 public import include.gc;
 public import include.input;

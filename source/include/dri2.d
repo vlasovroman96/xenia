@@ -36,7 +36,8 @@ extern(C): __gshared:
  
 // //public import externs.X11.extensions.dri2tokens;
 
-public import include.dix;
+import x11.Xmd;
+import include.xlibre_ptrtypes;
 
 /* Version 2 structure (with format at the end) */
 struct _DRI2Buffer {

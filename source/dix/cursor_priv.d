@@ -15,7 +15,6 @@ public import dix.screenint_priv;
 public import dix.cursor;
 public import dix.cursor;
 
-public import include.dix;
 public import include.input;
 public import include.window;
 public import dix.cursor;

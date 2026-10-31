@@ -35,7 +35,7 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
 import build.dix_config;
 
 import config.xkb_config;
-
+import dix.atom;
 import core.stdc.stdio;
 import core.stdc.stdlib;
 import core.stdc.ctype;

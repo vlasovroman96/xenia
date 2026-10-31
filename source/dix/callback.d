@@ -19,6 +19,10 @@ import os.alloc;
 private size_t numCallbackListsToCleanup = 0;
 private CallbackListPtr** listsToCleanup = null;
 
+alias ServerBlockHandlerProcPtr = void function(void* blockData, void* timeout);
+
+alias ServerWakeupHandlerProcPtr = void function(void* blockData, int result);
+
 struct CallbackRec {
     CallbackProcPtr proc;
     void* data;

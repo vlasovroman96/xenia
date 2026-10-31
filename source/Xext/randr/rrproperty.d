@@ -30,7 +30,7 @@ import externs.X11.Xatom;
 import dix.dix_priv;
 import dix.request_priv;
 import randr.rrdispatch_priv;
-
+import dix.atom;
 import randr.randrstr_priv;
 import include.propertyst;
 import dix.swaprep;

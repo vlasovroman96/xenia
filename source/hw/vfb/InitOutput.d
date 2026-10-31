@@ -77,7 +77,6 @@ static if(CONFIG_MITSHM){
 import core.sys.posix.sys.ipc;
 import core.sys.posix.sys.shm;
 } /* CONFIG-MITSHM */
-import include.dix;
 import include.miline;
 import include.glx_extinit;
 import include.randrstr;

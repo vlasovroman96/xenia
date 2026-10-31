@@ -49,6 +49,7 @@ import randr.rrproperty;
 import render.filter;
 import dix.swapreq;
 import randr.rrmode;
+import dix.timestamp;
 
 import externs.attrs;
  

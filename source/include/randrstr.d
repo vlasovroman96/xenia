@@ -46,6 +46,7 @@ public import include.servermd;
 public import randr.rrtransform;
 import include.rrtransform;
 import include.randrstr;
+import dix.timestamp;
 
 //public import externs.X11.extensions._randr;
 public import externs.X11.extensions.randrproto;

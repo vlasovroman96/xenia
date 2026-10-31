@@ -54,7 +54,7 @@ SOFTWARE.
 **     - version 1.4 upgrade
 **
 */
-
+import dix.timestamp;
 public import include.scrnintstr;
 // //public import externs.X11.extensions.Xvproto;
 

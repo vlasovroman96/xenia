@@ -63,7 +63,7 @@ import include.extnsionst;         /* for SendEvent */
 import std.conv;
 import dix.events;
 import tables;
-
+import dix.request_priv;
 // import swapreq;
 
 /* Thanks to Jack Palevich for testing and subsequently rewriting all this */

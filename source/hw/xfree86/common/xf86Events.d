@@ -61,6 +61,7 @@ import core.stdc.errno;
 // //import externs.X11.extensions.XIproto;
 //import x11.keysym;
 import xf86platformBus;
+import dix.dispatch;
 
 import dix.dix_priv;
 import dix.input_priv;

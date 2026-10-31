@@ -146,6 +146,7 @@ import os.probes_priv;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
 import xkb.xkbsrv_priv;
+import dix.timestamp;
 
 import include.misc;
 import include.resource;
@@ -173,6 +174,17 @@ import dix.inpututils;
 import include.xkbstr;
 import dix.extension;
 import dix.screen_hooks;
+
+struct EventInfoRec {
+    ClientPtr client;
+    xEventPtr events;
+    int count;
+}
+
+struct DeviceEventInfoRec {
+    InternalEvent* event;
+    DeviceIntPtr device;
+}
 
 enum string _XkbWantsDetectableAutoRepeat(string c) = `
         ((` ~ c ~ `).xkbClientFlags&XkbPCF_DetectableAutoRepeatMask)`;

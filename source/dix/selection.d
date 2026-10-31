@@ -60,7 +60,8 @@ import Xext.xace;
 import dix.selection_priv;;
 import os.io;
 import dix.events;
-
+import dix.timestamp;
+import dix.atom;
 /*****************************************************************
  * Selection Stuff
  *

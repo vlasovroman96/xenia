@@ -30,7 +30,6 @@ enum DIXFONT_H = 1;
 
 public import include.xlibre_ptrtypes;
 
-public import include.dix;
 public import externs.X11.fonts.font;
 // //public import externs.X11.fonts.fontstruct;
 

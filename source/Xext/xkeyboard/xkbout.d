@@ -37,7 +37,7 @@ import core.stdc.stdlib;
 //import x11.keysym;
 //import x11.Xproto;
 import externs.X11.extensions.XKM;
-
+import dix.atom;
 import xkb.xkbfmisc_priv;
 import xkb.xkbout_priv;
 import xkb.xkbsrv_priv;
@@ -45,7 +45,6 @@ import xkb.xkbtext_priv;
 
 import include.misc;
 import include.inputstr;
-import include.dix;
 import include.xkbsrv;
 import xkb.xkbgeom_priv;
 import externs.X11.extensions.XKB;

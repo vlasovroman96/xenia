@@ -38,6 +38,7 @@ import include.pixmapstr;
 import include.windowstr;
 import migc;
 import region;
+import dix.dispatch;
 
 /* ARGSUSED */
 void miChangeGC(GCPtr pGC, c_ulong mask)

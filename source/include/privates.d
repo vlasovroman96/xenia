@@ -187,7 +187,6 @@ pragma(inline, true) void dixSetPrivate(PrivatePtr* privates, const(DevPrivateKe
     *cast(void**) dixGetPrivateAddr(privates, key) = val;
 }
 
-public import include.dix;
 public import include.resource;
 
 /*

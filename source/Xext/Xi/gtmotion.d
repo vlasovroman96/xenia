@@ -69,6 +69,7 @@ import externs.X11.extensions.XIproto;
 import externs.X11.extensions.XI;
 import dix.dixutils;
 import dix.devices;
+import dix.timestamp;
 
 
 /****************************************************************************

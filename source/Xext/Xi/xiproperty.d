@@ -43,8 +43,9 @@ import dix.input_priv;
 import dix.request_priv;
 import dix.rpcbuf_priv;
 import Xi.handlers;
+import dix.atom;
+import dix.dispatch;
 
-import include.dix;
 import include.inputstr;
 import Xi.exglobals;
 import dix.swaprep;

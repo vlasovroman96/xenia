@@ -70,6 +70,7 @@ import include.syncsdk;
 import miext.extinit_priv;
 import os.bug_priv;
 import os.osdep;
+import dix.dispatch;
 
 import include.scrnintstr;
 import include.os;

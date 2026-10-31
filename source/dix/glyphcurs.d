@@ -59,7 +59,6 @@ import include.dixfontstr;
 import include.scrnintstr;
 import include.gcstruct;
 import include.resource;
-import include.dix;
 import dix.cursor;
 import include.opaque;
 import include.servermd;

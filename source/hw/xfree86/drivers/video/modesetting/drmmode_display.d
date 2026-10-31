@@ -44,7 +44,7 @@ import dix.dix_priv;
 import os.fmt;
 import present.present_priv;
 import glamor.glamor;
-
+import dix.atom;
 import include.inputstr;
 import include.xf86str;
 //import externs.X11.Xatom;

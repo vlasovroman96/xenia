@@ -43,7 +43,6 @@ public import include.gcstruct;
 public import include.input;
 public import mi.mipointer;
 public import include.mi;
-public import include.dix;
 public import include.fb;
 public import include.fboverlay;
 public import include.fbpict;

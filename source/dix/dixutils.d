@@ -103,6 +103,7 @@ import include.gcstruct;
 import include.scrnintstr;
 import Xext.xace;
 import externs.attrs;
+import dix.timestamp;
 
 /*
  * CompareTimeStamps returns -1, 0, or +1 depending on if the first

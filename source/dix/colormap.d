@@ -70,7 +70,6 @@ import os.osdep;
 import os.bug_priv;
 
 import include.misc;
-import include.dix;
 import include.dixstruct;
 import include.os;
 import include.scrnintstr;

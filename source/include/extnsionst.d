@@ -49,7 +49,6 @@ SOFTWARE.
 
  
 public import include.xlibre_ptrtypes;
-public import include.dix;
 public import include.misc;
 public import include.screenint;
 public import include.extension;

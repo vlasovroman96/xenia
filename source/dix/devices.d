@@ -105,6 +105,7 @@ import externs.gnu;
 import dix.events;
 import dix.inpututils;
 import include.xkbstr;
+import dix.timestamp;
 
 
 /** @file

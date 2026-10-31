@@ -27,6 +27,7 @@ import build.dix_config;
 import include.wfbrename;
 import include.fb;
 public import include.miline;
+import dix.timestamp;
 
 
 mixin template Iteration8() {

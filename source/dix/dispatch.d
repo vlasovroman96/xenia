@@ -168,7 +168,8 @@ import os.WaitFor;
 import disconnect;
 import dix.dixfonts;
 import xf86Events;
-
+import dix.timestamp;
+import dix.atom;
 
 import externs.libdbus;
 
@@ -195,6 +196,21 @@ PaddingInfo[33] PixmapWidthPaddingInfo;
 
 private ClientPtr grabClient;
 private ClientPtr currentClient; /* Client for the request currently being dispatched */
+
+// CallbackListPtr ServerGrabCallback;
+
+struct ServerGrabInfoRec {
+    ClientPtr client;
+    ServerGrabState grabstate;
+}
+
+enum ServerGrabState { SERVER_GRABBED, SERVER_UNGRABBED,
+    CLIENT_PERVIOUS, CLIENT_IMPERVIOUS
+}
+alias SERVER_GRABBED = ServerGrabState.SERVER_GRABBED;
+alias SERVER_UNGRABBED = ServerGrabState.SERVER_UNGRABBED;
+alias CLIENT_PERVIOUS = ServerGrabState.CLIENT_PERVIOUS;
+alias CLIENT_IMPERVIOUS = ServerGrabState.CLIENT_IMPERVIOUS;
 
 enum GrabNone = 0;
 enum GrabActive = 1;

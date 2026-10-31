@@ -52,6 +52,7 @@ import include.gcstruct;
 import include.inputstr;
 import midbe;
 import Xext.xace;
+import dix.dispatch;
 
 import core.stdc.stdio;
 import dix.screen_hooks_priv;

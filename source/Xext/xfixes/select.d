@@ -28,6 +28,7 @@ import build.dix_config;
 import dix.dix_priv;
 import dix.request_priv;
 import dix.selection_priv;
+import dix.dispatch;
 
 import xfixes.xfixesint;
 import Xext.xace;

@@ -1,4 +1,4 @@
-module atom;
+module dix.atom;
 @nogc nothrow:
 extern(C): __gshared:
 import core.stdc.config: c_long, c_ulong;
@@ -62,7 +62,6 @@ import dix.dix_priv;
 
 import include.misc;
 import include.resource;
-import include.dix;
 import externs.gnu;
 import atoms;
 alias strncmp = core.stdc.string.strncmp;

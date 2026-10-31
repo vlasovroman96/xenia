@@ -52,6 +52,7 @@ import randr.rrinfo;
 import externs.attrs;
 import os.log;
 import randr.rrdispatch;
+import dix.timestamp;
 
 
 /*

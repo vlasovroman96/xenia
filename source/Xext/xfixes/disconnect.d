@@ -49,6 +49,7 @@ import build.dix_config;
 
 import dix.dix_priv;
 import dix.request_priv;
+import dix.dispatch;
 
 import xfixes.xfixesint;
 import externs.X11.extensions.xfixesproto;

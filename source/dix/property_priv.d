@@ -55,7 +55,6 @@ SOFTWARE.
  
 //public import x11.X;
 
-public import include.dix;
 public import include.window;
 public import include.property;
 

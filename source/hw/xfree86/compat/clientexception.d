@@ -6,6 +6,7 @@ import build.dix_config;
 ////import x11.Xfuncproto;
 
 import dix.dix_priv;
+import dix.dispatch;
 
 import xf86_compat;
 

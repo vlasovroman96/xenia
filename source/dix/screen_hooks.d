@@ -12,7 +12,6 @@ import build.dix_config;
 
 import dix.dix_priv;
 import dix.screen_hooks_priv;
-import include.dix;
 import include.os;
 import include.scrnintstr;
 import include.windowstr;

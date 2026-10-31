@@ -4,7 +4,8 @@ extern(C): __gshared:
 import build.dix_config;
 
 ////import x11.Xfuncproto;
-//import x11.Xproto;
+import x11.Xproto;
+import x11.X;
 
 import os.osdep;
 

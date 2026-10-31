@@ -38,13 +38,12 @@ import externs.X11.extensions.XKM;
 //import x11.X;
 import x11.keysymdef;
 //import x11.Xproto;
-
+import dix.atom;
 import xkb.xkbfmisc_priv;
 import xkb.xkbout_priv;
 
 import include.misc;
 import include.inputstr;
-import include.dix;
 import include.xkbsrv;
 import include.xkbsrv;
 import xkb.xkbgeom_priv;

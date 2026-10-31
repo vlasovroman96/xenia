@@ -45,7 +45,7 @@ import render.filter;
 import dix.swapreq;
 import randr.rrmode;
 import randr.rrinfo;
-
+import dix.atom;
 import dix.swaprep;
 
 private Atom RRMonitorCrtcName(RRCrtcPtr crtc)

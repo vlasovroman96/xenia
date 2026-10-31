@@ -48,7 +48,7 @@ import miext.extinit_priv;
 import os.osdep;
 import xkb.xkbfmisc_priv;
 public import xkb.xkbsrv_priv;
-
+import dix.atom;
 import include.misc;
 import include.inputstr;
 import include.extnsionst;

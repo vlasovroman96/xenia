@@ -63,6 +63,8 @@ import core.stdc.assert_;
 import externs.X11.extensions.XI2proto;
 // //import externs.X11.extensions.geproto;
 
+import dix.request_priv;
+import dix.dispatch;
 import dix.dix_priv;
 import dix.input_priv;
 import dix.exevents_priv;

@@ -13,6 +13,7 @@ import dix.gc_priv;
 import dix.screensaver_priv;
 import include.screenint;
 import include.scrnintstr;
+import dix.dispatch;
 
 // CallbackListPtr ScreenSaverAccessCallback = null;
 // CallbackListPtr ScreenAccessCallback = null;

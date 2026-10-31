@@ -67,7 +67,6 @@ import include.dixfontstr;
 import include.scrnintstr;
 import include.dixstruct;
 import include.privates;
-import include.dix;
 import Xext.xace;
 import dix.dixutils;
 import dix.resource;

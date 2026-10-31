@@ -86,6 +86,7 @@ import os.client_priv;
 import os.io_priv;
 import os.osdep;
 import os.ossock;
+import dix.dispatch;
 
 import include.os;
 import include.opaque;

@@ -9,13 +9,36 @@ extern(C): __gshared:
 //public import x11.Xproto;
 
 public import dix.rpcbuf_priv; /* x_rpcbuf_t */
-public import include.dix;
 public import include.dixstruct;
 public import include.misc;    /* bytes_to_int32 */
 public import include.os;      /* WriteToClient */
 import dix.request_priv;
 import os.io;
 
+enum string REQUEST(alias type) = 
+    type.stringof ~`* stuff = cast(`~type.stringof~`*)client.requestBuffer;`;
+
+enum string REQUEST_SIZE_MATCH(string req) = ` 
+        if (((`~req~`).sizeof >> 2) != client.req_len)                      
+            return(BadLength); `;
+
+enum string REQUEST_AT_LEAST_SIZE(alias req) = `
+    {                                                                
+        if ((`~req.stringof~`.sizeof >> 2) > client.req_len)                      
+            return(BadLength);                                          
+    }`;
+
+enum string REQUEST_AT_LEAST_EXTRA_SIZE(string req, string extra) = `                                                            
+        if ((((` ~ req ~ `).sizeof + (cast(ulong) (` ~ extra ~ `))) >> 2) > client.req_len) 
+            return(BadLength);                                          `
+            ;
+
+enum string REQUEST_FIXED_SIZE(string req, string n) = `                                  
+        if ((((` ~ req~`).sizeof >> 2) > client.req_len) ||            
+            (((` ~ n ~ `) >> 2) >= client.req_len) ||                         
+            (((cast(ulong) (` ~ req ~ `).sizeof + (` ~ n ~ `) + 3) >> 2) != cast(ulong) client.req_len)) 
+            return(BadLength);                                          
+`;
 /*
  * @brief write rpc buffer to client and then clear it
  *
