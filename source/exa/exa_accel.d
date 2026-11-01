@@ -35,7 +35,7 @@ import build.dix_config;
 import exa.exa_priv;
 // //import externs.X11.fonts.fontstruct;
 import dix.dixfonts;
-import include.exa_i;
+import exa_unaccel;
 import exa.exa;
 import region;
 

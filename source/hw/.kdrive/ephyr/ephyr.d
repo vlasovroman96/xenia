@@ -50,7 +50,6 @@ import hw.kdrive.src.kdrive;
 import include.glx_extinit;
 import include.xkbsrv;
 import include.shadow;
-import include.exa_i;
 import externs.xcb.xcb_image;
 import hw.kdrive.ephyr.ephyr_glamor;
 import hw.kdrive.ephyr.hostx;

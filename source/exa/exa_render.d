@@ -39,6 +39,7 @@ import dix.gc;
 import mirect;
 import mitrap;
 import mitri;
+import exa_unaccel;
 
 static if (DEBUG_TRACE_FALL) {
 private void exaCompositeFallbackPictDesc(PicturePtr pict, char* string, int n)

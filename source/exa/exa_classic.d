@@ -30,7 +30,7 @@ import build.dix_config;
 import core.stdc.string;
 
 import exa.exa_priv;
-import include.exa_i;
+import exa.exa_offscreen;
 import exa.exa;
 
 /* This file holds the classic exa specific implementation. */

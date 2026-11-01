@@ -30,7 +30,6 @@ import build.dix_config;
 import core.stdc.string;
 
 import exa.exa_priv;
-import include.exa_i;
 import exa.exa;
 import os.log;
 

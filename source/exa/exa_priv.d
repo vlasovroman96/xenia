@@ -27,9 +27,6 @@ import core.stdc.config: c_long, c_ulong;
  * SOFTWARE.
  */
 
- 
-public import include.exa_i;
-
 //public import x11.X;
 public import externs.X11.extensions.renderproto;
 
@@ -48,8 +45,9 @@ public import include.fbpict;
 public import include.glyphstr;
 public import dix.damage;
 public import exa_accel;
+import exa_driver;
+import exa.exa_offscreen;
 
-import include.exa_i;
 import include.gc;
 import include.privates;
 
@@ -58,6 +56,85 @@ enum DEBUG_MIGRATE =		0;
 enum DEBUG_PIXMAP =		0;
 enum DEBUG_OFFSCREEN =		0;
 enum DEBUG_GLYPH_CACHE =	0;
+
+enum EXA_VERSION_MAJOR =   2;
+enum EXA_VERSION_MINOR =   6;
+enum EXA_VERSION_RELEASE = 0;
+
+// alias EXA_NUM_PREPARE_INDICES = EXA_NUM_PREPARE_INDICES;
+/** @name EXA driver flags
+ * @{
+ */
+
+ 	 /* EXA_PREPARE_DEST is the index for a pixmap that may be drawn to or
+	 * read from.
+	 */
+enum EXA_PREPARE_DEST =	0;
+        /**
+	 * EXA_PREPARE_SRC is the index for a pixmap that may be read from
+	 */
+enum EXA_PREPARE_SRC =		1;
+        /**
+	 * EXA_PREPARE_SRC is the index for a second pixmap that may be read
+	 * from.
+	 */
+enum EXA_PREPARE_MASK =	2;
+        /**
+	 * EXA_PREPARE_AUX* are additional indices for other purposes, e.g.
+	 * separate alpha maps with Composite operations.
+	 */
+enum EXA_PREPARE_AUX_DEST =	3;
+enum EXA_PREPARE_AUX_SRC =	4;
+enum EXA_PREPARE_AUX_MASK =	5;
+enum EXA_NUM_PREPARE_INDICES =	6;
+/**
+ * EXA_OFFSCREEN_PIXMAPS indicates to EXA that the driver can support
+ * offscreen pixmaps.
+ */
+enum EXA_OFFSCREEN_PIXMAPS =		(1 << 0);
+
+/**
+ * EXA_OFFSCREEN_ALIGN_POT indicates to EXA that the driver needs pixmaps
+ * to have a power-of-two pitch.
+ */
+enum EXA_OFFSCREEN_ALIGN_POT =		(1 << 1);
+
+/**
+ * EXA_TWO_BITBLT_DIRECTIONS indicates to EXA that the driver can only
+ * support copies that are (left-to-right, top-to-bottom) or
+ * (right-to-left, bottom-to-top).
+ */
+enum EXA_TWO_BITBLT_DIRECTIONS =	(1 << 2);
+
+/**
+ * EXA_HANDLES_PIXMAPS indicates to EXA that the driver can handle
+ * all pixmap addressing and migration.
+ */
+enum EXA_HANDLES_PIXMAPS =             (1 << 3);
+
+/**
+ * EXA_SUPPORTS_PREPARE_AUX indicates to EXA that the driver can handle the
+ * EXA_PREPARE_AUX* indices in the Prepare/FinishAccess hooks. If there are no
+ * such hooks, this flag has no effect.
+ */
+enum EXA_SUPPORTS_PREPARE_AUX =        (1 << 4);
+
+/**
+ * EXA_SUPPORTS_OFFSCREEN_OVERLAPS indicates to EXA that the driver Copy hooks
+ * can handle the source and destination occupying overlapping offscreen memory
+ * areas. This allows the offscreen memory defragmentation code to defragment
+ * areas where the defragmented position overlaps the fragmented position.
+ *
+ * Typically this is supported by traditional 2D engines but not by 3D engines.
+ */
+enum EXA_SUPPORTS_OFFSCREEN_OVERLAPS = (1 << 5);
+
+/**
+ * EXA_MIXED_PIXMAPS will hide unacceleratable pixmaps from drivers and manage the
+ * problem known software fallbacks like trapezoids. This only migrates pixmaps one way
+ * into a driver pixmap and then pins it.
+ */
+enum EXA_MIXED_PIXMAPS = (1 << 6);
 
 static if (DEBUG_TRACE_FALL) {
 enum string EXA_FALLBACK(string x) = `{						
@@ -78,6 +155,12 @@ static if (DEBUG_PIXMAP) {
 }
 
 enum EXA_MAX_FB =   FB_OVERLAY_MAX;
+/* Returns TRUE if the given planemask covers all the significant bits in the
+ * pixel values for pDrawable.
+ */
+enum string EXA_PM_IS_SOLID(string _pDrawable, string _pm) = `
+	(((` ~ _pm ~ `) & `~FbFullMask!(_pDrawable ~ `.depth`)~`) == 
+	 `~FbFullMask!(_pDrawable~`.depth`)~`)`;
 
 
 version (DEBUG) {
@@ -188,7 +271,6 @@ struct _ExaScreenPrivRec {
     CARD32 nextDefragment;
     PixmapPtr deferred_mixed_pixmap;
 
-    import include.exa_i;
     /* Reference counting for accessed pixmaps */
     struct _Access {
         PixmapPtr pixmap;
@@ -353,27 +435,27 @@ void exaPrepareAccessGC(GCPtr pGC);
 
 void exaFinishAccessGC(GCPtr pGC);
 
-void ExaCheckFillSpans(DrawablePtr pDrawable, GCPtr pGC, int nspans, DDXPointPtr ppt, int* pwidth, int fSorted);
+// void ExaCheckFillSpans(DrawablePtr pDrawable, GCPtr pGC, int nspans, DDXPointPtr ppt, int* pwidth, int fSorted);
 
 void ExaCheckSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* psrc, DDXPointPtr ppt, int* pwidth, int nspans, int fSorted);
 
-void ExaCheckPutImage(DrawablePtr pDrawable, GCPtr pGC, int depth, int x, int y, int w, int h, int leftPad, int format, char* bits);
+// void ExaCheckPutImage(DrawablePtr pDrawable, GCPtr pGC, int depth, int x, int y, int w, int h, int leftPad, int format, char* bits);
 
-void ExaCheckCopyNtoN(DrawablePtr pSrc, DrawablePtr pDst, GCPtr pGC, BoxPtr pbox, int nbox, int dx, int dy, Bool reverse, Bool upsidedown, Pixel bitplane, void* closure);
+// void ExaCheckCopyNtoN(DrawablePtr pSrc, DrawablePtr pDst, GCPtr pGC, BoxPtr pbox, int nbox, int dx, int dy, Bool reverse, Bool upsidedown, Pixel bitplane, void* closure);
 
-RegionPtr ExaCheckCopyArea(DrawablePtr pSrc, DrawablePtr pDst, GCPtr pGC, int srcx, int srcy, int w, int h, int dstx, int dsty);
+// RegionPtr ExaCheckCopyArea(DrawablePtr pSrc, DrawablePtr pDst, GCPtr pGC, int srcx, int srcy, int w, int h, int dstx, int dsty);
 
 RegionPtr ExaCheckCopyPlane(DrawablePtr pSrc, DrawablePtr pDst, GCPtr pGC, int srcx, int srcy, int w, int h, int dstx, int dsty, c_ulong bitPlane);
 
-void ExaCheckPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr pptInit);
+// void ExaCheckPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr pptInit);
 
-void ExaCheckPolylines(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ppt);
+// void ExaCheckPolylines(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ppt);
 
-void ExaCheckPolySegment(DrawablePtr pDrawable, GCPtr pGC, int nsegInit, xSegment* pSegInit);
+// void ExaCheckPolySegment(DrawablePtr pDrawable, GCPtr pGC, int nsegInit, xSegment* pSegInit);
 
 void ExaCheckPolyArc(DrawablePtr pDrawable, GCPtr pGC, int narcs, xArc* pArcs);
 
-void ExaCheckPolyFillRect(DrawablePtr pDrawable, GCPtr pGC, int nrect, xRectangle* prect);
+// void ExaCheckPolyFillRect(DrawablePtr pDrawable, GCPtr pGC, int nrect, xRectangle* prect);
 
 void ExaCheckImageGlyphBlt(DrawablePtr pDrawable, GCPtr pGC, int x, int y, uint nglyph, CharInfoPtr* ppci, void* pglyphBase);
 
@@ -381,9 +463,9 @@ void ExaCheckPolyGlyphBlt(DrawablePtr pDrawable, GCPtr pGC, int x, int y, uint n
 
 void ExaCheckPushPixels(GCPtr pGC, PixmapPtr pBitmap, DrawablePtr pDrawable, int w, int h, int x, int y);
 
-void ExaCheckCopyWindow(WindowPtr pWin, xPoint ptOldOrg, RegionPtr prgnSrc);
+// void ExaCheckCopyWindow(WindowPtr pWin, xPoint ptOldOrg, RegionPtr prgnSrc);
 
-void ExaCheckGetImage(DrawablePtr pDrawable, int x, int y, int w, int h, uint format, c_ulong planeMask, char* d);
+// void ExaCheckGetImage(DrawablePtr pDrawable, int x, int y, int w, int h, uint format, c_ulong planeMask, char* d);
 
 void ExaCheckGetSpans(DrawablePtr pDrawable, int wMax, DDXPointPtr ppt, int* pwidth, int nspans, char* pdstStart);
 
@@ -412,7 +494,7 @@ void exaCopyNtoN(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC, 
 
 // const(GCOps) exaOps;
 
-void ExaCheckComposite(CARD8 op, PicturePtr pSrc, PicturePtr pMask, PicturePtr pDst, INT16 xSrc, INT16 ySrc, INT16 xMask, INT16 yMask, INT16 xDst, INT16 yDst, CARD16 width, CARD16 height);
+// void ExaCheckComposite(CARD8 op, PicturePtr pSrc, PicturePtr pMask, PicturePtr pDst, INT16 xSrc, INT16 ySrc, INT16 xMask, INT16 yMask, INT16 xDst, INT16 yDst, CARD16 width, CARD16 height);
 
 void ExaCheckGlyphs(CARD8 op, PicturePtr pSrc, PicturePtr pDst, PictFormatPtr maskFormat, INT16 xSrc, INT16 ySrc, int nlist, GlyphListPtr list, GlyphPtr* glyphs);
 
@@ -466,13 +548,13 @@ void exaPixmapDestroy_classic(CallbackListPtr* pcbl, ScreenPtr pScreen, PixmapPt
 Bool exaPixmapHasGpuCopy_classic(PixmapPtr pPixmap);
 
 /* exa_driver.c */
-PixmapPtr exaCreatePixmap_driver(ScreenPtr pScreen, int w, int h, int depth, uint usage_hint);
+// PixmapPtr exaCreatePixmap_driver(ScreenPtr pScreen, int w, int h, int depth, uint usage_hint);
 
-Bool exaModifyPixmapHeader_driver(PixmapPtr pPixmap, int width, int height, int depth, int bitsPerPixel, int devKind, void* pPixData);
+// Bool exaModifyPixmapHeader_driver(PixmapPtr pPixmap, int width, int height, int depth, int bitsPerPixel, int devKind, void* pPixData);
 
-void exaPixmapDestroy_driver(CallbackListPtr* pcbl, ScreenPtr pScreen, PixmapPtr pPixmap);
+// void exaPixmapDestroy_driver(CallbackListPtr* pcbl, ScreenPtr pScreen, PixmapPtr pPixmap);
 
-Bool exaPixmapHasGpuCopy_driver(PixmapPtr pPixmap);
+// Bool exaPixmapHasGpuCopy_driver(PixmapPtr pPixmap);
 
 /* exa_mixed.c */
 PixmapPtr exaCreatePixmap_mixed(ScreenPtr pScreen, int w, int h, int depth, uint usage_hint);

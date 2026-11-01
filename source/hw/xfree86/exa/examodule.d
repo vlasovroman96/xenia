@@ -41,6 +41,7 @@ import include.xf86;
 import hw.xfree86.common.xf86Helper;
 import hw.xfree86.common.xf86Option;
 import hw.xfree86.parser.Flags;
+import exa.exa_offscreen;
 
 struct _ExaXorgScreenPrivRec {
     xf86EnableDisableFBAccessProc* SavedEnableDisableFBAccess;

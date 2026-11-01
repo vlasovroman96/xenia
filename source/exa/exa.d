@@ -40,7 +40,7 @@ import core.stdc.stdlib;
 import dix.screen_hooks_priv;
 
 import exa.exa_priv;
-import include.exa_i;
+import exa_driver;
 import miext.damage.damage_;
 import os.log;
 import externs.attrs;
@@ -50,7 +50,6 @@ import render.picture;
 import dix.screen_hooks;
 
 
-// import include.exa_i;
 
 // DevPrivateKeyRec exaScreenPrivateKeyRec;
 

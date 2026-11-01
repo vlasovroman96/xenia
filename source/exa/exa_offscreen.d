@@ -38,6 +38,39 @@ import core.stdc.assert_;
 import core.stdc.stdlib;
 import exa.exa;
 
+alias ExaOffscreenArea = _ExaOffscreenArea;
+
+alias ExaOffscreenSaveProc = void function(ScreenPtr pScreen, ExaOffscreenArea* area);
+
+enum ExaOffscreenState {
+    ExaOffscreenAvail,
+    ExaOffscreenRemovable,
+    ExaOffscreenLocked
+}
+alias ExaOffscreenAvail = ExaOffscreenState.ExaOffscreenAvail;
+alias ExaOffscreenRemovable = ExaOffscreenState.ExaOffscreenRemovable;
+alias ExaOffscreenLocked = ExaOffscreenState.ExaOffscreenLocked;
+
+
+struct _ExaOffscreenArea {
+    int base_offset;            /* allocation base */
+    int offset;                 /* aligned offset */
+    int size;                   /* total allocation size */
+    uint last_use;
+    void* privData;
+
+    ExaOffscreenSaveProc save;
+
+    ExaOffscreenState state;
+
+    ExaOffscreenArea* next;
+
+    uint eviction_cost;
+
+    ExaOffscreenArea* prev;     /* Double-linked list for defragmentation */
+    int align_;                  /* required alignment */
+}
+
 static if (DEBUG_OFFSCREEN) {
 enum string DBG_OFFSCREEN(string a) = `ErrorF a = void;`;
 } else {
