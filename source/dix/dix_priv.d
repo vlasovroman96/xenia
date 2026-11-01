@@ -166,9 +166,9 @@ void PlayReleasedEvents();
 
 // int DeliverOneGrabbedEvent(InternalEvent* event, DeviceIntPtr dev, InputLevel level);
 
-void DeliverTouchEvents(DeviceIntPtr dev, TouchPointInfoPtr ti, InternalEvent* ev, XID resource);
+// void DeliverTouchEvents(DeviceIntPtr dev, TouchPointInfoPtr ti, InternalEvent* ev, XID resource);
 
-Bool DeliverGestureEventToOwner(DeviceIntPtr dev, GestureInfoPtr gi, InternalEvent* ev);
+// Bool DeliverGestureEventToOwner(DeviceIntPtr dev, GestureInfoPtr gi, InternalEvent* ev);
 
 // void InitializeSprite(DeviceIntPtr pDev, WindowPtr pWin);
 // void FreeSprite(DeviceIntPtr pDev);
@@ -210,11 +210,11 @@ int XItoCoreType(int xi_type);
 
 // Bool DevHasCursor(DeviceIntPtr pDev);
 
-Bool IsPointerEvent(InternalEvent* event);
+// Bool IsPointerEvent(InternalEvent* event);
 
-Bool IsTouchEvent(InternalEvent* event);
+// Bool IsTouchEvent(InternalEvent* event);
 
-Bool IsGestureEvent(InternalEvent* event);
+// Bool IsGestureEvent(InternalEvent* event);
 
 Bool IsGestureBeginEvent(InternalEvent* event);
 

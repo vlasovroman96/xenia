@@ -74,7 +74,7 @@ import hw.xfree86.loader.loaderProcs;
 import hw.xfree86.os_support.linux.systemd_logind;
 import seatd_libseat;
 
-import include.exevents;           /* AddInputDevice */
+import Xi.exevents;           /* AddInputDevice */
 import Xi.exglobals;
 import dix.events;
 import xf86Module_priv;

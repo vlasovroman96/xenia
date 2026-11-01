@@ -40,7 +40,7 @@ import os.inputthread;
 
 import include.xorgVersion;
 
-import include.exevents;
+import Xi.exevents;
 import include.input;
 import include.xkbsrv;
 import include.xf86;

@@ -43,7 +43,7 @@ import os.bug_priv;
 import include.inputstr;
 import include.scrnintstr;
 import dix.events;
-import include.exevents;
+import Xi.exevents;
 import Xi.exglobals;
 import include.windowstr;
 import dix.events;

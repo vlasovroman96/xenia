@@ -121,7 +121,7 @@ import include.servermd;
 import dix.dixfonts;
 import include.extnsionst;
 import include.privates;
-import include.exevents;
+import Xi.exevents;
 import os.utils;
 import os.osinit;
 import os.log;

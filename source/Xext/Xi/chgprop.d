@@ -66,7 +66,7 @@ import Xi.handlers;
 
 import include.inputstr;           /* DeviceIntPtr      */
 import include.windowstr;
-import include.exevents;
+import Xi.exevents;
 import Xi.exglobals;
 import Xi.grabdev;
 import dix.dixutils;

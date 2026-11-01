@@ -164,7 +164,7 @@ Bool GestureBuildSprite(DeviceIntPtr sourcedev, GestureInfoPtr gi);
 void GestureListenerGone(XID resource);
 void GestureEndActiveGestures(DeviceIntPtr dev);
 void GestureEmitGestureEndToOwner(DeviceIntPtr dev, GestureInfoPtr gi);
-void ProcessGestureEvent(InternalEvent* ev, DeviceIntPtr dev);
+// void ProcessGestureEvent(InternalEvent* ev, DeviceIntPtr dev);
 
 /* misc event helpers */
 // void CopyPartialInternalEvent(InternalEvent* dst_event, const(InternalEvent)* src_event);

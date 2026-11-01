@@ -41,7 +41,7 @@ import include.inputstr;           /* DeviceIntPtr      */
 import include.windowstr;          /* window structure  */
 import include.scrnintstr;         /* screen structure  */
 import include.extnsionst;
-import include.exevents;
+import Xi.exevents;
 import Xi.exglobals;
 import dix.devices;
 import dix.dixutils;

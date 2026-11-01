@@ -68,7 +68,7 @@ import include.inputstr;           /* DeviceIntPtr      */
 import Xi.XIstubs;
 import include.windowstr;          /* window structure  */
 import Xi.exglobals;
-import include.exevents;
+import Xi.exevents;
 import dix.devices;
 import externs.X11.extensions.XI;
 import Xi.extinit;

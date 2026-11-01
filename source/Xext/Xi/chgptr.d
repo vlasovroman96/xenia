@@ -65,7 +65,7 @@ import include.inputstr;           /* DeviceIntPtr      */
 import Xi.XIstubs;
 import include.windowstr;          /* window structure  */
 import include.scrnintstr;         /* screen structure  */
-import include.exevents;
+import Xi.exevents;
 import Xi.exglobals;
 import Xi.chgptr;
 

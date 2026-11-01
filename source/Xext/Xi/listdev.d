@@ -70,7 +70,7 @@ import Xi.handlers;
 import include.inputstr;           /* DeviceIntPtr      */
 import Xi.XIstubs;
 import include.extnsionst;
-import include.exevents;
+import Xi.exevents;
 import include.xkbsrv;
 import externs.X11.extensions.XI;
 import include.xkbsrv;

@@ -9,8 +9,8 @@ import core.stdc.config: c_long, c_ulong;
  */
  
 public import externs.X11.extensions.XIproto;
-public import include.exevents;
-
+public import Xi.exevents;
+public import include.input;
 /**
  * Attached to the devPrivates of each client. Specifies the version number as
  * supported by the client.
@@ -70,9 +70,9 @@ void CheckDeviceGrabAndHintWindow(WindowPtr pWin, int type, deviceKeyButtonPoint
 
 void MaybeStopDeviceHint(DeviceIntPtr dev, ClientPtr client);
 
-int DeviceEventSuppressForWindow(WindowPtr pWin, ClientPtr client, Mask mask, int maskndx);
+// int DeviceEventSuppressForWindow(WindowPtr pWin, ClientPtr client, Mask mask, int maskndx);
 
-void SendEventToAllWindows(DeviceIntPtr dev, Mask mask, xEvent* ev, int count);
+// void SendEventToAllWindows(DeviceIntPtr dev, Mask mask, xEvent* ev, int count);
 
 void TouchRejected(DeviceIntPtr sourcedev, TouchPointInfoPtr ti, XID resource, TouchOwnershipEvent* ev);
 
@@ -81,7 +81,7 @@ void XI2EventSwap(xGenericEvent* from, xGenericEvent* to);
 /* For an event such as MappingNotify which affects client interpretation
  * of input events sent by device dev, should we notify the client, or
  * would it merely be irrelevant and confusing? */
-int XIShouldNotify(ClientPtr client, DeviceIntPtr dev);
+// int XIShouldNotify(ClientPtr client, DeviceIntPtr dev);
 
 void XISendDeviceChangedEvent(DeviceIntPtr device, DeviceChangedEvent* dce);
 

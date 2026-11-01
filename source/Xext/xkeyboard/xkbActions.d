@@ -54,7 +54,7 @@ import xkb.xkbsrv_priv;
 
 import include.misc;
 import include.inputstr;
-import include.exevents;
+import Xi.exevents;
 import dix.events;
 import mi.mipointer;
 import include.xkbstr;

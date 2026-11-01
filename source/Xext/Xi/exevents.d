@@ -141,8 +141,23 @@ enum AllButtonsMask = (
 
 enum RevertToNone = cast(int)0;
 enum RevertToPointerRoot = cast(int)PointerRoot;
-enum RevertToFollowKeyboard = 	cast(int)3;
+// enum RevertToFollowKeyboard = 	cast(int)3;
 
+enum ScrollFlags {
+    SCROLL_FLAG_NONE = 0,
+    /**
+     * Do not emulate legacy button events for valuator events on this axis.
+     */
+    SCROLL_FLAG_DONT_EMULATE = (1 << 1),
+    /**
+     * This axis is the preferred axis for valuator emulation for this axis'
+     * scroll type.
+     */
+    SCROLL_FLAG_PREFERRED = (1 << 2)
+}
+alias SCROLL_FLAG_NONE = ScrollFlags.SCROLL_FLAG_NONE;
+alias SCROLL_FLAG_DONT_EMULATE = ScrollFlags.SCROLL_FLAG_DONT_EMULATE;
+alias SCROLL_FLAG_PREFERRED = ScrollFlags.SCROLL_FLAG_PREFERRED;
 
 /*
  * Only let the given client know of core events which will affect its

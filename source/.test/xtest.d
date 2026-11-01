@@ -39,7 +39,7 @@ import include.input;
 import include.inputstr;
 import include.scrnintstr;
 import include.windowstr;
-import include.exevents;
+import Xi.exevents;
 import include.xkbsrv;
 import include.xserver_properties;
 import Xext.syncsrv;

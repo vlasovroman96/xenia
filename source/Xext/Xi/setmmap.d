@@ -65,7 +65,7 @@ import dix.request_priv;
 import Xi.handlers;
 
 import include.inputstr;           /* DeviceIntPtr      */
-import include.exevents;
+import Xi.exevents;
 import externs.X11.extensions.XIproto;
 import externs.X11.extensions.XI;
 import dix.devices;
