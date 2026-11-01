@@ -81,6 +81,7 @@ import std.conv;
 import externs.gnu;
 import x11.Xosdefs;
 import xf86Init;
+import hw.xfree86.common.edid;
 
 /* For xf86GetClocks */
 static if (CSRG_BASED || HasVersion!"__GNU__") {

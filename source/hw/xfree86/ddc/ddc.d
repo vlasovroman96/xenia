@@ -28,6 +28,7 @@ import interpret_edid;
 import hw.xfree86.i2c.xf86i2c;
 import dix.events;
 import hw.xfree86.parser.Flags;
+import hw.xfree86.common.edid;
 
 
 enum RETRIES = 4;

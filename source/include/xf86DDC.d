@@ -13,7 +13,7 @@ extern(C): __gshared:
  */
 
  
-public import include.edid;
+import hw.xfree86.common.edid;
 public import include.xf86i2c;
 public import include.xf86str;
 

@@ -13,7 +13,7 @@ extern(C): __gshared:
  */
 
  
-public import include.edid;
+import hw.xfree86.common.edid;
 
 /* read complete EDID record */
 enum EDID1_LEN = 128;

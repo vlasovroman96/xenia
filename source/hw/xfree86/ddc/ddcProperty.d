@@ -38,6 +38,7 @@ import dix.screen_hooks;
 import hw.xfree86.common.xf86Helper;
 import xf86Globals;
 import dix.property;
+import hw.xfree86.common.edid;
 
 enum EDID1_ATOM_NAME =         "XFree86_DDC_EDID1_RAWDATA";
 

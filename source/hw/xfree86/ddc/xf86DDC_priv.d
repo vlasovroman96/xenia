@@ -9,6 +9,7 @@ extern(C): __gshared:
  
 public import include.xf86DDC;
 public import edid_priv;
+import hw.xfree86.common.edid;
 
 /*
  * Quirks to work around broken EDID data from various monitors.

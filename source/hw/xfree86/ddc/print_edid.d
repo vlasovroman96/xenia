@@ -36,8 +36,7 @@ import edid_priv;
 import hw.xfree86.common.xf86Helper;
 import interpret_edid;
 import xf86EdidModes;
-
-
+import hw.xfree86.common.edid;
 
 /* display type, analog */
 enum DISP_MONO = 0;

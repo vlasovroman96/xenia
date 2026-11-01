@@ -70,6 +70,7 @@ import xf86EdidModes;
 import ddc;
 import randr.rrcrtc;
 import hw.xfree86.modes.displaymode;
+import hw.xfree86.common.edid;
 
 version (XV) {
 import xf86xv;

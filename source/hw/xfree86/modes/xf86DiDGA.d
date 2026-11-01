@@ -37,7 +37,7 @@ import include.scrnintstr;
 import include.windowstr;
 import hw.xfree86.common.xf86Helper;
 import xf86DGA;
-public import include.edid;
+import hw.xfree86.common.edid;
 public import include.randrstr;
 public import xf86Modes;
 public import xf86Cursor;

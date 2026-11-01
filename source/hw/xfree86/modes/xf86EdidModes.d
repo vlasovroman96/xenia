@@ -42,7 +42,7 @@ import core.stdc.string;
 import core.stdc.math;
 import edid_priv;
 import interpret_edid;
-import include.edid;
+import hw.xfree86.common.edid;
 import xf86gtf;
 import hw.xfree86.common.xf86Helper;
 import hw.xfree86.modes.displaymode;

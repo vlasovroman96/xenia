@@ -64,7 +64,7 @@ import core.sys.posix.unistd ;
 import hw.xfree86.parser.Flags;
 import os.log;
 import xf86Globals;
-import include.edid;
+import hw.xfree86.common.edid;
 import interpret_edid;
 import Monitor;
 import Screen;

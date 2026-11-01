@@ -88,7 +88,7 @@ import Xext.panoramiXsrv;
 
 //import x11.X;
 
-import include.edid;
+import hw.xfree86.common.edid;
 import os.log_priv;
 
 import xf86Modes;

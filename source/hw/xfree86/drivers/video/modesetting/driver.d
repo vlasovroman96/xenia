@@ -55,7 +55,7 @@ import include.xf86xv;
 
 import config.hotplug_priv;
 import dix.dix_priv;
-import include.edid;
+import hw.xfree86.common.edid;
 import include.xorgVersion;
 import mi.mi_priv;
 import pageflip;

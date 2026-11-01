@@ -1,4 +1,4 @@
-module include.edid;
+module hw.xfree86.common.edid;
 @nogc nothrow:
 extern(C): __gshared:
 import core.stdc.config: c_long, c_ulong;
@@ -43,20 +43,20 @@ struct edid_version {
 }
 
 struct disp_features {
-    uint input_type;/*:1 !!*/
-    uint input_voltage;/*:2 !!*/
-    uint input_setup;/*:1 !!*/
-    uint input_sync;/*:5 !!*/
-    uint input_dfp;/*:1 !!*/
-    uint input_bpc;/*:3 !!*/
-    uint input_interface;/*:4 !!*/
+    uint input_type : 1;
+    uint input_voltage : 2;
+    uint input_setup : 1;
+    uint input_sync : 5;
+    uint input_dfp : 1;
+    uint input_bpc : 3;
+    uint input_interface : 4;
     /* 15 bit hole */
     int hsize;
     int vsize;
     float gamma = 0;
-    uint dpms;/*:3 !!*/
-    uint display_type;/*:2 !!*/
-    uint msc;/*:3 !!*/
+    uint dpms : 3;
+    uint display_type : 2;
+    uint msc : 3;
     float redx = 0;
     float redy = 0;
     float greenx = 0;
@@ -94,11 +94,11 @@ struct detailed_timings {
     int v_size;
     int h_border;
     int v_border;
-    uint interlaced;/*:1 !!*/
-    uint stereo;/*:2 !!*/
-    uint sync;/*:2 !!*/
-    uint misc;/*:2 !!*/
-    uint stereo_1;/*:1 !!*/
+    uint interlaced : 1;
+    uint stereo : 2;
+    uint sync : 2;
+    uint misc : 2;
+    uint stereo_1 : 1;
 }
 
 enum DT = 0;
