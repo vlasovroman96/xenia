@@ -48,7 +48,6 @@ import glx.vndext;
 import dix.dixutils;
 import build.xlibre_server;
 import include.randrstr;
-import include.dri3;
 import dri3.dri3;
 import dix.gc;
 import core.sys.posix.stdlib : getenv, setenv, unsetenv;

@@ -29,7 +29,6 @@ import randr.randrstr_priv;
 import present.present_fence;
 
 import include.gcstruct;
-import include.dri3;
 import dix.gc;
 import externs.X11.extensions.presenttokens;
 import externs.X11.extensions.presentproto;

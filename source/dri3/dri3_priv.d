@@ -32,7 +32,6 @@ public import include.windowstr;
 public import dix.dixstruct_priv;
 public import include.randrstr;
 public import dri3.dri3;
-import include.dri3;
 
 DevPrivateKeyRec dri3_screen_private_key;
 

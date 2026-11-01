@@ -30,7 +30,6 @@ import randr.randrstr_priv;
 
 import include.misync;
 import include.misyncstr;
-import include.dri3;
 import externs.X11.extensions.presentproto;
 import present.present_vblank;
 

@@ -43,7 +43,6 @@ import externs.X11.extensions.dri3proto;
 import os.io;
 import externs.libdrm;;
 import Xext.sync;
-import include.dri3;
 
 private Bool dri3_screen_can_one_point_one(ScreenPtr screen)
 {

@@ -32,7 +32,6 @@ import present.present_priv;
 import randr.randrstr_priv;
 import include.protocol_versions;
 import externs.X11.extensions.presentproto;
-import include.dri3;
 import xfixes.region;
 import Xext.sync;
 import randr.rrcrtc;

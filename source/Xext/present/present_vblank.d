@@ -27,7 +27,6 @@ import build.xlibre_server;
 import core.sys.posix.unistd;
 
 import present.present_priv;
-import include.dri3;
 import dix.screen_hooks;
 import dix.extension;
 import externs.X11.extensions.presenttokens;

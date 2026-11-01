@@ -41,7 +41,6 @@ public import xfixes.xfixes;
 public import include.randrstr;
 public import core.stdc.inttypes;
 public import dri3.dri3;
-import include.dri3;
 import present.present_fence;
 import externs.X11.extensions.presentproto;
 public import present.present_vblank; 

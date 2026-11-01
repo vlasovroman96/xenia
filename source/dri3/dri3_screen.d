@@ -35,7 +35,6 @@ import include.misync;
 import include.misyncshm;
 import include.randrstr;
 import externs.libdrm;;
-import include.dri3;
 import dix.resource;
 
 int dri3_open(ClientPtr client, ScreenPtr screen, RRProviderPtr provider, int* fd)
