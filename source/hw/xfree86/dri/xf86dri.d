@@ -52,7 +52,7 @@ import externs.X11.dri.xf86dri_;
 import dix.dix_priv;
 import dix.request_priv;
 import dix.screenint_priv;
-import include.dristruct;
+import hw.xfree86.dri.dristruct;
 import include.sarea;
 
 import include.xf86;

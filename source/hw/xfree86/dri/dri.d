@@ -56,7 +56,7 @@ import core.sys.posix.unistd;
 import dix.dix_priv;
 import dix.screen_hooks_priv;
 import dix.screenint_priv;
-import include.dristruct;
+import hw.xfree86.dri.dristruct;
 import include.sarea;
 
 import include.xf86;
@@ -137,7 +137,7 @@ public import externs.pciaccess;
 
 public import include.scrnintstr;
 public import hw.xfree86.dri.xf86dri;
-import include.dristruct;
+import hw.xfree86.dri.dristruct;
 
 /* Prototypes for DRI functions */
 
