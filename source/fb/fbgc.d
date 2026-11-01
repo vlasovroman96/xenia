@@ -30,6 +30,11 @@ import core.stdc.stdlib;
 
 import fb.fb_priv;
 
+import mipolyrect;
+import mipoly;
+import mifillarc;
+import mipolytext;
+
 private const(GCFuncs) fbGCFuncs = {
     &fbValidateGC,
     &miChangeGC,

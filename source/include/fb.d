@@ -39,8 +39,6 @@ public import include.miscstruct;
 public import include.servermd;
 public import include.windowstr;
 public import include.privates;
-public import include.mi;
-public import include.mi;
 import include.servermd;
 
 public import migc;

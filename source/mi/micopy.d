@@ -25,12 +25,18 @@ extern(C): __gshared:
 
 import build.dix_config;
 
-import include.mi;
 import include.scrnintstr;
 import include.gcstruct;
 import include.pixmap;
 import include.pixmapstr;
 import include.windowstr;
+// import mi.micopy;
+import mi.miexpose;
+
+enum string miGetCompositeClip(string pGC) = `((` ~ pGC ~ `).pCompositeClip)`;
+
+alias miCopyProc = void function(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC, BoxPtr pDstBox, int nbox, int dx, int dy, Bool reverse, Bool upsidedown, Pixel bitplane, void* closure) @nogc nothrow;
+
 
 void miCopyRegion(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC, RegionPtr pDstRegion, int dx, int dy, miCopyProc copyProc, Pixel bitPlane, void* closure)
 {

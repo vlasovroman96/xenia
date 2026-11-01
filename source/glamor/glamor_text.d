@@ -36,7 +36,7 @@ import glamor.glamor;
 import fb.fbglyph;
 import glamor.glamor_pixmap;
 import Xext.xf86bigfont;
-
+import mipolytext;
 
 /*
  * Fill in the array of charinfo pointers for the provided characters. For

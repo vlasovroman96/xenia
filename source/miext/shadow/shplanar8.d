@@ -34,7 +34,6 @@ import    include.windowstr;
 import    externs.X11.fonts.font;
 import    dix.dixfonts;
 import    externs.X11.fonts.fontstruct;
-import    include.mi;
 import    include.regionstr;
 import    dix.globals;
 import    include.gcstruct;

@@ -48,7 +48,6 @@ import dix.atom;
 import include.inputstr;
 import include.xf86str;
 //import externs.X11.Xatom;
-import include.mi;
 import mi.micmap;
 import xf86cmap;
 import xf86DDC_priv;
@@ -95,6 +94,7 @@ import randr.randr;
 import randr.rrinfo;
 import externs.gbm;
 import hw.xfree86.modes.displaymode;
+import mi.miexpose;
 
 enum string msGetPixmapPriv(string drmmode, string p) =`(cast(msPixmapPrivPtr)dixGetPrivateAddr(&(`~p~`).devPrivates, &(`~drmmode~`).pixmapPrivateKeyRec))`;
 alias uint32_t = core.stdc.stdint.uint32_t;

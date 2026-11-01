@@ -32,6 +32,8 @@ import fb.fb_priv;
 import dsl.pixman;
 import externs.attrs;
 import build.xorg_config;
+import mi.micopy;
+import mi.miexpose;
 
 void
 fbCopyNtoN(DrawablePtr pSrcDrawable,

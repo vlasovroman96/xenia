@@ -76,6 +76,7 @@ import include.regionstr;
 import miwideline;
 import dix.gc;;
 import mi.mifpoly;
+import mizerline;
 
 enum string MILINESETPIXEL(string pDrawable, string pGC, string pixel, string oldPixel) =
 `{ 

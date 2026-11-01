@@ -27,6 +27,10 @@ import build.dix_config;
 
 import include.fb;
 import fb.fbbits;;
+import miwideline;
+import mipolyseg;
+import miglblt;
+import mipushpxl;
 
 private void fbZeroLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ppt)
 {

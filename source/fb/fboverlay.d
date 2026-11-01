@@ -40,6 +40,7 @@ import include.fboverlay;
 import fb.fballpriv;
 import fb.fbutil;
 import mi.miscrinit;
+import mi.micopy;
 
 private DevPrivateKeyRec fbOverlayScreenPrivateKeyRec;
 

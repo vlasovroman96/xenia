@@ -57,7 +57,6 @@ import build.dix_config;
 import include.windowstr;
 import include.gcstruct;
 import include.pixmapstr;
-import include.mi;
 import miscanfill;
 import mipoly;
 import include.regionstr;

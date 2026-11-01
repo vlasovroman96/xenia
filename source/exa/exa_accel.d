@@ -39,6 +39,12 @@ import include.exa_i;
 import exa.exa;
 import region;
 
+import mipolyrect;
+import mipoly;
+import mifillarc;
+import mipolytext;
+import mi.micopy;
+
 private void exaFillSpans(DrawablePtr pDrawable, GCPtr pGC, int n, DDXPointPtr ppt, int* pwidth, int fSorted)
 {
     ScreenPtr pScreen = pDrawable.pScreen;

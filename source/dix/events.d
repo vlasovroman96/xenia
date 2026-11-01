@@ -159,7 +159,6 @@ import include.extnsionst;
 import dix.dispatch;
 import dix.dixstruct_priv;
 import dix.enterleave;
-import include.mi;
 import dix.events;
 import dix.devices;
 // import os.utils;

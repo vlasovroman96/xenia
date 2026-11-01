@@ -71,7 +71,6 @@ import include.servermd;
 import dix.swaprep;
 import include.xf86str;
 import dri_priv;
-import include.mi;
 import mi.mipointer;
 import hw.xfree86.os_support.xf86_os_support;
 import include.xf86_OSproc;;

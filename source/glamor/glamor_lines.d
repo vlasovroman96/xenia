@@ -31,6 +31,7 @@ import glamor.glamor_program;
 import glamor.glamor_transform;
 import glamor.glamor_prepare;
 import glamor.glamor;
+import miwideline;
 
 private const(glamor_facet) glamor_facet_poly_lines = {
     name: "poly_lines",

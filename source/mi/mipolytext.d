@@ -65,7 +65,6 @@ import build.dix_config;
 import	include.misc;
 import	include.gcstruct;
 import	dix.dixfonts;
-import	include.mi;
 import Xext.xf86bigfont;
 
 int miPolyText8(DrawablePtr pDraw, GCPtr pGC, int x, int y, int count, char* chars)

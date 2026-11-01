@@ -54,7 +54,6 @@ import glx.glxserver;
 import glx.glxutil;
 import glx.glx_dri.glxdricommon;
 
-import glx.extension_string;
 import glx.glxscreens_h;
  import Xext.glx.fix;
  import externs.attrs;
@@ -340,13 +339,6 @@ private const(__DRIswrastLoaderExtension) swrastLoaderExtension = {
 
 private const(__DRIextension)*[2] loader_extensions_swrast;
 
-static this() {
-    loader_extensions_swrast = [
-    &swrastLoaderExtension.base,
-    null
-];
-}
-
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 private void initializeExtensionsSW(__GLXscreen* screen)
 {
@@ -423,6 +415,7 @@ private void __glXDRIscreenDestroySW(__GLXscreen* baseScreen)
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 private __GLXscreen* __glXDRIscreenProbeSW(ScreenPtr pScreen)
 {
+
     const(char)* driverName = "swrast";
     __GLXDRIscreen* screen = void;
 
@@ -447,6 +440,8 @@ private __GLXscreen* __glXDRIscreenProbeSW(ScreenPtr pScreen)
         goto handle_error;
     }
 
+    loader_extensions_swrast[0] = &swrastLoaderExtension.base;
+    loader_extensions_swrast[1] = null;
     //!FIX THIS HACK
     screen.driScreen =
         assumeNoGC(screen.swrast.createNewScreen) (pScreen.myNum,

@@ -29,6 +29,7 @@ import glamor.glamor_program;
 import glamor.glamor_transform;
 import glamor.glamor_prepare;
 import glamor.glamor;
+import mipolyseg;
 
 private const(glamor_facet) glamor_facet_poly_segment = {
     name: "poly_segment",

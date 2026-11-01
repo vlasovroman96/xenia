@@ -46,7 +46,6 @@ import Xi.handlers;
 
 import include.inputstr;           /* DeviceIntPtr      */
 import include.windowstr;          /* window structure  */
-import include.mi;
 import dix.events;
 import Xi.exglobals;          /* BadDevice */
 import externs.X11.extensions.XIproto;

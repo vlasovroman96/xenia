@@ -48,8 +48,10 @@ SOFTWARE.
 ******************************************************************/
 
  
-public import include.mi;
 public import include.regionstr;
+
+enum EVEN_DASH =	0;
+enum ODD_DASH =	~0;
 
 /* information about dashes */
 struct _miDash {
@@ -61,5 +63,7 @@ struct _miDash {
 }
 
 alias miDashRec = _miDash;
+alias miDashPtr = _miDash*;
+
 
                           /* MISTRUCT_H */

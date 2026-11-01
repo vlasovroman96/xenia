@@ -53,7 +53,6 @@ import build.dix_config;
 import include.regionstr;
 import include.gcstruct;
 import include.pixmap;
-import include.mi;
 
 void miPolyRectangle(DrawablePtr pDraw, GCPtr pGC, int nrects, xRectangle* pRects)
 {

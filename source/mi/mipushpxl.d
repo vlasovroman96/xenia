@@ -53,10 +53,11 @@ import include.gcstruct;
 import include.scrnintstr;
 import include.pixmapstr;
 import include.regionstr;
-import include.mi;
 import include.servermd;
 
 enum NPT = 128;
+
+alias MiBits =	CARD32;
 
 /* These were stolen from mfb.  They don't really belong here. */
 enum string LONG2CHARSSAMEORDER(string x) = `(cast(MiBits)(` ~ x ~ `))`;

@@ -124,8 +124,6 @@ version (HAVE_SYS_MKDEV_H) {
 import sys.mkdev;          /* for major() & minor() on Solaris */
 }
 
-import include.mi;
-
 import ptrveloc;           /* dix pointer acceleration */
 import include.xserver_properties;
 

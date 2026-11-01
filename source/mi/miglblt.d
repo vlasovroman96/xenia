@@ -62,7 +62,6 @@ import	include.windowstr;
 import	include.scrnintstr;
 import	include.pixmap;
 import	include.servermd;
-import        include.mi;
 import Xext.xf86bigfont;
 import dix.gc;
 import fb.fbglyph;

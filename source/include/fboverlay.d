@@ -27,7 +27,7 @@ extern(C): __gshared:
 
  
 public import include.privates;
-import include.mi;
+import mi.micopy;
 
 DevPrivateKey fbOverlayGetScreenPrivateKey();
 

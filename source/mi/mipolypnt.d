@@ -53,7 +53,6 @@ import build.dix_config;
 import include.pixmapstr;
 import include.gcstruct;
 import include.windowstr;
-import include.mi;
 import dix.gc;
 
 void miPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* pptInit)

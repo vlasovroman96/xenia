@@ -57,7 +57,7 @@ import include.scrnintstr;
 import include.gcstruct;
 import include.windowstr;
 import include.pixmap;
-import include.mi;
+import miwideline;
 import include.miline;
 import mi.mizerclip;
 

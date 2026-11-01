@@ -37,7 +37,6 @@ import core.stdc.math;
 import include.regionstr;
 import include.gcstruct;
 import include.pixmapstr;
-import include.mi;
 import mifillarc;
 import mizerarc;
 import mi.miarc;

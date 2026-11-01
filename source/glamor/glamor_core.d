@@ -53,6 +53,13 @@ import glamor.glamor;
 import externs.gnu;
 import fb.fbgc;
 
+import mipolyrect;
+import mipoly;
+import mifillarc;
+import mipolytext;
+import mi.miarc;
+import miglblt;
+
 Bool glamor_get_drawable_location(DrawablePtr drawable)
 {
     PixmapPtr pixmap = glamor_get_drawable_pixmap(drawable);

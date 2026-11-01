@@ -35,7 +35,6 @@ import include.scrnintstr;
 import include.gcstruct;
 import include.pixmapstr;
 import include.windowstr;
-import include.mi;
 import include.picturestr;
 import externs.X11.extensions.renderproto;
 import render.picture;
