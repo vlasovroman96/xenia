@@ -27,8 +27,6 @@ extern(C): __gshared:
  */
 import build.xorg_config;
 
-import include.extension;
-
 // import xf86_priv;
 // import xf86Config;
 import include.xf86Module;
@@ -60,6 +58,14 @@ static if(XFreeXDGA){
 static if(build.xlibre_server.XF86VIDMODE){
 //import externs.X11.extensions.xf86vmproto;
 import include.vidmodestr;
+}
+
+alias InitExtension = void function();
+
+struct ExtensionModule {
+    InitExtension initFunc;
+    const(char)* name;
+    Bool* disablePtr;
 }
 
 Bool noXFree86VidModeExtension = 0;

@@ -51,7 +51,7 @@ SOFTWARE.
 public import include.xlibre_ptrtypes;
 public import include.misc;
 public import include.screenint;
-public import include.extension;
+public import xf86Extensions;
 public import include.gc;
 public import include.privates;
 public import  tables;

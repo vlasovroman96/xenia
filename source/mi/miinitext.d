@@ -95,7 +95,7 @@ import glx.vndext;
 import miext.extinit_priv;
 
 import include.misc;
-import include.extension;
+import xf86Extensions;
 import mi.micmap;
 import include.os;
 import Xext.xres;

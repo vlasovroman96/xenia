@@ -101,7 +101,6 @@ static if(build.xlibre_server.XDMCP){
 import os.xdmcp;
 }
 
-import include.extension;
 import core.stdc.signal;
 version (Windows) {} else {
 import core.sys.posix.sys.wait;

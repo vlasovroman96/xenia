@@ -115,7 +115,6 @@ import include.windowstr;
 import include.resource;
 import dix.dixstruct_priv;
 import include.gcstruct;
-import include.extension;
 import dix.cursor;
 import include.servermd;
 import dix.dixfonts;
@@ -129,6 +128,8 @@ import dix.dix_priv;
 import externs.attrs;
 import os.connection;
 import os.WaitFor;
+import mi.miinitext;
+import dix.extension;
 
 static if(DPMSExtension) {
 //import externs.X11.extensions.dpmsconst;
