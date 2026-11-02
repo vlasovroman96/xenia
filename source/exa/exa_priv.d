@@ -40,7 +40,7 @@ public import include.gcstruct;
 public import include.input;
 public import mi.mipointer;
 import fb.fb;
-public import include.fboverlay;
+public import fboverlay;
 public import include.fbpict;
 public import include.glyphstr;
 public import dix.damage;
