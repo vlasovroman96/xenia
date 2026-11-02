@@ -33,7 +33,6 @@ import include.xf86Pci;
 import xf86cmap;
 import build.xlibre_server;
 
-import include.fbdevhw;
 import hw.xfree86.fbdevhw.fbpriv;
 import hw.xfree86.common.xf86Helper;
 // //import externs.X11.extensions.dpmsconst;
@@ -41,6 +40,11 @@ import externs.sys.sysmacros;
 import externs.attrs;
 import externs.X11.extensions.dpmsproto;
 import hw.xfree86.modes.displaymode;
+
+enum FBDEVHW_PACKED_PIXELS =		0       /* Packed Pixels        */;
+enum FBDEVHW_INTERLEAVED_PLANES =	2       /* Interleaved planes   */;
+enum FBDEVHW_TEXT =			3       /* Text/attributes      */;
+enum FBDEVHW_VGA_PLANES =		4       /* EGA/VGA planes       */;
 
 int getpagesize() {
     return cast(int)sysconf(_SC_PAGESIZE);

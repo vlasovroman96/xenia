@@ -1,11 +1,10 @@
-module hw.xfree86.fbdevhw..fbdevhwstub;
+module hw.xfree86.fbdevhw.fbdevhwstub;
 @nogc nothrow:
 extern(C): __gshared:
 import build.xorg_config;
 
 import include.xf86;
 import xf86cmap;
-import include.fbdevhw;
 import externs.pciaccess;
 import os.log;
 
