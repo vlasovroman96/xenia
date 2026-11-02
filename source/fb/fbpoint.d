@@ -28,6 +28,7 @@ import build.dix_config;
 import fb.fb_priv;
 import fb.fbbits;;
 import fb.fb;
+import fb.fbrop;
 
 alias FbDots = extern(C) void function(FbBits* dst, FbStride dstStride, int dstBpp, BoxPtr pBox, xPoint* pts, int npt, int xorg, int yorg, int xoff, int yoff, FbBits and, FbBits xor) @nogc nothrow;
 

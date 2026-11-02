@@ -27,6 +27,7 @@ import build.dix_config;
 
 import fb.fb;
 import fb.fbutil;
+import fb.fbrop;
 
 /*
  * Stipple masks are independent of bit/byte order as long

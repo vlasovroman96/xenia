@@ -31,6 +31,7 @@ import core.stdc.string;
 import fb.fb_priv;
 import fb.fbutil;
 import fb.fb;
+import fb.fbrop;
 
 void fbPutImage(DrawablePtr pDrawable, GCPtr pGC, int depth, int x, int y, int w, int h, int leftPad, int format, char* pImage)
 {

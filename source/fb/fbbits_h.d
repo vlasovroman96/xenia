@@ -34,6 +34,7 @@ import include.mizerarc;
 import mizerarc;
 import core.stdc.config: c_long, c_ulong;
 import fb.fb;
+import fb.fbrop;
 
 
 enum string isClipped(string c,string ul,string lr) = `(((` ~ c ~ `) | ((` ~ c ~ `) - (` ~ ul ~ `)) | ((` ~ lr ~ `) - (` ~ c ~ `))) & 0x80008000)`;

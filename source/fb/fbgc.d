@@ -35,6 +35,7 @@ import mipolyrect;
 import mipoly;
 import mifillarc;
 import mipolytext;
+import fb.fbrop;
 
 private const(GCFuncs) fbGCFuncs = {
     &fbValidateGC,

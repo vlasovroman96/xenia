@@ -26,6 +26,7 @@ extern(C): __gshared:
 import build.dix_config;
 
 import fb.fb;
+import fb.fbrop;
 
 /*
  * Accelerated tile fill -- tile width is a power of two not greater

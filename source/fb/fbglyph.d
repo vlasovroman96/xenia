@@ -34,6 +34,7 @@ import fb.fbbits;
 import fb.fbpush;
 import Xext.xf86bigfont;
 import fb.fb;
+import fb.fbrop;
 
 
 // enum string GLYPHWIDTHPIXELS(string pci) = 

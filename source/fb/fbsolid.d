@@ -28,6 +28,7 @@ enum string FbSelectPart(string xor,string o,string t) = `` ~ xor ~ ``;
 import build.dix_config;
 
 import fb.fb;
+import fb.fbrop;
 
 void fbSolid(FbBits* dst, FbStride dstStride, int dstX, int bpp, int width, int height, FbBits and, FbBits xor)
 {

@@ -29,6 +29,7 @@ import core.stdc.string;
 import fb.fb;
 import fb.fbutil;
 import build.xorg_config;
+import fb.fbrop;
 
 static if (FB_ACCESS_WRAPPER) {
 

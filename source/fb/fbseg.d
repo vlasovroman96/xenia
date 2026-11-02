@@ -37,6 +37,7 @@ import dix.gc;
 import core.stdc.config;
 import mi.mizerclip;
 import fb.fb;
+import fb.fbrop;
 
 enum string fbBresShiftMask(string mask,string dir,string bpp) = `((` ~ bpp ~ ` == FB_STIP_UNIT) ? 0 : 
 					((` ~ dir ~ ` < 0) ? `~FbStipLeft!(mask, bpp)~` : `~

@@ -35,6 +35,7 @@ import build.xorg_config;
 import mi.micopy;
 import mi.miexpose;
 import fb.fb;
+import fb.fbrop;
 
 void
 fbCopyNtoN(DrawablePtr pSrcDrawable,

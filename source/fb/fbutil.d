@@ -25,6 +25,7 @@ extern(C): __gshared:
 
 import build.dix_config;
 import fb.fb;
+import fb.fbrop;
 
 FbBits fbReplicatePixel(Pixel p, int bpp)
 {
