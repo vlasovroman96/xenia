@@ -36,7 +36,7 @@ import    include.regionstr;
 import    dix.globals;
 import    include.gcstruct;
 import include.shadow;
-import    include.fb;
+import fb.fb;
 public import fb.fballpriv;
 
 

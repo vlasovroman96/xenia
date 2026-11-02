@@ -33,6 +33,7 @@ import core.stdc.limits;
 import mizerarc;
 import fb.fbbits;;
 import mi.miarc;
+import fb.fb;
 
 
 alias FbArc = void function(FbBits* dst, FbStride dstStride, int dstBpp, xArc* arc, int dx, int dy, FbBits and, FbBits xor);

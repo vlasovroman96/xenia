@@ -33,6 +33,7 @@ import fb.fb_priv;
 import externs.attrs;
 import fb.fbgc;
 import mi.micopy;
+import fb.fb;
 
 Bool fbCreateWindow(WindowPtr pWin)
 {

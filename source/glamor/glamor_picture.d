@@ -49,6 +49,7 @@ import glamor.glamor_priv;
 import glamor.glamor;
 import externs.attrs;;
 import externs.X11.extensions.render_;
+import fb.fb;
 
 private void byte_swap_swizzle(GLenum* swizzle)
 {

@@ -40,7 +40,6 @@ public import    include.regionstr;
 public import    dix.globals;
 public import    include.gcstruct;
 public import include.shadow;
-public import    include.fb;
 
 enum DANDEBUG =         0;
 

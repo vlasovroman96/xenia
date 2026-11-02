@@ -25,7 +25,7 @@ extern(C): __gshared:
 
  
 // //public import x11.Xfuncproto;
-import include.fb;;
+import fb.fb;
 import fb.fbutil;
 
 struct _mergeRopBits {

@@ -45,6 +45,7 @@ import externs.attrs;
 import mirect;
 import mitrap;
 import mitri;
+import fb.fb;
 
 
 /**

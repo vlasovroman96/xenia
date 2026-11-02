@@ -35,7 +35,7 @@ import core.stdc.stdlib;
 import include.shmint;
 import mi.mi_priv;
 
-import include.fb;
+import fb.fb;
 import include.fboverlay;
 import fb.fballpriv;
 import fb.fbutil;

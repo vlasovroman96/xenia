@@ -8,7 +8,6 @@ extern(C): __gshared:
  
 //public import x11.Xdefs;
 
-public import include.fb;
 public import include.scrnintstr;
 public import fb.fballpriv;
 
@@ -37,6 +36,6 @@ void fbValidateDrawable(DrawablePtr d) {}
 } /* FB_DEBUG */
 
 // Bool fbAllocatePrivates(ScreenPtr pScreen);
-int fbListInstalledColormaps(ScreenPtr pScreen, Colormap* pmaps);
+// int fbListInstalledColormaps(ScreenPtr pScreen, Colormap* pmaps);
 
  /* XORG_FB_PRIV_H */

@@ -44,19 +44,19 @@ import include.servermd;
 public import migc;
 public import include.picturestr;
 import fb.fballpriv;
-import include.fb;
 public import fb.fbcmap_mi;
 public import fb.fbwindow;
 
+import build.xorg_config;
 
-// static if (FB_ACCESS_WRAPPER) {
+static if (FB_ACCESS_WRAPPER) {
 
-// public import wfbrename;
-// enum string FBPREFIX(string x) = `wfb##x`;
-// enum string WRITE(string ptr, string val) = `((*wfbWriteMemory)((` ~ ptr ~ `), (` ~ val ~ `), typeof(*(` ~ ptr ~ `)).sizeof))`;
-// enum string READ(string ptr) = `((*wfbReadMemory)((` ~ ptr ~ `), typeof(*(` ~ ptr ~ `)).sizeof))`;
+public import wfbrename;
+enum string FBPREFIX(string x) = `wfb##x`;
+enum string WRITE(string ptr, string val) = `((*wfbWriteMemory)((` ~ ptr ~ `), (` ~ val ~ `), typeof(*(` ~ ptr ~ `)).sizeof))`;
+enum string READ(string ptr) = `((*wfbReadMemory)((` ~ ptr ~ `), typeof(*(` ~ ptr ~ `)).sizeof))`;
 
-// } else {
+} else {
 
 enum string FBPREFIX(string x) = `fb##x`;
 enum string WRITE(string ptr, string val) = `
@@ -64,7 +64,7 @@ enum string WRITE(string ptr, string val) = `
 ;
 enum string READ(string ptr) = `(*(` ~ ptr ~ `))`;
 
-// }
+}
 
 /*
  * This single define controls the basic size of data manipulated
@@ -241,7 +241,7 @@ alias WriteMemoryProcPtr = void function(void* dst, FbBits value, int size);
 alias SetupWrapProcPtr = void function(ReadMemoryProcPtr* pRead, WriteMemoryProcPtr* pWrite, DrawablePtr pDraw);
 alias FinishWrapProcPtr = void function(DrawablePtr pDraw);
 
-// static if (FB_ACCESS_WRAPPER) {
+static if (FB_ACCESS_WRAPPER) {
 
 enum string fbPrepareAccess(string pDraw) = 
 	fbGetScreenPrivate!(pDraw~`.pScreen`)~`.setupWrap( 
@@ -251,17 +251,17 @@ enum string fbPrepareAccess(string pDraw) =
 enum string fbFinishAccess(string pDraw) = `
 	mixin(fbGetScreenPrivate!("(` ~ pDraw ~ `).pScreen")).finishWrap(` ~ pDraw ~ `);`;
 
-// } else {
+} else {
 
-// //#define fbPrepareAccess(pPix)
-// //#define fbFinishAccess(pDraw)
+enum string fbPrepareAccess(string pDraw) = "";
 
-// }
+enum string fbFinishAccess(string pDraw) = ``;
+
+}
 
 // DevPrivateKey
 // fbGetScreenPrivateKey();
 
-import build.xorg_config;
 /* private field of a screen */
 struct _FbScreenPrivRec {
 static if (FB_ACCESS_WRAPPER) {
@@ -360,51 +360,6 @@ enum string FbEvenTile(string w) = `((` ~ w ~ `) <= FB_UNIT && ` ~ FbPowerOfTwo!
  */
 
 void fbPolyArc(DrawablePtr pDrawable, GCPtr pGC, int narcs, xArc* parcs);
-
-/*
- * fb.fbbits;.c
- */
-
-// void fbBresSolid8(DrawablePtr pDrawable, GCPtr pGC, int dashOffset, int signdx, int signdy, int axis, int x, int y, int e, int e1, int e3, int len);
-
-// void fbBresDash8(DrawablePtr pDrawable, GCPtr pGC, int dashOffset, int signdx, int signdy, int axis, int x, int y, int e, int e1, int e3, int len);
-
-// void fbDots8(FbBits* dst, FbStride dstStride, int dstBpp, BoxPtr pBox, xPoint* pts, int npt, int xorg, int yorg, int xoff, int yoff, FbBits and, FbBits xor);
-
-// void fbArc8(FbBits* dst, FbStride dstStride, int dstBpp, xArc* arc, int dx, int dy, FbBits and, FbBits xor);
-
-// extern(C) void fbGlyph8(FbBits* dstLine, FbStride dstStride, int dstBpp, FbStip* stipple, FbBits fg, int height, int shift);
-
-// void fbPolyline8(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ptsOrig);
-
-// void fbPolySegment8(DrawablePtr pDrawable, GCPtr pGC, int nseg, xSegment* pseg);
-
-// void fbBresSolid16(DrawablePtr pDrawable, GCPtr pGC, int dashOffset, int signdx, int signdy, int axis, int x, int y, int e, int e1, int e3, int len);
-
-// void fbBresDash16(DrawablePtr pDrawable, GCPtr pGC, int dashOffset, int signdx, int signdy, int axis, int x, int y, int e, int e1, int e3, int len);
-
-// void fbDots16(FbBits* dst, FbStride dstStride, int dstBpp, BoxPtr pBox, xPoint* pts, int npt, int xorg, int yorg, int xoff, int yoff, FbBits and, FbBits xor);
-
-// void fbArc16(FbBits* dst, FbStride dstStride, int dstBpp, xArc* arc, int dx, int dy, FbBits and, FbBits xor);
-
-// void fbGlyph16(FbBits* dstLine, FbStride dstStride, int dstBpp, FbStip* stipple, FbBits fg, int height, int shift);
-
-// void fbPolyline16(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ptsOrig);
-
-// void fbPolySegment16(DrawablePtr pDrawable, GCPtr pGC, int nseg, xSegment* pseg);
-
-// void fbBresSolid32(DrawablePtr pDrawable, GCPtr pGC, int dashOffset, int signdx, int signdy, int axis, int x, int y, int e, int e1, int e3, int len);
-
-// void fbBresDash32(DrawablePtr pDrawable, GCPtr pGC, int dashOffset, int signdx, int signdy, int axis, int x, int y, int e, int e1, int e3, int len);
-
-// void fbDots32(FbBits* dst, FbStride dstStride, int dstBpp, BoxPtr pBox, xPoint* pts, int npt, int xorg, int yorg, int xoff, int yoff, FbBits and, FbBits xor);
-
-// void fbArc32(FbBits* dst, FbStride dstStride, int dstBpp, xArc* arc, int dx, int dy, FbBits and, FbBits xor);
-
-// void fbGlyph32(FbBits* dstLine, FbStride dstStride, int dstBpp, FbStip* stipple, FbBits fg, int height, int shift);
-// void fbPolyline32(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ptsOrig);
-
-// void fbPolySegment32(DrawablePtr pDrawable, GCPtr pGC, int nseg, xSegment* pseg);
 
 /*
  * fbblt.c
@@ -564,11 +519,11 @@ void fbUnrealizeFont(ScreenPtr pScreen, FontPtr pFont);
 
 void fbQueryBestSize(int class_, ushort* width, ushort* height, ScreenPtr pScreen);
 
-// int _fbGetWindowPixmap(WindowPtr pWindow);
+int _fbGetWindowPixmap(WindowPtr pWindow);
 
 // int _fbSetWindowPixmap(WindowPtr pWindow, PixmapPtr pPixmap);
 
-// int fbSetupScreen(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp);        /* bits per pixel of frame buffer */
+int fbSetupScreen(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp);        /* bits per pixel of frame buffer */
 
 static if (FB_ACCESS_WRAPPER) {
 int wfbFinishScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp, SetupWrapProcPtr setupWrap, FinishWrapProcPtr finishWrap);
@@ -576,9 +531,9 @@ int wfbFinishScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, in
 int wfbScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp, SetupWrapProcPtr setupWrap, FinishWrapProcPtr finishWrap);
 }
 
-// int fbFinishScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp);
+int fbFinishScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp);
 
-// int fbScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp);
+int fbScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp);
 
 /*
  * fbseg.c
@@ -625,7 +580,232 @@ void fbTile(FbBits* dst, FbStride dstStride, int dstX, int width, int height, Fb
 /*
  * fbutil.c
  */
-// void fbReplicatePixel(Pixel p, int bpp);
+
+static if (FB_ACCESS_WRAPPER) {
+ReadMemoryProcPtr wfbReadMemory;
+WriteMemoryProcPtr wfbWriteMemory;
+}
+
+/*
+ * fbwindow.c
+ */
+
+int fbCreateWindow(WindowPtr pWin);
+
+int fbDestroyWindow(WindowPtr pWin);
+
+int fbRealizeWindow(WindowPtr pWindow);
+
+int fbPositionWindow(WindowPtr pWin, int x, int y);
+
+int fbUnrealizeWindow(WindowPtr pWindow);
+
+void fbCopyWindow(WindowPtr pWin, xPoint ptOldOrg, RegionPtr prgnSrc);
+
+int fbChangeWindowAttributes(WindowPtr pWin, c_ulong mask);
+
+int fbFillRegionSolid(DrawablePtr pDrawable, RegionPtr pRegion, FbBits and, FbBits xor);
+
+enum string FBPREFIX(string x) = `fb##x`;
+enum string WRITE(string ptr, string val) = `
+	(*(` ~ ptr ~ `) = (` ~ val ~ `))`
+;
+enum string READ(string ptr) = `(*(` ~ ptr ~ `))`;
+
+// }
+
+static if (GLYPHPADBYTES != 4) {
+static assert(0, "GLYPHPADBYTES must be 4");
+}
+
+public import include.fbrop;
+
+static if (BITMAP_BIT_ORDER == LSBFirst) {
+} else {
+enum string FbScrLeft(string x,string n) = `((` ~ x ~ `) << (` ~ n ~ `))`;
+enum string FbScrRight(string x,string n) = `((` ~ x ~ `) >> (` ~ n ~ `))`;
+enum string FbLeftStipBits(string x,string n) = `((` ~ x ~ `) >> (FB_STIP_UNIT - (` ~ n ~ `)))`;
+enum string FbStipMoveLsb(string x,string s,string n) = `(` ~ x ~ `)`;
+enum FbPatternOffsetBits =	((FbBits).sizeof - 1);
+}
+
+public import include.micoord;
+
+enum string FbLeftStipMask(string x) = `( ((` ~ x ~ `) & FB_STIP_MASK) ? 
+			     ` ~ FbStipRight!(`FB_STIP_ALLONES`,`(` ~ x ~ `) & FB_STIP_MASK`) ~ ` : 0)`;
+enum string FbRightStipMask(string x) = `( ((FB_STIP_UNIT - (` ~ x ~ `)) & FB_STIP_MASK) ? 
+			     ` ~ FbScrLeft!(`FB_STIP_ALLONES`,`(FB_STIP_UNIT - (` ~ x ~ `)) & FB_STIP_MASK`) ~ ` : 0)`;
+
+version (FbSelectPart) {} else {
+// enum string FbSelectPart(string x,string o,string t) = `` ~ FbSelectPatternPart!(x,o,t) ~ ``;
+}
+
+void fbPolyArc(DrawablePtr pDrawable, GCPtr pGC, int narcs, xArc* parcs);
+
+/*
+ * fbblt.c
+ */
+void fbBlt(FbBits* src, FbStride srcStride, int srcX, FbBits* dst, FbStride dstStride, int dstX, int width, int height, int alu, FbBits pm, int bpp, Bool reverse, Bool upsidedown);
+
+void fbBltStip(FbStip* src, FbStride srcStride, int srcX, FbStip* dst, FbStride dstStride, int dstX, int width, int height, int alu, FbBits pm, int bpp);
+
+/*
+ * fbbltone.c
+ */
+void fbBltOne(FbStip* src, FbStride srcStride, int srcX, FbBits* dst, FbStride dstStride, int dstX, int dstBpp, int width, int height, FbBits fgand, FbBits fbxor, FbBits bgand, FbBits bgxor);
+
+void fbBltPlane(FbBits* src, FbStride srcStride, int srcX, int srcBpp, FbStip* dst, FbStride dstStride, int dstX, int width, int height, FbStip fgand, FbStip fgxor, FbStip bgand, FbStip bgxor, Pixel planeMask);
+
+/*
+ * fbcmap_mi.c
+ */
+void fbInstallColormap(ColormapPtr pmap);
+
+void fbUninstallColormap(ColormapPtr pmap);
+
+void fbExpandDirectColors(ColormapPtr pmap, int ndef, xColorItem* indefs, xColorItem* outdefs);
+
+void fbCreateDefColormap(ScreenPtr pScreen);
+
+void fbClearVisualTypes();
+
+void fbSetVisualTypes(int depth, int visuals, int bitsPerRGB);
+
+void fbSetVisualTypesAndMasks(int depth, int visuals, int bitsPerRGB, Pixel redMask, Pixel greenMask, Pixel blueMask);
+
+
+/*
+ * fbcopy.c
+ */
+
+void fbCopyNtoN(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC, BoxPtr pbox, int nbox, int dx, int dy, Bool reverse, Bool upsidedown, Pixel bitplane, void* closure);
+
+void fbCopy1toN(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC, BoxPtr pbox, int nbox, int dx, int dy, Bool reverse, Bool upsidedown, Pixel bitplane, void* closure);
+
+void* fbCopyNto1(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC, BoxPtr pbox, int nbox, int dx, int dy, Bool reverse, Bool upsidedown, Pixel bitplane, void* closure);
+
+RegionPtr fbCopyArea(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC, int xIn, int yIn, int widthSrc, int heightSrc, int xOut, int yOut);
+
+RegionPtr fbCopyPlane(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC, int xIn, int yIn, int widthSrc, int heightSrc, int xOut, int yOut, c_ulong bitplane);
+
+/*
+ * fbfill.c
+ */
+
+void fbSolidBoxClipped(DrawablePtr pDrawable, RegionPtr pClip, int xa, int ya, int xb, int yb, FbBits and, FbBits xor);
+
+/*
+ * fbfillrect.c
+ */
+void fbPolyFillRect(DrawablePtr pDrawable, GCPtr pGC, int nrectInit, xRectangle* prectInit);
+
+/*
+ * fbfillsp.c
+ */
+void fbFillSpans(DrawablePtr pDrawable, GCPtr pGC, int nInit, DDXPointPtr pptInit, int* pwidthInit, int fSorted);
+
+/*
+ * fbgetsp.c
+ */
+void fbGetSpans(DrawablePtr pDrawable, int wMax, DDXPointPtr ppt, int* pwidth, int nspans, char* pchardstStart);
+
+/*
+ * fbglyph.c
+ */
+
+void fbPolyGlyphBlt(DrawablePtr pDrawable, GCPtr pGC, int x, int y, uint nglyph, CharInfoPtr* ppci, void* pglyphBase);
+
+void fbImageGlyphBlt(DrawablePtr pDrawable, GCPtr pGC, int x, int y, uint nglyph, CharInfoPtr* ppci, void* pglyphBase);
+
+/*
+ * fbimage.c
+ */
+
+void fbPutImage(DrawablePtr pDrawable, GCPtr pGC, int depth, int x, int y, int w, int h, int leftPad, int format, char* pImage);
+
+void fbPutZImage(DrawablePtr pDrawable, RegionPtr pClip, int alu, FbBits pm, int x, int y, int width, int height, FbStip* src, FbStride srcStride);
+
+void fbPutXYImage(DrawablePtr pDrawable, RegionPtr pClip, FbBits fg, FbBits bg, FbBits pm, int alu, Bool opaque, int x, int y, int width, int height, FbStip* src, FbStride srcStride, int srcX);
+
+void fbGetImage(DrawablePtr pDrawable, int x, int y, int w, int h, uint format, c_ulong planeMask, char* d);
+/*
+ * fbline.c
+ */
+
+void fbPolyLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ppt);
+
+void fbFixCoordModePrevious(int npt, DDXPointPtr ppt);
+
+void fbPolySegment(DrawablePtr pDrawable, GCPtr pGC, int nseg, xSegment* pseg);
+
+/*
+ * fbpict.c
+ */
+
+void fbPictureInit(ScreenPtr pScreen, PictFormatPtr formats, int nformats);
+
+void fbDestroyGlyphCache();
+
+/*
+ * fbpoint.c
+ */
+
+void fbPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* pptInit);
+
+/*
+ * fbpush.c
+ */
+
+void fbPushPixels(GCPtr pGC, PixmapPtr pBitmap, DrawablePtr pDrawable, int dx, int dy, int xOrg, int yOrg);
+
+/*
+ * fbscreen.c
+ */
+
+void fbCloseScreen(ScreenPtr pScreen);
+
+void fbRealizeFont(ScreenPtr pScreen, FontPtr pFont);
+
+void fbUnrealizeFont(ScreenPtr pScreen, FontPtr pFont);
+
+void fbQueryBestSize(int class_, ushort* width, ushort* height, ScreenPtr pScreen);
+
+static if (FB_ACCESS_WRAPPER) {
+int wfbFinishScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp, SetupWrapProcPtr setupWrap, FinishWrapProcPtr finishWrap);
+
+int wfbScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp, SetupWrapProcPtr setupWrap, FinishWrapProcPtr finishWrap);
+}
+
+/*
+ * fbseg.c
+ */
+void fbSegment(DrawablePtr pDrawable, GCPtr pGC, int xa, int ya, int xb, int yb, Bool drawLast, int* dashOffset);
+
+/*
+ * fbsetsp.c
+ */
+
+void fbSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* src, DDXPointPtr ppt, int* pwidth, int nspans, int fSorted);
+
+/*
+ * fbsolid.c
+ */
+
+void fbSolid(FbBits* dst, FbStride dstStride, int dstX, int bpp, int width, int height, FbBits and, FbBits xor);
+
+/*
+ * fbtile.c
+ */
+
+void fbEvenTile(FbBits* dst, FbStride dstStride, int dstX, int width, int height, FbBits* tile, FbStride tileStride, int tileHeight, int alu, FbBits pm, int xRot, int yRot);
+
+void fbOddTile(FbBits* dst, FbStride dstStride, int dstX, int width, int height, FbBits* tile, FbStride tileStride, int tileWidth, int tileHeight, int alu, FbBits pm, int bpp, int xRot, int yRot);
+
+void fbTile(FbBits* dst, FbStride dstStride, int dstX, int width, int height, FbBits* tile, FbStride tileStride, int tileWidth, int tileHeight, int alu, FbBits pm, int bpp, int xRot, int yRot);
+
+/*
+ * fbutil.c
+ */
 
 static if (FB_ACCESS_WRAPPER) {
 ReadMemoryProcPtr wfbReadMemory;

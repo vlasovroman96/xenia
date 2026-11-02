@@ -24,8 +24,8 @@ extern(C): __gshared:
  * PERFORMANCE OF THIS SOFTWARE.
  */
  
-public import include.fb;
 import externs.X11.extensions.renderproto;
+import include.picture;
 
 /* fbpict.c */
 

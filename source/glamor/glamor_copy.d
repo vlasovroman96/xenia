@@ -37,6 +37,7 @@ import fb.fballpriv;
 import glamor.glamor_pixmap;
 import mi.micopy;
 import mi.miexpose;
+import fb.fb;
 
 struct copy_args {
     DrawablePtr src_drawable;

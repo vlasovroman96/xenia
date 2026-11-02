@@ -35,7 +35,6 @@ public import include.scrnintstr;
 public import include.pixmapstr;
 public import include.gcstruct;
 public import include.picturestr;
-public import include.fb;
 // static if (GLAMOR_FOR_XORG) {
 public import xf86xv;
 // }

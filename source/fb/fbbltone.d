@@ -25,7 +25,7 @@ extern(C): __gshared:
 
 import build.dix_config;
 
-import include.fb;
+import fb.fb;
 import fb.fbutil;
 
 /*

@@ -38,6 +38,7 @@ import  externs.X11.extensions.renderproto;
 public import include.glamor;
 public import include.xvdix;
 import glamor.glamor;
+import fb.fb;
 
 static if (XSYNC) {
 public import include.misyncshm;

@@ -34,11 +34,10 @@ import fb.fbpict_priv;
 import include.mipict;
 import build.xorg_config;
 
-import include.fb;
+import fb.fb;
 import render.glyphstr_priv;
 import include.picturestr;
 import externs.attrs;
-import include.fb;
 import fb.fballpriv;
 import render.mipict;
 import mitrap;

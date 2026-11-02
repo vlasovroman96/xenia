@@ -32,6 +32,7 @@ import core.stdc.string;
 import exa.exa_priv;
 import exa.exa;
 import exa.exa_migration_mixed;
+import fb.fb;
 
 /* This file holds the driver allocated pixmaps + better initial placement code.
  */

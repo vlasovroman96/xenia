@@ -40,9 +40,8 @@ import    include.regionstr;
 import    dix.globals;
 import    include.gcstruct;
 import include.shadow;
-import    include.fb;
+import fb.fb;
 import    miext.shadow.c2p_core;
-
 
     /*
      *  Perform a full C2P step on 32 4-bit pixels, stored in 4 32-bit words

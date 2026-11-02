@@ -29,6 +29,7 @@ import build.dix_config;
 import core.stdc.stdlib;
 
 import fb.fb_priv;
+import fb.fb;
 
 import mipolyrect;
 import mipoly;

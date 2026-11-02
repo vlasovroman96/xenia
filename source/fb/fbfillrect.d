@@ -25,8 +25,11 @@ extern(C): __gshared:
 
 import build.dix_config;
 
-import include.fb;
+import fb.fb;
 import fb.fbfill;;
+import include.pixmapstr;
+import include.gc;
+import x11.Xprotostr;
 
 
 void fbPolyFillRect(DrawablePtr pDrawable, GCPtr pGC, int nrect, xRectangle* prect)

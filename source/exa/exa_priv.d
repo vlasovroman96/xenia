@@ -39,7 +39,7 @@ public import include.servermd;
 public import include.gcstruct;
 public import include.input;
 public import mi.mipointer;
-public import include.fb;
+import fb.fb;
 public import include.fboverlay;
 public import include.fbpict;
 public import include.glyphstr;

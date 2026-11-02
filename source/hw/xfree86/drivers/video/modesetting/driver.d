@@ -68,7 +68,7 @@ import include.xf86Pci;
 import mi.mipointer;
 import include.mipointrst;
 import mi.micmap;
-import include.fb;
+import fb.fb;
 import include.xf86i2c;
 import include.xf86Crtc;
 import include.miscstruct;

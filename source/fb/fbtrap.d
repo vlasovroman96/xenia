@@ -28,8 +28,6 @@ import build.dix_config;
 import fb.fbpict_priv;
 import include.mipict;
 
-import include.fb;
-
 import include.picturestr;
 import dix.damage;
 import externs.attrs;

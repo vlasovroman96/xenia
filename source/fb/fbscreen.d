@@ -34,6 +34,7 @@ import fb.fbpixmap;
 import fb.fbgc;
 import dix.dixutils;
 import mi.miscrinit;
+import fb.fb;
 
 Bool fbCloseScreen(ScreenPtr pScreen)
 {

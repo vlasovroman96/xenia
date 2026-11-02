@@ -26,7 +26,7 @@ import core.stdc.config: c_long, c_ulong;
 
 import build.dix_config;
 
-import include.fb;
+import fb.fb;
 import fb.fballpriv;
 
 void fbGetSpans(DrawablePtr pDrawable, int wMax, DDXPointPtr ppt, int* pwidth, int nspans, char* pchardstStart)

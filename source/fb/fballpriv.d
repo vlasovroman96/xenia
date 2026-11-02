@@ -26,6 +26,7 @@ extern(C): __gshared:
 import build.dix_config;
 
 import fb.fb_priv;
+import fb.fb;
 
 private DevPrivateKeyRec fbScreenPrivateKeyRec;
 

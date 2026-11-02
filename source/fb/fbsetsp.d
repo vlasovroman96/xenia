@@ -27,6 +27,7 @@ import core.stdc.config: c_long, c_ulong;
 import build.dix_config;
 
 import fb.fb_priv;
+import fb.fb;
 
 void fbSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* src, DDXPointPtr ppt, int* pwidth, int nspans, int fSorted)
 {

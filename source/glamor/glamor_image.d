@@ -31,6 +31,7 @@ import glamor.glamor_transform;
 import glamor.glamor;
 import fb.fbutil;
 import glamor.glamor_pixmap;
+import fb.fb;
 
 
 /*

@@ -59,6 +59,8 @@ import mifillarc;
 import mipolytext;
 import mi.miarc;
 import miglblt;
+import migc;
+import fb.fb;
 
 Bool glamor_get_drawable_location(DrawablePtr drawable)
 {

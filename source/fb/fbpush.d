@@ -27,6 +27,7 @@ import build.dix_config;
 
 import fb.fb_priv;
 import fb.fbfill;
+import fb.fb;
 
 private void fbPushPattern(DrawablePtr pDrawable, GCPtr pGC, FbStip* src, FbStride srcStride, int srcX, int x, int y, int width, int height)
 {
