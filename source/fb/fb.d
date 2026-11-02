@@ -98,8 +98,6 @@ enum string FbFullMask(string n) = `((` ~ n ~ `) == FB_UNIT ? FB_ALLONES : (((ca
 
 alias FbStride = int;
 
-public import include.fbrop;
-
 static if (BITMAP_BIT_ORDER == LSBFirst) {
 enum string FbScrLeft(string x,string n) = `((` ~ x ~ `) >> (` ~ n ~ `))`;
 enum string FbScrRight(string x,string n) = `((` ~ x ~ `) << (` ~ n ~ `))`;
@@ -617,8 +615,6 @@ enum string FBPREFIX(string x) = `fb##x`;
 static if (GLYPHPADBYTES != 4) {
 static assert(0, "GLYPHPADBYTES must be 4");
 }
-
-public import include.fbrop;
 
 static if (BITMAP_BIT_ORDER == LSBFirst) {
 } else {
