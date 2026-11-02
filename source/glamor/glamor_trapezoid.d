@@ -37,7 +37,7 @@ import build.dix_config;
 import include.mipict;
 
 import glamor.glamor_priv;
-import include.fbpict;
+import fb.fbpict;
 import externs.X11.extensions.renderproto;
 import render.picture;;
 import glamor.glamor;

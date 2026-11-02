@@ -42,6 +42,7 @@ import fb.fballpriv;
 import render.mipict;
 import mitrap;
 import mirect;
+import fbtrap;
 
 alias uint32_t = core.stdc.stdint.uint32_t;
 

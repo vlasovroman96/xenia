@@ -32,6 +32,7 @@ import build.dix_config;
 
 import fb.fbpict_priv;
 import glamor.glamor_priv;
+import fbtrap;
 
 void glamor_triangles(CARD8 op, PicturePtr pSrc, PicturePtr pDst, PictFormatPtr maskFormat, INT16 xSrc, INT16 ySrc, int ntris, xTriangle* tris)
 {

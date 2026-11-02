@@ -32,7 +32,7 @@ import config.kdrive_config;
 
 import hw.kdrive.ephyr.ephyr;
 import exa.exa_priv;
-import include.fbpict;
+import fb.fbpict;
 import hw.kdrive.src.kdrive;
 import dix.gc;
 import fb.fbfill;

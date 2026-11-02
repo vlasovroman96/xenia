@@ -41,7 +41,7 @@ public import include.input;
 public import mi.mipointer;
 import fb.fb;
 public import fboverlay;
-public import include.fbpict;
+public import fb.fbpict;
 public import include.glyphstr;
 public import dix.damage;
 public import exa_accel;

@@ -42,7 +42,7 @@ import include.mipict;
 import os.bug_priv;
 
 import glamor.glamor_priv;
-import include.fbpict;
+import fb.fbpict;
 import externs.X11.extensions.render_;
 import externs.gnu;
 import glamor.glamor;
