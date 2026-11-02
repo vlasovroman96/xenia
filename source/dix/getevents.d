@@ -65,7 +65,7 @@ import dix.eventconvert;
 import include.windowstr;
 import include.xkbsrv;
 import Xi.exglobals;
-import include.extnsionst;
+import dix.extension;
 import dix.devices;
 import os.utils;
 import dix.events;

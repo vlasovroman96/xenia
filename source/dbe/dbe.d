@@ -49,7 +49,6 @@ import dix.window_priv;
 import miext.extinit_priv;
 
 import include.scrnintstr;
-import include.extnsionst;
 import include.gcstruct;
 import dix.dixstruct_priv;
 import dbestruct;

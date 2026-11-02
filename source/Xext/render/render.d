@@ -52,7 +52,6 @@ import include.resource;
 import include.scrnintstr;
 import include.windowstr;
 import include.pixmapstr;
-import include.extnsionst;
 import include.servermd;
 import render.picturestr_priv;
 import render.glyphstr_priv;

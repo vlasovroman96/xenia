@@ -47,7 +47,6 @@ import dix.request_priv;
 import dix.dixstruct_priv;
 import include.scrnintstr;
 import include.pixmapstr;
-import include.extnsionst;
 import xfixes.xfixes;
 import Xext.dri2.dri2_priv;
 import Xext.dri2.dri2int;

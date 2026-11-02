@@ -54,7 +54,6 @@ import include.inputstr;
 import include.scrnintstr;
 import include.windowstr;
 import include.propertyst;
-import include.extnsionst;
 import Xext.xacestr;
 version = _XSELINUX_NEED_FLASK_MAP;
 import Xext.xselinuxint;

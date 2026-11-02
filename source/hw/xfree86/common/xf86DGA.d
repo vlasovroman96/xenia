@@ -69,7 +69,6 @@ import dix.events;
 import xf86Extensions;
 import include.misc;
 import dix.dixstruct_priv;
-import include.extnsionst;
 import dix.cursor;
 import include.scrnintstr;
 import dix.swaprep;

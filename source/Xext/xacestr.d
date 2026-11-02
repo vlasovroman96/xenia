@@ -24,7 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 public import dix.selection_priv;
 
 public import include.resource;
-public import include.extnsionst;
+public import dix.extension;
 public import include.window;
 public import include.input;
 public import include.property;

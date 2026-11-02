@@ -58,7 +58,6 @@ import include.sarea;
 import include.xf86;
 import include.misc;
 import dix.dixstruct_priv;
-import include.extnsionst;
 import dix.cursor;
 import include.scrnintstr;
 import include.servermd;

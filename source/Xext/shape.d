@@ -54,7 +54,6 @@ import include.os;
 import include.windowstr;
 import include.scrnintstr;
 import include.pixmapstr;
-import include.extnsionst;
 import dix.dixstruct_priv;
 import include.opaque;
 import include.regionstr;

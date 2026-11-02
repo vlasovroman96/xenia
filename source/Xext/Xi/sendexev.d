@@ -66,7 +66,7 @@ import Xi.handlers;
 
 import include.inputstr;           /* DeviceIntPtr      */
 import include.windowstr;          /* Window            */
-import include.extnsionst;         /* EventSwapPtr      */
+import dix.extension;         /* EventSwapPtr      */
 import Xi.grabdev;
 import std.conv;
 import externs.X11.extensions.XI;

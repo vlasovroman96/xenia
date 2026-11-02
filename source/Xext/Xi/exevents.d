@@ -110,7 +110,7 @@ import xkb.xkbsrv_priv;
 import include.inputstr;
 import include.windowstr;
 import include.miscstruct;
-import include.extnsionst;
+import dix.extension;
 import Xi.exglobals;
 import dix.events;
 import include.scrnintstr;

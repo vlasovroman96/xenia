@@ -28,7 +28,6 @@ import Xext.xace;
 import include.misc;
 import include.os;
 import dix.dixstruct_priv;
-import include.extnsionst;
 import dix.swaprep;
 import include.pixmapstr;
 import include.windowstr;

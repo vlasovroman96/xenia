@@ -39,7 +39,6 @@ import include.resource;
 import dix.resource;
 import os.log;
 import dix.extension;
-import include.extnsionst;
 
 
 enum BASE_SIZE = 16;

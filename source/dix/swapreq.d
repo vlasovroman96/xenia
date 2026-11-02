@@ -59,7 +59,7 @@ import dix.reqhandlers_priv;
 
 import include.misc;
 import dix.dixstruct_priv;
-import include.extnsionst;         /* for SendEvent */
+import dix.extension;         /* for SendEvent */
 import std.conv;
 import dix.events;
 import tables;

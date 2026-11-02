@@ -52,7 +52,7 @@ import dix.events;
 import include.inputstr;           /* DeviceIntPtr      */
 import include.windowstr;          /* window structure  */
 import include.scrnintstr;         /* screen structure  */
-import include.extnsionst;
+import dix.extension;
 import Xi.exglobals;
 import include.misc;
 import Xext.xace;

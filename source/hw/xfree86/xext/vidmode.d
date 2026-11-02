@@ -53,7 +53,6 @@ import os.osdep;
 
 import include.misc;
 import dix.dixstruct_priv;
-import include.extnsionst;
 import include.scrnintstr;
 import include.servermd;
 import include.vidmodestr;

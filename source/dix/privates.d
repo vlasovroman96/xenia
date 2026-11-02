@@ -65,7 +65,6 @@ import include.gcstruct;
 import dix.cursor;
 import include.inputstr;
 import include.scrnintstr;
-import include.extnsionst;
 import include.inputstr;
 import dix.extension;
 import dix.resource;

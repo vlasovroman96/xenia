@@ -118,7 +118,6 @@ import include.gcstruct;
 import dix.cursor;
 import include.servermd;
 import dix.dixfonts;
-import include.extnsionst;
 import include.privates;
 import Xi.exevents;
 import os.utils;

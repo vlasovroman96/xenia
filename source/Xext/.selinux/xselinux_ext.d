@@ -31,7 +31,6 @@ import miext.extinit_priv;
 import include.inputstr;
 import include.windowstr;
 import include.propertyst;
-import include.extnsionst;
 import Xext.xselinuxint;
 import Xext.xselinux;
 import externs.attrs;

@@ -82,7 +82,6 @@ import os.osdep;
 import dix.dixstruct_priv;
 import include.gcstruct;
 import dix.dixfonts;
-import include.extnsionst;
 import include.protocol_versions;
 
 import Xext.xf86bigfontsrv;

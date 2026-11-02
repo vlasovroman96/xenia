@@ -607,10 +607,10 @@ int fbChangeWindowAttributes(WindowPtr pWin, c_ulong mask);
 int fbFillRegionSolid(DrawablePtr pDrawable, RegionPtr pRegion, FbBits and, FbBits xor);
 
 enum string FBPREFIX(string x) = `fb##x`;
-enum string WRITE(string ptr, string val) = `
-	(*(` ~ ptr ~ `) = (` ~ val ~ `))`
-;
-enum string READ(string ptr) = `(*(` ~ ptr ~ `))`;
+// enum string WRITE(string ptr, string val) = `
+// 	(*(` ~ ptr ~ `) = (` ~ val ~ `))`
+// ;
+// enum string READ(string ptr) = `(*(` ~ ptr ~ `))`;
 
 // }
 

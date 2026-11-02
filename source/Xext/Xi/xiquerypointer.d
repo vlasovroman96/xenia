@@ -54,7 +54,7 @@ import Xi.handlers;
 
 import include.inputstr;           /* DeviceIntPtr      */
 import include.windowstr;          /* window structure  */
-import include.extnsionst;
+import dix.extension;
 import Xi.exglobals;
 import include.scrnintstr;
 import include.xkbsrv;

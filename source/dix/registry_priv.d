@@ -6,7 +6,7 @@ extern(C): __gshared:
  * Copyright © 2024 Enrico Weigelt, metux IT consult <info@metux.net>
  */
  
-public import include.extnsionst;
+public import dix.extension;
 public import include.resource;
 
 /*

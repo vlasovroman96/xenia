@@ -63,7 +63,7 @@ import include.xf86;
 import externs.libdrm;
 import include.misc;
 import dix.dixstruct_priv;
-import include.extnsionst;
+import dix.extension;
 import dix.cursor;
 import include.scrnintstr;
 import include.windowstr;

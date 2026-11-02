@@ -37,7 +37,6 @@ import externs.X11.extensions.bigreqsproto;
 
 import dix.dix_priv;
 import dix.request_priv;
-import include.extnsionst;
 import miext.extinit_priv;
 import dix.extension;
 

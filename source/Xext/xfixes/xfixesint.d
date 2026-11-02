@@ -57,7 +57,7 @@ import build.xlibre_server;
 public import include.misc;
 public import include.os;
 public import dix.dixstruct_priv;
-public import include.extnsionst;
+public import dix.extension;
 public import include.windowstr;
 public import xfixes.xfixes;
 import externs.X11.extensions.xfixesproto;

@@ -60,7 +60,6 @@ import tables;
 
 import include.misc;
 import dix.dixstruct_priv;
-import include.extnsionst;
 import include.gcstruct;
 import include.scrnintstr;
 import dix.dispatch;
@@ -73,6 +72,39 @@ enum LAST_ERROR = 255;
 
 CallbackListPtr ExtensionAccessCallback = null;
 CallbackListPtr ExtensionDispatchCallback = null;
+
+struct _ExtensionEntry {
+    int index;
+    @nogc nothrow void function(_ExtensionEntry*) CloseDown;
+    const(char)* name;           /* extension name */
+    int base;                   /* base request number */
+    int eventBase;
+    int eventLast;
+    int errorBase;
+    int errorLast;
+    void* extPrivate;
+    @nogc nothrow ushort function(ClientPtr) MinorOpcode;
+    PrivateRec* devPrivates;
+}
+
+alias ExtensionEntry = _ExtensionEntry;
+
+/*
+ * The arguments may be different for extension event swapping functions.
+ * Deal with this by casting when initializing the event's EventSwapVector[]
+ * entries.
+ */
+alias EventSwapPtr = void function(xEvent*, xEvent*);
+
+// EventSwapPtr[128] EventSwapVector;
+
+// noreturn NotImplemented(xEvent*, xEvent*);
+
+// int* AddExtension(const(char)*, int, int, int function(ClientPtr), int function(ClientPtr), void function(_ExtensionEntry*), ushort function(ClientPtr));
+
+// int* CheckExtension(const(char)* extname);
+// int* GetExtensionEntry(int major);
+
 
 private ExtensionEntry** extensions = cast(ExtensionEntry**) null;
 

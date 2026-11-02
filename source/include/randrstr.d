@@ -41,7 +41,7 @@ public import include.resource;
 public import include.scrnintstr;
 public import include.windowstr;
 public import include.pixmapstr;
-public import include.extnsionst;
+public import dix.extension;
 public import include.servermd;
 public import randr.rrtransform;
 import include.rrtransform;

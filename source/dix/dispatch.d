@@ -137,7 +137,6 @@ import include.gcstruct;
 import dix.cursor;
 import include.scrnintstr;
 import include.servermd;
-import include.extnsionst;
 import dix.dixfonts;
 import dix.dispatch;
 import dix.swaprep;

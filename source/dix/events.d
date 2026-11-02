@@ -155,7 +155,6 @@ import include.scrnintstr;
 import dix.cursor;
 import Xext.xace;
 import Xi.exglobals;
-import include.extnsionst;
 import dix.dispatch;
 import dix.dixstruct_priv;
 import dix.enterleave;

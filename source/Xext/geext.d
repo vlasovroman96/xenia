@@ -42,7 +42,6 @@ import include.protocol_versions;
 import os.log;
 import dix.extension;
 import dix.events;
-import include.extnsionst;
 
 enum MAXEXTENSIONS =   128;
 
