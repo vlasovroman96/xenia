@@ -119,7 +119,7 @@ public import core.stdc.stdarg;
 
 alias NotifyFdProcPtr = void function(int fd, int ready, void* data);
 
-public import include.fd_notify;
+public import os.fd_notify;
 
 // void SetNotifyFd(int fd, NotifyFdProcPtr notify_fd, int mask, void* data);
 

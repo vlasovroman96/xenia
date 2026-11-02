@@ -39,7 +39,7 @@ version (Windows) {
 import core.sys.windows.winsock2;
 }
 
-import include.fd_notify;
+import os.fd_notify;
 import os.xserver_poll;
 
 import os.ospoll;
