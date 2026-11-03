@@ -26,7 +26,6 @@ import build.dix_config;
 import miext.sync.misyncshm;;
 
 import glamor.glamor_priv;
-import include.misyncshm;
 import include.misyncstr;
 import glamor.glamor;
 import render.mipict;

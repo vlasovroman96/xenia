@@ -41,7 +41,6 @@ import glamor.glamor;
 import fb.fb;
 
 static if (XSYNC) {
-public import include.misyncshm;
 public import include.misyncstr;
 }
 

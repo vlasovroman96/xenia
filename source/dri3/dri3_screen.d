@@ -32,7 +32,6 @@ import include.syncsdk;
 
 import dri3.dri3_priv;
 import include.misync;
-import include.misyncshm;
 import include.randrstr;
 import externs.libdrm;;
 import dix.resource;
