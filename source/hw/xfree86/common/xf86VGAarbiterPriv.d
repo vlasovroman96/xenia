@@ -33,7 +33,7 @@ public import include.xf86;
 public import include.xf86_OSproc;;
 public import externs.X11.extensions.renderproto;
 public import include.scrnintstr;
-public import include.screenint;
+public import include.scrintstr;
 public import include.gcstruct;
 public import include.pixmapstr;
 public import include.pixmap;
@@ -47,6 +47,7 @@ import include.mipointer;
 import externs.pciaccess;
 import hw.xfree86.common.xf86Helper;
 import hw.xfree86.modes.displaymode;
+import dix.colormap_priv;
 
 enum string WRAP_SCREEN(string x,string y) = `{pScreenPriv.` ~ x ~ ` = pScreen.` ~ x ~ `; pScreen.` ~ x ~ ` = &` ~ y ~ `;}`;
 

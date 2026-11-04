@@ -30,7 +30,7 @@ import os.ddx_priv;
 import os.log_priv;
 import os.osdep;
 
-import include.screenint;
+import include.scrintstr;
 import include.input;
 import include.misc;
 import include.scrnintstr;

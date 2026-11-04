@@ -38,6 +38,7 @@ public import include.scrnintstr;
 public import include.glyphstr;
 public import include.resource;
 public import include.privates;
+import dix.colormap_priv;
 
 // public import include.scrintstr;
 

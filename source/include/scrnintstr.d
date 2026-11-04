@@ -50,7 +50,7 @@ SOFTWARE.
 
  
 public import include.xlibre_ptrtypes;
-public import include.screenint;
+public import include.scrintstr;
 public import include.regionstr;
 public import dix.colormap;
 public import dix.cursor;
@@ -59,6 +59,7 @@ public import include.validate;
 public import include.privates;
 public import externs.X11.extensions.randr;
 import include.scrnintstr;
+import dix.colormap_priv;
 
 struct PixmapFormatRec {
     ubyte depth;

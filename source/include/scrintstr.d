@@ -58,11 +58,12 @@ SOFTWARE.
 // #include <X11/extensions/randr.h>
 //  
 import include.xlibre_ptrtypes;
-import include.screenint;
+import include.scrintstr;
 import include.pixmap;
 import include.misc;
 import include.input;
 import dix.cursor;
+import dix.colormap_priv;
 
 
 //import x11.X;
@@ -74,7 +75,7 @@ struct _PixmapFormat {
     ubyte bitsPerPixel;
     ubyte scanlinePad;
 } 
-// alias PixmapFormatRec = _PixmapFormat;
+alias PixmapFormatPtr = _PixmapFormat*;
 
 struct _Visual {
     VisualID vid;
@@ -88,6 +89,8 @@ struct _Visual {
     int offsetRed, offsetGreen, offsetBlue;
 } 
 alias VisualRec = _Visual;
+alias VisualPtr = _Visual*;
+
 
 struct _Depth {
     ubyte depth;
@@ -95,6 +98,8 @@ struct _Depth {
     VisualID *vids;             /* block of visual ids for this depth */
 } 
 alias DepthRec = _Depth;
+alias DepthPtr = _Depth*;
+
 
 struct _ScreenSaverStuff {
     WindowPtr pWindow;
@@ -729,6 +734,8 @@ struct _Screen {
     CallbackListPtr hookPostClose;
 } 
 alias ScreenRec = _Screen;
+alias ScreenPtr = _Screen*;
+
 
 RegionPtr BitmapToRegion(ScreenPtr _pScreen, PixmapPtr pPix)
 {
@@ -752,5 +759,6 @@ struct _ScreenInfo {
     int height;                 /* total height of all screens together */
 }
 alias ScreenInfo = _ScreenInfo;
+
 
 // ScreenInfo screenInfo;

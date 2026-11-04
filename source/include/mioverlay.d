@@ -4,7 +4,7 @@ extern(C): __gshared:
  
 //public import x11.Xdefs;
 // //public import x11.Xfuncproto;
-import include.screenint;
+import include.scrintstr;
 import include.xlibre_ptrtypes;
 
 

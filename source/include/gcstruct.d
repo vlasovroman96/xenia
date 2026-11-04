@@ -54,7 +54,7 @@ SOFTWARE.
 public import include.gc;
 public import include.pixmap;
 public import include.regionstr;
-public import include.screenint;
+public import include.scrintstr;
 public import include.privates;
 
 import legacyXf = externs.X11.fonts.font;

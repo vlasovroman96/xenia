@@ -25,7 +25,7 @@ import core.stdc.stdint;
 import externs.xcb.xcb;
 import externs.xcb.xcb_aux;
 
-import include.screenint;
+import include.scrintstr;
 import include.input;
 import include.misc;
 import dix.cursor;

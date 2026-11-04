@@ -9,7 +9,7 @@ import core.stdc.config: c_long, c_ulong;
 
 public import dix.colormap;
 public import include.privates;
-public import include.screenint;
+public import include.scrintstr;
 public import mi.micmap;
 
 DevPrivateKeyRec micmapScrPrivateKeyRec;

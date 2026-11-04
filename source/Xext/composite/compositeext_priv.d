@@ -7,9 +7,9 @@ extern(C): __gshared:
  * Copyright © 2024 Enrico Weigelt, metux IT consult <info@metux.net>
  */
  
-//public import x11.X;
+public import x11.Xdefs;
 
-public import include.screenint;
+public import include.scrintstr;
 
 Bool CompositeIsImplicitRedirectException(ScreenPtr pScreen, XID parentVisual, XID winVisual);
 

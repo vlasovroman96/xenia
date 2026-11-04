@@ -50,7 +50,7 @@ SOFTWARE.
 
  
 public import include.misc;
-public import include.screenint;
+public import include.scrintstr;
 public import include.regionstr;
 // //public import externs.X11.extensions._randr;
 import include.pixmapstr;

@@ -23,7 +23,7 @@ import build.xorg_config;
 import miext.extinit_priv;
 import os.ddx_priv;
 
-import include.screenint;
+import include.scrintstr;
 import include.input;
 import include.misc;
 import include.scrnintstr;

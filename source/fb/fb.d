@@ -47,6 +47,7 @@ import fb.fballpriv;
 public import fb.fbcmap_mi;
 public import fb.fbwindow;
 import fb.fbrop;
+import dix.colormap_priv;
 
 import build.xorg_config;
 

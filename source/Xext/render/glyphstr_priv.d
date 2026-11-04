@@ -11,7 +11,7 @@ import core.stdc.config: c_long, c_ulong;
 public import externs.X11.extensions.renderproto;
 public import include.glyphstr;
 public import render.picture;
-public import include.screenint;
+public import include.scrintstr;
 public import include.regionstr;
 public import include.miscstruct;
 public import include.privates;

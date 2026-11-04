@@ -53,7 +53,7 @@ public import x11.Xproto;
 public import include.xlibre_ptrtypes;
 public import include.misc;
 public import include.regionstr;
-public import include.screenint;
+public import include.scrintstr;
 import include.propertyst;
 public import dix.cursor;
 

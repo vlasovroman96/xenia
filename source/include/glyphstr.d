@@ -32,7 +32,7 @@ import externs.X11.extensions.renderproto;
 
 // alias xGlyphInfo = XGlyphInfo;
 public import include.picture;
-public import include.screenint;
+public import include.scrintstr;
 public import render.glyph;
 
 enum GlyphFormat1 =	0;

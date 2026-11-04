@@ -26,7 +26,7 @@ extern(C): __gshared:
 
 public import dix.callback; /* CallbackListPtr */
 public import include.pixmap; /* PixmapPtr */
-public import include.screenint; /* ScreenPtr */
+public import include.scrintstr; /* ScreenPtr */
 public import include.window; /* WindowPtr */
 
 /* prototype of a window destructor */

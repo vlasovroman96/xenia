@@ -72,6 +72,7 @@ struct _ColormapRec {
 }
 
 alias ColormapRec = _ColormapRec;
+alias ColormapPtr = _ColormapRec*;
 
 // int dixCreateColormap(Colormap mid, ScreenPtr pScreen, VisualPtr pVisual, ColormapPtr* ppcmap, int alloc, ClientPtr client);
 

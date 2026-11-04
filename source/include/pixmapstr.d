@@ -50,7 +50,7 @@ SOFTWARE.
 
  
 public import include.pixmap;
-public import include.screenint;
+public import include.scrintstr;
 public import include.regionstr;
 public import include.privates;
 public import dix.damage;

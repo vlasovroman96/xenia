@@ -25,7 +25,7 @@ import core.stdc.errno;
 import os.client_priv;
 import os.osdep;
 
-import include.screenint;
+import include.scrintstr;
 import include.input;
 import include.misc;
 import include.scrnintstr;

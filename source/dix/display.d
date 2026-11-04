@@ -9,7 +9,6 @@ public import dix.dix_priv;
 // import build.dix_config;
 
 // import dix.dix_priv;
-// import include.screenint;
 
 // const(char)* display = "0";
 // int displayfd = -1;

@@ -37,7 +37,7 @@ import externs.gbm;
 
 import hw.xfree86.drivers.video.modesetting.driver;
 import hw.xfree86.drivers.video.modesetting.drmmode_bo;
-import include.screenint;
+import include.scrintstr;
 import x11.Xdefs;
 import include.xf86Crtc;
 import hw.xfree86.common.xf86Helper;

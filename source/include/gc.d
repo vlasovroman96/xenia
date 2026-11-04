@@ -51,7 +51,7 @@ SOFTWARE.
 //public import x11.X;              /* for GContext, Mask */
 //public import x11.Xdefs;          /* for Bool */
 //public import x11.Xproto;
-public import include.screenint;          /* for ScreenPtr */
+public import include.scrintstr;          /* for ScreenPtr */
 public import include.pixmap;             /* for DrawablePtr */
 import include.gcstruct;
 

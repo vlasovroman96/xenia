@@ -24,7 +24,7 @@ import dix.cursor_priv;
 import dix.inpututils_priv;
 import mi.mi_priv;
 
-import include.screenint;
+import include.scrintstr;
 import include.input;
 import include.misc;
 import include.scrnintstr;

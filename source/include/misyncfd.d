@@ -26,7 +26,7 @@ extern(C): __gshared:
  
 //public import x11.Xdefs;
 // //public import x11.Xfuncproto;
-import include.screenint;
+import include.scrintstr;
 import x11.Xdefs;
 import include.misync;
 

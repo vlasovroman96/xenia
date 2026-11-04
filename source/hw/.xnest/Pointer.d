@@ -18,7 +18,7 @@ import build.xorg_config;
 
 //import x11.X;
 //import x11.Xproto;
-import include.screenint;
+import include.scrintstr;
 import include.inputstr;
 import include.input;
 import include.misc;

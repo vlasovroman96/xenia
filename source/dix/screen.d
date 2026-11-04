@@ -11,7 +11,7 @@ import dix.callback;
 import dix.dix_priv;
 import dix.gc_priv;
 import dix.screensaver_priv;
-import include.screenint;
+import include.scrintstr;
 import include.scrnintstr;
 import dix.dispatch;
 

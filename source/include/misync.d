@@ -24,7 +24,7 @@ extern(C): __gshared:
  * DEALINGS IN THE SOFTWARE.
  */
  
-public import include.screenint;
+public import include.scrintstr;
 
 import include.misyncstr;
 

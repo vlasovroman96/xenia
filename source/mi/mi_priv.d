@@ -17,11 +17,12 @@ public import include.gc;
 public import include.micmap;
 public import include.pixmap;
 public import include.regionstr;
-public import include.screenint;
+public import include.scrintstr;
 public import include.scrnintstr;
 public import include.validate;
 public import include.window;
 public import mi.miexpose;
+import dix.colormap_priv;
 
 pragma(inline, true) void SetInstalledmiColormap(ScreenPtr s, ColormapPtr c) {
     dixSetPrivate(&(s).devPrivates, micmapScrPrivateKey, c);

@@ -12,7 +12,7 @@ extern(C): __gshared:
 import build.xlibre_server;
 
 public import dix.callback;
-public import include.screenint;
+public import include.scrintstr;
 public import include.scrnintstr; /* for screenInfo */
 // import dix.scre
 

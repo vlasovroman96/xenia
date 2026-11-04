@@ -11,7 +11,7 @@ public import externs.xcb.xcb;
 
 public import include.list;
 import include.gc;
-import include.screenint;
+import include.scrintstr;
 import x11.Xprotostr;
 
 struct xnest_event_queue {

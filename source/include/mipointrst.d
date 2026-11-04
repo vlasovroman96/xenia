@@ -35,6 +35,7 @@ in this Software without prior written authorization from The Open Group.
 public import mi.mipointer;
 public import include.scrnintstr;
 import include.mipointer;
+import x11.Xdefs;
 
 struct _MiPointerScreenRec {
     miPointerSpriteFuncPtr spriteFuncs; /* sprite-specific methods */
