@@ -60,7 +60,6 @@ import include.scrnintstr;
 import include.gcstruct;
 import include.resource;
 import dix.cursor;
-import include.opaque;
 import include.servermd;
 import dix.gc;
 import Xext.xf86bigfont;

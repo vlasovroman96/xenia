@@ -93,6 +93,7 @@ import xf86Globals;
 import os.log;
 import include.inputstr;
 import dix.events;
+import dix.window;
 
 
 alias gid_t = core.sys.posix.sys.types.gid_t;

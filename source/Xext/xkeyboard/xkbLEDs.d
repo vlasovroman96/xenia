@@ -47,7 +47,6 @@ import externs.X11.extensions.XKBproto;
 import include.xkbstr;
 import include.misc;
 import include.inputstr;
-import include.opaque;
 import include.property;
 import include.scrnintstr;
 import xkb.xkbgeom_priv;

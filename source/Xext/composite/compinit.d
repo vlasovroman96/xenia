@@ -62,6 +62,7 @@ import miext.damage.damage_;
 import dix.gc;
 import render.picture;
 import dix.screen_hooks;
+import dix.window;
 
 
 Bool noCompositeExtension = FALSE;

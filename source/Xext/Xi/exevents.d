@@ -129,7 +129,7 @@ import dix.events;
 import dix.enterleave;
 import dix.inpututils;
 import os.inputthread;
-
+import dix.window;
 
 
 enum string WID(string w) = `((` ~ w ~ `) ? ((` ~ w ~ `).drawable.id) : 0)`;

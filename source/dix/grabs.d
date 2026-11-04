@@ -77,6 +77,7 @@ import dix.events;
 import os.auth;
 import dix.dispatch;
 import dix.inpututils;
+import dix.window;
 
 
 enum MasksPerDetailMask = 8;    /* 256 keycodes and 256 possible;

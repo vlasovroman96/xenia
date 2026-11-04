@@ -75,7 +75,6 @@ import os.serverlock;
 
 import include.misc;
 import include.os;
-import include.opaque;
 import dix.dixstruct_priv;
 import os.log;
 import externs.gnu;

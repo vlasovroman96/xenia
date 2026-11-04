@@ -59,6 +59,7 @@ import os.log;
 import std.string;
 import os.io;
 import dix.dispatch;
+import dix.window;
 
 // CARD8 dri2_major;               /* version of DRI2 supported by DDX */
 // CARD8 dri2_minor;

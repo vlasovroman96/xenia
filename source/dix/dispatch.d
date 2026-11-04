@@ -168,6 +168,7 @@ import dix.dixfonts;
 import xf86Events;
 import dix.timestamp;
 import dix.atom;
+import dix.window;
 
 import externs.libdbus;
 

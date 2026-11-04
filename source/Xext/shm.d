@@ -87,6 +87,7 @@ import dix.dixutils;
 import dix.extension;
 import dix.events;
 import dix.screen_hooks;
+import dix.window;
 
 /* Needed for Solaris cross-zone shared memory extension */
 version (HAVE_SHMCTL64) {

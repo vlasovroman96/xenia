@@ -145,7 +145,7 @@ import include.misc;
 import include.os;
 import include.resource;
 import dix.dixstruct_priv;
-import include.opaque;
+import dix.window;
 import include.windowstr;
 import dix.dixfonts;
 import dix.colormap;

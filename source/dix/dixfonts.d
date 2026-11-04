@@ -79,7 +79,6 @@ import include.resource;
 import dix.dixstruct_priv;
 import dix.cursor;
 import include.misc;
-import include.opaque;
 import dix.dixfonts;
 import Xext.xace;
 import os.utils;

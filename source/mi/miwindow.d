@@ -66,6 +66,7 @@ import include.inputstr;
 import dix.screen_hooks;
 import dix.events;
 import externs.X11.extensions.shapeconst;
+import dix.window;
 
 void miClearToBackground(WindowPtr pWin, int x, int y, int w, int h, Bool generateExposures)
 {

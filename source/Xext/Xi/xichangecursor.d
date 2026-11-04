@@ -55,6 +55,7 @@ import externs.X11.extensions.XI2proto;
 import dix.devices;
 import dix.dixutils;
 import dix.events;
+import dix.window;
 
 /***********************************************************************
  *

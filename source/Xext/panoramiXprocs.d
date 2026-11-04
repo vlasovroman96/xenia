@@ -49,7 +49,7 @@ import include.windowstr;
 import dix.dixfonts;
 import include.gcstruct;
 import include.scrnintstr;
-import include.opaque;
+import dix.window;
 import include.inputstr;
 import migc;
 import include.misc;

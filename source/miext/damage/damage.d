@@ -50,6 +50,7 @@ import externs.attrs;
 import Xext.xf86bigfont;
 import dix.screen_hooks;
 // import miext.rootless.rootlessCommon;
+import dix.window;
 
 
 enum string wrap(string priv, string real_, string mem, string func) = `{

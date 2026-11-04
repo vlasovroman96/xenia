@@ -45,7 +45,7 @@ import include.pixmapstr;
 import dix.extension;
 import dix.dixstruct_priv;
 import include.resource;
-import include.opaque;
+import dix.window;
 import dbestruct;
 import include.regionstr;
 import include.gcstruct;

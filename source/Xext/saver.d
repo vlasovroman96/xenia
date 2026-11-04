@@ -69,6 +69,7 @@ import include.inputstr;
 import externs.X11.extensions.saverproto;
 import build.xlibre_server;
 import dix.dispatch;
+import dix.window;
 
 static if(DPMSExtension) {
 //import externs.X11.extensions.dpmsconst;

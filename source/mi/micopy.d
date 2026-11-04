@@ -32,6 +32,7 @@ import include.pixmapstr;
 import include.windowstr;
 // import mi.micopy;
 import mi.miexpose;
+import dix.window;
 
 enum string miGetCompositeClip(string pGC) = `((` ~ pGC ~ `).pCompositeClip)`;
 

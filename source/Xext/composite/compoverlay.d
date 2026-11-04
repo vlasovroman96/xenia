@@ -60,6 +60,7 @@ import miext.damage.damage_;
 import dix.gc;
 import render.picture;
 import build.xlibre_server;
+import dix.window;
 
 /*
  * Delete the given overlay client list element from its screen list.

@@ -77,6 +77,7 @@ import dix.screen_hooks;
 import Xext.xvmain;
 import externs.X11.extensions.Xv;
 import dix.screen_hooks;
+import dix.window;
 import dix.resource;
 /* XvAdaptorRec fields */
 

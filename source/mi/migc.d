@@ -39,6 +39,7 @@ import include.windowstr;
 import migc;
 import region;
 import dix.dispatch;
+import dix.window;
 
 /* ARGSUSED */
 void miChangeGC(GCPtr pGC, c_ulong mask)

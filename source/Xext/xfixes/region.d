@@ -41,6 +41,7 @@ import include.gcstruct;
 import include.window;
 import externs.X11.extensions.xfixesproto;
 import externs.X11.extensions.render_;
+import dix.window;
 
 import region;
 import dix.swapreq;

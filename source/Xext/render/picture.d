@@ -54,6 +54,7 @@ import dix.screen_hooks;
 import dix.colormap;
 import region;
 import build.xlibre_server;
+import dix.window;
 
 static if(XINERAMA){
 import Xext.panoramiXsrv;

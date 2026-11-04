@@ -72,6 +72,7 @@ import os.io;
 import dix.events;
 import externs.X11.extensions.presenttokens;
 import Xext.glx.fix;
+import dix.window;
 
 alias __GLX_SINGLE_HDR_SIZE = sz_xGLXSingleReq;
 alias __GLX_VENDPRIV_HDR_SIZE = sz_xGLXVendorPrivateReq;

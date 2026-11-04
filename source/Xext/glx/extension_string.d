@@ -40,7 +40,6 @@ import dix.dix_priv;
 import os.utils;
 
 import glx.extension_string;
-import include.opaque;
 
 import std.meta : AliasSeq;
 

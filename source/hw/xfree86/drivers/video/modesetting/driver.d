@@ -121,6 +121,7 @@ import hw.xfree86.modes.xf86Crtc;
 import randr.randr;
 import xf86Globals;
 import externs.gbm;
+import dix.window;
 
 //FIX IT
 extern(C) void* LoaderSymbolFromModule(void*, const(char)*);

@@ -41,6 +41,7 @@ import miindex;
 import mirect;
 import region;
 import dix.dispatch;
+import dix.window;
 
 
 

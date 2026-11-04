@@ -52,7 +52,6 @@ import include.pixmapstr;
 import include.gcstruct;
 import dix.dixstruct_priv;
 import include.resource;
-import include.opaque;
 
 import Xext.xvdisp;
 import externs.X11.extensions.Xvproto;

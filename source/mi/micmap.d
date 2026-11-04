@@ -46,6 +46,7 @@ import include.resource;
 import mi.micmap;
 import dix.resource;
 import dix.colormap;
+import dix.window;
 
 enum MIN_TRUE_DEPTH =  6;
 

@@ -154,6 +154,7 @@ import core.stdc.stdio;
 // import core.sys.posix.stdio;
 import os.connection;
 import x11.Xos;
+import dix.window;
 
 version = X_INCLUDE_NETDB_H;
 // //import x11.Xos_r;

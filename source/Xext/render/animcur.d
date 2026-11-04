@@ -48,7 +48,6 @@ import include.scrnintstr;
 import dix.dixstruct_priv;
 import dix.cursor;
 import dix.dixfonts;
-import include.opaque;
 import render.picturestr_priv;
 import include.inputstr;
 import Xext.xace;

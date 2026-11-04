@@ -55,7 +55,7 @@ import include.windowstr;
 import include.scrnintstr;
 import include.pixmapstr;
 import dix.dixstruct_priv;
-import include.opaque;
+import dix.window;
 import include.regionstr;
 import include.gcstruct;
 import include.protocol_versions;

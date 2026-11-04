@@ -112,7 +112,6 @@ import os.fmt;
 import os.log_priv;
 // import os.osdep;
 
-import include.opaque;
 
 version (XF86BIGFONT) {
 import Xext.xf86bigfontsrv;

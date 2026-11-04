@@ -32,6 +32,7 @@ import include.gcstruct;
 import dix.gc;
 import externs.X11.extensions.presenttokens;
 import externs.X11.extensions.presentproto;
+import dix.window;
 
 
 uint present_query_capabilities(RRCrtcPtr crtc)

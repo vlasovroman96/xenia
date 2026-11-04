@@ -89,7 +89,6 @@ import os.ossock;
 import dix.dispatch;
 
 import include.os;
-import include.opaque;
 import include.misc;
 import externs.X11.extensions.bigreqsproto;
 import core.stdc.stdio;

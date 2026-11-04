@@ -42,7 +42,6 @@ import os.log_priv;
 import os.ossock;
 
 import include.inputstr;
-import include.opaque;
 import os.osdep;
 import os.log;
 import os.connection;

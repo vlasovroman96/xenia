@@ -85,6 +85,8 @@ import dix.events;
 import build.xlibre_server;
 import externs.X11.extensions.dpmsconst;
 import Xext.dpms;
+import dix.window;
+
 static if(DPMSExtension) {
 import Xext.dpmsproc;
 }

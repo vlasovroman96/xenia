@@ -32,7 +32,6 @@ import dix.dix_priv;
 import glx.glxserver;
 import glx.glxext;
 import glx.indirect_dispatch;
-import include.opaque;
  import Xext.glx.fix;
 import glx.glxext;
 // import externs.xorg.glx_extinit;

@@ -33,6 +33,7 @@ import dix.extension;
 import externs.X11.extensions.presenttokens;
 import os.log;
 import Xext.panoramiXsrv;
+import dix.window;
 
 
 // int present_request;

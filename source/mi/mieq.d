@@ -71,6 +71,8 @@ import build.xlibre_server;
 import externs.X11.extensions.dpmsconst;
 import Xext.dpms;
 import os.WaitFor;
+import dix.window;
+
 static if(DPMSExtension) {
 import Xext.dpmsproc;
 //import externs.X11.extensions.dpmsconst;

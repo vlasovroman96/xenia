@@ -78,6 +78,7 @@ import hw.xfree86.os_support.xf86_os_support;
 import include.xf86_OSlib;
 import xf86Cursor;
 // import xf86platformBus_priv;
+import dix.window;
 
 static if(build.xlibre_server.XFreeXDGA){
 import hw.xfree86.common.dgaproc_priv;

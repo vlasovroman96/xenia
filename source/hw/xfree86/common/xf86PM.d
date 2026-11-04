@@ -38,6 +38,7 @@ import xf86Globals;
 import dix.devices;
 import os.log;
 import os.inputthread;
+import dix.window;
 
 int function(int fd, pmEvent* events, int num) xf86PMGetEventFromOs = null;
 pmWait function(int fd, pmEvent event) xf86PMConfirmEventToOs = null;

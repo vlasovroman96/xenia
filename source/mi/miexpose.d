@@ -100,6 +100,7 @@ import include.input;
 import dix.dixstruct_priv;
 import dix.events;
 import dix.gc;
+import dix.window;
 
 /*
     machine-independent graphics exposure code.  any device that uses

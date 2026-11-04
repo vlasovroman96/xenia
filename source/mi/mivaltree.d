@@ -104,6 +104,7 @@ import    include.windowstr;
 import    include.regionstr;
 import    composite.compint;
 import composite.compwindow;
+import dix.window;
 
 /*
  * Compute the visibility of a shaped window
