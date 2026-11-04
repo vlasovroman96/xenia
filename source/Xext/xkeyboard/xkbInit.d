@@ -59,7 +59,6 @@ import xkb.xkbsrv_priv;
 
 import include.misc;
 import include.inputstr;
-import include.property;
 import include.scrnintstr;
 import xkb.xkbgeom_priv;
 import include.xkbstr;

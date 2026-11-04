@@ -49,7 +49,6 @@ SOFTWARE.
 
  
 public import include.misc;
-public import include.property;
 public import include.privates;
 /*
  *   PROPERTY -- property element

@@ -27,7 +27,6 @@ public import include.resource;
 public import dix.extension;
 public import include.window;
 public import include.input;
-public import include.property;
 public import Xext.xace;
 
 /* XACE_RESOURCE_ACCESS */

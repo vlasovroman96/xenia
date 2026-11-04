@@ -53,7 +53,6 @@ public import include.window;
 public import include.pixmapstr;
 public import include.regionstr;
 public import dix.cursor;
-public import include.property;
 public import include.resource;           /* for ROOT_WINDOW_ID_BASE */
 public import include.privates;
 public import include.miscstruct;
