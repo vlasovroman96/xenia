@@ -45,7 +45,7 @@ import include.xf86fbman;
 import xf86DGA;
 import hw.xfree86.common.xf86Helper;
 import hw.xfree86.modes.xf86Crtc;
-import include.xf86cmap;
+import xf86cmap;
 import dix.resource;
 import dix.dixutils;
 import dix.screen_hooks;

@@ -63,7 +63,7 @@ import xf86DGA;
 import include.xf86Pci;
 import hw.xfree86.common.xf86Helper;
 import hw.xfree86.modes.xf86Crtc;
-import include.xf86cmap;
+import xf86cmap;
 import dix.resource;
 import dix.dixutils;
 import os.log;

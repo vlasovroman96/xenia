@@ -105,7 +105,6 @@ import xf86_priv;
 import include.xf86Priv;
 // import xf86Config;
 import hw.xfree86.os_support.xf86_os_support;
-// import xf86cmap;
 import mi.mipointer;
 // import xf86Extensions;
 import hw.xfree86.common.xf86Helper;

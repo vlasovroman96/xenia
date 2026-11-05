@@ -35,7 +35,6 @@ import xf86Globals;
 import hw.xfree86.common.xf86Option;
 import xf86pciBus;
 import hw.xfree86.parser.Flags;
-import include.xf86cmap;
 import dix.events;
 import hw.xfree86.modes.displaymode;
 

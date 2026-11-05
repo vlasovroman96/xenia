@@ -59,10 +59,28 @@ import xf86cmap;
 import xf86DGA;
 import hw.xfree86.common.xf86Helper;
 import hw.xfree86.modes.xf86Crtc;
-import include.xf86cmap;
 import dix.resource;
 import dix.dixutils;
 import hw.xfree86.modes.displaymode;
+
+public import include.xlibre_ptrtypes;
+public import include.xf86str;
+
+enum CMAP_PALETTED_TRUECOLOR =		0x0000001;
+enum CMAP_RELOAD_ON_MODE_SWITCH =	0x0000002;
+enum CMAP_LOAD_EVEN_IF_OFFSCREEN =	0x0000004;
+
+// void  xf86HandleColormaps(ScreenPtr pScreen, int maxCol, int sigRGBbits, xf86LoadPaletteProc* loadPalette, xf86SetOverscanProc* setOverscan, uint flags);
+
+// void  xf86ColormapAllocatePrivates(ScrnInfoPtr pScrn);
+
+// void  xf86ChangeGamma(ScreenPtr pScreen, Gamma newGamma);
+
+// void  xf86ChangeGammaRamp(ScreenPtr pScreen, int size, ushort* red, ushort* green, ushort* blue);
+
+// void  xf86GetGammaRampSize(ScreenPtr pScreen);
+
+// void  xf86GetGammaRamp(ScreenPtr pScreen, int size, ushort* red, ushort* green, ushort* blue);
 
 enum string SCREEN_PROLOGUE(string pScreen, string field) = `((` ~ pScreen ~ `).` ~ field ~ ` = 
     (cast(CMapScreenPtr)dixLookupPrivate(&(` ~ pScreen ~ `).devPrivates, CMapScreenKey)).` ~ field ~ `)`;
