@@ -594,7 +594,7 @@ void ms_tearfree_dri_abort_all(xf86CrtcPtr crtc)
     mixin(xorg_list_for_each_entry_safe!("flip", "tmp", "&trf.dri_flip_list", "node", q{
         ms_pageflip_handler(msc, usec, flip);
     }));
-    xorg_list_init(&trf.dri_flip_list);
+    trf.dri_flip_list.initList();
 }
 
 private void ms_tearfree_dri_notify(drmmode_tearfree_ptr trf, ulong msc, ulong usec)

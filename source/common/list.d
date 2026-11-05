@@ -115,25 +115,23 @@ public import core.stdc.stddef; /* offsetof() */
  */
 struct XList {
     XList* next, prev;
-}
 
-/**
- * Initialize the list as an empty list.
- *
- * Example:
- * xorg_list_init(&bar->list_of_foos);
- *
- * @param list The list to initialize
- */
-pragma(inline, true) void xorg_list_init(XList* list)
-{
-    list.next = list.prev = list;
+@nogc nothrow:
+
+    /** 
+     * Initialize list
+     */
+    void _init() {
+        this.next = this.prev = &this;
+    }
+
+    alias initList = _init;
 }
 
 pragma(inline, true) void __xorg_list_autoinit(XList* head)
 {
     if ((!head.prev) && (!head.next))
-        xorg_list_init(head);
+        head.initList();
 }
 
 pragma(inline, true) void __xorg_list_add(XList* entry, XList* prev, XList* next)
@@ -209,7 +207,7 @@ pragma(inline, true) void __xorg_list_del(XList* prev, XList* next)
 pragma(inline, true) void xorg_list_del(XList* entry)
 {
     __xorg_list_del(entry.prev, entry.next);
-    xorg_list_init(entry);
+    entry.initList();
 }
 
 /**

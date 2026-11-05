@@ -2041,7 +2041,7 @@ private int _init_fs_handlers(FontPathElementPtr fpe, FontBlockHandlerProcPtr bl
         if (!RegisterBlockAndWakeupHandlers(&fs_block_handler,
                                             &FontWakeup, block_handler))
             return AllocError;
-        xorg_list_init(&fs_fd_list);
+        fs_fd_list.initList();
         fs_handlers_installed++;
     }
     QueueFontWakeup(fpe);

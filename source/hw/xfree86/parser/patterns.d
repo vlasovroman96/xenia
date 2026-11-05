@@ -70,8 +70,8 @@ xf86MatchGroup* xf86createMatchGroup(const(char)* arg, xf86MatchMode pref_mode, 
 
     group = cast(xf86MatchGroup*) malloc(typeof(*group).sizeof);
     if (!group) return null;
-    xorg_list_init(&group.patterns);
-    xorg_list_init(&group.entry);
+    group.patterns.initList();
+    group.entry.initList();
     group.is_negated = negated;
 
   again:

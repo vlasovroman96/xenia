@@ -139,7 +139,7 @@ private Bool InitConstructResourceBytesCtx(ConstructResourceBytesCtx* ctx, Clien
     ctx.sendClient = sendClient;
     ctx.numSizes = 0;
     ctx.resultBytes = 0;
-    xorg_list_init(&ctx.response);
+    ctx.response.initList();
     ctx.status = Success;
     ctx.numSpecs = numSpecs;
     ctx.specs = specs;

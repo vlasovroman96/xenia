@@ -2143,7 +2143,7 @@ void SyncExtensionInit()
     });
 
     RTCounter = CreateNewResourceType(&FreeCounter, "SyncCounter");
-    xorg_list_init(&SysCounterList);
+    SysCounterList.initList();
     RTAlarm = CreateNewResourceType(&FreeAlarm, "SyncAlarm");
     RTAwait = CreateNewResourceType(&FreeAwait, "SyncAwait");
     RTFence = CreateNewResourceType(&FreeFence, "SyncFence");

@@ -119,15 +119,15 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
     mixin(parsePrologue!("XF86ConfInputClassPtr", "XF86ConfInputClassRec"));
 
     /* Initialize MatchGroup lists */
-    xorg_list_init(&ptr.match_product);
-    xorg_list_init(&ptr.match_vendor);
-    xorg_list_init(&ptr.match_device);
-    xorg_list_init(&ptr.match_os);
-    xorg_list_init(&ptr.match_pnpid);
-    xorg_list_init(&ptr.match_usbid);
-    xorg_list_init(&ptr.match_driver);
-    xorg_list_init(&ptr.match_tag);
-    xorg_list_init(&ptr.match_layout);
+    ptr.match_product.initList();
+    ptr.match_vendor.initList();
+    ptr.match_device.initList();
+    ptr.match_os.initList();
+    ptr.match_pnpid.initList();
+    ptr.match_usbid.initList();
+    ptr.match_driver.initList();
+    ptr.match_tag.initList();
+    ptr.match_layout.initList();
 
     while ((token = xf86getToken(InputClassTab.ptr)) != ENDSECTION) {
         negated = FALSE;

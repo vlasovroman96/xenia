@@ -54,8 +54,8 @@ present_window_priv_ptr present_get_window_priv(WindowPtr window, Bool create)
     window_priv = cast(present_window_priv_t*)calloc (1, present_window_priv_rec.sizeof);
     if (!window_priv)
         return null;
-    xorg_list_init(&window_priv.vblank);
-    xorg_list_init(&window_priv.notifies);
+    window_priv.vblank.initList();
+    window_priv.notifies.initList();
 
     window_priv.window = window;
     window_priv.crtc = PresentCrtcNeverSet;

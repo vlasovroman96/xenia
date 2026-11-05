@@ -82,7 +82,7 @@ HashTable ht_create(int keySize, int dataSize, HashFunc hash, HashCompareFunc co
 
     if (ht.buckets) {
         for (c = 0; c < numBuckets; ++c) {
-            xorg_list_init(&ht.buckets[c]);
+            ht.buckets[c].initList();
         }
         return ht;
     } else {
@@ -127,7 +127,7 @@ private Bool double_size(HashTable ht)
     newBuckets = cast(XList*) calloc(newNumBuckets, typeof(*ht.buckets).sizeof);
     if (newBuckets) {
         for (c = 0; c < newNumBuckets; ++c) {
-            xorg_list_init(&newBuckets[c]);
+            newBuckets[c].initList();
         }
 
         for (c = 0; c < numBuckets; ++c) {

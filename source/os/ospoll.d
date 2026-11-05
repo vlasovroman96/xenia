@@ -268,7 +268,7 @@ static if (EPOLL) {
         free (ospoll);
         return null;
     }
-    xorg_list_init(&ospoll.deleted);
+    ospoll.deleted.initList();
     return ospoll;
 }
 static if (POLL) {

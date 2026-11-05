@@ -86,7 +86,7 @@ int num_notifies, ulong target_msc, ulong crtc_msc)
     }
 
     xorg_list_append(&vblank.window_list, &window_priv.vblank);
-    xorg_list_init(&vblank.event_queue);
+    vblank.event_queue.initList();
 
     vblank.screen = screen;
     vblank.window = window;

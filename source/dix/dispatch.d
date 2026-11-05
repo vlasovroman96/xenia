@@ -314,9 +314,9 @@ XList output_pending_clients;
 
 private void init_client_ready()
 {
-    xorg_list_init(&ready_clients);
-    xorg_list_init(&saved_ready_clients);
-    xorg_list_init(&output_pending_clients);
+    ready_clients.initList();
+    saved_ready_clients.initList();
+    output_pending_clients.initList();
 }
 
 Bool clients_are_ready()
@@ -3689,8 +3689,8 @@ private void KillAllClients()
 void InitClient(ClientPtr client, int i, void* ospriv)
 {
     client.index = cast(ushort)i;
-    xorg_list_init(&client.ready);
-    xorg_list_init(&client.output_pending);
+    client.ready.initList();
+    client.output_pending.initList();
     client.clientAsMask = (cast(Mask) i) << CLIENTOFFSET;
     client.closeDownMode = i ? DestroyAll : RetainPermanent;
     client.requestVector = InitialVector.ptr;
@@ -4021,8 +4021,8 @@ private int init_screen(ScreenPtr pScreen, int i, Bool gpu)
     pScreen.ClipNotify = null;    /* for R4 ddx compatibility */
     pScreen.CreateScreenResources = null;
 
-    xorg_list_init(&pScreen.pixmap_dirty_list);
-    xorg_list_init(&pScreen.secondary_list);
+    pScreen.pixmap_dirty_list.initList();
+    pScreen.secondary_list.initList();
 
     /*
      * This loop gets run once for every Screen that gets added,

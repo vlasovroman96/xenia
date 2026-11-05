@@ -130,7 +130,7 @@ private PointerBarrierDevice* AllocBarrierDevice()
     pbd.release_event_id = 0;
     pbd.hit = FALSE;
     pbd.seen = FALSE;
-    xorg_list_init(&pbd.entry);
+    pbd.entry.initList();
 
     return pbd;
 }
@@ -556,7 +556,7 @@ private int CreatePointerBarrierClient(ClientPtr client, xXFixesCreatePointerBar
         return BadAlloc;
     }
 
-    xorg_list_init(&ret.per_device);
+    ret.per_device.initList();
 
     err = dixLookupWindow(&pWin, stuff.window, client, DixReadAccess);
     ScreenPtr pScreen = pWin.drawable.pScreen;
@@ -596,7 +596,7 @@ private int CreatePointerBarrierClient(ClientPtr client, xXFixesCreatePointerBar
     }
 
     /* Alloc one per master pointer, they're the ones that can be blocked */
-    xorg_list_init(&ret.per_device);
+    ret.per_device.initList();
     mixin(nt_list_for_each_entry!("dev", "inputInfo.devices", "next", q{
         PointerBarrierDevice* pbd = void;
 
@@ -906,7 +906,7 @@ Bool XIBarrierInit()
         cs = cast(BarrierScreenPtr) calloc(1, BarrierScreenRec.sizeof);
         if (!cs)
             return FALSE;
-        xorg_list_init(&cs.barriers);
+        cs.barriers.initList();
         mixin(SetBarrierScreen!(`walkScreen`, `cs`));
     });
 

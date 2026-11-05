@@ -304,7 +304,7 @@ OsTimerPtr TimerSet(OsTimerPtr timer, int flags, CARD32 millis, OsTimerCallback 
         timer = cast(_OsTimerRec*) calloc(1, _OsTimerRec.sizeof);
         if (!timer)
             return null;
-        xorg_list_init(&timer.list);
+        timer.list.initList();
     }
     else {
         input_lock();
@@ -381,7 +381,7 @@ void TimerInit()
 
     if (!been_here) {
         been_here = TRUE;
-        xorg_list_init(cast(XList*) &timers);
+        timers.initList();
     }
 
     mixin(xorg_list_for_each_entry_safe!("timer", "tmp", "&timers", "list", q{

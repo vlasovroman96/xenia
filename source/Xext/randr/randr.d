@@ -1053,7 +1053,7 @@ Bool RRScreenInit(ScreenPtr pScreen)
     pScreen.ConstrainCursorHarder = &RRConstrainCursorHarder;
     pScreen.ReplaceScanoutPixmap = &RRReplaceScanoutPixmap;
 
-    xorg_list_init(&pScrPriv.leases);
+    pScrPriv.leases.initList();
 
     RRMonitorInit(pScreen);
 

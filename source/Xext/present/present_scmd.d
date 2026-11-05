@@ -1017,8 +1017,8 @@ void present_scmd_init_mode_hooks(present_screen_priv_ptr screen_priv)
 
 Bool present_init()
 {
-    xorg_list_init(&present_exec_queue);
-    xorg_list_init(&present_flip_queue);
+    present_exec_queue.initList();
+    present_flip_queue.initList();
     present_fake_queue_init();
     return TRUE;
 }

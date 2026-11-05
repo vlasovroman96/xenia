@@ -1564,7 +1564,7 @@ static if(XINERAMA){
     QdEventPtr qe = cast(QdEventPtr) calloc(1, ((QdEventRec).sizeof + eventlen));
     if (!qe)
         return;
-    xorg_list_init(&qe.next);
+    qe.next.initList();
     qe.device = device;
     qe.pScreen = pSprite.hotPhys.pScreen;
     qe.months = currentTime.months;
@@ -5709,7 +5709,7 @@ void InitEvents()
         mixin(xorg_list_for_each_entry_safe!("qe", "tmp", "&syncEvents.pending", "next", q{
             free(qe);
         }));
-    xorg_list_init(&syncEvents.pending);
+    syncEvents.pending.initList();
     syncEvents.playingEvents = FALSE;
     syncEvents.time.months = 0;
     syncEvents.time.milliseconds = 0;   /* hardly matters */

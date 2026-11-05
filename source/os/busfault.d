@@ -149,6 +149,6 @@ Bool busfault_init()
     if (sigaction(SIGBUS, &act, &old_act) < 0)
         return FALSE;
     previous_busfault_sigaction = assumeNoGC(old_act.sa_sigaction);
-    xorg_list_init(&busfaults);
+    busfaults.initList();
     return TRUE;
 }

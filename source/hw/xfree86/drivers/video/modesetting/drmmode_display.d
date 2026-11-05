@@ -3035,8 +3035,8 @@ private uint drmmode_crtc_init(ScrnInfoPtr pScrn, drmmode_ptr drmmode, drmModeRe
         drmModeGetCrtc(drmmode.fd, mode_res.crtcs[num]);
     drmmode_crtc.drmmode = drmmode;
     drmmode_crtc.vblank_pipe = drmmode_crtc_vblank_pipe(num);
-    xorg_list_init(&drmmode_crtc.mode_list);
-    xorg_list_init(&drmmode_crtc.tearfree.dri_flip_list);
+    drmmode_crtc.mode_list.initList();
+    drmmode_crtc.tearfree.dri_flip_list.initList();
     drmmode_crtc.next_msc = UINT64_MAX;
 
     /* Setup the fallback cursor immediately. */

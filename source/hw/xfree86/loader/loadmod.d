@@ -115,7 +115,7 @@ XList modulePathLists;
 
 void LoaderInitPath() {
     /* defaultPathList is already set in xf86Init */
-    xorg_list_init(&modulePathLists);
+    modulePathLists.initList();
 }
 
 void LoaderClosePath() {

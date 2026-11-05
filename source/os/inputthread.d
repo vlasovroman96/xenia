@@ -425,7 +425,7 @@ void InputThreadPreInit()
     inputThreadInfo.changed = FALSE;
 
     inputThreadInfo.thread = 0;
-    xorg_list_init(&inputThreadInfo.devs);
+    inputThreadInfo.devs.initList();
     inputThreadInfo.fds = ospoll_create();
 
     /* By making read head non-blocking, we ensure that while the main thread
@@ -516,7 +516,7 @@ void InputThreadFini()
         ospoll_remove(inputThreadInfo.fds, dev.fd);
         free(dev);
     }));
-    xorg_list_init(&inputThreadInfo.devs);
+    inputThreadInfo.devs.initList();
     ospoll_destroy(inputThreadInfo.fds);
 
     RemoveNotifyFd(inputThreadInfo.readPipe);

@@ -628,7 +628,7 @@ Bool ms_vblank_screen_init(ScreenPtr screen)
     ScrnInfoPtr scrn = xf86ScreenToScrn(screen);
     modesettingPtr ms = mixin(modesettingPTR!("scrn"));
     modesettingEntPtr ms_ent = ms_ent_priv(scrn);
-    xorg_list_init(&ms_drm_queue_);
+    ms_drm_queue_.initList();
 
     __traits(getMember, ms.event_context, "version") = 4;
     ms.event_context.vblank_handler = &ms_drm_handler;

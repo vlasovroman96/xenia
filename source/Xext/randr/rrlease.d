@@ -107,7 +107,7 @@ private RRLeasePtr RRLeaseAlloc(ScreenPtr screen, RRLease lid, int numCrtcs, int
     if (!lease)
         return null;
     lease.screen = screen;
-    xorg_list_init(&lease.list);
+    lease.list.initList();
     lease.id = lid;
     lease.state = RRLeaseCreating;
     lease.numCrtcs = numCrtcs;

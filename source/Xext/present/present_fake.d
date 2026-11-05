@@ -138,5 +138,5 @@ void present_fake_screen_init(ScreenPtr screen)
 
 void present_fake_queue_init()
 {
-    xorg_list_init(&fake_vblank_queue);
+    fake_vblank_queue.initList();
 }
