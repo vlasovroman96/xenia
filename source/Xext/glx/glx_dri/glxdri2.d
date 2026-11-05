@@ -40,7 +40,6 @@ import externs.glxtokens;
 import dix.window;
 import os.os;
 
-import include.xf86;
 import Xext.dri2.dri2;
 
 import externs.glxtokens;

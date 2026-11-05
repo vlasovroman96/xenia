@@ -18,7 +18,7 @@ import core.stdc.config: c_long, c_ulong;
 import build.xorg_config;
 
 //import x11.X;
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import include.xf86Priv;
 import hw.xfree86.os_support.xf86_OSlib;
 import hw.xfree86.utils.compiler;

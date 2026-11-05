@@ -18,7 +18,6 @@ import include.xf86DDC;
 import os.osdep;
 
 import common.misc;
-import include.xf86;
 import hw.xfree86.os_support.xf86_OSproc;;
 import core.stdc.string;
 import edid_priv;

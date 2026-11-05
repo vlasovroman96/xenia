@@ -38,7 +38,7 @@ import core.stdc.stdlib;
 import core.sys.posix.unistd;
 //import x11.X;
 import os.os;
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import include.xf86Priv;
 
 import xf86Bus;

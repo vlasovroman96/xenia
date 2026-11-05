@@ -40,7 +40,6 @@ import core.stdc.stdlib;
 import core.stdc.ctype;
 //import x11.X;
 import os.os;
-import include.xf86;
 import xf86Opt_priv;
 import hw.xfree86.common.xf86Xinput;
 import include.xf86Optrec;

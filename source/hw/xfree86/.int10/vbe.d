@@ -17,7 +17,7 @@ import core.stdc.string;
 
 // //import externs.X11.extensions.dpmsconst;
 
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import xf86Modes;
 import vbe;
 import xf86Bus;

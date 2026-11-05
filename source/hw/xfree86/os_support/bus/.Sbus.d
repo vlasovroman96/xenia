@@ -35,7 +35,7 @@ import core.sys.posix.sys.mman;
 version (__sun) {
 import core.sys.posix.sys.utsname;
 }
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import include.xf86Priv;
 import hw.xfree86.os_support.xf86_OSlib;
 

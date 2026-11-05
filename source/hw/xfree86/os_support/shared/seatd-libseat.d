@@ -37,7 +37,6 @@ import dsl.libseat;
 
 
 import os.os;
-import include.xf86;
 import xf86_priv;
 static if(XSERVER_PLATFORM_BUS){
 import xf86platformBus_priv;
@@ -52,7 +51,7 @@ import seatd_libseat;
 
 import core.sys.posix.unistd;
 // import core.sys.posix.
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import xf86Opt_priv;
 import include.xf86Priv;
 import hw.xfree86.os_support.xf86_OSlib;

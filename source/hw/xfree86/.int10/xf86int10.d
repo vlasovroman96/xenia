@@ -9,7 +9,7 @@ import core.stdc.config: c_long, c_ulong;
  */
 import build.xorg_config;
 
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import hw.xfree86.utils.compiler;
 version = _INT10_PRIVATE;
 import xf86int10_priv;

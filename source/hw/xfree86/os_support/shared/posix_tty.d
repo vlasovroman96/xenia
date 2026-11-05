@@ -64,7 +64,7 @@ import os.xserver_poll;
 
 import core.sys.posix.unistd;
 // import core.sys.posix.
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import xf86Opt_priv;
 import include.xf86Priv;
 import hw.xfree86.os_support.xf86_OSlib;

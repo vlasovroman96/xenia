@@ -65,7 +65,7 @@ extern(C): __gshared:
 
 import build.xorg_config;
 
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import xf86Modes;
 import core.stdc.string;
 import hw.xfree86.modes.displaymode;

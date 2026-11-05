@@ -23,7 +23,6 @@ version (HAVE_SYS_MKDEV_H) {
 import sys.mkdev;          /* for minor() on Solaris */
 }
 
-import include.xf86;
 import xf86Modes;
 import hw.xfree86.os_support.xf86_OSproc;;
 

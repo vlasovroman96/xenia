@@ -30,7 +30,6 @@ extern(C): __gshared:
 import build.xorg_config;
 
 import common.misc;
-import include.xf86;
 import hw.xfree86.os_support.xf86_OSproc;;
 
 //import x11.X;

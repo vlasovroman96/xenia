@@ -36,7 +36,6 @@ import core.stdc.stdio;
 
 import include.xf86DDC;
 
-import include.xf86;
 import include.xf86Crtc;
 import xf86Modes;
 import xf86RandR12;

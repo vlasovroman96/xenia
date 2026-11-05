@@ -79,7 +79,7 @@ import externs.attrs;
 import os.log;
 import config.libhal;
 import os.connection;
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import hw.xfree86.common.xf86Xinput;
 import xf86Init;
 import xf86platformBus_priv;

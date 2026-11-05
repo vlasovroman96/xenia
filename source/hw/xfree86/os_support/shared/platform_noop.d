@@ -9,7 +9,7 @@ static if(XSERVER_PLATFORM_BUS){
 /* noop platform device support */
 import hw.xfree86.os_support.xf86_OSproc;;
 
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import hw.xfree86.os_support.xf86_os_support;
 import xf86platformBus_priv;
 

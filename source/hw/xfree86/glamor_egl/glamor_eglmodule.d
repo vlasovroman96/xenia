@@ -31,7 +31,7 @@ extern(C): __gshared:
  */
 import build.dix_config;
 
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 version = GLAMOR_FOR_XORG;
 import include.xf86Module;
 import glamor.glamor;

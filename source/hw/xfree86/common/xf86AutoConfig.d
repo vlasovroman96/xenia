@@ -39,7 +39,7 @@ import build.xorg_config;
 import build.xlibre_server;
 import os.osdep;
 
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import xf86Parser_priv;
 import xf86tokens;
 import xf86Config;

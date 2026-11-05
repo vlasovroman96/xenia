@@ -36,7 +36,6 @@ import dix.dix_priv;
 import include.xf86DDC;
 import mi.mi_priv;
 
-import include.xf86;
 import dix.window;
 import include.xf86Crtc;
 import xf86Modes;

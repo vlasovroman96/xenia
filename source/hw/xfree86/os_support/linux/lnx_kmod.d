@@ -9,7 +9,7 @@ import core.sys.posix.unistd;
 import core.sys.posix.sys.wait;
 import core.stdc.signal;
 import hw.xfree86.os_support.xf86_OSlib;
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import core.sys.posix.sys.ioctl;
 import core.sys.posix.sys.types;
 import core.sys.posix.sys.socket;

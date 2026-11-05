@@ -43,7 +43,6 @@ import include.xorgVersion;
 import Xi.exevents;
 import dix.input;
 import include.xkbsrv;
-import include.xf86;
 import include.xserver_properties;
 import os.os;
 import os.log;

@@ -41,7 +41,6 @@ import mi.mi_priv;
 
 import dix.scrnintstr;
 
-import include.xf86;
 import hw.xfree86.os_support.xf86_OSproc;;
 import include.xf86str;
 import mi.micmap;

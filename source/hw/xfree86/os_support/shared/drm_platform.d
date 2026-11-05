@@ -25,7 +25,6 @@ import hw.xfree86.os_support.linux.systemd_logind;
 import seatd_libseat;
 import os.osdep;
 
-import include.xf86;
 import include.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;
 import hw.xfree86.os_support.xf86_OSlib;
@@ -54,7 +53,7 @@ import externs.attrs;
 import os.log;
 import config.libhal;
 import os.connection;
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import xf86Init;
 import xf86platformBus_priv;
 import lnx_init;

@@ -3,7 +3,7 @@ module hw.xfree86.fbdevhw.fbdevhwstub;
 extern(C): __gshared:
 import build.xorg_config;
 
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import xf86cmap;
 import externs.pciaccess;
 import os.log;

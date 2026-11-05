@@ -56,7 +56,6 @@ import dix.request_priv;
 import dix.screen_hooks_priv;
 import mi.mi_priv;
 
-import include.xf86;
 import include.xf86str;
 import include.xf86Priv;
 import hw.xfree86.common.dgaproc_priv;

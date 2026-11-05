@@ -24,7 +24,6 @@ import dix.scrnintstr;
 import dix.window;
 import dix.gc;
 import dix.dixfonts;
-import include.xf86;
 import include.xf86str;
 import shadowfb;
 

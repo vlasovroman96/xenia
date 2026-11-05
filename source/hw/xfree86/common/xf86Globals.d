@@ -2,6 +2,10 @@ module xf86Globals;
 @nogc nothrow:
 extern(C): __gshared:
 
+private template HasVersion(string versionId) {
+	mixin("version("~versionId~") {enum HasVersion = true;} else {enum HasVersion = false;}");
+}
+
 /*
  * Copyright (c) 1997-2003 by The XFree86 Project, Inc.
  *
@@ -33,7 +37,7 @@ extern(C): __gshared:
  */
 import build.xorg_config;
 import build.xlibre_server;
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import x11.X;
 // import os.os;
 // import dix.property;
@@ -47,7 +51,6 @@ import hw.xfree86.common.xf86Xinput;
 // import include.xf86Xinput;
 import include.xf86Privstr;
 // import include.xlibre_ptrtypes;
-// import include.xf86;
 import x11.Xosdefs;
 
 

@@ -12,7 +12,6 @@ import core.stdc.errno;
 import core.stdc.string;
 import core.sys.posix.unistd;
 
-import include.xf86;
 import hw.xfree86.os_support.xf86_OSproc;;
 import xf86Bus;
 import hw.xfree86.utils.compiler;

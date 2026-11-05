@@ -6,7 +6,7 @@ import build.xorg_config;
 import core.stdc.errno;
 import core.stdc.string;
 
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import hw.xfree86.os_support.xf86_OSproc;;
 import include.xf86Pci;
 import hw.xfree86.utils.compiler;

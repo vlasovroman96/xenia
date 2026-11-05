@@ -33,7 +33,6 @@ import build.dix_config;
 import core.stdc.errno;
 import core.sys.posix.unistd;
 
-import include.xf86;
 import include.xf86Crtc;
 import hw.xfree86.drivers.video.modesetting.driver;
 import hw.xfree86.drivers.video.modesetting.drmmode_display;

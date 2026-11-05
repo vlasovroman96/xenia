@@ -36,7 +36,7 @@ import build.xorg_config;
 
 import include.xf86Module;
 import include.xf86Priv;
-import include.xf86;
+import hw.xfree86.common.xf86Helper;
 import dix.colormap;
 import mi.micmap;
 import include.globals;

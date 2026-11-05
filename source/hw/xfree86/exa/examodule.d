@@ -37,7 +37,6 @@ import dix.screen_hooks;
 import exa.exa_priv;
 
 import include.xf86str;
-import include.xf86;
 import hw.xfree86.common.xf86Helper;
 import hw.xfree86.common.xf86Option;
 import hw.xfree86.parser.Flags;

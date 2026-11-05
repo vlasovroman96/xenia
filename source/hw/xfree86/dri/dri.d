@@ -59,7 +59,6 @@ import dix.screenint_priv;
 import hw.xfree86.dri.dristruct;
 import hw.xfree86.dri.sarea;
 
-import include.xf86;
 import externs.libdrm;
 import common.misc;
 import dix.dixstruct_priv;

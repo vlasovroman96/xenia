@@ -35,7 +35,6 @@ import build.xorg_config;
 //import x11.X;
 import os.os;
 import dix.window;
-import include.xf86;
 import include.xf86Priv;
 import xf86Opt_priv;
 import hw.xfree86.common.xf86Helper;

@@ -7,7 +7,7 @@ extern(C): __gshared:
 
  
 public import region;
-public import include.xf86;
+public import hw.xfree86.common.xf86Helper;
 import hw.xfree86.i2c.xf86i2c;
 import xf86Bus;
 

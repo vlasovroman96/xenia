@@ -32,7 +32,6 @@ extern(C): __gshared:
  */
 import build.xorg_config;
 
-import include.xf86;
 import xf86DDC_priv;
 //import externs.X11.Xatom;
 import dix.property;

@@ -40,7 +40,6 @@ import os.log_priv;
 import region;
 
 import common.misc;
-import include.xf86;
 import dix.scrnintstr;
 import include.xf86fbman;
 import xf86DGA;

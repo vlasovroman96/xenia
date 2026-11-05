@@ -7,7 +7,7 @@ extern(C): __gshared:
  */
  
 public import os.osdep;
-public import include.xf86;
+public import hw.xfree86.common.xf86Helper;
 public import xf86Configure;
 public import xf86Globals;
 import hw.xfree86.modes.displaymode;
