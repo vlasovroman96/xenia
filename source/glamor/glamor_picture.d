@@ -43,7 +43,7 @@ import build.dix_config;
 import core.stdc.assert_;
 import core.stdc.stdlib;
 
-import include.mipict;
+import mi.mipict;
 
 import glamor.glamor_priv;
 import glamor.glamor;

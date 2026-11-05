@@ -29,7 +29,7 @@ import build.dix_config;
 import dix.colormap_priv;
 import dix.colormap;
 
-import include.mipict;
+import mi.mipict;
 
 import include.scrnintstr;
 import dix.gc;

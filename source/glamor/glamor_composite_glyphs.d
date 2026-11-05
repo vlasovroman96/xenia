@@ -27,7 +27,7 @@ import build.dix_config;
 import core.stdc.stdlib;
 import core.stdc.stdio;
 
-import include.mipict;
+import mi.mipict;
 import os.bug_priv;
 
 import os.xprintf;

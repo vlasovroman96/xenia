@@ -28,7 +28,7 @@ import build.dix_config;
 
 import core.stdc.stdlib;
 
-import include.mipict;
+import mi.mipict;
 
 import exa.exa_priv;
 import os.log;

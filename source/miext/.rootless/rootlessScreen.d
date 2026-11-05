@@ -45,7 +45,7 @@ import dix.colormap_priv;
 import dix.screen_hooks_priv;
 import dix.screenint_priv;
 import dix.colormap;
-import include.mipict;
+import mi.mipict;
 import mi.mi_priv;
 import os.mathx_priv;
 

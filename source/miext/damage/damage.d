@@ -29,7 +29,7 @@ import build.dix_config;
 import core.stdc.stdlib;
 
 import dix.screen_hooks_priv;
-import include.mipict;
+import mi.mipict;
 import os.osdep;
 
 import    x11.X;

@@ -31,7 +31,7 @@ extern(C): __gshared:
  */
 import build.dix_config;
 
-import include.mipict;
+import mi.mipict;
 
 import glamor.glamor_priv;
 import dix.damage;

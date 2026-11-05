@@ -89,7 +89,7 @@ void glamor_solid(PixmapPtr pixmap, int x, int y, int width, int height, c_ulong
 // static assert(0, This file can only be included by glamor_priv.h);
 // }
 
-public import include.mipict;
+public import mi.mipict;
 public import os.bug_priv;
 
 public import glamor.glamor_prepare;

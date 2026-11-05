@@ -26,7 +26,7 @@ extern(C): __gshared:
 import build.dix_config;
 
 import fb.fbpict_priv;
-import include.mipict;
+import mi.mipict;
 
 import include.picturestr;
 import dix.damage;

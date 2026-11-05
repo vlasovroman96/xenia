@@ -42,7 +42,7 @@ import core.stdc.stdlib;
 import core.sys.posix.unistd;
 
 import dix.screen_hooks_priv;
-import include.mipict;
+import mi.mipict;
 import os.bug_priv;
 
 import glamor.glamor_priv;

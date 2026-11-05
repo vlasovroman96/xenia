@@ -27,7 +27,7 @@ import core.stdc.config: c_long, c_ulong;
 
 import build.dix_config;
 
-import include.mipict;
+import mi.mipict;
 
 import include.scrnintstr;
 import include.pixmapstr;

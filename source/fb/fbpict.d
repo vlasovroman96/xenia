@@ -31,7 +31,7 @@ import build.dix_config;
 import core.stdc.string;
 
 import fb.fbpict_priv;
-import include.mipict;
+import mi.mipict;
 import build.xorg_config;
 
 import fb.fb;
