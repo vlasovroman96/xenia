@@ -21,7 +21,7 @@ version (none) {
 import hw.xfree86.os_support.int10Defines;
 }
 import xf86int10_priv;
-import include.xf86int10;
+import xf86int10;
 
 
 // enum REG = pInt;

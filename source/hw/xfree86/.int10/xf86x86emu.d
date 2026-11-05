@@ -15,7 +15,7 @@ version = _INT10_PRIVATE;
 import xf86int10_priv;
 import hw.xfree86.os_support.int10Defines;
 import x86emu;
-import include.xf86int10;
+import xf86int10;
 
 
 // enum string M = `_X86EMU_env`;

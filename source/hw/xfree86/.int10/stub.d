@@ -12,7 +12,7 @@ import hw.xfree86.common.xf86Helper;
 import include.xf86str;
 import hw.xfree86.os_support.xf86_OSproc;;
 version = _INT10_PRIVATE;
-import include.xf86int10;
+import xf86int10;
 
 
 xf86Int10InfoPtr xf86InitInt10(int entityIndex)

@@ -39,7 +39,7 @@ import x86emu.x86emui;
 enum string DEBUG_IO_TRACE() = `0`;
 }
 import externs.pciaccess;
-import include.xf86int10;
+import xf86int10;
 
 import generic;
 import hw.xfree86.os_support.int10Defines;

@@ -19,7 +19,7 @@ version = _INT10_PRIVATE;
 import xf86int10_priv;
 import hw.xfree86.os_support.int10Defines;
 import hw.xfree86.os_support.bus.Pci;
-import include.xf86int10; 
+import xf86int10; 
 import helper_mem;
 // import stub;
 import core.sys.posix.unistd;

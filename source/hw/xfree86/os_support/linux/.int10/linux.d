@@ -13,7 +13,6 @@ import hw.xfree86.os_support.xf86_OSproc;;
 import include.xf86Pci;
 import hw.xfree86.utils.compiler;
 version = _INT10_PRIVATE;
-// import xf86int10;
 version (__sparc__) {
 enum DEV_MEM = "/dev/fb";
 } else {
@@ -31,7 +30,7 @@ import core.sys.posix.unistd;
 import core.stdc.string;
 import xf86Bus;
 
-import include.xf86int10;
+import xf86int10;
 
 private int counter = 0;
 private x_server_generation_t int10Generation = 0;

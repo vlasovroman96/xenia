@@ -22,7 +22,7 @@ import xf86Modes;
 import vbe;
 import xf86Bus;
 import include.vbe;
-import include.xf86int10;
+import xf86int10;
 
 public import ddc;
 
