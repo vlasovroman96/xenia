@@ -37,8 +37,129 @@ import    dix.dixfonts;
 import    region;
 import    dix.globals;
 import    dix.gc;
-import include.shadow;
 import dix.screen_hooks;
+
+public import dix.picturestr;
+
+public import include.xf86str;
+
+/*
+ * User defined callback function.  Passed a pointer to the ScrnInfo struct,
+ * the number of dirty rectangles, and a pointer to the first dirty rectangle
+ * in the array.
+ */
+alias RefreshAreaFuncPtr = void function(ScrnInfoPtr, int, BoxPtr);
+
+/*
+ * ShadowFBInit initializes the shadowfb subsystem.  refreshArea is a pointer
+ * to a user supplied callback function.  This function will be called after
+ * any operation that modifies the framebuffer.  The newly dirtied rectangles
+ * are passed to the callback.
+ *
+ * Returns FALSE in the event of an error.
+ */
+void  ShadowFBInit(ScreenPtr pScreen, RefreshAreaFuncPtr refreshArea);
+
+/*
+ * ShadowFBInit2 is a more featureful refinement of the original shadowfb.
+ * ShadowFBInit2 allows you to specify two callbacks, one to be called
+ * immediately before an operation that modifies the framebuffer, and another
+ * to be called immediately after.
+ *
+ * Returns FALSE in the event of an error
+ */
+void  ShadowFBInit2(ScreenPtr pScreen, RefreshAreaFuncPtr preRefreshArea, RefreshAreaFuncPtr postRefreshArea);
+
+alias shadowBufPtr = _shadowBuf*;
+
+alias ShadowUpdateProc = void function(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+enum SHADOW_WINDOW_RELOCATE = 1;
+enum SHADOW_WINDOW_READ = 2;
+enum SHADOW_WINDOW_WRITE = 4;
+
+alias ShadowWindowProc = void* function(ScreenPtr pScreen, CARD32 row, CARD32 offset, int mode, CARD32* size, void* closure);
+
+struct _shadowBuf {
+    DamagePtr pDamage;
+    ShadowUpdateProc update;
+    ShadowWindowProc window;
+    PixmapPtr pPixmap;
+    void* closure;
+    int randr;
+
+    /* screen wrappers */
+    GetImageProcPtr GetImage;
+    void* _dummy1; // required in place of a removed field for ABI compatibility
+    ScreenBlockHandlerProcPtr BlockHandler;
+}
+
+alias shadowBufRec = _shadowBuf; 
+
+/* Match defines from randr extension */
+enum SHADOW_ROTATE_0 =	    1;
+enum SHADOW_ROTATE_90 =    2;
+enum SHADOW_ROTATE_180 =   4;
+enum SHADOW_ROTATE_270 =   8;
+enum SHADOW_ROTATE_ALL =   (SHADOW_ROTATE_0|SHADOW_ROTATE_90|
+			     SHADOW_ROTATE_180|SHADOW_ROTATE_270);
+enum SHADOW_REFLECT_X =    16;
+enum SHADOW_REFLECT_Y =    32;
+enum SHADOW_REFLECT_ALL =  (SHADOW_REFLECT_X|SHADOW_REFLECT_Y);
+
+// void  shadowSetup(ScreenPtr pScreen);
+
+void  shadowAdd(ScreenPtr pScreen, PixmapPtr pPixmap, ShadowUpdateProc update, ShadowWindowProc window, int randr, void* closure);
+
+void  shadowRemove(ScreenPtr pScreen, PixmapPtr pPixmap);
+
+void  shadowUpdateAfb4(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateAfb8(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateIplan2p4(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateIplan2p8(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdatePacked(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdatePlanar4(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdatePlanar4x8(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateRotatePacked(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateRotate8_90(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateRotate16_90(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateRotate16_90YX(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateRotate32_90(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateRotate8_180(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateRotate16_180(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateRotate32_180(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateRotate8_270(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateRotate16_270(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateRotate16_270YX(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateRotate32_270(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateRotate8(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateRotate16(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdateRotate32(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+void  shadowUpdate32to24(ScreenPtr pScreen, shadowBufPtr pBuf);
+
+alias shadowUpdateProc = void function(ScreenPtr, shadowBufPtr);
 
 private DevPrivateKeyRec shadowScrPrivateKeyRec;
 enum shadowScrPrivateKey = (&shadowScrPrivateKeyRec);

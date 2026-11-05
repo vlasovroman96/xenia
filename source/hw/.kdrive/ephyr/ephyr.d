@@ -48,7 +48,6 @@ import hw.kdrive.ephyr.ephyr_glamor;
 import hw.kdrive.src.kdrive;
 import glx.glxext;
 import include.xkbsrv;
-import include.shadow;
 import externs.xcb.xcb_image;
 import hw.kdrive.ephyr.ephyr_glamor;
 import hw.kdrive.ephyr.hostx;

@@ -57,7 +57,6 @@ import dix.screenint_priv;
 import dix.screen_hooks_priv;
 import dix.screenint_priv;
 import dix.window_priv;
-import include.shmint;
 import miext.extinit_priv;
 import os.auth;
 import os.busfault;
@@ -86,6 +85,51 @@ import dix.extension;
 import dix.events;
 import dix.screen_hooks;
 import dix.window;
+import dix.damage;
+
+enum string XSHM_PUT_IMAGE_ARGS = "
+    DrawablePtr,		/* dst */
+    GCPtr,		/* pGC */
+    int			/* depth */,
+    uint	/* format */,
+    int			/* w */,
+    int			/* h */,
+    int			/* sx */,
+    int			/* sy */,
+    int			/* sw */,
+    int			/* sh */,
+    int			/* dx */,
+    int			/* dy */,
+    char *      ";                /* data */
+
+enum XSHM_CREATE_PIXMAP_ARGS = "
+    ScreenPtr	/* pScreen */, 
+    int		/* width */, 
+    int		/* height */,
+    int		/* depth */, 
+    char *                      /* addr */";
+
+struct _ShmFuncs {
+    mixin("PixmapPtr function(" ~ XSHM_CREATE_PIXMAP_ARGS ~ ") @nogc nothrow CreatePixmap;");
+    mixin("void function(" ~ XSHM_PUT_IMAGE_ARGS ~ ") @nogc nothrow PutImage;");
+}alias ShmFuncs = _ShmFuncs;
+alias ShmFuncsPtr = _ShmFuncs*;
+
+static if (XTRANS_SEND_FDS) {
+// enum SHM_FD_PASSING =  1;
+}
+
+version (SHM_FD_PASSING) {
+enum string SHMDESC_IS_FD(string shmdesc) = `((` ~ shmdesc ~ `).is_fd)`;
+} else {
+enum string SHMDESC_IS_FD(string shmdesc) = `(0)`;
+}
+
+void ShmRegisterFuncs(ScreenPtr pScreen, ShmFuncsPtr funcs);
+void ShmRegisterFbFuncs(ScreenPtr pScreen);
+
+int ShmCompletionCode;
+int BadShmSegCode;
 
 /* Needed for Solaris cross-zone shared memory extension */
 version (HAVE_SHMCTL64) {

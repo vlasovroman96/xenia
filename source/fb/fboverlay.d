@@ -32,7 +32,7 @@ import build.xlibre_server;
 import core.stdc.assert_;
 import core.stdc.stdlib;
 
-import include.shmint;
+import Xext.shm;
 import mi.mi_priv;
 
 import fb.fb;

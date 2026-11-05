@@ -26,7 +26,7 @@ import core.stdc.config: c_long, c_ulong;
 
 import build.dix_config;
 
-import include.shadow;
+import miext.shadow.shadow;
 import fb.fb;
 import fb.fballpriv;
 import common.servermd;

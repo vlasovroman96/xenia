@@ -9,7 +9,7 @@ import core.stdc.config: c_long, c_ulong;
 
  
 public import dix.resource;
-public import include.shmint;
+public import Xext.shm;
 import os.busfault;
 import x11.Xdefs;
 

@@ -39,7 +39,7 @@ import    externs.X11.fonts.fontstruct;
 import    region;
 import    dix.globals;
 import    dix.gc;
-import include.shadow;
+import miext.shadow.shadow;
 import fb.fb;
 import    miext.shadow.c2p_core;
 

@@ -33,7 +33,7 @@ import    dix.dixfonts;
 // //import   externs.X11.fonts.fontstruct;
 import    region;
 import    dix.gc;
-import include.shadow;
+import miext.shadow.shadow;
 import build.xlibre_server;
 
 private XF86ModuleVersionInfo VersRecShadow = {

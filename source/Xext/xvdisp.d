@@ -39,7 +39,7 @@ import dix.dix_priv;
 import dix.rpcbuf_priv;
 import dix.request_priv;
 import dix.screenint_priv;
-import include.shmint;
+import Xext.shm;
 import include.xvmcext;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;

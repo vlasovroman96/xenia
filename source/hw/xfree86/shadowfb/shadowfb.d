@@ -29,7 +29,7 @@ import include.xf86str;
 import shadowfb;
 
 import dix.picturestr;
-import include.shadowfb;
+import miext.shadow.shadow;
 import hw.xfree86.common.xf86Helper;
 import dix.screen_hooks;
 import os.log;

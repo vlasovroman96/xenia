@@ -27,7 +27,7 @@ import config.kdrive_config;
 import hw.kdrive.src.kdrive;
 import x11.Xdefs;
 import dix.scrintstr;
-import include.shadow;
+import miext.shadow.shadow;
 
 Bool KdShadowFbAlloc(KdScreenInfo* screen, Bool rotate)
 {

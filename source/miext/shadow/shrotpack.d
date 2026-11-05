@@ -39,7 +39,7 @@ public import    externs.X11.fonts.fontstruct;
 public import    region;
 public import    dix.globals;
 public import    dix.gc;
-public import include.shadow;
+public import miext.shadow.shadow;
 
 enum DANDEBUG =         0;
 
