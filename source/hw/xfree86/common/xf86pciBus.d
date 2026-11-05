@@ -51,7 +51,7 @@ import xf86_pci_priv;
 import os.os;
 import hw.xfree86.os_support.bus.Pci;
 import xf86_priv;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 
 import hw.xfree86.common.xf86MatchDrivers;
 

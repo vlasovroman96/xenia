@@ -6,7 +6,7 @@ import build.dix_config;
 ////import x11.Xfuncproto;
 
 
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import xf86Bus;
 
 

@@ -38,7 +38,7 @@ struct XF86MatchedDrivers {
  */
 void xf86AddMatchedDriver(XF86MatchedDrivers*, const(char)*);
 
-void xf86PlatformMatchDriver(XF86MatchedDrivers*);
+// void xf86PlatformMatchDriver(XF86MatchedDrivers*);
 
                           /* _xf86_match_drivers_h */
 

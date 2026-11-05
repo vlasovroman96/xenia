@@ -45,7 +45,7 @@ import xf86tokens;
 import xf86Config;
 import hw.xfree86.common.xf86MatchDrivers;
 
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;
 import hw.xfree86.os_support.xf86_OSlib;
 // import xf86platformBus_priv;

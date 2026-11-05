@@ -60,7 +60,7 @@ import include.xorgVersion;
 import mi.mi_priv;
 import pageflip;
 
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import hw.xfree86.os_support.xf86_OSproc;;
 import hw.xfree86.utils.compiler;
 import mi.mipointer;
@@ -72,6 +72,7 @@ import dix.dixstruct_priv;
 import build.xlibre_server;
 import xf86pciBus;
 import hw.xfree86.modes.displaymode;
+import xf86Bus;
 
 // import xf86xv;
 import externs.libdrm;

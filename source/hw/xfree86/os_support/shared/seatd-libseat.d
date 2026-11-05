@@ -43,7 +43,7 @@ import xf86platformBus_priv;
 import xf86platformBus;
 }
 import hw.xfree86.common.xf86Xinput;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 
 import config.hotplug_priv;
 
@@ -53,7 +53,6 @@ import core.sys.posix.unistd;
 // import core.sys.posix.
 import hw.xfree86.common.xf86Helper;
 import xf86Opt_priv;
-import include.xf86Priv;
 import hw.xfree86.os_support.xf86_OSlib;
 // import xf86Options;
 import config.dbus_core;
@@ -80,7 +79,6 @@ import hw.xfree86.loader.loaderProcs;
 
 import xf86Module_priv;
 import xf86_priv;
-import include.xf86Priv;
 import xf86Config;
 import hw.xfree86.os_support.xf86_os_support;
 import xf86cmap;

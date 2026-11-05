@@ -57,7 +57,7 @@ import dix.screen_hooks_priv;
 import mi.mi_priv;
 
 import include.xf86str;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import hw.xfree86.common.dgaproc_priv;
 import dix.pixmap;
 import dix.inputstr;

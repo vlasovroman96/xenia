@@ -68,7 +68,7 @@ import core.sys.posix.poll;
 import os.osdep;
 import os.xserver_poll;
 
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;
 import hw.xfree86.os_support.xf86_OSlib;
 import dix.inputstr;
@@ -76,7 +76,6 @@ import os.ospoll;
 import core.sys.posix.unistd;
 // import core.sys.posix.
 import xf86Opt_priv;
-import include.xf86Priv;
 // import xf86Options;
 import config.dbus_core;
 import config.hotplug_priv;
@@ -102,7 +101,6 @@ import hw.xfree86.loader.loaderProcs;
 
 import xf86Module_priv;
 import xf86_priv;
-import include.xf86Priv;
 // import xf86Config;
 import hw.xfree86.os_support.xf86_os_support;
 import mi.mipointer;

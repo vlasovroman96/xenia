@@ -35,7 +35,7 @@ import ddc;
 import os.os;
 import xf86_priv;
 import include.xf86str;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import mi.mipointer;
 import dix.inputstr;
 import hw.xfree86.common.xf86Helper;

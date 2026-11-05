@@ -39,7 +39,7 @@ import core.sys.posix.unistd;
 //import x11.X;
 import os.os;
 import hw.xfree86.common.xf86Helper;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 
 import xf86Bus;
 import hw.xfree86.os_support.xf86_OSproc;;

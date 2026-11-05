@@ -96,7 +96,7 @@ import hw.xfree86.common.xf86Crtc;
 import os.os;
 import common.servermd;
 import xf86_priv;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import os.log;
 import hw.xfree86.common.xf86Helper;
 import xf86Init;

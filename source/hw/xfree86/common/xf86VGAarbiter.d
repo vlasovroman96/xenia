@@ -39,7 +39,7 @@ import dix.colormap_priv;
 import xf86VGAarbiter_priv;
 import xf86VGAarbiterPriv;
 import xf86Bus;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import externs.pciaccess;
 import mi.mipointer;
 import os.log;

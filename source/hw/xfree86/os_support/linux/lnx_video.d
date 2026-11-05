@@ -42,7 +42,7 @@ import dix.scrnintstr;
 
 import hw.xfree86.common.xf86Helper;
 import hw.xfree86.os_support.xf86_os_support;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import hw.xfree86.os_support.xf86_OSlib;
 import os.log;
 import core.stdc.stdio;

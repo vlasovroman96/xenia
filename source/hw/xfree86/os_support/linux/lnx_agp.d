@@ -19,7 +19,7 @@ import build.xorg_config;
 import core.stdc.errno;
 //import x11.X;
 
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;
 import hw.xfree86.os_support.xf86_OSlib;
 
@@ -33,8 +33,6 @@ import core.sys.posix.unistd;
 
 import sys.agpio;
 }
-
-import include.xf86Privstr;
 
 import os.log;
 import core.sys.posix.sys.ioctl;
@@ -60,10 +58,8 @@ import os.log_priv;
 
 import os.os;
 import xf86_priv;
-import include.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;
 import hw.xfree86.os_support.xf86_OSproc;;
-import include.xf86Privstr;
 
 import os.log;
 import xf86Events;

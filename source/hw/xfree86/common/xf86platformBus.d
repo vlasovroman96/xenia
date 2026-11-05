@@ -51,7 +51,7 @@ import xf86_priv;
 import hw.xfree86.os_support.xf86_os_support;
 import hw.xfree86.os_support.xf86_OSproc;;
 import xf86Opt_priv;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import include.xf86str;
 import xf86Bus;
 import hw.xfree86.os_support.bus.Pci;

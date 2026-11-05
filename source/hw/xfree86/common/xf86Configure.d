@@ -42,7 +42,7 @@ import xf86_priv;
 import xf86Bus;
 import xf86Config;
 import hw.xfree86.os_support.xf86_OSlib;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 version = IN_XSERVER;
 import Configint;
 import xf86DDC_priv;

@@ -16,7 +16,7 @@ import dix.property;
 import dix.gc;
 import hw.xfree86.loader.loaderProcs;
 import hw.xfree86.common.xf86Helper;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 
 CARD32 xorgGetVersion()
 {

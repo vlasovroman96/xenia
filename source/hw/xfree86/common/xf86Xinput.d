@@ -65,7 +65,7 @@ import dix.ptrveloc_priv;
 import dix.screenint_priv;
 
 import xf86_priv;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import xf86Config;
 import Xi.XIstubs;
 //import include.xf86Optrec;

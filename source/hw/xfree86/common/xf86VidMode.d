@@ -46,14 +46,13 @@ import os.log_priv;
 
 import os.os;
 import xf86_priv;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import xf86Globals;
 import xf86Mode;
 
 static if(XF86VIDMODE){
 import hw.xfree86.xext.vidmode;
 // import vidmodestr;
-import include.xf86Privstr;
 import xf86Extensions;
 import xf86cmap;
 import hw.xfree86.common.xf86Helper;

@@ -9,7 +9,7 @@ extern(C): __gshared:
 import build.dix_config;
 
 version = GLAMOR_FOR_XORG;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 
 import glamor.glamor;
 import glamor.glamor_egl;

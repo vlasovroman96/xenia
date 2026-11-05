@@ -42,14 +42,13 @@ import x11.X;
 // import os.os;
 // import dix.property;
 // import xf86_priv;
-// import include.xf86Priv;
 import hw.xfree86.parser.xf86Parser;
 // import dix.privates;
 import hw.xfree86.common.xf86Xinput;
 // // import xf86InPriv;
 // import xf86Config;
 // import include.xf86Xinput;
-import include.xf86Privstr;
+import hw.xfree86.common.xf86Priv;
 // import include.xlibre_ptrtypes;
 import x11.Xosdefs;
 

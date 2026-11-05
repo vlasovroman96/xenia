@@ -45,7 +45,7 @@ import mi.mipointer;
 import dix.scrnintstr;
 
 import xf86_priv;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import hw.xfree86.os_support.xf86_OSproc;;
 
 import hw.xfree86.common.xf86Xinput;

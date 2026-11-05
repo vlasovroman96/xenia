@@ -29,7 +29,7 @@ import dix.dix_priv;
 
 import xf86_priv;
 import xf86DDC_priv;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import externs.X11.Xatom;
 import dix.property;
 import core.stdc.string;

@@ -1,4 +1,4 @@
-module include.xf86Privstr;
+module hw.xfree86.common.xf86Priv;
 @nogc nothrow:
 extern(C): __gshared:
 
@@ -41,6 +41,8 @@ private template HasVersion(string versionId) {
  
 public import include.xf86str;
 import x11.Xosdefs;
+
+enum DEFAULT_DPI =		96;
 
 enum XF86_GlxVisuals {
     XF86_GlxVisualsMinimal,

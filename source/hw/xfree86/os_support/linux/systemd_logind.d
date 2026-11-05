@@ -39,7 +39,6 @@ import config.dbus_core;
 // import hw.xfree86.os_support.xf86_os_support;
 // import xf86_priv;
 // // import xf86platformBus_priv;
-// import include.xf86Priv;
 // import include.globals;
 // import core.sys.posix.sys.ioctl;
 // import core.sys.posix.sys.types;
@@ -52,10 +51,8 @@ import config.dbus_core;
 // import os.log_priv;
 
 // import xf86_priv;
-// import include.xf86Priv;
 // import hw.xfree86.os_support.xf86_os_support;
 // import hw.xfree86.os_support.xf86_OSproc;;
-// import include.xf86Privstr;
 
 // import os.log;
 import xf86Events;

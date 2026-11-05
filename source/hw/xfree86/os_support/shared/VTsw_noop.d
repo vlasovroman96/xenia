@@ -28,7 +28,7 @@ import build.xorg_config;
 //import x11.X;
 
 import hw.xfree86.common.xf86Helper;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;
 import hw.xfree86.os_support.xf86_OSlib;
 

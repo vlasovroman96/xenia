@@ -51,7 +51,7 @@ import os.osdep;
 
 import os.os;
 import xf86_priv;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 
 /* Bus-specific headers */
 

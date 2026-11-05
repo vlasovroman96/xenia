@@ -16,10 +16,9 @@ import os.log_priv;
 
 import os.os;
 import xf86_priv;
-import include.xf86Priv;
+import hw.xfree86.common.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;
 import hw.xfree86.os_support.xf86_OSproc;;
-import include.xf86Privstr;
 
 import os.log;
 import xf86Events;
