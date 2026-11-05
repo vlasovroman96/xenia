@@ -49,7 +49,7 @@ SOFTWARE.
 
  
 public import common.misc;
-public import include.privates;
+public import dix.privates;
 /*
  *   PROPERTY -- property element
  */

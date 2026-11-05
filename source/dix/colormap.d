@@ -74,7 +74,7 @@ import os.os;
 import include.scrnintstr;
 import include.resource;
 import include.windowstr;
-import include.privates;
+import dix.privates;
 import Xext.xace;
 import os.osinit;
 import std.conv;

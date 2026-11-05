@@ -14,7 +14,7 @@ import dix.cursor;
 import hw.xfree86.common.xf86Helper;
 import dix.screen_hooks;
 import dix.events;
-import include.privates;
+import dix.privates;
 import dix.devices;
 import hw.xfree86.modes.displaymode;
 /* FIXME: This was added with the ABI change of the miPointerSpriteFuncs for

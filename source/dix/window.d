@@ -138,7 +138,7 @@ import dix.cursor;
 import dix.dixstruct_priv;
 import include.servermd;
 import composite.compint;
-import include.privates;
+import dix.privates;
 import Xext.xace;
 import os.WaitFor;
 

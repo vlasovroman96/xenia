@@ -140,7 +140,7 @@ import dix.dixfonts;
 import dix.dispatch;
 import dix.swaprep;
 import dix.swapreq;
-import include.privates;
+import dix.privates;
 import Xext.xace;
 import dix.inputstr;import include.xkbsrv;
 import xfixes.xfixesint;

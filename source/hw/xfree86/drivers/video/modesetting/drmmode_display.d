@@ -86,7 +86,7 @@ import randr.rroutput;
 import core.sys.posix.strings;
 import hw.xfree86.drivers.video.modesetting.driver;
 import include.xf86cmap;
-import include.privates;
+import dix.privates;
 import randr.rrcrtc;
 import randr.randr;
 import randr.rrinfo;

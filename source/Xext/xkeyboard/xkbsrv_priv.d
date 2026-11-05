@@ -15,7 +15,7 @@ public import xkb.xkbrules_priv;
 
 public import dix.input;
 public import common.misc;
-public import include.privates;
+public import dix.privates;
 public import include.xkbsrv;
 public import include.xkbsrv;
 import externs.X11.extensions.XKBproto;

@@ -43,7 +43,7 @@ import dix.colormap_priv;
 import include.windowstr;
 import os.os;
 
-import include.privates;
+import dix.privates;
 import glx.glxserver;
 import glx.glxutil;
 import glx.glxext;

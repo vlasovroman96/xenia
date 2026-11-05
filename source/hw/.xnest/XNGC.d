@@ -20,7 +20,7 @@ is" without express or implied warranty.
 //public import x11.Xdefs;
 
 public import dix.gc;
-public import include.privates;
+public import dix.privates;
 
 struct xnestPrivGC {
     uint gc;

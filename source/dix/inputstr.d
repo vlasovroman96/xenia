@@ -61,7 +61,7 @@ public import dix.input;
 public import include.window;
 public import dix.dixstruct_priv;
 public import dix.cursor;
-public import include.privates;
+public import dix.privates;
 import include.xkbsrv;
 import mi.misyncstr;
 import include.xkbstr;

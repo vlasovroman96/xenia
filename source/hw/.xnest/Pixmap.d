@@ -26,7 +26,7 @@ import dix.pixmap;
 import include.scrnintstr;
 import dix.gc;
 import include.servermd;
-import include.privates;
+import dix.privates;
 
 import xnest_xcb;
 

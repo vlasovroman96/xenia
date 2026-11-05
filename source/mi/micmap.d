@@ -49,7 +49,7 @@ import dix.colormap;
 import dix.window;
 
 public import dix.colormap;
-public import include.privates;
+public import dix.privates;
 public import include.scrintstr;
 public import mi.micmap;
 

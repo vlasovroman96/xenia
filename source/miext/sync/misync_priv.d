@@ -9,7 +9,7 @@ extern(C): __gshared:
  
 public import mi.misync;
 
-import include.privates;
+import dix.privates;
 
 
 // DevPrivateKeyRec miSyncScreenPrivateKey;

@@ -56,7 +56,7 @@ public import dix.colormap;
 public import dix.cursor;
 public import include.validate;
 //public import x11.Xproto;
-public import include.privates;
+public import dix.privates;
 public import externs.X11.extensions.randr;
 import include.scrnintstr;
 import dix.colormap_priv;

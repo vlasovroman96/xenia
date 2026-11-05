@@ -60,7 +60,7 @@ import dix.pixmap;
 
 public import include.scrintstr;
 public import include.regionstr;
-public import include.privates;
+public import dix.privates;
 public import dix.damage;
 // //public import externs.X11.extensions._randr;
 public import dix.picturestr;

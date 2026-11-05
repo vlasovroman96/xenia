@@ -30,7 +30,7 @@ extern(C): __gshared:
 
  
 public import include.xf86xv;
-public import include.privates;
+public import dix.privates;
 import include.xf86str;
 import include.scrnintstr;
 import xf86Bus;

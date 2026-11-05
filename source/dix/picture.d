@@ -26,7 +26,7 @@ extern(C): __gshared:
  */
 
  
-public import include.privates;
+public import dix.privates;
 import dix.picturestr;
 
 public import dsl.pixman;

@@ -75,7 +75,7 @@ import Xext.geext_priv;
 import dix.inputstr;import dix.gc;           /* pointer for extnsionst.h */
 import Xi.exglobals;
 import dix.swaprep;
-import include.privates;
+import dix.privates;
 import include.protocol_versions;
 
 /* modules local to Xi */

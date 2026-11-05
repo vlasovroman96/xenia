@@ -63,7 +63,7 @@ import dix.dixstruct_priv;
 import dix.gc;
 import include.scrnintstr;
 import dix.dispatch;
-import include.privates;
+import dix.privates;
 import Xext.xace;
 import os.log;
 import externs.attrs;

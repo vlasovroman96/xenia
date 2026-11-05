@@ -17,7 +17,7 @@ is" without express or implied warranty.
 
  
 public import x11.Xdefs;
-import include.privates;
+import dix.privates;
 
 DevPrivateKeyRec xnestPixmapPrivateKeyRec;
 

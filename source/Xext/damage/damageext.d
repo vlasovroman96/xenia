@@ -47,7 +47,7 @@ import dix.dispatch;
 import dix.damage;
 import include.protocol_versions;
 import dix.dixstruct_priv;
-import include.privates;
+import dix.privates;
 import miext.damage.damage_;
 import xfixes.xfixes;;
 import xfixes.region;

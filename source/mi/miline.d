@@ -30,7 +30,7 @@ in this Software without prior written authorization from The Open Group.
 
  
 public import include.scrintstr;
-public import include.privates;
+public import dix.privates;
 
 /*
  * Public definitions used for configuring basic pixelization aspects

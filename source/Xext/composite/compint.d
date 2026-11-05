@@ -60,7 +60,7 @@ public import dix.gc;
 public import include.servermd;
 public import dix.picturestr;
 public import dix.extension;
-public import include.privates;
+public import dix.privates;
 public import composite.compext;
 public import  composite.compinit;
 

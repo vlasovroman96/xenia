@@ -48,7 +48,7 @@ import exa_driver;
 import exa.exa_offscreen;
 
 import dix.gc;
-import include.privates;
+import dix.privates;
 import dix.picture;
 
 enum DEBUG_TRACE_FALL =	0;

@@ -65,7 +65,7 @@ import dix.gc;
 import dix.pixmap;
 import include.scrnintstr;
 import dix.dixstruct_priv;
-import include.privates;
+import dix.privates;
 import Xext.xace;
 import dix.dixutils;
 import dix.resource;
@@ -76,7 +76,6 @@ import os.log;
 public import dix.gc;
 public import include.regionstr;
 public import include.scrintstr;
-public import include.privates;
 
 import legacyXf = externs.X11.fonts.font;
 import legacyXfs = externs.X11.fonts.fontstruct;

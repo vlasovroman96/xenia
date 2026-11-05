@@ -51,7 +51,7 @@ import dix.atom;
 import include.scrnintstr;
 import dix.inputstr;import include.windowstr;
 import include.propertyst;
-import include.privates;
+import dix.privates;
 import Xext.xacestr;
 import Xext.securitysrv;
 import include.protocol_versions;

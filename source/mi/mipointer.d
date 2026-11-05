@@ -81,7 +81,7 @@ import os.log;
 
 public import dix.cursor;
 public import dix.input;
-public import include.privates;
+public import dix.privates;
 import x11.Xdefs;
 
 public import mi.mipointer;

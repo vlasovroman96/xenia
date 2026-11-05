@@ -83,7 +83,7 @@ import dix.inputstr;import include.scrnintstr;
 import dix.cursor;
 import dix.dixstruct_priv;
 import ptrveloc;
-import include.privates;
+import dix.privates;
 import dix.dispatch;
 import dix.swaprep;
 import mi.mipointer;

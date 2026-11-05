@@ -11,7 +11,7 @@ extern(C): __gshared:
 //public import x11.Xproto;
 
 public import dix.dixstruct_priv;
-public import include.privates;
+public import dix.privates;
 import dix.timestamp;
 
 struct _Selection {

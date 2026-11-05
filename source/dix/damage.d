@@ -25,7 +25,7 @@ extern(C): __gshared:
 alias DamagePtr = _damage*;
  
 public import dix.gc;
-public import include.privates;
+public import dix.privates;
 public import dix.picturestr;
 
 struct _damage {
@@ -57,7 +57,6 @@ alias DamageScreenFuncsPtr = _damageScreenFuncs*;
 
 import include.regionstr;
 import include.scrintstr;
-import include.privates;
 public import miext.damage.damage_;
 import dix.damage;
 

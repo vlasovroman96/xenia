@@ -43,7 +43,7 @@ import os.osdep;
 
 import hw.kdrive.src.kdrive;
 import dix.dixstruct_priv;
-import include.privates;
+import dix.privates;
 
 /* workaround for <windows.h> being included somewhere and conflicting with us */
 static if(RANDR){

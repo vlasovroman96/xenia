@@ -33,7 +33,7 @@ import build.dix_config;
 
 import x11.X;
 // import dix.callback
-import include.privates;
+import dix.privates;
 import glx.vndserver_priv;
 import dix.dispatch;
 

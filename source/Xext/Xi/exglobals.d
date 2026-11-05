@@ -36,7 +36,7 @@ version (EXGLOBALS_H) {} else {
 enum EXGLOBALS_H = 1;
 
 public import dix.exevents_priv;
-public import include.privates;
+public import dix.privates;
 public import Xi.extinit;
 
 // int IEventBase;

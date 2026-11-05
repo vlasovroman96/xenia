@@ -38,7 +38,7 @@ extern(C): __gshared:
 // //public import externs.X11.extensions.dbeproto;
 
 public import include.windowstr;
-public import include.privates;
+public import dix.privates;
 
 struct XdbeVisualInfo {
     VisualID visual;            /* one visual ID that supports double-buffering */

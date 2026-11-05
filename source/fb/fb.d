@@ -36,7 +36,7 @@ public import dix.gc;
 public import dix.colormap;
 public import include.servermd;
 public import include.windowstr;
-public import include.privates;
+public import dix.privates;
 import include.servermd;
 
 public import migc;

@@ -118,7 +118,7 @@ import dix.gc;
 import dix.cursor;
 import include.servermd;
 import dix.dixfonts;
-import include.privates;
+import dix.privates;
 import Xi.exevents;
 import os.utils;
 import os.osinit;

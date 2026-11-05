@@ -53,7 +53,7 @@ import dix.inputstr;import include.xkbsrv;
 import include.xkbsrv;
 import include.xserver_properties;
 import Xi.exglobals;
-import include.privates;
+import dix.privates;
 import Xi.xiquerydevice;
 import dix.devices;
 import os.log;

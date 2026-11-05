@@ -20,7 +20,7 @@ import include.validate;
 import include.windowstr;
 import dix.gc;
 import include.regionstr;
-import include.privates;
+import dix.privates;
 import mioverlay;
 import migc;
 

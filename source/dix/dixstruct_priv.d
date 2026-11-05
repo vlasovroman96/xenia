@@ -14,7 +14,7 @@ public import include.resource;
 public import dix.cursor;
 public import dix.gc;
 public import dix.pixmap;
-public import include.privates;
+public import dix.privates;
 import os.log;
 public import tables;
 import dix.dispatch;

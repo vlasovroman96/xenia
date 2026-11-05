@@ -80,8 +80,9 @@ Equipment Corporation.
 
 import build.dix_config;
 
+import x11.Xdefs;
 import include.regionstr;
-// //import x11.Xprotostr;
+import x11.Xprotostr;
 // //import x11.Xfuncproto;
 import dix.gc;
 import dsl.pixman;
