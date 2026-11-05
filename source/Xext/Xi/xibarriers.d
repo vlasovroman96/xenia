@@ -56,7 +56,7 @@ import os.bug_priv;
 import Xi.handlers;
 
 import Xi.xibarriers;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.cursor;
 import include.servermd;
 import mi.mipointer;

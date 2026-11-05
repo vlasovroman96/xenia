@@ -25,7 +25,7 @@ extern(C): __gshared:
 
  
 //public import x11.X;
-public import include.scrnintstr;
+public import dix.scrnintstr;
 public import common.misc;
 public import common.list;
 public import include.windowstr;

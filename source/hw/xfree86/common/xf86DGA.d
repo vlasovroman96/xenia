@@ -69,7 +69,7 @@ import xf86Extensions;
 import common.misc;
 import dix.dixstruct_priv;
 import dix.cursor;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.swaprep;
 import common.protocol_versions;
 import hw.xfree86.common.xf86Helper;

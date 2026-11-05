@@ -60,7 +60,7 @@ import core.stdc.math;
 import mi.mi_priv;
 
 import common.misc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.pixmap;
 import include.windowstr;
 import mi.mifpoly;

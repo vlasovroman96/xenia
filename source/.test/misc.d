@@ -34,7 +34,7 @@ import dix.screenint_priv;
 import os.fmt;
 
 import common.misc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.dixstruct_priv;
 import test.tests_common;
 // import x11.Xmd;

@@ -11,8 +11,8 @@ extern(C): __gshared:
 //public import x11.Xmd;
 
 public import dix.callback;
-public import include.scrintstr;
-public import include.scrnintstr;
+public import dix.scrintstr;
+public import dix.scrnintstr;
 public import dix.globals;
 
 // CARD32 defaultScreenSaverTime;

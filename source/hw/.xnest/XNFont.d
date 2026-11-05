@@ -17,7 +17,7 @@ is" without express or implied warranty.
 
  
 public import x11.Xdefs;
-import include.scrintstr;
+import dix.scrintstr;
 
 public import externs.xcb.xcb;
 

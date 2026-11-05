@@ -61,7 +61,7 @@ import tables;
 import common.misc;
 import dix.dixstruct_priv;
 import dix.gc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.dispatch;
 import dix.privates;
 import Xext.xace;

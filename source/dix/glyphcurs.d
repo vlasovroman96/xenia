@@ -56,7 +56,7 @@ import dix.screenint_priv;
 import common.misc;
 // //import externs.X11.fonts.fontstruct;
 import dix.dixfonts;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.resource;
 import dix.cursor;
 import include.servermd;

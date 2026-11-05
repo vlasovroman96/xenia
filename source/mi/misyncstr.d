@@ -28,7 +28,7 @@ public import core.stdc.stdint;
 
 public import include.xlibre_ptrtypes;
 public import mi.misync;
-public import include.scrnintstr;
+public import dix.scrnintstr;
 import Xext.syncsrv;
 
 // //public import externs.X11.extensions.syncconst;

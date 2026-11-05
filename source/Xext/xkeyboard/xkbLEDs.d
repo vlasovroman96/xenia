@@ -45,7 +45,7 @@ import dix.inputstr;import externs.X11.extensions.XKBproto;
 // import externs.X11.extensions.XKBstr;
 import include.xkbstr;
 import dix.inputstr;
-import include.scrnintstr;
+import dix.scrnintstr;
 import xkb.xkbgeom_priv;
 import include.xkbstr;
 import include.xkbstr;

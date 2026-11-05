@@ -72,7 +72,7 @@ import os.bug_priv;
 import os.osdep;
 import dix.dispatch;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import os.os;
 import dix.dixstruct_priv;
 import dix.pixmap;

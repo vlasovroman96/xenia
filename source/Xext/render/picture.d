@@ -33,7 +33,7 @@ import dix.screen_hooks_priv;
 import os.osdep;
 import os.log;
 import common.misc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import os.os;
 import include.validate;
 import include.windowstr;

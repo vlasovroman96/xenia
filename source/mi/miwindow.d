@@ -60,7 +60,7 @@ import region;
 import mi.mi_priv;
 
 import include.windowstr;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.pixmap;
 import dix.inputstr;import dix.screen_hooks;
 import dix.events;

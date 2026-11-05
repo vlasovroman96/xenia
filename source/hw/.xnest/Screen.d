@@ -29,7 +29,7 @@ import externs.xcb.xcb_icccm;
 import mi.mi_priv;
 import mi.mipointer_priv;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import mi.micmap;
 import dix.resource;
 

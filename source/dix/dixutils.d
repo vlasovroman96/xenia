@@ -100,7 +100,7 @@ import include.windowstr;
 import dix.dixstruct_priv;
 import dix.pixmap;
 import dix.gc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import Xext.xace;
 import externs.attrs;
 import dix.timestamp;

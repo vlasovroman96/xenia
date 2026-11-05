@@ -58,7 +58,7 @@ import	common.misc;
 // import        externs.X11.fonts.libxfont2;
 import	dix.dixfonts;
 import	include.windowstr;
-import	include.scrnintstr;
+import	dix.scrnintstr;
 import	dix.pixmap;
 import	include.servermd;
 import Xext.xf86bigfont;

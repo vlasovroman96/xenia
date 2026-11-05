@@ -27,7 +27,7 @@ import build.dix_config;
 
 import dix.input_priv;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import miext.sync.misync_priv;
 // import miext.sync.misync_priv;
 import miext.sync.misyncfd;

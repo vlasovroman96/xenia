@@ -44,7 +44,7 @@ static if (WITH_LIBDRM) {
 import externs.libdrm;;
 }
 import common.list;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.windowstr;
 import dix.dixstruct_priv;
 import Xext.dri2.dri2_priv;

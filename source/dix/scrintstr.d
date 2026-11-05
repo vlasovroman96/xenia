@@ -1,4 +1,4 @@
-module include.scrintstr;
+module dix.scrintstr;
 extern(C): @nogc: nothrow:
 /***********************************************************
 
@@ -58,7 +58,7 @@ SOFTWARE.
 // #include <X11/extensions/randr.h>
 //  
 import include.xlibre_ptrtypes;
-import include.scrintstr;
+import dix.scrintstr;
 import dix.pixmap;
 import common.misc;
 import dix.input;

@@ -20,7 +20,7 @@ import dix.screen_hooks_priv;
 import common.misc;
 import dix.pixmap;
 import dix.input;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.windowstr;
 import dix.gc;
 import dix.dixfonts;

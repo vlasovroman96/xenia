@@ -48,7 +48,7 @@ import dix.screenint_priv;
 import dix.window_priv;
 import miext.extinit_priv;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.dixstruct_priv;
 import dbestruct;
 import midbe;

@@ -24,10 +24,10 @@ import dix.cursor_priv;
 import dix.inpututils_priv;
 import mi.mi_priv;
 
-import include.scrintstr;
+import dix.scrintstr;
 import dix.input;
 import common.misc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.windowstr;
 import include.servermd;
 import dix.inputstr;

@@ -26,7 +26,7 @@ import dix.colormap_priv;
 import os.osdep;
 import dix.window_priv;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.window;
 import include.windowstr;
 import dix.resource;

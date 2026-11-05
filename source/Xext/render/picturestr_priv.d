@@ -8,7 +8,7 @@ extern(C): __gshared:
  */
  
 public import dix.picturestr;
-public import include.scrnintstr;
+public import dix.scrnintstr;
 public import render.glyphstr_priv;
 public import dix.resource;
 public import dix.privates;

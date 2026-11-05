@@ -58,7 +58,7 @@ import dix.dix_priv;
 
 import common.misc;
 import dix.dixstruct_priv;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.swaprep;
 import os.io;
 import os.log;

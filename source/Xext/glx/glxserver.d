@@ -42,7 +42,7 @@ public import dix.pixmap;
 public import dix.gc;
 public import dix.extension;
 public import dix.resource;
-public import include.scrnintstr;
+public import dix.scrnintstr;
 
 // public //import externs.GL.gl;
 // public //import externs.GL.glext;

@@ -31,7 +31,7 @@ import x11.keysymdef;
 import dix.screenint_priv;
 
 import common.misc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import os.os;
 import region;
 import include.validate;

@@ -36,7 +36,7 @@ public import dix.picturestr;
 import randr.rrtransform;
 import include.xf86Parser;
 import include.xf86Cursor;
-import include.scrintstr;
+import dix.scrintstr;
 import hw.xfree86.modes.xf86Crtc;
 import hw.xfree86.modes.displaymode;
 import dix.picture;

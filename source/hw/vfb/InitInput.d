@@ -40,7 +40,7 @@ import dix.dix_priv;
 import dix.input_priv;
 import mi.mi_priv;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.inputstr;import mi.mipointer;
 import include.xkbsrv;
 import include.xserver_properties;

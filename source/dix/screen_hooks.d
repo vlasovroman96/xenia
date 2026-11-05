@@ -13,7 +13,7 @@ import build.dix_config;
 import dix.dix_priv;
 import dix.screen_hooks_priv;
 import os.os;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.windowstr;
 
 // mixin template DECLARE_HOOK_PROC(string NAME, alias FIELD, alias TYPE) {

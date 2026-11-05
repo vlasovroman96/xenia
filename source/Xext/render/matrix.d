@@ -26,7 +26,7 @@ extern(C): __gshared:
 import build.dix_config;
 
 import common.misc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import os.os;
 import region;
 import include.validate;

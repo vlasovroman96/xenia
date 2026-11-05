@@ -74,7 +74,7 @@ import os.auth;
 import os.log_priv;
 import dix.atom;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.resource;
 import dix.dixstruct_priv;
 import dix.cursor;

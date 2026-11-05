@@ -49,7 +49,7 @@ import os.os;
 import dix.dixstruct_priv;
 import dix.window;
 import Xext.dpmsproc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.windowstr;
 import common.protocol_versions;
 import externs.X11.extensions.dpmsconst;

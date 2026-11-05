@@ -41,7 +41,7 @@ import mi.mi_priv;
 import os.bug_priv;
 import os.osdep;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import mi.micmap;
 import dix.resource;
 import dix.colormap;
@@ -49,7 +49,7 @@ import dix.window;
 
 public import dix.colormap;
 public import dix.privates;
-public import include.scrintstr;
+public import dix.scrintstr;
 public import mi.micmap;
 
 DevPrivateKeyRec micmapScrPrivateKeyRec;

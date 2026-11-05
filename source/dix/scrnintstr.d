@@ -1,4 +1,4 @@
-module include.scrnintstr;
+module dix.scrnintstr;
 @nogc nothrow:
 extern(C): __gshared:
 import core.stdc.config: c_long, c_ulong;
@@ -50,7 +50,7 @@ SOFTWARE.
 
  
 public import include.xlibre_ptrtypes;
-public import include.scrintstr;
+public import dix.scrintstr;
 public import region;
 public import dix.colormap;
 public import dix.cursor;
@@ -58,7 +58,7 @@ public import include.validate;
 //public import x11.Xproto;
 public import dix.privates;
 public import externs.X11.extensions.randr;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.colormap_priv;
 
 struct PixmapFormatRec {

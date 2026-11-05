@@ -50,7 +50,7 @@ import build.dix_config;
 
 //import x11.X;
 import dix.gc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.pixmap;
 import region;
 import include.servermd;

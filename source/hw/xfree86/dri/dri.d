@@ -65,7 +65,7 @@ import common.misc;
 import dix.dixstruct_priv;
 import dix.extension;
 import dix.cursor;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.windowstr;
 import include.servermd;
 import dix.swaprep;
@@ -134,7 +134,7 @@ private RESTYPE DRIContextPrivResType;
 
 public import externs.pciaccess;
 
-public import include.scrnintstr;
+public import dix.scrnintstr;
 public import hw.xfree86.dri.xf86dri;
 import hw.xfree86.dri.dristruct;
 

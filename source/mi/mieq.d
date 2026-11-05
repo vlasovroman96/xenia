@@ -61,7 +61,7 @@ import include.windowstr;
 import   dix.pixmap;
 import   dix.cursor;
 import   mi.mipointer;
-import   include.scrnintstr;
+import   dix.scrnintstr;
 import   dix.events;
 import os.utils;
 import dix.inpututils;

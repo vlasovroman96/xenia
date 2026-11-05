@@ -37,7 +37,7 @@ import core.stdc.stdio;
 
 import xkb.xkbsrv_priv;
 
-import dix.inputstr;import include.scrnintstr;
+import dix.inputstr;import dix.scrnintstr;
 import include.windowstr;
 
 private void XkbDDXUpdateIndicators(DeviceIntPtr dev, CARD32 new_)

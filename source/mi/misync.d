@@ -24,7 +24,7 @@ extern(C): __gshared:
  * DEALINGS IN THE SOFTWARE.
  */
  
-public import include.scrintstr;
+public import dix.scrintstr;
 
 import mi.misyncstr;
 

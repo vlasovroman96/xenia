@@ -59,7 +59,7 @@ import common.misc;
 import os.os;
 import dix.dixstruct_priv;
 import include.windowstr;
-import dix.inputstr;import include.scrnintstr;
+import dix.inputstr;import dix.scrnintstr;
 import Xext.sleepuntil;
 import include.xkbsrv;
 import include.xkbsrv;

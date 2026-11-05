@@ -34,14 +34,14 @@ import core.stdc.config: c_long, c_ulong;
 //import externs.X11.extensions.Xrender;
 
 
-public import include.scrnintstr;
+public import dix.scrnintstr;
 public import render.glyphstr_priv;
 public import dix.resource;
 public import dix.privates;
 import dix.colormap_priv;
 import dix.picture;
 
-// public import include.scrintstr;
+// public import dix.scrintstr;
 
 
 import externs.X11.extensions.renderproto;

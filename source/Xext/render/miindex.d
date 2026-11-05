@@ -31,7 +31,7 @@ import dix.colormap;
 
 import mi.mipict;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.gc;
 import dix.pixmap;
 import include.windowstr;

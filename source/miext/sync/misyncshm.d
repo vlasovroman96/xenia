@@ -32,7 +32,7 @@ import Xext.xshmfence;
 
 import os.osdep;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 // import mi.misync_priv;
 import miext.sync.misync_priv;
 import miext.sync.misyncshm;

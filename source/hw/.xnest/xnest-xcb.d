@@ -11,7 +11,7 @@ public import externs.xcb.xcb;
 
 public import common.list;
 import dix.gc;
-import include.scrintstr;
+import dix.scrintstr;
 import x11.Xprotostr;
 
 struct xnest_event_queue {

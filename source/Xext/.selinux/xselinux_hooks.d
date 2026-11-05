@@ -50,7 +50,7 @@ import dix.server_priv;
 import os.client_priv;
 
 import registry;
-import dix.inputstr;import include.scrnintstr;
+import dix.inputstr;import dix.scrnintstr;
 import include.windowstr;
 import Xext.xacestr;
 version = _XSELINUX_NEED_FLASK_MAP;

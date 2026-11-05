@@ -51,7 +51,7 @@ import os.ddx_priv;
 import os.osdep;
 import os.xhostname;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.servermd;
 enum PSZ = 8;
 import dix.gc;

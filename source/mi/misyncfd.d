@@ -26,7 +26,7 @@ extern(C): __gshared:
  
 //public import x11.Xdefs;
 // //public import x11.Xfuncproto;
-import include.scrintstr;
+import dix.scrintstr;
 import x11.Xdefs;
 import mi.misync;
 

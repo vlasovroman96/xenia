@@ -40,7 +40,7 @@ import common.misc;
 import dix.inputstr;import include.xkbsrv;
 import include.xkbsrv;
 import dix.events;
-import include.scrnintstr;
+import dix.scrnintstr;
 import externs.X11.extensions.XI2proto;
 import os.io;
 import os.utils;

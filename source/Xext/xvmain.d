@@ -96,7 +96,7 @@ import Xext.xvdix_priv;
 
 import common.misc;
 import os.os;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.windowstr;
 import dix.pixmap;
 import dix.dixstruct_priv;

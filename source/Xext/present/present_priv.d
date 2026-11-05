@@ -30,7 +30,7 @@ extern(C): __gshared:
 import build.xlibre_server;
 public import include.syncsdk;
 
-public import include.scrnintstr;
+public import dix.scrnintstr;
 public import common.misc;
 public import include.windowstr;
 public import dix.dixstruct_priv;

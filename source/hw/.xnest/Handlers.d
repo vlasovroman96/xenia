@@ -18,10 +18,10 @@ import build.xorg_config;
 
 //import x11.X;
 //import x11.Xproto;
-import include.scrintstr;
+import dix.scrintstr;
 import dix.input;
 import common.misc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.windowstr;
 import include.servermd;
 

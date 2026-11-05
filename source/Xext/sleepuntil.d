@@ -40,7 +40,7 @@ import common.misc;
 import include.windowstr;
 import dix.dixstruct_priv;
 import dix.pixmap;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.resource;
 import os.WaitFor;
 import os.utils;

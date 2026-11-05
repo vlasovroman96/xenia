@@ -31,7 +31,7 @@ import build.xorg_config;
 
 //import x11.X;
 import dix.input;
-import include.scrnintstr;
+import dix.scrnintstr;
 
 import include.xf86;
 import include.xf86Priv;

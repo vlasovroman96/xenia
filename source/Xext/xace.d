@@ -27,7 +27,7 @@ import core.stdc.stdarg;
 
 import os.client_priv;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.pixmap;
 import region;
 import Xext.xacestr;

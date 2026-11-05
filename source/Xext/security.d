@@ -48,7 +48,7 @@ import os.auth;
 import os.client_priv;
 import os.osdep;
 import dix.atom;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.inputstr;import include.windowstr;
 import dix.property;
 import dix.privates;

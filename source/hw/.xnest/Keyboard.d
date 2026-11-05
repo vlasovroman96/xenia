@@ -31,10 +31,10 @@ import externs.xcb.xkb;
 
 import os.osdep;
 
-import include.scrintstr;
+import dix.scrintstr;
 import dix.inputstr;
 import common.misc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.servermd;
 
 import xnest_xcb;

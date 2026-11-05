@@ -29,7 +29,7 @@ import build.dix_config;
 import core.stdc.stdlib;
 
 import    x11.X;
-import    include.scrnintstr;
+import    dix.scrnintstr;
 import    include.windowstr;
 import    externs.X11.fonts.font;
 import    dix.dixfonts;

@@ -37,7 +37,7 @@ public import build.dix_config;
 public import x11.Xmd;
 public import externs.X11.extensions.panoramiXproto;
 
-public import include.scrnintstr; /* for screenInfo */
+public import dix.scrnintstr; /* for screenInfo */
 
 public import dix.gc;
 public import dix.dixstruct_priv;

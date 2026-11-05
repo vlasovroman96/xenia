@@ -43,7 +43,7 @@ import core.stdc.config: c_long, c_ulong;
 public import include.xlibre_ptrtypes;
 public import common.misc;
 // public import dix.input;
-public import include.scrnintstr;
+public import dix.scrnintstr;
 public import dix.pixmap;
 public import dix.colormap;
 public import include.xf86Module;

@@ -23,7 +23,7 @@ import common.misc;
 import os.os;
 import dix.dixstruct_priv;
 import dix.resource;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.extension;
 import include.servermd;
 import externs.X11.extensions.XvMCproto;

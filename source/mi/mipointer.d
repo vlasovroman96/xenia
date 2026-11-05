@@ -67,7 +67,7 @@ import os.inputthread;
 import   common.misc;
 import include.windowstr;
 import   dix.pixmap;
-import   include.scrnintstr;
+import   dix.scrnintstr;
 import   mi.mipointer;
 import   dix.cursor;
 import dix.dixstruct_priv;
@@ -85,7 +85,7 @@ public import dix.privates;
 import x11.Xdefs;
 
 public import mi.mipointer;
-public import include.scrnintstr;
+public import dix.scrnintstr;
 import x11.Xdefs;
 
 struct _MiPointerScreenRec {

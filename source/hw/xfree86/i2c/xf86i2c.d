@@ -23,7 +23,7 @@ import include.xf86_OSproc;;
 //import x11.X;
 // //import x11.Xos;
 //import x11.Xproto;
-import include.scrnintstr;
+import dix.scrnintstr;
 import region;
 import include.windowstr;
 import dix.pixmap;

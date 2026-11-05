@@ -6,7 +6,7 @@ extern(C): __gshared:
  * Copyright © 2024 Enrico Weigelt, metux IT consult <info@metux.net>
  */
  
-public import include.scrintstr;
+public import dix.scrintstr;
 public import dix.input;
 import x11.Xdefs;
 // Bool DGAScreenAvailable(ScreenPtr pScreen);

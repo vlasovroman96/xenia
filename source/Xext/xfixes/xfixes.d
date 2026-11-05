@@ -56,7 +56,7 @@ import xfixes.xfixesint;
 import externs.X11.extensions.xfixeswire;
 import xfixes.region;
 import xfixes.xfixesint;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.cursor;
 import include.servermd;
 import mi.mipointer;

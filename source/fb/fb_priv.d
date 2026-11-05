@@ -8,7 +8,7 @@ extern(C): __gshared:
  
 //public import x11.Xdefs;
 
-public import include.scrnintstr;
+public import dix.scrnintstr;
 public import fb.fballpriv;
 
 

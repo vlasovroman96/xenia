@@ -33,7 +33,7 @@ import dix.atom_priv;
 import dix.input_priv;
 
 import dix.inputstr;// import assert;
-import include.scrnintstr;
+import dix.scrnintstr;
 import test.tests_common;
 import test.tests;
 

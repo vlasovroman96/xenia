@@ -38,7 +38,7 @@ import config.kdrive_config;
 
 //import x11.X;
 //import x11.Xproto;
-import dix.inputstr;import include.scrnintstr;
+import dix.inputstr;import dix.scrnintstr;
 import hw.kdrive.src.kdrive;
 import core.sys.posix.sys.ioctl;
 import externs.tslib;

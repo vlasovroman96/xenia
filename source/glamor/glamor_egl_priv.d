@@ -18,7 +18,7 @@ public import Xext.glx.fix;
 import include.xf86Crtc;
 import externs.gbm;
 
-public import include.scrnintstr;
+public import dix.scrnintstr;
 public import glamor.glamor_egl_ext;
 
 static if (GLAMOR_HAS_GBM) {

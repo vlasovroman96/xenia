@@ -2,7 +2,7 @@ module hw.xfree86.modes.displaymode;
 @nogc nothrow:
 extern(C): __gshared:
  
-public import include.scrnintstr;
+public import dix.scrnintstr;
 
 enum MAXCLOCKS =   128;
 

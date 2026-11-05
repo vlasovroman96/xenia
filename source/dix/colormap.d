@@ -71,7 +71,7 @@ import os.bug_priv;
 import common.misc;
 import dix.dixstruct_priv;
 import os.os;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.resource;
 import include.windowstr;
 import dix.privates;

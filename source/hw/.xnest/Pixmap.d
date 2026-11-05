@@ -23,7 +23,7 @@ import build.xorg_config;
 
 import region;
 import dix.pixmap;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.gc;
 import include.servermd;
 import dix.privates;

@@ -31,7 +31,7 @@ extern(C): __gshared:
 public import core.stdc.stdlib;
 
 public import    x11.X;
-public import    include.scrnintstr;
+public import    dix.scrnintstr;
 public import    include.windowstr;
 public import    externs.X11.fonts.font;
 public import    dix.dixfonts;

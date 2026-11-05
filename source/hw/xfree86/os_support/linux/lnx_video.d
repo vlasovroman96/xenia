@@ -38,7 +38,7 @@ import core.sys.posix.sys.mman;
 //import x11.X;
 
 import dix.input;
-import include.scrnintstr;
+import dix.scrnintstr;
 
 import include.xf86;
 import hw.xfree86.os_support.xf86_os_support;

@@ -98,7 +98,7 @@ import build.dix_config;
 import dix.window_priv;
 import mi.mi_priv;
 
-import    include.scrnintstr;
+import    dix.scrnintstr;
 import    include.validate;
 import    include.windowstr;
 import    region;

@@ -31,7 +31,7 @@ import region;
 
 import include.windowstr;
 import dix.pixmap;
-import include.scrnintstr;
+import dix.scrnintstr;
 import midash;
 import dix.gc;
 

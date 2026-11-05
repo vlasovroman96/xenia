@@ -12,7 +12,7 @@ import randr.randrstr_priv;
 import common.misc;
 import include.xf86;
 import include.xf86_OSproc;;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.pixmap;
 import include.windowstr;
 import include.xf86str;

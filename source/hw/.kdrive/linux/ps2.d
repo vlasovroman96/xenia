@@ -28,7 +28,7 @@ import config.kdrive_config;
 //import x11.X;
 //import x11.Xproto;
 import os.xserver_poll;
-import dix.inputstr;import include.scrnintstr;
+import dix.inputstr;import dix.scrnintstr;
 import hw.kdrive.src.kdrive;
 
 private int Ps2ReadBytes(int fd, char* buf, int len, int min)

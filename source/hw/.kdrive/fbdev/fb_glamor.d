@@ -10,7 +10,7 @@ import config.kdrive_config;
 
 ////import x11.Xfuncproto;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 
 import glamor.glamor;
 import glamor.glamor_egl;

@@ -61,7 +61,7 @@ import dix.screenint_priv;
 import include.windowstr;
 import dix.gc;
 import dix.cursor;
-import dix.inputstr;import include.scrnintstr;
+import dix.inputstr;import dix.scrnintstr;
 import dix.inputstr;import dix.extension;
 import dix.resource;
 import dix.dixutils;

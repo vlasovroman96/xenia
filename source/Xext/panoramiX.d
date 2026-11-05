@@ -53,7 +53,7 @@ import dix.cursor;
 import dix.cursor;
 import dix.dixstruct_priv;
 import dix.gc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.window;
 import include.windowstr;
 import dix.pixmap;

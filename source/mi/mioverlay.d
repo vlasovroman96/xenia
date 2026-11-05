@@ -15,7 +15,7 @@ import dix.screensaver_priv;
 import dix.window_priv;
 import mi.mi_priv;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.validate;
 import include.windowstr;
 import dix.gc;

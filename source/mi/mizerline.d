@@ -53,7 +53,7 @@ import build.dix_config;
 //import x11.X;
 
 import common.misc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.gc;
 import include.windowstr;
 import dix.pixmap;

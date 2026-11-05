@@ -55,7 +55,7 @@ SOFTWARE.
 **
 */
 import dix.timestamp;
-public import include.scrnintstr;
+public import dix.scrnintstr;
 import xf86Bus;
 // //public import externs.X11.extensions.Xvproto;
 

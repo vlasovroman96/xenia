@@ -33,7 +33,7 @@ import hw.xfree86.common.dgaproc_priv;
 import include.xf86Crtc;
 import xf86Modes;
 import dix.gc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.windowstr;
 import hw.xfree86.common.xf86Helper;
 import xf86DGA;
@@ -47,7 +47,7 @@ public import dix.picturestr;
 import randr.rrtransform;
 import include.xf86Parser;
 import include.xf86Cursor;
-import include.scrintstr;
+import dix.scrintstr;
 import hw.xfree86.modes.xf86Crtc;
 import hw.xfree86.modes.displaymode;
 

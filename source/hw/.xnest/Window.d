@@ -33,7 +33,7 @@ import dix.gc;
 import include.window;
 import include.windowstr;
 import dix.pixmap;
-import include.scrnintstr;
+import dix.scrnintstr;
 
 import xnest_xcb;
 

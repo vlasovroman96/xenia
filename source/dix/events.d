@@ -150,7 +150,7 @@ import dix.timestamp;
 import common.misc;
 import dix.resource;
 import include.windowstr;
-import dix.inputstr;import include.scrnintstr;
+import dix.inputstr;import dix.scrnintstr;
 import dix.cursor;
 import Xext.xace;
 import Xi.exglobals;

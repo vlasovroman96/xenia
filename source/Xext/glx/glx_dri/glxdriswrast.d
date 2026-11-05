@@ -45,7 +45,7 @@ import core.sys.posix.dlfcn;
 import externs.internal.dri_interface;
 import externs.glxtokens;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.pixmap;
 import dix.gc;
 import os.os;

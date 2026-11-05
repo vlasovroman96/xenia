@@ -48,7 +48,7 @@ import   dix.cursor;
 import include.windowstr;
 import region;
 import dix.dixstruct_priv;
-import   include.scrnintstr;
+import   dix.scrnintstr;
 import   include.servermd;
 import   mi.mipointer;
 import   mi.misprite;

@@ -108,7 +108,7 @@ import os.screensaver;
 import os.serverlock;
 import Xext.panoramiXsrv;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import common.misc;
 import os.os;
 import include.windowstr;

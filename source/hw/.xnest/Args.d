@@ -23,10 +23,10 @@ import build.xorg_config;
 import miext.extinit_priv;
 import os.ddx_priv;
 
-import include.scrintstr;
+import dix.scrintstr;
 import dix.input;
 import common.misc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.servermd;
 import include.extinit;
 import build.xlibre_server;

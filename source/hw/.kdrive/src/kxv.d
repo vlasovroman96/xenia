@@ -49,7 +49,7 @@ import include.extinit;
 import Xext.xvdix_priv;
 
 import hw.kdrive.src.kdrive;
-import include.scrnintstr;
+import dix.scrnintstr;
 import region;
 import include.windowstr;
 import dix.pixmap;

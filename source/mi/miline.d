@@ -29,7 +29,7 @@ in this Software without prior written authorization from The Open Group.
 */
 
  
-public import include.scrintstr;
+public import dix.scrintstr;
 public import dix.privates;
 
 /*

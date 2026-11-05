@@ -52,7 +52,7 @@ SOFTWARE.
 public import include.xlibre_ptrtypes;
 
 public import common.misc;
-public import include.scrintstr;
+public import dix.scrintstr;
 //public import x11.Xmd;
 //public import x11.Xproto;
 public import core.stdc.stdint;

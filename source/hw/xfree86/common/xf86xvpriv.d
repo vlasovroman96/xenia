@@ -32,7 +32,7 @@ extern(C): __gshared:
 public import include.xf86xv;
 public import dix.privates;
 import include.xf86str;
-import include.scrnintstr;
+import dix.scrnintstr;
 import xf86Bus;
 
 /*** These are DDX layer privates ***/

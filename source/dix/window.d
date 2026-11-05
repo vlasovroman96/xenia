@@ -127,7 +127,7 @@ import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
 import common.misc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import os.os;
 import include.validate;
 import include.windowstr;

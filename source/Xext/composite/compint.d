@@ -47,7 +47,7 @@ extern(C): __gshared:
 public import dix.screen_hooks_priv;
 
 public import common.misc;
-public import include.scrnintstr;
+public import dix.scrnintstr;
 public import os.os;
 public import region;
 public import include.validate;

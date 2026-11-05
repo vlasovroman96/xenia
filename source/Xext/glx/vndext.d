@@ -38,7 +38,7 @@ import glx.vndserver_priv;
 import dix.dispatch;
 
 // // import core.stdc.string;
-// import include.scrnintstr;
+// import dix.scrnintstr;
 // // import include.windowstr;
 import glx.glxext;
 

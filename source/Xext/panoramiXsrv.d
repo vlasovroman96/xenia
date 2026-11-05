@@ -9,7 +9,7 @@ public import Xext.panoramiX;
 public import dsl.pixman;
 import region;
 import x11.Xproto;
-import include.scrintstr;
+import dix.scrintstr;
 import dix.pixmap;
 import dix.resource;
 

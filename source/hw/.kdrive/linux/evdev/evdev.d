@@ -29,7 +29,7 @@ import core.stdc.errno;
 import externs.linux.input;
 //import x11.X;
 //import x11.Xproto;
-import dix.inputstr;import include.scrnintstr;
+import dix.inputstr;import dix.scrnintstr;
 import hw.kdrive.src.kdrive;
 import evdev;
 

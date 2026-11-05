@@ -53,7 +53,7 @@ import os.osdep;
 
 import common.misc;
 import dix.dixstruct_priv;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.servermd;
 import include.vidmodestr;
 import common.protocol_versions;

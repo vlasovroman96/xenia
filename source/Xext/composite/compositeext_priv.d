@@ -9,7 +9,7 @@ extern(C): __gshared:
  
 public import x11.Xdefs;
 
-public import include.scrintstr;
+public import dix.scrintstr;
 
 Bool CompositeIsImplicitRedirectException(ScreenPtr pScreen, XID parentVisual, XID winVisual);
 

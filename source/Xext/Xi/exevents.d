@@ -111,7 +111,7 @@ import dix.inputstr;import include.windowstr;
 import dix.extension;
 import Xi.exglobals;
 import dix.events;
-import include.scrnintstr;
+import dix.scrnintstr;
 import Xext.xace;
 import Xi.xiquerydevice;      /* For List*Info */
 import dix.devices;

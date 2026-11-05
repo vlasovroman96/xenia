@@ -84,7 +84,7 @@ import randr.randrstr_priv;
 
 import include.servermd;
 import include.windowstr;
-import include.scrnintstr;
+import dix.scrnintstr;
 import hw.xfree86.os_support.linux.systemd_logind;
 import seatd_libseat;
 

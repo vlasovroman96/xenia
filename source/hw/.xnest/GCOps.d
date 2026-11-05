@@ -29,7 +29,7 @@ import externs.xcb.xcb_aux;
 
 import region;
 import dix.gc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.windowstr;
 import dix.pixmap;
 import include.servermd;

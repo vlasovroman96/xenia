@@ -90,7 +90,7 @@ public import core.stdc.stddef;
 public import core.stdc.stdint;
 public import core.sys.posix.pthread;
 import dsl.pixman;
-public import include.scrintstr;
+public import dix.scrintstr;
 
 enum MAXSCREENS =	16;
 

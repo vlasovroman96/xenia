@@ -52,7 +52,7 @@ import dix.dispatch;
 import common.misc;
 import os.os;
 import include.windowstr;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.pixmap;
 import dix.dixstruct_priv;
 import dix.window;

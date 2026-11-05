@@ -49,7 +49,7 @@ import common.misc;
 import os.os;
 import dix.dixstruct_priv;
 import dix.resource;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.windowstr;
 import dix.pixmap;
 import include.servermd;

@@ -25,11 +25,11 @@ import core.stdc.stdint;
 import externs.xcb.xcb;
 import externs.xcb.xcb_aux;
 
-import include.scrintstr;
+import dix.scrintstr;
 import dix.input;
 import common.misc;
 import dix.cursor;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.servermd;
 import mi.mipointer;
 

@@ -39,7 +39,7 @@ import dix.colormap_priv;
 import dix.screen_hooks_priv;
 import mi.mi_priv;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 
 import include.xf86;
 import include.xf86_OSproc;;

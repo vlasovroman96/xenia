@@ -37,7 +37,7 @@ import externs.X11.extensions.XKB;
 
 import xkb.xkbsrv_priv;
 
-import dix.inputstr;import include.scrnintstr;
+import dix.inputstr;import dix.scrnintstr;
 import include.windowstr;
 import include.xkbstr;
 

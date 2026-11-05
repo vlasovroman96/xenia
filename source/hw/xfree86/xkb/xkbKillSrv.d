@@ -40,7 +40,7 @@ import core.stdc.stdio;
 import hw.xfree86.common.action_priv;
 import xkb.xkbsrv_priv;
 
-import dix.inputstr;import include.scrnintstr;
+import dix.inputstr;import dix.scrnintstr;
 import include.windowstr;
 import dix.events;
 // import externs.X11.extensions.XKBstr;

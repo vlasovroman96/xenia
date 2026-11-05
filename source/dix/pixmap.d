@@ -37,7 +37,7 @@ import build.dix_config;
 
 import mi.mi_priv;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import common.misc;
 import os.os;
 import include.windowstr;
@@ -53,12 +53,12 @@ import externs.attrs;
 import dix.picture;
 
 public import common.misc;
-public import include.scrintstr;
+public import dix.scrintstr;
 public import region;
 // //public import externs.X11.extensions._randr;
 import dix.pixmap;
 
-public import include.scrintstr;
+public import dix.scrintstr;
 public import dix.privates;
 public import dix.damage;
 // //public import externs.X11.extensions._randr;

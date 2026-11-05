@@ -12,8 +12,8 @@ extern(C): __gshared:
 import build.xlibre_server;
 
 public import dix.callback;
-public import include.scrintstr;
-public import include.scrnintstr; /* for screenInfo */
+public import dix.scrintstr;
+public import dix.scrnintstr; /* for screenInfo */
 // import dix.scre
 
 alias ScreenInitProcPtr = Bool function(ScreenPtr pScreen, int argc, char** argv);

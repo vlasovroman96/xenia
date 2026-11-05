@@ -34,7 +34,7 @@ import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
 import xfixes.xfixesint;
-import include.scrnintstr;
+import dix.scrnintstr;
 
 import include.window;
 import externs.X11.extensions.xfixesproto;

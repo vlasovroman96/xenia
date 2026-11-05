@@ -56,7 +56,7 @@ import dix.screen_hooks_priv;
 import dix.screenint_priv;
 import dix.atom;
 import xfixes.xfixesint;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.cursor;
 import include.servermd;
 import mi.mipointer;

@@ -25,10 +25,10 @@ import core.stdc.errno;
 import os.client_priv;
 import os.osdep;
 
-import include.scrintstr;
+import dix.scrintstr;
 import dix.input;
 import common.misc;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.servermd;
 
 import xnest_xcb;

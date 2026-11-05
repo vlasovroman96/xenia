@@ -30,7 +30,7 @@ extern(C): __gshared:
  */
 
  
-public import include.scrnintstr;
+public import dix.scrnintstr;
 public import region;
 import xf86Bus;
 

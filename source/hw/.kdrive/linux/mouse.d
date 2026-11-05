@@ -31,7 +31,7 @@ import build.dix_config;
 //import x11.X;
 //import x11.Xproto;
 import os.xserver_poll;
-import dix.inputstr;import include.scrnintstr;
+import dix.inputstr;import dix.scrnintstr;
 import hw.kdrive.src.kdrive;
 
 enum KBUFIO_SIZE = 256;

@@ -56,7 +56,7 @@ import dix.inputstr;           /* DeviceIntPtr      */
 import include.windowstr;          /* window structure  */
 import dix.extension;
 import Xi.exglobals;
-import include.scrnintstr;
+import dix.scrnintstr;
 import include.xkbsrv;
 import dix.devices;
 import dix.dixutils;

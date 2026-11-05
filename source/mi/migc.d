@@ -32,7 +32,7 @@ from The Open Group.
 
 import build.dix_config;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.gc;
 import dix.pixmap;
 import include.windowstr;

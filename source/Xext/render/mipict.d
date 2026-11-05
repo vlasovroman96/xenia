@@ -29,7 +29,7 @@ import build.dix_config;
 import mi.mipict;
 import os.osdep;
 
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.gc;
 import dix.pixmap;
 import include.windowstr;

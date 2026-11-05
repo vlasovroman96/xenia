@@ -60,7 +60,7 @@ import dix.settings_priv;
 
 import common.misc;
 import include.windowstr;
-import include.scrnintstr;
+import dix.scrnintstr;
 import dix.input;
 import dix.dixfonts;
 import dix.dixstruct_priv;

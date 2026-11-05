@@ -40,7 +40,7 @@ import dix.window_priv;
 import mi.mi_priv;
 import os.bug_priv;
 
-import dix.inputstr;import include.scrnintstr;
+import dix.inputstr;import dix.scrnintstr;
 import dix.events;
 import Xi.exevents;
 import Xi.exglobals;

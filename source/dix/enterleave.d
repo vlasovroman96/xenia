@@ -44,7 +44,7 @@ import dix.window_priv;
 import os.bug_priv;
 
 import dix.inputstr;import include.windowstr;
-import include.scrnintstr;
+import dix.scrnintstr;
 import Xi.exglobals;
 // import dix.enterleave;
 import include.xkbsrv;

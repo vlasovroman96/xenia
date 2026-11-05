@@ -25,7 +25,7 @@ extern(C): __gshared:
  */
 
  
-public import include.scrnintstr;
+public import dix.scrnintstr;
 
 public import dix.picturestr;
 
