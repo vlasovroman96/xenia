@@ -39,6 +39,7 @@ import externs.gnu;
 import glamor.glamor;;
 import render.picture;
 import glamor.glamor_pixmap;
+import include.picture;
 
 enum LINEAR_SMALL_STOPS = (6 + 2);
 enum LINEAR_LARGE_STOPS = (16 + 2);

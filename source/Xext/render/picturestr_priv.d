@@ -9,7 +9,7 @@ extern(C): __gshared:
  
 public import include.picturestr;
 public import include.scrnintstr;
-public import include.glyphstr;
+public import render.glyphstr_priv;
 public import include.resource;
 public import include.privates;
 public import render.render;

@@ -35,10 +35,11 @@ import core.stdc.config: c_long, c_ulong;
 
 
 public import include.scrnintstr;
-public import include.glyphstr;
+public import render.glyphstr_priv;
 public import include.resource;
 public import include.privates;
 import dix.colormap_priv;
+import include.picture;
 
 // public import include.scrintstr;
 

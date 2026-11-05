@@ -34,6 +34,7 @@ import fb.fbpict;
 import glamor.glamor_priv;
 import externs.X11.extensions.renderproto;
 import fbtrap;
+import include.picture;
 
 void glamor_add_traps(PicturePtr pPicture, INT16 x_off, INT16 y_off, int ntrap, xTrap* traps)
 {

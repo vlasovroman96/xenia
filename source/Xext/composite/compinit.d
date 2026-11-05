@@ -63,6 +63,7 @@ import dix.gc;
 import render.picture;
 import dix.screen_hooks;
 import dix.window;
+import include.picture;
 
 
 Bool noCompositeExtension = FALSE;

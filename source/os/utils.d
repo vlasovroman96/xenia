@@ -65,6 +65,7 @@ import os.osinit;
 import os.Xtransutil;
 import Xext.xtest;
 import render.picture;
+import include.picture;
 version (Cygwin) {
 import core.stdc.stdlib;
 import core.stdc.signal;

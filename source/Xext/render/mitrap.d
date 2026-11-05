@@ -36,6 +36,7 @@ import include.servermd;
 import include.picturestr;
 import externs.X11.extensions.renderproto;
 import externs.attrs;
+import include.picture;
 
 
 private XFixed miLineFixedX(xLineFixed* l, XFixed y, Bool ceil)

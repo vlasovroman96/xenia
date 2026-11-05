@@ -47,6 +47,7 @@ import include.servermd;
 import include.picturestr;
 import render.glyphstr_priv;
 import dix.gc;
+import include.picture;
 
 /*
  * From Knuth -- a good choice for hash/rehash values is p, p-2 where

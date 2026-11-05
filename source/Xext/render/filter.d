@@ -45,6 +45,7 @@ import include.servermd;
 import include.picturestr;
 import externs.X11.extensions.render_;
 import render.picture;
+import include.picture;
 
 private char** filterNames;
 private int nfilterNames;

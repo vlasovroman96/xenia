@@ -38,6 +38,7 @@ import render.mipict;
 import dix.gc;
 import render.picture;
 import region;
+import include.picture;
 
 
 private void miColorRects(PicturePtr pDst, PicturePtr pClipPict, xRenderColor* color, int nRect, xRectangle* rects, int xoff, int yoff)

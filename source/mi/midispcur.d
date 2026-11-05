@@ -60,6 +60,7 @@ import externs.X11.extensions.render_;
 import dix.events;
 import dix.devices;
 import dix.gc;
+import include.picture;
 
 /* per-screen private data */
 private DevPrivateKeyRec miDCScreenKeyRec;

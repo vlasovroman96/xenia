@@ -66,6 +66,7 @@ public import xf86xv;
 // }
 import externs.drm;
 import externs.gbm;
+import glamor.glamor_render;
 
 // struct glamor_context;
 // struct gbm_bo;

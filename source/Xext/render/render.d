@@ -63,6 +63,8 @@ import dix.pixmap;
 import dix.swapreq;
 import build.xlibre_server;
 import os.log;
+import include.picture;
+import render.glyph;
 
 alias UINT32_MAX = core.stdc.stdint.UINT32_MAX;
 

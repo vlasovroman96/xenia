@@ -50,6 +50,7 @@ import fb.fbrop;
 import dix.colormap_priv;
 
 import build.xorg_config;
+import include.picture;
 
 static if (FB_ACCESS_WRAPPER) {
 

@@ -29,6 +29,7 @@ import glamor.glamor_priv;
 import externs.X11.extensions.renderproto;
 import dix.gc;
 import dix.dixutils;
+import include.picture;
 
 
 

@@ -41,7 +41,7 @@ public import mi.mipointer;
 import fb.fb;
 public import fboverlay;
 public import fb.fbpict;
-public import include.glyphstr;
+public import render.glyphstr_priv;
 public import dix.damage;
 public import exa_accel;
 import exa_driver;
@@ -49,6 +49,7 @@ import exa.exa_offscreen;
 
 import dix.gc;
 import include.privates;
+import include.picture;
 
 enum DEBUG_TRACE_FALL =	0;
 enum DEBUG_MIGRATE =		0;

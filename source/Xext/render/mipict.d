@@ -42,6 +42,8 @@ import mirect;
 import region;
 import dix.dispatch;
 import dix.window;
+import include.picture;
+import render.glyph;
 
 
 

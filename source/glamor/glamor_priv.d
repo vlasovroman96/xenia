@@ -51,6 +51,7 @@ public import Xext.glx.fix;
 }
 
 public import glamor.glamor_xv;
+import include.picture;
 
 
 enum GLAMOR_DEFAULT_PRECISION = 
@@ -76,7 +77,7 @@ enum GLAMOR_COMPAT_DEFINES_FS =
     "out vec4 frag_color;\n"~
     "#endif\n";
 
-public import include.glyphstr;
+public import render.glyphstr_priv;
 
 public import glamor.glamor_debug;
 public import glamor.glamor_context;

@@ -50,6 +50,7 @@ import glamor.glamor_pixmap;
 import externs.attrs;
 import render.picture;
 import render.mipict;
+import include.picture;
 
 alias uint32_t = core.stdc.stdint.uint32_t;
 

@@ -9,12 +9,46 @@ import core.stdc.config: c_long, c_ulong;
  */
  
 public import externs.X11.extensions.renderproto;
-public import include.glyphstr;
+public import render.glyphstr_priv;
 public import render.picture;
 public import include.scrintstr;
 public import include.regionstr;
 public import include.miscstruct;
 public import include.privates;
+import include.picture;
+
+public import x11.X;
+// alias xGlyphInfo = XGlyphInfo;
+
+enum GlyphFormat1 =	0;
+enum GlyphFormat4 =	1;
+enum GlyphFormat8 =	2;
+enum GlyphFormat16 =	3;
+enum GlyphFormat32 =	4;
+enum GlyphFormatNum =	5;
+
+struct _Glyph {
+    CARD32 refcnt;
+    PrivateRec* devPrivates;
+    ubyte[20] sha1;
+    CARD32 size;                /* info + bitmap */
+    xGlyphInfo info;
+    /* per-screen pixmaps follow */
+}alias GlyphRec = _Glyph;
+alias GlyphPtr = _Glyph*;
+
+struct _GlyphList {
+    INT16 xOff;
+    INT16 yOff;
+    CARD8 len;
+    PictFormatPtr format;
+}alias GlyphListRec = _GlyphList;
+alias GlyphListPtr = _GlyphList*;
+
+enum GLYPH_HAS_GLYPH_PICTURE_ACCESSOR = 1 /* used for api compat */;
+// void GetGlyphPicture(GlyphPtr glyph, ScreenPtr pScreen);
+// void SetGlyphPicture(GlyphPtr glyph, ScreenPtr pScreen, PicturePtr picture);
+
 
 enum string GlyphPicture(string glyph) = `(cast(PicturePtr*) ((` ~ glyph ~ `) + 1))`;
 

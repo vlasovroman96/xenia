@@ -39,6 +39,7 @@ import include.xf86Cursor;
 import include.scrintstr;
 import hw.xfree86.modes.xf86Crtc;
 import hw.xfree86.modes.displaymode;
+import include.picture;
 
 /* Compat definitions for older X Servers. */
 // enum M_T_PREFERRED =	0x08;

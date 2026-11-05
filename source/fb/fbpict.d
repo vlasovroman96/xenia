@@ -43,6 +43,7 @@ import render.mipict;
 import mitrap;
 import mirect;
 import fbtrap;
+import render.glyph;
 
 alias uint32_t = core.stdc.stdint.uint32_t;
 

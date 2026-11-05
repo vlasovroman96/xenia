@@ -33,6 +33,8 @@ import exa.exa;
 import render.mipict;
 import os.log;
 import render.picture;
+import include.picture;
+import render.glyph;
 
 /*
  * These functions wrap the low-level fb rendering functions and

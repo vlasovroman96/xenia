@@ -50,6 +50,7 @@ import miext.damage.damage_;
 import dix.gc;
 import render.picture;
 import externs.attrs;
+import include.picture;
 /*
  * Scratch pixmap APIs are provided for source and binary compatibility.  In
  * older versions, DIX would store a freed scratch pixmap for future use.  This

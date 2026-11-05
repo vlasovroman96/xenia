@@ -55,6 +55,8 @@ import render.glyphstr_priv;
 import externs.X11.extensions.render_;
 import dix.gc;
 import exa.exa;
+import include.picture;
+import render.glyph;
 
 static if (DEBUG_GLYPH_CACHE) {
 enum string DBG_GLYPH_CACHE(string a) = `ErrorF a = void;`;

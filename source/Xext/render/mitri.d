@@ -34,6 +34,7 @@ import include.pixmapstr;
 import include.windowstr;
 import include.picturestr;
 import externs.X11.extensions.renderproto;
+import include.picture;
 
 
 void miPointFixedBounds(int npoint, xPointFixed* points, BoxPtr bounds)
