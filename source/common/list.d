@@ -201,27 +201,21 @@ struct XList {
     int addNoDups(XList* elem) {
         if (this.isPresent(elem))
             return 0;
+
         this.addListNext(elem);
         return 1;
     }
-}
 
-/**
- * @brief append a new element to the end of the list if not existing yet
- *
- * Same as xorg_list_append(), but protecting against duplicate insertion.
- *
- * @param entry The new element to append to the list.
- * @param head The existing list.
- * @return zero if element already in list, otherwise non-zero
- */
-pragma(inline, true) int xorg_list_append_ndup(XList* entry, XList* head)
-{
-    if (head.isPresent(entry))
-        return 0;
+    /** 
+     * Appends element only if it not presents in the list
+     */
+    int appendNoDups(XList* elem) {
+        if (this.isPresent(elem))
+            return 0;
 
-    head.appendList(entry);
-    return 1;
+        this.appendList(elem);
+        return 1;
+    }
 }
 
 /**
