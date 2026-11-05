@@ -60,7 +60,7 @@ import externs.gnu;
 import dix.atom_priv;
 import dix.dix_priv;
 
-import include.misc;
+import common.misc;
 import include.resource;
 import externs.gnu;
 import atoms;

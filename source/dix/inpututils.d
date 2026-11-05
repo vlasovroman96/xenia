@@ -36,7 +36,7 @@ import dix.screenint_priv;
 import os.bug_priv;
 
 import Xi.exglobals;
-import include.misc;
+import common.misc;
 import dix.inputstr;import include.xkbsrv;
 import include.xkbsrv;
 import dix.events;

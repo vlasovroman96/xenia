@@ -38,7 +38,7 @@ import build.dix_config;
 import mi.mi_priv;
 
 import include.scrnintstr;
-import include.misc;
+import common.misc;
 import include.os;
 import include.windowstr;
 import include.resource;

@@ -58,7 +58,7 @@ import dix.registry_priv;
 import dix.request_priv;
 import tables;
 
-import include.misc;
+import common.misc;
 import dix.dixstruct_priv;
 import dix.gc;
 import include.scrnintstr;

@@ -59,7 +59,7 @@ import dix.dixfonts;
 import dix.gc_priv;
 import os.osdep;
 
-import include.misc;
+import common.misc;
 import include.resource;
 import dix.gc;
 import include.pixmapstr;

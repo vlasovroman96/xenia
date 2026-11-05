@@ -40,7 +40,7 @@ import externs.X11.extensions.XKM;
 
 import xkb.xkbtext_priv;
 import dix.atom;
-import include.misc;
+import common.misc;
 import dix.inputstr;import include.xkbsrv;
 import include.xkbsrv;
 import xkb.xkbgeom_priv;

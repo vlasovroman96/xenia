@@ -48,7 +48,7 @@ import include.windowstr;
 import externs.X11.extensions.XKBproto;
 // import externs.X11.extensions.XKBstr;
 import include.xkbstr;
-import include.misc;
+import common.misc;
 import dix.inputstr;import Xi.exevents;
 import dix.events;
 import mi.mipointer;

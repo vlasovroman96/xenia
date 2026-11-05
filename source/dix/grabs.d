@@ -66,7 +66,7 @@ import dix.window_priv;
 import os.auth;
 import os.client_priv;
 
-import include.misc;
+import common.misc;
 import include.windowstr;
 import dix.inputstr;import dix.cursor;
 import Xi.exglobals;

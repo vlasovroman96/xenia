@@ -56,7 +56,7 @@ import hw.xfree86.dri.dristruct;
 import include.sarea;
 
 import include.xf86;
-import include.misc;
+import common.misc;
 import dix.dixstruct_priv;
 import dix.cursor;
 import include.scrnintstr;

@@ -66,7 +66,7 @@ import xf86Globals;
 // import os.utils;
 import hw.xfree86.common.xf86Option;
 // import config.libhal;
-import include.misc;
+import common.misc;
 import externs.libdbus;
 import core.sys.posix.sys.select;
 import config.hotplug_priv;
@@ -88,8 +88,8 @@ import xf86platformBus_priv;
 import lnx_init;
 
 
-alias FALSE = include.misc.FALSE;
-alias TRUE = include.misc.TRUE;
+alias FALSE = common.misc.FALSE;
+alias TRUE = common.misc.TRUE;
 
 import externs.attrs;;
 import xf86platformBus;

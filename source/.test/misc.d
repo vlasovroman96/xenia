@@ -33,7 +33,7 @@ import dix.input_priv;
 import dix.screenint_priv;
 import os.fmt;
 
-import include.misc;
+import common.misc;
 import include.scrnintstr;
 import dix.dixstruct_priv;
 import test.tests_common;

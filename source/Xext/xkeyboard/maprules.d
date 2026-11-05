@@ -46,7 +46,7 @@ import externs.X11.extensions.XKB;
 import os.log_priv;
 import xkb.xkbrules_priv;
 
-import include.misc;
+import common.misc;
 import dix.inputstr;import include.os;
 import include.xkbsrv;
 import include.xkbsrv;

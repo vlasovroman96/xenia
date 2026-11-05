@@ -42,7 +42,7 @@ import   dix.gc_priv;
 import   dix.screen_hooks_priv;
 import   dix.screenint_priv;
 
-import   include.misc;
+import   common.misc;
 import   dix.input;
 import   dix.cursor;
 import include.windowstr;

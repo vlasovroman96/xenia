@@ -53,7 +53,7 @@ import os.probes_priv;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
-import include.misc;
+import common.misc;
 import include.resource;
 import dix.inputstr;import include.scrnintstr;
 import dix.cursor;

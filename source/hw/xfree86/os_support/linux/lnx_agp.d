@@ -79,7 +79,7 @@ enum AGPIOC_DEALLOCATE = 0x40104107;
 enum AGPIOC_BIND = 0x40104108;
 enum AGPIOC_UNBIND = 0x40084109;
 
-alias TRUE = include.misc.TRUE;
+alias TRUE = common.misc.TRUE;
 
 enum AGP_DEVICE =		"/dev/agpgart";
 
@@ -89,7 +89,7 @@ enum AGP_PAGE_SIZE =		4096;
 enum AGPGART_MAJOR_VERSION =	0;
 enum AGPGART_MINOR_VERSION =	99;
 
-alias FALSE = include.misc.FALSE;
+alias FALSE = common.misc.FALSE;
 
 private int gartFd = -1;
 private int acquiredScreen = -1;

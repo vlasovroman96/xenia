@@ -42,7 +42,7 @@ import dix.atom;
 import xkb.xkbfmisc_priv;
 import xkb.xkbout_priv;
 
-import include.misc;
+import common.misc;
 import dix.inputstr;import include.xkbsrv;
 import include.xkbsrv;
 import xkb.xkbgeom_priv;

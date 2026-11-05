@@ -51,7 +51,7 @@ SOFTWARE.
 public import x11.Xproto;
 
 public import include.xlibre_ptrtypes;
-public import include.misc;
+public import common.misc;
 public import include.regionstr;
 public import include.scrintstr;
 import include.propertyst;

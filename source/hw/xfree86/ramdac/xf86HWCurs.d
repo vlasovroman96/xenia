@@ -9,7 +9,7 @@ import core.stdc.string;
 import dix.colormap_priv;
 import randr.randrstr_priv;
 
-import include.misc;
+import common.misc;
 import include.xf86;
 import include.xf86_OSproc;;
 import include.scrnintstr;

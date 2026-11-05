@@ -59,7 +59,7 @@ import core.stdc.math;
 
 import mi.mi_priv;
 
-import include.misc;
+import common.misc;
 import include.scrnintstr;
 import include.pixmapstr;
 import include.windowstr;

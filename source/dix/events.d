@@ -147,7 +147,7 @@ import Xext.panoramiXsrv;
 import xkb.xkbsrv_priv;
 import dix.timestamp;
 
-import include.misc;
+import common.misc;
 import include.resource;
 import include.windowstr;
 import dix.inputstr;import include.scrnintstr;

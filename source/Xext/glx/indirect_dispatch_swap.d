@@ -35,7 +35,7 @@ import glx.indirect_size;
 import glx.indirect_size_get;
 import glx.indirect_dispatch;
 import glx.indirect_util;
-import include.misc;
+import common.misc;
 import glx.singlesize;
 //  import Xext.glx.fix;
 import Xext.glx.fix;

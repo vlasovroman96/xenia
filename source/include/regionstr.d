@@ -53,7 +53,7 @@ SOFTWARE.
 alias RegionRec = pixman_region16;
 alias RegionPtr = pixman_region16*;
 
-public import include.miscstruct;
+public import common.miscstruct;
 public import x11.X;
 import externs.attrs;
 public import region;

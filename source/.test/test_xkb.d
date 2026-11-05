@@ -41,7 +41,7 @@ import core.stdc.math;
 
 import xkb.xkbsrv_priv;
 
-import include.misc;
+import common.misc;
 import dix.inputstr;import xkb.xkbgeom_priv;
 // //import externs.X11.extensions.XKMformat;
 import core.stdc.assert_;

@@ -76,7 +76,7 @@ import os.log_priv;
 import os.osdep;
 import xkb.xkbsrv_priv;
 
-import include.misc;
+import common.misc;
 import include.resource;
 import include.windowstr;
 import dix.inputstr;import include.scrnintstr;

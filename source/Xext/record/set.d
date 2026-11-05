@@ -57,7 +57,7 @@ import build.dix_config;
 
 import core.stdc.string;
 
-import include.misc;
+import common.misc;
 import set;
 
 enum string RecordIsMemberOfSet(string _pSet, string _m) = `

@@ -54,7 +54,7 @@ public import dix.selection_priv;
 import build.xlibre_server;
 
 
-public import include.misc;
+public import common.misc;
 public import include.os;
 public import dix.dixstruct_priv;
 public import dix.extension;

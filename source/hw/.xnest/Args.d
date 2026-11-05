@@ -25,7 +25,7 @@ import os.ddx_priv;
 
 import include.scrintstr;
 import dix.input;
-import include.misc;
+import common.misc;
 import include.scrnintstr;
 import include.servermd;
 import include.extinit;

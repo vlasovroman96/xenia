@@ -37,7 +37,7 @@ import build.dix_config;
 
 //import x11.X;
 //import x11.Xproto;
-import include.misc;
+import common.misc;
 import include.os;
 import include.windowstr;
 import include.scrnintstr;

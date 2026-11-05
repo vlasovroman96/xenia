@@ -126,7 +126,7 @@ import os.screensaver;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
-import include.misc;
+import common.misc;
 import include.scrnintstr;
 import include.os;
 import include.regionstr;

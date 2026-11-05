@@ -48,7 +48,7 @@ import Xext.damage.damageext_priv;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
-import include.misc;
+import common.misc;
 import dix.cursor;
 import dix.cursor;
 import dix.dixstruct_priv;

@@ -38,7 +38,7 @@ import xf86Globals;
 // import os.utils;
 import hw.xfree86.common.xf86Option;
 // import config.libhal;
-import include.misc;
+import common.misc;
 import externs.libdbus;
 import core.sys.posix.sys.select;
 import hw.xfree86.common.xf86Xinput;
@@ -63,9 +63,9 @@ import externs.pciaccess;
 import xf86pciBus;
 import externs.gnu;
 
-alias FALSE = include.misc.FALSE;
+alias FALSE = common.misc.FALSE;
 
-alias TRUE = include.misc.TRUE;
+alias TRUE = common.misc.TRUE;
 private Bool get_drm_info(OdevAttributes* attribs, char* path, int delayed_index)
 {
     drmVersionPtr v = void;

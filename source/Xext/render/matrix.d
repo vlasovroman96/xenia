@@ -25,7 +25,7 @@ extern(C): __gshared:
 
 import build.dix_config;
 
-import include.misc;
+import common.misc;
 import include.scrnintstr;
 import include.os;
 import include.regionstr;

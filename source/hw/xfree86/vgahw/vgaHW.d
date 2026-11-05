@@ -22,7 +22,7 @@ import core.sys.posix.unistd;
 import include.vgaHW;
 import os.log_priv;
 
-import include.misc;
+import common.misc;
 import xf86_priv;
 import include.xf86_OSproc;;
 import xf86Opt_priv;

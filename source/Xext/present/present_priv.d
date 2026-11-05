@@ -32,7 +32,7 @@ public import include.present;
 public import include.syncsdk;
 
 public import include.scrnintstr;
-public import include.misc;
+public import common.misc;
 public import include.windowstr;
 public import dix.dixstruct_priv;
 public import Xext.syncsrv;

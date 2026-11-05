@@ -19,7 +19,7 @@ enum PRIVATES_H = 1;
 // //public import x11.Xosdefs;
 // //public import x11.Xfuncproto;
 public import core.stdc.assert_;
-public import include.misc;
+public import common.misc;
 public import dix.privates;
 
 /*****************************************************************

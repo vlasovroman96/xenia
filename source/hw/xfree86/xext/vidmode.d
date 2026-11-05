@@ -51,7 +51,7 @@ import dix.screenint_priv;
 import os.log_priv;
 import os.osdep;
 
-import include.misc;
+import common.misc;
 import dix.dixstruct_priv;
 import include.scrnintstr;
 import include.servermd;

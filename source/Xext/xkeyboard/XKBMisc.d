@@ -37,7 +37,7 @@ import core.stdc.stdio;
 import xkb.xkbfmisc_priv;
 import xkb.xkbsrv_priv;
 
-import include.misc;
+import common.misc;
 import dix.inputstr;import include.xkbstr;
 import externs.X11.extensions.XKB;
 import xkb.XKBMAlloc;

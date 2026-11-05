@@ -58,7 +58,7 @@ import dix.dix_priv;
 import dix.server_priv;
 import dix.settings_priv;
 
-import include.misc;
+import common.misc;
 import include.windowstr;
 import include.scrnintstr;
 import dix.input;

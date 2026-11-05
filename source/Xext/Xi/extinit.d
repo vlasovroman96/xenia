@@ -160,7 +160,7 @@ import Xi.xichangehierarchy;
 import Xi.xisetclientpointer;
 import dix.events;
 import tables;
-import include.misc;
+import common.misc;
 import os.log;
 import std.conv;
 import dix.extension;

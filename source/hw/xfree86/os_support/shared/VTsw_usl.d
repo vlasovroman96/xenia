@@ -43,7 +43,7 @@ import xf86Globals;
 // import os.utils;
 import hw.xfree86.common.xf86Option;
 // import config.libhal;
-import include.misc;
+import common.misc;
 import externs.libdbus;
 import core.sys.posix.sys.select;
 import hw.xfree86.common.xf86Xinput;
@@ -64,9 +64,9 @@ import xf86Init;
 import xf86platformBus_priv;
 import lnx_init;
 import os.utils;
-alias FALSE = include.misc.FALSE;
+alias FALSE = common.misc.FALSE;
 
-alias TRUE = include.misc.TRUE;
+alias TRUE = common.misc.TRUE;
 import lnx_init;
 // import 
 /*

@@ -46,7 +46,7 @@ import dix.exevents_priv;
 import dix.extension_priv;
 import dix.inpututils_priv;
 
-import dix.inputstr;import include.misc;
+import dix.inputstr;import common.misc;
 import dix.events;
 import Xi.exglobals;
 import Xi.xiquerydevice;

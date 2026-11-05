@@ -45,7 +45,7 @@ import glx.singlesize;
 import glx.glxext;
 import glx.indirect_table;
 import glx.indirect_util;
-import include.misc;
+import common.misc;
  import Xext.glx.fix;
  import core.stdc.stdint;
  import os.io;

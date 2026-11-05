@@ -97,7 +97,7 @@ import os.Xtrans;
 // import externs.X11.Xauth;
 //import x11.X;
 //import x11.Xproto;
-import include.misc;
+import common.misc;
 import core.stdc.errno;
 import core.sys.posix.sys.types;
 import x11.Xosdefs;

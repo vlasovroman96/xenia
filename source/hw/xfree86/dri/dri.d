@@ -61,7 +61,7 @@ import include.sarea;
 
 import include.xf86;
 import externs.libdrm;
-import include.misc;
+import common.misc;
 import dix.dixstruct_priv;
 import dix.extension;
 import dix.cursor;

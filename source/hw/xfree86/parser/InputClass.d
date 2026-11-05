@@ -40,7 +40,7 @@ import xf86tokens;
 import Configint;
 import x11.Xmd;
 import x11.Xdefs;
-import include.misc;
+import common.misc;
 import hw.xfree86.parser.Flags;
 import scan;
 import core.stdc.string;

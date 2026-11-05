@@ -53,7 +53,7 @@ import build.dix_config;
 import dix.cursor_priv;
 import dix.screenint_priv;
 
-import include.misc;
+import common.misc;
 // //import externs.X11.fonts.fontstruct;
 import dix.dixfonts;
 import include.scrnintstr;

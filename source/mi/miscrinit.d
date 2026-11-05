@@ -40,7 +40,7 @@ import include.shmint;
 import mi.mi_priv;
 
 import include.servermd;
-import include.misc;
+import common.misc;
 import include.scrnintstr;
 import include.pixmapstr;
 import mi.miline;

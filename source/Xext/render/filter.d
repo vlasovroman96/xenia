@@ -30,7 +30,7 @@ import x11.keysymdef;
 
 import dix.screenint_priv;
 
-import include.misc;
+import common.misc;
 import include.scrnintstr;
 import include.os;
 import include.regionstr;

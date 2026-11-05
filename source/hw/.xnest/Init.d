@@ -32,7 +32,7 @@ import os.osdep;
 
 import include.scrintstr;
 import dix.input;
-import include.misc;
+import common.misc;
 import include.scrnintstr;
 import include.windowstr;
 import include.servermd;

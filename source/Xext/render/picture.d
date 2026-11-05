@@ -32,7 +32,7 @@ import dix.colormap_priv;
 import dix.screen_hooks_priv;
 import os.osdep;
 import os.log;
-import include.misc;
+import common.misc;
 import include.scrnintstr;
 import include.os;
 import include.regionstr;

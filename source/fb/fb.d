@@ -35,7 +35,7 @@ public import include.pixmapstr;
 public import include.regionstr;
 public import dix.gc;
 public import dix.colormap;
-public import include.miscstruct;
+public import common.miscstruct;
 public import include.servermd;
 public import include.windowstr;
 public import include.privates;

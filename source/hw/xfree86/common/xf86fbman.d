@@ -39,7 +39,7 @@ import dix.screen_hooks_priv;
 import os.log_priv;
 import region;
 
-import include.misc;
+import common.misc;
 import include.xf86;
 import include.scrnintstr;
 import include.regionstr;

@@ -49,7 +49,7 @@ import os.osdep;
 import xkb.xkbfmisc_priv;
 public import xkb.xkbsrv_priv;
 import dix.atom;
-import include.misc;
+import common.misc;
 import dix.inputstr;import xkb.xkb_procs;
 import include.protocol_versions;
 import include.xkbstr;

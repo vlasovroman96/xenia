@@ -109,7 +109,7 @@ import os.serverlock;
 import Xext.panoramiXsrv;
 
 import include.scrnintstr;
-import include.misc;
+import common.misc;
 import include.os;
 import include.windowstr;
 import include.resource;

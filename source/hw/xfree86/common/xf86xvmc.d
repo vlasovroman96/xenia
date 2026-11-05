@@ -29,7 +29,7 @@ extern(C): __gshared:
  */
 import build.xorg_config;
 
-import include.misc;
+import common.misc;
 import include.xf86;
 import include.xf86_OSproc;;
 

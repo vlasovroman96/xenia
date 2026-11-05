@@ -25,7 +25,7 @@ import os.client_priv;
 import miext.extinit_priv;
 import Xext.xace;
 
-import include.misc;
+import common.misc;
 import include.os;
 import dix.dixstruct_priv;
 import dix.swaprep;
@@ -34,7 +34,6 @@ import include.windowstr;
 import dix.gc;
 import include.protocol_versions;
 import common.list;
-import include.misc;
 import Xext.hashtable;
 import include.picturestr;
 import composite.compint;

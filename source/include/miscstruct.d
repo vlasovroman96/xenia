@@ -1,4 +1,4 @@
-module include.miscstruct;
+module common.miscstruct;
 @nogc nothrow:
 extern(C): __gshared:
 import core.stdc.config: c_long, c_ulong;
@@ -51,7 +51,7 @@ SOFTWARE.
 version (MISCSTRUCT_H) {} else {
 enum MISCSTRUCT_H = 1;
 
-public import include.misc;
+public import common.misc;
 public import x11.Xprotostr;
 public import dsl.pixman;
 

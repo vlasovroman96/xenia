@@ -90,7 +90,7 @@ import mi.mi_priv;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
-import include.misc;
+import common.misc;
 import include.regionstr;
 import include.scrnintstr;
 import include.windowstr;

@@ -78,8 +78,8 @@ import os.utils;
 
 enum K_OFF = 0x4;
 
-alias FALSE = include.misc.FALSE;
-alias TRUE = include.misc.TRUE;
+alias FALSE = common.misc.FALSE;
+alias TRUE = common.misc.TRUE;
 
 
 private Bool KeepTty = FALSE;

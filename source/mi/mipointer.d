@@ -64,7 +64,7 @@ import   mi.mi_priv;
 import   mi.mipointer_priv;
 import os.inputthread;
 
-import   include.misc;
+import   common.misc;
 import include.windowstr;
 import   include.pixmapstr;
 import   include.scrnintstr;

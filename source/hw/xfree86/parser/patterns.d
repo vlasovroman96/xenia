@@ -10,7 +10,7 @@ import build.xorg_config;
 
 import core.stdc.stdio;
 import core.stdc.stdlib;
-import include.misc;
+import common.misc;
 import xf86Parser_priv;
 import configProcs;
 import include.os;

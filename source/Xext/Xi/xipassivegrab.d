@@ -49,7 +49,7 @@ import dix.inputstr;           /* DeviceIntPtr      */
 import include.windowstr;          /* window structure  */
 import dix.swaprep;
 import Xi.exglobals;          /* BadDevice */
-import include.misc;
+import common.misc;
 import dix.dixutils;
 import dix.devices;
 import dix.events;

@@ -107,7 +107,7 @@ version (_XF86PCI_H) {} else {
 enum _XF86PCI_H = 1;
 // //public import x11.Xarch;
 // //public import x11.Xfuncproto;
-public import include.misc;
+public import common.misc;
 public import externs.pciaccess;
 
 /*

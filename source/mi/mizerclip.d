@@ -50,7 +50,7 @@ import build.dix_config;
 
 //import x11.X;
 
-import include.misc;
+import common.misc;
 import include.scrnintstr;
 import dix.gc;
 import include.windowstr;

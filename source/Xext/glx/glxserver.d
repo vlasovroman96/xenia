@@ -36,7 +36,7 @@ extern(C): __gshared:
 //public import x11.Xproto;
 import build.dix_config;
 public import x11.Xmd;
-public import include.misc;
+public import common.misc;
 public import dix.dixstruct_priv;
 public import include.pixmapstr;
 public import dix.gc;

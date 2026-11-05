@@ -36,7 +36,7 @@ import build.dix_config;
 import Xext.sleepuntil;
 //import x11.X;
 //import x11.Xmd;
-import include.misc;
+import common.misc;
 import include.windowstr;
 import dix.dixstruct_priv;
 import include.pixmapstr;

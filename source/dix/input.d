@@ -51,7 +51,7 @@ SOFTWARE.
  
 public import include.xlibre_ptrtypes;
 
-public import include.misc;
+public import common.misc;
 public import include.scrintstr;
 //public import x11.Xmd;
 //public import x11.Xproto;

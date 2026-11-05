@@ -33,7 +33,7 @@ import mi.mipict;
 import os.bug_priv;
 import os.xsha1;
 
-import include.misc;
+import common.misc;
 import include.scrnintstr;
 import include.os;
 import include.regionstr;

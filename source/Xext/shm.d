@@ -68,7 +68,7 @@ import Xext.panoramiX;
 import Xext.panoramiXsrv;
 import Xext.shm_priv;
 
-import include.misc;
+import common.misc;
 import include.os;
 import dix.dixstruct_priv;
 import include.resource;

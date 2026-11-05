@@ -52,7 +52,7 @@ import mi.mi_priv;
 import mi.mipointer_priv;
 import xkb.xkbsrv_priv;
 
-import include.misc;
+import common.misc;
 import dix.inputstr;import Xi.exevents;
 import dix.events;
 import mi.mipointer;

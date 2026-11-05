@@ -50,7 +50,7 @@ import dix.dixfonts;
 import include.scrnintstr;
 import dix.window;
 import dix.inputstr;import migc;
-import include.misc;
+import common.misc;
 import dix.dixstruct_priv;
 import include.resource;
 import panoramiXh;

@@ -73,7 +73,7 @@ import os.log_priv;
 import os.osdep;
 import os.serverlock;
 
-import include.misc;
+import common.misc;
 import include.os;
 import dix.dixstruct_priv;
 import os.log;

@@ -87,7 +87,7 @@ static if (!HasVersion!"Windows" || !HasVersion!"Windows") {
 import core.sys.posix.sys.time;
 import core.sys.posix.sys.resource;
 }
-import include.misc;
+import common.misc;
 //import x11.X;
 import os.Xtrans;
 

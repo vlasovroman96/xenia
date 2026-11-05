@@ -34,7 +34,7 @@ import core.stdc.config: c_long, c_ulong;
 //public import x11.Xproto;
 
 public import include.xlibre_ptrtypes;
-public import include.misc;
+public import common.misc;
 public import include.os;
 public import dix.dixstruct_priv;
 public import include.resource;

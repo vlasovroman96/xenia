@@ -55,7 +55,7 @@ import Xext.panoramiX;
 import Xext.panoramiXsrv;
 import os.WaitFor;
 
-import include.misc;
+import common.misc;
 import include.os;
 import include.windowstr;
 import include.scrnintstr;

@@ -141,7 +141,7 @@ import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
 import dix.dixutils;
-import include.misc;
+import common.misc;
 import include.os;
 import include.resource;
 import dix.dixstruct_priv;

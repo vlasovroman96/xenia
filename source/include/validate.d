@@ -28,7 +28,7 @@ in this Software without prior written authorization from The Open Group.
 */
 
  
-public import include.miscstruct;
+public import common.miscstruct;
 public import include.regionstr;
 import mi.mi_priv;
 

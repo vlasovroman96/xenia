@@ -16,7 +16,7 @@ import core.stdc.string;
 
 import os.osdep;
 
-import include.misc;
+import common.misc;
 import include.xf86;
 import include.xf86_OSproc;;
 

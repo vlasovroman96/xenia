@@ -38,7 +38,7 @@ import build.dix_config;
 
 //import   x11.X;
 static import   externs.X11.Xauth;
-import   include.misc;
+import   common.misc;
 import os.osdep;
 import dix.dixstruct_priv;
 import   core.sys.posix.sys.types;

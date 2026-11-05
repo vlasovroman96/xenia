@@ -44,7 +44,7 @@ import os.screensaver;
 import os.osdep;
 import Xext.geext_priv;
 
-import include.misc;
+import common.misc;
 import include.os;
 import dix.dixstruct_priv;
 import dix.window;

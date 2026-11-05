@@ -13,7 +13,7 @@ public import render.glyphstr_priv;
 public import render.picture;
 public import include.scrintstr;
 public import include.regionstr;
-public import include.miscstruct;
+public import common.miscstruct;
 public import include.privates;
 import include.picture;
 

@@ -55,7 +55,7 @@ static if (HasVersion!"__FreeBSD__" || HasVersion!"__FreeBSD_kernel__") {
 import externs.libdrm; /* For DRM_DEV_NAME */
 // }
 
-import include.misc;
+import common.misc;
 
 enum CONFIG_FILE = SYSCONFDIR~ "/X11/Xwrapper.config";
 
