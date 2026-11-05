@@ -52,7 +52,7 @@ import xf86DDC_priv;
 // import externs.libdrm;;
 // import externs.libdrm;;
 import externs.libdrm;;
-import include.mipointer;
+import mi.mipointer;
 // import externs.drmMode;
 import externs.libdrm;
 

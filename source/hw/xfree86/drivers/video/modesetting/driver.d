@@ -97,7 +97,6 @@ import hw.xfree86.drivers.video.modesetting.drmmode_bo;
 // import externs.libdrm;;
 import include.shadow;
 import hw.xfree86.common.xf86Helper;
-import include.mipointer;
 import hw.xfree86.drivers.video.modesetting.drmmode_display;
 import externs.libdrm;;
 import hw.xfree86.common.xf86Option;

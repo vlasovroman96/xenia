@@ -50,7 +50,7 @@ import include.regionstr;
 import dix.dixstruct_priv;
 import   include.scrnintstr;
 import   include.servermd;
-import   include.mipointer;
+import   mi.mipointer;
 import   mi.misprite;
 import   include.picturestr;
 import dix.inputstr;import dix.screen_hooks;

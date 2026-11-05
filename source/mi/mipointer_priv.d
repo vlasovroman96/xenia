@@ -10,7 +10,7 @@ extern(C): __gshared:
 
 public import dix.screenint_priv;
 public import dix.input;
-public import include.mipointer;
+public import mi.mipointer;
 
 // void miPointerWarpCursor(DeviceIntPtr pDev, ScreenPtr pScreen, int x, int y);
 // void miPointerSetScreen(DeviceIntPtr pDev, int screen_num, int x, int y);

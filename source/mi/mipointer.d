@@ -79,7 +79,68 @@ import dix.enterleave;
 import dix.inpututils;
 import os.log;
 
+public import dix.cursor;
+public import dix.input;
+public import include.privates;
+import x11.Xdefs;
 
+struct _miPointerSpriteFuncRec {
+    Bool function(DeviceIntPtr, ScreenPtr, CursorPtr) @nogc nothrow RealizeCursor;
+    Bool function(DeviceIntPtr, ScreenPtr, CursorPtr) @nogc nothrow UnrealizeCursor;
+    void function(DeviceIntPtr, ScreenPtr, CursorPtr, int, int) @nogc nothrow SetCursor;
+    void function(DeviceIntPtr, ScreenPtr, int, int) @nogc nothrow MoveCursor;
+    Bool function(DeviceIntPtr, ScreenPtr) @nogc nothrow DeviceCursorInitialize;
+    void function(DeviceIntPtr, ScreenPtr) @nogc nothrow DeviceCursorCleanup;
+}alias miPointerSpriteFuncRec = _miPointerSpriteFuncRec;
+alias miPointerSpriteFuncPtr = _miPointerSpriteFuncRec*;
+
+struct _miPointerScreenFuncRec {
+    Bool function(ScreenPtr*, int*, int*) @nogc nothrow CursorOffScreen;
+    void function(ScreenPtr, int) @nogc nothrow CrossScreen;
+    void function(DeviceIntPtr, ScreenPtr, int, int) @nogc nothrow WarpCursor;
+}alias miPointerScreenFuncRec = _miPointerScreenFuncRec;
+alias miPointerScreenFuncPtr = _miPointerScreenFuncRec*;
+
+// void  miDCInitialize(ScreenPtr, miPointerScreenFuncPtr);
+
+// void  miPointerGetScreen(DeviceIntPtr pDev);
+
+/* Returns the current cursor position. */
+// void  miPointerGetPosition(DeviceIntPtr pDev, int* x, int* y);
+
+/* Moves the cursor to the specified position.  May clip the coordinates:
+ * x and y are modified in-place. */
+DevPrivateKeyRec miPointerScreenKeyRec;
+
+enum miPointerScreenKey = (&miPointerScreenKeyRec);
+
+/**
+ * @brief initialize pointer cursor with custom handling
+ *
+ * For DDX'es that need their own handling of pointer cursors,
+ * and can't use the generic "soft cursor" that's created via
+ * miDCInitialize().
+ *
+ * That can be the case on certain video HW with it's own sprite support,
+ * or on remote display protocols like RDP, where the client get the cursor
+ * pixmaps sent over the wire and is responsible for painting it on his side.
+ *
+ * Overwrites ScreenPtr vectors:
+ *
+ *     ConstrainCursor, CursorLimits, DisplayCursor, RealizeCursor,
+ *     UnrealizeCursor, SetCursorPosition, RecolorCursor, DeviceCursorCleanup
+ *     DeviceCursorInitialize
+ *
+ * Hooks to ScreenPtr vectors: CloseScreen
+ *
+ * @param pScreen       pointer to ScreenRec the pointer handling applies to
+ * @param spireFuncs    pointer to miPointerSpriteFuncPtr call vectors
+ * @param screenFuncs   pointer to miPointerScreenFuncPtr call vectors
+ * @param waitForUpdate TRUE if MI shouldn't redraw the pointer immediately,
+                        but wait for somebody else triggering it explicitly
+ * @return TRUE on success, FALSE usually indicates allocation failure
+ */
+//  Bool miPointerInitialize(ScreenPtr pScreen, miPointerSpriteFuncPtr spriteFuncs, miPointerScreenFuncPtr screenFuncs, Bool waitForUpdate);
 
 struct _MiPointerRec {
     ScreenPtr pScreen;          /* current screen */

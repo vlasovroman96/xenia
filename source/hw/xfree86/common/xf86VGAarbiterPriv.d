@@ -43,7 +43,6 @@ public import include.xf86str;
 public import mi.mipointer;
 public import include.mipointrst;
 public import include.picturestr;
-import include.mipointer;
 import externs.pciaccess;
 import hw.xfree86.common.xf86Helper;
 import hw.xfree86.modes.displaymode;

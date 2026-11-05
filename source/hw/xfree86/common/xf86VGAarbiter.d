@@ -41,7 +41,7 @@ import xf86VGAarbiterPriv;
 import xf86Bus;
 import include.xf86Priv;
 import externs.pciaccess;
-import include.mipointer;
+import mi.mipointer;
 import os.log;
 import hw.xfree86.common.xf86Helper;
 import render.picture;
