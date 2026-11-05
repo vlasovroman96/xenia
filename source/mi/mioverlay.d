@@ -24,13 +24,24 @@ import include.privates;
 import mioverlay;
 import migc;
 
-import include.mioverlay;
+import mioverlay;
 import dix.screen_hooks;
 import dix.events;
 import externs.X11.extensions.shapeconst;
 import mi.mivaltree;
 import dix.window;
 
+alias miOverlayTransFunc = void function(ScreenPtr, int, BoxPtr);
+alias miOverlayInOverlayFunc = Bool function(WindowPtr);
+
+void  miInitOverlay(ScreenPtr pScreen, miOverlayInOverlayFunc inOverlay, miOverlayTransFunc trans);
+
+void  miOverlayGetPrivateClips(WindowPtr pWin, RegionPtr* borderClip, RegionPtr* clipList);
+
+void  miOverlayCollectUnderlayRegions(WindowPtr, RegionPtr*);
+void  miOverlayComputeCompositeClip(GCPtr, WindowPtr);
+void  miOverlayCopyUnderlay(ScreenPtr);
+void  miOverlaySetRootClip(ScreenPtr, Bool);
 
 struct _MiOverlayValDataRec {
     RegionRec exposed;
