@@ -40,7 +40,7 @@ import hw.xfree86.common.edid;
 public import randr.randr;
 public import xf86Modes;
 public import xf86Cursor;
-public import include.xf86i2c;
+public import hw.xfree86.i2c.xf86i2c;
 public import dix.damage;
 public import dix.picturestr;
 import randr.rrtransform;

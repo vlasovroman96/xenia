@@ -30,7 +30,6 @@ import hw.xfree86.parser.Flags;
 import hw.xfree86.common.edid;
 
 import hw.xfree86.common.edid;
-public import include.xf86i2c;
 public import include.xf86str;
 
 /* speed up / slow down */

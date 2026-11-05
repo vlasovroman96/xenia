@@ -67,7 +67,7 @@ import include.xf86Pci;
 import mi.mipointer;
 import mi.micmap;
 import fb.fb;
-import include.xf86i2c;
+import hw.xfree86.i2c.xf86i2c;
 import hw.xfree86.common.xf86Crtc;
 import dix.dixstruct_priv;
 import build.xlibre_server;
