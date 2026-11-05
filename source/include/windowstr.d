@@ -51,7 +51,7 @@ SOFTWARE.
 public import include.xlibre_ptrtypes;
 public import include.window;
 public import dix.pixmap;
-public import include.regionstr;
+// public import region;
 public import dix.cursor;
 public import include.resource;           /* for ROOT_WINDOW_ID_BASE */
 public import dix.privates;

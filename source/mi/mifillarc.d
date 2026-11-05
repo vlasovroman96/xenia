@@ -34,7 +34,7 @@ import build.dix_config;
 import core.stdc.math;
 //import x11.X;
 //import x11.Xprotostr;
-import include.regionstr;
+import region;
 import dix.gc;
 import dix.pixmap;
 import mifillarc;

@@ -50,7 +50,7 @@ import build.dix_config;
 
 import mi.mi_priv;
 
-import include.regionstr;
+import region;
 import midash;
 
 enum EVEN_DASH =	0;

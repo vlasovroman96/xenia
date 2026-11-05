@@ -46,7 +46,7 @@ import   common.misc;
 import   dix.input;
 import   dix.cursor;
 import include.windowstr;
-import include.regionstr;
+import region;
 import dix.dixstruct_priv;
 import   include.scrnintstr;
 import   include.servermd;

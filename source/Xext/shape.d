@@ -56,7 +56,6 @@ import include.scrnintstr;
 import dix.pixmap;
 import dix.dixstruct_priv;
 import dix.window;
-import include.regionstr;
 import dix.gc;
 import common.protocol_versions;
 import externs.X11.extensions.shapeproto;

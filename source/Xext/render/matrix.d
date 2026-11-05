@@ -28,7 +28,7 @@ import build.dix_config;
 import common.misc;
 import include.scrnintstr;
 import os.os;
-import include.regionstr;
+import region;
 import include.validate;
 import include.windowstr;
 import dix.input;

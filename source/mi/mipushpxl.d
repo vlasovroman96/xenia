@@ -52,7 +52,7 @@ import build.dix_config;
 import dix.gc;
 import include.scrnintstr;
 import dix.pixmap;
-import include.regionstr;
+import region;
 import include.servermd;
 
 enum NPT = 128;

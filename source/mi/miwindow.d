@@ -56,7 +56,7 @@ import dix.cursor_priv;
 import dix.dix_priv;
 import dix.input_priv;
 import dix.window_priv;
-import include.regionstr;
+import region;
 import mi.mi_priv;
 
 import include.windowstr;

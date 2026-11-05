@@ -26,7 +26,7 @@ import externs.xcb.xcb_aux;
 //import x11.Xproto;
 
 import dix.window_priv;
-import include.regionstr;
+import region;
 import mi.mi_priv;
 
 import dix.gc;

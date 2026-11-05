@@ -36,7 +36,7 @@ public import    include.windowstr;
 public import    externs.X11.fonts.font;
 public import    dix.dixfonts;
 public import    externs.X11.fonts.fontstruct;
-public import    include.regionstr;
+public import    region;
 public import    dix.globals;
 public import    dix.gc;
 public import include.shadow;

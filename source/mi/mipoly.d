@@ -59,7 +59,7 @@ import dix.gc;
 import dix.pixmap;
 import miscanfill;
 import mipoly;
-import include.regionstr;
+import region;
 
 enum NUMPTSTOBUFFER = 200;
 

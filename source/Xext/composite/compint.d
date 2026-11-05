@@ -49,7 +49,7 @@ public import dix.screen_hooks_priv;
 public import common.misc;
 public import include.scrnintstr;
 public import os.os;
-public import include.regionstr;
+public import region;
 public import include.validate;
 public import include.windowstr;
 public import dix.input;

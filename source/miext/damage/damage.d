@@ -39,7 +39,7 @@ import    externs.X11.fonts.font;
 import    dix.dixfonts;
 import    externs.X11.fonts.fontstruct;
 import    externs.X11.fonts.libxfont2;
-import    include.regionstr;
+import    region;
 import    dix.globals;
 import    dix.gc;
 import    dix.damage;

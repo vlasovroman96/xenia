@@ -42,7 +42,6 @@ import region;
 import common.misc;
 import include.xf86;
 import include.scrnintstr;
-import include.regionstr;
 import include.xf86fbman;
 import xf86DGA;
 import hw.xfree86.common.xf86Helper;

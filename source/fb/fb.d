@@ -31,7 +31,7 @@ public import dsl.pixman;
 
 public import include.scrnintstr;
 public import dix.pixmap;
-public import include.regionstr;
+public import region;
 public import dix.gc;
 public import dix.colormap;
 public import include.servermd;

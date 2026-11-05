@@ -11,7 +11,7 @@ import core.stdc.config: c_long, c_ulong;
 //public import x11.Xdefs;
 
 public import dix.pixmap;
-public import include.regionstr;
+public import region;
 public import include.xvdix;
 import externs.X11.extensions.Xv;
 

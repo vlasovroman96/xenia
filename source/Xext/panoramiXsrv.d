@@ -7,7 +7,7 @@ public import build.dix_config;
 
 public import Xext.panoramiX;
 public import dsl.pixman;
-import include.regionstr;
+import region;
 import x11.Xproto;
 import include.scrintstr;
 import dix.pixmap;

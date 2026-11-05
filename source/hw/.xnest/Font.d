@@ -28,7 +28,7 @@ import core.stdc.stddef;
 import dix.dix_priv;
 
 import common.misc;
-import include.regionstr;
+import region;
 import dix.dixfonts;
 import include.scrnintstr;
 

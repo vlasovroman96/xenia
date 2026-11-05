@@ -31,7 +31,7 @@ import    include.windowstr;
 // //import   externs.X11.fonts.font;
 import    dix.dixfonts;
 // //import   externs.X11.fonts.fontstruct;
-import    include.regionstr;
+import    region;
 import    dix.gc;
 import include.shadow;
 import build.xlibre_server;

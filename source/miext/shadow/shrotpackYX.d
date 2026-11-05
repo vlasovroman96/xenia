@@ -28,7 +28,7 @@ public import    include.scrnintstr;
 public import    include.windowstr;
 public import    dix.dixfonts;
 // public //import    include.mi;
-public import    include.regionstr;
+public import    region;
 public import    dix.globals;
 public import    dix.gc;
 public import include.shadow;

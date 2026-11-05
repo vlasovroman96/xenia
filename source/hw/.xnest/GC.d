@@ -27,7 +27,7 @@ import core.stdc.stdint;
 import externs.xcb.xcb;
 import externs.xcb.xcb_aux;
 
-import include.regionstr;
+import region;
 
 import include.windowstr;
 import dix.pixmap;

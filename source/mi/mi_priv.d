@@ -16,7 +16,7 @@ public import dix.events;
 public import dix.gc;
 public import mi.micmap;
 public import dix.pixmap;
-public import include.regionstr;
+public import region;
 public import include.scrintstr;
 public import include.scrnintstr;
 public import include.validate;

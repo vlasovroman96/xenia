@@ -51,7 +51,7 @@ SOFTWARE.
  
 public import include.xlibre_ptrtypes;
 public import include.scrintstr;
-public import include.regionstr;
+public import region;
 public import dix.colormap;
 public import dix.cursor;
 public import include.validate;

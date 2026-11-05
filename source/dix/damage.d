@@ -55,7 +55,7 @@ struct _damageScreenFuncs {
 }alias DamageScreenFuncsRec = _damageScreenFuncs;
 alias DamageScreenFuncsPtr = _damageScreenFuncs*;
 
-import include.regionstr;
+import region;
 import include.scrintstr;
 public import miext.damage.damage_;
 import dix.damage;

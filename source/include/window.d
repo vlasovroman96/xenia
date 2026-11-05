@@ -52,7 +52,7 @@ public import x11.Xproto;
 
 public import include.xlibre_ptrtypes;
 public import common.misc;
-public import include.regionstr;
+// public import region;
 public import include.scrintstr;
 import dix.property;
 public import dix.cursor;

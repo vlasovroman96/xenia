@@ -21,7 +21,7 @@ import build.xorg_config;
 //import x11.Xdefs;
 //import x11.Xproto;
 
-import include.regionstr;
+import region;
 import dix.pixmap;
 import include.scrnintstr;
 import dix.gc;

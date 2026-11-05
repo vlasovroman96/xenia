@@ -71,7 +71,7 @@ import mi.mi_priv;
 import os.osdep;
 
 import include.windowstr;
-import include.regionstr;
+import region;
 import miwideline;
 import dix.gc;
 import mi.mifpoly;

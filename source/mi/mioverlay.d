@@ -19,7 +19,7 @@ import include.scrnintstr;
 import include.validate;
 import include.windowstr;
 import dix.gc;
-import include.regionstr;
+import region;
 import dix.privates;
 import mioverlay;
 import migc;

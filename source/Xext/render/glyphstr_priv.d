@@ -12,7 +12,7 @@ public import externs.X11.extensions.renderproto;
 public import render.glyphstr_priv;
 public import render.picture;
 public import include.scrintstr;
-public import include.regionstr;
+public import region;
 public import dix.privates;
 import dix.picture;
 

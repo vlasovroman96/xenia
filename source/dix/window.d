@@ -129,7 +129,6 @@ import Xext.panoramiXsrv;
 import common.misc;
 import include.scrnintstr;
 import os.os;
-import include.regionstr;
 import include.validate;
 import include.windowstr;
 import dix.property;

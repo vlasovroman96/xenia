@@ -47,7 +47,7 @@ import dix.dixstruct_priv;
 import include.resource;
 import dix.window;
 import dbestruct;
-import include.regionstr;
+import region;
 import dix.inputstr;import midbe;
 import Xext.xace;
 import dix.dispatch;

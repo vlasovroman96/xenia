@@ -34,7 +34,7 @@ import dix.screen_hooks_priv;
 import    include.scrnintstr;
 import    include.windowstr;
 import    dix.dixfonts;
-import    include.regionstr;
+import    region;
 import    dix.globals;
 import    dix.gc;
 import include.shadow;

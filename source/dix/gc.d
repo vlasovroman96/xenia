@@ -74,7 +74,7 @@ import os.log;
 //public import x11.Xprotostr;
 
 public import dix.gc;
-public import include.regionstr;
+public import region;
 public import include.scrintstr;
 
 import legacyXf = externs.X11.fonts.font;

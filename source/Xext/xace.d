@@ -29,7 +29,7 @@ import os.client_priv;
 
 import include.scrnintstr;
 import dix.pixmap;
-import include.regionstr;
+import region;
 import Xext.xacestr;
 import dix.gc;
 import dix.dixutils;

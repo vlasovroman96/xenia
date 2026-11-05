@@ -54,12 +54,11 @@ import dix.picture;
 
 public import common.misc;
 public import include.scrintstr;
-public import include.regionstr;
+public import region;
 // //public import externs.X11.extensions._randr;
 import dix.pixmap;
 
 public import include.scrintstr;
-public import include.regionstr;
 public import dix.privates;
 public import dix.damage;
 // //public import externs.X11.extensions._randr;

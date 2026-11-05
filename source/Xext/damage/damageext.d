@@ -51,7 +51,7 @@ import dix.privates;
 import miext.damage.damage_;
 import xfixes.xfixes;;
 import xfixes.region;
-import include.regionstr;
+import region;
 import dix.extension;
 import dix.dixutils;
 import dix.events;

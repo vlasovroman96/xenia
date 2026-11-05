@@ -28,7 +28,7 @@ in this Software without prior written authorization from The Open Group.
 */
 
  
-public import include.regionstr;
+public import region;
 import mi.mi_priv;
 
 enum VTKind { VTOther, VTStack, VTMove, VTUnmap, VTMap, VTBroken }

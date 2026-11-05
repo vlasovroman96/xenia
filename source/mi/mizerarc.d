@@ -43,7 +43,7 @@ import core.stdc.math;
 
 import mi.mi_priv;
 
-import include.regionstr;
+import region;
 import dix.pixmap;
 import dix.gc;
 
