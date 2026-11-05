@@ -44,7 +44,7 @@ import Xext.xvdix_priv;
 
 import common.misc;
 import include.xf86;
-import include.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSproc;;
 import dix.scrnintstr;
 import dix.pixmap;
 import dix.validate;

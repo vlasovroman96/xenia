@@ -13,7 +13,7 @@ import core.stdc.string;
 import core.stdc.stdlib;
 
 import include.xf86;
-import include.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSproc;;
 import hw.xfree86.utils.compiler;
 import include.xf86Pci;
 version = _INT10_PRIVATE;

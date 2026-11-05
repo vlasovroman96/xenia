@@ -42,7 +42,7 @@ import include.xf86;
 import include.xf86Priv;
 
 import xf86Bus;
-import include.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSproc;;
 
 int xf86ClaimFbSlot(DriverPtr drvp, int chipset, GDevPtr dev, Bool active)
 {

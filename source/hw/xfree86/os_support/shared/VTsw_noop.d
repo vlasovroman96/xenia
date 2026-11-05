@@ -30,7 +30,7 @@ import build.xorg_config;
 import include.xf86;
 import include.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;
-import include.xf86_OSlib;
+import hw.xfree86.os_support.xf86_OSlib;
 
 // /*
 //  * No-op functions for OSs without VTs

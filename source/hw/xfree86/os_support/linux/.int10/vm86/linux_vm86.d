@@ -7,7 +7,7 @@ import core.stdc.errno;
 import core.stdc.string;
 
 import include.xf86;
-import include.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSproc;;
 import include.xf86Pci;
 import hw.xfree86.utils.compiler;
 version = _INT10_PRIVATE;

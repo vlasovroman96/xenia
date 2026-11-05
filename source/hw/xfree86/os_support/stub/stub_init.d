@@ -4,7 +4,7 @@ extern(C): __gshared:
 import build.xorg_config;
 
 import hw.xfree86.os_support.xf86_os_support;
-import include.xf86_OSlib;
+import hw.xfree86.os_support.xf86_OSlib;
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 void xf86OpenConsole()

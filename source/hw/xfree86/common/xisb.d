@@ -36,8 +36,8 @@ import build.xorg_config;
 
 import common.misc;
 import include.xf86;
-import include.xf86_OSproc;;
-import include.xf86_OSlib;
+import hw.xfree86.os_support.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSlib;
 // import hw.xfree86.common.xf86sbusBus_priv;;
 import hw.xfree86.os_support.bus.xf86Sbus_priv;
 import include.xf86sbusBus;

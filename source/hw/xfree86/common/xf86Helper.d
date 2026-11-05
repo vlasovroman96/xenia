@@ -64,7 +64,7 @@ import dix.gc;
 import hw.xfree86.loader.loaderProcs;
 import xf86_priv;
 import include.xf86Priv;
-import include.xf86_OSlib;
+import hw.xfree86.os_support.xf86_OSlib;
 import mi.micmap;
 import xf86Bus;
 import hw.xfree86.common.xf86Xinput;

@@ -74,7 +74,7 @@ import common.misc;
 import xf86_priv;
 import include.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;
-import include.xf86_OSlib;
+import hw.xfree86.os_support.xf86_OSlib;
 import xf86Cursor;
 // import xf86platformBus_priv;
 import dix.window;

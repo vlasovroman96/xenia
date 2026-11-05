@@ -1,4 +1,4 @@
-module include.xf86_OSlib;
+module hw.xfree86.os_support.xf86_OSlib;
 @nogc nothrow:
 extern(C): __gshared:
 
@@ -242,6 +242,6 @@ enum MAP_FAILED = cast(void *)-1;
 enum string SYSCALL(string call) = `
     while ((` ~ call ~ `) == -1 && errno == EINTR) {}
 `;
-public import include.xf86_OSproc;;
+public import hw.xfree86.os_support.xf86_OSproc;;
 
                           /* _XF86_OSLIB_H */

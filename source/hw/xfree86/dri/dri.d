@@ -72,7 +72,7 @@ import include.xf86str;
 import dri_priv;
 import mi.mipointer;
 import hw.xfree86.os_support.xf86_os_support;
-import include.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSproc;;
 import dix.inputstr;// import xf86VGAarbiter_priv;
 import xf86Extensions;
 import xf86Config;

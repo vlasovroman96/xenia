@@ -22,7 +22,7 @@ import core.stdc.errno;
 import include.xf86;
 import include.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;
-import include.xf86_OSlib;
+import hw.xfree86.os_support.xf86_OSlib;
 
 version (linux) {
 import externs.c_asm.ioctl;
@@ -63,7 +63,7 @@ import os.os;
 import xf86_priv;
 import include.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;
-import include.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSproc;;
 import include.xf86Privstr;
 
 import os.log;

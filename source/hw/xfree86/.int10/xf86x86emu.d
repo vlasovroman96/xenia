@@ -9,7 +9,7 @@ extern(C): __gshared:
 import build.xorg_config;
 
 import include.xf86;
-import include.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSproc;;
 import include.xf86Pci;
 version = _INT10_PRIVATE;
 import xf86int10_priv;

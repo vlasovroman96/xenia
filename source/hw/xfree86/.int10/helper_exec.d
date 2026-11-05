@@ -26,7 +26,7 @@ import core.sys.posix.unistd;
 import os.osdep;
 
 import include.xf86;
-import include.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSproc;;
 import xf86Bus;
 import hw.xfree86.utils.compiler;
 version = _INT10_PRIVATE;

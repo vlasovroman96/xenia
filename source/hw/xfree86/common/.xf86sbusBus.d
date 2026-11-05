@@ -32,7 +32,7 @@ import core.sys.posix.unistd;
 import os.os;
 import xf86_priv;
 import include.xf86Priv;
-import include.xf86_OSlib;
+import hw.xfree86.os_support.xf86_OSlib;
 import xf86cmap;
 
 import xf86Bus;

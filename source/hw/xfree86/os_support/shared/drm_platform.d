@@ -14,7 +14,7 @@ import core.stdc.string;
 import config.hotplug_priv;
 
 /* Linux platform device support */
-import include.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSproc;;
 
 import xf86_priv;
 import hw.xfree86.os_support.xf86_os_support;
@@ -28,7 +28,7 @@ import os.osdep;
 import include.xf86;
 import include.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;
-import include.xf86_OSlib;
+import hw.xfree86.os_support.xf86_OSlib;
 
 import seatd_libseat;
 

@@ -54,7 +54,7 @@ import config.dbus_core;
 // import xf86_priv;
 // import include.xf86Priv;
 // import hw.xfree86.os_support.xf86_os_support;
-// import include.xf86_OSproc;;
+// import hw.xfree86.os_support.xf86_OSproc;;
 // import include.xf86Privstr;
 
 // import os.log;

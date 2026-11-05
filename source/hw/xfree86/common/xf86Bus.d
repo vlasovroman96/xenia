@@ -59,7 +59,7 @@ import xf86Bus;
 // import hw.xfree86.common.xf86sbusBus_priv;;
 import xf86platformBus_priv;
 
-import include.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSproc;;
 import xf86VGAarbiter_priv;
 import os.log;
 import externs.attrs;

@@ -30,7 +30,7 @@ import core.stdc.config: c_long, c_ulong;
  
 public import common.misc;
 public import include.xf86;
-public import include.xf86_OSproc;;
+public import hw.xfree86.os_support.xf86_OSproc;;
 public import externs.X11.extensions.renderproto;
 public import dix.scrnintstr;
 public import dix.scrintstr;

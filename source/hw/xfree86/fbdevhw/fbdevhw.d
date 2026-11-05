@@ -25,7 +25,7 @@ import sys.mkdev;          /* for minor() on Solaris */
 
 import include.xf86;
 import xf86Modes;
-import include.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSproc;;
 
 /* pci stuff */
 import include.xf86Pci;

@@ -41,7 +41,7 @@ import os.serverlock;
 import xf86_priv;
 import xf86Bus;
 import xf86Config;
-import include.xf86_OSlib;
+import hw.xfree86.os_support.xf86_OSlib;
 import include.xf86Priv;
 version = IN_XSERVER;
 import Configint;

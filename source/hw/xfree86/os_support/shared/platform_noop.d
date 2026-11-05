@@ -7,7 +7,7 @@ import config.hotplug_priv;
 import build.xlibre_server;
 static if(XSERVER_PLATFORM_BUS){
 /* noop platform device support */
-import include.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSproc;;
 
 import include.xf86;
 import hw.xfree86.os_support.xf86_os_support;

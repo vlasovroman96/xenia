@@ -10,7 +10,7 @@ import build.xorg_config;
 
 import include.xf86;
 import include.xf86str;
-import include.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSproc;;
 version = _INT10_PRIVATE;
 import include.xf86int10;
 

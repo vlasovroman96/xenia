@@ -18,7 +18,7 @@ import os.osdep;
 
 import common.misc;
 import include.xf86;
-import include.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSproc;;
 
 //import x11.X;
 // //import x11.Xos;

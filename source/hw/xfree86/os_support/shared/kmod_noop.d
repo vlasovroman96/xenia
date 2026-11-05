@@ -29,7 +29,7 @@ extern(C): __gshared:
  */
 import build.xorg_config;
 
-import include.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSproc;;
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 int xf86LoadKernelModule(const(char)* pathname)

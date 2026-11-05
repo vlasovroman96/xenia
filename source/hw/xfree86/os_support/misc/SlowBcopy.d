@@ -20,7 +20,7 @@ import build.xorg_config;
 //import x11.X;
 import include.xf86;
 import include.xf86Priv;
-import include.xf86_OSlib;
+import hw.xfree86.os_support.xf86_OSlib;
 import hw.xfree86.utils.compiler;
 
 /* The outb() isn't needed on my machine, but who knows ... -- ost */

@@ -1,4 +1,4 @@
-module include.xf86_OSproc;
+module hw.xfree86.os_support.xf86_OSproc;
 @nogc nothrow:
 extern(C): __gshared:
 import core.stdc.config: c_long, c_ulong;

@@ -58,7 +58,7 @@ import hw.xfree86.common.xf86MatchDrivers;
 /* Bus-specific headers */
 import xf86Bus;
 
-import include.xf86_OSproc;;
+import hw.xfree86.os_support.xf86_OSproc;;
 import xf86DGA;
 import include.xf86Pci;
 import hw.xfree86.common.xf86Helper;
