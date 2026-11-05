@@ -1,4 +1,4 @@
-module include.fourcc;
+module hw.xfree86.common.fourcc;
 @nogc nothrow:
 extern(C): __gshared:
 

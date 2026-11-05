@@ -50,7 +50,7 @@ import glamor.glamor_pixmap;
 
 
 // //import externs.X11.extensions.Xv;
-import include.fourcc;
+import hw.xfree86.common.fourcc;
 /* Reference color space transform data */
 struct REF_TRANSFORM {
     float RefLuma = 0;

@@ -31,7 +31,7 @@ import hw.kdrive.src.kxv;
 import glamor.glamor_priv;
 
 // //import externs.X11.extensions.Xv;
-import include.fourcc;
+import hw.xfree86.common.fourcc;
 
 enum NUM_FORMATS = 4;
 
