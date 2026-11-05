@@ -47,7 +47,7 @@ public import dix.scrnintstr;
 public import dix.pixmap;
 public import dix.colormap;
 public import xf86Module_priv;
-public import include.xf86Opt;
+public import xf86Opt_priv;
 import hw.xfree86.modes.displaymode;
 import externs.pciaccess;
 import hw.xfree86.common.xf86Xinput;

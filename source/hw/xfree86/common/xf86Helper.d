@@ -85,7 +85,7 @@ import dix.window;
 
 public import include.xlibre_ptrtypes;
 public import include.xf86str;
-public import include.xf86Opt;
+public import xf86Opt_priv;
 public import core.stdc.stdarg;
 import hw.xfree86.modes.displaymode;
 //public import externs.X11.extensions._randr;
