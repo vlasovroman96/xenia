@@ -40,7 +40,7 @@ import pageflip;
 import externs.X11.extensions.dpmsconst;
 import externs.gbm;
 
-import include.present;
+import present.present_priv;
 
 import include.xf86;
 import include.xf86Crtc;
