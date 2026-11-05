@@ -160,12 +160,14 @@ struct XList {
         this.autoinit();
         this.prev.insertNext(elem);
     }
-}
 
-pragma(inline, true) void __xorg_list_del(XList* prev, XList* next)
-{
-    next.prev = prev;
-    prev.next = next;
+    /** 
+     * Cutting off element from the list 
+     */
+    void cutOff() {
+        this.next.prev = this.prev;
+        this.prev.next = this.next;
+    }
 }
 
 /**
@@ -184,7 +186,7 @@ pragma(inline, true) void __xorg_list_del(XList* prev, XList* next)
  */
 pragma(inline, true) void xorg_list_del(XList* entry)
 {
-    __xorg_list_del(entry.prev, entry.next);
+    entry.cutOff();
     entry.initList();
 }
 
