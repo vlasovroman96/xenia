@@ -68,7 +68,6 @@ import mifillarc;
 import mizerarc;
 import mi.mifpoly;
 import dix.gc;
-// module mizerarc;
 import dix.dispatch;
 
 

@@ -30,7 +30,6 @@ extern(C): __gshared:
  */
 public import fb.fb_priv;
 import mi.miline;
-import include.mizerarc;
 import mizerarc;
 import core.stdc.config: c_long, c_ulong;
 import fb.fb;
