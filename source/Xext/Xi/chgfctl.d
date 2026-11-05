@@ -61,7 +61,7 @@ import externs.X11.extensions.XIproto;     /* control constants */
 
 import dix.dix_priv;
 import dix.request_priv;
-import include.inputstr;           /* DeviceIntPtr      */
+import dix.inputstr;           /* DeviceIntPtr      */
 import Xi.handlers;
 import externs.X11.extensions.XI;
 import dix.globals;

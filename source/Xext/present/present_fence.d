@@ -30,9 +30,6 @@ import dix.gc;
 import include.misync;
 import include.misyncstr;
 
-import include.list;
-
-
 /*
  * Wraps SyncFence objects so we can add a SyncTrigger to find out
  * when the SyncFence gets destroyed and clean up appropriately

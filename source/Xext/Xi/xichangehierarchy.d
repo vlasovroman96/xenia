@@ -49,7 +49,7 @@ import dix.request_priv;
 import os.bug_priv;
 import Xi.handlers;
 import dix.events;
-import include.inputstr;           /* DeviceIntPtr      */
+import dix.inputstr;           /* DeviceIntPtr      */
 import include.windowstr;          /* window structure  */
 import include.scrnintstr;         /* screen structure  */
 import dix.extension;

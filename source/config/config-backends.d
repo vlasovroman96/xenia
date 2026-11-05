@@ -28,7 +28,7 @@ extern(C): __gshared:
 
  
 public import dix.input;
-public import include.list;
+import common.list;
 import config.hotplug_priv;
 
 void remove_devices(const(char)* backend, const(char)* config_info);

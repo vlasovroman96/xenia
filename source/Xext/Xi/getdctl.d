@@ -63,7 +63,7 @@ import dix.devices;
 import dix.events;
 
 
-import include.inputstr;           /* DeviceIntPtr      */
+import dix.inputstr;           /* DeviceIntPtr      */
 
 private void _writeDeviceResolution(ClientPtr client, ValuatorClassPtr v, x_rpcbuf_t* rpcbuf)
 {

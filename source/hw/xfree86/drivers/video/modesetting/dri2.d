@@ -46,7 +46,7 @@ import externs.libdrm;
 import dix.dix_priv;
 import externs.X11.extensions.dri2tokens;
 import dix.gc;
-import include.list;
+import common.list;
 import include.xf86;
 // import driver;
 import hw.xfree86.drivers.video.modesetting.dri2;

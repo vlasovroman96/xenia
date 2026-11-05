@@ -44,7 +44,7 @@ import dix.request_priv;
 import dix.resource_priv;
 import Xi.handlers;
 
-import include.inputstr;           /* DeviceIntPtr      */
+import dix.inputstr;           /* DeviceIntPtr      */
 import include.windowstr;          /* window structure  */
 import Xi.exglobals;          /* BadDevice */
 import externs.X11.extensions.XI2proto;

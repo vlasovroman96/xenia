@@ -61,7 +61,7 @@ import build.dix_config;
 import dix.request_priv;
 import Xi.handlers;
 
-import include.inputstr;           /* DeviceIntPtr      */
+import dix.inputstr;           /* DeviceIntPtr      */
 import Xi.XIstubs;
 import Xi.exevents;
 import Xi.exglobals;

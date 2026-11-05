@@ -52,7 +52,6 @@ PERFORMANCE OF THIS SOFTWARE.
 ******************************************************************/
 
  
-public import include.list;
 public import include.misync;
 public import include.misyncstr;
 import externs.X11.extensions.syncconst;

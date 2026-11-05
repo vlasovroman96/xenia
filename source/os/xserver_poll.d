@@ -106,7 +106,7 @@ import os.fd_notify;
 import os.xserver_poll;
 
 import os.ospoll;
-import include.list;
+import common.list;
 import core.sys.linux.epoll;                   
 
 static if (HasVersion!"Windows" && !HasVersion!"Cygwin") {

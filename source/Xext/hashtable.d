@@ -9,7 +9,7 @@ import dix.resource_priv;
 
 import include.misc;
 import Xext.hashtable;
-import include.list;
+import common.list;
 
 /* HashResourceID */
 import include.resource;

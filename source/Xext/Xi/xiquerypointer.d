@@ -52,7 +52,7 @@ import os.fmt;
 import Xext.panoramiXsrv;
 import Xi.handlers;
 
-import include.inputstr;           /* DeviceIntPtr      */
+import dix.inputstr;           /* DeviceIntPtr      */
 import include.windowstr;          /* window structure  */
 import dix.extension;
 import Xi.exglobals;

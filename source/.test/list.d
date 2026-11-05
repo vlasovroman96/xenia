@@ -28,7 +28,7 @@ extern(C): __gshared:
 import build.dix_config;
 
 //import externs.X11.Xlib;
-import include.list;
+import common.list;
 import core.stdc.string;
 import core.stdc.assert_;
 import core.stdc.stdlib;

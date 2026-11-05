@@ -62,7 +62,6 @@ import include.servermd;
 import mi.mipointer;
 import dix.inputstr;import include.windowstr;
 import Xext.xace;
-import include.list;
 import Xi.exglobals;
 import dix.events;
 import externs.X11.extensions.xfixesproto;

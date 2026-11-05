@@ -43,7 +43,7 @@ import os.client_priv;
 static if (WITH_LIBDRM) {
 import externs.libdrm;;
 }
-import include.list;
+import common.list;
 import include.scrnintstr;
 import include.windowstr;
 import dix.dixstruct_priv;
@@ -53,7 +53,6 @@ import dix.damage;
 import hw.xfree86.drivers.video.modesetting.dri2;
 import Xext.dri2.dri2ext;
 import externs.X11.extensions.dri2tokens;
-import include.list;
 import dix.pixmap;
 import os.log;
 import std.string;

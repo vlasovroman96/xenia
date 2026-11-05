@@ -83,7 +83,7 @@ public import glamor.glamor_debug;
 public import glamor.glamor_context;
 public import glamor.glamor_program;
 
-public import include.list;
+public import common.list;
 
 // struct glamor_pixmap_private;
 

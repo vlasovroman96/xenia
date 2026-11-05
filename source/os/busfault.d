@@ -31,7 +31,7 @@ import build.dix_config;
 import os.busfault;
 
 import include.misc;
-import include.list;
+import common.list;
 import core.stdc.stddef;
 import core.stdc.stdlib;
 import core.stdc.stdint;

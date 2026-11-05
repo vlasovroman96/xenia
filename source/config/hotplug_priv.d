@@ -34,7 +34,7 @@ extern(C): __gshared:
 
 public import dix.settings_priv;
 
-public import include.list;
+import common.list;
 
 // import hw.xfree86.drivers.video.modesetting.driver;
 

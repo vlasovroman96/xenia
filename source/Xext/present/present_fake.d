@@ -24,7 +24,7 @@ extern(C): __gshared:
  */
 import build.dix_config;
 
-import include.list;
+import common.list;
 import present.present_priv;
 import os.utils;
 import os.WaitFor;

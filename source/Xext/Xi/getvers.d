@@ -62,7 +62,7 @@ import dix.dix_priv;
 import dix.request_priv;
 import Xi.handlers;
 
-import include.inputstr;           /* DeviceIntPtr      */
+import dix.inputstr;           /* DeviceIntPtr      */
 import Xi.exglobals;
 public import Xi.extinit;
 

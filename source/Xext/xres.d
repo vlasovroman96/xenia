@@ -33,7 +33,7 @@ import include.pixmapstr;
 import include.windowstr;
 import dix.gc;
 import include.protocol_versions;
-import include.list;
+import common.list;
 import include.misc;
 import Xext.hashtable;
 import include.picturestr;

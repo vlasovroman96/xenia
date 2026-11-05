@@ -37,7 +37,7 @@ from The Open Group.
 public import dix.input;              /* for DeviceIntPtr */
 public import include.pixmap;             /* for DrawablePtr */
 public import include.resource;           /* for RESTYPE */
-public import include.inputstr;              /* for DeviceIntPtr */
+public import dix.inputstr;              /* for DeviceIntPtr */
 import security;              /* for DeviceIntPtr */
 
 

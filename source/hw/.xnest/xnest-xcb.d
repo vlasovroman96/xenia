@@ -9,7 +9,7 @@ extern(C): __gshared:
 // public //import stdbool;
 public import externs.xcb.xcb;
 
-public import include.list;
+public import common.list;
 import dix.gc;
 import include.scrintstr;
 import x11.Xprotostr;

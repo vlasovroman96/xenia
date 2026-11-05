@@ -55,7 +55,7 @@ SOFTWARE.
 
 import build.dix_config;
 
-import include.inputstr;           /* DeviceIntPtr      */
+import dix.inputstr;           /* DeviceIntPtr      */
 //import externs.X11.extensions.XI;
 // // //import externs.X11.extensions.XIproto;
 

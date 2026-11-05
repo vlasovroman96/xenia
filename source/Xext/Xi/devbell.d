@@ -58,7 +58,7 @@ import build.dix_config;
 //import externs.X11.extensions.XI;
 // //import externs.X11.extensions.XIproto;
 
-import include.inputstr;           /* DeviceIntPtr      */
+import dix.inputstr;           /* DeviceIntPtr      */
 
 import dix.request_priv;
 import Xi.handlers;

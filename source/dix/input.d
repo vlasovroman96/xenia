@@ -59,7 +59,7 @@ public import core.stdc.stdint;
 public import include.window;             /* for WindowPtr */
 public import include.xkbrules;
 public import dix.events;
-public import include.list;
+public import common.list;
 public import include.os;
 import dix.inpututils_priv;
 //public import externs.X11.extensions.XI2;
