@@ -59,7 +59,6 @@ public import dix.pixmap;
 public import dix.extension;
 public import include.servermd;
 public import randr.rrtransform;
-import include.rrtransform;
 import dix.timestamp;
 
 //public import externs.X11.extensions._randr;

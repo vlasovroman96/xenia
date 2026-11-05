@@ -38,7 +38,7 @@ import os.osdep;
 
 import dix.swaprep;
 import mi.mipointer;
-import include.rrtransform;
+import randr.rrtransform;
 import randr.randr;
 import randr.rroutput;
 import randr.rroutput;

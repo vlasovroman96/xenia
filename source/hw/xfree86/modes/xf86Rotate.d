@@ -55,7 +55,7 @@ import dix.events;
 import hw.xfree86.modes.xf86Crtc;
 import randr.randr;
 import randr.rrcrtc;
-import include.rrtransform;
+import randr.rrtransform;
 import include.xf86Parser;
 import randr.rrmode;
 import randr.rroutput;

@@ -33,7 +33,7 @@ public import xf86Cursor;
 public import include.xf86i2c;
 public import dix.damage;
 public import dix.picturestr;
-import include.rrtransform;
+import randr.rrtransform;
 import include.xf86Parser;
 import include.xf86Cursor;
 import include.scrintstr;

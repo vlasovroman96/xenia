@@ -50,7 +50,7 @@ import xf86RandR12_priv;
 // //import externs.X11.extensions.dpmsconst;
 //import externs.X11.Xatom;
 import dix.picturestr;
-import include.rrtransform;
+import randr.rrtransform;
 import hw.xfree86.common.xf86Helper;;
 import externs.attrs;
 import externs.gnu;;

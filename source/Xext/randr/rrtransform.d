@@ -24,11 +24,25 @@ extern(C): __gshared:
  */
 import build.dix_config;
 
-import include.rrtransform;
 import randr.randrstr_priv;
 import externs.attrs;
 import dix.picture;
 
+public import dix.picturestr;
+
+alias RRTransformRec = _rrTransform;
+alias RRTransformPtr = _rrTransform*;
+
+struct _rrTransform {
+    PictTransform transform;
+    pixman_f_transform f_transform;
+    pixman_f_transform f_inverse;
+    PictFilterPtr filter;
+    XFixed* params;
+    int nparams;
+    int width;
+    int height;
+}
 
 void RRTransformInit(RRTransformPtr transform)
 {

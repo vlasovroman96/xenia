@@ -35,7 +35,7 @@ import core.stdc.config: c_long, c_ulong;
 
 public import randr.randr;
 import externs.X11.extensions.randrproto;
-import include.rrtransform;
+import randr.rrtransform;
 
 // int RREventBase, RRErrorBase;
 
