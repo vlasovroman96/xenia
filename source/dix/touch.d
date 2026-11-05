@@ -42,8 +42,7 @@ import mi.mi_priv;
 import os.bug_priv;
 import os.log_priv;
 
-import include.inputstr;
-import include.scrnintstr;
+import dix.inputstr;import include.scrnintstr;
 import dix.events;
 import Xi.exglobals;
 import include.windowstr;

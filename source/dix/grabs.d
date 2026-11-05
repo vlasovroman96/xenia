@@ -68,8 +68,7 @@ import os.client_priv;
 
 import include.misc;
 import include.windowstr;
-import include.inputstr;
-import dix.cursor;
+import dix.inputstr;import dix.cursor;
 import Xi.exglobals;
 import os.log;
 import os.access;

@@ -32,8 +32,7 @@ import core.stdc.config: c_long, c_ulong;
 import config.kdrive_config;
 import config.xkb_config;
 import hw.kdrive.src.kdrive;
-import include.inputstr;
-
+import dix.inputstr;
 
 version = XK_PUBLISHING;
 //import x11.keysym;

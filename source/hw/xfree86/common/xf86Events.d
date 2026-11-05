@@ -83,8 +83,7 @@ static if(build.xlibre_server.XFreeXDGA){
 import hw.xfree86.common.dgaproc_priv;
 }
 
-import include.inputstr;
-import mi.mipointer;
+import dix.inputstr;import mi.mipointer;
 import include.xkbsrv;
 import include.xkbsrv;
 import build.xlibre_server;

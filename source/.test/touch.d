@@ -32,8 +32,7 @@ import core.stdc.stdint;
 import dix.atom_priv;
 import dix.input_priv;
 
-import include.inputstr;
-// import assert;
+import dix.inputstr;// import assert;
 import include.scrnintstr;
 import test.tests_common;
 import test.tests;

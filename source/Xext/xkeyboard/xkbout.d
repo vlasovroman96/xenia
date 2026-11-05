@@ -44,8 +44,7 @@ import xkb.xkbsrv_priv;
 import xkb.xkbtext_priv;
 
 import include.misc;
-import include.inputstr;
-import include.xkbsrv;
+import dix.inputstr;import include.xkbsrv;
 import xkb.xkbgeom_priv;
 import externs.X11.extensions.XKB;
 // import externs.X11.extensions.XKBgeom;

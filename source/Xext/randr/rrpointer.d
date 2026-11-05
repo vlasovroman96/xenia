@@ -29,8 +29,7 @@ import dix.input_priv;
 import randr.randrstr_priv;
 
 import include.randrstr;
-import include.inputstr;
-import randr.rrcrtc;
+import dix.inputstr;import randr.rrcrtc;
 import dix.resource;
 import randr.rroutput;
 import randr.rrmode;

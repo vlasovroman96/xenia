@@ -61,8 +61,7 @@ import build.dix_config;
 
 import x11.Xdefs;
 //import x11.Xproto;
-import include.inputstr;
-//import externs.X11.extensions.XI;
+import dix.inputstr;//import externs.X11.extensions.XI;
 // //import externs.X11.extensions.XIproto;
 import Xi.XIstubs;
 import Xext.xace;

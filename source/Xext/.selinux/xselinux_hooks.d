@@ -50,8 +50,7 @@ import dix.server_priv;
 import os.client_priv;
 
 import registry;
-import include.inputstr;
-import include.scrnintstr;
+import dix.inputstr;import include.scrnintstr;
 import include.windowstr;
 import include.propertyst;
 import Xext.xacestr;

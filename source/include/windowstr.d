@@ -57,8 +57,7 @@ public import include.resource;           /* for ROOT_WINDOW_ID_BASE */
 public import include.privates;
 public import include.miscstruct;
 //public import x11.Xprotostr;
-public import include.inputstr;
-import mi.mi_priv;
+public import dix.inputstr;import mi.mi_priv;
 
 
 

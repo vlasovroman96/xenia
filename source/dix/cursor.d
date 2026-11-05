@@ -62,8 +62,7 @@ import include.servermd;
 import include.scrnintstr;
 import dix.dixstruct_priv;
 import dix.cursor;
-import include.inputstr;
-import Xext.xace;
+import dix.inputstr;import Xext.xace;
 import dix.dixfonts;
 import dix.events;
 

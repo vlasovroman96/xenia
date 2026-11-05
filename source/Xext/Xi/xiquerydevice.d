@@ -49,8 +49,7 @@ import dix.rpcbuf_priv;
 import os.fmt;
 import Xi.handlers;
 
-import include.inputstr;
-import include.xkbsrv;
+import dix.inputstr;import include.xkbsrv;
 import include.xkbsrv;
 import include.xserver_properties;
 import Xi.exglobals;

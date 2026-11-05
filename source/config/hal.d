@@ -39,8 +39,7 @@ import config.dbus_core;
 import os.fmt;
 
 import dix.input;
-import include.inputstr;
-import config.config_backends;
+import dix.inputstr;import config.config_backends;
 import include.os;
 import externs.gnu;
 import os.log;

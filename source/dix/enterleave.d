@@ -43,8 +43,7 @@ import dix.screenint_priv;
 import dix.window_priv;
 import os.bug_priv;
 
-import include.inputstr;
-import include.windowstr;
+import dix.inputstr;import include.windowstr;
 import include.scrnintstr;
 import Xi.exglobals;
 // import dix.enterleave;

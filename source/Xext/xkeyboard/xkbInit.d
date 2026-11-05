@@ -58,14 +58,12 @@ import os.log_priv;
 import xkb.xkbsrv_priv;
 
 import include.misc;
-import include.inputstr;
-import include.scrnintstr;
+import dix.inputstr;import include.scrnintstr;
 import xkb.xkbgeom_priv;
 import include.xkbstr;
 import include.xkbstr;
 import include.misc;
-import include.inputstr;
-import Xi.exevents;
+import dix.inputstr;import Xi.exevents;
 import dix.events;
 import mi.mipointer;
 import include.xkbstr;

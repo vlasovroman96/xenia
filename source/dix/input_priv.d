@@ -55,8 +55,7 @@ SOFTWARE.
  
 public import dix.cursor;
 public import dix.input;
-public import include.inputstr;
-
+public import dix.inputstr;
 struct _DDXTouchPointInfo {
     uint client_id;         /* touch ID as seen in client events */
     Bool active;                /* whether or not the touch is active */

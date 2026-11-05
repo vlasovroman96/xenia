@@ -30,8 +30,7 @@ import include.misc;
 import include.scrnintstr;
 import include.windowstr;
 import include.servermd;
-import include.inputstr;
-
+import dix.inputstr;
 import xnest_xcb;
 
 

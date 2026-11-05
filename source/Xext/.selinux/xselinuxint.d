@@ -29,8 +29,7 @@ public import dix.dixaccess;
 public import dix.dixstruct_priv;
 public import include.privates;
 public import include.resource;
-public import include.inputstr;
-public import Xext.xselinux;
+public import dix.inputstr;public import Xext.xselinux;
 // import externs.selinux.selinux;
 // import externs.selinux.avc;
 

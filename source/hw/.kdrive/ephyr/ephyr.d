@@ -38,8 +38,7 @@ import os.osdep;
 import os.serverlock;
 
 import hw.kdrive.ephyr.ephyr;
-import include.inputstr;
-import include.scrnintstr;
+import dix.inputstr;import include.scrnintstr;
 // import ephyrlog;
 
 // static if (GLAMOR) {

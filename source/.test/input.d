@@ -49,8 +49,7 @@ import os.fmt;
 import include.misc;
 import include.resource;
 import include.windowstr;
-import include.inputstr;
-import Xi.exglobals;
+import dix.inputstr;import Xi.exglobals;
 import dix.events;
 // import assert;
 

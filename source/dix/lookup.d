@@ -12,8 +12,7 @@ import build.dix_config;
 import dix.dix_priv;
 import dix.resource_priv;
 import dix.input;
-import include.inputstr;
-import include.windowstr;
+import dix.inputstr;import include.windowstr;
 
 ClientPtr dixClientForWindow(WindowPtr pWin) {
     if (!pWin)

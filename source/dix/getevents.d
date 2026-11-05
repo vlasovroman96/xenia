@@ -55,8 +55,7 @@ import Xext.panoramiXsrv;
 
 import include.misc;
 import include.resource;
-import include.inputstr;
-import include.scrnintstr;
+import dix.inputstr;import include.scrnintstr;
 import dix.cursor;
 import dix.dixstruct_priv;
 import mi.mipointer;

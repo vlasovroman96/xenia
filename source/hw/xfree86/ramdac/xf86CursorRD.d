@@ -24,8 +24,7 @@ import hw.xfree86.modes.displaymode;
  *
  * Externing inputInfo is not the nice way to do it but it works.
  */
-import include.inputstr;
-
+import dix.inputstr;
 DevPrivateKeyRec xf86CursorScreenKeyRec;
 DevScreenPrivateKeyRec xf86ScreenCursorBitsKeyRec;
 

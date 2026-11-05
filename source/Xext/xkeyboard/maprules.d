@@ -47,8 +47,7 @@ import os.log_priv;
 import xkb.xkbrules_priv;
 
 import include.misc;
-import include.inputstr;
-import include.os;
+import dix.inputstr;import include.os;
 import include.xkbsrv;
 import include.xkbsrv;
 import include.xkbstr;

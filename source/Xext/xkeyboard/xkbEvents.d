@@ -43,15 +43,13 @@ import dix.input_priv;
 import os.log_priv;
 import xkb.xkbsrv_priv;
 
-import include.inputstr;
-import Xi.exglobals;
+import dix.inputstr;import Xi.exglobals;
 import include.windowstr;
 import externs.X11.extensions.XKBproto;
 // import externs.X11.extensions.XKBstr;
 import include.xkbstr;
 import include.misc;
-import include.inputstr;
-import Xi.exevents;
+import dix.inputstr;import Xi.exevents;
 import dix.events;
 import mi.mipointer;
 import include.xkbstr;

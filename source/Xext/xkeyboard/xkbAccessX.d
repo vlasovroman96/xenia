@@ -48,8 +48,7 @@ import dix.inpututils_priv;
 import os.log_priv;
 import xkb.xkbsrv_priv;
 
-import include.inputstr;
-import dix.events;
+import dix.inputstr;import dix.events;
 import externs.X11.extensions.XKBproto;
 import include.xkbstr;
 import dix.inpututils;

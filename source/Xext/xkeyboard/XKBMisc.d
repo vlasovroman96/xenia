@@ -38,8 +38,7 @@ import xkb.xkbfmisc_priv;
 import xkb.xkbsrv_priv;
 
 import include.misc;
-import include.inputstr;
-import include.xkbstr;
+import dix.inputstr;import include.xkbstr;
 import externs.X11.extensions.XKB;
 import xkb.XKBMAlloc;
 

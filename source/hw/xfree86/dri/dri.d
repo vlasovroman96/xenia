@@ -74,8 +74,7 @@ import dri_priv;
 import mi.mipointer;
 import hw.xfree86.os_support.xf86_os_support;
 import include.xf86_OSproc;;
-import include.inputstr;
-// import xf86VGAarbiter_priv;
+import dix.inputstr;// import xf86VGAarbiter_priv;
 import xf86Extensions;
 import xf86Config;
 import hw.xfree86.os_support.linux.lnx_kmod;
@@ -91,8 +90,7 @@ import dix.screen_hooks;
 import xf86VGAarbiter;
 import xf86Globals;
 import os.log;
-import include.inputstr;
-import dix.events;
+import dix.inputstr;import dix.events;
 import dix.window;
 
 

@@ -46,8 +46,7 @@ import Xi.handlers;
 import dix.atom;
 import dix.dispatch;
 
-import include.inputstr;
-import Xi.exglobals;
+import dix.inputstr;import Xi.exglobals;
 import dix.swaprep;
 import Xi.xiproperty;
 import include.xserver_properties;

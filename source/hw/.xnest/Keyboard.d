@@ -32,8 +32,7 @@ import externs.xcb.xkb;
 import os.osdep;
 
 import include.scrintstr;
-import include.inputstr;
-import include.misc;
+import dix.inputstr;import include.misc;
 import include.scrnintstr;
 import include.servermd;
 

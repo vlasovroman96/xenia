@@ -28,8 +28,7 @@ import dix.request_priv;
 import dix.selection_priv;
 import miext.extinit_priv;
 
-import include.inputstr;
-import include.windowstr;
+import dix.inputstr;import include.windowstr;
 import include.propertyst;
 import Xext.xselinuxint;
 import Xext.xselinux;

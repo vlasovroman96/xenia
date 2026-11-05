@@ -107,8 +107,7 @@ import os.log_priv;
 import os.osdep;
 import xkb.xkbsrv_priv;
 
-import include.inputstr;
-import include.windowstr;
+import dix.inputstr;import include.windowstr;
 import include.miscstruct;
 import dix.extension;
 import Xi.exglobals;

@@ -37,8 +37,7 @@ import config.hotplug_priv;
 import os.fmt;
 
 import dix.input;
-import include.inputstr;
-import config.config_backends;
+import dix.inputstr;import config.config_backends;
 import include.os;
 import externs.attrs;
 import os.log;

@@ -37,8 +37,7 @@ import os.bug_priv;
 
 import Xi.exglobals;
 import include.misc;
-import include.inputstr;
-import include.xkbsrv;
+import dix.inputstr;import include.xkbsrv;
 import include.xkbsrv;
 import dix.events;
 import include.scrnintstr;
