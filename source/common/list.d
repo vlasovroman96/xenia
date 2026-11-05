@@ -126,12 +126,14 @@ struct XList {
     }
 
     alias initList = _init;
-}
 
-pragma(inline, true) void __xorg_list_autoinit(XList* head)
-{
-    if ((!head.prev) && (!head.next))
-        head.initList();
+    /**
+     * Initilize list only if both pointers are **null**
+     */
+    void autoinit() {
+        if ((!this.prev) && (!this.next))
+            this._init();
+    }
 }
 
 pragma(inline, true) void __xorg_list_add(XList* entry, XList* prev, XList* next)
@@ -159,7 +161,7 @@ pragma(inline, true) void __xorg_list_add(XList* entry, XList* prev, XList* next
  */
 pragma(inline, true) void xorg_list_add(XList* entry, XList* head)
 {
-    __xorg_list_autoinit(head);
+    head.autoinit();
     __xorg_list_add(entry, head, head.next);
 }
 
@@ -180,7 +182,7 @@ pragma(inline, true) void xorg_list_add(XList* entry, XList* head)
  */
 pragma(inline, true) void xorg_list_append(XList* entry, XList* head)
 {
-    __xorg_list_autoinit(head);
+    head.autoinit();
     __xorg_list_add(entry, head.prev, head);
 }
 
