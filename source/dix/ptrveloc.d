@@ -34,7 +34,7 @@ import dix.exevents_priv;
 import dix.ptrveloc_priv;
 import os.bug_priv;
 
-import include.ptrveloc;
+import ptrveloc;
 import externs.X11.Xatom;
 import os.os;
 
@@ -75,6 +75,66 @@ import os.inputthread;
  ****************************************************************************/
 
 /* fwds */
+
+public import dix.input;
+import dix.ptrveloc_priv;
+/* constants for acceleration profiles */
+
+enum AccelProfileNone = -1;
+enum AccelProfileClassic =  0;
+enum AccelProfileDeviceSpecific = 1;
+enum AccelProfilePolynomial = 2;
+enum AccelProfileSmoothLinear = 3;
+enum AccelProfileSimple = 4;
+enum AccelProfilePower = 5;
+enum AccelProfileLinear = 6;
+enum AccelProfileSmoothLimited = 7;
+enum AccelProfileLAST = AccelProfileSmoothLimited;
+
+/* fwd */
+// struct _DeviceVelocityRec;
+
+/**
+ * profile
+ * returns actual acceleration depending on velocity, acceleration control,...
+ */
+alias PointerAccelerationProfileFunc = double function(DeviceIntPtr dev, _DeviceVelocityRec* vel, double velocity, double threshold, double accelCoeff);
+
+alias MotionTracker = _MotionTracker;
+alias MotionTrackerPtr = _MotionTracker*;
+
+/**
+ * Contains all data needed to implement mouse ballistics
+ */
+struct _DeviceVelocityRec {
+    MotionTrackerPtr tracker;
+    int num_tracker;
+    int cur_tracker;            /* current index */
+    double velocity = 0;            /* velocity as guessed by algorithm */
+    double last_velocity = 0;       /* previous velocity estimate */
+    double last_dx = 0;             /* last time-difference */
+    double last_dy = 0;             /* phase of last/current estimate */
+    double corr_mul = 0;            /* config: multiply this into velocity */
+    double const_acceleration = 0;  /* config: (recipr.) const deceleration */
+    double min_acceleration = 0;    /* config: minimum acceleration */
+    short reset_time;           /* config: reset non-visible state after # ms */
+    short use_softening;        /* config: use softening of mouse values */
+    double max_rel_diff = 0;        /* config: max. relative difference */
+    double max_diff = 0;            /* config: max. difference */
+    int initial_range;          /* config: max. offset used as initial velocity */
+    Bool average_accel;         /* config: average acceleration over velocity */
+    PointerAccelerationProfileFunc Profile;
+    PointerAccelerationProfileFunc deviceSpecificProfile;
+    void* profile_private;      /* extended data, see  SetAccelerationProfile() */
+    struct _Statistics {                    /* to be able to query this information */
+        int profile_number;
+    }_Statistics statistics;
+}alias DeviceVelocityRec = _DeviceVelocityRec;
+alias DeviceVelocityPtr = _DeviceVelocityRec*;
+
+// void  GetDevicePredictableAccelData(DeviceIntPtr dev);
+
+void  SetDeviceSpecificAccelerationProfile(DeviceVelocityPtr vel, PointerAccelerationProfileFunc profile);
 
 
 
