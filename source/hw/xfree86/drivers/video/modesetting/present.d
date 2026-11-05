@@ -44,7 +44,7 @@ import present.present_priv;
 
 import hw.xfree86.common.xf86Crtc;
 import externs.libdrm;
-import include.xf86str;
+import hw.xfree86.common.xf86str;
 
 import hw.xfree86.drivers.video.modesetting.driver;
 import hw.xfree86.drivers.video.modesetting.drmmode_display;

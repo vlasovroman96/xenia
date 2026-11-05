@@ -55,7 +55,7 @@ import dix.events;
 import os.log_priv;
 import dix.screen_hooks;
 
-public import include.xf86str;
+public import hw.xfree86.common.xf86str;
 
 enum SBUS_DEVICE_CG3 =		0x0003;
 enum SBUS_DEVICE_CG6 =		0x0005;

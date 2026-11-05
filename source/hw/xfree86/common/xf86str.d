@@ -1,4 +1,4 @@
-module include.xf86str;
+module hw.xfree86.common.xf86str;
 @nogc nothrow:
 extern(C): __gshared:
 
@@ -282,7 +282,7 @@ enum HaveDriverFuncs = 1;
 
 /*
  * These are the private bus types.  New types can be added here.  Types
- * required for the public interface should be added to include.xf86str.h, with
+ * required for the public interface should be added to hw.xfree86.common.xf86str.h, with
  * function prototypes added to xf86.h.
  */
 

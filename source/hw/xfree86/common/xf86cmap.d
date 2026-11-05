@@ -42,7 +42,7 @@ import mi.mi_priv;
 import dix.scrnintstr;
 
 import hw.xfree86.os_support.xf86_OSproc;;
-import include.xf86str;
+import hw.xfree86.common.xf86str;
 import mi.micmap;
 import xf86RandR12_priv;
 import hw.xfree86.common.xf86Crtc;
@@ -64,7 +64,6 @@ import dix.dixutils;
 import hw.xfree86.modes.displaymode;
 
 public import include.xlibre_ptrtypes;
-public import include.xf86str;
 
 enum CMAP_PALETTED_TRUECOLOR =		0x0000001;
 enum CMAP_RELOAD_ON_MODE_SWITCH =	0x0000002;

@@ -42,7 +42,7 @@ public import common.misc;
 public import dix.input;
 public import dix.scrnintstr;
 
-public import include.xf86str;
+public import hw.xfree86.common.xf86str;
 
 public import ddc;
 

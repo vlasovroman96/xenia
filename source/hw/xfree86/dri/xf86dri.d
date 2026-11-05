@@ -62,7 +62,7 @@ import dix.cursor;
 import dix.scrnintstr;
 import common.servermd;
 import dix.swaprep;
-import include.xf86str;
+import hw.xfree86.common.xf86str;
 import dri_priv;
 import externs.libdrm;
 import common.protocol_versions;

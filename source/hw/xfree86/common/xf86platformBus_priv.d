@@ -7,7 +7,7 @@ extern(C): __gshared:
  */
  
 public import xf86platformBus;
-import include.xf86str;
+import hw.xfree86.common.xf86str;
 public import config.hotplug_priv;
 import build.xlibre_server;
 

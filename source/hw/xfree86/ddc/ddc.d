@@ -30,7 +30,7 @@ import hw.xfree86.parser.Flags;
 import hw.xfree86.common.edid;
 
 import hw.xfree86.common.edid;
-public import include.xf86str;
+public import hw.xfree86.common.xf86str;
 
 /* speed up / slow down */
 enum xf86ddcSpeed {

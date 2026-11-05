@@ -60,7 +60,7 @@ static if(XFreeXDGA){
 import hw.xfree86.common.dgaproc_priv;
 }
 
-public import include.xf86str;
+public import hw.xfree86.common.xf86str;
 public import mi.mipointer;
 
 struct _xf86CursorInfoRec {

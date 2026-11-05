@@ -41,7 +41,7 @@ import dix.screen_hooks;
 
 public import dix.picturestr;
 
-public import include.xf86str;
+public import hw.xfree86.common.xf86str;
 
 /*
  * User defined callback function.  Passed a pointer to the ScrnInfo struct,

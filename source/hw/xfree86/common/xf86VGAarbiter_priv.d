@@ -9,7 +9,7 @@ extern(C): __gshared:
 //public import x11.Xdefs;
 import build.xlibre_server;
 
-public import include.xf86str;
+public import hw.xfree86.common.xf86str;
 
 static if(XSERVER_LIBPCIACCESS){
 

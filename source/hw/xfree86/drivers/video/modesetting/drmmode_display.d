@@ -45,7 +45,7 @@ import present.present_priv;
 import glamor.glamor;
 import dix.atom;
 import dix.inputstr;
-import include.xf86str;
+import hw.xfree86.common.xf86str;
 //import externs.X11.Xatom;
 import mi.micmap;
 import xf86cmap;

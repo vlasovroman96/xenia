@@ -36,7 +36,7 @@ public import dix.scrintstr;
 public import dix.gc;
 public import dix.pixmap;
 public import dix.window;
-public import include.xf86str;
+public import hw.xfree86.common.xf86str;
 public import mi.mipointer;
 public import dix.picturestr;
 import externs.pciaccess;

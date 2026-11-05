@@ -1,7 +1,7 @@
 module include.xlibre_ptrtypes;
 
 public import x11.Xdefs;
-import include.xf86str;
+import hw.xfree86.common.xf86str;
 import os.client_priv;
 @nogc nothrow:
 extern(C): __gshared:
