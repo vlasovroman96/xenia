@@ -92,7 +92,7 @@ import hw.xfree86.common.edid;
 import os.log_priv;
 
 import xf86Modes;
-import include.xf86Crtc;
+import hw.xfree86.common.xf86Crtc;
 import os.os;
 import common.servermd;
 import xf86_priv;

@@ -15,7 +15,7 @@ version = MESA_EGL_NO_X11_HEADERS;
 version = EGL_NO_X11;
 public import Xext.glx.fix;
 // public import Xext.glx.fix;
-import include.xf86Crtc;
+import hw.xfree86.common.xf86Crtc;
 import externs.gbm;
 
 public import dix.scrnintstr;

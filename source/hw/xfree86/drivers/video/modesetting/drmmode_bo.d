@@ -19,7 +19,7 @@ import dix.dix_priv;
 import externs.libdrm;
 
 import externs.libdrm;;
-import include.xf86Crtc;
+import hw.xfree86.common.xf86Crtc;
 
 import hw.xfree86.drivers.video.modesetting.driver;
 import hw.xfree86.drivers.video.modesetting.drmmode_bo;

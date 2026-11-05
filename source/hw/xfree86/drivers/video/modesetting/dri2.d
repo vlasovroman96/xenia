@@ -49,7 +49,7 @@ import dix.gc;
 import common.list;
 // import driver;
 import hw.xfree86.drivers.video.modesetting.dri2;
-import include.xf86Crtc;
+import hw.xfree86.common.xf86Crtc;
 import hw.xfree86.common.xf86Helper;
 import Xext.dri2.dri2;
 import hw.xfree86.drivers.video.modesetting.vblank;

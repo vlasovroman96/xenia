@@ -29,7 +29,7 @@ import include.xf86DDC;
 
 import hw.xfree86.os_support.xf86_OSproc;;
 import hw.xfree86.common.dgaproc_priv;
-import include.xf86Crtc;
+import hw.xfree86.common.xf86Crtc;
 import xf86Modes;
 import dix.gc;
 import dix.scrnintstr;

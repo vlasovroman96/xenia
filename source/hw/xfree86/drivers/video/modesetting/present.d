@@ -42,7 +42,7 @@ import externs.gbm;
 
 import present.present_priv;
 
-import include.xf86Crtc;
+import hw.xfree86.common.xf86Crtc;
 import externs.libdrm;
 import include.xf86str;
 

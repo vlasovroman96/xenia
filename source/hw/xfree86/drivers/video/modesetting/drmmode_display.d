@@ -57,13 +57,12 @@ import mi.mipointer;
 // import externs.drmMode;
 import externs.libdrm;
 
-import include.xf86Crtc;
+import hw.xfree86.common.xf86Crtc;
 import hw.xfree86.drivers.video.modesetting.drmmode_bo;
 
 import dix.cursor;
 import hw.xfree86.drivers.video.modesetting.drmmode_display;
 import randr.randr; 
-import include.xf86Crtc;
 // //import externs.X11.extensions.dpmsconst;
 import hw.xfree86.modes.xf86Crtc;
 import os.string;

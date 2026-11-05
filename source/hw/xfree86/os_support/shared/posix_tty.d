@@ -101,7 +101,7 @@ import mi.mipointer;
 import xf86Extensions;
 import hw.xfree86.common.xf86Xinput;
 // import xf86InPriv;
-import include.xf86Crtc;
+import hw.xfree86.common.xf86Crtc;
 import dix.picturestr;
 import xf86Bus;
 import include.xserver_properties;

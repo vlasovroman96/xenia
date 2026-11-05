@@ -41,7 +41,7 @@ import edid_priv;
 import xf86_priv;
 import xf86DDC_priv;
 import xf86Config;
-import include.xf86Crtc;
+import hw.xfree86.common.xf86Crtc;
 import xf86Modes;
 import xf86Opt_priv;
 import include.xf86Priv;

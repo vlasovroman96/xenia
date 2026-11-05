@@ -37,11 +37,10 @@ import include.xf86DDC;
 import mi.mi_priv;
 
 import dix.window;
-import include.xf86Crtc;
+import hw.xfree86.common.xf86Crtc;
 import xf86Modes;
 import xf86RandR12;
 import render.picture;
-import include.xf86Crtc;
 import xf86RandR12_priv;
 import hw.xfree86.common.xf86Helper;
 import Monitor;
@@ -60,7 +59,6 @@ import randr.rrmode;
 import randr.rroutput;
 import randr.rrproperty;
 import randr.rrprovider;
-import include.xf86Crtc;
 import randr.rrinfo;
 import dix.picture;
 

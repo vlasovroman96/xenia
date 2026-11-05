@@ -35,7 +35,7 @@ import build.xorg_config;
 import xf86DDC_priv;
 //import externs.X11.Xatom;
 import dix.property;
-import include.xf86Crtc;
+import hw.xfree86.common.xf86Crtc;
 import core.stdc.string;
 import core.stdc.math;
 import edid_priv;
@@ -267,7 +267,7 @@ private const(ddc_quirk_map_t)[11] ddc_quirks = [
 enum MODEPREFIX = "NULL, NULL, NULL, 0, M_T_DRIVER";
 enum MODESUFFIX = "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,0,NULL,0,0.0,0.0";
 
-alias M_T_DRIVER = include.xf86Crtc.M_T_DRIVER;
+alias M_T_DRIVER = hw.xfree86.common.xf86Crtc.M_T_DRIVER;
 
 // private const(DisplayModeRec)[17] DDCEstablishedModes = [
 //     {mixin(MODEPREFIX), 40000, 800, 840, 968, 1056, 0, 600, 601, 605, 628, 0, V_PHSYNC | V_PVSYNC, MODESUFFIX},        /* 800x600@60Hz */

@@ -39,7 +39,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 public import hw.xfree86.common.dri;
 public import hw.xfree86.dri.sarea;
 public import externs.libdrm;
-public import include.xf86Crtc;
+public import hw.xfree86.common.xf86Crtc;
 
 enum string DRI_DRAWABLE_PRIV_FROM_WINDOW(string pWin) = `(cast(DRIDrawablePrivPtr) 
     dixLookupPrivate(&(` ~ pWin ~ `).devPrivates, DRIWindowPrivKey))`;
