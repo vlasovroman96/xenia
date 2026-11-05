@@ -37,8 +37,9 @@ import core.stdc.stdio;
 import hw.xfree86.common.action_priv;
 import xkb.xkbsrv_priv;
 
-import dix.inputstr;import dix.scrnintstr;
-import include.windowstr;
+import dix.inputstr;
+import dix.scrnintstr;
+import dix.window;
 
 import xf86_priv;
 import externs.X11.extensions.XKB;

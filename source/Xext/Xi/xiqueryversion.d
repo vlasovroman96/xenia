@@ -46,7 +46,8 @@ import dix.request_priv;
 import os.fmt;
 import Xi.handlers;
 
-import dix.inputstr;import Xi.exglobals;
+import dix.inputstr;
+import Xi.exglobals;
 import common.misc;
 import Xi.extinit;
 public import Xi.extinit;

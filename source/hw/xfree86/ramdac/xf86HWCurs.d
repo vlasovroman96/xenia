@@ -14,7 +14,7 @@ import include.xf86;
 import include.xf86_OSproc;;
 import dix.scrnintstr;
 import dix.pixmap;
-import include.windowstr;
+import dix.window;
 import include.xf86str;
 import dix.cursor;
 import mi.mipointer;

@@ -40,7 +40,7 @@ import externs.glxtokens;
 
 import dix.colormap_priv;
 
-import include.windowstr;
+import dix.window;
 import os.os;
 
 import dix.privates;

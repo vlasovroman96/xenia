@@ -16,7 +16,7 @@ public import dix.cursor;
 public import dix.cursor;
 
 public import dix.input;
-public import include.window;
+public import dix.window;
 public import dix.cursor;
 
 @property size_t CURSOR_BITS_SIZE() 

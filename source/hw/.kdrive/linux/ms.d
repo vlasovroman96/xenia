@@ -31,7 +31,8 @@ import core.sys.posix.termios;
 import os.xserver_poll;
 //import x11.X;
 //import x11.Xproto;
-import dix.inputstr;import dix.scrnintstr;
+import dix.inputstr;
+import dix.scrnintstr;
 import hw.kdrive.src.kdrive;
 
 private int MsReadBytes(int fd, char* buf, int len, int min)

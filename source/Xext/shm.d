@@ -72,7 +72,6 @@ import os.os;
 import dix.dixstruct_priv;
 import dix.resource;
 import dix.scrnintstr;
-import include.windowstr;
 import dix.pixmap;
 import common.servermd;
 import Xext.xace;

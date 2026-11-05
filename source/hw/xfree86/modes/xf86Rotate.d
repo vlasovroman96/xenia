@@ -37,7 +37,7 @@ import include.xf86DDC;
 import mi.mi_priv;
 
 import include.xf86;
-import include.windowstr;
+import dix.window;
 import include.xf86Crtc;
 import xf86Modes;
 import xf86RandR12;

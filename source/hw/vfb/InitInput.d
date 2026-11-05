@@ -41,7 +41,8 @@ import dix.input_priv;
 import mi.mi_priv;
 
 import dix.scrnintstr;
-import dix.inputstr;import mi.mipointer;
+import dix.inputstr;
+import mi.mipointer;
 import include.xkbsrv;
 import include.xserver_properties;
 import Xi.exevents;

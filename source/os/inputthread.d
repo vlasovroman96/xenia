@@ -41,7 +41,8 @@ import os.ddx_priv;
 import os.log_priv;
 import os.ossock;
 
-import dix.inputstr;import os.osdep;
+import dix.inputstr;
+import os.osdep;
 import os.log;
 import os.connection;
 import core.sys.posix.fcntl;

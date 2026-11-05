@@ -17,7 +17,6 @@ import mi.mi_priv;
 
 import dix.scrnintstr;
 import dix.validate;
-import include.windowstr;
 import dix.gc;
 import region;
 import dix.privates;

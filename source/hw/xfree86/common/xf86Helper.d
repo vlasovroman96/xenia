@@ -59,7 +59,6 @@ import xf86Mode;
 import os.os;
 import common.servermd;
 import dix.pixmap;
-import include.windowstr;
 import dix.property;
 import dix.gc;
 import hw.xfree86.loader.loaderProcs;

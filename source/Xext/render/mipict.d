@@ -32,7 +32,6 @@ import os.osdep;
 import dix.scrnintstr;
 import dix.gc;
 import dix.pixmap;
-import include.windowstr;
 import dix.picturestr;
 import externs.X11.extensions.renderproto;
 import render.picture;

@@ -36,8 +36,9 @@ import core.stdc.stdio;
 
 import xkb.xkbsrv_priv;
 
-import dix.inputstr;import dix.scrnintstr;
-import include.windowstr;
+import dix.inputstr;
+import dix.scrnintstr;
+import dix.window;
 import include.xkbstr;
 import dix.events;
 import os.utils;

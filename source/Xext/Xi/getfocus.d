@@ -62,7 +62,7 @@ import dix.dix_priv;
 import dix.request_priv;
 import Xi.handlers;
 
-import include.windowstr;          /* focus struct      */
+import dix.window;          /* focus struct      */
 import dix.inputstr;           /* DeviceIntPtr      */
 import Xi.exglobals;
 import dix.dixutils;

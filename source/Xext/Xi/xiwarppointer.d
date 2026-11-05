@@ -47,7 +47,6 @@ import mi.mipointer_priv;
 import Xi.handlers;
 
 import dix.inputstr;           /* DeviceIntPtr      */
-import include.windowstr;          /* window structure  */
 import dix.scrnintstr;         /* screen structure  */
 import dix.extension;
 import Xi.exevents;

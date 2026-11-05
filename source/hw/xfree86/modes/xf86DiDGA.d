@@ -34,7 +34,7 @@ import include.xf86Crtc;
 import xf86Modes;
 import dix.gc;
 import dix.scrnintstr;
-import include.windowstr;
+import dix.window;
 import hw.xfree86.common.xf86Helper;
 import xf86DGA;
 import hw.xfree86.common.edid;

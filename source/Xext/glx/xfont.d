@@ -42,7 +42,7 @@ import glx.unpack;
 import glx.indirect_dispatch;
 // import externs.gl;
 import dix.pixmap;
-import include.windowstr;
+import dix.window;
 import dix.dixfonts;
  import Xext.glx.fix;
 import fb.fbglyph;

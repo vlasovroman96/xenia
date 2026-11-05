@@ -35,7 +35,6 @@ import build.dix_config;
 import dix.scrnintstr;
 import dix.gc;
 import dix.pixmap;
-import include.windowstr;
 import migc;
 import region;
 import dix.dispatch;

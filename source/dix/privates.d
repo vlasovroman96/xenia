@@ -58,16 +58,19 @@ import core.stdc.stddef;
 import dix.colormap_priv;
 import dix.screenint_priv;
 
-import include.windowstr;
+import dix.window;
 import dix.gc;
 import dix.cursor;
-import dix.inputstr;import dix.scrnintstr;
-import dix.inputstr;import dix.extension;
+import dix.inputstr;
+import dix.scrnintstr;
+import dix.inputstr;
+import dix.extension;
 import dix.resource;
 import dix.dixutils;
 import dix.input_priv;
 import dix.events;
 import os.log;
+import dix.pixmap;
 
 //public import x11.Xdefs;
 // //public import x11.Xosdefs;
@@ -871,10 +874,6 @@ int dixPrivatesSize(DevPrivateType type)
 
     return global_keys[type].offset;
 }
-
-import dix.window;
-import dix.pixmap;
-
 
 /* Table of devPrivates offsets */
 private const(int)[8] offsets = [

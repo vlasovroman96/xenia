@@ -58,7 +58,8 @@ import os.log_priv;
 import xkb.xkbsrv_priv;
 
 import common.misc;
-import dix.inputstr;import dix.scrnintstr;
+import dix.inputstr;
+import dix.scrnintstr;
 import xkb.xkbgeom_priv;
 import include.xkbstr;
 import include.xkbstr;

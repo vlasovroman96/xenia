@@ -8,7 +8,7 @@ import build.dix_config;
 
 import xkb.xkbsrv_priv;
 
-import include.windowstr;
+import dix.window;
 import include.xkbstr;
 
 

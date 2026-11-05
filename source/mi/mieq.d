@@ -57,7 +57,6 @@ import   os.bug_priv;
 import   os.screensaver;
 
 import   common.misc;
-import include.windowstr;
 import   dix.pixmap;
 import   dix.cursor;
 import   mi.mipointer;

@@ -50,7 +50,7 @@ import os.bug_priv;
 import Xi.handlers;
 import dix.events;
 import dix.inputstr;           /* DeviceIntPtr      */
-import include.windowstr;          /* window structure  */
+import dix.window;          /* window structure  */
 import dix.scrnintstr;         /* screen structure  */
 import dix.extension;
 import Xi.exglobals;

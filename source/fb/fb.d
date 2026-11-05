@@ -35,7 +35,7 @@ public import region;
 public import dix.gc;
 public import dix.colormap;
 public import common.servermd;
-public import include.windowstr;
+public import dix.window;
 public import dix.privates;
 import common.servermd;
 

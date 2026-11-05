@@ -25,7 +25,7 @@ import include.xf86_OSproc;;
 //import x11.Xproto;
 import dix.scrnintstr;
 import region;
-import include.windowstr;
+import dix.window;
 import dix.pixmap;
 import dix.validate;
 import dix.resource;

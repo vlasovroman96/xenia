@@ -66,7 +66,7 @@ import Xi.handlers;
 public import Xi.extinit;
 
 import dix.inputstr;           /* DeviceIntPtr      */
-import include.windowstr;          /* window structs    */
+import dix.window;          /* window structs    */
 import dix.swaprep;
 import Xi.getprop;
 import externs.X11.extensions.XIproto;

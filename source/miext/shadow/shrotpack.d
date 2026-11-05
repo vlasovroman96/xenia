@@ -32,7 +32,7 @@ public import core.stdc.stdlib;
 
 public import    x11.X;
 public import    dix.scrnintstr;
-public import    include.windowstr;
+public import    dix.window;
 public import    externs.X11.fonts.font;
 public import    dix.dixfonts;
 public import    externs.X11.fonts.fontstruct;

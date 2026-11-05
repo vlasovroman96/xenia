@@ -45,11 +45,11 @@ import os.osdep;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
-import include.windowstr;
 import dix.dixfonts;
 import dix.scrnintstr;
 import dix.window;
-import dix.inputstr;import migc;
+import dix.inputstr;
+import migc;
 import common.misc;
 import dix.dixstruct_priv;
 import dix.resource;

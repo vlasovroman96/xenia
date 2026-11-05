@@ -92,7 +92,6 @@ import Xext.panoramiXsrv;
 
 import common.misc;
 import dix.scrnintstr;
-import include.windowstr;
 import dix.pixmap;
 import dix.input;
 import dix.dixstruct_priv;

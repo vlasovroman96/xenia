@@ -8,8 +8,7 @@ extern(C): __gshared:
  
 //public import x11.X;
 
-public import include.window;
-public import include.windowstr;
+public import dix.window;
 
 enum string wTrackParent(string w,string field) = `(((` ~ w ~ `).optional ? 
                                     (` ~ w ~ `).optional.` ~ field ~ ` 
@@ -75,7 +74,7 @@ Bool dixWindowIsRoot(Window window);
  */
 // int DoCreateWindowReq(ClientPtr client, xCreateWindowReq* stuff, XID* xids);
 
-void PrintPassiveGrabs();
-void PrintWindowTree();
+// void PrintPassiveGrabs();
+// void PrintWindowTree();
 
  /* _XSERVER_DIX_WINDOW_PRIV_H */

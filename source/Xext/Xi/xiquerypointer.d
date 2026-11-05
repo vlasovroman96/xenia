@@ -53,7 +53,7 @@ import Xext.panoramiXsrv;
 import Xi.handlers;
 
 import dix.inputstr;           /* DeviceIntPtr      */
-import include.windowstr;          /* window structure  */
+import dix.window;          /* window structure  */
 import dix.extension;
 import Xi.exglobals;
 import dix.scrnintstr;

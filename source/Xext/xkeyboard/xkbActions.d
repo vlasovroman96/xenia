@@ -53,7 +53,8 @@ import mi.mipointer_priv;
 import xkb.xkbsrv_priv;
 
 import common.misc;
-import dix.inputstr;import Xi.exevents;
+import dix.inputstr;
+import Xi.exevents;
 import dix.events;
 import mi.mipointer;
 import include.xkbstr;

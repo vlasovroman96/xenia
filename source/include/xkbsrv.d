@@ -36,7 +36,8 @@ alias SrvXkbFreeKeyboard = XkbFreeKeyboard;
 public import include.xlibre_ptrtypes;
 // public import externs.X11.extensions.XKBstr;
 // public import include.xkbrules;
-public import dix.inputstr;import externs.X11.extensions.XKB;
+public import dix.inputstr;
+import externs.X11.extensions.XKB;
 import dix.input;
 import include.xkbstr;
 

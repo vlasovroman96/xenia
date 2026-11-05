@@ -65,7 +65,7 @@ import dix.request_priv;
 import Xi.handlers;
 
 import dix.inputstr;           /* DeviceIntPtr      */
-import include.windowstr;          /* Window            */
+import dix.window;          /* Window            */
 import dix.extension;         /* EventSwapPtr      */
 import Xi.grabdev;
 import std.conv;

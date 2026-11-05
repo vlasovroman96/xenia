@@ -56,14 +56,15 @@ public import dix.scrintstr;
 //public import x11.Xmd;
 //public import x11.Xproto;
 public import core.stdc.stdint;
-public import include.window;             /* for WindowPtr */
+public import dix.window;             /* for WindowPtr */
 public import include.xkbrules;
 public import dix.events;
 public import common.list;
 public import os.os;
 import dix.inpututils_priv;
 //public import externs.X11.extensions.XI2;
-import dix.inputstr;import dix.input_priv;
+import dix.inputstr;
+import dix.input_priv;
 import hw.xfree86.parser.Flags;
 public import externs.X11.extensions.XI;
 public import dix.getevents;

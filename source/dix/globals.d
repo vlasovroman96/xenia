@@ -59,7 +59,7 @@ import dix.server_priv;
 import dix.settings_priv;
 
 import common.misc;
-import include.windowstr;
+import dix.window;
 import dix.scrnintstr;
 import dix.input;
 import dix.dixfonts;

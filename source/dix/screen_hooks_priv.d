@@ -27,7 +27,7 @@ extern(C): __gshared:
 public import dix.callback; /* CallbackListPtr */
 public import dix.pixmap; /* PixmapPtr */
 public import dix.scrintstr; /* ScreenPtr */
-public import include.window; /* WindowPtr */
+public import dix.window; /* WindowPtr */
 
 /* prototype of a window destructor */
 alias XorgScreenWindowDestroyProcPtr = void function(CallbackListPtr* pcbl, ScreenPtr pScreen, WindowPtr pWindow);

@@ -72,7 +72,8 @@ import dix.extension_priv;
 import miext.extinit_priv;
 import Xext.geext_priv;
 
-import dix.inputstr;import dix.gc;           /* pointer for extnsionst.h */
+import dix.inputstr;
+import dix.gc;           /* pointer for extnsionst.h */
 import Xi.exglobals;
 import dix.swaprep;
 import dix.privates;

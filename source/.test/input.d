@@ -48,8 +48,9 @@ import os.fmt;
 
 import common.misc;
 import dix.resource;
-import include.windowstr;
-import dix.inputstr;import Xi.exglobals;
+import dix.window;
+import dix.inputstr;
+import Xi.exglobals;
 import dix.events;
 // import assert;
 

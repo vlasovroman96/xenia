@@ -36,8 +36,9 @@ import dix.input_priv;
 import miext.extinit_priv;
 
 import dix.input;
-import dix.inputstr;import dix.scrnintstr;
-import include.windowstr;
+import dix.inputstr;
+import dix.scrnintstr;
+import dix.window;
 import Xi.exevents;
 import include.xkbsrv;
 import include.xserver_properties;

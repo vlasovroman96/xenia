@@ -51,7 +51,7 @@ public import dix.scrnintstr;
 public import os.os;
 public import region;
 public import dix.validate;
-public import include.windowstr;
+public import dix.window;
 public import dix.input;
 public import dix.resource;
 public import dix.cursor;

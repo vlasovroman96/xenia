@@ -58,7 +58,7 @@ import build.dix_config;
 //import externs.X11.extensions.XI;
 // //import externs.X11.extensions.XIproto;
 
-import include.windowstr;          /* focus struct      */
+import dix.window;          /* focus struct      */
 import dix.inputstr;           /* DeviceIntPtr      */
 
 import dix.dix_priv;

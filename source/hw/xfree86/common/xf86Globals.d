@@ -36,7 +36,6 @@ import build.xlibre_server;
 import include.xf86;
 import x11.X;
 // import os.os;
-// import include.windowstr;
 // import dix.property;
 // import xf86_priv;
 // import include.xf86Priv;

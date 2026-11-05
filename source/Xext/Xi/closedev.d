@@ -65,7 +65,7 @@ import dix.window_priv;
 import Xi.handlers;
 
 import dix.inputstr;           /* DeviceIntPtr      */
-import include.windowstr;          /* window structure  */
+import dix.window;          /* window structure  */
 import dix.scrnintstr;         /* screen structure  */
 import Xi.XIstubs;
 import dix.resource;

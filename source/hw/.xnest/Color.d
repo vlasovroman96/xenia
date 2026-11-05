@@ -27,8 +27,7 @@ import os.osdep;
 import dix.window_priv;
 
 import dix.scrnintstr;
-import include.window;
-import include.windowstr;
+import dix.window;
 import dix.resource;
 
 import xnest_xcb;

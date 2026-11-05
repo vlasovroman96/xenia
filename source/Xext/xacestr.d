@@ -25,7 +25,7 @@ public import dix.selection_priv;
 
 public import dix.resource;
 public import dix.extension;
-public import include.window;
+public import dix.window;
 public import dix.input;
 public import Xext.xace;
 

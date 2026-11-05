@@ -132,7 +132,6 @@ import os.osdep;
 import os.probes_priv;
 import os.screensaver;
 
-import include.windowstr;
 import dix.cursor;
 import dix.scrnintstr;
 import common.servermd;
@@ -142,7 +141,8 @@ import dix.swaprep;
 import dix.swapreq;
 import dix.privates;
 import Xext.xace;
-import dix.inputstr;import include.xkbsrv;
+import dix.inputstr;
+import include.xkbsrv;
 import xfixes.xfixesint;
 import dix.dixstruct_priv;
 import os.log;

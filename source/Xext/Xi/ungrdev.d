@@ -62,7 +62,7 @@ import dix.resource_priv;
 import Xi.handlers;
 
 import dix.inputstr;           /* DeviceIntPtr      */
-import include.windowstr;          /* window structure  */
+import dix.window;          /* window structure  */
 import externs.X11.extensions.XIproto;
 import externs.X11.extensions.XI;
 import dix.devices;

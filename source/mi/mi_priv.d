@@ -20,7 +20,7 @@ public import region;
 public import dix.scrintstr;
 public import dix.scrnintstr;
 public import dix.validate;
-public import include.window;
+public import dix.window;
 public import mi.miexpose;
 import dix.colormap_priv;
 

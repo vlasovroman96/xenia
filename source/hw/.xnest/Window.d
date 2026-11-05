@@ -30,8 +30,7 @@ import region;
 import mi.mi_priv;
 
 import dix.gc;
-import include.window;
-import include.windowstr;
+import dix.window;
 import dix.pixmap;
 import dix.scrnintstr;
 

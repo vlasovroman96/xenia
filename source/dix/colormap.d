@@ -73,7 +73,6 @@ import dix.dixstruct_priv;
 import os.os;
 import dix.scrnintstr;
 import dix.resource;
-import include.windowstr;
 import dix.privates;
 import Xext.xace;
 import os.osinit;

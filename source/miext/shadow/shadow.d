@@ -32,7 +32,7 @@ import x11.X;
 import dix.screen_hooks_priv;
 
 import    dix.scrnintstr;
-import    include.windowstr;
+import    dix.window;
 import    dix.dixfonts;
 import    region;
 import    dix.globals;

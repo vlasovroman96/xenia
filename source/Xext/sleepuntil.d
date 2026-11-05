@@ -37,7 +37,7 @@ import Xext.sleepuntil;
 //import x11.X;
 //import x11.Xmd;
 import common.misc;
-import include.windowstr;
+import dix.window;
 import dix.dixstruct_priv;
 import dix.pixmap;
 import dix.scrnintstr;

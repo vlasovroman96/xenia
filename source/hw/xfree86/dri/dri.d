@@ -66,7 +66,6 @@ import dix.dixstruct_priv;
 import dix.extension;
 import dix.cursor;
 import dix.scrnintstr;
-import include.windowstr;
 import common.servermd;
 import dix.swaprep;
 import include.xf86str;
@@ -90,7 +89,8 @@ import dix.screen_hooks;
 import xf86VGAarbiter;
 import xf86Globals;
 import os.log;
-import dix.inputstr;import dix.events;
+import dix.inputstr;
+import dix.events;
 import dix.window;
 
 

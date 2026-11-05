@@ -34,7 +34,6 @@ import os.osdep;
 
 import    x11.X;
 import    dix.scrnintstr;
-import    include.windowstr;
 import    externs.X11.fonts.font;
 import    dix.dixfonts;
 import    externs.X11.fonts.fontstruct;

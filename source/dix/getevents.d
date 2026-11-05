@@ -55,13 +55,14 @@ import Xext.panoramiXsrv;
 
 import common.misc;
 import dix.resource;
-import dix.inputstr;import dix.scrnintstr;
+import dix.inputstr;
+import dix.scrnintstr;
 import dix.cursor;
 import dix.dixstruct_priv;
 import mi.mipointer;
 import dix.events;
 import dix.eventconvert;
-import include.windowstr;
+import dix.window;
 import include.xkbsrv;
 import Xi.exglobals;
 import dix.extension;

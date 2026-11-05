@@ -27,7 +27,7 @@ import build.xorg_config;
 import include.xf86Module;
 //import   x11.X;
 import    dix.scrnintstr;
-import    include.windowstr;
+import    dix.window;
 // //import   externs.X11.fonts.font;
 import    dix.dixfonts;
 // //import   externs.X11.fonts.fontstruct;

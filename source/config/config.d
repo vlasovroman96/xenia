@@ -37,7 +37,8 @@ import core.sys.posix.unistd;
 import config.hotplug_priv;
 
 import os.os;
-import dix.inputstr;import config.config_backends;
+import dix.inputstr;
+import config.config_backends;
 import config.udev;
 import hw.xfree86.os_support.linux.systemd_logind;
 import os.log;

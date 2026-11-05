@@ -58,7 +58,7 @@ public import common.misc;
 public import os.os;
 public import dix.dixstruct_priv;
 public import dix.extension;
-public import include.windowstr;
+public import dix.window;
 public import xfixes.xfixes;
 import externs.X11.extensions.xfixesproto;
 

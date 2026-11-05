@@ -111,7 +111,6 @@ import Xext.panoramiXsrv;
 import dix.scrnintstr;
 import common.misc;
 import os.os;
-import include.windowstr;
 import dix.resource;
 import dix.dixstruct_priv;
 import dix.gc;

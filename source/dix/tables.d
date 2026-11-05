@@ -55,7 +55,6 @@ import build.dix_config;
 import dix.dix_priv;
 import dix.reqhandlers_priv;
 
-import include.windowstr;
 import dix.dixstruct_priv;
 import dix.dispatch;
 import dix.swaprep;

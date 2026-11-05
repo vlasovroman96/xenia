@@ -41,7 +41,8 @@ import dix.input_priv;
 import xkb.xkbsrv_priv;
 
 import common.misc;
-import dix.inputstr;import externs.X11.extensions.XKBproto;
+import dix.inputstr;
+import externs.X11.extensions.XKBproto;
 // import externs.X11.extensions.XKBstr;
 import include.xkbstr;
 import dix.inputstr;

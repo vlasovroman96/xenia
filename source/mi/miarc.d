@@ -62,7 +62,7 @@ import mi.mi_priv;
 import common.misc;
 import dix.scrnintstr;
 import dix.pixmap;
-import include.windowstr;
+import dix.window;
 import mi.mifpoly;
 import mifillarc;
 import mizerarc;

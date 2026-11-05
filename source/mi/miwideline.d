@@ -70,7 +70,7 @@ import core.stdc.math;
 import mi.mi_priv;
 import os.osdep;
 
-import include.windowstr;
+import dix.window;
 import region;
 import miwideline;
 import dix.gc;

@@ -100,7 +100,6 @@ import mi.mi_priv;
 
 import    dix.scrnintstr;
 import    dix.validate;
-import    include.windowstr;
 import    region;
 import    composite.compint;
 import composite.compwindow;

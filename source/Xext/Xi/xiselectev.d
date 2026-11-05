@@ -39,7 +39,7 @@ import dix.window_priv;
 import Xi.handlers;
 
 import dix.dixstruct_priv;
-import include.windowstr;
+import dix.window;
 import dix.devices;
 import dix.dixutils;
 import dix.events;

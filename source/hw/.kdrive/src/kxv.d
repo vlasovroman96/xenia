@@ -51,7 +51,7 @@ import Xext.xvdix_priv;
 import hw.kdrive.src.kdrive;
 import dix.scrnintstr;
 import region;
-import include.windowstr;
+import dix.window;
 import dix.pixmap;
 import dix.validate;
 import dix.resource;

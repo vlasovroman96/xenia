@@ -51,7 +51,7 @@ import build.dix_config;
 //import x11.X;
 //import x11.Xprotostr;
 import dix.pixmap;
-import include.windowstr;
+import dix.window;
 import dix.gc;
 
 void miPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* pptInit)

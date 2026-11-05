@@ -14,7 +14,7 @@ import dix.dix_priv;
 import dix.screen_hooks_priv;
 import os.os;
 import dix.scrnintstr;
-import include.windowstr;
+import dix.window;
 
 // mixin template DECLARE_HOOK_PROC(string NAME, alias FIELD, alias TYPE) {
     

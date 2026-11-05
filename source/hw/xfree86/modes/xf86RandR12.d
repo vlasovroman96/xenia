@@ -38,8 +38,8 @@ import os.os;
 import xf86Modes;
 import include.xf86Priv;
 import mi.mipointer;
-import include.windowstr;
-import dix.inputstr;import randr.randrstr_priv;
+import dix.inputstr;
+import randr.randrstr_priv;
 
 import xf86cmap;
 import include.xf86Crtc;

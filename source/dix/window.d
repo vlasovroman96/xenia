@@ -130,7 +130,6 @@ import common.misc;
 import dix.scrnintstr;
 import os.os;
 import dix.validate;
-import include.windowstr;
 import dix.property;
 import dix.inputstr;
 import dix.resource;
@@ -153,6 +152,276 @@ import dix.screen_hooks;
 import os.io;
 import x11.X;
 import dix.inpututils;
+
+public import x11.Xproto;
+
+public import include.xlibre_ptrtypes;
+public import common.misc;
+// public import region;
+public import dix.scrintstr;
+import dix.property;
+public import dix.cursor;
+
+public import include.xlibre_ptrtypes;
+public import dix.pixmap;
+// public import region;
+public import dix.cursor;
+public import dix.resource;           /* for ROOT_WINDOW_ID_BASE */
+public import dix.privates;
+//public import x11.Xprotostr;
+public import dix.inputstr;
+import mi.mi_priv;
+
+
+
+/* used as NULL-terminated list */
+struct _DevCursorNode {
+    CursorPtr cursor;
+    DeviceIntPtr dev;
+    _DevCursorNode* next;
+}alias DevCursNodeRec = _DevCursorNode;
+alias DevCursNodePtr = _DevCursorNode*;
+alias DevCursorList = _DevCursorNode*;
+
+struct _WindowOpt {
+    CursorPtr cursor;           /* default: window.cursorNone */
+    VisualID visual;            /* default: same as parent */
+    Colormap colormap;          /* default: same as parent */
+    Mask dontPropagateMask;     /* default: window.dontPropagate */
+    Mask otherEventMasks;       /* default: 0 */
+    _OtherClients* otherClients; /* default: NULL */
+    _GrabRec* passiveGrabs;      /* default: NULL */
+    CARD32 backingBitPlanes;    /* default: ~0L */
+    CARD32 backingPixel;        /* default: 0 */
+    RegionPtr boundingShape;    /* default: NULL */
+    RegionPtr clipShape;        /* default: NULL */
+    RegionPtr inputShape;       /* default: NULL */
+    _OtherInputMasks* inputMasks;        /* default: NULL */
+    DevCursorList deviceCursors;        /* default: NULL */
+}alias WindowOptRec = _WindowOpt;
+alias WindowOptPtr = _WindowOpt*;
+
+enum BackgroundPixel =	    2L;
+enum BackgroundPixmap =    3L;
+
+/*
+ * The redirectDraw field can have one of three values:
+ *
+ *  RedirectDrawNone
+ *	A normal window; painted into the same pixmap as the parent
+ *	and clipping parent and siblings to its geometry. These
+ *	windows get a clip list equal to the intersection of their
+ *	geometry with the parent geometry, minus the geometry
+ *	of overlapping None and Clipped siblings.
+ *  RedirectDrawAutomatic
+ *	A redirected window which clips parent and sibling drawing.
+ *	Contents for these windows are manage inside the server.
+ *	These windows get an internal clip list equal to their
+ *	geometry.
+ *  RedirectDrawManual
+ *	A redirected window which does not clip parent and sibling
+ *	drawing; the window must be represented within the parent
+ *	geometry by the client performing the redirection management.
+ *	Contents for these windows are managed outside the server.
+ *	These windows get an internal clip list equal to their
+ *	geometry.
+ */
+
+enum RedirectDrawNone =	0;
+enum RedirectDrawAutomatic =	1;
+enum RedirectDrawManual =	2;
+
+struct _Window {
+    DrawableRec drawable;
+    PrivateRec* devPrivates;
+    WindowPtr parent;           /* ancestor chain */
+    WindowPtr nextSib;          /* next lower sibling */
+    WindowPtr prevSib;          /* next higher sibling */
+    WindowPtr firstChild;       /* top-most child */
+    WindowPtr lastChild;        /* bottom-most child */
+    RegionRec clipList;         /* clipping rectangle for output */
+    RegionRec borderClip;       /* NotClippedByChildren + border */
+    _MiValidate* valdata;
+    RegionRec winSize;
+    RegionRec borderSize;
+    xPoint origin;         /* position relative to parent */
+    ushort borderWidth;
+    ushort deliverableEvents;   /* all masks from all clients */
+    Mask eventMask;             /* mask from the creating client */
+    PixUnion background;
+    PixUnion border;
+    WindowOptPtr optional;
+    uint backgroundState:2; /* None, Relative, Pixel, Pixmap */
+    uint borderIsPixel : 1;
+    uint cursorIsNone : 1;    /* else real cursor (might inherit) */
+    uint backingStore : 2;
+    uint saveUnder : 1;
+    uint bitGravity : 4;
+    uint winGravity : 4;
+    uint overrideRedirect : 1;
+    uint visibility : 2;
+    uint mapped : 1;
+    uint realized : 1;        /* ancestors are all mapped */
+    uint viewable : 1;        /* realized && InputOutput */
+    uint dontPropagate : 3;   /* index into DontPropagateMasks */
+    uint redirectDraw : 2;    /* COMPOSITE rendering redirect */
+    uint forcedBG : 1;        /* must have an opaque background */
+    uint unhittable : 1;      /* doesn't hit-test, for rootless */
+    uint damagedDescendants : 1;      /* some descendants are damaged */
+    uint inhibitBGPaint : 1;  /* paint the background? */
+
+    PropertyPtr properties;     /* default: NULL */
+}
+
+// void [1] DontPropagateMasks;
+
+enum string wBorderWidth(string w) = `(cast(int) (` ~ w ~ `).borderWidth)`;
+
+pragma(inline, true) private PropertyPtr wUserProps(WindowPtr pWin) { return pWin.properties; }
+
+/* true when w needs a border drawn. */
+
+enum string HasBorder(string w) = `((` ~ w ~ `).borderWidth || `~wClipShape!(w)~ `)`;
+
+enum SCREEN_IS_BLANKED =   0;
+enum SCREEN_ISNT_SAVED =   1;
+enum SCREEN_IS_TILED =     2;
+enum SCREEN_IS_BLACK =	    3;
+
+                          /* WINDOWSTRUCT_H */
+
+
+enum TOTALLY_OBSCURED = 0;
+enum UNOBSCURED = 1;
+enum OBSCURED = 2;
+
+enum VisibilityNotViewable =	3;
+
+/* return values for tree-walking callback procedures */
+enum WT_STOPWALKING =		0;
+enum WT_WALKCHILDREN =		1;
+enum WT_DONTWALKCHILDREN =	2;
+enum WT_NOMATCH = 3;
+enum NullWindow = cast(WindowPtr) 0;
+
+/* Forward declaration, we can't include input.h here */
+// struct _DeviceIntRec;
+// struct _Cursor;
+
+struct _BackingStore; 
+alias BackingStorePtr = _BackingStore*;
+alias PropertyPtr = _Property*;
+
+enum RootClipMode {
+    ROOT_CLIP_NONE = 0, /**< resize the root window to 0x0 */
+    ROOT_CLIP_FULL = 1, /**< resize the root window to fit screen */
+    ROOT_CLIP_INPUT_ONLY = 2, /**< as above, but no rendering to screen */
+}
+alias ROOT_CLIP_NONE = RootClipMode.ROOT_CLIP_NONE;
+alias ROOT_CLIP_FULL = RootClipMode.ROOT_CLIP_FULL;
+alias ROOT_CLIP_INPUT_ONLY = RootClipMode.ROOT_CLIP_INPUT_ONLY;
+
+
+alias VisitWindowProcPtr = int function(WindowPtr pWin, void* data) @nogc nothrow;
+
+// int TraverseTree(WindowPtr pWin, VisitWindowProcPtr func, void* data);
+
+// int WalkTree(ScreenPtr pScreen, VisitWindowProcPtr func, void* data);
+
+// bool CreateRootWindow(ScreenPtr);
+
+// void InitRootWindow(WindowPtr);
+
+alias RealChildHeadProc = WindowPtr function(WindowPtr pWin) @nogc nothrow;
+
+// void RegisterRealChildHeadProc(RealChildHeadProc proc);
+
+// WindowPtr RealChildHead(WindowPtr);
+
+// int DeleteWindow(void* pWin, XID wid);
+
+// int DestroySubwindows(WindowPtr, ClientPtr);
+
+/* Quartz support on Mac OS X uses the HIToolbox
+   framework whose ChangeWindowAttributes function conflicts here. */
+version (OSX) {
+enum ChangeWindowAttributes = Darwin_X_ChangeWindowAttributes;
+}
+// int ChangeWindowAttributes(WindowPtr, Mask, XID*, ClientPtr);
+
+// int ChangeWindowDeviceCursor(WindowPtr, DeviceIntRec*, _Cursor*);
+
+// _Cursor* WindowGetDeviceCursor(WindowPtr, DeviceIntRec*);
+
+/* Quartz support on Mac OS X uses the HIToolbox
+   framework whose GetWindowAttributes function conflicts here. */
+version (OSX) {
+   void Darwin_X_GetWindowAttributes(
+                                             WindowPtr /*pWin */ ,
+                                             ClientPtr /*client */ ,
+                                             xGetWindowAttributesReply *
+                                             /* wa */ );
+   alias GetWindowAttributes = Darwin_X_GetWindowAttributes; 
+}
+else {
+
+   void GetWindowAttributes(
+                                             WindowPtr /*pWin */ ,
+                                             ClientPtr /*client */ ,
+                                             xGetWindowAttributesReply *
+                                             /* wa */ );
+}
+
+// void GravityTranslate(int, int, int, int, int, int, uint, int*, int*);
+
+// int ConfigureWindow(WindowPtr, Mask, XID*, ClientPtr);
+
+// int CirculateWindow(WindowPtr, int, ClientPtr);
+
+// int ReparentWindow(WindowPtr, WindowPtr, int, int, ClientPtr);
+
+// int MapWindow(WindowPtr, ClientPtr);
+
+// void MapSubwindows(WindowPtr, ClientPtr);
+
+// int UnmapWindow(WindowPtr, Bool);
+
+// void UnmapSubwindows(WindowPtr);
+
+// void HandleSaveSet(ClientPtr);
+
+// bool PointInWindowIsVisible(WindowPtr, int, int);
+
+// RegionPtr NotClippedByChildren(WindowPtr);
+
+// void SendVisibilityNotify(WindowPtr);
+
+// int dixSaveScreens(ClientPtr client, int on, int mode);
+
+int SaveScreens(int on, int mode);
+
+// WindowPtr FindWindowWithOptional(WindowPtr);
+
+// void CheckWindowOptionalNeed(WindowPtr);
+
+// WindowPtr MoveWindowInStack(WindowPtr, WindowPtr);
+
+// void SetWinSize(WindowPtr);
+
+// void SetBorderSize(WindowPtr);
+
+// void ResizeChildrenWinSize(WindowPtr, int, int, int, int);
+
+// void SendShapeNotify(WindowPtr, int);
+
+// RegionPtr CreateBoundingShape(WindowPtr);
+
+// RegionPtr CreateClipShape(WindowPtr);
+
+// void SetRootClip(ScreenPtr pScreen, int enable);
+
+// VisualPtr WindowGetVisual(WindowPtr);                         /* WINDOW_H */
+
 
 /******
  * Window stuff for server

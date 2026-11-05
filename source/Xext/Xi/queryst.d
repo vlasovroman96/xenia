@@ -48,7 +48,7 @@ import dix.rpcbuf_priv;
 import Xi.handlers;
 
 import dix.inputstr;           /* DeviceIntPtr      */
-import include.windowstr;          /* window structure  */
+import dix.window;          /* window structure  */
 import include.xkbsrv;
 import include.xkbsrv;
 import dix.devices;

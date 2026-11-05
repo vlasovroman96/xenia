@@ -30,7 +30,7 @@ import os.os;
 import dix.dixstruct_priv;
 import dix.swaprep;
 import dix.pixmap;
-import include.windowstr;
+import dix.window;
 import dix.gc;
 import common.protocol_versions;
 import common.list;

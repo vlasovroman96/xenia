@@ -59,10 +59,10 @@ import dix.window_priv;
 import region;
 import mi.mi_priv;
 
-import include.windowstr;
 import dix.scrnintstr;
 import dix.pixmap;
-import dix.inputstr;import dix.screen_hooks;
+import dix.inputstr;
+import dix.screen_hooks;
 import dix.events;
 import externs.X11.extensions.shapeconst;
 import dix.window;

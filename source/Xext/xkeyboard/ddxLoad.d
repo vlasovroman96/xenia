@@ -51,8 +51,9 @@ import xkb.xkbfmisc_priv;
 import xkb.xkbrules_priv;
 import xkb.xkbsrv_priv;
 
-import dix.inputstr;import dix.scrnintstr;
-import include.windowstr;
+import dix.inputstr;
+import dix.scrnintstr;
+import dix.window;
 import include.xkbstr;
 import externs.gnu;
 import os.log;

@@ -34,7 +34,7 @@ public import Xext.shm;
 
 public import dix.scrnintstr;
 public import dix.pixmap;
-public import include.windowstr;
+public import dix.window;
 public import common.servermd;
 public import dix.input;
 public import mi.mipointer;

@@ -42,7 +42,7 @@ import glx.glxutil;
 import externs.glxtokens;
 import glx.unpack;
 import dix.pixmap;
-import include.windowstr;
+import dix.window;
 import glx.glxext;
 import glx.indirect_dispatch;
 import glx.indirect_table;

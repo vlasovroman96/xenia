@@ -37,7 +37,7 @@ import core.sys.posix.dlfcn;
 import externs.internal.dri_interface;
 import externs.glxtokens;
 
-import include.windowstr;
+import dix.window;
 import os.os;
 
 import include.xf86;

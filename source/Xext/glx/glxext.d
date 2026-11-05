@@ -40,7 +40,7 @@ import dix.screenint_priv;
 import os.client_priv;
 
 import glx.glxserver;
-import include.windowstr;
+import dix.window;
 import dix.property;
 import dix.privates;
 import os.os;

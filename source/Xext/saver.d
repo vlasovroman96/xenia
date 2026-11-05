@@ -57,7 +57,6 @@ import os.WaitFor;
 
 import common.misc;
 import os.os;
-import include.windowstr;
 import dix.scrnintstr;
 import dix.pixmap;
 import dix.dixstruct_priv;
@@ -65,7 +64,8 @@ import dix.resource;
 import dix.gc;
 import dix.cursor;
 import Xext.xace;
-import dix.inputstr;import externs.X11.extensions.saverproto;
+import dix.inputstr;
+import externs.X11.extensions.saverproto;
 import build.xlibre_server;
 import dix.dispatch;
 import dix.window;

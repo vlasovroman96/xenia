@@ -42,10 +42,11 @@ import mi.mi_priv;
 import os.bug_priv;
 import os.log_priv;
 
-import dix.inputstr;import dix.scrnintstr;
+import dix.inputstr;
+import dix.scrnintstr;
 import dix.events;
 import Xi.exglobals;
-import include.windowstr;
+import dix.window;
 import dix.devices;
 import dix.input;
 import dix.events;

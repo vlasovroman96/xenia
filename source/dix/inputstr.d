@@ -58,7 +58,7 @@ public import externs.X11.extensions.XI2;
 
 public import dsl.pixman;
 public import dix.input;
-public import include.window;
+public import dix.window;
 public import dix.dixstruct_priv;
 public import dix.cursor;
 public import dix.privates;

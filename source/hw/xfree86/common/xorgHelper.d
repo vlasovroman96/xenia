@@ -11,7 +11,7 @@ import build.xlibre_server;
 import os.os;
 import common.servermd;
 import dix.pixmap;
-import include.windowstr;
+import dix.window;
 import dix.property;
 import dix.gc;
 import hw.xfree86.loader.loaderProcs;

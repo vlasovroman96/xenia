@@ -39,7 +39,6 @@ import dix.dispatch;
 
 // // import core.stdc.string;
 // import dix.scrnintstr;
-// // import include.windowstr;
 import glx.glxext;
 
 // // import externs.glxproto;

@@ -9,7 +9,7 @@ import core.stdc.stdio;
 import hw.xfree86.common.action_priv;
 import xkb.xkbsrv_priv;
 
-import include.windowstr;
+import dix.window;
 import os.os;
 import xf86_priv;
 import externs.gnu;

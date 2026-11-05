@@ -71,7 +71,7 @@ import os.osdep;
 import randr.randrstr_priv;
 
 import common.servermd;
-import include.windowstr;
+import dix.window;
 import dix.scrnintstr;
 import hw.xfree86.os_support.linux.systemd_logind;
 import seatd_libseat;

@@ -47,7 +47,7 @@ import Xext.shm_priv;
 import Xext.xvdix_priv;
 import common.misc;
 import dix.scrnintstr;
-import include.windowstr;
+import dix.window;
 import dix.pixmap;
 import dix.dixstruct_priv;
 import dix.resource;

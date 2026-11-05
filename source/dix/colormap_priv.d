@@ -12,7 +12,7 @@ extern(C): __gshared:
 public import dix.screenint_priv;
 public import dix.colormap;
 public import dix.colormap;
-public import include.window;
+public import dix.window;
 
 /* Values for the flags field of a colormap. These should have 1 bit set
  * and not overlap */

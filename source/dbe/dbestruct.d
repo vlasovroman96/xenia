@@ -37,7 +37,7 @@ extern(C): __gshared:
 //public import x11.Xmd;
 // //public import externs.X11.extensions.dbeproto;
 
-public import include.windowstr;
+public import dix.window;
 public import dix.privates;
 
 struct XdbeVisualInfo {

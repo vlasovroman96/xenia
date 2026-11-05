@@ -41,7 +41,8 @@ import os.log_priv;
 import xkb.xkbsrv_priv;
 
 import common.misc;
-import dix.inputstr;import Xi.exevents;
+import dix.inputstr;
+import Xi.exevents;
 import dix.events;
 import include.xkbstr;
 import externs.X11.extensions.XKB;

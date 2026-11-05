@@ -29,7 +29,7 @@ import externs.xcb.xcb_aux;
 
 import region;
 
-import include.windowstr;
+import dix.window;
 import dix.pixmap;
 import dix.scrnintstr;
 import midash;

@@ -40,7 +40,7 @@ import mi.mi_priv;
 import dix.scrnintstr;
 import common.misc;
 import os.os;
-import include.windowstr;
+import dix.window;
 import dix.resource;
 import dix.dixstruct_priv;
 import common.servermd;

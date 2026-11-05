@@ -9,7 +9,7 @@ extern(C): __gshared:
 // public // //import externs.X11.extensions.XIproto;
 
 public import common.misc;
-public import include.window;
+public import dix.window;
 public import dix.input;
 public import dix.cursor;
 

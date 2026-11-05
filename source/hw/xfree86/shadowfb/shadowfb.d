@@ -21,7 +21,7 @@ import common.misc;
 import dix.pixmap;
 import dix.input;
 import dix.scrnintstr;
-import include.windowstr;
+import dix.window;
 import dix.gc;
 import dix.dixfonts;
 import include.xf86;

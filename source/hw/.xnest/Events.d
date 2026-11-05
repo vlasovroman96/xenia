@@ -28,7 +28,7 @@ import dix.scrintstr;
 import dix.input;
 import common.misc;
 import dix.scrnintstr;
-import include.windowstr;
+import dix.window;
 import common.servermd;
 import dix.inputstr;
 import xnest_xcb;

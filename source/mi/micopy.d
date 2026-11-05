@@ -28,7 +28,6 @@ import build.dix_config;
 import dix.scrnintstr;
 import dix.gc;
 import dix.pixmap;
-import include.windowstr;
 // import mi.micopy;
 import mi.miexpose;
 import dix.window;

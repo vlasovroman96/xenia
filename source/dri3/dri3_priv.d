@@ -28,7 +28,7 @@ extern(C): __gshared:
 public import dix.scrnintstr;
 public import common.misc;
 public import common.list;
-public import include.windowstr;
+public import dix.window;
 public import dix.dixstruct_priv;
 public import randr.randr;
 public import dri3.dri3;

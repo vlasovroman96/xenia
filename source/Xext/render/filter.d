@@ -35,7 +35,7 @@ import dix.scrnintstr;
 import os.os;
 import region;
 import dix.validate;
-import include.windowstr;
+import dix.window;
 import dix.input;
 import dix.resource;
 import dix.cursor;

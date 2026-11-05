@@ -49,7 +49,7 @@ import   dix.pixmap;
 import   dix.input;
 import   dix.cursor;
 import   dix.scrnintstr;
-import include.windowstr;
+import dix.window;
 import   dix.gc;
 import   mi.mipointer;
 import   mi.misprite;

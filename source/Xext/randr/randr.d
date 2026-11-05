@@ -54,7 +54,6 @@ public import common.misc;
 public import os.os;
 public import dix.dixstruct_priv;
 public import dix.scrnintstr;
-public import include.windowstr;
 public import dix.pixmap;
 public import dix.extension;
 public import common.servermd;

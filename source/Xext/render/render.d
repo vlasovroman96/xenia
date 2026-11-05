@@ -50,7 +50,7 @@ import os.os;
 import dix.dixstruct_priv;
 import dix.resource;
 import dix.scrnintstr;
-import include.windowstr;
+import dix.window;
 import dix.pixmap;
 import common.servermd;
 import render.picturestr_priv;

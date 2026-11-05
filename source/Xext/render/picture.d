@@ -36,7 +36,6 @@ import common.misc;
 import dix.scrnintstr;
 import os.os;
 import dix.validate;
-import include.windowstr;
 import dix.input;
 import dix.cursor;
 import dix.dixstruct_priv;

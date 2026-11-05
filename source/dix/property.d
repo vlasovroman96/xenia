@@ -61,7 +61,6 @@ import dix.window_priv;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
-import include.windowstr;
 import dix.property;
 import dix.dixstruct_priv;
 import dix.dispatch;

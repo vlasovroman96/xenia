@@ -99,7 +99,8 @@ import hw.xfree86.drivers.video.modesetting.drmmode_display;
 import externs.libdrm;;
 import hw.xfree86.common.xf86Option;
 import externs.gnu;
-import dix.inputstr;import hw.xfree86.parser.Flags;
+import dix.inputstr;
+import hw.xfree86.parser.Flags;
 import xf86fbBus;
 import hw.xfree86.drivers.video.modesetting.present;
 struct ms_async_flip_priv {

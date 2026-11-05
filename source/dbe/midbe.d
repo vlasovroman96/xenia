@@ -39,7 +39,6 @@ import build.dix_config;
 //import x11.Xproto;
 import common.misc;
 import os.os;
-import include.windowstr;
 import dix.scrnintstr;
 import dix.pixmap;
 import dix.extension;
@@ -47,7 +46,8 @@ import dix.dixstruct_priv;
 import dix.window;
 import dbestruct;
 import region;
-import dix.inputstr;import midbe;
+import dix.inputstr;
+import midbe;
 import Xext.xace;
 import dix.dispatch;
 

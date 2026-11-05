@@ -32,7 +32,7 @@ public import Xext.sync;
 
 public import dix.scrnintstr;
 public import common.misc;
-public import include.windowstr;
+public import dix.window;
 public import dix.dixstruct_priv;
 public import Xext.syncsrv;
 public import xfixes.xfixes;
