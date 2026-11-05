@@ -31,7 +31,7 @@ import include.misc;
 import dix.cursor;
 import include.scrnintstr;
 import include.servermd;
-import include.mipointrst;
+import mi.mipointer;
 
 import xnest_xcb;
 

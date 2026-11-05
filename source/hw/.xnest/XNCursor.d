@@ -18,8 +18,7 @@ is" without express or implied warranty.
  
 //public import x11.Xdefs;
 
-public import include.mipointrst;
-import mi.mipointer;
+public import mi.mipointer;
 
 struct _XnestCursorFuncRec {
     miPointerSpriteFuncPtr spriteFuncs;

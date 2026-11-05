@@ -41,7 +41,6 @@ public import include.windowstr;
 public import include.window;
 public import include.xf86str;
 public import mi.mipointer;
-public import include.mipointrst;
 public import include.picturestr;
 import externs.pciaccess;
 import hw.xfree86.common.xf86Helper;

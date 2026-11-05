@@ -48,7 +48,6 @@ import dix.events;
 import Init;
 import mi.mipointer;
 import Args;
-import include.mipointrst;
 
 xcb_window_t[MAXSCREENS] xnestDefaultWindows;
 xcb_window_t[MAXSCREENS] xnestScreenSaverWindows;

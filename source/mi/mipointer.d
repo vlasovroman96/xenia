@@ -68,7 +68,7 @@ import   include.misc;
 import include.windowstr;
 import   include.pixmapstr;
 import   include.scrnintstr;
-import   include.mipointrst;
+import   mi.mipointer;
 import   dix.cursor;
 import dix.dixstruct_priv;
 import   dix.inputstr;import   dix.events;
@@ -83,6 +83,19 @@ public import dix.cursor;
 public import dix.input;
 public import include.privates;
 import x11.Xdefs;
+
+public import mi.mipointer;
+public import include.scrnintstr;
+import x11.Xdefs;
+
+struct _MiPointerScreenRec {
+    miPointerSpriteFuncPtr spriteFuncs; /* sprite-specific methods */
+    miPointerScreenFuncPtr screenFuncs; /* screen-specific methods */
+    CloseScreenProcPtr CloseScreen;
+    Bool waitForUpdate;         /* don't move cursor from input thread */
+    Bool showTransparent;       /* show empty cursors */
+}alias miPointerScreenRec = _MiPointerScreenRec;
+alias miPointerScreenPtr = miPointerScreenRec*;
 
 struct _miPointerSpriteFuncRec {
     Bool function(DeviceIntPtr, ScreenPtr, CursorPtr) @nogc nothrow RealizeCursor;
