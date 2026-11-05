@@ -39,7 +39,7 @@ import xkb.xkbsrv_priv;
 import dix.inputstr;
 import dix.scrnintstr;
 import dix.window;
-import include.xkbstr;
+import xkb.xkbstr;
 import dix.events;
 import os.utils;
 

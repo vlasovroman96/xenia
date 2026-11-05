@@ -49,8 +49,8 @@ import Xi.handlers;
 
 import dix.inputstr;           /* DeviceIntPtr      */
 import dix.window;          /* window structure  */
-import include.xkbsrv;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
+import xkb.xkbsrv_priv;
 import dix.devices;
 import externs.X11.extensions.XI;
 

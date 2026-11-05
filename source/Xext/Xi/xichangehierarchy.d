@@ -57,7 +57,7 @@ import Xi.exglobals;
 import common.misc;
 import Xext.xace;
 import Xi.xiquerydevice;      /* for GetDeviceUse */
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
 import Xi.xichangehierarchy;
 import Xi.xibarriers;
 import os.utils;

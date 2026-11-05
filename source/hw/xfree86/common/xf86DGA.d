@@ -63,7 +63,7 @@ import dix.pixmap;
 import dix.inputstr;
 import common.servermd;
 import mi.micmap;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
 import dix.events;
 import xf86Extensions;
 import common.misc;
@@ -81,7 +81,7 @@ import os.utils;
 import dix.devices;
 import dix.extension;
 import dix.screen_hooks;
-import include.xkbstr;
+import xkb.xkbstr;
 import dix.events;
 import hw.xfree86.modes.displaymode;
 

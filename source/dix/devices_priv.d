@@ -7,7 +7,7 @@ extern(C): __gshared:
  */
  
 public import dix.callback;
-import include.xlibre_ptrtypes;
+import common.xlibre_ptrtypes;
 
 /*
  * called when a client tries to access devices

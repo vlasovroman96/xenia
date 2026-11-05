@@ -1,4 +1,4 @@
-module include.xlibre_ptrtypes;
+module common.xlibre_ptrtypes;
 
 public import x11.Xdefs;
 import hw.xfree86.common.xf86str;

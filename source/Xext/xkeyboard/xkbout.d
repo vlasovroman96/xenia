@@ -45,11 +45,11 @@ import xkb.xkbtext_priv;
 
 import common.misc;
 import dix.inputstr;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
 import xkb.xkbgeom_priv;
 import externs.X11.extensions.XKB;
 // import externs.X11.extensions.XKBgeom;
-import include.xkbstr;
+import xkb.xkbstr;
 import xkb.XKBMAlloc;
 
 alias XkbNumRequiredTypes = xkb.XKBMAlloc.XkbNumRequiredTypes;

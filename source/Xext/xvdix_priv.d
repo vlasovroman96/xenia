@@ -12,7 +12,7 @@ import core.stdc.config: c_long, c_ulong;
 
 public import dix.pixmap;
 public import region;
-public import include.xvdix;
+public import hw.xfree86.common.xvdix;
 import externs.X11.extensions.Xv;
 
 enum string VALIDATE_XV_PORT(string portID, string pPort, string mode) = `

@@ -39,7 +39,7 @@ import xkb.xkbsrv_priv;
 import dix.inputstr;
 import dix.scrnintstr;
 import dix.window;
-import include.xkbstr;
+import xkb.xkbstr;
 
 
 // // //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))

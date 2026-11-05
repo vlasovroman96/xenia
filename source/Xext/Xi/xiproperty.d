@@ -50,7 +50,7 @@ import dix.inputstr;
 import Xi.exglobals;
 import dix.swaprep;
 import Xi.xiproperty;
-import include.xserver_properties;
+import common.xserver_properties;
 // import externs.X11.Xatom;
 import dix.devices;
 import dix.events;

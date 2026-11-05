@@ -1,4 +1,4 @@
-module include.xorgVersion;
+module common.xorgVersion;
 @nogc nothrow:
 extern(C): __gshared:
 

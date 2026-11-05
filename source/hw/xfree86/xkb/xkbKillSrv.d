@@ -45,7 +45,7 @@ import dix.scrnintstr;
 import dix.window;
 import dix.events;
 // import externs.X11.extensions.XKBstr;
-import include.xkbstr;
+import xkb.xkbstr;
 
 
 import xf86_priv;

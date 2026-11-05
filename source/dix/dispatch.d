@@ -142,7 +142,7 @@ import dix.swapreq;
 import dix.privates;
 import Xext.xace;
 import dix.inputstr;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
 import xfixes.xfixesint;
 import dix.dixstruct_priv;
 import os.log;

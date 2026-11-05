@@ -38,8 +38,8 @@ import os.bug_priv;
 import Xi.exglobals;
 import common.misc;
 import dix.inputstr;
-import include.xkbsrv;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
+import xkb.xkbsrv_priv;
 import dix.events;
 import dix.scrnintstr;
 import externs.X11.extensions.XI2proto;
@@ -48,7 +48,7 @@ import os.utils;
 import dix.events;
 import dix.devices;
 import externs.attrs;
-import include.xkbstr;
+import xkb.xkbstr;
 
 
 /* Check if a button map change is okay with the device.

@@ -58,7 +58,7 @@ public import build.dix_config;
 
 //public import x11.Xdefs;
 
-import include.xlibre_ptrtypes;
+import common.xlibre_ptrtypes;
 import x11.Xmd;
 public import core.stdc.limits;
 public import core.stdc.signal;

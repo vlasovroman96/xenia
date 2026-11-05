@@ -31,8 +31,9 @@ enum XI_STUBS_H = 1;
 
 public import externs.X11.extensions.XIproto;
 
-public import x11.Xdefs; public import build.dix_config;
-import include.xlibre_ptrtypes;
+public import x11.Xdefs;
+public import build.dix_config;
+import common.xlibre_ptrtypes;
 
 // //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 int SetDeviceMode(ClientPtr client, DeviceIntPtr dev, int mode);

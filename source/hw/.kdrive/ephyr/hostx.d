@@ -46,7 +46,7 @@ import core.sys.posix.sys.mman;
 } /* MITSHM */
 import core.sys.posix.sys.time;
 // import externs.X11.extensions.XKBstr;
-import include.xkbstr;
+import xkb.xkbstr;
 
 
 // workaround for name clash between Xlib and Xserver:

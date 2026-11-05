@@ -40,11 +40,11 @@ import common.misc;
 import dix.inputstr;
 import xkb.xkbgeom_priv;
 import os.os;
-import include.xkbstr;
+import xkb.xkbstr;
 
 import xkb.xkbsrv_priv;
-import include.xkbstr;
-// import include.xkbstr;
+import xkb.xkbstr;
+// import xkb.xkbstr;
 import externs.X11.extensions.XKB;
 // import externs.X11.extensions.XKBgeom;
 import xkb.XKBGAlloc;

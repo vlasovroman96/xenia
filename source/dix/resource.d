@@ -156,7 +156,7 @@ import dix.cursor;
 import dix.gc;
 import registry;
 
-public import include.xlibre_ptrtypes;
+public import common.xlibre_ptrtypes;
 
 public import dix.callback;
 public import common.misc;

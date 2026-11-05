@@ -38,12 +38,12 @@ import os.inputthread;
 
 //import externs.X11.Xatom;
 
-import include.xorgVersion;
+import common.xorgVersion;
 
 import Xi.exevents;
 import dix.input;
-import include.xkbsrv;
-import include.xserver_properties;
+import xkb.xkbsrv_priv;
+import common.xserver_properties;
 import os.os;
 import os.log;
 import hw.xfree86.common.xf86Helper;

@@ -57,12 +57,12 @@ import dix.window;          /* window structure  */
 import dix.extension;
 import Xi.exglobals;
 import dix.scrnintstr;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
 import dix.devices;
 import dix.dixutils;
 import dix.events;
 import dix.inpututils;
-import include.xkbstr;
+import xkb.xkbstr;
 
 /***********************************************************************
  *

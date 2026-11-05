@@ -8,7 +8,7 @@ extern(C): __gshared:
  * @brief: prototypes for the individual request handlers
  */
  
-import include.xlibre_ptrtypes;
+import common.xlibre_ptrtypes;
 
 /* screen related dispatch */
 int ProcRRGetScreenSizeRange(ClientPtr client);

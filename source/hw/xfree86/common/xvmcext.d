@@ -1,10 +1,10 @@
-module include.xvmcext;
+module hw.xfree86.common.xvmcext;
 @nogc nothrow:
 extern(C): __gshared:
 
  
 // //public import externs.X11.extensions.Xv;
-public import include.xvdix;
+public import hw.xfree86.common.xvdix;
 
 struct XvMCImageIDList {
     int num_xvimages;

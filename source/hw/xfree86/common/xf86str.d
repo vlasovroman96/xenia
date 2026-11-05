@@ -40,7 +40,7 @@ import core.stdc.config: c_long, c_ulong;
  */
 
  
-public import include.xlibre_ptrtypes;
+public import common.xlibre_ptrtypes;
 public import common.misc;
 // public import dix.input;
 public import dix.scrnintstr;

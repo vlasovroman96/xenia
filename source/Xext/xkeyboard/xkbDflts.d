@@ -8,8 +8,8 @@ public import dix.dix_priv;
 import externs.X11.extensions.XKB;
 
 import x11.keysymdef;
-import include.xkbstr;
-import include.xkbstr;
+import xkb.xkbstr;
+import xkb.xkbstr;
 
 
 alias  DPYTYPE =	char *;

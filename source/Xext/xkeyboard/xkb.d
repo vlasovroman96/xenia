@@ -53,7 +53,7 @@ import common.misc;
 import dix.inputstr;
 import xkb.xkb_procs;
 import common.protocol_versions;
-import include.xkbstr;
+import xkb.xkbstr;
 import os.log;
 import dix.events;
 import dix.devices;

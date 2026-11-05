@@ -40,7 +40,7 @@ import dix.rpcbuf_priv;
 import dix.request_priv;
 import dix.screenint_priv;
 import Xext.shm;
-import include.xvmcext;
+import hw.xfree86.common.xvmcext;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
 import Xext.shm_priv;

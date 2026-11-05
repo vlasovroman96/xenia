@@ -63,7 +63,7 @@ import mi.mipointer;
 import dix.events;
 import dix.eventconvert;
 import dix.window;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
 import Xi.exglobals;
 import dix.extension;
 import dix.devices;

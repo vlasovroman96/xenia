@@ -60,7 +60,7 @@ extern(C): __gshared:
  */
 
  
-public import include.xlibre_ptrtypes;
+public import common.xlibre_ptrtypes;
 
 public import dix.scrnintstr;
 public import dix.extension;

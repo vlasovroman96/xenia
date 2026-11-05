@@ -40,7 +40,7 @@ import hw.kdrive.src.kdrive;
 import hw.kdrive.src.kxv;
 import hw.kdrive.ephyr.ephyr;
 import hw.kdrive.ephyr.hostx;
-import include.xvdix;
+import hw.xfree86.common.xvdix;
 import externs.X11.extensions.Xv;
 import xf86xv;
 

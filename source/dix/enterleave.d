@@ -48,7 +48,7 @@ import dix.window;
 import dix.scrnintstr;
 import Xi.exglobals;
 // import dix.enterleave;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
 import dix.events;
 import dix.devices;
 import dix.inpututils;

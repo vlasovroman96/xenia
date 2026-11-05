@@ -50,9 +50,9 @@ import os.fmt;
 import Xi.handlers;
 
 import dix.inputstr;
-import include.xkbsrv;
-import include.xkbsrv;
-import include.xserver_properties;
+import xkb.xkbsrv_priv;
+import xkb.xkbsrv_priv;
+import common.xserver_properties;
 import Xi.exglobals;
 import dix.privates;
 import Xi.xiquerydevice;
@@ -60,7 +60,7 @@ import dix.devices;
 import os.log;
 import dix.events;
 import dix.inpututils;
-import include.xkbstr;
+import xkb.xkbstr;
 
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))

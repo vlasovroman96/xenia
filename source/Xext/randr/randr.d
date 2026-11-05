@@ -49,7 +49,7 @@ import dix.events;
 import dix.timestamp;
 import dix.window;
 
-public import include.xlibre_ptrtypes;
+public import common.xlibre_ptrtypes;
 public import common.misc;
 public import os.os;
 public import dix.dixstruct_priv;

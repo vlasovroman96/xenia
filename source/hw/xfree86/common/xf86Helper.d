@@ -83,7 +83,7 @@ import xf86Init;
 import hw.xfree86.common.edid;
 import dix.window;
 
-public import include.xlibre_ptrtypes;
+public import common.xlibre_ptrtypes;
 public import hw.xfree86.common.xf86str;
 public import xf86Opt_priv;
 public import core.stdc.stdarg;

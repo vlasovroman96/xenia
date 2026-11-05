@@ -38,7 +38,7 @@ import ptrveloc;
 import externs.X11.Xatom;
 import os.os;
 
-import include.xserver_properties;
+import common.xserver_properties;
 import Xi.xiproperty;
 import mi.miarc;
 import os.log;

@@ -57,7 +57,7 @@ SOFTWARE.
 // #include "privates.h"
 // #include <X11/extensions/randr.h>
 //  
-import include.xlibre_ptrtypes;
+import common.xlibre_ptrtypes;
 import dix.scrintstr;
 import dix.pixmap;
 import common.misc;

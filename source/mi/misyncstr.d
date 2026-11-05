@@ -26,7 +26,7 @@ extern(C): __gshared:
  
 public import core.stdc.stdint;
 
-public import include.xlibre_ptrtypes;
+public import common.xlibre_ptrtypes;
 public import mi.misync;
 public import dix.scrnintstr;
 import Xext.syncsrv;

@@ -43,8 +43,8 @@ import mi.mi_priv;
 import dix.scrnintstr;
 import dix.inputstr;
 import mi.mipointer;
-import include.xkbsrv;
-import include.xserver_properties;
+import xkb.xkbsrv_priv;
+import common.xserver_properties;
 import Xi.exevents;
 
 void ProcessInputEvents()

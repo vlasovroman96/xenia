@@ -73,7 +73,7 @@ import dix.events;
 import xkb.xkbgeom_priv;
 import externs.X11.extensions.XKB;
 import externs.X11.extensions.XKBproto;
-import include.xkbstr;
+import xkb.xkbstr;
 import dix.events;
 import dix.devices;
 import os.log;

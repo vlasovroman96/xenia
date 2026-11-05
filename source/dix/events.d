@@ -164,7 +164,7 @@ import std.conv;
 import os.os;
 import os.io;
 import dix.inpututils;
-import include.xkbstr;
+import xkb.xkbstr;
 import dix.extension;
 import dix.screen_hooks;
 import dix.window;

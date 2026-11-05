@@ -51,11 +51,11 @@ import common.misc;
 import dix.events;
 import Xi.exglobals;
 import Xi.xiquerydevice;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
 import os.log;
 import dix.devices;
 import dix.inpututils;
-import include.xkbstr;
+import xkb.xkbstr;
 
 
 

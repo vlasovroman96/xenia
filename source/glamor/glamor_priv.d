@@ -35,7 +35,7 @@ public import os.bug_priv;
 import build.dix_config;
 import glamor.glamor_composite_glyphs;
 import  externs.X11.extensions.renderproto;
-public import include.xvdix;
+public import hw.xfree86.common.xvdix;
 import glamor.glamor;
 import fb.fb;
 

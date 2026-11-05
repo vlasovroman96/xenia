@@ -1,4 +1,4 @@
-module include.xvdix;
+module hw.xfree86.common.xvdix;
 @nogc nothrow:
 extern(C): __gshared:
 import core.stdc.config: c_long, c_ulong;

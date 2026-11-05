@@ -5,7 +5,7 @@ import build.xorg_config;
 
 //import x11.X;
 
-import include.xorgVersion;
+import common.xorgVersion;
 import build.xlibre_server;
 
 import os.os;

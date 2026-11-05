@@ -41,7 +41,7 @@ import xkb.xkbsrv_priv;
 import dix.inputstr;
 import dix.scrnintstr;
 import dix.window;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
 import os.log;
 import os.utils;
 import os.WaitFor;

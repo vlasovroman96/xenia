@@ -30,8 +30,8 @@ THE USE OR PERFORMANCE OF THIS SOFTWARE.
  
 //public import x11.Xdefs;
 
-public import include.xkbsrv;
-import include.xkbstr;
+public import xkb.xkbsrv_priv;
+import xkb.xkbstr;
 // import externs.X11.extensions.XKBgeom;
 
 

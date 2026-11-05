@@ -62,9 +62,9 @@ public import dix.window;
 public import dix.dixstruct_priv;
 public import dix.cursor;
 public import dix.privates;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
 import mi.misyncstr;
-import include.xkbstr;
+import xkb.xkbstr;
 import dix.timestamp;
 
 

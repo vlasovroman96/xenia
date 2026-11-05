@@ -40,7 +40,7 @@ import test.tests_common;
 // import x11.Xmd;
 // import x11.Xdefs;
 // import x11.X;
-import include.xlibre_ptrtypes;
+import common.xlibre_ptrtypes;
 import test.tests;
 
 

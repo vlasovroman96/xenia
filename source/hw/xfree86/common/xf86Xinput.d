@@ -125,14 +125,14 @@ import sys.mkdev;          /* for major() & minor() on Solaris */
 }
 
 import ptrveloc;           /* dix pointer acceleration */
-import include.xserver_properties;
+import common.xserver_properties;
 
 static if(XFreeXDGA){
 import hw.xfree86.common.dgaproc_priv;
 }
 extern(C) int fnmatch(const(char)* pattern, const(char)* str, int flags);
 enum FNM_PATHNAME = 1 << 0;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
 import hw.xfree86.parser.xf86Parser;
 
 /* Input device flags */

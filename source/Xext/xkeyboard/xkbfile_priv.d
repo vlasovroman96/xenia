@@ -11,8 +11,8 @@ public import core.stdc.stdio;
 //public import x11.X;
 //public import x11.Xdefs;
 
-public import include.xkbsrv;
-import include.xkbstr;
+public import xkb.xkbsrv_priv;
+import xkb.xkbstr;
 
 
 /* XKB error codes */

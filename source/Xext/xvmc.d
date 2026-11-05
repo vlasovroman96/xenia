@@ -15,7 +15,7 @@ import core.stdc.string;
 import dix.dix_priv;
 import dix.request_priv;
 import dix.screen_hooks_priv;
-import include.xvmcext;
+import hw.xfree86.common.xvmcext;
 import miext.extinit_priv;
 import Xext.xvdix_priv;
 

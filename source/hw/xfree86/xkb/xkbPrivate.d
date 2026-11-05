@@ -14,7 +14,7 @@ import os.os;
 import xf86_priv;
 import externs.gnu;
 import externs.X11.extensions.XKB;
-import include.xkbstr;
+import xkb.xkbstr;
 
 
 // //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))

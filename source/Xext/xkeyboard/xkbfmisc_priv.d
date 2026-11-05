@@ -13,11 +13,11 @@ public import core.stdc.stdio;
 //public import x11.X;
 //public import x11.Xdefs;
 public import x11.keysymdef;
-import include.xkbstr;
-import include.xkbstr;
+import xkb.xkbstr;
+import xkb.xkbstr;
 
 
-public import include.xkbsrv;
+public import xkb.xkbsrv_priv;
 
 /*
  * return mask bits for _XkbKSCheckCase()

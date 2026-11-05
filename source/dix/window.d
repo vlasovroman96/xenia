@@ -155,14 +155,13 @@ import dix.inpututils;
 
 public import x11.Xproto;
 
-public import include.xlibre_ptrtypes;
+public import common.xlibre_ptrtypes;
 public import common.misc;
 // public import region;
 public import dix.scrintstr;
 import dix.property;
 public import dix.cursor;
 
-public import include.xlibre_ptrtypes;
 public import dix.pixmap;
 // public import region;
 public import dix.cursor;

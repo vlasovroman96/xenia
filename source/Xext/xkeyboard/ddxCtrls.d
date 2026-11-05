@@ -40,7 +40,7 @@ import xkb.xkbsrv_priv;
 import dix.inputstr;
 import dix.scrnintstr;
 import dix.window;
-import include.xkbstr;
+import xkb.xkbstr;
 
 
 void XkbDDXKeybdCtrlProc(DeviceIntPtr dev, KeybdCtrl* ctrl)

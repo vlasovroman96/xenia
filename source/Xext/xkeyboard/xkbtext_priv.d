@@ -8,9 +8,9 @@ extern(C): __gshared:
  
 //public import x11.X;
 
-public import include.xkbsrv;
+public import xkb.xkbsrv_priv;
 // import externs.X11.extensions.XKBstr;
-import include.xkbstr;
+import xkb.xkbstr;
 
 
 enum XkbXKMFile =      0;

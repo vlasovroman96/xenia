@@ -49,7 +49,7 @@ SOFTWARE.
 ******************************************************************/
 
  
-public import include.xlibre_ptrtypes;
+public import common.xlibre_ptrtypes;
 public import dix.scrintstr;
 public import region;
 public import dix.colormap;

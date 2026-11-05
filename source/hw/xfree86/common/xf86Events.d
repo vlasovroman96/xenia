@@ -85,8 +85,8 @@ import hw.xfree86.common.dgaproc_priv;
 
 import dix.inputstr;
 import mi.mipointer;
-import include.xkbsrv;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
+import xkb.xkbsrv_priv;
 import build.xlibre_server;
 import externs.X11.extensions.dpmsconst;
 import Xext.dpms;

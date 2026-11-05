@@ -10,9 +10,9 @@ public import core.stdc.stdio;
 //public import x11.X;
 //public import x11.Xdefs;
 
-public import include.xkbsrv;
+public import xkb.xkbsrv_priv;
 // import externs.X11.extensions.XKBstr;
-import include.xkbstr;
+import xkb.xkbstr;
 
 
 alias XkbFileAddOnFunc = void function(FILE* file, XkbDescPtr result, Bool topLevel, Bool showImplicit, int fileSection, void* priv);

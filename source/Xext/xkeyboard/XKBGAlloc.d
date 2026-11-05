@@ -35,9 +35,9 @@ import core.stdc.string;
 //import x11.Xproto;
 import common.misc;
 import dix.inputstr;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
 import xkb.xkbgeom_priv;
-import include.xkbstr;
+import xkb.xkbstr;
 // import externs.X11.extensions.XKBgeom;
 import externs.X11.extensions.XKB;
 

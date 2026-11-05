@@ -49,7 +49,7 @@ import dix.pixmap;
 import dix.validate;
 import dix.gc;
 import dix.dixstruct_priv;
-import include.xvdix;
+import hw.xfree86.common.xvdix;
 import hw.xfree86.common.xf86xvpriv;
 
 // import hw.xfree86.common.xf86sbusBus_priv;;
@@ -76,8 +76,8 @@ import dix.screen_hooks;
 import dix.window;
 import dix.resource;
 
-public import include.xlibre_ptrtypes;
-public import include.xvdix;
+public import common.xlibre_ptrtypes;
+public import hw.xfree86.common.xvdix;
 public import hw.xfree86.common.xf86str;
 import xf86Bus;
 

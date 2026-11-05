@@ -42,12 +42,12 @@ import xkb.xkbtext_priv;
 import dix.atom;
 import common.misc;
 import dix.inputstr;
-import include.xkbsrv;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
+import xkb.xkbsrv_priv;
 import xkb.xkbgeom_priv;
 import externs.X11.extensions.XKB;
 
-import include.xkbstr;
+import xkb.xkbstr;
 
 /***====================================================================***/
 

@@ -63,7 +63,7 @@ public import core.stdc.time;
 
 // //public import x11.Xfuncproto;
 
-public import include.xlibre_ptrtypes;
+public import common.xlibre_ptrtypes;
 public import dix.callback;
 public import common.misc;
 public import externs.gnu;

@@ -93,7 +93,7 @@ import Xi.exglobals;
 import Xi.xiquerydevice;      /* for SizeDeviceClasses */
 import Xi.xiproperty;
 import dix.enterleave;         /* for EnterWindow() */
-import include.xserver_properties;
+import common.xserver_properties;
 import Xi.xichangehierarchy;  /* For XISendDeviceHierarchyEvent */
 import Xext.syncsrv;
 import externs.attrs;
@@ -104,7 +104,7 @@ import os.utils;
 import externs.gnu;
 import dix.events;
 import dix.inpututils;
-import include.xkbstr;
+import xkb.xkbstr;
 import dix.timestamp;
 
 

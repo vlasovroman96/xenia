@@ -71,9 +71,9 @@ import dix.inputstr;           /* DeviceIntPtr      */
 import Xi.XIstubs;
 import dix.extension;
 import Xi.exevents;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
 import externs.X11.extensions.XI;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
 import dix.devices;
 import dix.events;
 

@@ -1,4 +1,4 @@
-module include.xkbstr;
+module xkb.xkbstr;
 @nogc nothrow:
 extern(C): __gshared:
 
@@ -39,7 +39,7 @@ import externs.X11.extensions.XKB;
 // import externs.X11.extensions.XKBgeom;
 import dix.input;
 import xkb.xkbgeom_priv;
-import include.xkbstr;
+import xkb.xkbstr;
 // //public import externs.X11.extensions.XKB;
 
 enum string	XkbCharToInt(string v) = `(cast(int) ((` ~ v ~ `) & 0x80 ? ((` ~ v ~ `) | (~0xff)) : ((` ~ v ~ `) & 0x7f)))`;

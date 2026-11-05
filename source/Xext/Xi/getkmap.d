@@ -65,11 +65,11 @@ import Xi.handlers;
 
 import dix.inputstr;           /* DeviceIntPtr      */
 import dix.swaprep;
-import include.xkbsrv;
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
+import xkb.xkbsrv_priv;
 import externs.X11.extensions.XIproto;
 import dix.devices;
-import include.xkbstr;
+import xkb.xkbstr;
 
 /***********************************************************************
  *

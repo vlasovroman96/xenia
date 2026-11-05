@@ -34,7 +34,7 @@ import Screen;
 import Pointer;
 import Args;
 
-import include.xserver_properties;
+import common.xserver_properties;
 import Xi.exevents;           /* For XIGetKnownProperty */
 
 DeviceIntPtr xnestPointerDevice = null;

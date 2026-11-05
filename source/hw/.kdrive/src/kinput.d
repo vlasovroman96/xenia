@@ -56,12 +56,12 @@ import mi.mi_priv;
 import mi.mipointer_priv;
 import os.cmdline;
 
-import include.xkbsrv;
+import xkb.xkbsrv_priv;
 import Xi.XIstubs;            /* even though we don't use stubs.  cute, no? */
 import Xi.exevents;
 import Xi.exglobals;
 import dix.events;
-import include.xserver_properties;
+import common.xserver_properties;
 
 static if (HasVersion!"CONFIG_UDEV" || HasVersion!"CONFIG_HAL") {
 import config.hotplug_priv;

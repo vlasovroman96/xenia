@@ -49,7 +49,7 @@ import hw.xfree86.common.xf86Xinput;
 // import xf86Config;
 // import include.xf86Xinput;
 import hw.xfree86.common.xf86Priv;
-// import include.xlibre_ptrtypes;
+// import common.xlibre_ptrtypes;
 import x11.Xosdefs;
 
 

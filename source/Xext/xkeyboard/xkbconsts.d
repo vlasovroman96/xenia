@@ -1,4 +1,4 @@
-module include.xkbconsts;
+module xkb.xkbconsts;
 
 // module xkb.xkbconstants;
 
@@ -25,6 +25,5 @@ enum XkbSA_DeviceBtn         = 0x12;
 enum XkbSA_LockDeviceBtn     = 0x13;
 enum XkbSA_DeviceValuator    = 0x14;
 
-// То, что ищет компилятор:
 enum XkbSA_LastAction        = XkbSA_DeviceValuator;
 enum XkbSA_NumActions        = XkbSA_LastAction + 1;

@@ -66,8 +66,8 @@ import dix.screen_hooks;
 import dix.resource;
 import Xext.xvmc;
 
-public import include.xlibre_ptrtypes;
-public import include.xvmcext;
+public import common.xlibre_ptrtypes;
+public import hw.xfree86.common.xvmcext;
 public import xf86xv;
 
 struct XF86MCImageIDList {
