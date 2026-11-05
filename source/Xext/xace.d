@@ -28,10 +28,9 @@ import core.stdc.stdarg;
 import os.client_priv;
 
 import include.scrnintstr;
-import include.pixmapstr;
+import dix.pixmap;
 import include.regionstr;
 import Xext.xacestr;
-import dix.pixmap;
 import dix.gc;
 import dix.dixutils;
 

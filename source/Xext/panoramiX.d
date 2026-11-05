@@ -56,7 +56,7 @@ import dix.gc;
 import include.scrnintstr;
 import include.window;
 import include.windowstr;
-import include.pixmapstr;
+import dix.pixmap;
 import include.servermd;
 import include.resource;
 import render.picturestr_priv;

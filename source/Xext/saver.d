@@ -59,7 +59,7 @@ import common.misc;
 import os.os;
 import include.windowstr;
 import include.scrnintstr;
-import include.pixmapstr;
+import dix.pixmap;
 import dix.dixstruct_priv;
 import include.resource;
 import dix.gc;

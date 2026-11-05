@@ -51,6 +51,147 @@ import dix.gc;
 import render.picture;
 import externs.attrs;
 import dix.picture;
+
+public import common.misc;
+public import include.scrintstr;
+public import include.regionstr;
+// //public import externs.X11.extensions._randr;
+import dix.pixmap;
+
+public import include.scrintstr;
+public import include.regionstr;
+public import include.privates;
+public import dix.damage;
+// //public import externs.X11.extensions._randr;
+public import dix.picturestr;
+import xf86Bus;
+
+struct _Drawable {
+    ubyte type;         /* DRAWABLE_<type> */
+    ubyte class_;        /* specific to type */
+    ubyte depth;
+    ubyte bitsPerPixel;
+    XID id;                     /* resource id */
+    short x;                    /* window: screen absolute, pixmap: 0 */
+    short y;                    /* window: screen absolute, pixmap: 0 */
+    ushort width;
+    ushort height;
+    ScreenPtr pScreen;
+    c_ulong serialNumber;
+}
+
+alias DrawableRec = _Drawable;
+alias DrawablePtr = DrawableRec*;
+
+/*
+ * PIXMAP -- device dependent
+ */
+
+struct _Pixmap {
+    DrawableRec drawable;
+    PrivateRec* devPrivates;
+    int refcnt;
+    int devKind;                /* This is the pitch of the pixmap, typically width*bpp/8. */
+    DevUnion devPrivate;        /* When !NULL, devPrivate.ptr points to the raw pixel data. */
+    short screen_x;
+    short screen_y;
+    uint usage_hint;        /* see CREATE_PIXMAP_USAGE_* */
+
+    PixmapPtr primary_pixmap;    /* pointer to primary copy of pixmap for pixmap sharing */
+}
+
+alias PixmapRec = _Pixmap;
+
+
+struct _PixmapDirtyUpdate {
+    DrawablePtr src;            /* Root window / shared pixmap */
+    PixmapPtr secondary_dst;    /* Shared / scanout pixmap */
+    int x, y;
+    DamagePtr damage;
+    xorg_list ent;
+    int dst_x, dst_y;
+    Rotation rotation;
+    PictTransform transform;
+    pixman_f_transform f_transform, f_inverse;
+}
+
+alias PixmapDirtyUpdateRec = _PixmapDirtyUpdate;
+alias PixmapDirtyUpdatePtr = PixmapDirtyUpdateRec*;
+
+pragma(inline, true) void PixmapRegionInit(RegionPtr region, PixmapPtr pixmap)
+{
+    BoxRec box = {
+        x2: cast(short)pixmap.drawable.width,
+        y2: cast(short)pixmap.drawable.height,
+    };
+    RegionInit(region, &box, 1);
+}
+
+/* types for Drawable */
+enum DRAWABLE_WINDOW = 0;
+enum DRAWABLE_PIXMAP = 1;
+enum UNDRAWABLE_WINDOW = 2;
+
+/* corresponding type masks for dixLookupDrawable() */
+enum M_DRAWABLE_WINDOW =	(1<<0);
+enum M_DRAWABLE_PIXMAP =	(1<<1);
+enum M_UNDRAWABLE_WINDOW =	(1<<2);
+enum M_ANY =			(-1);
+enum M_WINDOW =	(M_DRAWABLE_WINDOW|M_UNDRAWABLE_WINDOW);
+enum M_DRAWABLE =	(M_DRAWABLE_WINDOW|M_DRAWABLE_PIXMAP);
+enum M_UNDRAWABLE =	(M_UNDRAWABLE_WINDOW);
+
+/* flags to PaintWindow() */
+enum PW_BACKGROUND = 0;
+enum PW_BORDER = 1;
+
+enum NullPixmap = cast(PixmapPtr)0;
+
+// alias DrawablePtr = _Drawable*;
+alias PixmapPtr = _Pixmap*;
+
+union PixUnion {
+    PixmapPtr pixmap;
+    c_ulong pixel;
+}
+
+enum string SamePixUnion(string a,string b,string isPixel) = `
+    ((` ~ isPixel ~ `) ? (` ~ a ~ `).pixel == (` ~ b ~ `).pixel : (` ~ a ~ `).pixmap == (` ~ b ~ `).pixmap)`;
+
+enum string EqualPixUnion(string as, string a, string bs, string b) = `
+    ((` ~ as ~ `) == (` ~ bs ~ `) && (` ~ SamePixUnion! (a, b, as) ~ `))`;
+
+enum string OnScreenDrawable(string type) = `
+	(` ~ type ~ ` == DRAWABLE_WINDOW)`;
+
+enum string WindowDrawable(string type) = `
+	((` ~ type ~ ` == DRAWABLE_WINDOW) || (` ~ type ~ ` == UNDRAWABLE_WINDOW))`;
+
+// int GetScratchPixmapHeader(ScreenPtr pScreen, int width, int height, int depth, int bitsPerPixel, int devKind, void* pPixData);
+
+// int FreeScratchPixmapHeader(PixmapPtr);
+
+int PixmapScreenInit(ScreenPtr);
+
+// int AllocatePixmap(ScreenPtr, int);
+
+// int FreePixmap(PixmapPtr);
+
+// int PixmapShareToSecondary(PixmapPtr pixmap, ScreenPtr secondary);
+
+// int PixmapUnshareSecondaryPixmap(PixmapPtr secondary_pixmap);
+
+enum HAS_DIRTYTRACKING_ROTATION = 1;
+enum HAS_DIRTYTRACKING_DRAWABLE_SRC = 1;
+// int PixmapStartDirtyTracking(DrawablePtr src, PixmapPtr slave_dst, int x, int y, int dst_x, int dst_y, Rotation rotation);
+
+// int PixmapStopDirtyTracking(DrawablePtr src, PixmapPtr slave_dst);
+
+/* helper function, drivers can do this themselves if they can do it more
+   efficiently */
+// int PixmapSyncDirtyHelper(PixmapDirtyUpdatePtr dirty);
+
+// int PixmapDirtyCopyArea(PixmapPtr dst, DrawablePtr src, int x, int y, int dst_x, int dst_y, RegionPtr dirty_region);
 /*
  * Scratch pixmap APIs are provided for source and binary compatibility.  In
  * older versions, DIX would store a freed scratch pixmap for future use.  This

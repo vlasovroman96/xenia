@@ -58,7 +58,7 @@ import   os.screensaver;
 
 import   common.misc;
 import include.windowstr;
-import   include.pixmapstr;
+import   dix.pixmap;
 import   dix.cursor;
 import   mi.mipointer;
 import   include.scrnintstr;

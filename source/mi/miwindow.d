@@ -61,7 +61,7 @@ import mi.mi_priv;
 
 import include.windowstr;
 import include.scrnintstr;
-import include.pixmapstr;
+import dix.pixmap;
 import dix.inputstr;import dix.screen_hooks;
 import dix.events;
 import externs.X11.extensions.shapeconst;

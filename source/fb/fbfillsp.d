@@ -27,7 +27,7 @@ import build.dix_config;
 
 import fb.fb;
 import fb.fbfill;
-import include.pixmapstr;
+import dix.pixmap;
 import dix.gc;
 import x11.Xprotostr;
 import common.misc;

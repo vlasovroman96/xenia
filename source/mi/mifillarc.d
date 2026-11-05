@@ -36,7 +36,7 @@ import core.stdc.math;
 //import x11.Xprotostr;
 import include.regionstr;
 import dix.gc;
-import include.pixmapstr;
+import dix.pixmap;
 import mifillarc;
 import mizerarc;
 import mi.miarc;

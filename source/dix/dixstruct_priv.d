@@ -13,7 +13,7 @@ import core.stdc.config: c_long, c_ulong;
 public import include.resource;
 public import dix.cursor;
 public import dix.gc;
-public import include.pixmap;
+public import dix.pixmap;
 public import include.privates;
 import os.log;
 public import tables;

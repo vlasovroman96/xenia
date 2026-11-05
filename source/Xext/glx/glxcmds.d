@@ -54,7 +54,7 @@ public import externs.glxtokens;
 
 import glx.glxserver;
 import glx.unpack;
-import include.pixmapstr;
+import dix.pixmap;
 import include.windowstr;
 import glx.glxutil;
 import glx.glxext;

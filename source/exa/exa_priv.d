@@ -33,7 +33,7 @@ public import externs.X11.extensions.renderproto;
 public import include.shmint;
 
 public import include.scrnintstr;
-public import include.pixmapstr;
+public import dix.pixmap;
 public import include.windowstr;
 public import include.servermd;
 public import dix.input;

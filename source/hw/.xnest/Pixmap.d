@@ -22,7 +22,7 @@ import build.xorg_config;
 //import x11.Xproto;
 
 import include.regionstr;
-import include.pixmapstr;
+import dix.pixmap;
 import include.scrnintstr;
 import dix.gc;
 import include.servermd;

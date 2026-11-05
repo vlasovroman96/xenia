@@ -39,7 +39,7 @@ import Xext.sleepuntil;
 import common.misc;
 import include.windowstr;
 import dix.dixstruct_priv;
-import include.pixmapstr;
+import dix.pixmap;
 import include.scrnintstr;
 import dix.resource;
 import os.WaitFor;

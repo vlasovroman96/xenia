@@ -45,7 +45,7 @@ import   dix.screen_hooks_priv;
 import   mi.mipointer_priv;
 
 import   common.misc;
-import   include.pixmapstr;
+import   dix.pixmap;
 import   dix.input;
 import   dix.cursor;
 import   include.scrnintstr;

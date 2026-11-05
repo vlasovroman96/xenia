@@ -30,8 +30,7 @@ import core.stdc.config: c_long, c_ulong;
 public import dsl.pixman;
 
 public import include.scrnintstr;
-public import include.pixmap;
-public import include.pixmapstr;
+public import dix.pixmap;
 public import include.regionstr;
 public import dix.gc;
 public import dix.colormap;

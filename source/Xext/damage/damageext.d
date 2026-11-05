@@ -34,7 +34,7 @@ import build.xlibre_server;
 import dix.dix_priv;
 import dix.request_priv;
 import dix.screenint_priv;
-import include.pixmapstr;
+import dix.pixmap;
 import miext.extinit_priv;
 import os.client_priv;
 import Xext.damage.damageext_priv;

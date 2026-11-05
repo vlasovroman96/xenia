@@ -30,7 +30,7 @@ import externs.xcb.xcb_aux;
 import include.regionstr;
 
 import include.windowstr;
-import include.pixmapstr;
+import dix.pixmap;
 import include.scrnintstr;
 import midash;
 import dix.gc;

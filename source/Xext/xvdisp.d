@@ -48,7 +48,7 @@ import Xext.xvdix_priv;
 import common.misc;
 import include.scrnintstr;
 import include.windowstr;
-import include.pixmapstr;
+import dix.pixmap;
 import dix.dixstruct_priv;
 import include.resource;
 

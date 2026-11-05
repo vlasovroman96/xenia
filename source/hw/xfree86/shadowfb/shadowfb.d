@@ -18,7 +18,7 @@ import build.xorg_config;
 import dix.screen_hooks_priv;
 
 import common.misc;
-import include.pixmapstr;
+import dix.pixmap;
 import dix.input;
 import include.scrnintstr;
 import include.windowstr;

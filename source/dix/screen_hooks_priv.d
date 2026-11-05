@@ -25,7 +25,7 @@ extern(C): __gshared:
 // //public import x11.Xfuncproto;
 
 public import dix.callback; /* CallbackListPtr */
-public import include.pixmap; /* PixmapPtr */
+public import dix.pixmap; /* PixmapPtr */
 public import include.scrintstr; /* ScreenPtr */
 public import include.window; /* WindowPtr */
 

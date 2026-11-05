@@ -15,7 +15,7 @@ public import dix.callback;
 public import dix.events;
 public import dix.gc;
 public import mi.micmap;
-public import include.pixmap;
+public import dix.pixmap;
 public import include.regionstr;
 public import include.scrintstr;
 public import include.scrnintstr;

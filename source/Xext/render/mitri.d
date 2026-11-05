@@ -30,7 +30,7 @@ import mi.mipict;
 
 import include.scrnintstr;
 import dix.gc;
-import include.pixmapstr;
+import dix.pixmap;
 import include.windowstr;
 import dix.picturestr;
 import externs.X11.extensions.renderproto;

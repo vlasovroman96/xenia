@@ -62,7 +62,7 @@ import os.osdep;
 import common.misc;
 import include.resource;
 import dix.gc;
-import include.pixmapstr;
+import dix.pixmap;
 import include.scrnintstr;
 import dix.dixstruct_priv;
 import include.privates;
@@ -71,12 +71,9 @@ import dix.dixutils;
 import dix.resource;
 import os.log;
 
-public import include.pixmap;             /* for DrawablePtr */
-
 //public import x11.Xprotostr;
 
 public import dix.gc;
-public import include.pixmap;
 public import include.regionstr;
 public import include.scrintstr;
 public import include.privates;

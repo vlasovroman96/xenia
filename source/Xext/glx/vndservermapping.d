@@ -33,7 +33,7 @@ import build.dix_config;
 
 import glx.vndserver_priv;
 
-import include.pixmapstr;
+import dix.pixmap;
 
 import glx.vndservervendor;
 import dix.dixutils;

@@ -41,7 +41,7 @@ import glx.glxutil;
 import glx.unpack;
 import glx.indirect_dispatch;
 // import externs.gl;
-import include.pixmapstr;
+import dix.pixmap;
 import include.windowstr;
 import dix.dixfonts;
  import Xext.glx.fix;

@@ -44,7 +44,7 @@ public import include.xlibre_ptrtypes;
 public import common.misc;
 // public import dix.input;
 public import include.scrnintstr;
-public import include.pixmapstr;
+public import dix.pixmap;
 public import dix.colormap;
 public import include.xf86Module;
 public import include.xf86Opt;

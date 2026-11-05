@@ -36,7 +36,7 @@ import core.stdc.config: c_long, c_ulong;
 //import externs.GL.glx;
 //import externs.GL.gl;
 import x11.Xdefs;
-import include.pixmap;
+import dix.pixmap;
 import glx.glxscreens_h;
 import Xext.glx.fix;
 alias XID = x11.X.XID;

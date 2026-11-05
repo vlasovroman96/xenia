@@ -94,7 +94,7 @@ import common.misc;
 import include.regionstr;
 import include.scrnintstr;
 import include.windowstr;
-import include.pixmap;
+import dix.pixmap;
 import dix.input;
 import dix.dixstruct_priv;
 import dix.events;

@@ -32,7 +32,7 @@ import mi.mi_priv;
 import dix.gc;
 import include.window;
 import include.windowstr;
-import include.pixmapstr;
+import dix.pixmap;
 import include.scrnintstr;
 
 import xnest_xcb;

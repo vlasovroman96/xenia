@@ -29,7 +29,7 @@ import common.misc;
 import os.os;
 import dix.dixstruct_priv;
 import dix.swaprep;
-import include.pixmapstr;
+import dix.pixmap;
 import include.windowstr;
 import dix.gc;
 import include.protocol_versions;

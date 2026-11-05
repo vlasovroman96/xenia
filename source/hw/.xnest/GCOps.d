@@ -31,7 +31,7 @@ import include.regionstr;
 import dix.gc;
 import include.scrnintstr;
 import include.windowstr;
-import include.pixmapstr;
+import dix.pixmap;
 import include.servermd;
 
 import xnest_xcb;

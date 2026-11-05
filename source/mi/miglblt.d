@@ -59,7 +59,7 @@ import	common.misc;
 import	dix.dixfonts;
 import	include.windowstr;
 import	include.scrnintstr;
-import	include.pixmap;
+import	dix.pixmap;
 import	include.servermd;
 import Xext.xf86bigfont;
 import dix.gc;

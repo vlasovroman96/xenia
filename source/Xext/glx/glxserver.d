@@ -38,7 +38,7 @@ import build.dix_config;
 public import x11.Xmd;
 public import common.misc;
 public import dix.dixstruct_priv;
-public import include.pixmapstr;
+public import dix.pixmap;
 public import dix.gc;
 public import dix.extension;
 public import include.resource;

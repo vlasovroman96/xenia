@@ -46,7 +46,7 @@ import externs.internal.dri_interface;
 import externs.glxtokens;
 
 import include.scrnintstr;
-import include.pixmapstr;
+import dix.pixmap;
 import dix.gc;
 import os.os;
 

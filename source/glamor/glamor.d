@@ -59,7 +59,7 @@ import glamor.glamor;
 import dix.screen_hooks;
 
 public import include.scrnintstr;
-public import include.pixmapstr;
+public import dix.pixmap;
 public import dix.gc;
 // static if (GLAMOR_FOR_XORG) {
 public import xf86xv;

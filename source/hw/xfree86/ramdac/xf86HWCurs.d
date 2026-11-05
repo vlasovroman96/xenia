@@ -13,7 +13,7 @@ import common.misc;
 import include.xf86;
 import include.xf86_OSproc;;
 import include.scrnintstr;
-import include.pixmapstr;
+import dix.pixmap;
 import include.windowstr;
 import include.xf86str;
 import dix.cursor;

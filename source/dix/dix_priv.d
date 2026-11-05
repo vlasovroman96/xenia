@@ -576,7 +576,7 @@ CallbackListPtr RootWindowFinalizeCallback;
  * @param id        ID of the resource
  * @return (undefined/ignored)
  */
-int OtherClientGone(void* value, XID id);
+// int OtherClientGone(void* value, XID id);
 
 /*
  * @brief check whether one window is parent of another

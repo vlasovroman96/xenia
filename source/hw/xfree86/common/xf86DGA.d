@@ -60,7 +60,7 @@ import include.xf86;
 import include.xf86str;
 import include.xf86Priv;
 import hw.xfree86.common.dgaproc_priv;
-import include.pixmapstr;
+import dix.pixmap;
 import dix.inputstr;import include.servermd;
 import mi.micmap;
 import include.xkbsrv;

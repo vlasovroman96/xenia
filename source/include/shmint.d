@@ -28,7 +28,7 @@ extern(C): __gshared:
 // //public import externs.X11.extensions.shmproto;
 
 public import include.scrintstr;
-public import include.pixmap;
+public import dix.pixmap;
 public import dix.gc;
 import dix.damage;
 import build.xlibre_server;

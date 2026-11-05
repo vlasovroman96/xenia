@@ -98,7 +98,7 @@ import dix.screenint_priv;
 import common.misc;
 import include.windowstr;
 import dix.dixstruct_priv;
-import include.pixmapstr;
+import dix.pixmap;
 import dix.gc;
 import include.scrnintstr;
 import Xext.xace;

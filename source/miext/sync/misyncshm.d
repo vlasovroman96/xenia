@@ -37,7 +37,7 @@ import include.scrnintstr;
 import miext.sync.misync_priv;
 import miext.sync.misyncshm;
 import miext.sync.misyncfd;
-import include.pixmapstr;
+import dix.pixmap;
 import mi.misyncfd;
 import miext.sync.misync;
 

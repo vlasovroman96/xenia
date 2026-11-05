@@ -52,7 +52,7 @@ import build.dix_config;
 //import x11.Xprotostr;
 import include.regionstr;
 import dix.gc;
-import include.pixmap;
+import dix.pixmap;
 
 /*****************************************************************
  * miPolySegment

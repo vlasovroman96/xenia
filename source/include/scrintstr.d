@@ -59,7 +59,7 @@ SOFTWARE.
 //  
 import include.xlibre_ptrtypes;
 import include.scrintstr;
-import include.pixmap;
+import dix.pixmap;
 import common.misc;
 import dix.input;
 import dix.cursor;

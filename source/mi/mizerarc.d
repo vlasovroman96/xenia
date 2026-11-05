@@ -44,7 +44,7 @@ import core.stdc.math;
 import mi.mi_priv;
 
 import include.regionstr;
-import include.pixmapstr;
+import dix.pixmap;
 import dix.gc;
 
 public import x11.Xdefs;

@@ -101,7 +101,6 @@ import hw.xfree86.common.xf86Option;
 import externs.gnu;
 import dix.inputstr;import hw.xfree86.parser.Flags;
 import xf86fbBus;
-import include.pixmapstr;
 import hw.xfree86.drivers.video.modesetting.present;
 struct ms_async_flip_priv {
     Bool async_flip;

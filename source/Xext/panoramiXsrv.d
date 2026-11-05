@@ -10,7 +10,7 @@ public import dsl.pixman;
 import include.regionstr;
 import x11.Xproto;
 import include.scrintstr;
-import include.pixmap;
+import dix.pixmap;
 import dix.resource;
 
 // int PanoramiXNumScreens;

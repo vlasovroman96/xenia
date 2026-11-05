@@ -50,7 +50,7 @@ import build.dix_config;
 
 //import x11.X;
 //import x11.Xprotostr;
-import include.pixmapstr;
+import dix.pixmap;
 import include.windowstr;
 import dix.gc;
 
