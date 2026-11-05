@@ -33,7 +33,7 @@ import xf86Module_priv;
 import xf86Extensions;
 import xf86Opt_priv;
 import hw.xfree86.common.xf86Option;
-import include.xf86Parser;
+import hw.xfree86.parser.xf86Parser;
 import xf86Globals;
 import externs.gnu;
 import mi.miinitext;

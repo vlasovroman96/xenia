@@ -9,7 +9,7 @@ extern(C): __gshared:
  
 public import core.stdc.stdlib;
 
-public import include.xf86Parser;
+public import hw.xfree86.parser.xf86Parser;
 
 // void xf86initConfigFiles();
 // char* xf86openConfigFile(const(char)* path, const(char)* cmdline, const(char)* projroot);

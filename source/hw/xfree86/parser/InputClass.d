@@ -35,7 +35,7 @@ import os.os;
 import xf86Parser_priv;
 import xf86tokens;
 import Configint;
-import include.xf86Parser;
+import hw.xfree86.parser.xf86Parser;
 import xf86tokens;
 import Configint;
 import x11.Xmd;

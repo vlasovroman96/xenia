@@ -30,7 +30,7 @@ import build.dix_config;
 import core.stdc.assert_;
 
 import hw.xfree86.common.xf86Helper;
-import include.xf86Parser;
+import hw.xfree86.parser.xf86Parser;
 
 import test.tests_common;
 import test.tests;

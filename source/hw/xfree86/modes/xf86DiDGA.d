@@ -44,7 +44,7 @@ public import hw.xfree86.i2c.xf86i2c;
 public import dix.damage;
 public import dix.picturestr;
 import randr.rrtransform;
-import include.xf86Parser;
+import hw.xfree86.parser.xf86Parser;
 import dix.scrintstr;
 import hw.xfree86.modes.xf86Crtc;
 import hw.xfree86.modes.displaymode;

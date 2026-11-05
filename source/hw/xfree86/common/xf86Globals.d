@@ -43,7 +43,7 @@ import x11.X;
 // import dix.property;
 // import xf86_priv;
 // import include.xf86Priv;
-import include.xf86Parser;
+import hw.xfree86.parser.xf86Parser;
 // import dix.privates;
 import hw.xfree86.common.xf86Xinput;
 // // import xf86InPriv;

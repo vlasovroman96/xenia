@@ -62,7 +62,7 @@ import Monitor;
 import scan;
 import xf86Globals;
 import dix.screen_hooks;
-import include.xf86Parser;
+import hw.xfree86.parser.xf86Parser;
 import interpret_edid;
 import externs.X11.extensions.dpmsconst;
 import xf86CursorRD;

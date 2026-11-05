@@ -34,7 +34,7 @@ extern(C): __gshared:
 
  
 // public ////import x11.Xfuncproto;
-import include.xf86Parser;
+import hw.xfree86.parser.xf86Parser;
 import hw.xfree86.parser.Flags;
 public import core.stdc.stdio;
 public import core.stdc.string;

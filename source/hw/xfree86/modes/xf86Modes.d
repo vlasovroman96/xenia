@@ -36,7 +36,7 @@ import xf86_priv;
 import xf86Config;
 import xf86Modes;
 import include.xf86Priv;
-import include.xf86Parser;
+import hw.xfree86.parser.xf86Parser;
 import hw.xfree86.common.xf86Helper;
 import Monitor;
 import externs.gnu;

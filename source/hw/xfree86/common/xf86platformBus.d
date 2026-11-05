@@ -58,7 +58,7 @@ import hw.xfree86.os_support.bus.Pci;
 import xf86platformBus_priv;
 import xf86Config;
 import hw.xfree86.common.xf86Crtc;
-import include.xf86Parser;
+import hw.xfree86.parser.xf86Parser;
 import hw.xfree86.common.xf86MatchDrivers;
 import xf86platformBus_priv;
 import xf86Globals;

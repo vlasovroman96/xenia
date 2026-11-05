@@ -54,7 +54,7 @@ import hw.xfree86.modes.xf86Crtc;
 import randr.randr;
 import randr.rrcrtc;
 import randr.rrtransform;
-import include.xf86Parser;
+import hw.xfree86.parser.xf86Parser;
 import randr.rrmode;
 import randr.rroutput;
 import randr.rrproperty;

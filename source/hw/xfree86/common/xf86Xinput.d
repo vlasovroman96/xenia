@@ -133,7 +133,7 @@ import hw.xfree86.common.dgaproc_priv;
 extern(C) int fnmatch(const(char)* pattern, const(char)* str, int flags);
 enum FNM_PATHNAME = 1 << 0;
 import include.xkbsrv;
-import include.xf86Parser;
+import hw.xfree86.parser.xf86Parser;
 
 /* Input device flags */
 enum XI86_ALWAYS_CORE =	0x04    /* device always controls the pointer */;
