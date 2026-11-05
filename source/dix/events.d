@@ -1505,7 +1505,7 @@ void EnqueueEvent(InternalEvent* ev, DeviceIntPtr device)
     DeviceEvent* event = &ev.device_event;
 
     if (!syncEvents.pending.isEmpty())
-        tail = mixin(xorg_list_last_entry!("&syncEvents.pending", "QdEventRec", "next"));
+        tail = syncEvents.pending.getLastEntry!(QdEventRec, "next");
 
     NoticeTimeMillis(device, &ev.any.time);
 

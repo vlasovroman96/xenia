@@ -228,50 +228,31 @@ struct XList {
     }
 
     /**
-     * Retrieve the first list entry for the given list pointer.
+     * Retrieve the first/last list entry for the given list pointer.
      */
     auto getFirstEntry(T, string member = "list")() {
         return this.next.getContainer!(T, member);
     }
+
+    //ditto
+    auto getLastEntry(T, string member = "list")() {
+        return this.prev.getContainer!(T, member);
+    }
 }
 
-template offsetof(T, string member)
+template offsetOf(T, string member)
 {
-    enum offsetof =
+    enum offsetOf =
         __traits(getMember, T.init, member).offsetof;
 }
 
 @property
 T* containerOf(T, string member)(void* ptr)
 {
-    enum offset = __traits(getMember, T.init, member).offsetof;
+    enum offset = offsetOf!(T, member);
 
     return cast(T*)(cast(ubyte*)ptr - offset);
 }
-
-/**
- * Alias of container_of
- */
-enum xorg_list_entry(string ptr, string type, string member) =
-    "containerOf!("~type~", `"~member~"`)("~ptr~")";
-
-/**
- * Retrieve the last list entry for the given listpointer.
- *
- * Example:
- * struct foo *first;
- * first = mixin(xorg_list_last_entry!("&bar->list_of_foos", "struct foo", "list_of_foos"));
- *
- * @param ptr The list head
- * @param type Data type of the list element to retrieve
- * @param member Member name of the struct XList field in the list element.
- * @return A pointer to the last list element.
- */
-enum string xorg_list_last_entry(string ptr, string type, string member) = `
-    ` ~ xorg_list_entry!(`(` ~ ptr ~ `).prev`, type, member) ~ ``;
-
-// alias __container_of(alias ptr, alias sample, alias member) = 
-//     container_of!(sample, member )(ptr);
 
 /**
  * Loop through the list given by head and set pos to struct in the list.
