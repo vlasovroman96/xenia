@@ -9,7 +9,7 @@ extern(C): __gshared:
  
 public import x11.Xdefs;
 
-public import include.xf86sbusBus;
+public import xf86sbusBus;
 
 struct sbus_devtable {
     int devId;

@@ -39,7 +39,7 @@ import xf86Bus;
 
 import hw.xfree86.common.xf86sbusBus_priv;;
 import hw.xfree86.os_support.bus.xf86Sbus_priv;
-import include.xf86sbusBus;
+import xf86sbusBus;
 import externs.linux.fbio;
 import xf86platformBus_priv;
 import xf86Globals;
@@ -54,6 +54,49 @@ import dix.events;
 // import Sbus.c;
 import os.log_priv;
 import dix.screen_hooks;
+
+public import include.xf86str;
+
+enum SBUS_DEVICE_CG3 =		0x0003;
+enum SBUS_DEVICE_CG6 =		0x0005;
+enum SBUS_DEVICE_CG14 =	0x0008;
+enum SBUS_DEVICE_LEO =		0x0009;
+enum SBUS_DEVICE_TCX =		0x000a;
+enum SBUS_DEVICE_FFB =		0x000b;
+
+struct sbus_prom_node {
+    int node;
+    /* Because of misdesigned openpromio */
+    int[2] cookie;
+}alias sbusPromNode = sbus_prom_node;
+alias sbusPromNodePtr = sbus_prom_node*;
+
+struct sbus_device {
+    int devId;
+    int fbNum;
+    int fd;
+    int width, height;
+    sbusPromNode node;
+    const(char)* descr;
+    const(char)* device;
+}alias sbusDevice = sbus_device;
+alias sbusDevicePtr = sbus_device*;
+
+void  xf86MatchSbusInstances(const(char)* driverName, int sbusDevId, GDevPtr* devList, int numDevs, DriverPtr drvp, int** foundEntities);
+void  xf86GetSbusInfoForEntity(int entityIndex);
+void  xf86SbusUseBuiltinMode(ScrnInfoPtr pScrn, sbusDevicePtr psdp);
+void * xf86MapSbusMem(sbusDevicePtr psdp, c_ulong offset, c_ulong size);
+void  xf86UnmapSbusMem(sbusDevicePtr psdp, void* addr, c_ulong size);
+void  xf86SbusHideOsHwCursor(sbusDevicePtr psdp);
+void  xf86SbusSetOsHwCursorCmap(sbusDevicePtr psdp, int bg, int fg);
+void  xf86SbusHandleColormaps(ScreenPtr pScreen, sbusDevicePtr psdp);
+
+// void  sparcPromInit();
+// void  sparcPromClose();
+// void  sparcPromGetBool(sbusPromNodePtr pnode, const(char)* prop);
+
+                          /* _XF86_SBUSBUS_H */
+
 
 
 private int xf86nSbusInfo;

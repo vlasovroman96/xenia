@@ -54,7 +54,7 @@ import hw.xfree86.common.xf86xvpriv;
 
 // import hw.xfree86.common.xf86sbusBus_priv;;
 import hw.xfree86.os_support.bus.xf86Sbus_priv;
-import include.xf86sbusBus;
+// import xf86sbusBus;
 import externs.linux.fbio;
 import xf86platformBus_priv;
 import xf86Globals;
