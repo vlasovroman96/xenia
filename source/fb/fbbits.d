@@ -25,7 +25,7 @@ extern(C): __gshared:
 
 import build.dix_config;
 import include.wfbrename;
-public import include.miline;
+public import mi.miline;
 import dix.timestamp;
 
 

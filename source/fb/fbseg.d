@@ -30,7 +30,7 @@ import core.stdc.stdlib;
 import fb.fb_priv;
 import fb.fbbits;;
 
-import include.miline;
+import mi.miline;
 import fb.fbbitsh;
 import fb.fbfill;
 import dix.gc;

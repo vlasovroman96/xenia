@@ -58,7 +58,7 @@ import dix.gc;
 import include.windowstr;
 import include.pixmap;
 import miwideline;
-import include.miline;
+import mi.miline;
 import mi.mizerclip;
 
 /* Draw lineSolid, fillStyle-independent zero width lines.

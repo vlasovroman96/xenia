@@ -55,7 +55,7 @@ import include.scrnintstr;
 import dix.gc;
 import include.windowstr;
 import include.pixmap;
-import include.miline;
+import mi.miline;
 
 /*
 

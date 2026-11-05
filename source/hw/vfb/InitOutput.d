@@ -76,7 +76,7 @@ static if(CONFIG_MITSHM){
 import core.sys.posix.sys.ipc;
 import core.sys.posix.sys.shm;
 } /* CONFIG-MITSHM */
-import include.miline;
+import mi.miline;
 import include.randrstr;
 
 static if (GLAMOR) {

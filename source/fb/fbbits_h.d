@@ -29,7 +29,7 @@ extern(C): __gshared:
  * underlying datatypes instead of masks
  */
 public import fb.fb_priv;
-import include.miline;
+import mi.miline;
 import include.mizerarc;
 import mizerarc;
 import core.stdc.config: c_long, c_ulong;
