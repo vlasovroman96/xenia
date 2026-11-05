@@ -37,7 +37,7 @@ import common.misc;
 import dix.scrnintstr;
 import os.os;
 import region;
-import include.validate;
+import dix.validate;
 import include.windowstr;
 import dix.input;
 import dix.resource;

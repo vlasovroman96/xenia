@@ -35,7 +35,7 @@ import os.log;
 import common.misc;
 import dix.scrnintstr;
 import os.os;
-import include.validate;
+import dix.validate;
 import include.windowstr;
 import dix.input;
 import dix.cursor;

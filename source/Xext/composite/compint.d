@@ -50,7 +50,7 @@ public import common.misc;
 public import dix.scrnintstr;
 public import os.os;
 public import region;
-public import include.validate;
+public import dix.validate;
 public import include.windowstr;
 public import dix.input;
 public import dix.resource;

@@ -53,7 +53,7 @@ import dix.scrnintstr;
 import region;
 import include.windowstr;
 import dix.pixmap;
-import include.validate;
+import dix.validate;
 import dix.resource;
 import dix.gc;
 import dix.dixstruct_priv;

@@ -54,7 +54,7 @@ public import dix.scrintstr;
 public import region;
 public import dix.colormap;
 public import dix.cursor;
-public import include.validate;
+public import dix.validate;
 //public import x11.Xproto;
 public import dix.privates;
 public import externs.X11.extensions.randr;

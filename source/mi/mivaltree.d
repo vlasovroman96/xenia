@@ -99,7 +99,7 @@ import dix.window_priv;
 import mi.mi_priv;
 
 import    dix.scrnintstr;
-import    include.validate;
+import    dix.validate;
 import    include.windowstr;
 import    region;
 import    composite.compint;

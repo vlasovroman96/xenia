@@ -16,7 +16,7 @@ import dix.window_priv;
 import mi.mi_priv;
 
 import dix.scrnintstr;
-import include.validate;
+import dix.validate;
 import include.windowstr;
 import dix.gc;
 import region;

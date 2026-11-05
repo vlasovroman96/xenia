@@ -48,7 +48,7 @@ import include.xf86_OSproc;;
 import dix.scrnintstr;
 import include.windowstr;
 import dix.pixmap;
-import include.validate;
+import dix.validate;
 import dix.gc;
 import dix.dixstruct_priv;
 import include.xvdix;

@@ -68,7 +68,7 @@ import dix.colormap_priv;
 
 //import x11.X;
 import externs.X11.extensions.randrproto;
-import include.validate;
+import dix.validate;
 
 struct _PixmapFormat {
     ubyte depth;

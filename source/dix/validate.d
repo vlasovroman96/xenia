@@ -1,4 +1,4 @@
-module include.validate;
+module dix.validate;
 @nogc nothrow:
 extern(C): __gshared:
 
