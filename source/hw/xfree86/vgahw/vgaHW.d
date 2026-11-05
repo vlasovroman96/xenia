@@ -45,7 +45,7 @@ public import dix.scrnintstr;
 public import include.xf86str;
 public import include.xf86Pci;
 
-public import include.xf86DDC;
+public import ddc;
 
 import hw.xfree86.modes.displaymode;
 // //public import externs.X11.extensions.dpmsconst;

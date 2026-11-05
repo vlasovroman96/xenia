@@ -33,7 +33,7 @@ import core.stdc.stdio;
 // //import externs.X11.extensions.dpmsconst;
 
 import dix.dix_priv;
-import include.xf86DDC;
+import ddc;
 import mi.mi_priv;
 
 import dix.window;

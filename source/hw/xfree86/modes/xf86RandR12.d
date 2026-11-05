@@ -31,7 +31,7 @@ import Xext.panoramiXsrv;
 import dix.dix_priv;
 import dix.input_priv;
 import dix.screenint_priv;
-import include.xf86DDC;
+import ddc;
 
 import os.os;
 import xf86Modes;

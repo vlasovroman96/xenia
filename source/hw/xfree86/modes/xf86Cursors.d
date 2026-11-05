@@ -34,7 +34,7 @@ import core.stdc.stdio;
 //import externs.X11.extensions._render;
 // //import externs.X11.extensions.dpmsconst;
 
-import include.xf86DDC;
+import ddc;
 
 import hw.xfree86.common.xf86Crtc;
 import xf86Modes;

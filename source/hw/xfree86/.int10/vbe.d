@@ -24,7 +24,7 @@ import xf86Bus;
 import include.vbe;
 import include.xf86int10;
 
-public import include.xf86DDC;
+public import ddc;
 
 enum ddc_lvl {
     DDC_UNCHECKED,

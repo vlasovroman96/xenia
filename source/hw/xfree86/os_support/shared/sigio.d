@@ -82,7 +82,7 @@ import config.dbus_core;
 import config.hotplug_priv;
 import dix.input_priv;
 import dix.screenint_priv;
-import include.xf86DDC;
+import ddc;
 import include.xorgVersion;
 import mi.mi_priv;
 import os.cmdline;

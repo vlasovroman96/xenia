@@ -7,7 +7,7 @@ extern(C): __gshared:
  * Copyright © 1998 by Egbert Eich <Egbert.Eich@Physik.TU-Darmstadt.DE>
  */
  
-public import include.xf86DDC;
+public import ddc;
 public import edid_priv;
 import hw.xfree86.common.edid;
 

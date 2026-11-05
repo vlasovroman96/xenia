@@ -50,7 +50,7 @@ import composite.compext;
 
 import dix.dix_priv;
 import dix.input_priv;
-import include.xf86DDC;
+import ddc;
 import mi.mi_priv;
 import os.log_priv;
 import os.osdep;

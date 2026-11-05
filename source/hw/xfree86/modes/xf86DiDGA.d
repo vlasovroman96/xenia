@@ -25,7 +25,7 @@ import core.stdc.config: c_long, c_ulong;
  */
 import build.xorg_config;
 
-import include.xf86DDC;
+import ddc;
 
 import hw.xfree86.os_support.xf86_OSproc;;
 import hw.xfree86.common.dgaproc_priv;

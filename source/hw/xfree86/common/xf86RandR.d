@@ -30,7 +30,7 @@ import Xext.panoramiXsrv;
 
 import dix.input_priv;
 import dix.screen_hooks_priv;
-import include.xf86DDC;
+import ddc;
 
 import os.os;
 import xf86_priv;
