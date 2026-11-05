@@ -1048,7 +1048,7 @@ int xf86NewInputDevice(InputInfoPtr pInfo, DeviceIntPtr* pdev, BOOL enable)
                 PausedInputDevicePtr new_device = cast(PausedInputDevicePtr)XNFalloc((PausedInputDeviceRec).sizeof);
                 new_device.pInfo = pInfo;
 
-                xorg_list_append(&new_device.node, &new_input_devices_list);
+                new_input_devices_list.appendList(&new_device.node);
                 systemd_logind_release_fd(pInfo.major, pInfo.minor, fd);
                 free(path);
                 return BadMatch;

@@ -328,7 +328,7 @@ Bool clients_are_ready()
 void mark_client_ready(ClientPtr client)
 {
     if (xorg_list_is_empty(&client.ready))
-        xorg_list_append(&client.ready, &ready_clients);
+        ready_clients.appendList(&client.ready);
 }
 
 /*
@@ -338,7 +338,7 @@ void mark_client_ready(ClientPtr client)
 void mark_client_saved_ready(ClientPtr client)
 {
     if (xorg_list_is_empty(&client.ready))
-        xorg_list_append(&client.ready, &saved_ready_clients);
+        saved_ready_clients.appendList(&client.ready);
 }
 
 /* Client has no requests queued and no data on network */
@@ -354,7 +354,7 @@ private void mark_client_grab(ClientPtr grab)
     mixin(xorg_list_for_each_entry_safe!("client", "tmp", "&ready_clients", "ready", q{
         if (client != grab) {
             xorg_list_del(&client.ready);
-            xorg_list_append(&client.ready, &saved_ready_clients);
+            saved_ready_clients.appendList(&client.ready);
         }
     }));
 }
@@ -365,7 +365,7 @@ private void mark_client_ungrab()
 
     mixin(xorg_list_for_each_entry_safe!("client", "tmp", "&saved_ready_clients", "ready", q{
         xorg_list_del(&client.ready);
-        xorg_list_append(&client.ready, &ready_clients);
+        ready_clients.appendList(&client.ready);
     }));
 }
 

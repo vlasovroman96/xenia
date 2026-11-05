@@ -152,27 +152,14 @@ struct XList {
         this.autoinit();
         this.insertNext(elem);
     }
-}
 
-/**
- * Append a new element to the end of the list given with this list head.
- *
- * The list changes from:
- *      head → some element → ... → lastelement
- * to
- *      head → some element → ... → lastelement → new element
- *
- * Example:
- * struct foo *newfoo = malloc(...);
- * xorg_list_append(&newfoo->entry, &bar->list_of_foos);
- *
- * @param entry The new element to append to the list.
- * @param head The existing list.
- */
-pragma(inline, true) void xorg_list_append(XList* entry, XList* head)
-{
-    head.autoinit();
-    head.prev.insertNext(entry);
+    /** 
+     * Inserting element to the end of the list 
+     */
+    void appendList(XList* elem) {
+        this.autoinit();
+        this.prev.insertNext(elem);
+    }
 }
 
 pragma(inline, true) void __xorg_list_del(XList* prev, XList* next)
@@ -263,7 +250,7 @@ pragma(inline, true) int xorg_list_append_ndup(XList* entry, XList* head)
     if (xorg_list_present(entry, head))
         return 0;
 
-    xorg_list_append(entry, head);
+    head.appendList(entry);
     return 1;
 }
 

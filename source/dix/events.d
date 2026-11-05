@@ -1570,7 +1570,7 @@ static if(XINERAMA){
     qe.months = currentTime.months;
     qe.event = cast(InternalEvent*) (qe + 1);
     CopyPartialInternalEvent(qe.event, cast(InternalEvent*)event);
-    xorg_list_append(&qe.next, &syncEvents.pending);
+    syncEvents.pending.appendList(&qe.next);
 }
 
 /**

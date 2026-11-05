@@ -71,7 +71,7 @@ GlxServerVendor* GlxCreateVendor(const(GlxServerImports)* imports)
     }
     memcpy(&vendor.glxvc, imports, GlxServerImports.sizeof);
 
-    xorg_list_append(&vendor.entry, &GlxVendorList);
+    GlxVendorList.appendList(&vendor.entry);
     return vendor;
 }
 

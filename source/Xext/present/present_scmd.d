@@ -534,7 +534,7 @@ private void present_execute(present_vblank_ptr vblank, ulong ust, ulong crtc_ms
             //               vblank.event_id, vblank,
             //               screen_priv.flip_pending, screen_priv.unflip_event_id));
             xorg_list_del(&vblank.event_queue);
-            xorg_list_append(&vblank.event_queue, &present_flip_queue);
+            present_flip_queue.appendList(&vblank.event_queue);
             vblank.flip_ready = TRUE;
             return;
         }
@@ -660,8 +660,7 @@ private void present_execute(present_vblank_ptr vblank, ulong ust, ulong crtc_ms
 
         if (vblank.queued) {
             present_exec_queue.addListNext(&vblank.event_queue);
-            xorg_list_append(&vblank.window_list,
-                             &present_get_window_priv(window, TRUE).vblank);
+            present_get_window_priv(window, TRUE).vblank.appendList(&vblank.window_list);
             return;
         }
     }
@@ -811,7 +810,7 @@ present_notify_ptr notifies, int num_notifies)
              (vblank.flip && vblank.sync_flip))
         vblank.exec_msc--;
 
-    xorg_list_append(&vblank.event_queue, &present_exec_queue);
+    present_exec_queue.appendList(&vblank.event_queue);
     vblank.queued = TRUE;
     if (msc_is_after(vblank.exec_msc, crtc_msc)) {
         ret = present_queue_vblank(screen, window, target_crtc, vblank.event_id, vblank.exec_msc);
@@ -937,7 +936,7 @@ present_notify_ptr notifies, int num_notifies)
              (vblank.flip && vblank.sync_flip))
         vblank.exec_msc--;
 
-    xorg_list_append(&vblank.event_queue, &present_exec_queue);
+    present_exec_queue.appendList(&vblank.event_queue);
     vblank.queued = TRUE;
     if (msc_is_after(vblank.exec_msc, crtc_msc)) {
         ret = present_queue_vblank(screen, window, target_crtc, vblank.event_id, vblank.exec_msc);

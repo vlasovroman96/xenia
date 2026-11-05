@@ -379,7 +379,7 @@ private Bool ms_tearfree_dri_flip(modesettingPtr ms, xf86CrtcPtr crtc, void* eve
     flipdata.abort_handler = pageflip_abort;
 
     /* Keep the list in FIFO order so that clients are notified in order */
-    xorg_list_append(&flip.node, &trf.dri_flip_list);
+    trf.dri_flip_list.appendList(&flip.node);
     return TRUE;
 }
 

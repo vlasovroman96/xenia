@@ -335,7 +335,7 @@ OsTimerPtr TimerSet(OsTimerPtr timer, int flags, CARD32 millis, OsTimerCallback 
             break;
     }));
     /* This even works at the end of the list -- existing->list will be timers */
-    xorg_list_append(&timer.list, &existing.list);
+    existing.list.appendList(&timer.list);
 
     /* Check to see if the timer is ready to run now */
     if (cast(int) (millis - now) <= 0)

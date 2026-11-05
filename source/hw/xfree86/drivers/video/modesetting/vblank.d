@@ -469,7 +469,7 @@ uint ms_drm_queue_alloc(xf86CrtcPtr crtc, void* data, ms_drm_handler_proc handle
     q.abort = abort;
 
     /* Keep the list formatted in ascending order of sequence number */
-    xorg_list_append(&q.list, &ms_drm_queue_);
+    ms_drm_queue_.appendList(&q.list);
 
     return q.seq;
 }

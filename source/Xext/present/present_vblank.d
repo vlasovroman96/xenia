@@ -85,7 +85,7 @@ int num_notifies, ulong target_msc, ulong crtc_msc)
         screen_priv = present_screen_priv(target_crtc.pScreen);
     }
 
-    xorg_list_append(&vblank.window_list, &window_priv.vblank);
+    window_priv.vblank.appendList(&vblank.window_list);
     vblank.event_queue.initList();
 
     vblank.screen = screen;
@@ -194,7 +194,7 @@ present_notify_ptr notifies, int num_notifies, ulong target_msc, ulong crtc_msc)
         screen_priv = present_screen_priv(target_crtc.pScreen);
     }
 
-    xorg_list_append(&vblank.window_list, &window_priv.vblank);
+    window_priv.vblank.appendList(&vblank.window_list);
     xorg_list_init(&vblank.event_queue);
 
     vblank.screen = screen;

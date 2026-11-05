@@ -141,7 +141,7 @@ pragma(inline, true) Bool client_is_ready(ClientPtr client)
 pragma(inline, true) void output_pending_mark(ClientPtr client)
 {
     if (!client.clientGone && xorg_list_is_empty(&client.output_pending))
-        xorg_list_append(&client.output_pending, &output_pending_clients);
+        output_pending_clients.appendList(&client.output_pending);
 }
 
 pragma(inline, true) void output_pending_clear(ClientPtr client)

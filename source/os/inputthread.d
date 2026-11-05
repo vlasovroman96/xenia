@@ -242,7 +242,7 @@ int InputThreadRegisterDev(int fd, NotifyFdProcPtr readInputProc, void* readInpu
 
         /* Do not prepend, so that any dev->state == device_state_removed
          * with the same dev->fd get processed first. */
-        xorg_list_append(&dev.node, &inputThreadInfo.devs);
+        inputThreadInfo.devs.appendList(&dev.node);
     }
 
     inputThreadInfo.changed = TRUE;
