@@ -131,17 +131,19 @@ struct XList {
      * Initilize list only if both pointers are **null**
      */
     void autoinit() {
-        if ((!this.prev) && (!this.next))
+        if (!this.prev && !this.next)
             this._init();
     }
-}
 
-pragma(inline, true) void __xorg_list_add(XList* entry, XList* prev, XList* next)
-{
-    next.prev = entry;
-    entry.next = next;
-    entry.prev = prev;
-    prev.next = entry;
+    /** 
+     * Inter element to the next position 
+     */
+    void insertNext(XList* elem) {
+        elem.prev = &this;
+        elem.next = this.next;
+        next.prev = elem;
+        this.next = elem;
+    }
 }
 
 /**
@@ -162,7 +164,7 @@ pragma(inline, true) void __xorg_list_add(XList* entry, XList* prev, XList* next
 pragma(inline, true) void xorg_list_add(XList* entry, XList* head)
 {
     head.autoinit();
-    __xorg_list_add(entry, head, head.next);
+    head.insertNext(entry);
 }
 
 /**
@@ -183,7 +185,7 @@ pragma(inline, true) void xorg_list_add(XList* entry, XList* head)
 pragma(inline, true) void xorg_list_append(XList* entry, XList* head)
 {
     head.autoinit();
-    __xorg_list_add(entry, head.prev, head);
+    head.prev.insertNext(entry);
 }
 
 pragma(inline, true) void __xorg_list_del(XList* prev, XList* next)
