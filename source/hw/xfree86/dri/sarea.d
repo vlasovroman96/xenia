@@ -1,4 +1,4 @@
-module include.sarea;
+module hw.xfree86.dri.sarea;
 @nogc nothrow:
 extern(C): __gshared:
 /**

@@ -53,7 +53,7 @@ import dix.dix_priv;
 import dix.request_priv;
 import dix.screenint_priv;
 import hw.xfree86.dri.dristruct;
-import include.sarea;
+import hw.xfree86.dri.sarea;
 
 import include.xf86;
 import common.misc;

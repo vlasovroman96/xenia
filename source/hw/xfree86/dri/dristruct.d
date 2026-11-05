@@ -37,7 +37,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
  
 public import hw.xfree86.common.dri;
-public import include.sarea;
+public import hw.xfree86.dri.sarea;
 public import externs.libdrm;
 public import include.xf86Crtc;
 
