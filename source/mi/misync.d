@@ -1,4 +1,4 @@
-module include.misync;
+module mi.misync;
 @nogc nothrow:
 extern(C): __gshared:
 /*
@@ -26,7 +26,7 @@ extern(C): __gshared:
  
 public import include.scrintstr;
 
-import include.misyncstr;
+import mi.misyncstr;
 
 alias SyncObject = _SyncObject;
 alias SyncFence = _SyncFence;

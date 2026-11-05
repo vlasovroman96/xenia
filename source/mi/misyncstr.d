@@ -1,4 +1,4 @@
-module include.misyncstr;
+module mi.misyncstr;
 @nogc nothrow:
 extern(C): __gshared:
 /*
@@ -27,7 +27,7 @@ extern(C): __gshared:
 public import core.stdc.stdint;
 
 public import include.xlibre_ptrtypes;
-public import include.misync;
+public import mi.misync;
 public import include.scrnintstr;
 import Xext.syncsrv;
 

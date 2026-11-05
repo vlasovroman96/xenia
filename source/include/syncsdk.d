@@ -25,7 +25,7 @@ extern(C): __gshared:
  */
 
  
-public import include.misync;
+public import mi.misync;
 import x11.Xdefs;
 import dix.dixstruct_priv;
 

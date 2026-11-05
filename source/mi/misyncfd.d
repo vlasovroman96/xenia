@@ -1,4 +1,4 @@
-module include.misyncfd;
+module mi.misyncfd;
 @nogc nothrow:
 extern(C): __gshared:
 /*
@@ -28,7 +28,7 @@ extern(C): __gshared:
 // //public import x11.Xfuncproto;
 import include.scrintstr;
 import x11.Xdefs;
-import include.misync;
+import mi.misync;
 
 
 alias SyncScreenCreateFenceFromFdFunc = int function(ScreenPtr screen, SyncFence* fence, int fd, Bool initially_triggered);

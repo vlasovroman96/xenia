@@ -27,8 +27,8 @@ import build.dix_config;
 import present.present_priv;
 
 import dix.gc;
-import include.misync;
-import include.misyncstr;
+import mi.misync;
+import mi.misyncstr;
 
 /*
  * Wraps SyncFence objects so we can add a SyncTrigger to find out

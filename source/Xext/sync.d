@@ -88,7 +88,7 @@ import os.utils;
 import os.WaitFor;
 import dix.events;
 import miext.sync.misync;
-// import include.misync_priv;
+// import mi.misync_priv;
 
 /*
  * Local Global Variables

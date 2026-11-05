@@ -40,7 +40,7 @@ import glamor.glamor;
 import fb.fb;
 
 static if (XSYNC) {
-public import include.misyncstr;
+public import mi.misyncstr;
 }
 
 public import Xext.glx.fix;

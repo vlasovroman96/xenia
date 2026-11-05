@@ -28,7 +28,7 @@ import build.dix_config;
 
 import include.scrnintstr;
 import miext.sync.misync_priv;
-import include.misyncstr;
+import mi.misyncstr;
 // import miext.sync.misync;
 
 DevPrivateKeyRec miSyncScreenPrivateKey;

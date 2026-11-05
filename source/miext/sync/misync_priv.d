@@ -7,7 +7,7 @@ extern(C): __gshared:
  * Copyright © 2010 NVIDIA Corporation
  */
  
-public import include.misync;
+public import mi.misync;
 
 import include.privates;
 

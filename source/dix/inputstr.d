@@ -63,7 +63,7 @@ public import dix.dixstruct_priv;
 public import dix.cursor;
 public import include.privates;
 import include.xkbsrv;
-import include.misyncstr;
+import mi.misyncstr;
 import include.xkbstr;
 import dix.timestamp;
 

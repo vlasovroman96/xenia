@@ -28,8 +28,8 @@ import dix.screenint_priv;
 import present.present_priv;
 import randr.randrstr_priv;
 
-import include.misync;
-import include.misyncstr;
+import mi.misync;
+import mi.misyncstr;
 import externs.X11.extensions.presentproto;
 import present.present_vblank;
 
