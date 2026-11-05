@@ -3,7 +3,7 @@ module hw.xfree86.shadowfb.sfbmodule;
 extern(C): __gshared:
 import build.xorg_config;
 
-import include.xf86Module;
+import xf86Module_priv;
 import build.xlibre_server;
 
 private XF86ModuleVersionInfo VersRecShwdwFB = {

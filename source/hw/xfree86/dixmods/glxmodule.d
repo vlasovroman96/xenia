@@ -34,7 +34,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 import build.xorg_config;
 
-import include.xf86Module;
+import xf86Module_priv;
 import include.xf86Priv;
 import hw.xfree86.common.xf86Helper;
 import dix.colormap;

@@ -24,7 +24,7 @@ extern(C): __gshared:
  */
 import build.xorg_config;
 
-import include.xf86Module;
+import xf86Module_priv;
 //import   x11.X;
 import    dix.scrnintstr;
 import    dix.window;

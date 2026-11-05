@@ -29,7 +29,7 @@ import build.xorg_config;
 
 // import xf86_priv;
 // import xf86Config;
-import include.xf86Module;
+import xf86Module_priv;
 import xf86Extensions;
 import xf86Opt_priv;
 import hw.xfree86.common.xf86Option;

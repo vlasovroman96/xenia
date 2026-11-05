@@ -8,7 +8,7 @@ extern(C): __gshared:
  */
 import build.xorg_config;
 
-import include.xf86Module;
+import xf86Module_priv;
 
 private XF86ModuleVersionInfo VersRecInt10 = {
     modname: "int10",

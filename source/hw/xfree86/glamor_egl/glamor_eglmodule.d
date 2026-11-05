@@ -33,7 +33,7 @@ import build.dix_config;
 
 import hw.xfree86.common.xf86Helper;
 version = GLAMOR_FOR_XORG;
-import include.xf86Module;
+import xf86Module_priv;
 import glamor.glamor;
 import build.xlibre_server;
 

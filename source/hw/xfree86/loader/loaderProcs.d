@@ -52,7 +52,7 @@ import core.stdc.config: c_long, c_ulong;
  
 public import build.xorg_config;
 
-public import include.xf86Module;
+public import xf86Module_priv;
 
 struct module_desc {
     module_desc* child;
