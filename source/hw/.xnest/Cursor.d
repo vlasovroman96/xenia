@@ -26,7 +26,7 @@ import externs.xcb.xcb;
 import externs.xcb.xcb_aux;
 
 import include.scrintstr;
-import include.input;
+import dix.input;
 import include.misc;
 import dix.cursor;
 import include.scrnintstr;

@@ -25,7 +25,7 @@ public import dix.callback;
 public import dix.cursor;
 public import dix.events;
 public import dix.gc;
-public import include.input;
+public import dix.input;
 public import include.os;
 public import include.resource;
 public import include.window;

@@ -48,7 +48,7 @@ import dix.events;
 import Xi.exglobals;
 import include.windowstr;
 import dix.devices;
-import include.input;
+import dix.input;
 import dix.events;
 import os.utils;
 import dix.inpututils;

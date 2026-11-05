@@ -57,7 +57,7 @@ import include.misc;
 import os.osdep;
 import os.xdmcp;
 import os.xdmauth;
-import include.input;
+import dix.input;
 import dix.dixstruct_priv;
 
 import externs.xdmcp;

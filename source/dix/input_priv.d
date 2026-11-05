@@ -54,7 +54,7 @@ SOFTWARE.
 ********************************************************/
  
 public import dix.cursor;
-public import include.input;
+public import dix.input;
 public import include.inputstr;
 
 struct _DDXTouchPointInfo {

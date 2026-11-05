@@ -38,7 +38,7 @@ import config.hotplug_priv;
 import config.dbus_core;
 import os.fmt;
 
-import include.input;
+import dix.input;
 import include.inputstr;
 import config.config_backends;
 import include.os;

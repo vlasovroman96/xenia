@@ -11,7 +11,7 @@ import build.dix_config;
 
 import dix.dix_priv;
 import dix.resource_priv;
-import include.input;
+import dix.input;
 import include.inputstr;
 import include.windowstr;
 

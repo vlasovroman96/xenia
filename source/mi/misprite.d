@@ -46,7 +46,7 @@ import   mi.mipointer_priv;
 
 import   include.misc;
 import   include.pixmapstr;
-import   include.input;
+import   dix.input;
 import   dix.cursor;
 import   include.scrnintstr;
 import include.windowstr;
@@ -58,7 +58,7 @@ import   dix.cursor;
 import   dix.damage;
 import dix.events;
 import dix.devices;
-import include.input;
+import dix.input;
 import dix.screen_hooks;
 import mi.midispcur;
 

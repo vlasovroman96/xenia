@@ -8,7 +8,7 @@ import core.stdc.config: c_long, c_ulong;
  * Copyright © 2006-2011 Simon Thum             simon dot thum at gmx dot de
  */
  
-public import include.input;
+public import dix.input;
 
 public import include.ptrveloc;
 

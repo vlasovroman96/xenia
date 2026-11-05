@@ -61,7 +61,7 @@ import dix.settings_priv;
 import include.misc;
 import include.windowstr;
 import include.scrnintstr;
-import include.input;
+import dix.input;
 import dix.dixfonts;
 import dix.dixstruct_priv;
 import include.os;

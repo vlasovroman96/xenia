@@ -20,7 +20,7 @@ import build.xorg_config;
 //import x11.Xproto;
 import include.scrintstr;
 import include.inputstr;
-import include.input;
+import dix.input;
 import include.misc;
 import include.scrnintstr;
 import include.servermd;

@@ -36,7 +36,7 @@ import include.os;
 import include.regionstr;
 import include.validate;
 import include.windowstr;
-import include.input;
+import dix.input;
 import include.resource;
 import dix.cursor;
 import dix.dixstruct_priv;

@@ -38,7 +38,7 @@ public import include.xlibre_ptrtypes;
 // public import include.xkbrules;
 public import include.inputstr;
 import externs.X11.extensions.XKB;
-import include.input;
+import dix.input;
 import include.xkbstr;
 
 // enum string XkbBuildCoreState(string m, string g)=`	((((`~g~`)&0x3)<<13)|((`~m~`)&0xff))`;

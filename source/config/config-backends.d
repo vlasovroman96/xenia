@@ -27,7 +27,7 @@ extern(C): __gshared:
  */
 
  
-public import include.input;
+public import dix.input;
 public import include.list;
 import config.hotplug_priv;
 

@@ -101,7 +101,7 @@ import include.windowstr;
 import include.pixmapstr;
 import dix.dixstruct_priv;
 import include.resource;
-import include.input;
+import dix.input;
 import Xext.xvdisp;
 import externs.X11.extensions.Xvproto;
 import os.log;

@@ -52,7 +52,7 @@ public import include.os;
 public import include.regionstr;
 public import include.validate;
 public import include.windowstr;
-public import include.input;
+public import dix.input;
 public import include.resource;
 public import dix.cursor;
 public import dix.dixstruct_priv;

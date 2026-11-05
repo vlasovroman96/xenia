@@ -41,7 +41,7 @@ import os.inputthread;
 import include.xorgVersion;
 
 import Xi.exevents;
-import include.input;
+import dix.input;
 import include.xkbsrv;
 import include.xf86;
 import include.xserver_properties;

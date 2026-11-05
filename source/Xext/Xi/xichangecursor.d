@@ -50,7 +50,7 @@ import include.scrnintstr;         /* screen structure  */
 import dix.extension;
 import Xi.exevents;
 import Xi.exglobals;
-import include.input;
+import dix.input;
 import externs.X11.extensions.XI2proto;
 import dix.devices;
 import dix.dixutils;

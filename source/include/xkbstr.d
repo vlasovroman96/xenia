@@ -37,7 +37,7 @@ public import x11.Xdefs;
 //import x11.X;
 import externs.X11.extensions.XKB;
 // import externs.X11.extensions.XKBgeom;
-import include.input;
+import dix.input;
 import xkb.xkbgeom_priv;
 import include.xkbstr;
 // //public import externs.X11.extensions.XKB;

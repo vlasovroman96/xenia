@@ -10,7 +10,7 @@ import core.stdc.config: c_long, c_ulong;
  
 public import externs.X11.extensions.XIproto;
 public import Xi.exevents;
-public import include.input;
+public import dix.input;
 /**
  * Attached to the devPrivates of each client. Specifies the version number as
  * supported by the client.

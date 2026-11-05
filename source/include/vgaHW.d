@@ -16,7 +16,7 @@ import core.stdc.config: c_long, c_ulong;
  
 //public import x11.X;
 public import include.misc;
-public import include.input;
+public import dix.input;
 public import include.scrnintstr;
 
 public import include.xf86str;

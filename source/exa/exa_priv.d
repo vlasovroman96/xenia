@@ -36,7 +36,7 @@ public import include.scrnintstr;
 public import include.pixmapstr;
 public import include.windowstr;
 public import include.servermd;
-public import include.input;
+public import dix.input;
 public import mi.mipointer;
 import fb.fb;
 public import fboverlay;

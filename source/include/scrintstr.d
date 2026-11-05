@@ -61,7 +61,7 @@ import include.xlibre_ptrtypes;
 import include.scrintstr;
 import include.pixmap;
 import include.misc;
-import include.input;
+import dix.input;
 import dix.cursor;
 import dix.colormap_priv;
 

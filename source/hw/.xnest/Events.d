@@ -25,7 +25,7 @@ import dix.inpututils_priv;
 import mi.mi_priv;
 
 import include.scrintstr;
-import include.input;
+import dix.input;
 import include.misc;
 import include.scrnintstr;
 import include.windowstr;

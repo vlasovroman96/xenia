@@ -38,7 +38,7 @@ extern(C): __gshared:
  
 public import include.xlibre_ptrtypes;
 public import include.xf86Privstr;
-public import include.input;
+public import dix.input;
 public import xf86Bus;
 
 

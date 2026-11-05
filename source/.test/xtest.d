@@ -35,7 +35,7 @@ import dix.dix_priv;
 import dix.input_priv;
 import miext.extinit_priv;
 
-import include.input;
+import dix.input;
 import include.inputstr;
 import include.scrnintstr;
 import include.windowstr;

@@ -55,7 +55,7 @@ import include.scrnintstr;
 import include.servermd;
 enum PSZ = 8;
 import dix.gc;
-import include.input;
+import dix.input;
 import mi.mipointer;
 import mi.micmap;
 import glx.glxext;

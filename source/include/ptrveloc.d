@@ -26,7 +26,7 @@ extern(C): __gshared:
  */
 
  
-public import include.input;
+public import dix.input;
 import dix.ptrveloc_priv;
 /* constants for acceleration profiles */
 

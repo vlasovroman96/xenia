@@ -30,7 +30,7 @@ extern(C): __gshared:
 import build.xorg_config;
 
 //import x11.X;
-import include.input;
+import dix.input;
 import include.scrnintstr;
 
 import include.xf86;

@@ -19,7 +19,7 @@ import build.xorg_config;
 //import x11.X;
 //import x11.Xproto;
 import include.scrintstr;
-import include.input;
+import dix.input;
 import include.misc;
 import include.scrnintstr;
 import include.windowstr;

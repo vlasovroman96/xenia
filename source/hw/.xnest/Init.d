@@ -31,7 +31,7 @@ import os.log_priv;
 import os.osdep;
 
 import include.scrintstr;
-import include.input;
+import dix.input;
 import include.misc;
 import include.scrnintstr;
 import include.windowstr;

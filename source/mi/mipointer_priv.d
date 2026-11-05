@@ -9,7 +9,7 @@ extern(C): __gshared:
 //public import x11.Xdefs;
 
 public import dix.screenint_priv;
-public import include.input;
+public import dix.input;
 public import include.mipointer;
 
 // void miPointerWarpCursor(DeviceIntPtr pDev, ScreenPtr pScreen, int x, int y);

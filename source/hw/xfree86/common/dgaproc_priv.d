@@ -7,7 +7,7 @@ extern(C): __gshared:
  */
  
 public import include.scrintstr;
-public import include.input;
+public import dix.input;
 import x11.Xdefs;
 // Bool DGAScreenAvailable(ScreenPtr pScreen);
 // Bool DGAActive(int Index);
