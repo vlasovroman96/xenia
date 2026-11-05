@@ -10,7 +10,7 @@ import build.xorg_config;
 
 import hw.xfree86.common.xf86Helper;
 import hw.xfree86.os_support.xf86_OSproc;;
-import include.xf86Pci;
+import xf86pciBus;
 import hw.xfree86.utils.compiler;
 version = _INT10_PRIVATE;
 version (__sparc__) {

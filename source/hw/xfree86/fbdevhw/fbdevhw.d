@@ -27,7 +27,7 @@ import xf86Modes;
 import hw.xfree86.os_support.xf86_OSproc;;
 
 /* pci stuff */
-import include.xf86Pci;
+import xf86pciBus;
 
 import xf86cmap;
 import build.xlibre_server;

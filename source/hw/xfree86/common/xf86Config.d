@@ -75,7 +75,6 @@ import xf86Config;
 import include.xf86Priv;
 import hw.xfree86.os_support.xf86_OSlib;
 import configProcs;
-// import xf86pciBus;
 import hw.xfree86.common.xf86Xinput;
 import hw.xfree86.loader.loaderProcs;
 import os.log;

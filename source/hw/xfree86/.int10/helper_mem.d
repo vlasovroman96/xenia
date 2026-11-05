@@ -15,7 +15,7 @@ import core.stdc.stdlib;
 import hw.xfree86.common.xf86Helper;
 import hw.xfree86.os_support.xf86_OSproc;;
 import hw.xfree86.utils.compiler;
-import include.xf86Pci;
+import xf86pciBus;
 version = _INT10_PRIVATE;
 version (none) {
 import hw.xfree86.os_support.int10Defines;

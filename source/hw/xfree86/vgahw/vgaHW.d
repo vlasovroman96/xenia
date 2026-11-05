@@ -43,7 +43,6 @@ public import dix.input;
 public import dix.scrnintstr;
 
 public import include.xf86str;
-public import include.xf86Pci;
 
 public import ddc;
 

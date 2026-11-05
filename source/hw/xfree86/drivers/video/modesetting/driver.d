@@ -63,7 +63,6 @@ import pageflip;
 import include.xf86Priv;
 import hw.xfree86.os_support.xf86_OSproc;;
 import hw.xfree86.utils.compiler;
-import include.xf86Pci;
 import mi.mipointer;
 import mi.micmap;
 import fb.fb;

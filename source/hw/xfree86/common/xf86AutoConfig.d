@@ -49,7 +49,6 @@ import include.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;
 import hw.xfree86.os_support.xf86_OSlib;
 // import xf86platformBus_priv;
-// import xf86pciBus;
 version (__sparc__) {
 import hw.xfree86.common.xf86sbusBus_priv;;
 }

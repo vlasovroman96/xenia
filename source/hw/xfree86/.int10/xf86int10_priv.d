@@ -13,7 +13,7 @@ import core.stdc.config: c_long, c_ulong;
  
 // public ////import x11.Xmd;
 //public import x11.Xdefs;
-public import include.xf86Pci;
+public import xf86pciBus;
 public import xf86int10;
 
 version (_INT10_PRIVATE) {

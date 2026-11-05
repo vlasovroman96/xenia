@@ -19,7 +19,7 @@ import xf86int10;
 
 //public import x11.Xmd;
 //public import x11.Xdefs;
-public import include.xf86Pci;
+public import xf86pciBus;
 
 enum string SEG_ADDR(string x) = `(((` ~ x ~ `) >> 4) & 0x00F000)`;
 enum string SEG_OFF(string x) = `((` ~ x ~ `) & 0x0FFFF)`;
