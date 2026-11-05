@@ -1072,7 +1072,7 @@ private void ms_dirty_update(ScreenPtr screen, int* timeout)
     RegionPtr region = void;
     PixmapDirtyUpdatePtr ent = void;
 
-    if (xorg_list_is_empty(&screen.pixmap_dirty_list))
+    if (screen.pixmap_dirty_list.isEmpty())
         return;
 
     mixin(xorg_list_for_each_entry!("ent", "&screen.pixmap_dirty_list", "ent", q{
@@ -1103,7 +1103,7 @@ private PixmapDirtyUpdatePtr ms_dirty_get_ent(ScreenPtr screen, PixmapPtr second
 {
     PixmapDirtyUpdatePtr ent = void;
 
-    if (xorg_list_is_empty(&screen.pixmap_dirty_list))
+    if (screen.pixmap_dirty_list.isEmpty())
         return null;
 
     mixin(xorg_list_for_each_entry!("ent", "&screen.pixmap_dirty_list", "ent", q{

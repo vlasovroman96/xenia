@@ -176,41 +176,28 @@ struct XList {
         this.cutOff();
         this.initList();
     }
+
+    /** 
+     * Returns true if list is empty
+     */
+    int isEmpty() {
+        return (!this.next || this.next == &this);
+    }
 }
 
-/**
- * Remove the element from the list it is in. Using this function will reset
- * the pointers to/from this element so it is removed from the list. It does
- * NOT free the element itself or manipulate it otherwise.
- *
- * Using xorg_list_del on a pure list head (like in the example at the top of
- * this file) will NOT remove the first element from
- * the list but rather reset the list as empty list.
- *
- * Example:
- * xorg_list_del(&foo->entry);
- *
- * @param entry The element to remove.
- */
-// pragma(inline, true) void xorg_list_del(XList* entry)
+// /**
+//  * Check if the list is empty.
+//  *
+//  * Example:
+//  * xorg_list_is_empty(&bar->list_of_foos);
+//  *
+//  * @return True if the list is empty or False if the list contains one or more
+//  * elements.
+//  */
+// pragma(inline, true) int xorg_list_is_empty(XList* head)
 // {
-//     entry.cutOff();
-//     entry.initList();
+//     return ((head.next is null) || (head.next == head));
 // }
-
-/**
- * Check if the list is empty.
- *
- * Example:
- * xorg_list_is_empty(&bar->list_of_foos);
- *
- * @return True if the list is empty or False if the list contains one or more
- * elements.
- */
-pragma(inline, true) int xorg_list_is_empty(XList* head)
-{
-    return ((head.next is null) || (head.next == head));
-}
 
 /**
  * @brief check whether element already is in list

@@ -126,7 +126,7 @@ private void* AddFragment(XList* frags, int bytes)
 private void DestroyFragments(XList* frags)
 {
     FragmentList* it = void, tmp = void;
-    if (!xorg_list_is_empty(frags)) {
+    if (!frags.isEmpty()) {
         mixin(xorg_list_for_each_entry_safe!( "it", "tmp", "frags", "l",q{
             it.l.removeFromList();
             free(it);

@@ -65,7 +65,7 @@ private void test_xorg_list_init()
     assert(parent.a == tmp.a);
     assert(parent.b == tmp.b);
 
-    assert(xorg_list_is_empty(&parent.children));
+    assert(parent.children.isEmpty());
 }
 
 private void test_xorg_list_add()
@@ -77,7 +77,7 @@ private void test_xorg_list_add()
     xorg_list_init(&parent.children);
 
     xorg_list_add(&child[0].node, &parent.children);
-    assert(!xorg_list_is_empty(&parent.children));
+    assert(!parent.children.isEmpty());
 
     c = xorg_list_first_entry(&parent.children, child, node);
 
@@ -105,7 +105,7 @@ private void test_xorg_list_append()
     xorg_list_init(&parent.children);
 
     xorg_list_append(&child[0].node, &parent.children);
-    assert(!xorg_list_is_empty(&parent.children));
+    assert(!parent.children.isEmpty());
 
     c = xorg_list_first_entry(&parent.children, child, node);
 
@@ -145,14 +145,14 @@ private void test_xorg_list_del()
     xorg_list_init(&parent.children);
 
     xorg_list_add(&child[0].node, &parent.children);
-    assert(!xorg_list_is_empty(&parent.children));
+    assert(!parent.children.isEmpty());
 
     xorg_list_del(&parent.children);
-    assert(xorg_list_is_empty(&parent.children));
+    assert(parent.children.isEmpty());
 
     xorg_list_add(&child[0].node, &parent.children);
     xorg_list_del(&child[0].node);
-    assert(xorg_list_is_empty(&parent.children));
+    assert(parent.children.isEmpty());
 
     xorg_list_add(&child[0].node, &parent.children);
     xorg_list_add(&child[1].node, &parent.children);
@@ -163,8 +163,8 @@ private void test_xorg_list_del()
 
     /* delete first node */
     xorg_list_del(&child[1].node);
-    assert(!xorg_list_is_empty(&parent.children));
-    assert(xorg_list_is_empty(&child[1].node));
+    assert(!parent.children.isEmpty());
+    assert(child[1].node.isEmpty());
     c = xorg_list_first_entry(&parent.children, child, node);
 
     assert(memcmp(c, &child[0], child.sizeof) == 0);
@@ -179,7 +179,7 @@ private void test_xorg_list_del()
     /* delete list head */
     xorg_list_add(&child[0].node, &parent.children);
     xorg_list_del(&parent.children);
-    assert(xorg_list_is_empty(&parent.children));
+    assert(parent.children.isEmpty());
     assert(!xorg_list_is_empty(&child[0].node));
     assert(!xorg_list_is_empty(&child[1].node));
 }
@@ -204,7 +204,7 @@ private void test_xorg_list_for_each()
 
     /* foreach on empty list */
     xorg_list_del(&parent.children);
-    assert(xorg_list_is_empty(&parent.children));
+    assert(parent.children.isEmpty());
 
     mixin(xorg_list_for_each_entry!("c", "&parent.children", "node", q{
         assert(0);              /* we must not get here */

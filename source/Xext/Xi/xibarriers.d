@@ -139,7 +139,7 @@ private void FreePointerBarrierClient(PointerBarrierClient* c)
 {
     PointerBarrierDevice* pbd = null, tmp = null;
 
-    if (!xorg_list_is_empty(&c.per_device)) {
+    if (!c.per_device.isEmpty()) {
         mixin(xorg_list_for_each_entry_safe!("pbd", "tmp", "&c.per_device", "entry", q{
             free(pbd);
         }));
@@ -417,7 +417,7 @@ void input_constrain_cursor(DeviceIntPtr dev, ScreenPtr pScreen, int current_x, 
     if (nevents)
         *nevents = 0;
 
-    if (xorg_list_is_empty(&cs.barriers) || InputDevIsFloating(dev))
+    if (cs.barriers.isEmpty() || InputDevIsFloating(dev))
         goto out_;
 
     /**

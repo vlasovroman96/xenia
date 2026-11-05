@@ -655,7 +655,7 @@ enum MAX_EVENTS =      256;
             osfd.callback(osfd.fd, xevents, osfd.data);
 
         if (osfd.trigger == ospoll_trigger_level &&
-            !xorg_list_is_empty(&osfd.deleted)) {
+            !osfd.deleted.isEmpty()) {
             epoll_mod(ospoll, osfd);
         }
     }

@@ -321,13 +321,13 @@ private void init_client_ready()
 
 Bool clients_are_ready()
 {
-    return !xorg_list_is_empty(&ready_clients);
+    return !ready_clients.isEmpty();
 }
 
 /* Client has requests queued or data on the network */
 void mark_client_ready(ClientPtr client)
 {
-    if (xorg_list_is_empty(&client.ready))
+    if (client.ready.isEmpty())
         ready_clients.appendList(&client.ready);
 }
 
@@ -337,7 +337,7 @@ void mark_client_ready(ClientPtr client)
  */
 void mark_client_saved_ready(ClientPtr client)
 {
-    if (xorg_list_is_empty(&client.ready))
+    if (client.ready.isEmpty())
         saved_ready_clients.appendList(&client.ready);
 }
 

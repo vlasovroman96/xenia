@@ -620,7 +620,7 @@ private void ms_drm_handler(int fd, uint frame, uint sec, uint usec, void* user_
 
 Bool ms_drm_queue_is_empty()
 {
-    return xorg_list_is_empty(&ms_drm_queue_);
+    return ms_drm_queue_.isEmpty();
 }
 
 Bool ms_vblank_screen_init(ScreenPtr screen)

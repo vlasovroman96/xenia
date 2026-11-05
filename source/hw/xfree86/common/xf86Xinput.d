@@ -680,7 +680,7 @@ Bool MatchAttrToken(const(char)* attr, XList* groups)
     xf86MatchPattern* pattern = void;
 
     /* If there are no groups, accept the match */
-    if (xorg_list_is_empty(groups))
+    if (groups.isEmpty())
         return TRUE;
 
     /* If there are groups but no attribute, reject the match */
@@ -750,7 +750,7 @@ private Bool InputClassMatches(XF86ConfInputClassPtr iclass, InputInfoPtr idev, 
      * MatchTag string
      * See if any of the device's tags match any of the MatchTag tokens.
      */
-    if (!xorg_list_is_empty(&iclass.match_tag)) {
+    if (!iclass.match_tag.isEmpty()) {
         char** tag = void;
         Bool match = void;
 

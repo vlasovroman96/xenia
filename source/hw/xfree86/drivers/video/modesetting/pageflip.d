@@ -582,7 +582,7 @@ void ms_tearfree_dri_abort_all(xf86CrtcPtr crtc)
     ulong usec = 0, msc = 0;
 
     /* Nothing to abort if there aren't any DRI clients waiting for a flip */
-    if (xorg_list_is_empty(&trf.dri_flip_list))
+    if (trf.dri_flip_list.isEmpty())
         return;
 
     /* Even though we're aborting, these clients' pixmaps were actually blitted,

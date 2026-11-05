@@ -2492,6 +2492,6 @@ void SyncRemoveDeviceIdleTime(SyncCounter* counter)
     /* FreeAllResources() frees all system counters before the devices are
        shut down, check if there are any left before freeing the device's
        counter */
-    if (counter && !xorg_list_is_empty(&SysCounterList))
+    if (counter && !SysCounterList.isEmpty())
         counter.pSysCounterInfo.entry.removeFromList();
 }

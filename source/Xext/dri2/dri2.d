@@ -399,7 +399,7 @@ private int DRI2DrawableGone(void* p, XID id)
         }
     }));
 
-    if (!xorg_list_is_empty(&pPriv.reference_list))
+    if (!pPriv.reference_list.isEmpty())
         return Success;
 
     DrawablePtr pDraw = pPriv.drawable;

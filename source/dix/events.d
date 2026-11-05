@@ -1504,7 +1504,7 @@ void EnqueueEvent(InternalEvent* ev, DeviceIntPtr device)
     int eventlen = void;
     DeviceEvent* event = &ev.device_event;
 
-    if (!xorg_list_is_empty(&syncEvents.pending))
+    if (!syncEvents.pending.isEmpty())
         tail = mixin(xorg_list_last_entry!("&syncEvents.pending", "QdEventRec", "next"));
 
     NoticeTimeMillis(device, &ev.any.time);
@@ -1678,7 +1678,7 @@ private void ComputeFreezes()
         FreezeThaw(dev, dev.deviceGrab.sync.other ||
                    (dev.deviceGrab.sync.state >= GRAB_STATE_FROZEN));
     if (syncEvents.playingEvents ||
-        (!replayDev && xorg_list_is_empty(&syncEvents.pending)))
+        (!replayDev && syncEvents.pending.isEmpty()))
         return;
     syncEvents.playingEvents = TRUE;
     if (replayDev) {

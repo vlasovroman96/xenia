@@ -249,7 +249,7 @@ void AdjustWaitForDelay(void* waitTime, int newdelay)
 }
 
 pragma(inline, true) private Bool timer_pending(OsTimerPtr timer) {
-    return !xorg_list_is_empty(&timer.list);
+    return !timer.list.isEmpty();
 }
 
 /* If time has rewound, re-run every affected timer.

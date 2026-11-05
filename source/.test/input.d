@@ -1869,7 +1869,7 @@ enum NEVENTS = 5;
     spriteInfo.sprite = &sprite;
 
     InitEvents();
-    assert(xorg_list_is_empty(&syncEvents.pending));
+    assert(syncEvents.pending.isEmpty());
 
     /* this way PlayReleasedEvents really runs through all events in the
      * queue */
@@ -1882,7 +1882,7 @@ enum NEVENTS = 5;
         ev[i].any.length = typeof(*ev).sizeof;
         ev[i].any.type = i;
         EnqueueEvent(&ev[i], &dev);
-        assert(!xorg_list_is_empty(&syncEvents.pending));
+        assert(!syncEvents.pending.isEmpty());
         qe = mixin(xorg_list_last_entry!("&syncEvents.pending", "QdEventRec", "next"));
         assert(memcmp(qe.event, &ev[i], ev[i].any.length) == 0);
         qe = xorg_list_first_entry(&syncEvents.pending, QdEventRec, next);
@@ -1892,11 +1892,11 @@ enum NEVENTS = 5;
     /* calls process_input_proc */
     dev.deviceGrab.sync.frozen = 1;
     PlayReleasedEvents();
-    assert(!xorg_list_is_empty(&syncEvents.pending));
+    assert(!syncEvents.pending.isEmpty());
 
     dev.deviceGrab.sync.frozen = 0;
     PlayReleasedEvents();
-    assert(xorg_list_is_empty(&syncEvents.pending));
+    assert(syncEvents.pending.isEmpty());
 
     inputInfo.devices = null;
 }
