@@ -9,7 +9,7 @@ extern(C): __gshared:
 public import include.regionstr;
 public import include.xf86;
 import hw.xfree86.i2c.xf86i2c;
-
+import xf86Bus;
 
 alias I2CByte = ubyte;
 alias I2CSlaveAddr = ushort;

@@ -108,7 +108,6 @@ import os.osdep;
 import xkb.xkbsrv_priv;
 
 import dix.inputstr;import include.windowstr;
-import common.miscstruct;
 import dix.extension;
 import Xi.exglobals;
 import dix.events;

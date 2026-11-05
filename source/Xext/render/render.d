@@ -65,6 +65,7 @@ import build.xlibre_server;
 import os.log;
 import include.picture;
 import render.glyph;
+import xf86Bus;
 
 alias UINT32_MAX = core.stdc.stdint.UINT32_MAX;
 

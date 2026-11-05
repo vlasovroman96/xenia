@@ -53,10 +53,14 @@ SOFTWARE.
 alias RegionRec = pixman_region16;
 alias RegionPtr = pixman_region16*;
 
-public import common.miscstruct;
 public import x11.X;
 import externs.attrs;
 public import region;
+import dsl.pixman;
+import x11.Xdefs;
+import region;
+import core.stdc.stdlib;
+public import core.stdc.limits;
 
 
 /* Return values from RectIn() */

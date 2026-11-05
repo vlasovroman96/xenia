@@ -2,6 +2,8 @@ module xf86Bus;
 @nogc nothrow:
 extern(C): __gshared:
 
+import core.stdc.config: c_long, c_ulong;
+
 private template HasVersion(string versionId) {
 	mixin("version("~versionId~") {enum HasVersion = true;} else {enum HasVersion = false;}");
 }
@@ -71,6 +73,12 @@ import hw.xfree86.parser.Flags;
 import hw.xfree86.common.xf86Helper;
 import xf86platformBus;
 
+union DevUnion {
+    void* ptr;
+    c_long val;
+    c_ulong uval;
+    void* function() fptr;
+}
 
 // int xf86platformAddGPUDevices(DriverPtr drvp)
 // {

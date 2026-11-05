@@ -46,6 +46,7 @@ import glamor.glamor_xv;
 import include.xf86xv;
 import hw.xfree86.common.fourcc;
 import externs.X11.extensions.Xv;
+import xf86Bus;
 
 enum NUM_FORMATS = 4;
 

@@ -52,6 +52,7 @@ import hw.xfree86.modes.displaymode;
 import externs.pciaccess;
 import hw.xfree86.common.xf86Xinput;
 public import include.xf86platformBus;
+import xf86Bus;
 /**
  * Integer type that is of the size of the addressable memory (machine size).
  * On most platforms \c uintptr_t will suffice.  However, on some mixed

@@ -70,7 +70,6 @@ import mi.micmap;
 import fb.fb;
 import include.xf86i2c;
 import include.xf86Crtc;
-import common.miscstruct;
 import dix.dixstruct_priv;
 import build.xlibre_server;
 import xf86pciBus;

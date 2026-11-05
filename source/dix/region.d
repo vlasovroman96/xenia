@@ -151,6 +151,8 @@ enum string good(string reg) = `assert(RegionIsValid(` ~ reg ~ `));`;
  * reformatting.
  */
 
+alias BoxRec = pixman_box16;
+alias BoxPtr = BoxRec*;
 /*  true iff two Boxes overlap */
 enum string EXTENTCHECK(string r1,string r2) = `
       (!( ((` ~ r1 ~ `).x2 <= (` ~ r2 ~ `).x1)  || 

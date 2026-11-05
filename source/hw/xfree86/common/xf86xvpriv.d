@@ -33,6 +33,7 @@ public import include.xf86xv;
 public import include.privates;
 import include.xf86str;
 import include.scrnintstr;
+import xf86Bus;
 
 /*** These are DDX layer privates ***/
 

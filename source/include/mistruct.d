@@ -49,6 +49,7 @@ SOFTWARE.
 
  
 public import include.regionstr;
+import x11.Xprotostr;
 
 enum EVEN_DASH =	0;
 enum ODD_DASH =	~0;
