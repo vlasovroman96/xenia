@@ -367,7 +367,7 @@ Bool PixmapStartDirtyTracking(DrawablePtr src, PixmapPtr secondary_dst, int x, i
     RegionUninit(&dstregion);
 
     DamageRegister(src, dirty_update.damage);
-    xorg_list_add(&dirty_update.ent, &screen.pixmap_dirty_list);
+    screen.pixmap_dirty_list.addListNext(&dirty_update.ent);
     return TRUE;
 }
 

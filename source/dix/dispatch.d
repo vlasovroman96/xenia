@@ -4167,7 +4167,7 @@ void AttachUnboundGPU(ScreenPtr pScreen, ScreenPtr new_)
 {
     assert(new_.isGPU);
     assert(!new_.current_primary);
-    xorg_list_add(&new_.secondary_head, &pScreen.secondary_list);
+    pScreen.secondary_list.addListNext(&new_.secondary_head);
     new_.current_primary = pScreen;
 }
 

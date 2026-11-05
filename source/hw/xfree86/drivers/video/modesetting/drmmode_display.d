@@ -879,7 +879,7 @@ private int drm_mode_ensure_blob(xf86CrtcPtr crtc, const(drmModeModeInfo)* mode_
                                     typeof(mode.mode_info).sizeof,
                                     &mode.blob_id);
     drmmode_crtc.current_mode = mode;
-    xorg_list_add(&mode.entry, &drmmode_crtc.mode_list);
+    drmmode_crtc.mode_list.addListNext(&mode.entry);
 
     return ret;
 }

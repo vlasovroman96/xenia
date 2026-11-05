@@ -114,7 +114,7 @@ private void* AddFragment(XList* frags, int bytes)
         return null;
     } else {
         f.bytes = bytes;
-        xorg_list_add(&f.l, frags.prev);
+        frags.prev.addListNext(&f.l);
         return cast(char*) f + typeof(*f).sizeof;
     }
 }

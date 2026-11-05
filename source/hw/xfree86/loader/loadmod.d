@@ -226,7 +226,7 @@ void LoaderSetPath(const(char)* driver, const(char)* path)
             item.paths = null;
     }
     if (item && item.name && (!path || item.paths))
-        xorg_list_add(&item.entry, &modulePathLists);
+        modulePathLists.addListNext(&item.entry);
     else {
         LogMessage(X_ERROR, "Failed to store module search path \"%s\" for module %s\n",
             path ? path : "<NULL>", driver);

@@ -340,7 +340,7 @@ private int DRI2AddDrawableRef(DRI2DrawablePtr pPriv, XID id, XID dri2_id, DRI2I
     ref_.dri2_id = dri2_id;
     ref_.invalidate = invalidate;
     ref_.priv = priv;
-    xorg_list_add(&ref_.link, &pPriv.reference_list);
+    pPriv.reference_list.addListNext(&ref_.link);
 
     return Success;
 }

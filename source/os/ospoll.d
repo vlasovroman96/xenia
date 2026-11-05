@@ -470,7 +470,7 @@ static if (PORT) {
         ospoll.num--;
         osfd.callback = null;
         osfd.data = null;
-        xorg_list_add(&osfd.deleted, &ospoll.deleted);
+        ospoll.deleted.addListNext(&osfd.deleted);
 }
 static if (EPOLL) {
         ospollfd* osfd = ospoll.fds[pos];
@@ -483,7 +483,7 @@ static if (EPOLL) {
         ospoll.num--;
         osfd.callback = null;
         osfd.data = null;
-        xorg_list_add(&osfd.deleted, &ospoll.deleted);
+        ospoll.deleted.addListNext(&osfd.deleted);
 }
 static if (POLL) {
         array_delete(ospoll.fds, ospoll.num, typeof(ospoll.fds[0]).sizeof, pos);

@@ -107,7 +107,7 @@ int present_fake_queue_vblank(ScreenPtr screen, ulong event_id, ulong msc)
         return BadAlloc;
     }
 
-    xorg_list_add(&fake_vblank.list, &fake_vblank_queue);
+    fake_vblank_queue.addListNext(&fake_vblank.list);
 
     return Success;
 }

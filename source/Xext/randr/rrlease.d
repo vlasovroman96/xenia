@@ -339,7 +339,7 @@ int ProcRRCreateLease(ClientPtr client)
     }
 
 leaseReturned:
-    xorg_list_add(&lease.list, &scr_priv.leases);
+    scr_priv.leases.addListNext(&lease.list);
 
     if (!AddResource(cast(uint)stuff.lid, RRLeaseType, lease)) {
         close(fd);

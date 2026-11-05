@@ -158,7 +158,7 @@ XF86ConfOutputClassPtr xf86parseOutputClassSection()
             else {
                 group = xf86createMatchGroup(xf86_lex_val.str, MATCH_EXACT, FALSE);
                 if (group)
-                    xorg_list_add(&group.entry, &ptr.match_driver);
+                    ptr.match_driver.addListNext(&group.entry);
                 free(xf86_lex_val.str);
             }
             break;
@@ -168,7 +168,7 @@ XF86ConfOutputClassPtr xf86parseOutputClassSection()
             else {
                 group = xf86createMatchGroup(xf86_lex_val.str, MATCH_EXACT, FALSE);
                 if (group)
-                    xorg_list_add(&group.entry, &ptr.match_layout);
+                    ptr.match_layout.addListNext(&group.entry);
                 free(xf86_lex_val.str);
             }
             break;

@@ -1044,7 +1044,7 @@ SyncCounter* SyncCreateSystemCounter(const(char)* name, long initial, long resol
         psci.private_ = null;
         psci.bracket_greater = LLONG_MAX;
         psci.bracket_less = LLONG_MIN;
-        xorg_list_add(&psci.entry, &SysCounterList);
+        SysCounterList.addListNext(&psci.entry);
     }
     return pCounter;
 }

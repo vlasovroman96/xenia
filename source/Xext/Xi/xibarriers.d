@@ -611,7 +611,7 @@ private int CreatePointerBarrierClient(ClientPtr client, xXFixesCreatePointerBar
         pbd.deviceid = dev.id;
 
         input_lock();
-        xorg_list_add(&pbd.entry, &ret.per_device);
+        ret.per_device.addListNext(&pbd.entry);
         input_unlock();
     }));
 
@@ -628,7 +628,7 @@ private int CreatePointerBarrierClient(ClientPtr client, xXFixesCreatePointerBar
     if (barrier_is_vertical(&ret.barrier))
         ret.barrier.directions &= ~(BarrierPositiveY | BarrierNegativeY);
     input_lock();
-    xorg_list_add(&ret.entry, &cs.barriers);
+    cs.barriers.addListNext(&ret.entry);
     input_unlock();
 
     *client_out = ret;
@@ -716,7 +716,7 @@ private void add_master_func(void* res, XID id, void* devid)
     pbd.deviceid = *deviceid;
 
     input_lock();
-    xorg_list_add(&pbd.entry, &barrier.per_device);
+    barrier.per_device.addListNext(&pbd.entry);
     input_unlock();
 }
 

@@ -2007,7 +2007,7 @@ private int add_fs_fd(int fd, FontFdHandlerProcPtr handler, void* data)
         free(entry);
         return FALSE;
     }
-    xorg_list_add(&entry.entry, &fs_fd_list);
+    fs_fd_list.addListNext(&entry.entry);
     return TRUE;
 }
 

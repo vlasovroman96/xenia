@@ -182,7 +182,7 @@ private RegionPtr xnestBitBlitHelper(GCPtr pGC)
                 {
                     xnest_event_queue* q = cast(xnest_event_queue*) malloc(xnest_event_queue.sizeof);
                     q.event = event;
-                    xorg_list_add(&q.entry, &xnestUpstreamInfo.eventQueue.entry);
+                    xnestUpstreamInfo.eventQueue.entry.addListNext(&q.entry);
                 }
             }
         }

@@ -579,7 +579,7 @@ private Bool ms_dri2_add_frame_event(ms_dri2_frame_event_ptr info)
     if (resource is null)
         return FALSE;
 
-    xorg_list_add(&info.client_resource, &resource.list);
+    resource.list.addListNext(&info.client_resource);
 
     resource = ms_get_resource(info.drawable.id, frame_event_drawable_type);
     if (resource is null) {
@@ -587,7 +587,7 @@ private Bool ms_dri2_add_frame_event(ms_dri2_frame_event_ptr info)
         return FALSE;
     }
 
-    xorg_list_add(&info.drawable_resource, &resource.list);
+    resource.list.addListNext(&info.drawable_resource);
 
     return TRUE;
 }

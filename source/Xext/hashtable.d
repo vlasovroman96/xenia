@@ -135,7 +135,7 @@ private Bool double_size(HashTable ht)
             mixin(xorg_list_for_each_entry_safe!("it", "tmp", "&ht.buckets[c]", "l", q{
                 XList* newBucket = &newBuckets[ht.hash(ht.cdata, it.key, newBucketBits)];
                 xorg_list_del(&it.l);
-                xorg_list_add(&it.l, newBucket);
+                newBucket.addListNext(&it.l);
             }));
         }
         free(ht.buckets);
@@ -165,7 +165,7 @@ void* ht_add(HashTable ht, const(void)* key)
     if (ht.dataSize && !elem.data) {
         goto outOfMemory;
     }
-    xorg_list_add(&elem.l, bucket);
+    bucket.addListNext(&elem.l);
     ++ht.elements;
 
     memcpy(elem.key, key, ht.keySize);

@@ -136,7 +136,7 @@ struct XList {
     }
 
     /** 
-     * Inter element to the next position 
+     * Inserting element to the next position 
      */
     void insertNext(XList* elem) {
         elem.prev = &this;
@@ -144,27 +144,14 @@ struct XList {
         next.prev = elem;
         this.next = elem;
     }
-}
 
-/**
- * Insert a new element after the given list head. The new element does not
- * need to be initialised as empty list.
- * The list changes from:
- *      head → some element → ...
- * to
- *      head → new element → older element → ...
- *
- * Example:
- * struct foo *newfoo = malloc(...);
- * xorg_list_add(&newfoo->entry, &bar->list_of_foos);
- *
- * @param entry The new element to prepend to the list.
- * @param head The existing list.
- */
-pragma(inline, true) void xorg_list_add(XList* entry, XList* head)
-{
-    head.autoinit();
-    head.insertNext(entry);
+    /** 
+     * Inserting element after list head 
+     */
+    void addListNext(XList* elem) {
+        this.autoinit();
+        this.insertNext(elem);
+    }
 }
 
 /**
@@ -258,7 +245,7 @@ pragma(inline, true) int xorg_list_add_ndup(XList* entry, XList* head)
     if (xorg_list_present(entry, head))
         return 0;
 
-    xorg_list_add(entry, head);
+    head.addListNext(entry);
     return 1;
 }
 

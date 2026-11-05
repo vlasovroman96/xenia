@@ -71,7 +71,7 @@ busfault* busfault_register_mmap(void* addr, size_t size, busfault_notify_ptr no
     busfault_.context = context;
     busfault_.valid = TRUE;
 
-    xorg_list_add(&busfault_.list, &busfaults);
+    busfaults.addListNext(&busfault_.list);
     return busfault_;
 }
 

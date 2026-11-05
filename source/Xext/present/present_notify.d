@@ -67,7 +67,7 @@ int present_add_window_notify(present_notify_ptr notify)
     if (!window_priv)
         return BadAlloc;
 
-    xorg_list_add(&notify.window_list, &window_priv.notifies);
+    window_priv.notifies.addListNext(&notify.window_list);
     return Success;
 }
 

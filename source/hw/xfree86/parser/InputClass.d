@@ -169,7 +169,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             else {
                 group = xf86createMatchGroup(xf86_lex_val.str, MATCH_AS_SUBSTRING, negated);
                 if (group)
-                    xorg_list_add(&group.entry, &ptr.match_product);
+                    ptr.match_product.addListNext(&group.entry);
                 free(xf86_lex_val.str);
             }
             break;
@@ -183,7 +183,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             else {
                 group = xf86createMatchGroup(xf86_lex_val.str, MATCH_AS_SUBSTRING, negated);
                 if (group)
-                    xorg_list_add(&group.entry, &ptr.match_vendor);
+                    ptr.match_vendor.addListNext(&group.entry);
                 free(xf86_lex_val.str);
             }
             break;
@@ -197,7 +197,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             else {
                 group = xf86createMatchGroup(xf86_lex_val.str, MATCH_AS_PATHNAME, negated);
                 if (group)
-                    xorg_list_add(&group.entry, &ptr.match_device);
+                    ptr.match_device.addListNext(&group.entry);
                 free(xf86_lex_val.str);
             }
             break;
@@ -211,7 +211,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             else {
                 group = xf86createMatchGroup(xf86_lex_val.str, MATCH_EXACT_NOCASE, negated);
                 if (group)
-                    xorg_list_add(&group.entry, &ptr.match_os);
+                    ptr.match_os.addListNext(&group.entry);
                 free(xf86_lex_val.str);
             }
             break;
@@ -225,7 +225,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             else {
                 group = xf86createMatchGroup(xf86_lex_val.str, MATCH_AS_FILENAME, negated);
                 if (group)
-                    xorg_list_add(&group.entry, &ptr.match_pnpid);
+                    ptr.match_pnpid.addListNext(&group.entry);
                 free(xf86_lex_val.str);
             }
             break;
@@ -239,7 +239,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             else {
                 group = xf86createMatchGroup(xf86_lex_val.str, MATCH_AS_FILENAME, negated);
                 if (group)
-                    xorg_list_add(&group.entry, &ptr.match_usbid);
+                    ptr.match_usbid.addListNext(&group.entry);
                 free(xf86_lex_val.str);
             }
             break;
@@ -253,7 +253,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             else {
                 group = xf86createMatchGroup(xf86_lex_val.str, MATCH_EXACT, negated);
                 if (group)
-                    xorg_list_add(&group.entry, &ptr.match_driver);
+                    ptr.match_driver.addListNext(&group.entry);
                 free(xf86_lex_val.str);
             }
             break;
@@ -267,7 +267,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             else {
                 group = xf86createMatchGroup(xf86_lex_val.str, MATCH_EXACT, negated);
                 if (group)
-                    xorg_list_add(&group.entry, &ptr.match_tag);
+                    ptr.match_tag.addListNext(&group.entry);
                 free(xf86_lex_val.str);
             }
             break;
@@ -281,7 +281,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             else {
                 group = xf86createMatchGroup(xf86_lex_val.str, MATCH_EXACT, negated);
                 if (group)
-                    xorg_list_add(&group.entry, &ptr.match_layout);
+                    ptr.match_layout.addListNext(&group.entry);
                 free(xf86_lex_val.str);
             }
             break;

@@ -559,7 +559,7 @@ private void present_execute(present_vblank_ptr vblank, ulong ust, ulong crtc_ms
              */
             screen_priv.flip_pending = vblank;
 
-            xorg_list_add(&vblank.event_queue, &present_flip_queue);
+            present_flip_queue.addListNext(&vblank.event_queue);
             /* Try to flip
              */
             if (present_flip(vblank.crtc, vblank.event_id, vblank.target_msc, vblank.pixmap, vblank.sync_flip)) {
@@ -659,7 +659,7 @@ private void present_execute(present_vblank_ptr vblank, ulong ust, ulong crtc_ms
         }
 
         if (vblank.queued) {
-            xorg_list_add(&vblank.event_queue, &present_exec_queue);
+            present_exec_queue.addListNext(&vblank.event_queue);
             xorg_list_append(&vblank.window_list,
                              &present_get_window_priv(window, TRUE).vblank);
             return;
