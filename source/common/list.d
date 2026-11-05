@@ -183,36 +183,17 @@ struct XList {
     int isEmpty() {
         return (!this.next || this.next == &this);
     }
-}
 
-// /**
-//  * Check if the list is empty.
-//  *
-//  * Example:
-//  * xorg_list_is_empty(&bar->list_of_foos);
-//  *
-//  * @return True if the list is empty or False if the list contains one or more
-//  * elements.
-//  */
-// pragma(inline, true) int xorg_list_is_empty(XList* head)
-// {
-//     return ((head.next is null) || (head.next == head));
-// }
-
-/**
- * @brief check whether element already is in list
- *
- * @param entry The element to check for
- * @param head The existing list.
- * @return zero when entry isn't present in list, otherwise non-zero
- */
-pragma(inline, true) int xorg_list_present(XList* entry, XList* head)
-{
-    for (XList* l = head.next; l && (l != head); l=l.next) {
-        if (l == entry)
-            return 1;
+    /** 
+     * Returns true if element presents in the list
+     */
+    int isPresent(XList* elem) {
+        for (XList* l = this.next; l && (l != &this); l=l.next) {
+            if (l == elem)
+                return 1;
+        }
+        return 0;
     }
-    return 0;
 }
 
 /**
@@ -226,7 +207,7 @@ pragma(inline, true) int xorg_list_present(XList* entry, XList* head)
  */
 pragma(inline, true) int xorg_list_add_ndup(XList* entry, XList* head)
 {
-    if (xorg_list_present(entry, head))
+    if (head.isPresent(entry))
         return 0;
 
     head.addListNext(entry);
@@ -244,7 +225,7 @@ pragma(inline, true) int xorg_list_add_ndup(XList* entry, XList* head)
  */
 pragma(inline, true) int xorg_list_append_ndup(XList* entry, XList* head)
 {
-    if (xorg_list_present(entry, head))
+    if (head.isPresent(entry))
         return 0;
 
     head.appendList(entry);
