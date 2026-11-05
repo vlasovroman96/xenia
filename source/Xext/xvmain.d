@@ -99,7 +99,6 @@ import include.os;
 import include.scrnintstr;
 import include.windowstr;
 import include.pixmapstr;
-import include.gcstruct;
 import dix.dixstruct_priv;
 import include.resource;
 import include.input;

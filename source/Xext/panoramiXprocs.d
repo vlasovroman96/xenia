@@ -47,7 +47,6 @@ import Xext.panoramiXsrv;
 
 import include.windowstr;
 import dix.dixfonts;
-import include.gcstruct;
 import include.scrnintstr;
 import dix.window;
 import include.inputstr;

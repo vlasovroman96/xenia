@@ -54,7 +54,7 @@ import os.xhostname;
 import include.scrnintstr;
 import include.servermd;
 enum PSZ = 8;
-import include.gcstruct;
+import dix.gc;
 import include.input;
 import mi.mipointer;
 import mi.micmap;

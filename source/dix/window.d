@@ -137,7 +137,6 @@ import include.inputstr;
 import include.resource;
 import dix.cursor;
 import dix.dixstruct_priv;
-import include.gcstruct;
 import include.servermd;
 import composite.compint;
 import include.privates;

@@ -30,7 +30,7 @@ import include.mipict;
 import os.osdep;
 
 import include.scrnintstr;
-import include.gcstruct;
+import dix.gc;
 import include.pixmapstr;
 import include.windowstr;
 import include.picturestr;

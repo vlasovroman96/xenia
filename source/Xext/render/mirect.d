@@ -30,7 +30,6 @@ import build.dix_config;
 import include.mipict;
 
 import include.scrnintstr;
-import include.gcstruct;
 import include.pixmapstr;
 import include.windowstr;
 import include.picturestr;

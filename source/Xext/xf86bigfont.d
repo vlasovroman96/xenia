@@ -80,7 +80,7 @@ import include.misc;
 import include.os;
 import os.osdep;
 import dix.dixstruct_priv;
-import include.gcstruct;
+import dix.gc;
 import dix.dixfonts;
 import include.protocol_versions;
 

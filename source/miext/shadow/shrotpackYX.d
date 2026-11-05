@@ -30,7 +30,7 @@ public import    dix.dixfonts;
 // public //import    include.mi;
 public import    include.regionstr;
 public import    dix.globals;
-public import    include.gcstruct;
+public import    dix.gc;
 public import include.shadow;
 
 // enum ROTATE = 90;

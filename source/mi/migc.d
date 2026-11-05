@@ -33,7 +33,7 @@ from The Open Group.
 import build.dix_config;
 
 import include.scrnintstr;
-import include.gcstruct;
+import dix.gc;
 import include.pixmapstr;
 import include.windowstr;
 import migc;

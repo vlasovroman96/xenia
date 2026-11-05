@@ -40,7 +40,7 @@ import include.input;
 import include.resource;
 import dix.cursor;
 import dix.dixstruct_priv;
-import include.gcstruct;
+import dix.gc;
 import include.servermd;
 import include.picturestr;
 import externs.X11.extensions.render_;

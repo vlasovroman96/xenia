@@ -63,7 +63,7 @@ import build.dix_config;
 //import   x11.Xproto;
 // //import   externs.X11.fonts.fontstruct;
 import	include.misc;
-import	include.gcstruct;
+import	dix.gc;
 import	dix.dixfonts;
 import Xext.xf86bigfont;
 

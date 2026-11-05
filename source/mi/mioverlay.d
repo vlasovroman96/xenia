@@ -18,7 +18,7 @@ import mi.mi_priv;
 import include.scrnintstr;
 import include.validate;
 import include.windowstr;
-import include.gcstruct;
+import dix.gc;
 import include.regionstr;
 import include.privates;
 import mioverlay;

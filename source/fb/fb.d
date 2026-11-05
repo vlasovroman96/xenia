@@ -33,7 +33,7 @@ public import include.scrnintstr;
 public import include.pixmap;
 public import include.pixmapstr;
 public import include.regionstr;
-public import include.gcstruct;
+public import dix.gc;
 public import dix.colormap;
 public import include.miscstruct;
 public import include.servermd;

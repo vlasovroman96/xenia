@@ -32,7 +32,7 @@ import include.xf86_OSproc;;
 import hw.xfree86.common.dgaproc_priv;
 import include.xf86Crtc;
 import xf86Modes;
-import include.gcstruct;
+import dix.gc;
 import include.scrnintstr;
 import include.windowstr;
 import hw.xfree86.common.xf86Helper;

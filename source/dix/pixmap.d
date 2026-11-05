@@ -43,7 +43,6 @@ import include.os;
 import include.windowstr;
 import include.resource;
 import dix.dixstruct_priv;
-import include.gcstruct;
 import include.servermd;
 import include.picturestr;
 import include.randrstr;

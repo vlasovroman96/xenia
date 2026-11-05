@@ -28,7 +28,7 @@ import externs.xcb.xcb;
 import externs.xcb.xcb_aux;
 
 import include.regionstr;
-import include.gcstruct;
+import dix.gc;
 import include.scrnintstr;
 import include.windowstr;
 import include.pixmapstr;

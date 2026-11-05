@@ -41,7 +41,7 @@ import    externs.X11.fonts.fontstruct;
 import    externs.X11.fonts.libxfont2;
 import    include.regionstr;
 import    dix.globals;
-import    include.gcstruct;
+import    dix.gc;
 import    dix.damage;
 import    dix.damage;
 import    render.glyphstr_priv;

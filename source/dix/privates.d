@@ -61,7 +61,7 @@ import dix.screenint_priv;
 import include.windowstr;
 import include.resource;
 import include.privates;
-import include.gcstruct;
+import dix.gc;
 import dix.cursor;
 import include.inputstr;
 import include.scrnintstr;

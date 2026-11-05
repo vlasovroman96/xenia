@@ -34,7 +34,7 @@ public import include.xf86_OSproc;;
 public import externs.X11.extensions.renderproto;
 public import include.scrnintstr;
 public import include.scrintstr;
-public import include.gcstruct;
+public import dix.gc;
 public import include.pixmapstr;
 public import include.pixmap;
 public import include.windowstr;

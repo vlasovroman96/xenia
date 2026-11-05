@@ -47,7 +47,7 @@ import externs.glxtokens;
 
 import include.scrnintstr;
 import include.pixmapstr;
-import include.gcstruct;
+import dix.gc;
 import include.os;
 
 import glx.glxserver;

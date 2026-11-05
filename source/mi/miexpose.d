@@ -93,7 +93,6 @@ import Xext.panoramiXsrv;
 import include.misc;
 import include.regionstr;
 import include.scrnintstr;
-import include.gcstruct;
 import include.windowstr;
 import include.pixmap;
 import include.input;

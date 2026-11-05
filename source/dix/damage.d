@@ -24,7 +24,7 @@ extern(C): __gshared:
  */
 alias DamagePtr = _damage*;
  
-public import include.gcstruct;
+public import dix.gc;
 public import include.privates;
 public import include.picturestr;
 

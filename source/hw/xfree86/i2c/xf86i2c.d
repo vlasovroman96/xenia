@@ -29,7 +29,7 @@ import include.windowstr;
 import include.pixmapstr;
 import include.validate;
 import include.resource;
-import include.gcstruct;
+import dix.gc;
 import dix.dixstruct_priv;
 
 import include.xf86i2c;

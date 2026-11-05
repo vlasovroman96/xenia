@@ -44,7 +44,6 @@ import core.stdc.math;
 import mi.mi_priv;
 
 import include.regionstr;
-import include.gcstruct;
 import include.pixmapstr;
 import include.mizerarc;
 import dix.gc;

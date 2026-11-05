@@ -49,7 +49,7 @@ SOFTWARE.
 import build.dix_config;
 
 //import x11.X;
-import include.gcstruct;
+import dix.gc;
 import include.scrnintstr;
 import include.pixmapstr;
 import include.regionstr;

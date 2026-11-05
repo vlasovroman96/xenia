@@ -50,7 +50,7 @@ import   include.input;
 import   dix.cursor;
 import   include.scrnintstr;
 import include.windowstr;
-import   include.gcstruct;
+import   dix.gc;
 import   mi.mipointer;
 import   mi.misprite;
 import   dix.dixfonts;

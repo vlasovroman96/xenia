@@ -73,7 +73,7 @@ import miext.extinit_priv;
 import Xext.geext_priv;
 
 import include.inputstr;
-import include.gcstruct;           /* pointer for extnsionst.h */
+import dix.gc;           /* pointer for extnsionst.h */
 import Xi.exglobals;
 import dix.swaprep;
 import include.privates;

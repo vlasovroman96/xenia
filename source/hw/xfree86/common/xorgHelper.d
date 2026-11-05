@@ -13,7 +13,7 @@ import include.servermd;
 import include.pixmapstr;
 import include.windowstr;
 import include.propertyst;
-import include.gcstruct;
+import dix.gc;
 import hw.xfree86.loader.loaderProcs;
 import include.xf86;
 import include.xf86Priv;

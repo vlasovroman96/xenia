@@ -53,7 +53,6 @@ import dix.cursor;
 import dix.cursor;
 import dix.dixstruct_priv;
 import dix.gc;
-import include.gcstruct;
 import include.scrnintstr;
 import include.window;
 import include.windowstr;

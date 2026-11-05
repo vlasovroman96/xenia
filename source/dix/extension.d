@@ -60,7 +60,7 @@ import tables;
 
 import include.misc;
 import dix.dixstruct_priv;
-import include.gcstruct;
+import dix.gc;
 import include.scrnintstr;
 import dix.dispatch;
 import include.privates;

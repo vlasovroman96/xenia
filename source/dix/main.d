@@ -114,7 +114,7 @@ import include.os;
 import include.windowstr;
 import include.resource;
 import dix.dixstruct_priv;
-import include.gcstruct;
+import dix.gc;
 import dix.cursor;
 import include.servermd;
 import dix.dixfonts;

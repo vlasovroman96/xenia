@@ -99,7 +99,7 @@ import include.misc;
 import include.windowstr;
 import dix.dixstruct_priv;
 import include.pixmapstr;
-import include.gcstruct;
+import dix.gc;
 import include.scrnintstr;
 import Xext.xace;
 import externs.attrs;

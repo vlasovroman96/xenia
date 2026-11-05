@@ -133,7 +133,6 @@ import os.probes_priv;
 import os.screensaver;
 
 import include.windowstr;
-import include.gcstruct;
 import dix.cursor;
 import include.scrnintstr;
 import include.servermd;

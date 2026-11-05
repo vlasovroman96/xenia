@@ -57,7 +57,6 @@ import	include.misc;
 // //import   externs.X11.fonts.fontstruct;
 // import        externs.X11.fonts.libxfont2;
 import	dix.dixfonts;
-import	include.gcstruct;
 import	include.windowstr;
 import	include.scrnintstr;
 import	include.pixmap;

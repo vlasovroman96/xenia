@@ -48,7 +48,6 @@ import include.resource;
 import dix.window;
 import dbestruct;
 import include.regionstr;
-import include.gcstruct;
 import include.inputstr;
 import midbe;
 import Xext.xace;

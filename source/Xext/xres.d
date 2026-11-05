@@ -31,7 +31,7 @@ import dix.dixstruct_priv;
 import dix.swaprep;
 import include.pixmapstr;
 import include.windowstr;
-import include.gcstruct;
+import dix.gc;
 import include.protocol_versions;
 import include.list;
 import include.misc;

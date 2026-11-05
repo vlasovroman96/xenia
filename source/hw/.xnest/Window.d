@@ -29,7 +29,7 @@ import dix.window_priv;
 import include.regionstr;
 import mi.mi_priv;
 
-import include.gcstruct;
+import dix.gc;
 import include.window;
 import include.windowstr;
 import include.pixmapstr;

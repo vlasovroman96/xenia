@@ -38,7 +38,7 @@ import    dix.dixfonts;
 import    externs.X11.fonts.fontstruct;
 import    include.regionstr;
 import    dix.globals;
-import    include.gcstruct;
+import    dix.gc;
 import include.shadow;
 import fb.fb;
 import    miext.shadow.c2p_core;

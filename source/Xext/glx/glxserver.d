@@ -39,7 +39,7 @@ public import x11.Xmd;
 public import include.misc;
 public import dix.dixstruct_priv;
 public import include.pixmapstr;
-public import include.gcstruct;
+public import dix.gc;
 public import dix.extension;
 public import include.resource;
 public import include.scrnintstr;

@@ -71,10 +71,9 @@ import mi.mi_priv;
 import os.osdep;
 
 import include.windowstr;
-import include.gcstruct;
 import include.regionstr;
 import miwideline;
-import dix.gc;;
+import dix.gc;
 import mi.mifpoly;
 import mizerline;
 

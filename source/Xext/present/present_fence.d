@@ -26,7 +26,7 @@ import build.dix_config;
 
 import present.present_priv;
 
-import include.gcstruct;
+import dix.gc;
 import include.misync;
 import include.misyncstr;
 

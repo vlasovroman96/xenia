@@ -32,7 +32,7 @@ import dix.colormap;
 import include.mipict;
 
 import include.scrnintstr;
-import include.gcstruct;
+import dix.gc;
 import include.pixmapstr;
 import include.windowstr;
 import include.picturestr;

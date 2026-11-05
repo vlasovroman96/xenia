@@ -55,7 +55,7 @@ import build.dix_config;
 
 //import x11.X;
 import include.windowstr;
-import include.gcstruct;
+import dix.gc;
 import include.pixmapstr;
 import miscanfill;
 import mipoly;

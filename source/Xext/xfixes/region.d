@@ -37,7 +37,6 @@ import xfixes.xfixesint;
 import include.scrnintstr;
 
 import include.regionstr;
-import include.gcstruct;
 import include.window;
 import externs.X11.extensions.xfixesproto;
 import externs.X11.extensions.render_;

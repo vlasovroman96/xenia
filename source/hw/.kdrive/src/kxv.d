@@ -55,7 +55,7 @@ import include.windowstr;
 import include.pixmapstr;
 import include.validate;
 import include.resource;
-import include.gcstruct;
+import dix.gc;
 import dix.dixstruct_priv;
 import hw.kdrive.src.kxv;
 import hw.xfree86.common.fourcc;

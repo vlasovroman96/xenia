@@ -22,7 +22,7 @@ import include.pixmapstr;
 import include.input;
 import include.scrnintstr;
 import include.windowstr;
-import include.gcstruct;
+import dix.gc;
 import dix.dixfonts;
 import include.xf86;
 import include.xf86str;

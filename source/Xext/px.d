@@ -39,7 +39,7 @@ public import externs.X11.extensions.panoramiXproto;
 
 public import include.scrnintstr; /* for screenInfo */
 
-public import include.gcstruct;
+public import dix.gc;
 public import dix.dixstruct_priv;
 
 /*

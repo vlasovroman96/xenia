@@ -33,7 +33,7 @@ import core.stdc.config: c_long, c_ulong;
  
 public import include.scrnintstr;
 public import include.pixmapstr;
-public import include.gcstruct;
+public import dix.gc;
 public import include.picturestr;
 // static if (GLAMOR_FOR_XORG) {
 public import xf86xv;

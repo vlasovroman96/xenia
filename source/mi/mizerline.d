@@ -54,7 +54,7 @@ import build.dix_config;
 
 import include.misc;
 import include.scrnintstr;
-import include.gcstruct;
+import dix.gc;
 import include.windowstr;
 import include.pixmap;
 import miwideline;
