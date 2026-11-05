@@ -24,7 +24,7 @@ public import dix.rpcbuf_priv;
 public import dix.callback;
 public import dix.cursor;
 public import dix.events;
-public import include.gc;
+public import dix.gc;
 public import include.input;
 public import include.os;
 public import include.resource;

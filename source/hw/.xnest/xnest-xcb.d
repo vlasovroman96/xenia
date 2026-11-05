@@ -10,7 +10,7 @@ extern(C): __gshared:
 public import externs.xcb.xcb;
 
 public import include.list;
-import include.gc;
+import dix.gc;
 import include.scrintstr;
 import x11.Xprotostr;
 

@@ -29,7 +29,7 @@ extern(C): __gshared:
 
 public import include.scrintstr;
 public import include.pixmap;
-public import include.gc;
+public import dix.gc;
 import dix.damage;
 import build.xlibre_server;
 

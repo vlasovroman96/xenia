@@ -8,7 +8,7 @@ extern(C): __gshared:
  * Copyright © 1987, 1998  The Open Group
  */
  
-public import include.gc;
+public import dix.gc;
 
 enum GCAllBits = ((1 << (GCLastBit + 1)) - 1);
 
@@ -20,15 +20,15 @@ enum GCAllBits = ((1 << (GCLastBit + 1)) - 1);
 
 // int FreeGC(void* pGC, XID gid);
 
-void FreeGCperDepth(ScreenPtr pScreen);
+// void FreeGCperDepth(ScreenPtr pScreen);
 
-Bool CreateGCperDepth(ScreenPtr pScreen);
+// Bool CreateGCperDepth(ScreenPtr pScreen);
 
-Bool CreateDefaultStipple(ScreenPtr pScreen);
+// Bool CreateDefaultStipple(ScreenPtr pScreen);
 
 // int SetDashes(GCPtr pGC, uint offset, uint ndash, ubyte* pdash);
 
-int VerifyRectOrder(int nrects, xRectangle* prects, int ordering);
+// int VerifyRectOrder(int nrects, xRectangle* prects, int ordering);
 
 // int SetClipRects(GCPtr pGC, INT16 xOrigin, INT16 yOrigin, size_t nrects, xRectangle* prects, BYTE ordering);
 

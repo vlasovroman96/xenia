@@ -71,6 +71,41 @@ import dix.dixutils;
 import dix.resource;
 import os.log;
 
+public import include.pixmap;             /* for DrawablePtr */
+
+/* clientClipType field in GC */
+enum CT_NONE =			0;
+enum CT_PIXMAP =		1;
+enum CT_REGION =		2;
+enum CT_UNSORTED =		6;
+enum CT_YSORTED =		10;
+enum CT_YXSORTED =		14;
+enum CT_YXBANDED =		18;
+
+enum ulong GC_CHANGE_SERIAL_BIT =        1<<31;
+
+enum DRAWABLE_SERIAL_BITS =        (~(GC_CHANGE_SERIAL_BIT));
+
+enum MAX_SERIAL_NUM =     (1L<<28);
+
+@property auto NEXT_SERIAL_NUMBER() { return ((++globalSerialNumber) > MAX_SERIAL_NUM ? 
+	    (globalSerialNumber  = 1): globalSerialNumber);
+};
+
+struct _GCInterest;
+alias GCInterestPtr = _GCInterest*;
+alias GCPtr = _GC*;
+alias GCOpsPtr = _GCOps*;
+alias GCOps = _GCOps;
+
+// void ValidateGC(DrawablePtr, GCPtr);
+
+union _ChangeGCVal {
+    CARD32 val;
+    void* ptr;
+}alias ChangeGCVal = _ChangeGCVal;
+alias ChangeGCValPtr = ChangeGCVal*;
+
 FontPtr defaultFont;
 
 

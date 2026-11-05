@@ -34,7 +34,7 @@ import include.windowstr;
 import include.pixmapstr;
 import include.scrnintstr;
 import include.mistruct;
-import include.gc;
+import dix.gc;
 
 import xnest_xcb;
 import hw.xnest.GCOps;

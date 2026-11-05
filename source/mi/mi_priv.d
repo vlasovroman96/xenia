@@ -13,7 +13,7 @@ extern(C): __gshared:
 public import dix.screenint_priv;
 public import dix.callback;
 public import dix.events;
-public import include.gc;
+public import dix.gc;
 public import include.micmap;
 public import include.pixmap;
 public import include.regionstr;

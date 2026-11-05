@@ -17,7 +17,7 @@ import externs.xcb.xcb_icccm;
 //import x11.Xproto;
 import externs.xcb.xkb;
 
-import include.gc;
+import dix.gc;
 import include.servermd;
 
 import xnest_xcb;

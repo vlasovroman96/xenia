@@ -48,7 +48,7 @@ public import exa_accel;
 import exa_driver;
 import exa.exa_offscreen;
 
-import include.gc;
+import dix.gc;
 import include.privates;
 
 enum DEBUG_TRACE_FALL =	0;

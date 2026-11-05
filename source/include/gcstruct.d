@@ -51,7 +51,7 @@ SOFTWARE.
  
 //public import x11.Xprotostr;
 
-public import include.gc;
+public import dix.gc;
 public import include.pixmap;
 public import include.regionstr;
 public import include.scrintstr;

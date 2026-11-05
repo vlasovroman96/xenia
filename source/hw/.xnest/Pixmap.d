@@ -24,7 +24,7 @@ import build.xorg_config;
 import include.regionstr;
 import include.pixmapstr;
 import include.scrnintstr;
-import include.gc;
+import dix.gc;
 import include.servermd;
 import include.privates;
 
