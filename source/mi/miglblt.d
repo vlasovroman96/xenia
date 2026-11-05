@@ -60,7 +60,7 @@ import	dix.dixfonts;
 import	include.windowstr;
 import	dix.scrnintstr;
 import	dix.pixmap;
-import	include.servermd;
+import	common.servermd;
 import Xext.xf86bigfont;
 import dix.gc;
 import fb.fbglyph;

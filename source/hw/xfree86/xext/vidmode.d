@@ -54,7 +54,7 @@ import os.osdep;
 import common.misc;
 import dix.dixstruct_priv;
 import dix.scrnintstr;
-import include.servermd;
+import common.servermd;
 import include.vidmodestr;
 import common.protocol_versions;
 import dix.extension;

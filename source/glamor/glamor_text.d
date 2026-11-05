@@ -30,7 +30,7 @@ import os.bug_priv;
 import glamor.glamor_priv;
 import dix.dixfonts;
 import glamor.glamor_transform;
-import include.servermd;
+import common.servermd;
 //import x11.X;
 import glamor.glamor;
 import fb.fbglyph;

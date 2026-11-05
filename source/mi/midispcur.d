@@ -49,7 +49,7 @@ import include.windowstr;
 import region;
 import dix.dixstruct_priv;
 import   dix.scrnintstr;
-import   include.servermd;
+import   common.servermd;
 import   mi.mipointer;
 import   mi.misprite;
 import   dix.picturestr;

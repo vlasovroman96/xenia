@@ -22,7 +22,7 @@ import dix.scrintstr;
 import dix.inputstr;import dix.input;
 import common.misc;
 import dix.scrnintstr;
-import include.servermd;
+import common.servermd;
 import mi.mipointer;
 
 import xnest_xcb;

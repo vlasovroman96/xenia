@@ -53,7 +53,7 @@ import dix.gc;
 import dix.scrnintstr;
 import dix.pixmap;
 import region;
-import include.servermd;
+import common.servermd;
 
 enum NPT = 128;
 

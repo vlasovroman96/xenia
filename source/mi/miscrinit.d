@@ -39,7 +39,7 @@ import build.xlibre_server;
 import include.shmint;
 import mi.mi_priv;
 
-import include.servermd;
+import common.servermd;
 import common.misc;
 import dix.scrnintstr;
 import dix.pixmap;

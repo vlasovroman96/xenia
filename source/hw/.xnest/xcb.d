@@ -18,7 +18,7 @@ import externs.xcb.xcb_icccm;
 import externs.xcb.xkb;
 
 import dix.gc;
-import include.servermd;
+import common.servermd;
 
 import xnest_xcb;
 

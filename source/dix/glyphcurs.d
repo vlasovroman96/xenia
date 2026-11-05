@@ -59,7 +59,7 @@ import dix.dixfonts;
 import dix.scrnintstr;
 import dix.resource;
 import dix.cursor;
-import include.servermd;
+import common.servermd;
 import dix.gc;
 import Xext.xf86bigfont;
 import externs.attrs;

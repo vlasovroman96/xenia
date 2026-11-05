@@ -34,10 +34,10 @@ public import dix.pixmap;
 public import region;
 public import dix.gc;
 public import dix.colormap;
-public import include.servermd;
+public import common.servermd;
 public import include.windowstr;
 public import dix.privates;
-import include.servermd;
+import common.servermd;
 
 public import migc;
 public import dix.picturestr;

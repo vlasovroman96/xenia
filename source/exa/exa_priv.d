@@ -35,7 +35,7 @@ public import include.shmint;
 public import dix.scrnintstr;
 public import dix.pixmap;
 public import include.windowstr;
-public import include.servermd;
+public import common.servermd;
 public import dix.input;
 public import mi.mipointer;
 import fb.fb;

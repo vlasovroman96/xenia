@@ -57,7 +57,7 @@ import dix.scrnintstr;
 import include.window;
 import include.windowstr;
 import dix.pixmap;
-import include.servermd;
+import common.servermd;
 import dix.resource;
 import render.picturestr_priv;
 import xfixes.xfixesint;

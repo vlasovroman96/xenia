@@ -9,7 +9,7 @@ import include.xorgVersion;
 import build.xlibre_server;
 
 import os.os;
-import include.servermd;
+import common.servermd;
 import dix.pixmap;
 import include.windowstr;
 import dix.property;

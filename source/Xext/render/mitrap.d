@@ -32,7 +32,7 @@ import dix.scrnintstr;
 import dix.gc;
 import dix.pixmap;
 import include.windowstr;
-import include.servermd;
+import common.servermd;
 import dix.picturestr;
 import externs.X11.extensions.renderproto;
 import externs.attrs;

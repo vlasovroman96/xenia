@@ -58,7 +58,7 @@ import dix.dix_priv;
 import dix.screenint_priv;
 import os.bug_priv;
 
-import include.servermd;
+import common.servermd;
 import dix.scrnintstr;
 import dix.dixstruct_priv;
 import dix.cursor;

@@ -136,7 +136,7 @@ import dix.inputstr;
 import dix.resource;
 import dix.cursor;
 import dix.dixstruct_priv;
-import include.servermd;
+import common.servermd;
 import composite.compint;
 import dix.privates;
 import Xext.xace;

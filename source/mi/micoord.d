@@ -31,7 +31,7 @@ extern(C): __gshared:
 version (_MICOORD_H_) {} else {
 enum _MICOORD_H_ = 1;
 
-public import include.servermd;
+public import common.servermd;
 
 /* Macros which handle a coordinate in a single register */
 

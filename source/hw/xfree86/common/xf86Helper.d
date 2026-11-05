@@ -57,7 +57,7 @@ import os.osdep;
 import xf86Mode;
 
 import os.os;
-import include.servermd;
+import common.servermd;
 import dix.pixmap;
 import include.windowstr;
 import dix.property;

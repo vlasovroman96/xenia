@@ -58,7 +58,7 @@ import Xi.handlers;
 import Xi.xibarriers;
 import dix.scrnintstr;
 import dix.cursor;
-import include.servermd;
+import common.servermd;
 import mi.mipointer;
 import dix.inputstr;import include.windowstr;
 import Xext.xace;

@@ -35,7 +35,7 @@ import dix.input;
 import common.misc;
 import dix.scrnintstr;
 import include.windowstr;
-import include.servermd;
+import common.servermd;
 import dix.dixfonts;
 
 import xnest_xcb;

@@ -90,7 +90,7 @@ import os.log;
 import externs.gnu;
 import os.connection;
 import os.WaitFor;
-public import include.servermd;
+public import common.servermd;
 import Xext.xf86bigfont;
 import externs.X11.fonts.fontstruct;
 import fb.fbglyph;

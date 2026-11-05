@@ -25,7 +25,7 @@ import region;
 import dix.pixmap;
 import dix.scrnintstr;
 import dix.gc;
-import include.servermd;
+import common.servermd;
 import dix.privates;
 
 import xnest_xcb;

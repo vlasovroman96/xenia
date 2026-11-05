@@ -43,7 +43,7 @@ import os.os;
 import include.windowstr;
 import dix.resource;
 import dix.dixstruct_priv;
-import include.servermd;
+import common.servermd;
 import dix.picturestr;
 import randr.randr;
 import miext.damage.damage_;

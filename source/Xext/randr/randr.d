@@ -57,7 +57,7 @@ public import dix.scrnintstr;
 public import include.windowstr;
 public import dix.pixmap;
 public import dix.extension;
-public import include.servermd;
+public import common.servermd;
 public import randr.rrtransform;
 import dix.timestamp;
 

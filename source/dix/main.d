@@ -116,7 +116,7 @@ import dix.resource;
 import dix.dixstruct_priv;
 import dix.gc;
 import dix.cursor;
-import include.servermd;
+import common.servermd;
 import dix.dixfonts;
 import dix.privates;
 import Xi.exevents;

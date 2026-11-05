@@ -93,7 +93,7 @@ import os.log_priv;
 import os.osdep;
 import randr.randrstr_priv;
 
-import include.servermd;
+import common.servermd;
 import include.windowstr;
 import dix.scrnintstr;
 // import hw.xfree86.os_support.linux.systemd_logind;

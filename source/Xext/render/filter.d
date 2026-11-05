@@ -41,7 +41,7 @@ import dix.resource;
 import dix.cursor;
 import dix.dixstruct_priv;
 import dix.gc;
-import include.servermd;
+import common.servermd;
 import dix.picturestr;
 import externs.X11.extensions.render_;
 import render.picture;

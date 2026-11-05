@@ -27,7 +27,7 @@ import dix.scrintstr;
 import dix.input;
 import common.misc;
 import dix.scrnintstr;
-import include.servermd;
+import common.servermd;
 import include.extinit;
 import build.xlibre_server;
 

@@ -43,7 +43,7 @@ import dix.input;
 import dix.resource;
 import dix.cursor;
 import dix.dixstruct_priv;
-import include.servermd;
+import common.servermd;
 import dix.picturestr;
 import render.glyphstr_priv;
 import dix.gc;

@@ -52,7 +52,7 @@ import os.osdep;
 import os.xhostname;
 
 import dix.scrnintstr;
-import include.servermd;
+import common.servermd;
 enum PSZ = 8;
 import dix.gc;
 import dix.input;

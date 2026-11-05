@@ -67,7 +67,7 @@ import dix.extension;
 import dix.cursor;
 import dix.scrnintstr;
 import include.windowstr;
-import include.servermd;
+import common.servermd;
 import dix.swaprep;
 import include.xf86str;
 import dri_priv;

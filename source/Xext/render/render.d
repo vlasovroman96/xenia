@@ -52,7 +52,7 @@ import dix.resource;
 import dix.scrnintstr;
 import include.windowstr;
 import dix.pixmap;
-import include.servermd;
+import common.servermd;
 import render.picturestr_priv;
 import render.glyphstr_priv;
 import dix.cursor;

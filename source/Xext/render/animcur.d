@@ -43,7 +43,7 @@ import dix.cursor_priv;
 import dix.input_priv;
 import dix.screen_hooks_priv;
 
-import include.servermd;
+import common.servermd;
 import dix.scrnintstr;
 import dix.dixstruct_priv;
 import dix.cursor;

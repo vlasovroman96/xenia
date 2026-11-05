@@ -29,7 +29,7 @@ import build.dix_config;
 import include.shadow;
 import fb.fb;
 import fb.fballpriv;
-import include.servermd;
+import common.servermd;
 
 enum string Get8(string a) = `(cast(CARD32) `~READ!(a)~`)`;
 

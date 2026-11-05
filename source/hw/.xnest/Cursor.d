@@ -30,7 +30,7 @@ import dix.input;
 import common.misc;
 import dix.cursor;
 import dix.scrnintstr;
-import include.servermd;
+import common.servermd;
 import mi.mipointer;
 
 import xnest_xcb;

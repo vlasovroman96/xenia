@@ -25,7 +25,7 @@ import dix.dixstruct_priv;
 import dix.resource;
 import dix.scrnintstr;
 import dix.extension;
-import include.servermd;
+import common.servermd;
 import externs.X11.extensions.XvMCproto;
 import dix.dixutils;
 import externs.X11.extensions.XvMC;

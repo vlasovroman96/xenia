@@ -36,7 +36,7 @@ import dix.resource;
 import dix.cursor;
 import dix.dixstruct_priv;
 import dix.gc;
-import include.servermd;
+import common.servermd;
 import dix.picturestr;
 import externs.attrs;
 

@@ -35,7 +35,7 @@ import dix.scrintstr;
 import dix.inputstr;
 import common.misc;
 import dix.scrnintstr;
-import include.servermd;
+import common.servermd;
 
 import xnest_xcb;
 

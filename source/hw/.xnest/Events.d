@@ -29,7 +29,7 @@ import dix.input;
 import common.misc;
 import dix.scrnintstr;
 import include.windowstr;
-import include.servermd;
+import common.servermd;
 import dix.inputstr;
 import xnest_xcb;
 

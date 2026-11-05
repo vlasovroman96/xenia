@@ -32,7 +32,7 @@ import dix.gc;
 import dix.scrnintstr;
 import include.windowstr;
 import dix.pixmap;
-import include.servermd;
+import common.servermd;
 
 import xnest_xcb;
 
