@@ -42,7 +42,7 @@ import hw.kdrive.ephyr.ephyr;
 import hw.kdrive.ephyr.hostx;
 import include.xvdix;
 import externs.X11.extensions.Xv;
-import include.xf86xv;
+import xf86xv;
 
 
 struct _EphyrXVPriv {

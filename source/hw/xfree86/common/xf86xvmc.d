@@ -41,7 +41,7 @@ import dix.scrnintstr;
 import dix.dixstruct_priv;
 
 import hw.xfree86.common.xf86xvpriv;
-import include.xf86xvmc;
+import xf86xvmc;
 // import hw.xfree86.common.xf86sbusBus_priv;;
 // import hw.xfree86.os_support.bus.xf86Sbus_priv;
 // import xf86sbusBus;
@@ -65,6 +65,109 @@ import externs.X11.extensions.Xv;
 import dix.screen_hooks;
 import dix.resource;
 import Xext.xvmc;
+
+public import include.xlibre_ptrtypes;
+public import include.xvmcext;
+public import xf86xv;
+
+struct XF86MCImageIDList {
+    int num_xvimages;
+    int* xvimage_ids;           /* reference the subpictures in the XF86MCAdaptorRec */
+}
+
+struct _XF86MCSurfaceInfoRec {
+    int surface_type_id;        /* Driver generated.  Must be unique on the port */
+    int chroma_format;
+    int color_description;      /* no longer used */
+    ushort max_width;
+    ushort max_height;
+    ushort subpicture_max_width;
+    ushort subpicture_max_height;
+    int mc_type;
+    int flags;
+    XF86MCImageIDList* compatible_subpictures;  /* can be null, if none */
+}alias XF86MCSurfaceInfoRec = _XF86MCSurfaceInfoRec;
+alias XF86MCSurfaceInfoPtr = XF86MCSurfaceInfoRec*;
+
+/*
+   xf86XvMCCreateContextProc
+
+   DIX will fill everything out in the context except the driver_priv.
+   The port_priv holds the private data specified for the port when
+   Xv was initialized by the driver.
+   The driver may store whatever it wants in driver_priv and edit
+   the width, height and flags.  If the driver wants to return something
+   to the client it can allocate space in priv and specify the number
+   of 32 bit words in num_priv.  This must be dynamically allocated
+   space because DIX will free it after it passes it to the client.
+*/
+
+alias xf86XvMCCreateContextProcPtr = int function(ScrnInfoPtr pScrn, XvMCContextPtr context, int* num_priv, CARD32** priv);
+
+alias xf86XvMCDestroyContextProcPtr = void function(ScrnInfoPtr pScrn, XvMCContextPtr context);
+
+/*
+   xf86XvMCCreateSurfaceProc
+
+   DIX will fill everything out in the surface except the driver_priv.
+   The driver may store whatever it wants in driver_priv.  The driver
+   may pass data back to the client in the same manner as the
+   xf86XvMCCreateContextProc.
+*/
+
+alias xf86XvMCCreateSurfaceProcPtr = int function(ScrnInfoPtr pScrn, XvMCSurfacePtr surface, int* num_priv, CARD32** priv);
+
+alias xf86XvMCDestroySurfaceProcPtr = void function(ScrnInfoPtr pScrn, XvMCSurfacePtr surface);
+
+/*
+   xf86XvMCCreateSubpictureProc
+
+   DIX will fill everything out in the subpicture except the driver_priv,
+   num_palette_entries, entry_bytes and component_order.  The driver may
+   store whatever it wants in driver_priv and edit the width and height.
+   If it is a paletted subpicture the driver needs to fill out the
+   num_palette_entries, entry_bytes and component_order.  These are
+   not communicated to the client until the time the surface is
+   created.
+
+   The driver may pass data back to the client in the same manner as the
+   xf86XvMCCreateContextProc.
+*/
+
+alias xf86XvMCCreateSubpictureProcPtr = int function(ScrnInfoPtr pScrn, XvMCSubpicturePtr subpicture, int* num_priv, CARD32** priv);
+
+alias xf86XvMCDestroySubpictureProcPtr = void function(ScrnInfoPtr pScrn, XvMCSubpicturePtr subpicture);
+
+struct _XF86MCAdaptorRec {
+    const(char)* name;
+    int num_surfaces;
+    XF86MCSurfaceInfoPtr* surfaces;
+    int num_subpictures;
+    XF86ImagePtr* subpictures;
+    xf86XvMCCreateContextProcPtr CreateContext;
+    xf86XvMCDestroyContextProcPtr DestroyContext;
+    xf86XvMCCreateSurfaceProcPtr CreateSurface;
+    xf86XvMCDestroySurfaceProcPtr DestroySurface;
+    xf86XvMCCreateSubpictureProcPtr CreateSubpicture;
+    xf86XvMCDestroySubpictureProcPtr DestroySubpicture;
+}alias XF86MCAdaptorRec = _XF86MCAdaptorRec;
+alias XF86MCAdaptorPtr = XF86MCAdaptorRec*;
+
+/*
+   xf86XvMCScreenInit
+
+   Unlike Xv, the adaptor data is not copied from this structure.
+   This structure's data is used so it must stick around for the
+   life of the server.  Note that it's an array of pointers not
+   an array of structures.
+*/
+
+void  xf86XvMCScreenInit(ScreenPtr pScreen, int num_adaptors, XF86MCAdaptorPtr* adaptors);
+
+XF86MCAdaptorPtr xf86XvMCCreateAdaptorRec();
+void  xf86XvMCDestroyAdaptorRec(XF86MCAdaptorPtr adaptor);
+
+                          /* _XF86XVMC_H */
 
 
 struct _Xf86XvMCScreenRec {

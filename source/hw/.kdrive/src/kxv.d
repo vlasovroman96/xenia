@@ -59,7 +59,7 @@ import dix.gc;
 import dix.dixstruct_priv;
 import hw.kdrive.src.kxv;
 import hw.xfree86.common.fourcc;
-import include.xf86xv;
+import xf86xv;
 import hw.xfree86.common.xf86xvpriv;
 
 

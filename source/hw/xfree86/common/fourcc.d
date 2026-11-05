@@ -35,7 +35,7 @@ extern(C): __gshared:
    A list of some popular fourcc's are at: http://www.webartz.com/fourcc/
    For an explanation of fourcc <-> guid mappings see RFC2361.
 */
-import include.xf86xv;
+import xf86xv;
 import externs.X11.extensions.Xv;
 
 version (_XF86_FOURCC_H_) {} else {

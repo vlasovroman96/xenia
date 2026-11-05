@@ -29,7 +29,7 @@ extern(C): __gshared:
  */
 
  
-public import include.xf86xv;
+public import xf86xv;
 public import dix.privates;
 import hw.xfree86.common.xf86str;
 import dix.scrnintstr;

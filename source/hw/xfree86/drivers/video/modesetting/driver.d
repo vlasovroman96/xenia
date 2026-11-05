@@ -51,7 +51,7 @@ import core.sys.posix.unistd;
 import core.sys.posix.fcntl;
 //import externs.X11.extensions._randr;
 // //import externs.X11.extensions.Xv;
-import include.xf86xv;
+import xf86xv;
 
 import config.hotplug_priv;
 import dix.dix_priv;
@@ -74,7 +74,6 @@ import xf86pciBus;
 import hw.xfree86.modes.displaymode;
 import xf86Bus;
 
-// import xf86xv;
 import externs.libdrm;
 // import build.xorg_config;
 static if(XSERVER_PLATFORM_BUS){

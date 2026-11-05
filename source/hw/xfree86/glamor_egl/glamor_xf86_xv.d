@@ -43,7 +43,7 @@ version = GLAMOR_FOR_XORG;
 import glamor.glamor_priv;
 import glamor.glamor_xv;
 
-import include.xf86xv;
+import xf86xv;
 import hw.xfree86.common.fourcc;
 import externs.X11.extensions.Xv;
 import xf86Bus;
