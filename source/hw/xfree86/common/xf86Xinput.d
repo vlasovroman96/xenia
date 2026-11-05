@@ -68,7 +68,7 @@ import xf86_priv;
 import include.xf86Priv;
 import xf86Config;
 import Xi.XIstubs;
-import include.xf86Optrec;
+//import include.xf86Optrec;
 import mi.mipointer;
 import hw.xfree86.loader.loaderProcs;
 import hw.xfree86.os_support.linux.systemd_logind;

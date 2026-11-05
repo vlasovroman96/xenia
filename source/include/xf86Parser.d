@@ -62,7 +62,7 @@ import core.stdc.config: c_long, c_ulong;
  */
  
 public import x11.Xdefs;
-public import include.xf86Optrec;
+//public //import include.xf86Optrec;
 public import common.list;
 
 public import core.sys.posix.sys.types;
