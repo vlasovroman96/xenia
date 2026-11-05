@@ -10,7 +10,6 @@ public import xf86platformBus;
 import include.xf86str;
 public import config.hotplug_priv;
 import build.xlibre_server;
-public import xf86platformBus;
 
 static if(XSERVER_PLATFORM_BUS){
 

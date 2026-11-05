@@ -51,7 +51,7 @@ public import xf86Opt_priv;
 import hw.xfree86.modes.displaymode;
 import externs.pciaccess;
 import hw.xfree86.common.xf86Xinput;
-public import include.xf86platformBus;
+public import xf86platformBus;
 import xf86Bus;
 /**
  * Integer type that is of the size of the addressable memory (machine size).

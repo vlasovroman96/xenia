@@ -51,7 +51,6 @@ import hw.xfree86.common.xf86Helper;
 import scan;
 import os.log;
 import externs.gnu;
-import xf86platformBus;
 
 struct XF86OptionRec {
     GenericListRec list;

@@ -450,7 +450,7 @@ private DBusHandlerResult message_filter(DBusConnection* connection, DBusMessage
     LogMessage(X_INFO, "systemd-logind: got %s for %u:%u\n",
                pause ? "pause".ptr : "resume".ptr, major, minor);
 
-    pdev = cast(include.xf86platformBus.xf86_platform_device*)xf86_find_platform_device_by_devnum(major, minor);
+    pdev = cast(xf86platformBus.xf86_platform_device*)xf86_find_platform_device_by_devnum(major, minor);
     if (!pdev)
         pInfo = systemd_logind_find_info_ptr_by_devnum(xf86InputDevs,
                                                        major, minor);
