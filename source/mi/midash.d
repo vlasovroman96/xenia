@@ -51,7 +51,22 @@ import build.dix_config;
 import mi.mi_priv;
 
 import include.regionstr;
-import include.mistruct;
+import midash;
+
+enum EVEN_DASH =	0;
+enum ODD_DASH =	~0;
+
+/* information about dashes */
+struct _miDash {
+    xPoint pt;
+    int e1, e2;                 /* keep these, so we don't have to do it again */
+    int e;                      /* bresenham error term for this point on line */
+    int which;
+    int newLine;                /* 0 if part of same original line as previous dash */
+}
+
+alias miDashRec = _miDash;
+alias miDashPtr = _miDash*;
 
 void miStepDash(int dist, int* pDashIndex, ubyte* pDash, int numInDashList, int* pDashOffset)
 {
