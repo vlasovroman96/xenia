@@ -77,7 +77,7 @@ import include.windowstr;
 import dix.pixmap;
 import include.servermd;
 import Xext.xace;
-import include.protocol_versions;
+import common.protocol_versions;
 import externs.X11.extensions.shmproto;
 import os.access;
 import dix.gc;

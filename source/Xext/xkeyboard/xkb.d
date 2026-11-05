@@ -51,7 +51,7 @@ public import xkb.xkbsrv_priv;
 import dix.atom;
 import common.misc;
 import dix.inputstr;import xkb.xkb_procs;
-import include.protocol_versions;
+import common.protocol_versions;
 import include.xkbstr;
 import os.log;
 import dix.events;

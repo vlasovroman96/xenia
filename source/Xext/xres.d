@@ -32,7 +32,7 @@ import dix.swaprep;
 import dix.pixmap;
 import include.windowstr;
 import dix.gc;
-import include.protocol_versions;
+import common.protocol_versions;
 import common.list;
 import Xext.hashtable;
 import dix.picturestr;

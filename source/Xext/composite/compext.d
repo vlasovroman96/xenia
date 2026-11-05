@@ -55,7 +55,7 @@ import build.xlibre_server;
 
 import composite.compint;
 import Xext.xace;
-import include.protocol_versions;
+import common.protocol_versions;
 import externs.X11.extensions.compositeproto;
 import xfixes.region;
 import dix.extension;

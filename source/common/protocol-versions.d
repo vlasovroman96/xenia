@@ -1,4 +1,4 @@
-module include.protocol_versions;
+module common.protocol_versions;
 @nogc nothrow:
 extern(C): __gshared:
 /*

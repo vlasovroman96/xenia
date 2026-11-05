@@ -56,7 +56,7 @@ import dix.dixstruct_priv;
 import include.scrnintstr;
 import include.servermd;
 import include.vidmodestr;
-import include.protocol_versions;
+import common.protocol_versions;
 import dix.extension;
 private int VidModeErrorBase;
 private int VidModeAllowNonLocal;

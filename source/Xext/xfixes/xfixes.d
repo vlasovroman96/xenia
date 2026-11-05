@@ -87,7 +87,7 @@ enum string VERIFY_REGION_OR_NONE(string pRegion,string  rid,string  client,stri
     pRegion ~` = null; 
     if (`~rid~`) {` ~VERIFY_REGION!(pRegion,rid,client,mode)~`}`;
 
-import include.protocol_versions;
+import common.protocol_versions;
 
 Bool noXFixesExtension = FALSE;
 

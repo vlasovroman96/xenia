@@ -38,7 +38,7 @@ import miext.extinit_priv;
 import Xext.geext_priv;
 
 import include.windowstr;
-import include.protocol_versions;
+import common.protocol_versions;
 import os.log;
 import dix.extension;
 import dix.events;

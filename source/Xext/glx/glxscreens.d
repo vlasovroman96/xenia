@@ -47,7 +47,7 @@ import dix.privates;
 import glx.glxserver;
 import glx.glxutil;
 import glx.glxext;
-import include.protocol_versions;
+import common.protocol_versions;
 import composite.compwindow;;
 import glx.glxscreens_h;
 //  import Xext.glx.fix;

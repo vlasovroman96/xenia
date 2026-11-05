@@ -64,7 +64,7 @@ import dix.cursor;
 import externs.X11.extensions.recordproto;
 import os.io;
 import os.utils;
-import include.protocol_versions;
+import common.protocol_versions;
 import std.conv;
 import dix.devices;
 import dix.events;

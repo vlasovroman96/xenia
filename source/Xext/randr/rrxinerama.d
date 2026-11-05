@@ -83,7 +83,7 @@ import randr.randrstr_priv;
 import build.xlibre_server;
 
 import dix.swaprep;
-import include.protocol_versions;
+import common.protocol_versions;
 import randr.randrstr_priv;
 import dix.property;
 import dix.swaprep;

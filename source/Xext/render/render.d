@@ -57,7 +57,7 @@ import render.picturestr_priv;
 import render.glyphstr_priv;
 import dix.cursor;
 import Xext.xace;
-import include.protocol_versions;
+import common.protocol_versions;
 import dix.extension;
 import dix.swapreq;
 import build.xlibre_server;

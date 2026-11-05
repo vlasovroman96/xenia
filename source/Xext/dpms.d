@@ -51,7 +51,7 @@ import dix.window;
 import Xext.dpmsproc;
 import include.scrnintstr;
 import include.windowstr;
-import include.protocol_versions;
+import common.protocol_versions;
 import externs.X11.extensions.dpmsconst;
 import externs.X11.extensions.dpmsproto;
 import dix.extension;

@@ -58,7 +58,7 @@ import dix.dixstruct_priv;
 import dix.window;
 import include.regionstr;
 import dix.gc;
-import include.protocol_versions;
+import common.protocol_versions;
 import externs.X11.extensions.shapeproto;
 import dix.swapreq;
 import dix.dixutils;

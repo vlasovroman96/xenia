@@ -31,7 +31,7 @@ import randr.rrdispatch_priv;
 import os.fmt;
 import randr.randr;
 
-import include.protocol_versions;
+import common.protocol_versions;
 
 Bool RRClientKnowsRates(ClientPtr pClient)
 {

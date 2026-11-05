@@ -50,7 +50,7 @@ import dix.pixmap;
 import xfixes.xfixes;
 import Xext.dri2.dri2_priv;
 import Xext.dri2.dri2int;
-import include.protocol_versions;
+import common.protocol_versions;
 import hw.xfree86.drivers.video.modesetting.dri2;
 import externs.X11.extensions.dri2tokens;
 import xfixes.region;
