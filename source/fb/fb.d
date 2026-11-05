@@ -115,7 +115,7 @@ enum string FbStipMoveLsb(string x,string s,string n) = `(` ~ x ~ `)`;
 enum FbPatternOffsetBits =	((FbBits).sizeof - 1);
 }
 
-public import include.micoord;
+public import mi.micoord;
 
 enum string FbStipLeft(string x,string n) = `` ~ FbScrLeft!(x,n) ~ ``;
 enum string FbStipRight(string x,string n) = `` ~ FbScrRight!(x,n) ~ ``;
@@ -628,7 +628,7 @@ enum string FbStipMoveLsb(string x,string s,string n) = `(` ~ x ~ `)`;
 enum FbPatternOffsetBits =	((FbBits).sizeof - 1);
 }
 
-public import include.micoord;
+public import mi.micoord;
 
 enum string FbLeftStipMask(string x) = `( ((` ~ x ~ `) & FB_STIP_MASK) ? 
 			     ` ~ FbStipRight!(`FB_STIP_ALLONES`,`(` ~ x ~ `) & FB_STIP_MASK`) ~ ` : 0)`;
