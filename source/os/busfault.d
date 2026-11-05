@@ -77,7 +77,7 @@ busfault* busfault_register_mmap(void* addr, size_t size, busfault_notify_ptr no
 
 void busfault_unregister(busfault* busfault)
 {
-    xorg_list_del(&busfault.list);
+    busfault.list.removeFromList();
     free(busfault);
 }
 

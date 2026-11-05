@@ -78,7 +78,7 @@ GlxServerVendor* GlxCreateVendor(const(GlxServerImports)* imports)
 void GlxDestroyVendor(GlxServerVendor* vendor)
 {
     if (vendor !is null) {
-        xorg_list_del(&vendor.entry);
+        vendor.entry.removeFromList();
         free(vendor);
     }
 }

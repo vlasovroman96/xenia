@@ -24,10 +24,10 @@ int xf86writeConfigFile(const(char)* filename, XF86ConfigPtr cptr);
 
 pragma(inline, true) void xf86freeMatchGroup(xf86MatchGroup* group)
 {
-    xorg_list_del(&group.entry);
+    group.entry.removeFromList();
     xf86MatchPattern* pattern = void, next_pattern = void;
     mixin(xorg_list_for_each_entry_safe!("pattern", "next_pattern", "&group.patterns", "entry", q{
-        xorg_list_del(&pattern.entry);
+        pattern.entry.removeFromList();
         if (pattern.str)
             free(pattern.str);
         free(pattern);

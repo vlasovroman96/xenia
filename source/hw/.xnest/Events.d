@@ -243,7 +243,7 @@ void xnestCollectEvents()
     xnest_event_queue* tmp = null, walk = null;
     mixin(xorg_list_for_each_entry_safe!("walk", "tmp", "xnestUpstreamInfo.eventQueue.entry", "entry", q{
         xnest_handle_event(walk.event);
-        xorg_list_del(&walk.entry);
+        walk.entry.removeFromList();
         free(walk.event);
         free(walk);
     }));

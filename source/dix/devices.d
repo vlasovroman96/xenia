@@ -961,7 +961,7 @@ private void FreePendingFrozenDeviceEvents(DeviceIntPtr dev)
     /* Dequeue any frozen pending events */
     mixin(xorg_list_for_each_entry_safe!("qe", "tmp", "&syncEvents.pending", "next", q{
         if (qe.device == dev) {
-            xorg_list_del(&qe.next);
+            qe.next.removeFromList();
             free(qe);
         }
     }));

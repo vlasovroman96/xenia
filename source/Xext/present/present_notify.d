@@ -52,7 +52,7 @@ void present_clear_window_notifies(WindowPtr window)
 
 void present_free_window_notify(present_notify_ptr notify)
 {
-    xorg_list_del(&notify.window_list);
+    notify.window_list.removeFromList();
 }
 
 /*

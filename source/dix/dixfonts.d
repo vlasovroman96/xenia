@@ -2017,7 +2017,7 @@ private void remove_fs_fd(int fd)
 
     mixin(xorg_list_for_each_entry_safe!("entry", "temp", "&fs_fd_list", "entry", q{
         if (entry.fd == fd) {
-            xorg_list_del(&entry.entry);
+            entry.entry.removeFromList();
             free(entry);
             break;
         }

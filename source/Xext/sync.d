@@ -1192,7 +1192,7 @@ private int FreeCounter(void* env, XID id)
             free(ptl); /* destroy the trigger list as we go */
         }
         if (mixin(IsSystemCounter!(`pCounter`)) && pCounter.pSysCounterInfo) {
-            xorg_list_del(&pCounter.pSysCounterInfo.entry);
+            pCounter.pSysCounterInfo.entry.removeFromList();
             free(pCounter.pSysCounterInfo.name);
             free(pCounter.pSysCounterInfo.private_);
             free(pCounter.pSysCounterInfo);
@@ -2493,5 +2493,5 @@ void SyncRemoveDeviceIdleTime(SyncCounter* counter)
        shut down, check if there are any left before freeing the device's
        counter */
     if (counter && !xorg_list_is_empty(&SysCounterList))
-        xorg_list_del(&counter.pSysCounterInfo.entry);
+        counter.pSysCounterInfo.entry.removeFromList();
 }

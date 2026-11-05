@@ -357,9 +357,9 @@ else
 void present_vblank_destroy(present_vblank_ptr vblank)
 {
     /* Remove vblank from window and screen lists */
-    xorg_list_del(&vblank.window_list);
+    vblank.window_list.removeFromList();
     /* Also make sure vblank is removed from event queue (wnmd) */
-    xorg_list_del(&vblank.event_queue);
+    vblank.event_queue.removeFromList();
 
     // // DebugPresent(("\td %" ~PRIu64 ~ " %p %" ~PRIu64 ~ " %" ~PRIu64 ~ ": %08"~ PRIx32 ~ " -> %08"~PRIx32 ~ "\n",
     //               vblank.event_id, vblank, vblank.exec_msc, vblank.target_msc,

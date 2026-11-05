@@ -168,7 +168,7 @@ void RRLeaseTerminated(RRLeasePtr lease)
     if (lease.id != None)
         FreeResource(cast(uint)lease.id, X11_RESTYPE_NONE);
 
-    xorg_list_del(&lease.list);
+    lease.list.removeFromList();
 }
 
 /*

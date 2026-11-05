@@ -276,7 +276,7 @@ private void DoTimer(OsTimerPtr timer, CARD32 now)
 {
     CARD32 newTime = void;
 
-    xorg_list_del(&timer.list);
+    timer.list.removeFromList();
     newTime = (*timer.callback) (timer, now, timer.arg);
     if (newTime)
         TimerSet(timer, 0, newTime, timer.callback, timer.arg);
@@ -309,7 +309,7 @@ OsTimerPtr TimerSet(OsTimerPtr timer, int flags, CARD32 millis, OsTimerCallback 
     else {
         input_lock();
         if (timer_pending(timer)) {
-            xorg_list_del(&timer.list);
+            timer.list.removeFromList();
             if (flags & TimerForceOld)
                 cast(void) (*timer.callback) (timer, now, timer.arg);
         }
@@ -362,7 +362,7 @@ void TimerCancel(OsTimerPtr timer)
     if (!timer)
         return;
     input_lock();
-    xorg_list_del(&timer.list);
+    timer.list.removeFromList();
     input_unlock();
 }
 
@@ -385,7 +385,7 @@ void TimerInit()
     }
 
     mixin(xorg_list_for_each_entry_safe!("timer", "tmp", "&timers", "list", q{
-        xorg_list_del(&timer.list);
+        timer.list.removeFromList();
         free(timer);
     }));
 }

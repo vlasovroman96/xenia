@@ -1257,7 +1257,7 @@ void RemoveInputDeviceTraces(const(char)* config_info)
         if (!ci || strcmp(ci, config_info) != 0)
             continue;
 
-        xorg_list_del(&d.node);
+        d.node.removeFromList();
         free(d);
     }));
 }
@@ -1661,7 +1661,7 @@ void xf86InputEnableVTProbe()
         xf86NewInputDevice(pInfo, &pdev,
                                   (!is_auto ||
                                    (is_auto && xf86Info.autoEnableDevices)));
-        xorg_list_del(&d.node);
+        d.node.removeFromList();
         free(d);
     }));
 }

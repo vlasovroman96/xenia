@@ -945,7 +945,7 @@ private void drm_mode_destroy(xf86CrtcPtr crtc, drmmode_mode_ptr mode)
     modesettingPtr ms = mixin(modesettingPTR!("crtc.scrn"));
     if (mode.blob_id)
         drmModeDestroyPropertyBlob(ms.fd, mode.blob_id);
-    xorg_list_del(&mode.entry);
+    mode.entry.removeFromList();
     free(mode);
 }
 

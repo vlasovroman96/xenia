@@ -168,6 +168,14 @@ struct XList {
         this.next.prev = this.prev;
         this.prev.next = this.next;
     }
+
+    /** 
+     * Deleting element from the list 
+     */
+    void removeFromList() {
+        this.cutOff();
+        this.initList();
+    }
 }
 
 /**
@@ -184,11 +192,11 @@ struct XList {
  *
  * @param entry The element to remove.
  */
-pragma(inline, true) void xorg_list_del(XList* entry)
-{
-    entry.cutOff();
-    entry.initList();
-}
+// pragma(inline, true) void xorg_list_del(XList* entry)
+// {
+//     entry.cutOff();
+//     entry.initList();
+// }
 
 /**
  * Check if the list is empty.

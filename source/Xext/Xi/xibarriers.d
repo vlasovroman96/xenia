@@ -694,7 +694,7 @@ private int BarrierFreeBarrier(void* data, XID id)
     }
 
     input_lock();
-    xorg_list_del(&c.entry);
+    c.entry.removeFromList();
     input_unlock();
 
     FreePointerBarrierClient(c);
@@ -763,7 +763,7 @@ private void remove_master_func(void* res, XID id, void* devid)
     }
 
     input_lock();
-    xorg_list_del(&pbd.entry);
+    pbd.entry.removeFromList();
     input_unlock();
     free(pbd);
 }

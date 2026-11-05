@@ -489,7 +489,7 @@ void ms_drm_abort_one(ms_drm_queue* q)
         q.abort(q.data);
         q.aborted = TRUE;
     } else {
-        xorg_list_del(&q.list);
+        q.list.removeFromList();
         q.abort(q.data);
         free(q);
     }
@@ -571,7 +571,7 @@ private void ms_drm_sequence_handler(int fd, ulong frame, ulong ns, Bool is64bit
     /* Now run all of the vblank events for this CRTC with an expired MSC */
     mixin(xorg_list_for_each_entry_safe!("q", "tmp", "&ms_drm_queue_", "list", q{
         if (q.crtc == crtc && q.msc <= msc) {
-            xorg_list_del(&q.list);
+            q.list.removeFromList();
             if (!q.aborted)
                 q.handler(msc, ns / 1000, q.data);
             free(q);

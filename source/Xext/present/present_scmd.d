@@ -335,7 +335,7 @@ private void present_flip_notify(present_vblank_ptr vblank, ulong ust, ulong crt
 
     present_flip_idle(screen);
 
-    xorg_list_del(&vblank.event_queue);
+    vblank.event_queue.removeFromList();
 
     /* Transfer reference for pixmap and fence from vblank to screen_priv */
     screen_priv.flip_crtc = vblank.crtc;
@@ -533,15 +533,15 @@ private void present_execute(present_vblank_ptr vblank, ulong ust, ulong crtc_ms
             // DebugPresent(("\tr %"~ PRIu64 ~ " %p (pending %p unflip %"~ PRIu64 ~ ")\n",
             //               vblank.event_id, vblank,
             //               screen_priv.flip_pending, screen_priv.unflip_event_id));
-            xorg_list_del(&vblank.event_queue);
+            vblank.event_queue.removeFromList();
             present_flip_queue.appendList(&vblank.event_queue);
             vblank.flip_ready = TRUE;
             return;
         }
     }
 
-    xorg_list_del(&vblank.event_queue);
-    xorg_list_del(&vblank.window_list);
+    vblank.event_queue.removeFromList();
+    vblank.window_list.removeFromList();
     vblank.queued = FALSE;
 
     if (vblank.pixmap && vblank.window &&
@@ -588,7 +588,7 @@ private void present_execute(present_vblank_ptr vblank, ulong ust, ulong crtc_ms
                 return;
             }
 
-            xorg_list_del(&vblank.event_queue);
+            vblank.event_queue.removeFromList();
             /* Oops, flip failed. Clear the flip_pending field
               */
             screen_priv.flip_pending = null;
@@ -968,14 +968,14 @@ private void present_scmd_abort_vblank(ScreenPtr screen, WindowPtr window, RRCrt
     mixin(xorg_list_for_each_entry!("vblank", "&present_exec_queue", "event_queue", q{
         long match = event_id - vblank.event_id;
         if (match == 0) {
-            xorg_list_del(&vblank.event_queue);
+            vblank.event_queue.removeFromList();
             vblank.queued = FALSE;
             return;
         }
     }));
     mixin(xorg_list_for_each_entry!("vblank", "&present_flip_queue", "event_queue", q{
         if (vblank.event_id == event_id) {
-            xorg_list_del(&vblank.event_queue);
+            vblank.event_queue.removeFromList();
             vblank.queued = FALSE;
             return;
         }

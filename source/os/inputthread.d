@@ -370,7 +370,7 @@ version (HAVE_PTHREAD_SETNAME_NP_WITH_TID) {
                     break;
                 case device_state_removed:
                     ospoll_remove(inputThreadInfo.fds, dev.fd);
-                    xorg_list_del(&dev.node);
+                    dev.node.removeFromList();
                     free(dev);
                     break;
                 default: break;}

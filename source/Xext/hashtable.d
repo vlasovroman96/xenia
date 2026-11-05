@@ -106,7 +106,7 @@ void ht_destroy(HashTable ht)
         // Теперь макрос развернется в &(head), что абсолютно валидно и прозрачно для D.
         mixin(xorg_list_for_each_entry_safe!("it","tmp", "&head", "l", 
         q{
-            xorg_list_del(&it.l);
+            it.l.removeFromList();
             free(it.key);
             free(it.data);
             free(it);
@@ -134,7 +134,7 @@ private Bool double_size(HashTable ht)
             BucketPtr it = void, tmp = void;
             mixin(xorg_list_for_each_entry_safe!("it", "tmp", "&ht.buckets[c]", "l", q{
                 XList* newBucket = &newBuckets[ht.hash(ht.cdata, it.key, newBucketBits)];
-                xorg_list_del(&it.l);
+                it.l.removeFromList();
                 newBucket.addListNext(&it.l);
             }));
         }
@@ -174,7 +174,7 @@ void* ht_add(HashTable ht, const(void)* key)
         ht.bucketBits < MAXHASHSIZE) {
         if (!double_size(ht)) {
             --ht.elements;
-            xorg_list_del(&elem.l);
+            elem.l.removeFromList();
             goto outOfMemory;
         }
     }
@@ -201,7 +201,7 @@ void ht_remove(HashTable ht, const(void)* key)
 
     mixin(xorg_list_for_each_entry!("it", "bucket", "l", q{
         if (ht.compare(ht.cdata, key, it.key) == 0) {
-            xorg_list_del(&it.l);
+            it.l.removeFromList();
             --ht.elements;
             free(it.key);
             free(it.data);

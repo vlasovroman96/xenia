@@ -583,7 +583,7 @@ private Bool ms_dri2_add_frame_event(ms_dri2_frame_event_ptr info)
 
     resource = ms_get_resource(info.drawable.id, frame_event_drawable_type);
     if (resource is null) {
-        xorg_list_del(&info.client_resource);
+        info.client_resource.removeFromList();
         return FALSE;
     }
 
@@ -594,8 +594,8 @@ private Bool ms_dri2_add_frame_event(ms_dri2_frame_event_ptr info)
 
 private void ms_dri2_del_frame_event(ms_dri2_frame_event_rec* info)
 {
-    xorg_list_del(&info.client_resource);
-    xorg_list_del(&info.drawable_resource);
+    info.client_resource.removeFromList();
+    info.drawable_resource.removeFromList();
 
     if (info.front)
         ms_dri2_destroy_buffer(null, info.front);
@@ -1144,7 +1144,7 @@ private int ms_dri2_frame_event_client_gone(void* data, XID id)
                                   "ms_dri2_frame_event_rec",
                                   "client_resource"));
 
-        xorg_list_del(&info.client_resource);
+        info.client_resource.removeFromList();
         info.client = null;
     }
     free(resource);
@@ -1161,7 +1161,7 @@ private int ms_dri2_frame_event_drawable_gone(void* data, XID id)
                                   "ms_dri2_frame_event_rec",
                                   "drawable_resource"));
 
-        xorg_list_del(&info.drawable_resource);
+        info.drawable_resource.removeFromList();
         info.drawable = null;
     }
     free(resource);

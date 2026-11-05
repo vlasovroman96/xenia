@@ -146,7 +146,7 @@ pragma(inline, true) void output_pending_mark(ClientPtr client)
 
 pragma(inline, true) void output_pending_clear(ClientPtr client)
 {
-    xorg_list_del(&client.output_pending);
+    client.output_pending.removeFromList();
 }
 
 pragma(inline, true) Bool any_output_pending() {

@@ -565,7 +565,7 @@ Bool ms_tearfree_dri_abort(xf86CrtcPtr crtc, Bool function(void* data, void* mat
     /* The window is getting destroyed; abort without notifying the client */
     mixin(xorg_list_for_each_entry!("flip", "&trf.dri_flip_list", "node", q{
         if (match(flip.flipdata.event, match_data)) {
-            xorg_list_del(&flip.node);
+            flip.node.removeFromList();
             ms_pageflip_abort(flip);
             return TRUE;
         }
@@ -609,7 +609,7 @@ private void ms_tearfree_dri_notify(drmmode_tearfree_ptr trf, ulong msc, ulong u
         if (flip.tearfree_seq) {
             flip.tearfree_seq = 0;
         } else {
-            xorg_list_del(&flip.node);
+            flip.node.removeFromList();
             ms_pageflip_handler(msc, usec, flip);
         }
     }));

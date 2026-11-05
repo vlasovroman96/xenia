@@ -344,7 +344,7 @@ void mark_client_saved_ready(ClientPtr client)
 /* Client has no requests queued and no data on network */
 void mark_client_not_ready(ClientPtr client)
 {
-    xorg_list_del(&client.ready);
+    client.ready.removeFromList();
 }
 
 private void mark_client_grab(ClientPtr grab)
@@ -353,7 +353,7 @@ private void mark_client_grab(ClientPtr grab)
 
     mixin(xorg_list_for_each_entry_safe!("client", "tmp", "&ready_clients", "ready", q{
         if (client != grab) {
-            xorg_list_del(&client.ready);
+            client.ready.removeFromList();
             saved_ready_clients.appendList(&client.ready);
         }
     }));
@@ -364,7 +364,7 @@ private void mark_client_ungrab()
     ClientPtr client = void, tmp = void;
 
     mixin(xorg_list_for_each_entry_safe!("client", "tmp", "&saved_ready_clients", "ready", q{
-        xorg_list_del(&client.ready);
+        client.ready.removeFromList();
         ready_clients.appendList(&client.ready);
     }));
 }
@@ -4176,7 +4176,7 @@ void DetachUnboundGPU(ScreenPtr secondary)
     assert(secondary.isGPU);
     assert(!secondary.is_output_secondary);
     assert(!secondary.is_offload_secondary);
-    xorg_list_del(&secondary.secondary_head);
+    secondary.secondary_head.removeFromList();
     secondary.current_primary = null;
 }
 

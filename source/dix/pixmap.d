@@ -380,7 +380,7 @@ Bool PixmapStopDirtyTracking(DrawablePtr src, PixmapPtr secondary_dst)
         if (ent.src == src && ent.secondary_dst == secondary_dst) {
             if (ent.damage)
                 DamageDestroy(ent.damage);
-            xorg_list_del(&ent.ent);
+            ent.ent.removeFromList();
             free(ent);
         }
     }));

@@ -1595,7 +1595,7 @@ static if(XINERAMA){
  restart:
     mixin(xorg_list_for_each_entry_safe!("qe", "tmp", "&syncEvents.pending", "next", q{
         if (!qe.device.deviceGrab.sync.frozen) {
-            xorg_list_del(&qe.next);
+            qe.next.removeFromList();
             pDev = qe.device;
             if (qe.event.any.type == ET_Motion)
                 CheckVirtualMotion(pDev, qe, NullWindow);

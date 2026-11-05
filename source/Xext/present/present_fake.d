@@ -62,7 +62,7 @@ private CARD32 present_fake_do_timer(OsTimerPtr timer, CARD32 time, void* arg)
     present_fake_vblank_ptr fake_vblank = cast(present_fake_vblank_ptr)arg;
 
     present_fake_notify(fake_vblank.screen, fake_vblank.event_id);
-    xorg_list_del(&fake_vblank.list);
+    fake_vblank.list.removeFromList();
     TimerFree(fake_vblank.timer);
     free(fake_vblank);
     return 0;
@@ -75,7 +75,7 @@ void present_fake_abort_vblank(ScreenPtr screen, ulong event_id, ulong msc)
     mixin(xorg_list_for_each_entry_safe!("fake_vblank", "tmp", "&fake_vblank_queue", "list", q{
         if (fake_vblank.event_id == event_id) {
             TimerFree(fake_vblank.timer); /* TimerFree will call TimerCancel() */
-            xorg_list_del(&fake_vblank.list);
+            fake_vblank.list.removeFromList();
             free (fake_vblank);
             break;
         }
