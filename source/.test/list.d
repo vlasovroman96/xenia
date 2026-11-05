@@ -39,14 +39,14 @@ import test.tests;
 
 struct parent {
     int a;
-    xorg_list children;
+    XList children;
     int b;
 }
 
 struct child {
     int foo;
     int bar;
-    xorg_list node;
+    XList node;
 }
 
 private void test_xorg_list_init()

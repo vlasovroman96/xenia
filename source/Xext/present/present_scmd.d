@@ -44,8 +44,8 @@ import present.present_vblank;
 
 private ulong present_scmd_event_id;
 
-private xorg_list present_exec_queue;
-private xorg_list present_flip_queue;
+private XList present_exec_queue;
+private XList present_flip_queue;
 
 
 

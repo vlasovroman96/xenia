@@ -198,12 +198,12 @@ enum string XI_VERIFY_VALUATORS(string num_valuators) = `
 
 
 struct PausedInputDeviceRec {
-    xorg_list node;
+    XList node;
     InputInfoPtr pInfo;
 }
 alias PausedInputDevicePtr = PausedInputDeviceRec*;
 
-private xorg_list new_input_devices_list = {
+private XList new_input_devices_list = {
     next: &new_input_devices_list,
     prev: &new_input_devices_list,
 };
@@ -674,7 +674,7 @@ version (HAVE_FNMATCH_H) {
  * Match an attribute against a list of xf86MatchGroup's.
  * Return TRUE only if each list entry is successful.
  */
-Bool MatchAttrToken(const(char)* attr, xorg_list* groups)
+Bool MatchAttrToken(const(char)* attr, XList* groups)
 {
     xf86MatchGroup* group = void;
     xf86MatchPattern* pattern = void;

@@ -124,7 +124,7 @@ struct ospollfd {
     _ospoll_trigger trigger;
     void function(int fd, int xevents, void* data) @nogc nothrow callback;
     void* data;
-    xorg_list deleted;
+    XList deleted;
 };
 
 struct ospoll {
@@ -132,7 +132,7 @@ struct ospoll {
     ospollfd** fds;
     int num;
     int size;
-    xorg_list deleted;
+    XList deleted;
 };
 
 }

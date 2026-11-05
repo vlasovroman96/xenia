@@ -75,7 +75,7 @@ alias device_state_removed = InputDeviceState.device_state_removed;
 
 
 struct InputThreadDevice {
-    xorg_list node;
+    XList node;
     NotifyFdProcPtr readInputProc;
     void* readInputArgs;
     int fd;
@@ -89,7 +89,7 @@ struct InputThreadDevice {
  */
 struct InputThreadInfo {
     pthread_t thread;
-    xorg_list devs;
+    XList devs;
     ospoll* fds;
     int readPipe;
     int writePipe;

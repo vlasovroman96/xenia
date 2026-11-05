@@ -122,7 +122,7 @@ private RESTYPE RTAwait;
 private RESTYPE RTAlarm;
 private RESTYPE RTAlarmClient;
 private RESTYPE RTFence;
-private xorg_list SysCounterList;
+private XList SysCounterList;
 private int SyncNumInvalidCounterWarnings = 0;
 
 enum MAX_INVALID_COUNTER_WARNINGS =	   5;

@@ -87,7 +87,7 @@ enum BarrierScreenPrivateKey = (&BarrierScreenPrivateKeyRec);
 alias PointerBarrierClientPtr = PointerBarrierClient*;
 
 struct PointerBarrierDevice {
-    xorg_list entry;
+    XList entry;
     int deviceid;
     Time last_timestamp;
     int barrier_event_id;
@@ -101,17 +101,17 @@ struct PointerBarrierClient {
     ScreenPtr pScreen;
     Window window;
     PointerBarrier barrier;
-    xorg_list entry;
+    XList entry;
     /* num_devices/device_ids are devices the barrier applies to */
     int num_devices;
     int* device_ids; /* num_devices */
 
     /* per_device keeps track of devices actually blocked by barriers */
-    xorg_list per_device;
+    XList per_device;
 }
 
 struct _BarrierScreen {
-    xorg_list barriers;
+    XList barriers;
 }alias BarrierScreenRec = _BarrierScreen;
 alias BarrierScreenPtr = _BarrierScreen*;
 

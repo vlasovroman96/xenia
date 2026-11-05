@@ -43,7 +43,7 @@ struct HashTableRec {
 
     int elements;   /* number of elements inserted */
     int bucketBits; /* number of buckets is 1 << bucketBits */
-    xorg_list* buckets;  /* array of bucket list heads */
+    XList* buckets;  /* array of bucket list heads */
 
     HashFunc hash;
     HashCompareFunc compare;
@@ -54,7 +54,7 @@ struct HashTableRec {
 alias HashTable = HashTableRec*;
 
 struct _BucketRec {
-    xorg_list l;
+    XList l;
     void* key;
     void* data;
 }alias BucketRec = _BucketRec;
@@ -77,7 +77,7 @@ HashTable ht_create(int keySize, int dataSize, HashFunc hash, HashCompareFunc co
     ht.elements = 0;
     ht.bucketBits = INITHASHSIZE;
     numBuckets = 1 << ht.bucketBits;
-    ht.buckets = cast(xorg_list*)calloc(numBuckets, typeof(*ht.buckets).sizeof);
+    ht.buckets = cast(XList*)calloc(numBuckets, typeof(*ht.buckets).sizeof);
     ht.cdata = cdata;
 
     if (ht.buckets) {
@@ -118,13 +118,13 @@ void ht_destroy(HashTable ht)
 
 private Bool double_size(HashTable ht)
 {
-    xorg_list* newBuckets = void;
+    XList* newBuckets = void;
     int numBuckets = 1 << ht.bucketBits;
     int newBucketBits = ht.bucketBits + 1;
     int newNumBuckets = 1 << newBucketBits;
     int c = void;
 
-    newBuckets = cast(xorg_list*) calloc(newNumBuckets, typeof(*ht.buckets).sizeof);
+    newBuckets = cast(XList*) calloc(newNumBuckets, typeof(*ht.buckets).sizeof);
     if (newBuckets) {
         for (c = 0; c < newNumBuckets; ++c) {
             xorg_list_init(&newBuckets[c]);
@@ -133,7 +133,7 @@ private Bool double_size(HashTable ht)
         for (c = 0; c < numBuckets; ++c) {
             BucketPtr it = void, tmp = void;
             mixin(xorg_list_for_each_entry_safe!("it", "tmp", "&ht.buckets[c]", "l", q{
-                xorg_list* newBucket = &newBuckets[ht.hash(ht.cdata, it.key, newBucketBits)];
+                XList* newBucket = &newBuckets[ht.hash(ht.cdata, it.key, newBucketBits)];
                 xorg_list_del(&it.l);
                 xorg_list_add(&it.l, newBucket);
             }));
@@ -151,7 +151,7 @@ private Bool double_size(HashTable ht)
 void* ht_add(HashTable ht, const(void)* key)
 {
     uint index = ht.hash(ht.cdata, key, ht.bucketBits);
-    xorg_list* bucket = &ht.buckets[index];
+    XList* bucket = &ht.buckets[index];
     BucketRec* elem = cast(BucketRec*) cast(BucketRec*) calloc(1, BucketRec.sizeof);
     if (!elem) {
         goto outOfMemory;
@@ -196,7 +196,7 @@ void* ht_add(HashTable ht, const(void)* key)
 void ht_remove(HashTable ht, const(void)* key)
 {
     uint index = ht.hash(ht.cdata, key, ht.bucketBits);
-    xorg_list* bucket = &ht.buckets[index];
+    XList* bucket = &ht.buckets[index];
     BucketPtr it = void;
 
     mixin(xorg_list_for_each_entry!("it", "bucket", "l", q{
@@ -213,7 +213,7 @@ void ht_remove(HashTable ht, const(void)* key)
 void* ht_find(HashTable ht, const(void)* key)
 {
     uint index = ht.hash(ht.cdata, key, ht.bucketBits);
-    xorg_list* bucket = &ht.buckets[index];
+    XList* bucket = &ht.buckets[index];
     BucketPtr it = void;
 
     mixin(xorg_list_for_each_entry!("it", "bucket", "l", q{

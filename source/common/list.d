@@ -48,13 +48,13 @@ public import core.stdc.stddef; /* offsetof() */
  *
  *     struct bar {
  *          ...
- *          struct xorg_list list_of_foos;
+ *          struct XList list_of_foos;
  *          ...
  *     }
  *
  *     struct foo {
  *          ...
- *          struct xorg_list entry;
+ *          struct XList entry;
  *          ...
  *     }
  *
@@ -105,16 +105,16 @@ public import core.stdc.stddef; /* offsetof() */
 
 /**
  * The linkage struct for list nodes. This struct must be part of your
- * to-be-linked struct. struct xorg_list is required for both the head of the
+ * to-be-linked struct. struct XList is required for both the head of the
  * list and for each list node.
  *
- * Position and name of the struct xorg_list field is irrelevant.
+ * Position and name of the struct XList field is irrelevant.
  * There are no requirements that elements of a list are of the same type.
- * There are no requirements for a list head, any struct xorg_list can be a list
+ * There are no requirements for a list head, any struct XList can be a list
  * head.
  */
-struct xorg_list {
-    xorg_list* next, prev;
+struct XList {
+    XList* next, prev;
 }
 
 /**
@@ -125,18 +125,18 @@ struct xorg_list {
  *
  * @param list The list to initialize
  */
-pragma(inline, true) void xorg_list_init(xorg_list* list)
+pragma(inline, true) void xorg_list_init(XList* list)
 {
     list.next = list.prev = list;
 }
 
-pragma(inline, true) void __xorg_list_autoinit(xorg_list* head)
+pragma(inline, true) void __xorg_list_autoinit(XList* head)
 {
     if ((!head.prev) && (!head.next))
         xorg_list_init(head);
 }
 
-pragma(inline, true) void __xorg_list_add(xorg_list* entry, xorg_list* prev, xorg_list* next)
+pragma(inline, true) void __xorg_list_add(XList* entry, XList* prev, XList* next)
 {
     next.prev = entry;
     entry.next = next;
@@ -159,7 +159,7 @@ pragma(inline, true) void __xorg_list_add(xorg_list* entry, xorg_list* prev, xor
  * @param entry The new element to prepend to the list.
  * @param head The existing list.
  */
-pragma(inline, true) void xorg_list_add(xorg_list* entry, xorg_list* head)
+pragma(inline, true) void xorg_list_add(XList* entry, XList* head)
 {
     __xorg_list_autoinit(head);
     __xorg_list_add(entry, head, head.next);
@@ -180,13 +180,13 @@ pragma(inline, true) void xorg_list_add(xorg_list* entry, xorg_list* head)
  * @param entry The new element to append to the list.
  * @param head The existing list.
  */
-pragma(inline, true) void xorg_list_append(xorg_list* entry, xorg_list* head)
+pragma(inline, true) void xorg_list_append(XList* entry, XList* head)
 {
     __xorg_list_autoinit(head);
     __xorg_list_add(entry, head.prev, head);
 }
 
-pragma(inline, true) void __xorg_list_del(xorg_list* prev, xorg_list* next)
+pragma(inline, true) void __xorg_list_del(XList* prev, XList* next)
 {
     next.prev = prev;
     prev.next = next;
@@ -206,7 +206,7 @@ pragma(inline, true) void __xorg_list_del(xorg_list* prev, xorg_list* next)
  *
  * @param entry The element to remove.
  */
-pragma(inline, true) void xorg_list_del(xorg_list* entry)
+pragma(inline, true) void xorg_list_del(XList* entry)
 {
     __xorg_list_del(entry.prev, entry.next);
     xorg_list_init(entry);
@@ -221,7 +221,7 @@ pragma(inline, true) void xorg_list_del(xorg_list* entry)
  * @return True if the list is empty or False if the list contains one or more
  * elements.
  */
-pragma(inline, true) int xorg_list_is_empty(xorg_list* head)
+pragma(inline, true) int xorg_list_is_empty(XList* head)
 {
     return ((head.next is null) || (head.next == head));
 }
@@ -233,9 +233,9 @@ pragma(inline, true) int xorg_list_is_empty(xorg_list* head)
  * @param head The existing list.
  * @return zero when entry isn't present in list, otherwise non-zero
  */
-pragma(inline, true) int xorg_list_present(xorg_list* entry, xorg_list* head)
+pragma(inline, true) int xorg_list_present(XList* entry, XList* head)
 {
-    for (xorg_list* l = head.next; l && (l != head); l=l.next) {
+    for (XList* l = head.next; l && (l != head); l=l.next) {
         if (l == entry)
             return 1;
     }
@@ -251,7 +251,7 @@ pragma(inline, true) int xorg_list_present(xorg_list* entry, xorg_list* head)
  * @param head The existing list.
  * @return zero if element already in list, otherwise non-zero
  */
-pragma(inline, true) int xorg_list_add_ndup(xorg_list* entry, xorg_list* head)
+pragma(inline, true) int xorg_list_add_ndup(XList* entry, XList* head)
 {
     if (xorg_list_present(entry, head))
         return 0;
@@ -269,7 +269,7 @@ pragma(inline, true) int xorg_list_add_ndup(xorg_list* entry, xorg_list* head)
  * @param head The existing list.
  * @return zero if element already in list, otherwise non-zero
  */
-pragma(inline, true) int xorg_list_append_ndup(xorg_list* entry, xorg_list* head)
+pragma(inline, true) int xorg_list_append_ndup(XList* entry, XList* head)
 {
     if (xorg_list_present(entry, head))
         return 0;
@@ -288,7 +288,7 @@ pragma(inline, true) int xorg_list_append_ndup(xorg_list* entry, xorg_list* head
  *
  * @param ptr Pointer to the struct xorg_list.
  * @param type Data type of the list element.
- * @param member Member name of the struct xorg_list field in the list element.
+ * @param member Member name of the struct XList field in the list element.
  * @return A pointer to the data struct containing the list head.
  */
 
@@ -325,7 +325,7 @@ enum xorg_list_entry(string ptr, string type, string member) =
  *
  * @param ptr The list head
  * @param type Data type of the list element to retrieve
- * @param member Member name of the struct xorg_list field in the list element.
+ * @param member Member name of the struct XList field in the list element.
  * @return A pointer to the first list element.
  */
 enum string xorg_list_first_entry(string ptr, string type, string member) = "
@@ -340,7 +340,7 @@ enum string xorg_list_first_entry(string ptr, string type, string member) = "
  *
  * @param ptr The list head
  * @param type Data type of the list element to retrieve
- * @param member Member name of the struct xorg_list field in the list element.
+ * @param member Member name of the struct XList field in the list element.
  * @return A pointer to the last list element.
  */
 enum string xorg_list_last_entry(string ptr, string type, string member) = `
@@ -363,7 +363,7 @@ alias __container_of(alias ptr, alias sample, alias member) =
  *
  * @param pos Iterator variable of the type of the list elements.
  * @param head List head
- * @param member Member name of the struct xorg_list in the list elements.
+ * @param member Member name of the struct XList in the list elements.
  *
  */
 //  pragma(msg, xorg_list_for_each_entry!(
@@ -409,7 +409,7 @@ template xorg_list_for_each_entry_safe(
 // alias 
 /* NULL-Terminated List Interface
  *
- * The interface below does _not_ use the struct xorg_list as described above.
+ * The interface below does _not_ use the struct XList as described above.
  * It is mainly for legacy structures that cannot easily be switched to
  * struct xorg_list.
  *

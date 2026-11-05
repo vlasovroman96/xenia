@@ -55,8 +55,8 @@ enum string SaveSetAssignMap(string ss,string m) = `((` ~ ss ~ `).map = (` ~ m ~
 struct _Client {
     void* requestBuffer;
     void* osPrivate;             /* for OS layer, including scheduler */
-    xorg_list ready;      /* List of clients ready to run */
-    xorg_list output_pending; /* List of clients with output queued */
+    XList ready;      /* List of clients ready to run */
+    XList output_pending; /* List of clients with output queued */
     Mask clientAsMask;
     ushort index;
     ubyte majorOp, minorOp;
@@ -136,7 +136,7 @@ pragma(inline, true) Bool client_is_ready(ClientPtr client)
 
 // Bool clients_are_ready();
 
-// xorg_list output_pending_clients;
+// XList output_pending_clients;
 
 pragma(inline, true) void output_pending_mark(ClientPtr client)
 {

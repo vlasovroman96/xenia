@@ -667,7 +667,7 @@ struct InputInfo {
 
 /* for keeping the events for devices grabbed synchronously */
 struct _QdEvent {
-    xorg_list next;
+    XList next;
     DeviceIntPtr device;
     ScreenPtr pScreen;          /* what screen the pointer was on */
     c_ulong months;       /* milliseconds is in the event */
@@ -686,7 +686,7 @@ alias QdEventRec = _QdEvent;
  * replayed and processed as if they would come from the device directly.
  */
 struct _EventSyncInfo {
-    xorg_list pending;
+    XList pending;
 
     /** The device to replay events for. Only set in AllowEvents(), in which
      * case it is set to the device specified in the request. */

@@ -679,8 +679,8 @@ struct _Screen {
     Bool isGPU;
 
     /* Info on this screen's secondarys (if any) */
-    xorg_list secondary_list;
-    xorg_list secondary_head;
+    XList secondary_list;
+    XList secondary_head;
     int output_secondarys;
     /* Info for when this screen is a secondary */
     ScreenPtr current_primary;
@@ -699,7 +699,7 @@ struct _Screen {
     PresentSharedPixmapProcPtr PresentSharedPixmap;
     StopFlippingPixmapTrackingProcPtr StopFlippingPixmapTracking;
 
-    xorg_list pixmap_dirty_list;
+    XList pixmap_dirty_list;
 
     ReplaceScanoutPixmapProcPtr ReplaceScanoutPixmap;
     XYToWindowProcPtr XYToWindow;

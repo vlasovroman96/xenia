@@ -110,7 +110,7 @@ static if(DPMSExtension) {
 }
 
 struct _OsTimerRec {
-    xorg_list list;
+    XList list;
     CARD32 expires;
     CARD32 delta;
     OsTimerCallback callback;
@@ -119,7 +119,7 @@ struct _OsTimerRec {
 
 
 
-private /*volatile*/ xorg_list timers;
+private /*volatile*/ XList timers;
 
 pragma(inline, true) private OsTimerPtr first_timer()
 {
@@ -381,7 +381,7 @@ void TimerInit()
 
     if (!been_here) {
         been_here = TRUE;
-        xorg_list_init(cast(xorg_list*) &timers);
+        xorg_list_init(cast(XList*) &timers);
     }
 
     mixin(xorg_list_for_each_entry_safe!("timer", "tmp", "&timers", "list", q{

@@ -15,7 +15,7 @@ import dix.scrintstr;
 import x11.Xprotostr;
 
 struct xnest_event_queue {
-    xorg_list entry;
+    XList entry;
     xcb_generic_event_t* event;
 }
 

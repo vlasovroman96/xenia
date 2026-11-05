@@ -25,7 +25,7 @@ import xf86Parser_priv;
 /* A group (which is a struct xf86MatchGroup) represents a complex condition
  * that should be satisfied if is_negated_is true or should not be satisfied
  * otherwise, for an input or output device to be accepted. A group contains
- * an xorg_list patterns.
+ * an XList patterns.
  *
  * Each pattern (a struct xf86MatchPattern) is a subcondition. The logical value
  * of a group is true if and only if at least one subcondition is true, i.e.,

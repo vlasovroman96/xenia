@@ -228,7 +228,7 @@ alias drmmode_prop_enum_info_ptr = drmmode_prop_enum_info_rec*;
 struct drmmode_mode_rec{
     drmModeModeInfo mode_info;
     uint32_t blob_id;
-    xorg_list entry;
+    XList entry;
 } 
 alias drmmode_mode_ptr = drmmode_mode_rec*;
 
@@ -278,7 +278,7 @@ struct drmmode_crtc_private_rec {
     int cursor_height;
 
     Bool need_modeset;
-    xorg_list mode_list;
+    XList mode_list;
 
     Bool enable_flipping;
     Bool flipping_active;
@@ -312,7 +312,7 @@ alias drmmode_shadow_fb_ptr = drmmode_shadow_fb_rec*;
 
 struct drmmode_tearfree_rec{
     drmmode_shadow_fb_rec[2] buf;
-    xorg_list dri_flip_list;
+    XList dri_flip_list;
     uint32_t back_idx;
     uint32_t flip_seq;
 } 

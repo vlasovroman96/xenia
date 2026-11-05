@@ -54,7 +54,7 @@ import os.connection;
  * to actually drain the kernel events.
  */
 //  alias ms_drm_queue = hw.xfree86.drivers.video.modesetting.driver.ms_drm_queue;
-xorg_list ms_drm_queue_;
+XList ms_drm_queue_;
 uint ms_drm_seq;
 alias UINT64_MAX = core.stdc.stdint.UINT64_MAX;
 void box_intersect(BoxPtr dest, BoxPtr a, BoxPtr b)

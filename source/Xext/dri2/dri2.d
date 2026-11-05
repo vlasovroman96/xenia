@@ -88,7 +88,7 @@ alias DRI2ScreenRec = _DRI2Screen;
 struct _DRI2Drawable {
     DRI2ScreenPtr dri2_screen;
     DrawablePtr drawable;
-    xorg_list reference_list;
+    XList reference_list;
     int width;
     int height;
     DRI2BufferPtr* buffers;
@@ -303,7 +303,7 @@ struct DRI2DrawableRefRec {
     XID dri2_id;
     DRI2InvalidateProcPtr invalidate;
     void* priv;
-    xorg_list link;
+    XList link;
 }alias DRI2DrawableRefPtr = DRI2DrawableRefRec*;
 
 private DRI2DrawableRefPtr DRI2LookupDrawableRef(DRI2DrawablePtr pPriv, XID id)

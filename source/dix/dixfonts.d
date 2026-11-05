@@ -1978,7 +1978,7 @@ private void fs_block_handler(void* blockData, void* timeout)
 }
 
 struct fs_fd_entry {
-    xorg_list entry;
+    XList entry;
     int fd;
     void* data;
     FontFdHandlerProcPtr handler;
@@ -1991,7 +1991,7 @@ private void fs_fd_handler(int fd, int ready, void* data)
     assumeNoGC(entry.handler)(fd, entry.data);
 }
 
-private xorg_list fs_fd_list;
+private XList fs_fd_list;
 
 private int add_fs_fd(int fd, FontFdHandlerProcPtr handler, void* data)
 {

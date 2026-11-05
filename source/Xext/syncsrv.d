@@ -85,7 +85,7 @@ struct _SysCounterInfo {
     SyncSystemCounterQueryValue QueryValue;
     SyncSystemCounterBracketValues BracketValues;
     void* private_;
-    xorg_list entry;
+    XList entry;
 }
 alias SysCounterInfo = _SysCounterInfo;
 

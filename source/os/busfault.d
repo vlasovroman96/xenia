@@ -43,7 +43,7 @@ import externs.attrs;
 alias busfault_notify_ptr = void function(void *context);
 
 struct busfault {
-    xorg_list list;
+    XList list;
 
     void* addr;
     size_t size;
@@ -55,7 +55,7 @@ struct busfault {
 }
 
 private Bool busfaulted;
-private xorg_list busfaults;
+private XList busfaults;
 
 busfault* busfault_register_mmap(void* addr, size_t size, busfault_notify_ptr notify, void* context)
 {

@@ -216,7 +216,7 @@ alias RRLeaseTerminating = RRLeaseState.RRLeaseTerminating;
 
 
 struct _rrLease {
-    xorg_list list;
+    XList list;
     ScreenPtr screen;
     RRLease id;
     RRLeaseState state;
@@ -390,7 +390,7 @@ static if (RANDR_13_INTERFACE) {
     int numMonitors;
     RRMonitorPtr* monitors;
 
-    xorg_list leases;
+    XList leases;
 
     RRRequestLeaseProcPtr rrRequestLease;
     RRGetLeaseProcPtr rrGetLease;

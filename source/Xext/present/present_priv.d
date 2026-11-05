@@ -177,14 +177,14 @@ alias present_notify_rec = present_notify;
 alias present_notify_ptr = present_notify*;
 
 struct present_notify {
-    xorg_list window_list;
+    XList window_list;
     WindowPtr window;
     CARD32 serial;
 }
 
 struct present_vblank {
-    xorg_list window_list;
-    xorg_list event_queue;
+    XList window_list;
+    XList event_queue;
     ScreenPtr screen;
     WindowPtr window;
     PixmapPtr pixmap;
@@ -359,8 +359,8 @@ struct present_window_priv_t {
     RRCrtcPtr crtc;        /* Last reported CRTC from get_ust_msc */
     ulong msc_offset;
     ulong msc;         /* Last reported MSC from the current crtc */
-    xorg_list vblank;
-    xorg_list notifies;
+    XList vblank;
+    XList notifies;
 }
 
 enum PresentCrtcNeverSet =     cast(RRCrtcPtr) 1;

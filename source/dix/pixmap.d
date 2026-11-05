@@ -107,7 +107,7 @@ struct _PixmapDirtyUpdate {
     PixmapPtr secondary_dst;    /* Shared / scanout pixmap */
     int x, y;
     DamagePtr damage;
-    xorg_list ent;
+    XList ent;
     int dst_x, dst_y;
     Rotation rotation;
     PictTransform transform;

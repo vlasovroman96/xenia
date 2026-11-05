@@ -30,10 +30,10 @@ import os.utils;
 import os.WaitFor;
 
 
-private xorg_list fake_vblank_queue;
+private XList fake_vblank_queue;
 
 struct present_fake_vblank {
-    xorg_list list;
+    XList list;
     ulong event_id;
     OsTimerPtr timer;
     ScreenPtr screen;

@@ -41,11 +41,11 @@ import os.log;
 struct GlxServerVendorRec {
     GlxServerImports glxvc;
 
-    xorg_list entry;
+    XList entry;
 };
 
 
-xorg_list GlxVendorList = { &GlxVendorList, &GlxVendorList };
+XList GlxVendorList = { &GlxVendorList, &GlxVendorList };
 
 GlxServerVendor* GlxCreateVendor(const(GlxServerImports)* imports)
 {

@@ -23,6 +23,6 @@ InputInfoPtr xf86LookupInput(const(char)* name);
 
 // void xf86RemoveInputEventDrainCallback(CallbackProcPtr callback, void* param);
 
-// Bool MatchAttrToken(const(char)* attr, xorg_list* groups);
+// Bool MatchAttrToken(const(char)* attr, XList* groups);
 
  /* _XSERVER__XF86XINPUT_H */

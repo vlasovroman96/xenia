@@ -145,7 +145,7 @@ enum string modesettingPTR(string p)= `(cast(modesettingPtr)((`~p~`).driverPriva
  * the kernel, and what to do when it is encountered.
  */
 struct ms_drm_queue {
-    xorg_list list;
+    XList list;
     xf86CrtcPtr crtc;
     uint32_t seq;
     uint64_t msc;

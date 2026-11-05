@@ -35,7 +35,7 @@ pragma(inline, true) void xf86freeMatchGroup(xf86MatchGroup* group)
     free(group);
 }
 
-pragma(inline, true) void xf86freeMatchGroupList(xorg_list* grouplist) {
+pragma(inline, true) void xf86freeMatchGroupList(XList* grouplist) {
     xf86MatchGroup* group = void, next = void;
     mixin(xorg_list_for_each_entry_safe!("group", "next", "grouplist", "entry", q{
         xf86freeMatchGroup(group);

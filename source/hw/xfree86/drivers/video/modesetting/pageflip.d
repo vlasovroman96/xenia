@@ -119,7 +119,7 @@ struct ms_crtc_pageflip {
     Bool on_reference_crtc;
     /* reference to the ms_flipdata */
     ms_flipdata* flipdata;
-    xorg_list node;
+    XList node;
     uint tearfree_seq;
 }
 

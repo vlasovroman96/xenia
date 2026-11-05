@@ -106,12 +106,12 @@ private void FreeStringList(char** paths)
 private char** defaultPathList = null;
 
 struct LoaderModulePathListItem {
-    xorg_list entry;
+    XList entry;
     char* name;
     char** paths;
 }
 
-xorg_list modulePathLists;
+XList modulePathLists;
 
 void LoaderInitPath() {
     /* defaultPathList is already set in xf86Init */

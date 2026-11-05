@@ -264,7 +264,7 @@ struct ms_dri2_frame_event {
     int frame;
     xf86CrtcPtr crtc;
 
-    xorg_list drawable_resource, client_resource;
+    XList drawable_resource, client_resource;
 
     /* for swaps & flips only */
     DRI2SwapEventPtr event_complete;
@@ -287,7 +287,7 @@ private x_server_generation_t ms_dri2_server_generation;
 struct ms_dri2_resource {
     XID id;
     RESTYPE type;
-    xorg_list list;
+    XList list;
 }
 
 private ms_dri2_resource* ms_get_resource(XID id, RESTYPE type)

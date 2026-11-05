@@ -308,9 +308,9 @@ c_long SmartLastPrint;
 
 
 
-private xorg_list ready_clients;
-private xorg_list saved_ready_clients;
-xorg_list output_pending_clients;
+private XList ready_clients;
+private XList saved_ready_clients;
+XList output_pending_clients;
 
 private void init_client_ready()
 {

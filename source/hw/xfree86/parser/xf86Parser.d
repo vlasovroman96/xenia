@@ -322,8 +322,8 @@ struct xf86TriState {
 }
 
 struct xf86MatchGroup {
-    xorg_list entry;
-    xorg_list patterns;
+    XList entry;
+    XList patterns;
     Bool is_negated;
 }
 
@@ -350,7 +350,7 @@ alias MATCH_REGEX = xf86MatchMode.MATCH_REGEX;
 
 
 struct xf86MatchPattern {
-    xorg_list entry;
+    XList entry;
     xf86MatchMode mode;
     Bool is_negated;
     char* str;
@@ -361,15 +361,15 @@ struct _XF86ConfInputClassRec {
     GenericListRec list;
     char* identifier;
     char* driver;
-    xorg_list match_product;
-    xorg_list match_vendor;
-    xorg_list match_device;
-    xorg_list match_os;
-    xorg_list match_pnpid;
-    xorg_list match_usbid;
-    xorg_list match_driver;
-    xorg_list match_tag;
-    xorg_list match_layout;
+    XList match_product;
+    XList match_vendor;
+    XList match_device;
+    XList match_os;
+    XList match_pnpid;
+    XList match_usbid;
+    XList match_driver;
+    XList match_tag;
+    XList match_layout;
     xf86TriState is_keyboard;
     xf86TriState is_pointer;
     xf86TriState is_joystick;
@@ -388,8 +388,8 @@ struct _XF86ConfOutputClassRec {
     char* driver;
     char* modules;
     char* modulepath;
-    xorg_list match_driver;
-    xorg_list match_layout;
+    XList match_driver;
+    XList match_layout;
     XF86OptionPtr option_lst;
     char* comment;
 }alias XF86ConfOutputClassRec = _XF86ConfOutputClassRec;

@@ -48,7 +48,7 @@ Bool noResExtension = FALSE;
  *
  *  note: there is no consideration for data alignment */
 struct FragmentList {
-    xorg_list l;
+    XList l;
     int bytes;
     /* data follows */
 }
@@ -74,7 +74,7 @@ struct ConstructResourceBytesCtx {
     ClientPtr sendClient;
     int numSizes;
     int resultBytes;
-    xorg_list response;
+    XList response;
     int status;
     c_long numSpecs;
     xXResResourceIdSpec* specs;
@@ -107,7 +107,7 @@ struct ConstructResourceBytesCtx {
             that is to be filled by the caller. On error (out of memory)
             returns NULL and makes no changes to the list.
 */
-private void* AddFragment(xorg_list* frags, int bytes)
+private void* AddFragment(XList* frags, int bytes)
 {
     FragmentList* f = cast(FragmentList*) calloc(1, ((FragmentList).sizeof + bytes));
     if (!f) {
@@ -123,7 +123,7 @@ private void* AddFragment(xorg_list* frags, int bytes)
 
     @param frags The head of the list of fragments
 */
-private void DestroyFragments(xorg_list* frags)
+private void DestroyFragments(XList* frags)
 {
     FragmentList* it = void, tmp = void;
     if (!xorg_list_is_empty(frags)) {
@@ -508,9 +508,9 @@ private void SwapXResResourceSizeValue(xXResResourceSizeValue* reply)
 }
 
 /** @brief Swaps the response bytes */
-private void SwapXResQueryResourceBytes(xorg_list* response)
+private void SwapXResQueryResourceBytes(XList* response)
 {
-    xorg_list* it = response.next;
+    XList* it = response.next;
 
     while (it != response) {
         xXResResourceSizeValue* value = cast(xXResResourceSizeValue*)mixin(FRAGMENT_DATA!(`it`));
