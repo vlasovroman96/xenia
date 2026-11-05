@@ -216,26 +216,17 @@ struct XList {
         this.appendList(elem);
         return 1;
     }
+
+    /** 
+     * Returns: 
+     *      Container instance of type **T** where XList node element has name **member**
+     */
+    T* getContainer(T, string member = "list")() {
+        enum offset = __traits(getMember, T.init, member).offsetof;
+
+        return cast(T*)(cast(ubyte*)&this - offset);
+    }
 }
-
-/**
- * Returns a pointer to the container of this list element.
- *
- * Example:
- * struct foo* f;
- * f = container_of(&foo->entry, struct foo, entry);
- * assert(f == foo);
- *
- * @param ptr Pointer to the struct xorg_list.
- * @param type Data type of the list element.
- * @param member Member name of the struct XList field in the list element.
- * @return A pointer to the data struct containing the list head.
- */
-
-// version (container_of) {} else {
-// enum string container_of(string ptr, string type, string member) = `
-//     cast(type*)(cast(char*)(` ~ ptr ~ `) - ` ~type~`.`~member~`.offsetof)`;
-// }
 
 template offsetof(T, string member)
 {
@@ -243,6 +234,7 @@ template offsetof(T, string member)
         __traits(getMember, T.init, member).offsetof;
 }
 
+@property
 T* containerOf(T, string member)(void* ptr)
 {
     enum offset = __traits(getMember, T.init, member).offsetof;
@@ -254,7 +246,7 @@ T* containerOf(T, string member)(void* ptr)
  * Alias of container_of
  */
 enum xorg_list_entry(string ptr, string type, string member) =
-    "containerOf!(" ~ type ~ ", \"" ~ member ~ "\")(" ~ ptr ~ ")";
+    "containerOf!("~type~", `"~member~"`)("~ptr~")";
 
 /**
  * Retrieve the first list entry for the given list pointer.
@@ -286,8 +278,8 @@ enum string xorg_list_first_entry(string ptr, string type, string member) = "
 enum string xorg_list_last_entry(string ptr, string type, string member) = `
     ` ~ xorg_list_entry!(`(` ~ ptr ~ `).prev`, type, member) ~ ``;
 
-alias __container_of(alias ptr, alias sample, alias member) = 
-    container_of!(sample, member )(ptr);
+// alias __container_of(alias ptr, alias sample, alias member) = 
+//     container_of!(sample, member )(ptr);
 
 /**
  * Loop through the list given by head and set pos to struct in the list.
@@ -315,9 +307,9 @@ alias __container_of(alias ptr, alias sample, alias member) =
 template xorg_list_for_each_entry(string pos, string head, string member, string bodyCode)
 {
     const string xorg_list_for_each_entry = 
-        "for (" ~ pos ~ " = containerOf!(typeof(*" ~ pos ~ "), \"" ~ member ~ "\")((" ~ head ~ ").next); "
+        "for (" ~ pos ~ " = ("~head~").next.getContainer!(typeof(*" ~ pos ~ "), \"" ~ member ~ "\"); "
         ~ "(((" ~ head ~ ").next !is null) && &" ~ pos ~ "." ~ member ~ " !is (" ~ head ~ ")); "
-        ~ pos ~ " = containerOf!(typeof(*" ~ pos ~ "), \"" ~ member ~ "\")(" ~ pos ~ "." ~ member ~ ".next)) {"
+        ~ pos ~ " = "~pos~"."~member~".next.getContainer!(typeof(*" ~ pos ~ "), \"" ~ member ~ "\")) {"
         ~ bodyCode
         ~ "}";
 }
@@ -337,11 +329,11 @@ template xorg_list_for_each_entry_safe(
 {
     enum xorg_list_for_each_entry_safe =
         "for ("
-        ~ pos ~ " = containerOf!(typeof(*" ~ pos ~ "), \"" ~ member ~ "\")((" ~ head ~ ").next), "
-        ~ tmp ~ " = containerOf!(typeof(*" ~ pos ~ "), \"" ~ member ~ "\")(" ~ pos ~ "." ~ member ~ ".next); "
+        ~ pos ~ " = ("~head~").next.getContainer!(typeof(*" ~ pos ~ "), `" ~ member ~ "`), "
+        ~ tmp ~ " = "~pos~"."~member~".next.getContainer!(typeof(*" ~ pos ~ "), \"" ~ member ~ "\"); "
         ~ "(((" ~ head ~ ").next !is null) && &" ~ pos ~ "." ~ member ~ " != (" ~ head ~ ")); "
         ~ pos ~ " = " ~ tmp ~ ", "
-        ~ tmp ~ " = containerOf!(typeof(*" ~ tmp ~ "), \"" ~ member ~ "\")(" ~ pos ~ "." ~ member ~ ".next)) {"
+        ~ tmp ~ " = "~pos~"."~member~".next.getContainer!(typeof(*" ~ tmp ~ "), \"" ~ member ~ "\")) {"
         ~ bodyCode
         ~ "}";
 }

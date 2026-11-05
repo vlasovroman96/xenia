@@ -646,7 +646,7 @@ private int BarrierFreeBarrier(void* data, XID id)
     Time ms = GetTimeInMillis();
     DeviceIntPtr dev = null;
 
-    c = containerOf!(PointerBarrierClient, "barrier")(data);
+    c = data.containerOf!(PointerBarrierClient, "barrier");
     ScreenPtr pScreen = c.pScreen;
 
     for (dev = inputInfo.devices; dev; dev = dev.next) {
