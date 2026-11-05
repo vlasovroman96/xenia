@@ -14,7 +14,7 @@ public import dix.screenint_priv;
 public import dix.callback;
 public import dix.events;
 public import dix.gc;
-public import include.micmap;
+public import mi.micmap;
 public import include.pixmap;
 public import include.regionstr;
 public import include.scrintstr;

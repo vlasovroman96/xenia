@@ -48,6 +48,35 @@ import dix.resource;
 import dix.colormap;
 import dix.window;
 
+public import dix.colormap;
+public import include.privates;
+public import include.scrintstr;
+public import mi.micmap;
+
+DevPrivateKeyRec micmapScrPrivateKeyRec;
+
+enum micmapScrPrivateKey = (&micmapScrPrivateKeyRec);
+
+// void  miListInstalledColormaps(ScreenPtr pScreen, Colormap* pmaps);
+// void  miInstallColormap(ColormapPtr pmap);
+// void  miUninstallColormap(ColormapPtr pmap);
+// void  miResolveColor(ushort*, ushort*, ushort*, VisualPtr);
+// void  miInitializeColormap(ColormapPtr);
+// void  miCreateDefColormap(ScreenPtr);
+// void  miClearVisualTypes();
+// void  miSetVisualTypes(int, int, int, int);
+// void  miSetPixmapDepths();
+// void  miSetVisualTypesAndMasks(int depth, int visuals, int bitsPerRGB, int preferredCVC, Pixel redMask, Pixel greenMask, Pixel blueMask);
+// void  miGetDefaultVisualMask(int);
+// void  miInitVisuals(VisualPtr*, DepthPtr*, int*, int*, int*, VisualID*, c_ulong, int, int);
+
+enum MAX_PSEUDO_DEPTH =	10;
+
+enum StaticColorMask =	(1 << StaticColor);
+enum PseudoColorMask =	(1 << PseudoColor);
+enum TrueColorMask =	(1 << TrueColor);
+enum DirectColorMask =	(1 << DirectColor);
+
 enum MIN_TRUE_DEPTH =  6;
 
 enum StaticGrayMask =  (1 << StaticGray);
