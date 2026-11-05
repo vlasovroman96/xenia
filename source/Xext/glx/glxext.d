@@ -41,7 +41,7 @@ import os.client_priv;
 
 import glx.glxserver;
 import include.windowstr;
-import include.propertyst;
+import dix.property;
 import dix.privates;
 import os.os;
 import glx.unpack;

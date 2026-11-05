@@ -60,7 +60,7 @@ import os.os;
 import include.servermd;
 import dix.pixmap;
 import include.windowstr;
-import include.propertyst;
+import dix.property;
 import dix.gc;
 import hw.xfree86.loader.loaderProcs;
 import xf86_priv;

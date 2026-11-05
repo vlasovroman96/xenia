@@ -96,7 +96,7 @@ CallbackListPtr PropertyFilterCallback;
 
 int dixLookupProperty(PropertyPtr* result, WindowPtr pWin, Atom proprty, ClientPtr pClient, Mask access_mode);
 
-void DeleteAllWindowProperties(WindowPtr pWin);
+// void DeleteAllWindowProperties(WindowPtr pWin);
 
 int DeleteProperty(ClientPtr client, WindowPtr pWin, Atom propName);
 

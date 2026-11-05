@@ -132,7 +132,7 @@ import os.os;
 import include.regionstr;
 import include.validate;
 import include.windowstr;
-import include.propertyst;
+import dix.property;
 import dix.inputstr;import include.resource;
 import dix.cursor;
 import dix.dixstruct_priv;

@@ -62,7 +62,7 @@ import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
 import include.windowstr;
-import include.propertyst;
+import dix.property;
 import dix.dixstruct_priv;
 import dix.dispatch;
 import dix.swaprep;
@@ -71,6 +71,23 @@ import dix.swapreq;
 import dix.events;
 import dix.atom;
 import dix.window;
+
+public import common.misc;
+public import dix.privates;
+/*
+ *   PROPERTY -- property element
+ */
+
+struct _Property {
+    _Property* next;
+    ATOM propertyName;
+    ATOM type;                  /* ignored by server */
+    uint format;            /* format of data for swapping - 8,16,32 */
+    uint size;              /* size of data in (format/8) bytes */
+    void* data;                 /* private to client */
+    PrivateRec* devPrivates;
+}
+alias PropertyRec = _Property;
 
 /*****************************************************************
  * Property Stuff

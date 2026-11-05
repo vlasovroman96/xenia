@@ -35,7 +35,7 @@ import build.xorg_config;
 import include.xf86;
 import xf86DDC_priv;
 //import externs.X11.Xatom;
-import include.propertyst;
+import dix.property;
 import include.xf86Crtc;
 import core.stdc.string;
 import core.stdc.math;

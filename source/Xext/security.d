@@ -50,7 +50,7 @@ import os.osdep;
 import dix.atom;
 import include.scrnintstr;
 import dix.inputstr;import include.windowstr;
-import include.propertyst;
+import dix.property;
 import dix.privates;
 import Xext.xacestr;
 import Xext.securitysrv;

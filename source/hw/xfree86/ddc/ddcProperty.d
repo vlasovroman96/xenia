@@ -31,12 +31,11 @@ import xf86_priv;
 import xf86DDC_priv;
 import include.xf86Priv;
 import externs.X11.Xatom;
-import include.propertyst;
+import dix.property;
 import core.stdc.string;
 import dix.screen_hooks;
 import hw.xfree86.common.xf86Helper;
 import xf86Globals;
-import dix.property;
 import hw.xfree86.common.edid;
 
 enum EDID1_ATOM_NAME =         "XFree86_DDC_EDID1_RAWDATA";

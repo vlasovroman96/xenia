@@ -54,7 +54,7 @@ public import include.xlibre_ptrtypes;
 public import common.misc;
 public import include.regionstr;
 public import include.scrintstr;
-import include.propertyst;
+import dix.property;
 public import dix.cursor;
 
 enum TOTALLY_OBSCURED = 0;
