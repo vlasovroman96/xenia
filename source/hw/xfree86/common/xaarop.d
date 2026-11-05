@@ -1,4 +1,4 @@
-module include.xaarop;
+module hw.xfree86.common.xaarop;
 @nogc nothrow:
 extern(C): __gshared:
  
