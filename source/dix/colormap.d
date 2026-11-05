@@ -72,7 +72,7 @@ import common.misc;
 import dix.dixstruct_priv;
 import os.os;
 import include.scrnintstr;
-import include.resource;
+import dix.resource;
 import include.windowstr;
 import dix.privates;
 import Xext.xace;

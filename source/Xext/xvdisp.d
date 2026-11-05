@@ -50,7 +50,7 @@ import include.scrnintstr;
 import include.windowstr;
 import dix.pixmap;
 import dix.dixstruct_priv;
-import include.resource;
+import dix.resource;
 
 import Xext.xvdisp;
 import externs.X11.extensions.Xvproto;

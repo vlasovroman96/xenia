@@ -41,7 +41,7 @@ import include.scrnintstr;
 import common.misc;
 import os.os;
 import include.windowstr;
-import include.resource;
+import dix.resource;
 import dix.dixstruct_priv;
 import include.servermd;
 import dix.picturestr;

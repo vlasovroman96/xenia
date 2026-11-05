@@ -148,7 +148,7 @@ import xkb.xkbsrv_priv;
 import dix.timestamp;
 
 import common.misc;
-import include.resource;
+import dix.resource;
 import include.windowstr;
 import dix.inputstr;import include.scrnintstr;
 import dix.cursor;

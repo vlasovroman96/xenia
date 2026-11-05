@@ -41,7 +41,7 @@ public import dix.dixstruct_priv;
 public import dix.pixmap;
 public import dix.gc;
 public import dix.extension;
-public import include.resource;
+public import dix.resource;
 public import include.scrnintstr;
 
 // public //import externs.GL.gl;

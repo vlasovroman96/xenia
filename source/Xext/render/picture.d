@@ -38,7 +38,6 @@ import os.os;
 import include.validate;
 import include.windowstr;
 import dix.input;
-import include.resource;
 import dix.cursor;
 import dix.dixstruct_priv;
 import dix.gc;

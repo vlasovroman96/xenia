@@ -36,7 +36,7 @@ import core.stdc.config: c_long, c_ulong;
 
 public import include.scrnintstr;
 public import render.glyphstr_priv;
-public import include.resource;
+public import dix.resource;
 public import dix.privates;
 import dix.colormap_priv;
 import dix.picture;

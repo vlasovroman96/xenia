@@ -61,7 +61,7 @@ import dix.atom_priv;
 import dix.dix_priv;
 
 import common.misc;
-import include.resource;
+import dix.resource;
 import externs.gnu;
 import atoms;
 alias strncmp = core.stdc.string.strncmp;

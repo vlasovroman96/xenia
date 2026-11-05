@@ -54,7 +54,7 @@ import region;
 import include.windowstr;
 import dix.pixmap;
 import include.validate;
-import include.resource;
+import dix.resource;
 import dix.gc;
 import dix.dixstruct_priv;
 import hw.kdrive.src.kxv;

@@ -60,7 +60,6 @@ import dix.gc_priv;
 import os.osdep;
 
 import common.misc;
-import include.resource;
 import dix.gc;
 import dix.pixmap;
 import include.scrnintstr;

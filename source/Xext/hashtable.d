@@ -12,7 +12,7 @@ import Xext.hashtable;
 import common.list;
 
 /* HashResourceID */
-import include.resource;
+import dix.resource;
 
 enum INITHASHSIZE = 6;
 enum MAXHASHSIZE = 11;

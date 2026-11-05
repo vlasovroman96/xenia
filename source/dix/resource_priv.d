@@ -9,7 +9,6 @@ extern(C): __gshared:
 //public import x11.Xdefs;
 
 public import dix.callback;
-public import include.resource;
 import dix.resource;
 import build.xlibre_server;
 
@@ -132,7 +131,7 @@ pragma(inline, true) Bool dixResouceIsServerOwned(XID xid) {
  * of bits by either masking numBits lower bits of the ID or by
  * providing at most MAXHASHSIZE hashes.
  */
-int HashResourceID(XID id, uint numBits);
+// int HashResourceID(XID id, uint numBits);
 
 /*
  * @brief scan for free XIDs for client

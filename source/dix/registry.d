@@ -35,7 +35,6 @@ import registry;
 
 import dix.registry_priv;
 
-import include.resource;
 import dix.resource;
 import os.log;
 import dix.extension;

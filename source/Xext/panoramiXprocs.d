@@ -52,7 +52,7 @@ import dix.window;
 import dix.inputstr;import migc;
 import common.misc;
 import dix.dixstruct_priv;
-import include.resource;
+import dix.resource;
 import panoramiXh;
 import dix.dixutils;
 import dix.gc;

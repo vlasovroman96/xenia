@@ -59,7 +59,6 @@ import dix.colormap_priv;
 import dix.screenint_priv;
 
 import include.windowstr;
-import include.resource;
 import dix.gc;
 import dix.cursor;
 import dix.inputstr;import include.scrnintstr;
@@ -240,8 +239,6 @@ pragma(inline, true) void dixSetPrivate(PrivatePtr* privates, const(DevPrivateKe
     assert(key.size == 0);
     *cast(void**) dixGetPrivateAddr(privates, key) = val;
 }
-
-public import include.resource;
 
 /*
  * Lookup a pointer to the private record.

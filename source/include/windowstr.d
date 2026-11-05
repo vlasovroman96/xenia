@@ -53,7 +53,7 @@ public import include.window;
 public import dix.pixmap;
 // public import region;
 public import dix.cursor;
-public import include.resource;           /* for ROOT_WINDOW_ID_BASE */
+public import dix.resource;           /* for ROOT_WINDOW_ID_BASE */
 public import dix.privates;
 //public import x11.Xprotostr;
 public import dix.inputstr;import mi.mi_priv;

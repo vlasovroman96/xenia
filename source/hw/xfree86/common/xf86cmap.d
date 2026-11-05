@@ -40,7 +40,6 @@ import dix.screen_hooks_priv;
 import mi.mi_priv;
 
 import include.scrnintstr;
-import include.resource;
 
 import include.xf86;
 import include.xf86_OSproc;;

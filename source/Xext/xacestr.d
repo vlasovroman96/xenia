@@ -23,7 +23,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  
 public import dix.selection_priv;
 
-public import include.resource;
+public import dix.resource;
 public import dix.extension;
 public import include.window;
 public import dix.input;

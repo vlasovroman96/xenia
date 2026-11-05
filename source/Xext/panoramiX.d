@@ -58,7 +58,7 @@ import include.window;
 import include.windowstr;
 import dix.pixmap;
 import include.servermd;
-import include.resource;
+import dix.resource;
 import render.picturestr_priv;
 import xfixes.xfixesint;
 import composite.compint;

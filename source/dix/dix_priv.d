@@ -27,7 +27,6 @@ public import dix.events;
 public import dix.gc;
 public import dix.input;
 public import os.os;
-public import include.resource;
 public import include.window;
 public import dix.resource;
 public import dix.dixutils;

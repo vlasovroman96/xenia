@@ -123,7 +123,7 @@ import dix.selection_priv;
 import dix.server_priv;
 import dix.settings_priv;
 import dix.window_priv;
-import include.resource;
+import dix.resource;
 import miext.extinit_priv;
 import os.auth;
 import os.client_priv;

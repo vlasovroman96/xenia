@@ -42,7 +42,6 @@ import os.bug_priv;
 import os.osdep;
 
 import include.scrnintstr;
-import include.resource;
 import mi.micmap;
 import dix.resource;
 import dix.colormap;

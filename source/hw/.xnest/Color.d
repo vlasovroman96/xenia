@@ -29,7 +29,7 @@ import dix.window_priv;
 import include.scrnintstr;
 import include.window;
 import include.windowstr;
-import include.resource;
+import dix.resource;
 
 import xnest_xcb;
 

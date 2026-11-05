@@ -10,7 +10,7 @@ import core.stdc.config: c_long, c_ulong;
  
 //public import x11.Xmd;
 
-public import include.resource;
+public import dix.resource;
 public import dix.cursor;
 public import dix.gc;
 public import dix.pixmap;

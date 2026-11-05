@@ -44,7 +44,6 @@ import include.scrnintstr;
 import dix.pixmap;
 import dix.extension;
 import dix.dixstruct_priv;
-import include.resource;
 import dix.window;
 import dbestruct;
 import region;

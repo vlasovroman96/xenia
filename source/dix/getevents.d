@@ -54,7 +54,7 @@ import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
 import common.misc;
-import include.resource;
+import dix.resource;
 import dix.inputstr;import include.scrnintstr;
 import dix.cursor;
 import dix.dixstruct_priv;

@@ -8,7 +8,7 @@ import core.stdc.config: c_long, c_ulong;
  */
 
  
-public import include.resource;
+public import dix.resource;
 public import include.shmint;
 import os.busfault;
 import x11.Xdefs;

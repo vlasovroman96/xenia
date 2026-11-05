@@ -7,7 +7,7 @@ extern(C): __gshared:
  */
  
 public import dix.extension;
-public import include.resource;
+public import dix.resource;
 
 /*
  * Result returned from any unsuccessful lookup

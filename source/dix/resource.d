@@ -143,7 +143,6 @@ import Xext.panoramiXsrv;
 import dix.dixutils;
 import common.misc;
 import os.os;
-import include.resource;
 import dix.dixstruct_priv;
 import dix.window;
 import include.windowstr;
@@ -156,6 +155,123 @@ import os.log;
 import dix.cursor;
 import dix.gc;
 import registry;
+
+public import include.xlibre_ptrtypes;
+
+public import dix.callback;
+public import common.misc;
+public import dix.dixaccess;
+import dix.dixstruct_priv;
+public import x11.Xprotostr;
+public import x11.Xmd;
+public import x11.X;
+public import x11.Xmd;
+public import x11.X;
+import x11.Xdefs;
+// public import x11.Xdefs;
+public import x11.Xprotostr;
+
+
+/*****************************************************************
+ * STUFF FOR RESOURCES
+ *****************************************************************/
+
+/* classes for Resource routines */
+
+alias RESTYPE = uint;
+
+enum RC_VANILLA =	(cast(RESTYPE)0);
+enum RC_CACHED =	(cast(RESTYPE)1<<31);
+enum RC_DRAWABLE =	(cast(RESTYPE)1<<30);
+/*  Use class RC_NEVERRETAIN for resources that should not be retained
+ *  regardless of the close down mode when the client dies.  (A client's
+ *  event selections on objects that it doesn't own are good candidates.)
+ *  Extensions can use this too!
+ */
+enum RC_NEVERRETAIN =	(cast(RESTYPE)1<<29);
+enum RC_LASTPREDEF =	RC_NEVERRETAIN;
+enum RC_ANY =		(~cast(RESTYPE)0);
+
+/* types for Resource routines */
+
+// prevent namespace clash with Windows
+enum X11_RESTYPE_NONE =	(cast(RESTYPE)0);
+enum X11_RESTYPE_WINDOW =	(cast(RESTYPE)1|RC_DRAWABLE);
+enum X11_RESTYPE_PIXMAP =	(cast(RESTYPE)2|RC_DRAWABLE);
+enum X11_RESTYPE_GC =		(cast(RESTYPE)3);
+enum X11_RESTYPE_FONT =	(cast(RESTYPE)4);
+enum X11_RESTYPE_CURSOR =	(cast(RESTYPE)5);
+enum X11_RESTYPE_COLORMAP =	(cast(RESTYPE)6);
+enum X11_RESTYPE_CMAPENTRY =	(cast(RESTYPE)7);
+enum X11_RESTYPE_OTHERCLIENT =	(cast(RESTYPE)8|RC_NEVERRETAIN);
+enum X11_RESTYPE_PASSIVEGRAB =	(cast(RESTYPE)9|RC_NEVERRETAIN);
+enum X11_RESTYPE_LASTPREDEF =	(cast(RESTYPE)9);
+
+enum RT_WINDOW =	X11_RESTYPE_WINDOW;
+enum RT_PIXMAP =	X11_RESTYPE_PIXMAP;
+enum RT_GC =		X11_RESTYPE_GC;
+enum RT_FONT =		X11_RESTYPE_FONT;
+enum RT_CURSOR =	X11_RESTYPE_CURSOR;
+enum RT_COLORMAP =	X11_RESTYPE_COLORMAP;
+enum RT_CMAPENTRY =	X11_RESTYPE_CMAPENTRY;
+enum RT_OTHERCLIENT =	X11_RESTYPE_OTHERCLIENT;
+enum RT_PASSIVEGRAB =	X11_RESTYPE_PASSIVEGRAB;
+enum RT_LASTPREDEF =	X11_RESTYPE_LASTPREDEF;
+enum RT_NONE =		X11_RESTYPE_NONE;
+
+
+// uint ResourceClientBits();
+
+enum BAD_RESOURCE = 0xe0000000;
+
+alias DeleteType = int function(void* value, XID id);
+
+alias FindResType = void function(void* value, XID id, void* cdata);
+
+alias FindAllRes = void function(void* value, XID id, RESTYPE type, void* cdata);
+
+alias FindComplexResType = Bool function(void* value, XID id, void* cdata);
+
+/* Structure for estimating resource memory usage. Memory usage
+ * consists of space allocated for the resource itself and of
+ * references to other resources. Currently the most important use for
+ * this structure is to estimate pixmap usage of different resources
+ * more accurately. */
+struct _ResourceSizeRec {
+    /* Size of resource itself. Zero if not implemented. */
+    c_ulong resourceSize;
+    /* Size attributed to pixmap references from the resource. */
+    c_ulong pixmapRefSize;
+    /* Number of references to this resource; typically 1 */
+    c_ulong refCnt;
+}alias ResourceSizeRec = _ResourceSizeRec;
+alias ResourceSizePtr = ResourceSizeRec*;
+
+alias SizeType = void function(void* value, XID id, ResourceSizePtr size);
+
+// void CreateNewResourceType(DeleteType deleteFunc, const(char)* name);
+
+alias FindTypeSubResources = void function(void* value, FindAllRes func, void* cdata);
+
+// void GetResourceTypeSizeFunc(RESTYPE);
+
+void SetResourceTypeFindSubResFunc(RESTYPE, FindTypeSubResources);
+
+// void SetResourceTypeSizeFunc(RESTYPE, SizeType);
+
+// void SetResourceTypeErrorValue(RESTYPE, int);
+
+// void CreateNewResourceClass();
+
+// void InitClientResources(ClientPtr);
+
+// void FakeClientID(int);
+
+/* Quartz support on Mac OS X uses the CarbonCore
+   framework whose AddResource function conflicts here. */
+version (OSX) {
+enum AddResource = Darwin_X_AddResource;
+}
 
 version (XSERVER_DTRACE) {
 

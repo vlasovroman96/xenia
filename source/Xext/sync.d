@@ -76,7 +76,7 @@ import include.scrnintstr;
 import os.os;
 import dix.dixstruct_priv;
 import dix.pixmap;
-import include.resource;
+import dix.resource;
 import Xext.syncsrv;
 import common.protocol_versions;
 import dix.inputstr;import externs.X11.extensions.syncconst;

@@ -8,7 +8,7 @@ import common.misc;
 import core.stdc.stdlib;
 import core.stdc.stdio;
 import Xext.hashtable;
-import include.resource;
+import dix.resource;
 
 import test.tests_common;
 import test.tests;

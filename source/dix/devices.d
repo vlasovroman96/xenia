@@ -77,7 +77,7 @@ import os.osdep;
 import xkb.xkbsrv_priv;
 
 import common.misc;
-import include.resource;
+import dix.resource;
 import include.windowstr;
 import dix.inputstr;import include.scrnintstr;
 import dix.cursor;

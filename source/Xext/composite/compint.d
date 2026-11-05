@@ -53,7 +53,7 @@ public import region;
 public import include.validate;
 public import include.windowstr;
 public import dix.input;
-public import include.resource;
+public import dix.resource;
 public import dix.cursor;
 public import dix.dixstruct_priv;
 public import dix.gc;

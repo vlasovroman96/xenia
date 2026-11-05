@@ -112,7 +112,7 @@ import include.scrnintstr;
 import common.misc;
 import os.os;
 import include.windowstr;
-import include.resource;
+import dix.resource;
 import dix.dixstruct_priv;
 import dix.gc;
 import dix.cursor;

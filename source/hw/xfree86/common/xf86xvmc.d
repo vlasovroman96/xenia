@@ -39,7 +39,6 @@ import include.xf86_OSproc;;
 import dix.screen_hooks_priv;
 
 import include.scrnintstr;
-import include.resource;
 import dix.dixstruct_priv;
 
 import hw.xfree86.common.xf86xvpriv;

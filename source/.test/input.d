@@ -47,7 +47,7 @@ import mi.mi_priv;
 import os.fmt;
 
 import common.misc;
-import include.resource;
+import dix.resource;
 import include.windowstr;
 import dix.inputstr;import Xi.exglobals;
 import dix.events;

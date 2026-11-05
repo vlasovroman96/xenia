@@ -53,7 +53,6 @@ public import include.xlibre_ptrtypes;
 public import common.misc;
 public import os.os;
 public import dix.dixstruct_priv;
-public import include.resource;
 public import include.scrnintstr;
 public import include.windowstr;
 public import dix.pixmap;
