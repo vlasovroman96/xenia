@@ -32,7 +32,7 @@ extern(C): __gshared:
 
  
 public import build.dix_config;
-public import include.glxvndabi;
+public import Xext.glx.glxvndabi;
 
 alias GLXContextID = CARD32;
 alias GLXDrawable = CARD32;

@@ -35,7 +35,7 @@ extern(C): __gshared:
 public import glx.glxext;
 
 public import glx.extension_string;
-public import include.glxvndabi;
+public import Xext.glx.glxvndabi;
 // //import externs.GL.glx;
 import glx.glxcontext;
 import glx.glxdrawable;

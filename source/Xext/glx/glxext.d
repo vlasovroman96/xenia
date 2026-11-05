@@ -49,7 +49,7 @@ import glx.glxutil;
 // import glx.glxext;
 import glx.indirect_table;
 import glx.indirect_util;
-import include.glxvndabi;
+import Xext.glx.glxvndabi;
 import glx.glxext;
 import glx.glx_dri.glxdriswrast;
 //  import Xext.glx.fix;

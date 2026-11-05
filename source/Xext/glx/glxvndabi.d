@@ -1,4 +1,4 @@
-module include.glxvndabi;
+module Xext.glx.glxvndabi;
 @nogc nothrow:
 extern(C): __gshared:
 /*

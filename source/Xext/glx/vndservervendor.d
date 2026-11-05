@@ -32,7 +32,7 @@ extern(C): __gshared:
 import build.dix_config;
 
 import glx.vndservervendor;
-import include.glxvndabi;
+import Xext.glx.glxvndabi;
 import os.log;
 
 /**

@@ -62,7 +62,7 @@ import glx.indirect_dispatch;
 import glx.indirect_table;
 import glx.indirect_util;
 import include.protocol_versions;
-import include.glxvndabi;
+import Xext.glx.glxvndabi;
 import Xext.xace;
 import glx.glxscreens_h;
 import glx.vndext;
