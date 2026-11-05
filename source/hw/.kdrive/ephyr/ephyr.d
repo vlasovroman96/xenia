@@ -43,7 +43,7 @@ import include.scrnintstr;
 // import ephyrlog;
 
 // static if (GLAMOR) {
-// import include.glamor;
+// import glamor.glamor;
 // }
 import hw.kdrive.ephyr.ephyr_glamor;
 import hw.kdrive.src.kdrive;

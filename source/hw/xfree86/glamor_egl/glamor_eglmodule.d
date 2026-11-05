@@ -34,7 +34,7 @@ import build.dix_config;
 import include.xf86;
 version = GLAMOR_FOR_XORG;
 import include.xf86Module;
-import include.glamor;
+import glamor.glamor;
 import build.xlibre_server;
 
 private XF86ModuleVersionInfo VersRecGlamorEGL = {

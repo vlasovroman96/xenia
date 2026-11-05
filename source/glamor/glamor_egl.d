@@ -81,7 +81,6 @@ import glamor.glamor_priv;
 import os.bug_priv;
 import externs.gbm;
 
-import include.glamor;
 import glamor.glamor_egl;
 import glamor.glamor_egl_ext;
 import glamor.glamor_egl_priv;

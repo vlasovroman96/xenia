@@ -12,7 +12,7 @@ version = GLAMOR_FOR_XORG;
 import include.xf86;
 import include.xf86Priv;
 
-import include.glamor;
+import glamor.glamor;
 import glamor.glamor_egl;
 import glamor.glamor_egl_priv;
 import hw.xfree86.common.xf86Helper;

@@ -46,7 +46,6 @@ import glx.glxutil;
 import composite.compint;
 // //import externs.X11.extensions.composite;
 import glamor.glamor_priv;
-import include.glamor;
 import glx.glxscreens_h;
 import glamor.glamor;
 import glx.glxext;

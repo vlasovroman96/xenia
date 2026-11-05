@@ -12,7 +12,7 @@ import config.kdrive_config;
 
 import include.scrnintstr;
 
-import include.glamor;
+import glamor.glamor;
 import glamor.glamor_egl;
 
 import hw.kdrive.fbdev.fbdev;

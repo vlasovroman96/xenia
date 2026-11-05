@@ -41,7 +41,7 @@ import core.stdc.config: c_long, c_ulong;
  */
 
 import build.dix_config;
-import include.glamor;
+import glamor.glamor;
 import hw.xfree86.drivers.video.modesetting.dri2;
 import dix.pixmap;
 

@@ -81,7 +81,7 @@ import include.glx_extinit;
 import include.randrstr;
 
 static if (GLAMOR) {
-import include.glamor;
+import glamor.glamor;
 import glamor.glamor_egl;
 
 import core.sys.posix.unistd;

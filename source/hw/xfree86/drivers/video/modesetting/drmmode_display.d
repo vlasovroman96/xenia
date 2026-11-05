@@ -39,7 +39,6 @@ import core.sys.posix.sys.ioctl;
 import core.sys.posix.sys.mman;
 import core.sys.posix.unistd;
 
-import include.glamor;
 import dix.dix_priv;
 import os.fmt;
 import present.present_priv;
