@@ -1140,9 +1140,8 @@ private int ms_dri2_frame_event_client_gone(void* data, XID id)
     ms_dri2_resource* resource = cast(ms_dri2_resource*)data;
 
     while (!resource.list.isEmpty()) {
-        ms_dri2_frame_event_ptr info = mixin(xorg_list_first_entry!("&resource.list",
-                                  "ms_dri2_frame_event_rec",
-                                  "client_resource"));
+        ms_dri2_frame_event_ptr info = 
+            resource.list.getFirstEntry!(ms_dri2_frame_event_rec, "client_resource");
 
         info.client_resource.removeFromList();
         info.client = null;
@@ -1157,9 +1156,8 @@ private int ms_dri2_frame_event_drawable_gone(void* data, XID id)
     ms_dri2_resource* resource = cast(ms_dri2_resource*)data;
 
     while (!resource.list.isEmpty()) {
-        ms_dri2_frame_event_ptr info = mixin(xorg_list_first_entry!("&resource.list",
-                                  "ms_dri2_frame_event_rec",
-                                  "drawable_resource"));
+        ms_dri2_frame_event_ptr info = 
+            resource.list.getFirstEntry!(ms_dri2_frame_event_rec, "drawable_resource");
 
         info.drawable_resource.removeFromList();
         info.drawable = null;

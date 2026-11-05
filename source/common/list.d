@@ -226,6 +226,13 @@ struct XList {
 
         return cast(T*)(cast(ubyte*)&this - offset);
     }
+
+    /**
+     * Retrieve the first list entry for the given list pointer.
+     */
+    auto getFirstEntry(T, string member = "list")() {
+        return this.next.getContainer!(T, member);
+    }
 }
 
 template offsetof(T, string member)
@@ -247,21 +254,6 @@ T* containerOf(T, string member)(void* ptr)
  */
 enum xorg_list_entry(string ptr, string type, string member) =
     "containerOf!("~type~", `"~member~"`)("~ptr~")";
-
-/**
- * Retrieve the first list entry for the given list pointer.
- *
- * Example:
- * struct foo *first;
- * first = xorg_list_first_entry(&bar->list_of_foos, struct foo, list_of_foos);
- *
- * @param ptr The list head
- * @param type Data type of the list element to retrieve
- * @param member Member name of the struct XList field in the list element.
- * @return A pointer to the first list element.
- */
-enum string xorg_list_first_entry(string ptr, string type, string member) = "
-    " ~ xorg_list_entry!("(" ~ ptr ~ ").next", type, member) ~ "";
 
 /**
  * Retrieve the last list entry for the given listpointer.

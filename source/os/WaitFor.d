@@ -126,7 +126,8 @@ pragma(inline, true) private OsTimerPtr first_timer()
     /* inline xorg_list_is_empty which can't handle volatile */
     if (timers.next == &timers)
         return null;
-    return mixin(xorg_list_first_entry!("timers", "_OsTimerRec", "list"));
+        
+    return timers.getFirstEntry!(_OsTimerRec, "list");
 }
 
 /*
