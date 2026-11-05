@@ -89,6 +89,9 @@ import dsl.pixman;
 import externs.attrs;
 import os.log;
 import os.io;
+import core.stdc.stdlib;
+import core.stdc.string;
+import common.misc;
 
 // version (REGION_DEBUG) {
 enum string assert_(string expr) = `{ 
