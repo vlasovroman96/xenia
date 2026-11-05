@@ -50,6 +50,7 @@ import glx.indirect_util;
  import Xext.glx.fix;
 import glx.glxcmds;
 import glx.xfont;
+import glx.vndext;
 
 alias UINT32_MAX = core.stdc.stdint.UINT32_MAX;
 // alias UINT32_MAX = core.stdc.stdint.UINT32_MAX;
@@ -535,7 +536,7 @@ int __glXDispSwap_BindTexImageEXT(__GLXclientState* cl, GLbyte* pc)
 {
     ClientPtr client = cl.client;
     xGLXVendorPrivateReq* req = cast(xGLXVendorPrivateReq*) pc;
-    GLXDrawable* drawId = void;
+    XeGLXDrawable* drawId = void;
     int* buffer = void;
     CARD32* num_attribs = void;
 
@@ -544,7 +545,7 @@ int __glXDispSwap_BindTexImageEXT(__GLXclientState* cl, GLbyte* pc)
 
     pc += __GLX_VENDPRIV_HDR_SIZE;
 
-    drawId = (cast(GLXDrawable*) (pc));
+    drawId = (cast(XeGLXDrawable*) (pc));
     buffer = (cast(int*) (pc + 4));
     num_attribs = (cast(CARD32*) (pc + 8));
 
@@ -561,14 +562,14 @@ int __glXDispSwap_ReleaseTexImageEXT(__GLXclientState* cl, GLbyte* pc)
 {
     ClientPtr client = cl.client;
     xGLXVendorPrivateReq* req = cast(xGLXVendorPrivateReq*) pc;
-    GLXDrawable* drawId = void;
+    XeGLXDrawable* drawId = void;
     int* buffer = void;
 
     mixin(REQUEST_FIXED_SIZE!("xGLXVendorPrivateReq", "8"));
 
     pc += __GLX_VENDPRIV_HDR_SIZE;
 
-    drawId = (cast(GLXDrawable*) (pc));
+    drawId = (cast(XeGLXDrawable*) (pc));
     buffer = (cast(int*) (pc + 4));
 
     swaps(&req.length);
@@ -583,7 +584,7 @@ int __glXDispSwap_CopySubBufferMESA(__GLXclientState* cl, GLbyte* pc)
 {
     ClientPtr client = cl.client;
     xGLXVendorPrivateReq* req = cast(xGLXVendorPrivateReq*) pc;
-    GLXDrawable* drawId = void;
+    XeGLXDrawable* drawId = void;
     int* buffer = void;
 
     mixin(REQUEST_FIXED_SIZE!("xGLXVendorPrivateReq", "20"));

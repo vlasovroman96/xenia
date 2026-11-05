@@ -330,7 +330,7 @@ private Bool checkScreenVisuals()
     return FALSE;
 }
 
-private void GetGLXDrawableBytes(void* value, XID id, ResourceSizePtr size)
+private void GetXeGLXDrawableBytes(void* value, XID id, ResourceSizePtr size)
 {
     __GLXdrawable* draw = cast(__GLXdrawable*)value;
 
@@ -494,7 +494,7 @@ private Bool xorgGlxServerPreInit(const(ExtensionEntry)* extEntry)
         __glXContextRes = CreateNewResourceType(cast(DeleteType) &ContextGone,
                                                 "GLXContext");
         __glXDrawableRes = CreateNewResourceType(cast(DeleteType) &DrawableGone,
-                                                 "GLXDrawable");
+                                                 "XeGLXDrawable");
         if (!__glXContextRes || !__glXDrawableRes)
             return FALSE;
 
@@ -507,7 +507,7 @@ private Bool xorgGlxServerPreInit(const(ExtensionEntry)* extEntry)
         __glXErrorBase = extEntry.errorBase;
         __glXEventBase = extEntry.eventBase;
 
-        SetResourceTypeSizeFunc(__glXDrawableRes, &GetGLXDrawableBytes);
+        SetResourceTypeSizeFunc(__glXDrawableRes, &GetXeGLXDrawableBytes);
 static if (PRESENT) {
         __glXregisterPresentCompleteNotify();
 }

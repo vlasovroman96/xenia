@@ -54,8 +54,8 @@ public import externs.glxproto;
 /*
 ** GLX resources.
 */
-// alias GLXContextID = XID;
-// alias GLXDrawable = XID;
+// alias XeGLXContextID = XID;
+// alias XeGLXDrawable = XID;
 
 alias __GLXclientState = __GLXclientStateRec;
 

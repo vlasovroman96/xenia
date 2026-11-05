@@ -214,7 +214,7 @@ int validGlxDrawable(ClientPtr client, XID id, int type, int access_mode, __GLXd
 
     /* If the ID of the glx drawable we looked up doesn't match the id
      * we looked for, it's because we looked it up under the X
-     * drawable ID (see DoCreateGLXDrawable). */
+     * drawable ID (see DoCreateXeGLXDrawable). */
     if (rc == BadValue ||
         (*drawable).drawId != id ||
         (type != GLX_DRAWABLE_ANY && type != (*drawable).type)) {
@@ -277,7 +277,7 @@ __GLXcontext* __glXdirectContextCreate(__GLXscreen* screen, __GLXconfig* modes, 
  * same as the VisualID.
  */
 
-private int DoCreateContext(__GLXclientState* cl, GLXContextID gcId, GLXContextID shareList, __GLXconfig* config, __GLXscreen* pGlxScreen, GLboolean isDirect, int renderType)
+private int DoCreateContext(__GLXclientState* cl, XeGLXContextID gcId, XeGLXContextID shareList, __GLXconfig* config, __GLXscreen* pGlxScreen, GLboolean isDirect, int renderType)
 {
     ClientPtr client = cl.client;
     __GLXcontext* glxc = void, shareglxc = void;
@@ -505,7 +505,7 @@ private __GLXconfig* inferConfigForWindow(__GLXscreen* pGlxScreen, WindowPtr pWi
  * resource ID, look up the GLX drawable if available, otherwise, make
  * sure it's an X window and create a GLX drawable one the fly.
  */
-private __GLXdrawable* __glXGetDrawable(__GLXcontext* glxc, GLXDrawable drawId, ClientPtr client, int* error)
+private __GLXdrawable* __glXGetDrawable(__GLXcontext* glxc, XeGLXDrawable drawId, ClientPtr client, int* error)
 {
     DrawablePtr pDraw = void;
     __GLXdrawable* pGlxDraw = void;
@@ -816,8 +816,8 @@ int __glXDisp_CopyContext(__GLXclientState* cl, GLbyte* pc)
 {
     ClientPtr client = cl.client;
     xGLXCopyContextReq* req = cast(xGLXCopyContextReq*) pc;
-    GLXContextID source = void;
-    GLXContextID dest = void;
+    XeGLXContextID source = void;
+    XeGLXContextID dest = void;
     GLXContextTag tag = void;
     c_ulong mask = void;
     __GLXcontext* src = void, dst = void;
@@ -1123,7 +1123,7 @@ void __glXDrawableRelease(__GLXdrawable* drawable)
 {
 }
 
-private int DoCreateGLXDrawable(ClientPtr client, __GLXscreen* pGlxScreen, __GLXconfig* config, DrawablePtr pDraw, XID drawableId, XID glxDrawableId, int type)
+private int DoCreateXeGLXDrawable(ClientPtr client, __GLXscreen* pGlxScreen, __GLXconfig* config, DrawablePtr pDraw, XID drawableId, XID glxDrawableId, int type)
 {
     __GLXdrawable* pGlxDraw = void;
 
@@ -1165,7 +1165,7 @@ private int DoCreateGLXPixmap(ClientPtr client, __GLXscreen* pGlxScreen, __GLXco
         return BadPixmap;
     }
 
-    err = DoCreateGLXDrawable(client, pGlxScreen, config, pDraw, drawableId,
+    err = DoCreateXeGLXDrawable(client, pGlxScreen, config, pDraw, drawableId,
                               glxDrawableId, GLX_DRAWABLE_PIXMAP);
 
     if (err == Success)
@@ -1346,7 +1346,7 @@ private int DoCreatePbuffer(ClientPtr client, int screenNum, XID fbconfigId, int
     if (!AddResource(cast(uint)pPixmap.drawable.id, X11_RESTYPE_PIXMAP, pPixmap))
         return BadAlloc;
 
-    return DoCreateGLXDrawable(client, pGlxScreen, config, &pPixmap.drawable,
+    return DoCreateXeGLXDrawable(client, pGlxScreen, config, &pPixmap.drawable,
                                glxDrawableId, glxDrawableId,
                                GLX_DRAWABLE_PBUFFER);
 }
@@ -1515,7 +1515,7 @@ int __glXDisp_CreateWindow(__GLXclientState* cl, GLbyte* pc)
     if (!validGlxFBConfigForWindow(client, config, pDraw, &err))
         return err;
 
-    return DoCreateGLXDrawable(client, pGlxScreen, config,
+    return DoCreateXeGLXDrawable(client, pGlxScreen, config,
                                pDraw, req.window,
                                req.glxwindow, GLX_DRAWABLE_WINDOW);
 }
@@ -1583,7 +1583,7 @@ int __glXDisp_SwapBuffers(__GLXclientState* cl, GLbyte* pc)
     return Success;
 }
 
-private int DoQueryContext(__GLXclientState* cl, GLXContextID gcId)
+private int DoQueryContext(__GLXclientState* cl, XeGLXContextID gcId)
 {
     ClientPtr client = cl.client;
     __GLXcontext* ctx = void;
@@ -1639,7 +1639,7 @@ int __glXDisp_BindTexImageEXT(__GLXclientState* cl, GLbyte* pc)
     ClientPtr client = cl.client;
     __GLXcontext* context = void;
     __GLXdrawable* pGlxDraw = void;
-    GLXDrawable drawId = void;
+    XeGLXDrawable drawId = void;
     int buffer = void;
     int error = void;
     CARD32 num_attribs = void;
@@ -1681,7 +1681,7 @@ int __glXDisp_ReleaseTexImageEXT(__GLXclientState* cl, GLbyte* pc)
     ClientPtr client = cl.client;
     __GLXdrawable* pGlxDraw = void;
     __GLXcontext* context = void;
-    GLXDrawable drawId = void;
+    XeGLXDrawable drawId = void;
     int buffer = void;
     int error = void;
 
@@ -1713,7 +1713,7 @@ int __glXDisp_CopySubBufferMESA(__GLXclientState* cl, GLbyte* pc)
     __GLXcontext* glxc = null;
     __GLXdrawable* pGlxDraw = void;
     ClientPtr client = cl.client;
-    GLXDrawable drawId = void;
+    XeGLXDrawable drawId = void;
     int error = void;
     int x = void, y = void, width = void, height = void;
 

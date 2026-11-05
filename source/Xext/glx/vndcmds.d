@@ -159,7 +159,7 @@ private int CommonLoseCurrent(ClientPtr client, GlxContextTagInfo* tagInfo)
     return ret;
 }
 
-private int CommonMakeNewCurrent(ClientPtr client, GlxServerVendor* vendor, GLXDrawable drawable, GLXDrawable readdrawable, GLXContextID context, GLXContextTag* newContextTag)
+private int CommonMakeNewCurrent(ClientPtr client, GlxServerVendor* vendor, XeGLXDrawable drawable, XeGLXDrawable readdrawable, XeGLXContextID context, GLXContextTag* newContextTag)
 {
     int ret = BadAlloc;
     GlxContextTagInfo* tagInfo = void;
@@ -185,7 +185,7 @@ private int CommonMakeNewCurrent(ClientPtr client, GlxServerVendor* vendor, GLXD
     return ret;
 }
 
-private int CommonMakeCurrent(ClientPtr client, GLXContextTag oldContextTag, GLXDrawable drawable, GLXDrawable readdrawable, GLXContextID context)
+private int CommonMakeCurrent(ClientPtr client, GLXContextTag oldContextTag, XeGLXDrawable drawable, XeGLXDrawable readdrawable, XeGLXContextID context)
 {
     xGLXMakeCurrentReply reply = { 0 };
     GlxContextTagInfo* oldTag = null;

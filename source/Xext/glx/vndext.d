@@ -52,6 +52,13 @@ import miext.extinit_priv;
 import dix.extension;
 import glx.glxscreens;
 
+public import build.dix_config;
+public import Xext.glx.glxvndabi;
+
+alias XeGLXContextID = CARD32;
+alias XeGLXDrawable = CARD32;
+ 
+// GlxServerExports *glvndGetExports();
 
 Bool noGlxExtension = FALSE;
 

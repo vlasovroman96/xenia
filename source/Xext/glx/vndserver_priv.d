@@ -31,7 +31,7 @@ extern(C): __gshared:
  */
  
 public import Xext.glx.glxvndabi;
-public import include.vndserver;
+public import glx.vndext;
 
 struct GlxScreenPriv {
     GlxServerVendor* vendor;
@@ -42,9 +42,9 @@ struct GlxContextTagInfo {
     ClientPtr client;
     GlxServerVendor* vendor;
     void* data;
-    GLXContextID context;
-    GLXDrawable drawable;
-    GLXDrawable readdrawable;
+    XeGLXContextID context;
+    XeGLXDrawable drawable;
+    XeGLXDrawable readdrawable;
 }
 
 struct GlxClientPriv {
