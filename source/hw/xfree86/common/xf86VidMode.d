@@ -51,7 +51,7 @@ import xf86Globals;
 import xf86Mode;
 
 static if(XF86VIDMODE){
-import include.vidmodestr;
+import hw.xfree86.xext.vidmode;
 // import vidmodestr;
 import include.xf86Privstr;
 import xf86Extensions;

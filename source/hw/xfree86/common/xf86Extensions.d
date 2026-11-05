@@ -57,7 +57,7 @@ static if(XFreeXDGA){
 
 static if(build.xlibre_server.XF86VIDMODE){
 //import externs.X11.extensions.xf86vmproto;
-import include.vidmodestr;
+import hw.xfree86.xext.vidmode;
 }
 
 alias InitExtension = void function();
