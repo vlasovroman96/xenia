@@ -6,9 +6,8 @@ import x11.Xdefs;
 import x11.Xmd;
 
 import build.dix_config;
-import include.glx_extinit : __GLXprovider;
 import include.xf86Module : LoaderSymbol;
-import glx.glxext : xeniaGlxCreateVendor, xeniaGlxPushProvider;
+import glx.glxext : xeniaGlxCreateVendor, xeniaGlxPushProvider, __GLXprovider;
 
 
 /*

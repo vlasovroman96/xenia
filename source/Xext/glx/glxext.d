@@ -44,14 +44,13 @@ import include.windowstr;
 import include.propertyst;
 import include.privates;
 import include.os;
-import include.glx_extinit;
 import glx.unpack;
 import glx.glxutil;
 // import glx.glxext;
 import glx.indirect_table;
 import glx.indirect_util;
 import include.glxvndabi;
-import include.glx_extinit;
+import glx.glxext;
 import glx.glx_dri.glxdriswrast;
 //  import Xext.glx.fix;
  import dix.dixutils;
@@ -71,6 +70,12 @@ RESTYPE __glXDrawableRes;
 
 private DevPrivateKeyRec glxClientPrivateKeyRec;
 private GlxServerVendor* glvnd_vendor = null;
+
+struct __GLXprovider {
+    __GLXscreen* function(ScreenPtr pScreen) @nogc nothrow screenProbe;
+    const(char)* name;
+    __GLXprovider* next;
+}
 
 enum glxClientPrivateKey = (&glxClientPrivateKeyRec);
 

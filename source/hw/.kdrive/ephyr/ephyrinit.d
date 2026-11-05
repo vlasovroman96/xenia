@@ -38,8 +38,7 @@ import os.osdep;
 
 import hw.kdrive.ephyr.ephyr;
 // import ephyrlog;
-import include.glx_extinit;
-import include.glx_extinit;
+import glx.glxext;
 import hw.kdrive.src.kdrive;
 import hw.kdrive.src.kinfo;
 import hw.kdrive.ephyr.hostx;

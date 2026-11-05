@@ -64,7 +64,7 @@ alias __GLXclientState = __GLXclientStateRec;
 public import glx.glxscreens;
 public import glx.glxdrawable;
 public import glx.glxcontext;
-public import include.glx_extinit;
+public import glx.glxext;
 import glx.glxscreens_h;
  import Xext.glx.fix;
 

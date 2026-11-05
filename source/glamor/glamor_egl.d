@@ -51,7 +51,6 @@ import include.randrstr;
 import dri3.dri3;
 import dix.gc;
 import core.sys.posix.stdlib : getenv, setenv, unsetenv;
-import include.glx_extinit;
 version (HAVE_SYS_SYSMACROS_H) {
 import sys.sysmacros; /* for major() & minor() */
 import core.sys.linux.sys.s;

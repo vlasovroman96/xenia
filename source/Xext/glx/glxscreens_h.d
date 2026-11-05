@@ -32,7 +32,7 @@ extern(C): __gshared:
  * Silicon Graphics, Inc.
  */
 
-public import include.glx_extinit;
+public import glx.glxext;
 
 public import glx.extension_string;
 public import include.glxvndabi;

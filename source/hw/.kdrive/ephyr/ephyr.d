@@ -47,7 +47,7 @@ import include.scrnintstr;
 // }
 import hw.kdrive.ephyr.ephyr_glamor;
 import hw.kdrive.src.kdrive;
-import include.glx_extinit;
+import glx.glxext;
 import include.xkbsrv;
 import include.shadow;
 import externs.xcb.xcb_image;

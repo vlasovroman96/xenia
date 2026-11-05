@@ -77,7 +77,6 @@ import core.sys.posix.sys.ipc;
 import core.sys.posix.sys.shm;
 } /* CONFIG-MITSHM */
 import include.miline;
-import include.glx_extinit;
 import include.randrstr;
 
 static if (GLAMOR) {

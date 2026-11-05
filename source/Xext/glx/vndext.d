@@ -40,7 +40,7 @@ import dix.dispatch;
 // // import core.stdc.string;
 // import include.scrnintstr;
 // // import include.windowstr;
-import include.glx_extinit;
+import glx.glxext;
 
 // // import externs.glxproto;
 import glx.vndservervendor;

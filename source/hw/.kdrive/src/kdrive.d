@@ -49,7 +49,7 @@ import include.privates;
 static if(RANDR){
 import include.randrstr;
 }
-import include.glx_extinit;
+import glx.glxext;
 
 version (XV) {
 import hw.kdrive.src.kxv; 
