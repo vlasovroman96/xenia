@@ -47,7 +47,7 @@ import dix.privates;
 
 /* workaround for <windows.h> being included somewhere and conflicting with us */
 static if(RANDR){
-import include.randrstr;
+import randr.randr;
 }
 import glx.glxext;
 

@@ -36,14 +36,12 @@ public import include.windowstr;
 public import dix.dixstruct_priv;
 public import Xext.syncsrv;
 public import xfixes.xfixes;
-public import include.randrstr;
+public import randr.randr;
 public import core.stdc.inttypes;
 public import dri3.dri3;
 import present.present_fence;
 import externs.X11.extensions.presentproto;
 public import present.present_vblank; 
-
-public import include.randrstr;
 
 enum PresentFlipReason {
     PRESENT_FLIP_REASON_UNKNOWN,

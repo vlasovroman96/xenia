@@ -61,7 +61,7 @@ import hw.xfree86.drivers.video.modesetting.drmmode_bo;
 
 import dix.cursor;
 import hw.xfree86.drivers.video.modesetting.drmmode_display;
-import include.randrstr; 
+import randr.randr; 
 import include.xf86Crtc;
 // //import externs.X11.extensions.dpmsconst;
 import hw.xfree86.modes.xf86Crtc;
@@ -88,7 +88,6 @@ import hw.xfree86.drivers.video.modesetting.driver;
 import include.xf86cmap;
 import dix.privates;
 import randr.rrcrtc;
-import randr.randr;
 import randr.rrinfo;
 import externs.gbm;
 import hw.xfree86.modes.displaymode;

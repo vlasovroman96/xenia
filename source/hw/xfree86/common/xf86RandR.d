@@ -37,7 +37,6 @@ import xf86_priv;
 import include.xf86str;
 import include.xf86Priv;
 import mi.mipointer;
-import include.randrstr;
 import dix.inputstr;import hw.xfree86.common.xf86Helper;
 import xf86Cursor;
 import dix.events;

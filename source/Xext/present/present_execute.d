@@ -30,7 +30,7 @@ import present.present_priv;
 import externs.X11.extensions.presenttokens;
 import build.xlibre_server;
 // import Xext.randr.rrprovider;
-import include.randrstr;
+import randr.randr;
 import os.connection;
 import dri3.dri3;
 static if(DRI3){

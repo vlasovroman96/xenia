@@ -28,13 +28,11 @@ import dix.cursor_priv;
 import dix.input_priv;
 import randr.randrstr_priv;
 
-import include.randrstr;
+import randr.randr;
 import dix.inputstr;import randr.rrcrtc;
 import dix.resource;
 import randr.rroutput;
 import randr.rrmode;
-import randr.randr;
-import randr.randr;
 import randr.rroutput;
 import randr.rroutput;
 import os.io;

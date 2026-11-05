@@ -38,7 +38,7 @@ import include.windowstr;
 import hw.xfree86.common.xf86Helper;
 import xf86DGA;
 import hw.xfree86.common.edid;
-public import include.randrstr;
+public import randr.randr;
 public import xf86Modes;
 public import xf86Cursor;
 public import include.xf86i2c;

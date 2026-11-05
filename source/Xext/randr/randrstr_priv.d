@@ -33,7 +33,7 @@ import core.stdc.config: c_long, c_ulong;
  
 //public import x11.Xdefs;
 
-public import include.randrstr;
+public import randr.randr;
 import externs.X11.extensions.randrproto;
 import include.rrtransform;
 
@@ -111,7 +111,7 @@ void RRTerminateLease(RRLeasePtr lease);
 Bool RRLeaseInit();
 
 /* rrprovider.c */
-enum PRIME_SYNC_PROP =         "PRIME Synchronization";
+// enum PRIME_SYNC_PROP =         "PRIME Synchronization";
 
 void RRMonitorInit(ScreenPtr screen);
 
@@ -158,7 +158,7 @@ void RRDeliverScreenEvent(ClientPtr pClient, WindowPtr pWin, ScreenPtr pScreen);
  * @param pScreen the screen to query
  * @return pointer to CRTC structure or NULL
  */
-RRCrtcPtr RRFirstEnabledCrtc(ScreenPtr pScreen);
+// RRCrtcPtr RRFirstEnabledCrtc(ScreenPtr pScreen);
 
 /*
  * Compute vertical refresh rate from randr mode information

@@ -45,7 +45,7 @@ import include.resource;
 import dix.dixstruct_priv;
 import include.servermd;
 import dix.picturestr;
-import include.randrstr;
+import randr.randr;
 import miext.damage.damage_;
 import dix.gc;
 import render.picture;

@@ -77,7 +77,7 @@ import core.sys.posix.sys.ipc;
 import core.sys.posix.sys.shm;
 } /* CONFIG-MITSHM */
 import mi.miline;
-import include.randrstr;
+import randr.randr;
 
 static if (GLAMOR) {
 import glamor.glamor;

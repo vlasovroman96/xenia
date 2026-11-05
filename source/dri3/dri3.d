@@ -43,7 +43,7 @@ import dix.screen_hooks;
 private int dri3_request;
 // DevPrivateKeyRec dri3_screen_private_key;
 
-public import include.randrstr;
+public import randr.randr;
 
 enum DRI3_SCREEN_INFO_VERSION =        4;
 

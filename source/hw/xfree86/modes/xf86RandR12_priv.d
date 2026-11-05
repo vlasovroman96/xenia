@@ -9,7 +9,7 @@ extern(C): __gshared:
 //public import x11.Xdefs;
 //public import externs.X11.extensions._render;
 
-public import include.randrstr;
+public import randr.randr;
 public import xf86RandR12;
 import dix.colormap;
 

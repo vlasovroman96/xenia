@@ -47,7 +47,7 @@ import externs.sys.sysmacros;
 import glx.vndext;
 import dix.dixutils;
 import build.xlibre_server;
-import include.randrstr;
+import randr.randr;
 import dri3.dri3;
 import dix.gc;
 import core.sys.posix.stdlib : getenv, setenv, unsetenv;

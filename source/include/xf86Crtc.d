@@ -27,7 +27,7 @@ import core.stdc.config: c_long, c_ulong;
 import build.xlibre_server;
  
 import hw.xfree86.common.edid;
-public import include.randrstr;
+public import randr.randr;
 public import xf86Modes;
 public import xf86Cursor;
 public import include.xf86i2c;

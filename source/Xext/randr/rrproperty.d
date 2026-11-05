@@ -39,7 +39,6 @@ import dix.resource;
 import randr.rroutput;
 import randr.rrmode;
 import randr.randr;
-import randr.randr;
 import randr.rroutput;
 import randr.rroutput;
 import os.io;

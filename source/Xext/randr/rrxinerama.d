@@ -84,14 +84,12 @@ import build.xlibre_server;
 
 import dix.swaprep;
 import common.protocol_versions;
-import randr.randrstr_priv;
 import dix.property;
 import dix.swaprep;
 import randr.rrcrtc;
 import dix.resource;
 import randr.rroutput;
 import randr.rrmode;
-import randr.randr;
 import randr.randr;
 import randr.rroutput;
 import randr.rroutput;
