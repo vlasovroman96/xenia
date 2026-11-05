@@ -66,7 +66,6 @@ import miext.sync.misyncfd;
 import dix.dix_priv;
 import dix.request_priv;
 import dix.screenint_priv;
-import include.syncsdk;
 import miext.extinit_priv;
 import os.bug_priv;
 import os.osdep;
@@ -88,6 +87,28 @@ import os.utils;
 import os.WaitFor;
 import dix.events;
 import miext.sync.misync;
+
+public import mi.misync;
+import x11.Xdefs;
+import dix.dixstruct_priv;
+
+// void  SyncVerifyFence(SyncFence** ppFence, XID fid, ClientPtr client, Mask mode);
+
+// void * SyncCreate(ClientPtr client, XID id, ubyte type);
+
+enum string VERIFY_SYNC_FENCE(string pFence, string fid, string client, string mode) = `
+    do {								
+	int rc = void;								
+	rc = SyncVerifyFence(&(` ~ pFence ~ `), (` ~ fid ~ `), (` ~ client ~ `), (` ~ mode ~ `));	
+	if (Success != rc) return rc;					
+    } while (0)`;
+
+enum string VERIFY_SYNC_FENCE_OR_NONE(string pFence, string fid, string client, string mode) = `
+    do {								
+        ` ~ pFence ~ ` = 0;							
+        if (None != ` ~ fid ~ `)						
+	    ` ~ VERIFY_SYNC_FENCE!(`(` ~ pFence ~ `)`, `(` ~ fid ~ `)`, `(` ~ client ~ `)`, `(` ~ mode ~ `)`) ~ `;	
+    } while (0)`;
 // import mi.misync_priv;
 
 /*

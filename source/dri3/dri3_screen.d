@@ -28,7 +28,7 @@ import core.stdc.assert_;
 // import externs.libdrm;;
 import core.sys.posix.unistd;
 
-import include.syncsdk;
+import Xext.sync;
 
 import dri3.dri3_priv;
 import mi.misync;

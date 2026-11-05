@@ -28,7 +28,7 @@ extern(C): __gshared:
 //public import x11.Xmd;
 
 import build.xlibre_server;
-public import include.syncsdk;
+public import Xext.sync;
 
 public import dix.scrnintstr;
 public import common.misc;

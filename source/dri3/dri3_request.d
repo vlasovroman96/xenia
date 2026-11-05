@@ -29,7 +29,6 @@ import core.sys.posix.unistd;
 import dix.dix_priv;
 import dix.request_priv;
 import dix.screenint_priv;
-import include.syncsdk;
 import os.client_priv;
 
 import dri3.dri3_priv;

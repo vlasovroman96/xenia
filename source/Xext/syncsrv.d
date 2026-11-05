@@ -141,8 +141,8 @@ void SyncRemoveDeviceIdleTime(SyncCounter* counter);
 
 // int SyncFDFromFence(ClientPtr client, DrawablePtr pDraw, SyncFence* fence);
 
-void SyncDeleteTriggerFromSyncObject(SyncTrigger* pTrigger);
+// void SyncDeleteTriggerFromSyncObject(SyncTrigger* pTrigger);
 
-int SyncAddTriggerToSyncObject(SyncTrigger* pTrigger);
+// int SyncAddTriggerToSyncObject(SyncTrigger* pTrigger);
 
                           /* _SYNCSRV_H_ */
