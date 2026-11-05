@@ -108,7 +108,7 @@ struct ms_async_flip_priv {
 };
 import mi.miscrinit;
 import os.log;
-import include.xf86Cursor;
+import xf86Cursor;
 import core.sys.posix.stdlib;
 import mi.midispcur;
 import hw.xfree86.drivers.video.modesetting.vblank;

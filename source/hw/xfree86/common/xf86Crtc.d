@@ -35,7 +35,6 @@ public import dix.damage;
 public import dix.picturestr;
 import randr.rrtransform;
 import include.xf86Parser;
-import include.xf86Cursor;
 import dix.scrintstr;
 import hw.xfree86.modes.xf86Crtc;
 import hw.xfree86.modes.displaymode;

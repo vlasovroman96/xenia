@@ -19,7 +19,7 @@ import dix.cursor;
 import mi.mipointer;
 import hw.xfree86.ramdac.xf86CursorPriv;
 import common.servermd;
-import include.xf86Cursor;
+import xf86Cursor;
 import hw.xfree86.common.xf86Helper;
 import xf86CursorRD;
 import os.inputthread;

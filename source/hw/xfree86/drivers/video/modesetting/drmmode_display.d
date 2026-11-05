@@ -71,7 +71,7 @@ import externs.X11.extensions.dpmsconst;
 import os.log;
 import hw.xfree86.drivers.video.modesetting.vblank;
 import pageflip;
-import include.xf86Cursor;
+import xf86Cursor;
 import dix.gc;
 import xf86CursorRD;
 import hw.xfree86.common.xf86Option;

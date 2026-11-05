@@ -4,7 +4,7 @@ extern(C): __gshared:
  
 public import build.xorg_config;
 
-public import include.xf86Cursor;
+public import xf86Cursor;
 public import mi.mipointer;
 import hw.xfree86.modes.displaymode;
 import dix.colormap_priv;
