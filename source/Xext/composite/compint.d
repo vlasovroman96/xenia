@@ -58,7 +58,7 @@ public import dix.cursor;
 public import dix.dixstruct_priv;
 public import dix.gc;
 public import include.servermd;
-public import include.picturestr;
+public import dix.picturestr;
 public import dix.extension;
 public import include.privates;
 public import composite.compext;

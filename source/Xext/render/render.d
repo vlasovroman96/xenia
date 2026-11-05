@@ -63,7 +63,7 @@ import dix.pixmap;
 import dix.swapreq;
 import build.xlibre_server;
 import os.log;
-import include.picture;
+import dix.picture;
 import render.glyph;
 import xf86Bus;
 

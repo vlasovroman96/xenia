@@ -98,7 +98,7 @@ import render.picture;
 import build.xlibre_server;
 import hw.xfree86.modes.displaymode;
 
-import include.picture;
+import dix.picture;
 static if(DPMSExtension) {
 import Xext.dpmsproc;
 }

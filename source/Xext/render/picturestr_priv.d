@@ -7,7 +7,7 @@ extern(C): __gshared:
  * Copyright © 2000 SuSE, Inc.
  */
  
-public import include.picturestr;
+public import dix.picturestr;
 public import include.scrnintstr;
 public import render.glyphstr_priv;
 public import include.resource;

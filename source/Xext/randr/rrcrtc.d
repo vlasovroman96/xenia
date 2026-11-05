@@ -52,7 +52,7 @@ import randr.rrmode;
 import dix.timestamp;
 
 import externs.attrs;
-import include.picture;
+import dix.picture;
  
 
 /* XFixed is just `int`, so better check whether it's really 32bit */

@@ -55,7 +55,7 @@ public import include.regionstr;
 public import include.privates;
 public import dix.damage;
 // //public import externs.X11.extensions._randr;
-public import include.picturestr;
+public import dix.picturestr;
 import xf86Bus;
 
 struct _Drawable {

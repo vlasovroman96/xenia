@@ -51,7 +51,7 @@ public import Xext.glx.fix;
 }
 
 public import glamor.glamor_xv;
-import include.picture;
+import dix.picture;
 
 
 enum GLAMOR_DEFAULT_PRECISION = 

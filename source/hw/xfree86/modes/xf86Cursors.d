@@ -41,7 +41,7 @@ import include.xf86Crtc;
 import xf86Modes;
 import xf86RandR12;
 import hw.xfree86.ramdac.xf86CursorPriv;
-import include.picturestr;
+import dix.picturestr;
 import dix.cursor;
 import dix.inputstr;import hw.xfree86.common.xf86Helper;
 import hw.xfree86.modes.xf86Crtc;

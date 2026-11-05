@@ -33,10 +33,10 @@ import dix.gc;
 import include.pixmapstr;
 import include.windowstr;
 import include.servermd;
-import include.picturestr;
+import dix.picturestr;
 import externs.X11.extensions.renderproto;
 import externs.attrs;
-import include.picture;
+import dix.picture;
 
 
 private XFixed miLineFixedX(xLineFixed* l, XFixed y, Bool ceil)

@@ -36,7 +36,7 @@ import build.xorg_config;
 
 import fb.fb;
 import render.glyphstr_priv;
-import include.picturestr;
+import dix.picturestr;
 import externs.attrs;
 import fb.fballpriv;
 import render.mipict;

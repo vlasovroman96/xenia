@@ -32,13 +32,13 @@ import mi.mipict;
 import include.scrnintstr;
 import include.pixmapstr;
 import include.windowstr;
-import include.picturestr;
+import dix.picturestr;
 import externs.X11.extensions.renderproto;
 import render.mipict;
 import dix.gc;
 import render.picture;
 import region;
-import include.picture;
+import dix.picture;
 
 
 private void miColorRects(PicturePtr pDst, PicturePtr pClipPict, xRenderColor* color, int nRect, xRectangle* rects, int xoff, int yoff)

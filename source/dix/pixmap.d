@@ -44,13 +44,13 @@ import include.windowstr;
 import include.resource;
 import dix.dixstruct_priv;
 import include.servermd;
-import include.picturestr;
+import dix.picturestr;
 import include.randrstr;
 import miext.damage.damage_;
 import dix.gc;
 import render.picture;
 import externs.attrs;
-import include.picture;
+import dix.picture;
 /*
  * Scratch pixmap APIs are provided for source and binary compatibility.  In
  * older versions, DIX would store a freed scratch pixmap for future use.  This

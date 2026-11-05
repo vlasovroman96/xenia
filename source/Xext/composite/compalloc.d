@@ -62,7 +62,7 @@ import dix.gc;
 import render.picture;
 import dix.dixutils;
 import externs.X11.extensions.render_;
-import include.picture;
+import dix.picture;
 
 private Bool compScreenUpdate(ClientPtr pClient, void* closure)
 {

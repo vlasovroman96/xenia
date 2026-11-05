@@ -32,7 +32,7 @@ import glamor.glamor_priv;
 import glamor.glamor_transform;
 import glamor.glamor;
 import externs.gnu;
-import include.picture;
+import dix.picture;
 import glamor.glamor_render;
 // import glamor.glamor_program;
 

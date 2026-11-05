@@ -41,12 +41,12 @@ public import include.windowstr;
 public import include.window;
 public import include.xf86str;
 public import mi.mipointer;
-public import include.picturestr;
+public import dix.picturestr;
 import externs.pciaccess;
 import hw.xfree86.common.xf86Helper;
 import hw.xfree86.modes.displaymode;
 import dix.colormap_priv;
-import include.picture;
+import dix.picture;
 
 enum string WRAP_SCREEN(string x,string y) = `{pScreenPriv.` ~ x ~ ` = pScreen.` ~ x ~ `; pScreen.` ~ x ~ ` = &` ~ y ~ `;}`;
 

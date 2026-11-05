@@ -35,10 +35,10 @@ import include.scrnintstr;
 import dix.gc;
 import include.pixmapstr;
 import include.windowstr;
-import include.picturestr;
+import dix.picturestr;
 import externs.X11.extensions.renderproto;
 import render.picture;
-import include.picture;
+import dix.picture;
 
 
 enum NUM_CUBE_LEVELS =	4;

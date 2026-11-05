@@ -1,4 +1,4 @@
-module include.picture;
+module dix.picture;
 @nogc nothrow:
 extern(C): __gshared:
 /*
@@ -27,7 +27,7 @@ extern(C): __gshared:
 
  
 public import include.privates;
-import include.picturestr;
+import dix.picturestr;
 
 public import dsl.pixman;
 public import glamor.glamor_render;

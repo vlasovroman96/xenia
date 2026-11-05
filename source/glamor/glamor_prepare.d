@@ -31,7 +31,7 @@ import glamor.glamor_prepare;
 import glamor.glamor_transfer;
 import glamor.glamor;
 import glamor.glamor_pixmap;
-import include.picture;
+import dix.picture;
 
 /*
  * Make a drawable ready to draw with fb by

@@ -28,7 +28,7 @@ import build.dix_config;
 import fb.fbpict_priv;
 import mi.mipict;
 
-import include.picturestr;
+import dix.picturestr;
 import dix.damage;
 import externs.attrs;
 import render.mipict;

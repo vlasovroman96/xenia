@@ -46,7 +46,7 @@ import mirect;
 import mitrap;
 import mitri;
 import fb.fb;
-import include.picture;
+import dix.picture;
 
 
 /**

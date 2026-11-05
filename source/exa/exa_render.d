@@ -41,7 +41,7 @@ import mitrap;
 import mitri;
 import exa_unaccel;
 import fb.fb;
-import include.picture;
+import dix.picture;
 
 static if (DEBUG_TRACE_FALL) {
 private void exaCompositeFallbackPictDesc(PicturePtr pict, char* string, int n)

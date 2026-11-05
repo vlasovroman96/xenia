@@ -65,7 +65,7 @@ import os.osinit;
 import os.Xtransutil;
 import Xext.xtest;
 import render.picture;
-import include.picture;
+import dix.picture;
 version (Cygwin) {
 import core.stdc.stdlib;
 import core.stdc.signal;
@@ -137,7 +137,7 @@ import present.present_priv;
 import Xext.xf86bigfontsrv; /* XF86BigfontCleanup() */
 import xkb.xkbsrv_priv;
 
-// import include.picture;
+// import dix.picture;
 import mi.miinitext;
 import dix.dixstruct_priv;
 import Xext.dpmsproc;

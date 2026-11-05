@@ -9,7 +9,7 @@ extern(C): __gshared:
 public import externs.X11.extensions.renderproto;
 
 public import fb.fbpict;
-public import include.picture;
+public import dix.picture;
 
 // void fbRasterizeTrapezoid(PicturePtr alpha, xTrapezoid* trap, int x_off, int y_off);
 

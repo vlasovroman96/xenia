@@ -41,7 +41,7 @@ public import include.privates;
 import include.servermd;
 
 public import migc;
-public import include.picturestr;
+public import dix.picturestr;
 import fb.fballpriv;
 public import fb.fbcmap_mi;
 public import fb.fbwindow;
@@ -49,7 +49,7 @@ import fb.fbrop;
 import dix.colormap_priv;
 
 import build.xorg_config;
-import include.picture;
+import dix.picture;
 
 static if (FB_ACCESS_WRAPPER) {
 

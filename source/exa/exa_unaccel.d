@@ -33,7 +33,7 @@ import exa.exa;
 import render.mipict;
 import os.log;
 import render.picture;
-import include.picture;
+import dix.picture;
 import render.glyph;
 
 /*

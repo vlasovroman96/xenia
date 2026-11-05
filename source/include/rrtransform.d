@@ -25,8 +25,8 @@ extern(C): __gshared:
 
  
 //public import externs.X11.extensions._randr;
-public import include.picturestr;
-import include.picture;
+public import dix.picturestr;
+import dix.picture;
 
 alias RRTransformRec = _rrTransform;
 alias RRTransformPtr = _rrTransform*;

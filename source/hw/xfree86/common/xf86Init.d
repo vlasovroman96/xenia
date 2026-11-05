@@ -94,7 +94,7 @@ import hw.xfree86.common.xf86Xinput;
 // import xf86InPriv;
 import include.xf86Crtc;
 import glx.glxbuiltin : xeniaGlxBuiltinInit;
-import include.picturestr;
+import dix.picturestr;
 import xf86Bus;
 import include.xserver_properties;
 import os.log;

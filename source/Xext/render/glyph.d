@@ -44,10 +44,10 @@ import include.resource;
 import dix.cursor;
 import dix.dixstruct_priv;
 import include.servermd;
-import include.picturestr;
+import dix.picturestr;
 import render.glyphstr_priv;
 import dix.gc;
-import include.picture;
+import dix.picture;
 
 /*
  * From Knuth -- a good choice for hash/rehash values is p, p-2 where

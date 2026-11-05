@@ -32,9 +32,9 @@ import include.scrnintstr;
 import dix.gc;
 import include.pixmapstr;
 import include.windowstr;
-import include.picturestr;
+import dix.picturestr;
 import externs.X11.extensions.renderproto;
-import include.picture;
+import dix.picture;
 
 
 void miPointFixedBounds(int npoint, xPointFixed* points, BoxPtr bounds)

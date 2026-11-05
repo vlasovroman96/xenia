@@ -28,7 +28,7 @@ import include.xf86;
 import include.xf86str;
 import shadowfb;
 
-import include.picturestr;
+import dix.picturestr;
 import include.shadowfb;
 import hw.xfree86.common.xf86Helper;
 import dix.screen_hooks;

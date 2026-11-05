@@ -52,14 +52,14 @@ import   include.scrnintstr;
 import   include.servermd;
 import   mi.mipointer;
 import   mi.misprite;
-import   include.picturestr;
+import   dix.picturestr;
 import dix.inputstr;import dix.screen_hooks;
 import render.picture;
 import externs.X11.extensions.render_;
 import dix.events;
 import dix.devices;
 import dix.gc;
-import include.picture;
+import dix.picture;
 
 /* per-screen private data */
 private DevPrivateKeyRec miDCScreenKeyRec;

@@ -35,7 +35,7 @@ import dix.gc;
 import include.protocol_versions;
 import common.list;
 import Xext.hashtable;
-import include.picturestr;
+import dix.picturestr;
 import composite.compint;
 import externs.X11.extensions.XResproto;
 import os.log;

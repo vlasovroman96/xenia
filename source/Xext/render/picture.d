@@ -55,7 +55,7 @@ import dix.colormap;
 import region;
 import build.xlibre_server;
 import dix.window;
-import include.picture;
+import dix.picture;
 import render.glyph;
 import xf86Bus;
 

@@ -53,7 +53,7 @@ import fb.fbpixmap;
  import Xext.glx.fix;
 import glamor.glamor_utils;;
 //import externs.GL.glext;
-import include.picturestr;
+import dix.picturestr;
 import render.picture;
 import glamor.glamor;
 import dix.screen_hooks;

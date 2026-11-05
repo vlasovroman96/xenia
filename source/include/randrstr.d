@@ -51,7 +51,7 @@ import dix.timestamp;
 //public import externs.X11.extensions._randr;
 public import externs.X11.extensions.randrproto;
 //public import externs.X11.extensions._render;      /* we share subpixel order information */
-public import include.picturestr;
+public import dix.picturestr;
 // //public import x11.Xfuncproto;
 
 /* required for ABI compatibility for now */

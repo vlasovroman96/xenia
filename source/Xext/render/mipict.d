@@ -33,7 +33,7 @@ import include.scrnintstr;
 import dix.gc;
 import include.pixmapstr;
 import include.windowstr;
-import include.picturestr;
+import dix.picturestr;
 import externs.X11.extensions.renderproto;
 import render.picture;
 import externs.attrs;
@@ -42,7 +42,7 @@ import mirect;
 import region;
 import dix.dispatch;
 import dix.window;
-import include.picture;
+import dix.picture;
 import render.glyph;
 
 

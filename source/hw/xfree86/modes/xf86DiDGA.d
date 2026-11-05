@@ -43,7 +43,7 @@ public import xf86Modes;
 public import xf86Cursor;
 public import include.xf86i2c;
 public import dix.damage;
-public import include.picturestr;
+public import dix.picturestr;
 import include.rrtransform;
 import include.xf86Parser;
 import include.xf86Cursor;

@@ -27,7 +27,7 @@ import build.dix_config;
 import include.rrtransform;
 import randr.randrstr_priv;
 import externs.attrs;
-import include.picture;
+import dix.picture;
 
 
 void RRTransformInit(RRTransformPtr transform)

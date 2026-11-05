@@ -37,7 +37,7 @@ import dix.cursor;
 import dix.dixstruct_priv;
 import dix.gc;
 import include.servermd;
-import include.picturestr;
+import dix.picturestr;
 import externs.attrs;
 
 import externs.X11.extensions.renderproto;

@@ -49,7 +49,7 @@ import exa.exa_offscreen;
 
 import dix.gc;
 import include.privates;
-import include.picture;
+import dix.picture;
 
 enum DEBUG_TRACE_FALL =	0;
 enum DEBUG_MIGRATE =		0;
