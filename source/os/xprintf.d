@@ -67,7 +67,7 @@ import core.stdc.stdio;
 import core.stdc.errno;
 import core.stdc.string;
 
-import include.os;
+import os.os;
 import externs.gnu;
 import os.log;
 

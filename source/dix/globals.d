@@ -64,7 +64,7 @@ import include.scrnintstr;
 import dix.input;
 import dix.dixfonts;
 import dix.dixstruct_priv;
-import include.os;
+import os.os;
 import dix.timestamp;
 
 ScreenInfo screenInfo;

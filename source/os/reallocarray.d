@@ -24,7 +24,7 @@ import core.sys.posix.sys.types;
 import core.stdc.errno;
 import core.stdc.stdint;
 import core.stdc.stdlib;
-import include.os;
+import os.os;
 
 /*
  * This is sqrt(SIZE_MAX+1), as s1*s2 <= SIZE_MAX

@@ -34,7 +34,7 @@ import dix.screenint_priv;
 import include.xf86DDC;
 
 import include.xf86;
-import include.os;
+import os.os;
 import xf86Modes;
 import include.xf86Priv;
 import mi.mipointer;

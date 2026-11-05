@@ -142,7 +142,7 @@ import Xext.panoramiXsrv;
 
 import dix.dixutils;
 import common.misc;
-import include.os;
+import os.os;
 import include.resource;
 import dix.dixstruct_priv;
 import dix.window;

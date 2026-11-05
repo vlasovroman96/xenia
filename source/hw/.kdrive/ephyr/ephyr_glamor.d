@@ -43,7 +43,7 @@ import glamor.glamor_egl;
 import glamor.glamor_priv;
 import hw.kdrive.ephyr.ephyr;
 import hw.kdrive.ephyr.ephyr_glamor;
-import include.os;
+import os.os;
 import hw.kdrive.ephyr.ephyr;
 import hw.kdrive.src.kdrive;
 

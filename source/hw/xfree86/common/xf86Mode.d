@@ -93,7 +93,7 @@ import os.log_priv;
 
 import xf86Modes;
 import include.xf86Crtc;
-import include.os;
+import os.os;
 import include.servermd;
 import xf86_priv;
 import include.xf86Priv;

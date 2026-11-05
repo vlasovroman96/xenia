@@ -36,7 +36,7 @@ import core.stdc.errno;
 import dsl.libseat;
 
 
-import include.os;
+import os.os;
 import include.xf86;
 import xf86_priv;
 static if(XSERVER_PLATFORM_BUS){

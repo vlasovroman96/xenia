@@ -35,7 +35,7 @@ private template HasVersion(string versionId) {
 
 import build.dix_config;
 
-import include.os;
+import os.os;
 import os.xsha1;
 
 static if (HasVersion!"HAVE_SHA1_IN_LIBMD"  /* Use libmd for SHA1 */ 

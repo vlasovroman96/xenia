@@ -8,7 +8,7 @@ import build.xorg_config;
 import include.xorgVersion;
 import build.xlibre_server;
 
-import include.os;
+import os.os;
 import include.servermd;
 import include.pixmapstr;
 import include.windowstr;

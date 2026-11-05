@@ -11,7 +11,7 @@ import build.dix_config;
 
 import core.stdc.stdlib;
 
-import include.os;
+import os.os;
 import os.osdep;
 import os.log;
 import os.access;

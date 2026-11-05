@@ -39,7 +39,7 @@ import mi.mi_priv;
 
 import include.scrnintstr;
 import common.misc;
-import include.os;
+import os.os;
 import include.windowstr;
 import include.resource;
 import dix.dixstruct_priv;

@@ -95,7 +95,7 @@ import Xext.panoramiXsrv;
 import Xext.xvdix_priv;
 
 import common.misc;
-import include.os;
+import os.os;
 import include.scrnintstr;
 import include.windowstr;
 import include.pixmapstr;

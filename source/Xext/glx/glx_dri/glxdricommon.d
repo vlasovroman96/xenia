@@ -40,7 +40,7 @@ import composite.compext;
 
 import miext.extinit_priv;
 
-import include.os;
+import os.os;
 import glx.glxserver;
 import glx.glxext;
 import glx.glxcontext;

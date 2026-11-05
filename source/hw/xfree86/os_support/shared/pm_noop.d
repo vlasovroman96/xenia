@@ -33,7 +33,7 @@ import build.xorg_config;
 
 //import x11.X;
 
-import include.os;
+import os.os;
 import include.xf86;
 import include.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;

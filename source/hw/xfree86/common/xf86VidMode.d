@@ -44,7 +44,7 @@ import build.xlibre_server;
 import dix.screenint_priv;
 import os.log_priv;
 
-import include.os;
+import os.os;
 import xf86_priv;
 import include.xf86Priv;
 import xf86Globals;

@@ -6,7 +6,7 @@ extern(C): __gshared:
  * Copyright © 2024 Enrico Weigelt, metux IT consult <info@metux.net>
  */
  
-public import include.os;
+public import os.os;
 public import os.osdep;
 
 /* callbacks of the DDX, which are called by DIX or OS layer.

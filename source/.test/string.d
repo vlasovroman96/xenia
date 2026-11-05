@@ -33,7 +33,7 @@ extern(C): __gshared:
 import build.dix_config;
 
 import core.stdc.assert_;
-import include.os;
+import os.os;
 import test.tests_common;
 import test.tests;
 

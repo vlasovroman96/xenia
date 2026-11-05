@@ -9,7 +9,7 @@ extern(C): __gshared:
 public import core.stdc.stdarg;
 // //public import x11.Xfuncproto;
 
-public import include.os;
+public import os.os;
 
 // int auditTrailLevel;
 

@@ -48,7 +48,7 @@ public import dix.screen_hooks_priv;
 
 public import common.misc;
 public import include.scrnintstr;
-public import include.os;
+public import os.os;
 public import include.regionstr;
 public import include.validate;
 public import include.windowstr;

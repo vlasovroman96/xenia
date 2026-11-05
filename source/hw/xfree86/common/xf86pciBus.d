@@ -48,7 +48,7 @@ import os.log_priv;
 import os.osdep;
 
 import xf86_pci_priv;
-import include.os;
+import os.os;
 import hw.xfree86.os_support.bus.Pci;
 import xf86_priv;
 import include.xf86Priv;

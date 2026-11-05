@@ -51,7 +51,7 @@ extern(C): __gshared:
 import build.xorg_config;
 
 import core.stdc.string;
-import include.os;
+import os.os;
 // import hw.xfree86.loader.loader;
 import hw.xfree86.loader.loaderProcs;
 import os.log;

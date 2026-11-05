@@ -33,7 +33,7 @@ import core.sys.posix.sys.select;
 
 import os.log_priv;
 
-import include.os;
+import os.os;
 
 // import config.dbus_core;
 import externs.attrs;
@@ -46,7 +46,7 @@ import core.sys.posix.sys.select;
 
 import os.log_priv;
 
-import include.os;
+import os.os;
 
 // import config.dbus_core;
 import externs.attrs;

@@ -97,7 +97,7 @@ import miext.extinit_priv;
 import common.misc;
 import xf86Extensions;
 import mi.micmap;
-import include.os;
+import os.os;
 import Xext.xres;
 import mi.miinitext;
 import os.log;

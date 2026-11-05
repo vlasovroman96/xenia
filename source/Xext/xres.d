@@ -26,7 +26,7 @@ import miext.extinit_priv;
 import Xext.xace;
 
 import common.misc;
-import include.os;
+import os.os;
 import dix.dixstruct_priv;
 import dix.swaprep;
 import include.pixmapstr;

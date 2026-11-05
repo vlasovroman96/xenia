@@ -51,7 +51,7 @@ import core.stdc.config: c_long, c_ulong;
  */
 import build.xorg_config;
 
-import include.os;
+import os.os;
 import hw.xfree86.loader.loaderProcs;
 import include.xf86Module;
 import hw.xfree86.loader.loader;

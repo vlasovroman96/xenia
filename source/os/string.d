@@ -13,7 +13,7 @@ import core.stdc.string;
 
 import os.fmt;
 
-import include.os;
+import os.os;
 import os.log;
 
 char* Xstrdup(const(char)* s)

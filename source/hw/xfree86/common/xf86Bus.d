@@ -49,7 +49,7 @@ import core.sys.posix.unistd;
 import config.hotplug_priv;
 import os.osdep;
 
-import include.os;
+import os.os;
 import xf86_priv;
 import include.xf86Priv;
 

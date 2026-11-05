@@ -56,7 +56,7 @@ import os.log_priv;
 import os.osdep;
 import xf86Mode;
 
-import include.os;
+import os.os;
 import include.servermd;
 import include.pixmapstr;
 import include.windowstr;

@@ -7,7 +7,7 @@ extern(C): __gshared:
  */
 import build.dix_config;
 
-import include.os;
+import os.os;
 
 import xf86_compat;
 import os.log;

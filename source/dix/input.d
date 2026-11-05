@@ -60,7 +60,7 @@ public import include.window;             /* for WindowPtr */
 public import include.xkbrules;
 public import dix.events;
 public import common.list;
-public import include.os;
+public import os.os;
 import dix.inpututils_priv;
 //public import externs.X11.extensions.XI2;
 import dix.inputstr;import dix.input_priv;

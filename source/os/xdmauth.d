@@ -46,7 +46,7 @@ import os.auth;
 import os.io_priv;
 import os.Xtrans;
 
-import include.os;
+import os.os;
 import os.osdep;
 
 static if(XDMCP){

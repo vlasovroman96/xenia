@@ -40,7 +40,7 @@ import os.fmt;
 
 import dix.input;
 import dix.inputstr;import config.config_backends;
-import include.os;
+import os.os;
 import externs.gnu;
 import os.log;
 import externs.libhal;
@@ -53,7 +53,7 @@ import core.sys.posix.sys.select;
 
 import os.log_priv;
 
-import include.os;
+import os.os;
 
 import config.dbus_core;
 import externs.attrs;

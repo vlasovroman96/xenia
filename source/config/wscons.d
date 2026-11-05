@@ -39,7 +39,8 @@ import core.stdc.string;
 import core.sys.posix.unistd;
 
 import dix.input;
-import dix.inputstr;import include.os;
+import dix.inputstr;
+import os.os;
 import config.config_backends;
 import externs.gnu;
 import dix.inpututils;

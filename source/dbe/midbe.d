@@ -38,7 +38,7 @@ import build.dix_config;
 //import x11.X;
 //import x11.Xproto;
 import common.misc;
-import include.os;
+import os.os;
 import include.windowstr;
 import include.scrnintstr;
 import include.pixmapstr;

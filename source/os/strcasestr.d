@@ -38,7 +38,7 @@ import build.xlibre_server;
 import core.stdc.ctype;
 import core.stdc.string;
 
-import include.os;
+import os.os;
 import externs.gnu;
 
 /*

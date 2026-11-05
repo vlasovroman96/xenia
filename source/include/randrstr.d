@@ -35,7 +35,7 @@ import core.stdc.config: c_long, c_ulong;
 
 public import include.xlibre_ptrtypes;
 public import common.misc;
-public import include.os;
+public import os.os;
 public import dix.dixstruct_priv;
 public import include.resource;
 public import include.scrnintstr;

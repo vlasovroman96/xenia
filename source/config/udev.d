@@ -38,7 +38,7 @@ import os.fmt;
 
 import dix.input;
 import dix.inputstr;import config.config_backends;
-import include.os;
+import os.os;
 import externs.attrs;
 import os.log;
 import dix.inpututils;

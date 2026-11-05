@@ -41,7 +41,7 @@ import externs.glxtokens;
 import dix.colormap_priv;
 
 import include.windowstr;
-import include.os;
+import os.os;
 
 import include.privates;
 import glx.glxserver;

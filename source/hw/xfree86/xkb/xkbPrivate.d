@@ -10,7 +10,7 @@ import hw.xfree86.common.action_priv;
 import xkb.xkbsrv_priv;
 
 import include.windowstr;
-import include.os;
+import os.os;
 import xf86_priv;
 import externs.gnu;
 import externs.X11.extensions.XKB;

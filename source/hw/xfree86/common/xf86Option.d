@@ -39,7 +39,7 @@ import build.xorg_config;
 import core.stdc.stdlib;
 import core.stdc.ctype;
 //import x11.X;
-import include.os;
+import os.os;
 import include.xf86;
 import xf86Opt_priv;
 import hw.xfree86.common.xf86Xinput;

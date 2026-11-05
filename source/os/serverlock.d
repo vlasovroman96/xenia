@@ -68,7 +68,7 @@ import dix.dix_priv;
 import os.serverlock;
 import os.osdep;
 
-import include.os;
+import os.os;
 
 /*
  * Explicit support for a server lock file like the ones used for UUCP.

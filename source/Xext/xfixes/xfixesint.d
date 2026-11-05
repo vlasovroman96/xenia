@@ -55,7 +55,7 @@ import build.xlibre_server;
 
 
 public import common.misc;
-public import include.os;
+public import os.os;
 public import dix.dixstruct_priv;
 public import dix.extension;
 public import include.windowstr;

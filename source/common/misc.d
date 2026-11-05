@@ -126,7 +126,7 @@ version (TRUE) {} else {
 // enum FALSE = 0;
 }
 
-public import include.os;                 /* for ALLOCATE_LOCAL and DEALLOCATE_LOCAL */
+public import os.os;                 /* for ALLOCATE_LOCAL and DEALLOCATE_LOCAL */
 //public import x11.X;         /* for bcopy, bzero, and bcmp */
 
 enum NullBox = cast(BoxPtr)0;

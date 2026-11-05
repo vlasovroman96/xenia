@@ -70,7 +70,7 @@ import os.bug_priv;
 
 import common.misc;
 import dix.dixstruct_priv;
-import include.os;
+import os.os;
 import include.scrnintstr;
 import include.resource;
 import include.windowstr;

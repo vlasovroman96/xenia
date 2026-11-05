@@ -36,7 +36,7 @@ import os.bug_priv;
 
 import include.ptrveloc;
 import externs.X11.Xatom;
-import include.os;
+import os.os;
 
 import include.xserver_properties;
 import Xi.xiproperty;

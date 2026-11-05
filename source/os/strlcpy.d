@@ -21,7 +21,7 @@ import build.xlibre_server;
 
 import core.sys.posix.sys.types;
 import core.stdc.string;
-import include.os;
+import os.os;
 
 static if (HAVE_STRLCPY){} else {
 /*

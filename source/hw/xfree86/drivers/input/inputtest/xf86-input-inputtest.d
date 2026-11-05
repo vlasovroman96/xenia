@@ -45,7 +45,7 @@ import dix.input;
 import include.xkbsrv;
 import include.xf86;
 import include.xserver_properties;
-import include.os;
+import os.os;
 import os.log;
 import hw.xfree86.common.xf86Helper;
 import dix.dixutils;

@@ -35,7 +35,7 @@ import build.xorg_config;
 import build.xlibre_server;
 import include.xf86;
 import x11.X;
-// import include.os;
+// import os.os;
 // import include.windowstr;
 // import include.propertyst;
 // import xf86_priv;

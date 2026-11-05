@@ -43,7 +43,7 @@ import glx.glxserver;
 import include.windowstr;
 import include.propertyst;
 import include.privates;
-import include.os;
+import os.os;
 import glx.unpack;
 import glx.glxutil;
 // import glx.glxext;

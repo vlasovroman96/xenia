@@ -74,7 +74,7 @@ import os.osdep;
 import os.serverlock;
 
 import common.misc;
-import include.os;
+import os.os;
 import dix.dixstruct_priv;
 import os.log;
 import externs.gnu;

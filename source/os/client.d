@@ -66,7 +66,7 @@ import core.sys.posix.unistd;
 
 import os.client_priv;
 
-import include.os;
+import os.os;
 
 version (__sun) {
 import core.stdc.errno;

@@ -45,7 +45,7 @@ import os.osdep;
 import Xext.geext_priv;
 
 import common.misc;
-import include.os;
+import os.os;
 import dix.dixstruct_priv;
 import dix.window;
 import Xext.dpmsproc;

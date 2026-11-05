@@ -32,7 +32,7 @@ import dix.input_priv;
 import dix.screen_hooks_priv;
 import include.xf86DDC;
 
-import include.os;
+import os.os;
 import xf86_priv;
 import include.xf86str;
 import include.xf86Priv;

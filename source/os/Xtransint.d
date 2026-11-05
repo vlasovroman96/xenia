@@ -233,7 +233,7 @@ version (__clang__) {
 // version (XTRANSDEBUG) {
 public import core.stdc.stdarg;
 
-public import include.os;
+public import os.os;
 // } /* XTRANSDEBUG */
 
 import os.log;

@@ -35,7 +35,6 @@ import core.sys.posix.unistd;
 import config.dbus_core;
 // import config.hotplug_priv;
 
-// import include.os;
 // import hw.xfree.os_support.linux.linux;
 // import hw.xfree86.os_support.xf86_os_support;
 // import xf86_priv;
@@ -52,7 +51,6 @@ import config.dbus_core;
 
 // import os.log_priv;
 
-// import include.os;
 // import xf86_priv;
 // import include.xf86Priv;
 // import hw.xfree86.os_support.xf86_os_support;
@@ -74,7 +72,7 @@ import config.hotplug_priv;
 
 import os.log_priv;
 
-import include.os;
+import os.os;
 
 // import config.dbus_core;
 import externs.attrs;

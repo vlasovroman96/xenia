@@ -50,7 +50,7 @@ import Xext.panoramiXsrv;
 import dix.dispatch;
 
 import common.misc;
-import include.os;
+import os.os;
 import include.windowstr;
 import include.scrnintstr;
 import include.pixmapstr;

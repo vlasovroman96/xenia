@@ -20,7 +20,7 @@ import miext.extinit_priv;
 import Xext.xvdix_priv;
 
 import common.misc;
-import include.os;
+import os.os;
 import dix.dixstruct_priv;
 import include.resource;
 import include.scrnintstr;

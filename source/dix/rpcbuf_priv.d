@@ -9,7 +9,7 @@ extern(C): __gshared:
 public import core.stdc.stddef;
 
 public import common.misc;
-public import include.os;
+public import os.os;
 
 /*
  * buffer for easing RPC payload assembly

@@ -161,7 +161,7 @@ import dix.events;
 import dix.devices;
 // import os.utils;
 import std.conv;
-import include.os;
+import os.os;
 import os.io;
 import dix.inpututils;
 import include.xkbstr;

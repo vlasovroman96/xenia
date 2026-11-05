@@ -7,7 +7,7 @@ import build.xorg_config;
 
 import os.log_priv;
 
-import include.os;
+import os.os;
 import xf86_priv;
 import include.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;

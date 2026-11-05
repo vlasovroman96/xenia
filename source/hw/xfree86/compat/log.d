@@ -5,7 +5,7 @@ import build.dix_config;
 
 ////import x11.Xfuncproto;
 
-import include.os;
+import os.os;
 
 import xf86_compat;
 import os.log;

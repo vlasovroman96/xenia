@@ -13,7 +13,7 @@ import core.stdc.stdlib;
 import common.misc;
 import xf86Parser_priv;
 import configProcs;
-import include.os;
+import os.os;
 import os.log;
 import xf86Parser_priv;
 

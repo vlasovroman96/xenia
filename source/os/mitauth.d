@@ -37,7 +37,7 @@ from The Open Group.
 import build.dix_config;
 
 //import x11.X;
-import include.os;
+import os.os;
 import os.osdep;
 import os.mitauth;
 import dix.dixstruct_priv;

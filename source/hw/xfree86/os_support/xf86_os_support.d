@@ -11,7 +11,7 @@ extern(C): __gshared:
  
 //public import x11.Xdefs;
 
-public import include.os;
+public import os.os;
 public import dix.dix_priv;
 public import build.xlibre_server;
 import config.hotplug_priv;

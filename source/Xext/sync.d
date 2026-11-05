@@ -73,7 +73,7 @@ import os.osdep;
 import dix.dispatch;
 
 import include.scrnintstr;
-import include.os;
+import os.os;
 import dix.dixstruct_priv;
 import include.pixmapstr;
 import include.resource;

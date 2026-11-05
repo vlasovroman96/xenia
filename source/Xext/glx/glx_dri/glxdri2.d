@@ -38,7 +38,7 @@ import externs.internal.dri_interface;
 import externs.glxtokens;
 
 import include.windowstr;
-import include.os;
+import os.os;
 
 import include.xf86;
 import Xext.dri2.dri2;

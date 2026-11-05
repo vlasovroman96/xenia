@@ -31,7 +31,7 @@ import core.stdc.string;
 
 import os.fmt;
 
-import include.os;
+import os.os;
 import xf86Parser_priv;
 import xf86tokens;
 import Configint;

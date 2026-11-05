@@ -35,7 +35,7 @@ import os.xsha1;
 
 import common.misc;
 import include.scrnintstr;
-import include.os;
+import os.os;
 import include.regionstr;
 import include.validate;
 import include.windowstr;

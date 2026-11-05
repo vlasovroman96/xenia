@@ -1,4 +1,4 @@
-module include.os;
+module os.os;
 @nogc nothrow:
 extern(C): __gshared:
 

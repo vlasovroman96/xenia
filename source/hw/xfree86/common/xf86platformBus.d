@@ -42,7 +42,7 @@ import dix.screenint_priv;
 import randr.randrstr_priv;
 import os.osdep;
 
-import include.os;
+import os.os;
 import hw.xfree86.os_support.linux.systemd_logind;
 
 import xf86_pci_priv;

@@ -29,7 +29,7 @@ import core.stdc.ctype;
 import core.stdc.stdio;
 import core.sys.posix.unistd;
 //import x11.X;
-import include.os;
+import os.os;
 import xf86_priv;
 import include.xf86Priv;
 import include.xf86_OSlib;

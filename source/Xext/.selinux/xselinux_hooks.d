@@ -65,7 +65,7 @@ import externs.X11.Xatom;
 import dix.property;
 import dix.dixutils;
 import dix.extension;
-import include.os;
+import os.os;
 import Xext.xselinux_ext;
 import Xext.xselinux;
 import os.connection;
