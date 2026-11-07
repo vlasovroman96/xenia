@@ -371,13 +371,13 @@ private void mark_client_ungrab()
 
 private ClientPtr SmartScheduleClient()
 {
-    ClientPtr pClient = void, best = null;
+    ClientPtr best = null;
     c_long now = SmartScheduleTime;
     int nready = 0;
     int bestRobin = 0;
     c_long idle = 2 * SmartScheduleSlice;
 
-    mixin(xorg_list_for_each_entry!("pClient", "&ready_clients", "ready", q{
+    foreach(pClient; ready_clients.byEntries!(ClientPtr, "ready")) {
         nready++;
         if ((now - pClient.smart_stop_tick) >= idle) {
             if (pClient.smart_priority < 0)
@@ -401,7 +401,7 @@ version (SMART_DEBUG) {
         if ((now - SmartLastPrint) >= 5000)
             fprintf(stderr, " %2d: %3d", pClient.index, pClient.smart_priority);
 }
-    }));
+    }
 version (SMART_DEBUG) {
     if ((now - SmartLastPrint) >= 5000) {
         fprintf(stderr, " use %2d\n", best.index);

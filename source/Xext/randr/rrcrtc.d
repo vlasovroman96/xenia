@@ -623,7 +623,6 @@ private Bool rrCheckPixmapBounding(ScreenPtr pScreen, RRCrtcPtr rr_crtc, Rotatio
     int c = void;
     BoxRec newbox = void;
     BoxPtr newsize = void;
-    ScreenPtr secondary = void;
     int new_width = void, new_height = void;
     PixmapPtr screen_pixmap = pScreen.GetScreenPixmap(pScreen);
     mixin(rrScrPriv!("pScreen"));
@@ -656,7 +655,7 @@ private Bool rrCheckPixmapBounding(ScreenPtr pScreen, RRCrtcPtr rr_crtc, Rotatio
         RegionUnion(&total_region, &total_region, &new_crtc_region);
     }
 
-    mixin(xorg_list_for_each_entry!("secondary", "&pScreen.secondary_list", "secondary_head", q{
+    foreach(secondary; pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
         rrScrPrivPtr secondary_priv = mixin(rrGetScrPriv!("secondary"));
 
         if (!secondary.is_output_secondary)
@@ -685,7 +684,7 @@ private Bool rrCheckPixmapBounding(ScreenPtr pScreen, RRCrtcPtr rr_crtc, Rotatio
             RegionInit(&new_crtc_region, &newbox, 1);
             RegionUnion(&total_region, &total_region, &new_crtc_region);
         }
-    }));
+    }
 
     newsize = RegionExtents(&total_region);
     new_width = newsize.x2;
@@ -1022,17 +1021,15 @@ private Bool RRCrtcInScreen(ScreenPtr pScreen, RRCrtcPtr findCrtc)
 
 Bool RRCrtcExists(ScreenPtr pScreen, RRCrtcPtr findCrtc)
 {
-    ScreenPtr secondary = null;
-
     if (RRCrtcInScreen(pScreen, findCrtc))
         return TRUE;
 
-    mixin(xorg_list_for_each_entry!("secondary", "&pScreen.secondary_list", "secondary_head", q{
+    foreach(secondary; pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
         if (!secondary.is_output_secondary)
             continue;
         if (RRCrtcInScreen(secondary, findCrtc))
             return TRUE;
-    }));
+    }
 
     return FALSE;
 }
@@ -1861,7 +1858,6 @@ void RRConstrainCursorHarder(DeviceIntPtr pDev, ScreenPtr pScreen, int mode, int
 {
     mixin(rrScrPriv!("pScreen"));
     Bool ret = void;
-    ScreenPtr secondary = void;
 
     /* intentional dead space -> let it float */
     if (pScrPriv.discontiguous)
@@ -1872,28 +1868,28 @@ void RRConstrainCursorHarder(DeviceIntPtr pDev, ScreenPtr pScreen, int mode, int
     if (ret == TRUE)
         return;
 
-    mixin(xorg_list_for_each_entry!("secondary", "&pScreen.secondary_list", "secondary_head", q{
+    foreach(secondary; pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
         if (!secondary.is_output_secondary)
             continue;
 
         ret = check_all_screen_crtcs(secondary, x, y);
         if (ret == TRUE)
             return;
-    }));
+    }
 
     /* if we're trying to escape, clamp to the CRTC we're coming from */
     ret = constrain_all_screen_crtcs(pDev, pScreen, x, y);
     if (ret == TRUE)
         return;
 
-    mixin(xorg_list_for_each_entry!("secondary", "&pScreen.secondary_list", "secondary_head", q{
+    foreach(secondary; pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
         if (!secondary.is_output_secondary)
             continue;
 
         ret = constrain_all_screen_crtcs(pDev, secondary, x, y);
         if (ret == TRUE)
             return;
-    }));
+    }
 }
 
 Bool RRReplaceScanoutPixmap(DrawablePtr pDrawable, PixmapPtr pPixmap, Bool enable)

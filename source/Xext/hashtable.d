@@ -197,9 +197,8 @@ void ht_remove(HashTable ht, const(void)* key)
 {
     uint index = ht.hash(ht.cdata, key, ht.bucketBits);
     XList* bucket = &ht.buckets[index];
-    BucketPtr it = void;
 
-    mixin(xorg_list_for_each_entry!("it", "bucket", "l", q{
+    foreach(it; bucket.byEntries!(BucketPtr, "l")) {
         if (ht.compare(ht.cdata, key, it.key) == 0) {
             it.l.removeFromList();
             --ht.elements;
@@ -207,20 +206,20 @@ void ht_remove(HashTable ht, const(void)* key)
             free(it.data);
             free(it);
             return;
-        }}));
+        }
+    }
 }
 
 void* ht_find(HashTable ht, const(void)* key)
 {
     uint index = ht.hash(ht.cdata, key, ht.bucketBits);
     XList* bucket = &ht.buckets[index];
-    BucketPtr it = void;
 
-    mixin(xorg_list_for_each_entry!("it", "bucket", "l", q{
+    foreach(it; bucket.byEntries!(BucketPtr, "l")) {
         if (ht.compare(ht.cdata, key, it.key) == 0) {
             return it.data ? it.data : (cast(char*) it.key + ht.keySize);
         }
-    }));
+    }
 
     return null;
 }
@@ -230,12 +229,11 @@ void ht_dump_distribution(HashTable ht)
     int c = void;
     int numBuckets = 1 << ht.bucketBits;
     for (c = 0; c < numBuckets; ++c) {
-        BucketPtr it = void;
         int n = 0;
 
-        mixin(xorg_list_for_each_entry!("it", "&ht.buckets[c]", "l", q{
+        foreach(it; ht.buckets[c].byEntries!(BucketPtr, "l")) {
             ++n;
-        }));
+        }
         printf("%d: %d\n", c, n);
     }
 }
@@ -294,11 +292,10 @@ void ht_dump_contents(HashTable ht, void function(void* opaque, void* key) @nogc
     int c = void;
     int numBuckets = 1 << ht.bucketBits;
     for (c = 0; c < numBuckets; ++c) {
-        BucketPtr it = void;
         int n = 0;
 
         printf("%d: ", c);
-        mixin(xorg_list_for_each_entry!("it", "&ht.buckets[c]", "l", q{
+        foreach(it; ht.buckets[c].byEntries!(BucketPtr, "l")) {
             if (n > 0) {
                 printf(", ");
             }
@@ -306,7 +303,7 @@ void ht_dump_contents(HashTable ht, void function(void* opaque, void* key) @nogc
             printf("->");
             print_value(opaque, it.data);
             ++n;
-        }));
+        }
         printf("\n");
     }
 }

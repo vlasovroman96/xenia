@@ -676,9 +676,6 @@ version (HAVE_FNMATCH_H) {
  */
 Bool MatchAttrToken(const(char)* attr, XList* groups)
 {
-    xf86MatchGroup* group = void;
-    xf86MatchPattern* pattern = void;
-
     /* If there are no groups, accept the match */
     if (groups.isEmpty())
         return TRUE;
@@ -692,19 +689,19 @@ Bool MatchAttrToken(const(char)* attr, XList* groups)
      * match. Each list entry is a list of patterns obtained from
      * a separate Match line.
      */
-    mixin(xorg_list_for_each_entry!("group", "groups", "entry", q{
+    foreach(group; groups.byEntries!(xf86MatchGroup, "entry")) {
         Bool match = FALSE;
 
-        mixin(xorg_list_for_each_entry!("pattern", "&group.patterns", "entry", q{
+        foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
             /* It is enough to find one pattern matched by the attribute */
             match = ((!match_token(attr, pattern)) == pattern.is_negated);
             if (match)
                 goto group_done;
-        }));
+        }
       group_done:
         if (match == group.is_negated)
             return FALSE;
-    }));
+    }
 
     /* All the entries in the list matched the attribute */
     return TRUE;

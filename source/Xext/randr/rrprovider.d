@@ -83,7 +83,6 @@ int ProcRRGetProviders(ClientPtr client)
     ScreenPtr pScreen = void;
     rrScrPrivPtr pScrPriv = void;
     int rc = void;
-    ScreenPtr iter = void;
 
     rc = dixLookupWindow(&pWin, stuff.window, client, DixGetAttrAccess);
     if (rc != Success)
@@ -106,9 +105,9 @@ int ProcRRGetProviders(ClientPtr client)
 
     CARD16 count_providers = 0;
     mixin(ADD_PROVIDER!(`pScreen`));
-    mixin(xorg_list_for_each_entry!("iter", "&pScreen.secondary_list", "secondary_head", q{
+    foreach(iter; pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
         mixin(ADD_PROVIDER!(`iter`));
-    }));
+    }
 
     xRRGetProvidersReply reply = {
         timestamp: pScrPriv.lastSetTime.milliseconds,
@@ -141,7 +140,6 @@ int ProcRRGetProviderInfo(ClientPtr client)
     RROutput* outputs = void;
     int i = void;
     char* name = void;
-    ScreenPtr provscreen = void;
     RRProvider* providers = void;
     uint* prov_cap = void;
 
@@ -165,10 +163,10 @@ int ProcRRGetProviderInfo(ClientPtr client)
     if (provider.output_source &&
             provider.output_source != provider.offload_sink)
         reply.nAssociatedProviders++;
-    mixin(xorg_list_for_each_entry!("provscreen", "&pScreen.secondary_list", "secondary_head", q{
+    foreach(provscreen; pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
         if (provscreen.is_output_secondary || provscreen.is_offload_secondary)
             reply.nAssociatedProviders++;
-    }));
+    }
 
     reply.length = (pScrPriv.numCrtcs + pScrPriv.numOutputs +
                    (reply.nAssociatedProviders * 2) + bytes_to_int32(reply.nameLength));
@@ -221,7 +219,7 @@ int ProcRRGetProviderInfo(ClientPtr client)
         }
         i++;
     }
-    mixin(xorg_list_for_each_entry!("provscreen", "&pScreen.secondary_list", "secondary_head", q{
+    foreach(provscreen; pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
         if (!provscreen.is_output_secondary && !provscreen.is_offload_secondary)
             continue;
         pScrProvPriv = mixin(rrGetScrPriv!("provscreen"));
@@ -236,7 +234,7 @@ int ProcRRGetProviderInfo(ClientPtr client)
         if (client.swapped)
             swapl(&prov_cap[i]);
         i++;
-    }));
+    }
 
     memcpy(name, provider.name, reply.nameLength);
     if (client.swapped) {

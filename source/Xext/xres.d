@@ -828,11 +828,9 @@ private int ProcXResQueryResourceBytes(ClientPtr client)
             SwapXResQueryResourceBytes(&ctx.response);
         }
 
-        FragmentList* it = void;
-        mixin(xorg_list_for_each_entry!("it", "&ctx.response", "l", q{
+        foreach(it; ctx.response.byEntries!(FragmentList, "l")) {
             x_rpcbuf_write_CARD8s(&rpcbuf, cast(ubyte*)mixin(FRAGMENT_DATA!(`it`)), it.bytes);
-        }));
-
+        }  
         if (rpcbuf.wpos != ctx.resultBytes)
             LogMessage(X_WARNING, "ProcXResQueryClientIds() rpcbuf size (%ld) context size (%ld)\n",
                        cast(c_ulong)rpcbuf.wpos, cast(c_ulong)ctx.resultBytes);

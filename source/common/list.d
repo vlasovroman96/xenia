@@ -27,7 +27,7 @@ extern(C): __gshared:
  */
 
  
-public import core.stdc.stddef; /* offsetof() */
+import std.traits : isPointer;
 
 /**
  * @file Classic doubly-link circular list implementation.
@@ -82,7 +82,7 @@ public import core.stdc.stddef; /* offsetof() */
  * name of the field the subnodes use.
  *
  * struct foo *iterator;
- * mixin(xorg_list_for_each_entry!("iterator", "&bar.list_of_foos", "entry", q{ {
+ * //mixin(xorg_list_for_each_entry!("iterator", "&bar.list_of_foos", "entry", q{ {
  *      if (iterator->something == ...)
  *             ...
  * }
@@ -221,10 +221,16 @@ struct XList {
      * Returns: 
      *      Container instance of type **T** where XList node element has name **member**
      */
-    T* getContainer(T, string member = "list")() {
+    auto getContainer(T, string member = "list")() {
         enum offset = __traits(getMember, T.init, member).offsetof;
 
-        return cast(T*)(cast(ubyte*)&this - offset);
+        static if(isPointer!T) {
+            alias RetType = T;
+        }
+        else
+            alias RetType = T*;
+
+        return cast(RetType)(cast(ubyte*)&this - offset);
     }
 
     /**
@@ -238,6 +244,23 @@ struct XList {
     auto getLastEntry(T, string member = "list")() {
         return this.prev.getContainer!(T, member);
     }
+
+    /** 
+     * Returns:
+     *      Entries range 
+     */
+    auto byEntries(T, string member = "list")() {
+        struct Entries {
+            XList* start;
+            XList* current;
+
+            auto front() => current.getContainer!(T, member);
+            bool empty() => current == start;
+            void popFront() { current = current.next; }
+        }
+
+        return Entries(&this, this.next);
+    }
 }
 
 template offsetOf(T, string member)
@@ -247,11 +270,17 @@ template offsetOf(T, string member)
 }
 
 @property
-T* containerOf(T, string member)(void* ptr)
+auto containerOf(T, string member)(void* ptr)
 {
     enum offset = offsetOf!(T, member);
 
-    return cast(T*)(cast(ubyte*)ptr - offset);
+    static if(isPointer!T) {
+        alias RetType = T;
+    }
+    else
+        alias RetType = T*;
+
+    return cast(RetType)(cast(ubyte*)ptr - offset);
 }
 
 /**

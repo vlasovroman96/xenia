@@ -135,7 +135,6 @@ Bool xf86ScreenCheckHWCursor(ScreenPtr pScreen, CursorPtr cursor, xf86CursorInfo
 
 Bool xf86CheckHWCursor(ScreenPtr pScreen, CursorPtr cursor, xf86CursorInfoPtr infoPtr)
 {
-    ScreenPtr pSlave = void;
     Bool use_hw_cursor = TRUE;
 
     input_lock();
@@ -146,7 +145,7 @@ Bool xf86CheckHWCursor(ScreenPtr pScreen, CursorPtr cursor, xf86CursorInfoPtr in
     }
 
     /* ask each driver consuming a pixmap if it can support HW cursor */
-    mixin(xorg_list_for_each_entry!("pSlave", "&pScreen.secondary_list", "secondary_head", q{
+    foreach(pSlave; pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
         xf86CursorScreenPtr sPriv = void;
 
         if (!RRHasScanoutPixmap(pSlave))
@@ -163,7 +162,7 @@ Bool xf86CheckHWCursor(ScreenPtr pScreen, CursorPtr cursor, xf86CursorInfoPtr in
             use_hw_cursor = FALSE;
 	        break;
 	    }   
-    }));
+    }
 
 unlock:
     input_unlock();
@@ -233,7 +232,6 @@ Bool xf86SetCursor(ScreenPtr pScreen, CursorPtr pCurs, int x, int y)
 {
     xf86CursorScreenPtr ScreenPriv = cast(xf86CursorScreenPtr) dixLookupPrivate(&pScreen.devPrivates,
                                                &xf86CursorScreenKeyRec);
-    ScreenPtr pSlave = void;
     Bool ret = FALSE;
 
     input_lock();
@@ -245,7 +243,7 @@ Bool xf86SetCursor(ScreenPtr pScreen, CursorPtr pCurs, int x, int y)
         goto out_;
 
     /* ask each secondary driver to set the cursor. */
-    mixin(xorg_list_for_each_entry!("pSlave", "&pScreen.secondary_list", "secondary_head", q{
+    foreach(pSlave; pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
         if (!RRHasScanoutPixmap(pSlave))
             continue;
 
@@ -257,7 +255,7 @@ Bool xf86SetCursor(ScreenPtr pScreen, CursorPtr pCurs, int x, int y)
             xf86SetCursor(pScreen, NullCursor, x, y);
             goto out_;
         }
-    }));
+    }
     ret = TRUE;
 
  out_:
@@ -305,7 +303,6 @@ void xf86MoveCursor(ScreenPtr pScreen, int x, int y)
 {
     xf86CursorScreenPtr ScreenPriv = cast(xf86CursorScreenPtr) dixLookupPrivate(&pScreen.devPrivates,
                                                &xf86CursorScreenKeyRec);
-    ScreenPtr pSlave = void;
 
     input_lock();
 
@@ -315,12 +312,12 @@ void xf86MoveCursor(ScreenPtr pScreen, int x, int y)
     xf86ScreenMoveCursor(pScreen, x, y);
 
     /* ask each secondary driver to move the cursor */
-    mixin(xorg_list_for_each_entry!("pSlave", "&pScreen.secondary_list", "secondary_head", q{
+    foreach(pSlave; pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
         if (!RRHasScanoutPixmap(pSlave))
             continue;
 
         xf86ScreenMoveCursor(pSlave, x, y);
-    }));
+    }
 
     input_unlock();
 }

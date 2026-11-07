@@ -209,7 +209,7 @@ private void InputReady(int fd, int xevents, void* data)
  */
 int InputThreadRegisterDev(int fd, NotifyFdProcPtr readInputProc, void* readInputArgs)
 {
-    InputThreadDevice* dev = void, old = void;
+    InputThreadDevice* dev = void;
 
     if (!inputThreadInfo)
         return SetNotifyFd(fd, readInputProc, X_NOTIFY_READ, readInputArgs);
@@ -217,12 +217,12 @@ int InputThreadRegisterDev(int fd, NotifyFdProcPtr readInputProc, void* readInpu
     input_lock();
 
     dev = null;
-    mixin(xorg_list_for_each_entry!("old", "&inputThreadInfo.devs", "node", q{
+    foreach(old; inputThreadInfo.devs.byEntries!(InputThreadDevice, "node")) {
         if (old.fd == fd && old.state != device_state_removed) {
             dev = old;
             break;
         }
-    }));
+    }
 
     if (dev) {
         dev.readInputProc = readInputProc;
@@ -264,7 +264,7 @@ int InputThreadRegisterDev(int fd, NotifyFdProcPtr readInputProc, void* readInpu
  */
 int InputThreadUnregisterDev(int fd)
 {
-    InputThreadDevice* dev = void;
+    InputThreadDevice* dev_ = void;
     Bool found_device = FALSE;
 
     /* return silently if input thread is already finished (e.g., at
@@ -276,12 +276,13 @@ int InputThreadUnregisterDev(int fd)
     }
 
     input_lock();
-    mixin(xorg_list_for_each_entry!("dev", "&inputThreadInfo.devs", "node", q{;
+    foreach(dev; inputThreadInfo.devs.byEntries!(InputThreadDevice, "node")) {
         if (dev.fd == fd) {
             found_device = TRUE;
+            dev_ = dev;
             break;
         }
-    }));
+    }
 
     /* fd didn't match any registered device. */
     if (!found_device) {
@@ -289,7 +290,7 @@ int InputThreadUnregisterDev(int fd)
         return 0;
     }
 
-    dev.state = device_state_removed;
+    dev_.state = device_state_removed;
     inputThreadInfo.changed = TRUE;
 
     input_unlock();

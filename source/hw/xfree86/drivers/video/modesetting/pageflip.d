@@ -560,16 +560,14 @@ Bool ms_tearfree_dri_abort(xf86CrtcPtr crtc, Bool function(void* data, void* mat
 {
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr) crtc.driver_private;
     drmmode_tearfree_ptr trf = &drmmode_crtc.tearfree;
-    ms_crtc_pageflip* flip = void;
 
     /* The window is getting destroyed; abort without notifying the client */
-    mixin(xorg_list_for_each_entry!("flip", "&trf.dri_flip_list", "node", q{
+    foreach(flip; trf.dri_flip_list.byEntries!(ms_crtc_pageflip, "node"))
         if (match(flip.flipdata.event, match_data)) {
             flip.node.removeFromList();
             ms_pageflip_abort(flip);
             return TRUE;
         }
-    }));
 
     return FALSE;
 }

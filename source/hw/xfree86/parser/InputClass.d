@@ -367,8 +367,6 @@ version (DEBUG) {
 
 void xf86printInputClassSection(FILE* cf, XF86ConfInputClassPtr ptr)
 {
-    xf86MatchGroup* group = void;
-    xf86MatchPattern* pattern = void;
     Bool not_first = void;
 
     while (ptr) {
@@ -380,96 +378,96 @@ void xf86printInputClassSection(FILE* cf, XF86ConfInputClassPtr ptr)
         if (ptr.driver)
             fprintf(cf, "\tDriver          \"%s\"\n", ptr.driver);
 
-        mixin(xorg_list_for_each_entry!("group", "&ptr.match_product", "entry", q{
+        foreach(group; ptr.match_product.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchProduct  \"");
             else                   fprintf(cf, "\tMatchProduct    \"");
             not_first = FALSE;
-            mixin(xorg_list_for_each_entry!("pattern", "&group.patterns", "entry", q{
+            foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
                 not_first = TRUE;
-            }));
+            }
             fprintf(cf, "\"\n");
-        }));
-        mixin(xorg_list_for_each_entry!("group", "&ptr.match_vendor", "entry", q{
+        }
+        foreach(group; ptr.match_vendor.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchVendor   \"");
             else                   fprintf(cf, "\tMatchVendor     \"");
             not_first = FALSE;
-            mixin(xorg_list_for_each_entry!("pattern", "&group.patterns", "entry", q{
+            foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
                 not_first = TRUE;
-            }));
+            }
             fprintf(cf, "\"\n");
-        }));
-        mixin(xorg_list_for_each_entry!("group", "&ptr.match_device", "entry", q{
+        }
+        foreach(group; ptr.match_device.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchDevicePath \"");
             else                   fprintf(cf, "\tMatchDevicePath   \"");
             not_first = FALSE;
-            mixin(xorg_list_for_each_entry!("pattern", "&group.patterns", "entry", q{
+            foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
                 not_first = TRUE;
-            }));
+            }
             fprintf(cf, "\"\n");
-        }));
-        mixin(xorg_list_for_each_entry!("group", "&ptr.match_os", "entry", q{
+        }
+        foreach(group; ptr.match_os.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchOS       \"");
             else                   fprintf(cf, "\tMatchOS         \"");
             not_first = FALSE;
-            mixin(xorg_list_for_each_entry!("pattern", "&group.patterns", "entry", q{
+            foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
                 not_first = TRUE;
-            }));
+            }
             fprintf(cf, "\"\n");
-        }));
-        mixin(xorg_list_for_each_entry!("group", "&ptr.match_pnpid", "entry", q{
+        }
+        foreach(group; ptr.match_pnpid.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchPnPID    \"");
             else                   fprintf(cf, "\tMatchPnPID      \"");
             not_first = FALSE;
-            mixin(xorg_list_for_each_entry!("pattern", "&group.patterns", "entry", q{
+            foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
                 not_first = TRUE;
-            }));
+            }
             fprintf(cf, "\"\n");
-        }));
-        mixin(xorg_list_for_each_entry!("group", "&ptr.match_usbid", "entry", q{
+        }
+        foreach(group; ptr.match_usbid.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchUSBID    \"");
             else                   fprintf(cf, "\tMatchUSBID      \"");
             not_first = FALSE;
-            mixin(xorg_list_for_each_entry!("pattern", "&group.patterns", "entry", q{
+            foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
                 not_first = TRUE;
-            }));
+            }
             fprintf(cf, "\"\n");
-        }));
-        mixin(xorg_list_for_each_entry!("group", "&ptr.match_driver", "entry", q{
+        }
+        foreach(group; ptr.match_driver.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchDriver   \"");
             else                   fprintf(cf, "\tMatchDriver     \"");
             not_first = FALSE;
-            mixin(xorg_list_for_each_entry!("pattern", "&group.patterns", "entry", q{
+            foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
                 not_first = TRUE;
-            }));
+            }
             fprintf(cf, "\"\n");
-        }));
-        mixin(xorg_list_for_each_entry!("group", "&ptr.match_tag", "entry", q{
+        }
+        foreach(group; ptr.match_tag.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchTAG      \"");
             else                   fprintf(cf, "\tMatchTAG        \"");
             not_first = FALSE;
-            mixin(xorg_list_for_each_entry!("pattern", "&group.patterns", "entry", q{
+            foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
                 not_first = TRUE;
-            }));
+            }
             fprintf(cf, "\"\n");
-        }));
-        mixin(xorg_list_for_each_entry!("group", "&ptr.match_layout", "entry", q{
+        }
+        foreach(group; ptr.match_layout.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchLayout   \"");
             else                   fprintf(cf, "\tMatchLayout     \"");
             not_first = FALSE;
-            mixin(xorg_list_for_each_entry!("pattern", "&group.patterns", "entry", q{
+            foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
                 not_first = TRUE;
-            }));
+            }
             fprintf(cf, "\"\n");
-        }));
+        }
         if (ptr.is_keyboard.set)
             fprintf(cf, "\tIsKeyboard      \"%s\"\n",
                     ptr.is_keyboard.val ? "yes".ptr : "no".ptr);

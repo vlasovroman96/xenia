@@ -101,31 +101,31 @@ private void function(int sig, siginfo_t* info, void* param) previous_busfault_s
 private void busfault_sigaction(int sig, siginfo_t* info, void* param)
 {
     void* fault = info.si_addr;
-    busfault* iter = void, busfault = null;
+    busfault* busfault_ = null;
     void* new_addr = void;
 
     /* Locate the faulting address in our list of shared segments
      */
-    mixin(xorg_list_for_each_entry!("iter", "&busfaults", "list", q{
-	if (cast(char*) iter.addr <= cast(char*) fault && cast(char*) fault < cast(char*) iter.addr + iter.size) {
-	    busfault = iter;
-	    break;
-	}
-    }));
-    if (!busfault)
+    foreach(iter; busfaults.byEntries!busfault) {
+        if (cast(char*) iter.addr <= cast(char*) fault && cast(char*) fault < cast(char*) iter.addr + iter.size) {
+            busfault_ = iter;
+            break;
+        }
+    }
+    if (!busfault_)
         goto panic_;
 
-    if (!busfault.valid)
+    if (!busfault_.valid)
         goto panic_;
 
-    busfault.valid = FALSE;
+    busfault_.valid = FALSE;
     busfaulted = TRUE;
 
     /* The client truncated the file; unmap the shared file, map
      * /dev/zero over that area and keep going
      */
 
-    new_addr = mmap(busfault.addr, busfault.size, PROT_READ|PROT_WRITE,
+    new_addr = mmap(busfault_.addr, busfault_.size, PROT_READ|PROT_WRITE,
                     MAP_ANON|MAP_PRIVATE|MAP_FIXED, -1, 0);
 
     if (new_addr == MAP_FAILED)

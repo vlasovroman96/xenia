@@ -392,7 +392,6 @@ private int rrGetMultiScreenResources(ClientPtr client, Bool query, ScreenPtr pS
     int j = void;
     int total_crtcs = void, total_outputs = void, total_modes = void, total_name_len = void;
     int crtc_count = void, output_count = void, mode_count = void;
-    ScreenPtr iter = void;
     rrScrPrivPtr pScrPriv = void;
     int num_modes = void;
     RRModePtr* modes = void;
@@ -419,7 +418,7 @@ private int rrGetMultiScreenResources(ClientPtr client, Bool query, ScreenPtr pS
 
     mixin(update_totals!(`pScreen`, `pScrPriv`));
 
-    mixin(xorg_list_for_each_entry!("iter", "&pScreen.secondary_list", "secondary_head", q{
+    foreach(iter; pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
         if (!iter.is_output_secondary)
             continue;
 
@@ -429,7 +428,7 @@ private int rrGetMultiScreenResources(ClientPtr client, Bool query, ScreenPtr pS
           if (!RRGetInfo(iter, query))
             return BadAlloc;
         mixin(update_totals!(`iter`, `pScrPriv`));
-    }));
+    }
 
     pScrPriv = mixin(rrGetScrPriv!("pScreen"));
 
@@ -478,14 +477,14 @@ private int rrGetMultiScreenResources(ClientPtr client, Bool query, ScreenPtr pS
     }
     mixin(update_arrays!(`pScreen`, `pScrPriv`, `primary_crtc`, `has_primary`));
 
-    mixin(xorg_list_for_each_entry!("iter", "&pScreen.secondary_list", "secondary_head", q{
+    foreach(iter; pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
         if (!iter.is_output_secondary)
             continue;
 
         pScrPriv = mixin(rrGetScrPriv!("iter"));
 
         mixin(update_arrays!(`iter`, `pScrPriv`, `primary_crtc`, `has_primary`));
-    }));
+    }
 
     assert(bytes_to_int32(cast(char*) names - cast(char*) extra) == reply.length);
 

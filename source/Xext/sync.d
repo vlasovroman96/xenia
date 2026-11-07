@@ -1279,12 +1279,10 @@ private int ProcSyncListSystemCounters(ClientPtr client)
 {
     mixin(X_REQUEST_HEAD_STRUCT!xSyncListSystemCountersReq);
 
-    SysCounterInfo* psci = void;
-
     x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
 
     CARD32 nCounters = 0;
-    mixin(xorg_list_for_each_entry!("psci", "&SysCounterList", "entry", q{
+    foreach(psci; SysCounterList.byEntries!(SysCounterInfo, "entry")) {
         CARD16 namelen = cast(ushort)strlen(psci.name);
 
         /* write xSyncSystemCounter:
@@ -1300,7 +1298,7 @@ private int ProcSyncListSystemCounters(ClientPtr client)
         x_rpcbuf_pad(&rpcbuf);
 
         nCounters++;
-    }));
+    }
 
     if (rpcbuf.error)
         return BadAlloc;

@@ -257,19 +257,18 @@ pragma(inline, true) private Bool timer_pending(OsTimerPtr timer) {
  * Timers might drop out of the list, so we have to restart every time. */
 private void CheckAllTimers()
 {
-    OsTimerPtr timer = void;
     CARD32 now = void;
 
     input_lock();
  start:
     now = GetTimeInMillis();
 
-    mixin(xorg_list_for_each_entry!("timer", "&timers", "list", q{
+    foreach(timer; timers.byEntries!OsTimerPtr) {
         if (timer.expires - now > timer.delta + 250) {
             DoTimer(timer, now);
             goto start;
         }
-    }));
+    }
     input_unlock();
 }
 
@@ -298,7 +297,6 @@ void DoTimers(CARD32 now)
 
 OsTimerPtr TimerSet(OsTimerPtr timer, int flags, CARD32 millis, OsTimerCallback func, void* arg)
 {
-    OsTimerPtr existing = void;
     CARD32 now = GetTimeInMillis();
 
     if (!timer) {
@@ -330,13 +328,15 @@ OsTimerPtr TimerSet(OsTimerPtr timer, int flags, CARD32 millis, OsTimerCallback 
     timer.arg = arg;
     input_lock();
 
-    /* Sort into list */
-    mixin(xorg_list_for_each_entry!("existing", "&timers", "list", q{;
-        if (cast(int) (existing.expires - millis) > 0)
+    XList* position = &timers;
+    foreach(existing_; timers.byEntries!(OsTimerPtr)) {
+        if (cast(int) (existing_.expires - millis) > 0) {
+            position = &existing_.list;
             break;
-    }));
+        }
+    }
     /* This even works at the end of the list -- existing->list will be timers */
-    existing.list.appendList(&timer.list);
+    position.appendList(&timer.list);
 
     /* Check to see if the timer is ready to run now */
     if (cast(int) (millis - now) <= 0)

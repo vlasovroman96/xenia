@@ -149,14 +149,14 @@ private void FreePointerBarrierClient(PointerBarrierClient* c)
 
 private PointerBarrierDevice* GetBarrierDevice(PointerBarrierClient* c, int deviceid)
 {
-    PointerBarrierDevice* p = void, pbd = null;
+    PointerBarrierDevice* pbd = null;
 
-    mixin(xorg_list_for_each_entry!("p", "&(c.per_device)", "entry", q{
+    foreach(p; c.per_device.byEntries!(PointerBarrierDevice*, "entry")) {
         if (p.deviceid == deviceid) {
             pbd = p;
             break;
         }
-    }));
+    }
 
     return pbd;
 }
@@ -335,10 +335,10 @@ private BOOL barrier_blocks_device(PointerBarrierClient* client, DeviceIntPtr de
  */
 private PointerBarrierClient* barrier_find_nearest(BarrierScreenPtr cs, DeviceIntPtr dev, int dir, int x1, int y1, int x2, int y2)
 {
-    PointerBarrierClient* c = void, nearest = null;
+    PointerBarrierClient* nearest = null;
     double min_distance = INT_MAX;      /* can't get higher than that in X anyway */
 
-    mixin(xorg_list_for_each_entry!("c", "&cs.barriers", "entry", q{
+    foreach(c; cs.barriers.byEntries!(PointerBarrierClient, "entry")) {
         PointerBarrier* b = &c.barrier;
         PointerBarrierDevice* pbd = void;
         double distance = void;
@@ -362,7 +362,7 @@ private PointerBarrierClient* barrier_find_nearest(BarrierScreenPtr cs, DeviceIn
                 nearest = c;
             }
         }
-    }));
+    }
 
     return nearest;
 }
@@ -485,11 +485,11 @@ void input_constrain_cursor(DeviceIntPtr dev, ScreenPtr pScreen, int current_x, 
         *nevents += 1;
     }
 
-    mixin(xorg_list_for_each_entry!("c", "&cs.barriers", "entry", q{
+    foreach(iter; cs.barriers.byEntries!(PointerBarrierClient, "entry")) {
         PointerBarrierDevice* pbd = void;
         int flags = 0;
 
-        pbd = GetBarrierDevice(c, master.id);
+        pbd = GetBarrierDevice(iter, master.id);
         if (!pbd)
             continue;
 
@@ -497,7 +497,7 @@ void input_constrain_cursor(DeviceIntPtr dev, ScreenPtr pScreen, int current_x, 
         if (!pbd.hit)
             continue;
 
-        if (barrier_inside_hit_box(&c.barrier, x, y))
+        if (barrier_inside_hit_box(&iter.barrier, x, y))
             continue;
 
         pbd.hit = FALSE;
@@ -509,10 +509,10 @@ void input_constrain_cursor(DeviceIntPtr dev, ScreenPtr pScreen, int current_x, 
 
         ev.flags = flags;
         ev.event_id = pbd.barrier_event_id;
-        ev.barrierid = cast(int)c.id;
+        ev.barrierid = cast(int)iter.id;
 
         ev.dt = cast(short)(ms - pbd.last_timestamp);
-        ev.window = c.window;
+        ev.window = iter.window;
         pbd.last_timestamp = ms;
 
         // root x/y is filled in later
@@ -522,7 +522,7 @@ void input_constrain_cursor(DeviceIntPtr dev, ScreenPtr pScreen, int current_x, 
         *nevents += 1;
 
         pbd.barrier_event_id++;
-    }));
+    }
 
  out_:
     *out_x = x;

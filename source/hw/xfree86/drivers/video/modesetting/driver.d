@@ -1070,12 +1070,11 @@ private void ms_dirty_update(ScreenPtr screen, int* timeout)
     modesettingPtr ms = mixin(modesettingPTR!("xf86ScreenToScrn(screen)"));
 
     RegionPtr region = void;
-    PixmapDirtyUpdatePtr ent = void;
 
     if (screen.pixmap_dirty_list.isEmpty())
         return;
 
-    mixin(xorg_list_for_each_entry!("ent", "&screen.pixmap_dirty_list", "ent", q{
+    foreach(ent; screen.pixmap_dirty_list.byEntries!(PixmapDirtyUpdatePtr, "ent")) {    
         region = DamageRegion(ent.damage);
         if (RegionNotEmpty(region)) {
             if (!screen.isGPU) {
@@ -1096,20 +1095,17 @@ private void ms_dirty_update(ScreenPtr screen, int* timeout)
             redisplay_dirty(screen, ent, timeout);
             DamageEmpty(ent.damage);
         }
-    }));
+    }
 }
 
 private PixmapDirtyUpdatePtr ms_dirty_get_ent(ScreenPtr screen, PixmapPtr secondary_dst)
 {
-    PixmapDirtyUpdatePtr ent = void;
-
     if (screen.pixmap_dirty_list.isEmpty())
         return null;
 
-    mixin(xorg_list_for_each_entry!("ent", "&screen.pixmap_dirty_list", "ent", q{
+    foreach(ent; screen.pixmap_dirty_list.byEntries!(PixmapDirtyUpdateRec, "ent"))
         if (ent.secondary_dst == secondary_dst)
             return ent;
-    }));
 
     return null;
 }

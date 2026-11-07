@@ -35,15 +35,14 @@ import externs.X11.extensions.presentproto;
 
 void present_clear_window_notifies(WindowPtr window)
 {
-    present_notify_ptr notify = void;
     present_window_priv_ptr window_priv = present_window_priv(window);
 
     if (!window_priv)
         return;
 
-    mixin(xorg_list_for_each_entry!("notify", "&window_priv.notifies", "window_list", q{
+    foreach(notify; window_priv.notifies.byEntries!(present_notify_ptr, "window_list")) {
         notify.window = null;
-    }));
+    }
 }
 
 /*

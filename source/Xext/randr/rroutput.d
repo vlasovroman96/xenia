@@ -565,7 +565,6 @@ int ProcRRSetOutputPrimary(ClientPtr client)
     WindowPtr pWin = void;
     rrScrPrivPtr pScrPriv = void;
     int ret = void;
-    ScreenPtr secondary = void;
 
     ret = dixLookupWindow(&pWin, stuff.window, client, DixGetAttrAccess);
     if (ret != Success)
@@ -593,12 +592,10 @@ int ProcRRSetOutputPrimary(ClientPtr client)
     {
         RRSetPrimaryOutput(pWin.drawable.pScreen, pScrPriv, output);
 
-        mixin(xorg_list_for_each_entry!("secondary",
-                                 "&pWin.drawable.pScreen.secondary_list",
-                                 "secondary_head", q{
+        foreach(secondary; pWin.drawable.pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {                      
             if (secondary.is_output_secondary)
                 RRSetPrimaryOutput(secondary, mixin(rrGetScrPriv!("secondary")), output);
-        }));
+        }
     }
 
     return Success;
