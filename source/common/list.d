@@ -283,38 +283,6 @@ auto containerOf(T, string member)(void* ptr)
     return cast(RetType)(cast(ubyte*)ptr - offset);
 }
 
-/**
- * Loop through the list given by head and set pos to struct in the list.
- *
- * Example:
- * struct foo *iterator;
- * xorg_list_for_each_entry(iterator, &bar->list_of_foos, entry) {
- *      [modify iterator]
- * }
- *
- * This macro is not safe for node deletion. Use xorg_list_for_each_entry_safe
- * instead.
- *
- * @param pos Iterator variable of the type of the list elements.
- * @param head List head
- * @param member Member name of the struct XList in the list elements.
- *
- */
-//  pragma(msg, xorg_list_for_each_entry!(
-//     "ref_",
-//     "&pPriv.reference_list",
-//     "link",
-//     q{}
-// ));
-template xorg_list_for_each_entry(string pos, string head, string member, string bodyCode)
-{
-    const string xorg_list_for_each_entry = 
-        "for (" ~ pos ~ " = ("~head~").next.getContainer!(typeof(*" ~ pos ~ "), \"" ~ member ~ "\"); "
-        ~ "(((" ~ head ~ ").next !is null) && &" ~ pos ~ "." ~ member ~ " !is (" ~ head ~ ")); "
-        ~ pos ~ " = "~pos~"."~member~".next.getContainer!(typeof(*" ~ pos ~ "), \"" ~ member ~ "\")) {"
-        ~ bodyCode
-        ~ "}";
-}
 /*
  * Loop through the list, keeping a backup pointer to the element. This
  * macro allows for the deletion of a list element while looping through the
