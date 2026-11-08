@@ -323,13 +323,14 @@ auto containerOf(T, string member)(void* ptr)
  *
  * Example:
  * struct foo *list = malloc();
- * mixin(nt_list_init!("list", "next"));
+ * foo.ntListInit!"next";
  *
- * @param list The list element that will be the start of the list
+ * @param listEntry The list element that will be the start of the list
  * @param member Member name of the field pointing to next struct
  */
-enum string nt_list_init(string _list, string _member) = `
-	(` ~ _list ~ `).` ~ _member ~ ` = null`;
+void ntListInit(string member, T)(T listEntry) {
+    mixin("listEntry." ~ member) = null;
+}
 
 /**
  * Returns the next element in the list or NULL on termination.
@@ -344,8 +345,6 @@ enum string nt_list_init(string _list, string _member) = `
  * @param list The list or current element.
  * @param member Member name of the field pointing to next struct.
  */
-enum string nt_list_next(string _list, string _member) = `
-	(` ~ _list ~ `).` ~ _member ~ ``;
 
 /**
  * Iterate through each element in the list.
@@ -455,7 +454,7 @@ enum string nt_list_del(string _entry, string _list, string _type, string _membe
 		    if (__prev.` ~ _member ~ `)			
 			__prev.` ~ _member ~ ` = __e.` ~ _member ~ `;		
 		}						
-		` ~ nt_list_init!(`__e`, _member) ~ `;`;
+		__e.ntListInit!("` ~_member~`");`;
 
 /**
  * DO NOT USE THIS.

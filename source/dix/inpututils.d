@@ -851,7 +851,7 @@ InputOption* input_option_new(InputOption* list, const(char)* key, const(char)* 
     if (!opt)
         return null;
 
-    mixin(nt_list_init!("opt", "list.next")~";");
+    opt.ntListInit!"list.next";
     input_option_set_key(opt, key);
     input_option_set_value(opt, value);
 
