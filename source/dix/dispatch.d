@@ -349,24 +349,20 @@ void mark_client_not_ready(ClientPtr client)
 
 private void mark_client_grab(ClientPtr grab)
 {
-    ClientPtr client = void, tmp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("client", "tmp", "&ready_clients", "ready", q{
+    foreach(client; saved_ready_clients.byEntriesSafe!(ClientPtr, "ready")){
         if (client != grab) {
             client.ready.removeFromList();
             saved_ready_clients.appendList(&client.ready);
         }
-    }));
+    }
 }
 
 private void mark_client_ungrab()
 {
-    ClientPtr client = void, tmp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("client", "tmp", "&saved_ready_clients", "ready", q{
+    foreach(client; saved_ready_clients.byEntriesSafe!(ClientPtr, "ready")){
         client.ready.removeFromList();
         ready_clients.appendList(&client.ready);
-    }));
+    }
 }
 
 private ClientPtr SmartScheduleClient()

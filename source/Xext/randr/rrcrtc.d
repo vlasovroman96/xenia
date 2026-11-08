@@ -915,9 +915,8 @@ private int RRCrtcDestroyResource(void* value, XID pid)
     if (pScreen) {
         mixin(rrScrPriv!("pScreen"));
         int i = void;
-        RRLeasePtr lease = void, next = void;
 
-        mixin(xorg_list_for_each_entry_safe!("lease", "next", "&pScrPriv.leases", "list", q{
+        foreach(lease; pScrPriv.leases.byEntriesSafe!RRLeasePtr) {
             int c = void;
             for (c = 0; c < lease.numCrtcs; c++) {
                 if (lease.crtcs[c] == crtc) {
@@ -925,7 +924,7 @@ private int RRCrtcDestroyResource(void* value, XID pid)
                     break;
                 }
             }
-        }));
+        }
 
         for (i = 0; i < pScrPriv.numCrtcs; i++) {
             if (pScrPriv.crtcs[i] == crtc) {

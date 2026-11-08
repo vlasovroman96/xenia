@@ -137,12 +137,10 @@ private PointerBarrierDevice* AllocBarrierDevice()
 
 private void FreePointerBarrierClient(PointerBarrierClient* c)
 {
-    PointerBarrierDevice* pbd = null, tmp = null;
-
     if (!c.per_device.isEmpty()) {
-        mixin(xorg_list_for_each_entry_safe!("pbd", "tmp", "&c.per_device", "entry", q{
+        foreach(pbd; c.per_device.byEntriesSafe!(PointerBarrierDevice, "entry")){
             free(pbd);
-        }));
+        }
     }
     free(c);
 }

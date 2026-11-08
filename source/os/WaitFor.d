@@ -378,17 +378,16 @@ void TimerFree(OsTimerPtr timer)
 void TimerInit()
 {
     static Bool been_here;
-    OsTimerPtr timer = void, tmp = void;
 
     if (!been_here) {
         been_here = TRUE;
         timers.initList();
     }
 
-    mixin(xorg_list_for_each_entry_safe!("timer", "tmp", "&timers", "list", q{
+    foreach(timer; timers.byEntriesSafe!OsTimerPtr) {
         timer.list.removeFromList();
         free(timer);
-    }));
+    }
 }
 
 static if(DPMSExtension) {

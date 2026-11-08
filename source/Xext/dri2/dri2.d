@@ -373,8 +373,7 @@ private int DRI2DrawableGone(void* p, XID id)
 {
     DRI2DrawablePtr pPriv = cast(DRI2DrawablePtr)p;
 
-    DRI2DrawableRefPtr ref_ = void, next = void;
-    mixin(xorg_list_for_each_entry_safe!("ref_", "next", "&(pPriv.reference_list)", "link", q{
+    foreach(ref_; pPriv.reference_list.byEntriesSafe!(DRI2DrawableRefPtr, "link")) {
         if (ref_.dri2_id == id) {
             ref_.link.removeFromList();
             /* If this was the last ref under this X drawable XID,
@@ -390,7 +389,7 @@ private int DRI2DrawableGone(void* p, XID id)
             FreeResourceByType(ref_.dri2_id, dri2DrawableRes, TRUE);
             free(ref_);
         }
-    }));
+    }
 
     if (!pPriv.reference_list.isEmpty())
         return Success;

@@ -702,7 +702,6 @@ present_notify_ptr notifies, int num_notifies)
     ulong target_msc = void;
     ulong crtc_msc = 0;
     int ret = void;
-    present_vblank_ptr vblank = void, tmp = void;
     ScreenPtr screen = window.drawable.pScreen;
     present_window_priv_ptr window_priv = present_get_window_priv(window, TRUE);
     present_screen_priv_ptr screen_priv = present_screen_priv(screen);
@@ -748,7 +747,7 @@ present_notify_ptr notifies, int num_notifies)
      */
 
     if (!update && pixmap) {
-        mixin(xorg_list_for_each_entry_safe!("vblank", "tmp", "&window_priv.vblank", "window_list", q{
+        foreach(vblank; window_priv.vblank.byEntriesSafe!(present_vblank_ptr, "window_list")) {
 
             if (!vblank.pixmap)
                 continue;
@@ -767,11 +766,11 @@ present_notify_ptr notifies, int num_notifies)
             present_vblank_scrap(vblank);
             if (vblank.flip_ready)
                 present_re_execute(vblank);
-        }));
+        }
     }
 
     uint inf = screen_priv.info ? screen_priv.info.capabilities : 0;
-        vblank = present_vblank_create(window,
+    present_vblank_ptr    vblank = present_vblank_create(window,
                                     pixmap,
                                     serial,
                                     valid,
@@ -877,7 +876,7 @@ present_notify_ptr notifies, int num_notifies)
      */
 
     if (!update && pixmap) {
-        mixin(xorg_list_for_each_entry_safe!("vblank", "tmp", "&window_priv.vblank", "window_list", q{
+        foreach(vblank; window_priv.vblank.byEntriesSafe!(present_vblank_ptr, "window_list")) {
 
             if (!vblank.pixmap)
                 continue;
@@ -896,7 +895,7 @@ present_notify_ptr notifies, int num_notifies)
             present_vblank_scrap(vblank);
             if (vblank.flip_ready)
                 present_re_execute(vblank);
-        }));
+        }
     }
 
     uint inf = screen_priv.info ? screen_priv.info.capabilities : 0;

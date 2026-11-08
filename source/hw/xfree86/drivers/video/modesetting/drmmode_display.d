@@ -2559,7 +2559,6 @@ private void drmmode_shadow_destroy(xf86CrtcPtr crtc, PixmapPtr pixmap, void* da
 
 private void drmmode_crtc_destroy(xf86CrtcPtr crtc)
 {
-    drmmode_mode_ptr iterator = void, next = void;
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr)crtc.driver_private;
     modesettingPtr ms = mixin(modesettingPTR!("crtc.scrn"));
 
@@ -2571,9 +2570,9 @@ private void drmmode_crtc_destroy(xf86CrtcPtr crtc)
         return;
 
     drmmode_prop_info_free(drmmode_crtc.props_plane.ptr, DRMMODE_PLANE__COUNT);
-    mixin(xorg_list_for_each_entry_safe!("iterator", "next", "&drmmode_crtc.mode_list", "entry", q{
+    foreach(iterator; drmmode_crtc.mode_list.byEntriesSafe!(drmmode_mode_ptr, "entry")){
         drm_mode_destroy(crtc, iterator);
-    }));
+    }
 }
 
 private const(xf86CrtcFuncsRec) drmmode_crtc_funcs = {
@@ -4167,7 +4166,6 @@ private void drmmode_validate_leases(ScrnInfoPtr scrn)
     modesettingPtr ms = mixin(modesettingPTR!("scrn"));
     drmmode_ptr drmmode = &ms.drmmode;
     drmModeLesseeListPtr lessees = void;
-    RRLeasePtr lease = void, next = void;
     int l = void;
 
     /* Bail out if RandR wasn't initialized. */
@@ -4184,7 +4182,7 @@ private void drmmode_validate_leases(ScrnInfoPtr scrn)
     if (!lessees)
         return;
 
-    mixin(xorg_list_for_each_entry_safe!("lease", "next", "&scr_priv.leases", "list", q{
+    foreach(lease; scr_priv.leases.byEntriesSafe!RRLeasePtr) {
         drmmode_lease_private_ptr lease_private = cast(drmmode_lease_private_ptr)lease.devPrivate;
 
         for (l = 0; l < lessees.count; l++) {
@@ -4198,7 +4196,7 @@ private void drmmode_validate_leases(ScrnInfoPtr scrn)
             lease.devPrivate = null;
             xf86CrtcLeaseTerminated(lease);
         }
-    }));
+    }
 
     free(lessees);
 }

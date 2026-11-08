@@ -88,12 +88,11 @@ private void present_free_window_vblank(WindowPtr window)
     ScreenPtr screen = window.drawable.pScreen;
     present_screen_priv_ptr screen_priv = present_screen_priv(screen);
     present_window_priv_ptr window_priv = present_window_priv(window);
-    present_vblank_ptr vblank = void, tmp = void;
 
-    mixin(xorg_list_for_each_entry_safe!("vblank", "tmp", "&window_priv.vblank", "window_list", q{
+    foreach(vblank; window_priv.vblank.byEntriesSafe!(present_vblank_ptr, "window_list")) {
         screen_priv.abort_vblank(window.drawable.pScreen, window, vblank.crtc, vblank.event_id, vblank.target_msc);
         present_vblank_destroy(vblank);
-    }));
+    }
 }
 
 /*

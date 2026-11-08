@@ -381,9 +381,8 @@ private int RROutputDestroyResource(void* value, XID pid)
     if (pScreen) {
         mixin(rrScrPriv!("pScreen"));
         int i = void;
-        RRLeasePtr lease = void, next = void;
 
-        mixin(xorg_list_for_each_entry_safe!("lease", "next", "&pScrPriv.leases", "list", q{
+        foreach(lease; pScrPriv.leases.byEntriesSafe!RRLeasePtr) {
             int o = void;
             for (o = 0; o < lease.numOutputs; o++) {
                 if (lease.outputs[o] == output) {
@@ -391,7 +390,7 @@ private int RROutputDestroyResource(void* value, XID pid)
                     break;
                 }
             }
-        }));
+        }
 
         if (pScrPriv.primaryOutput == output)
             pScrPriv.primaryOutput = null;

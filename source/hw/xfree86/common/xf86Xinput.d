@@ -1247,16 +1247,14 @@ void DeleteInputDeviceRequest(DeviceIntPtr pDev)
 // //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 void RemoveInputDeviceTraces(const(char)* config_info)
 {
-    PausedInputDevicePtr d = void, tmp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("d", "tmp", "&new_input_devices_list", "node", q{
+    foreach(d; new_input_devices_list.byEntriesSafe!(PausedInputDevicePtr, "node")){
         const(char)* ci = xf86findOptionValue(d.pInfo.options, "config_info");
         if (!ci || strcmp(ci, config_info) != 0)
             continue;
 
         d.node.removeFromList();
         free(d);
-    }));
+    }
 }
 
 /*
@@ -1642,9 +1640,7 @@ void xf86InputEnableVTProbe()
 {
     int is_auto = 0;
     DeviceIntPtr pdev = void;
-    PausedInputDevicePtr d = void, tmp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("d", "tmp", "&new_input_devices_list", "node", q{
+    foreach(d; new_input_devices_list.byEntriesSafe!(PausedInputDevicePtr, "node")){
         InputInfoPtr pInfo = d.pInfo;
         const(char)* value = xf86findOptionValue(pInfo.options, "_source");
 
@@ -1660,7 +1656,7 @@ void xf86InputEnableVTProbe()
                                    (is_auto && xf86Info.autoEnableDevices)));
         d.node.removeFromList();
         free(d);
-    }));
+    }
 }
 
 /* end of xf86Xinput.c */

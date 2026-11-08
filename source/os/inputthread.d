@@ -353,11 +353,9 @@ version (HAVE_PTHREAD_SETNAME_NP_WITH_TID) {
 
         /* Check for hotplug changes and modify the ospoll structure to suit */
         if (inputThreadInfo.changed) {
-            InputThreadDevice* dev = void, tmp = void;
-
             input_lock();
             inputThreadInfo.changed = FALSE;
-            mixin(xorg_list_for_each_entry_safe!("dev", "tmp", "&inputThreadInfo.devs", "node", q{
+            foreach(dev; inputThreadInfo.devs.byEntriesSafe!(InputThreadDevice, "node")){
                 switch (dev.state) {
                 case device_state_added:
                     ospoll_add(inputThreadInfo.fds, dev.fd,
@@ -375,7 +373,7 @@ version (HAVE_PTHREAD_SETNAME_NP_WITH_TID) {
                     free(dev);
                     break;
                 default: break;}
-            }));
+            }
             input_unlock();
         }
 
@@ -503,8 +501,6 @@ void InputThreadInit()
  */
 void InputThreadFini()
 {
-    InputThreadDevice* dev = void, next = void;
-
     if (!inputThreadInfo)
         return;
 
@@ -513,10 +509,10 @@ void InputThreadFini()
     input_force_unlock();
     pthread_join(inputThreadInfo.thread, null);
 
-    mixin(xorg_list_for_each_entry_safe!("dev", "next", "&inputThreadInfo.devs", "node", q{
+    foreach(dev; inputThreadInfo.devs.byEntriesSafe!(InputThreadDevice, "node")){
         ospoll_remove(inputThreadInfo.fds, dev.fd);
         free(dev);
-    }));
+    }
     inputThreadInfo.devs.initList();
     ospoll_destroy(inputThreadInfo.fds);
 

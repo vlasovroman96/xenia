@@ -623,7 +623,6 @@ void ResetCurrentRequest(ClientPtr client)
 void FlushAllOutput()
 {
     OsCommPtr oc = void;
-    ClientPtr client = void, tmp = void;
     Bool newoutput = !!NewOutputPending;
 
     if (!newoutput)
@@ -637,7 +636,7 @@ void FlushAllOutput()
     CriticalOutputPending = FALSE;
     NewOutputPending = FALSE;
 
-    mixin(xorg_list_for_each_entry_safe!("client", "tmp", "&output_pending_clients", "output_pending", q{
+    foreach(client; output_pending_clients.byEntriesSafe!(ClientPtr, "output_pending")) {
         if (client.clientGone)
             continue;
         if (!client_is_ready(client)) {
@@ -645,7 +644,7 @@ void FlushAllOutput()
             FlushClient(client, oc);
         } else
             NewOutputPending = TRUE;
-    }));
+    }
 }
 
 void FlushIfCriticalOutputPending()

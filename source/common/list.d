@@ -261,6 +261,24 @@ struct XList {
 
         return Entries(&this, this.next);
     }
+
+    auto byEntriesSafe(T, string member = "list")() {
+        struct Entries {
+            XList* head;
+            XList* current;
+            XList* next;
+
+            auto front() => current.getContainer!(T, member);
+            bool empty() => current == head;
+            void popFront() { 
+                current = next; 
+                if(current != head)
+                    next = current.next;    
+            }
+        }
+
+        return Entries(&this, this.next, this.next.next);
+    }
 }
 
 template offsetOf(T, string member)
@@ -281,31 +299,6 @@ auto containerOf(T, string member)(void* ptr)
         alias RetType = T*;
 
     return cast(RetType)(cast(ubyte*)ptr - offset);
-}
-
-/*
- * Loop through the list, keeping a backup pointer to the element. This
- * macro allows for the deletion of a list element while looping through the
- * list.
- *
- * See xorg_list_for_each_entry for more details.
- */
-template xorg_list_for_each_entry_safe(
-    string pos,
-    string tmp,
-    string head,
-    string member,
-    string bodyCode)
-{
-    enum xorg_list_for_each_entry_safe =
-        "for ("
-        ~ pos ~ " = ("~head~").next.getContainer!(typeof(*" ~ pos ~ "), `" ~ member ~ "`), "
-        ~ tmp ~ " = "~pos~"."~member~".next.getContainer!(typeof(*" ~ pos ~ "), \"" ~ member ~ "\"); "
-        ~ "(((" ~ head ~ ").next !is null) && &" ~ pos ~ "." ~ member ~ " != (" ~ head ~ ")); "
-        ~ pos ~ " = " ~ tmp ~ ", "
-        ~ tmp ~ " = "~pos~"."~member~".next.getContainer!(typeof(*" ~ tmp ~ "), \"" ~ member ~ "\")) {"
-        ~ bodyCode
-        ~ "}";
 }
 
 // alias 

@@ -497,12 +497,10 @@ void ms_drm_abort_one(ms_drm_queue* q)
  */
 private void ms_drm_abort_scrn(ScrnInfoPtr scrn)
 {
-    ms_drm_queue* q = void, tmp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("q", "tmp", "&ms_drm_queue_", "list", q{
+    foreach(q; ms_drm_queue_.byEntriesSafe!ms_drm_queue){
         if (q.scrn == scrn)
             ms_drm_abort_one(q);
-    }));
+    }
 }
 
 /**
@@ -510,14 +508,12 @@ private void ms_drm_abort_scrn(ScrnInfoPtr scrn)
  */
 void ms_drm_abort_seq(ScrnInfoPtr scrn, uint seq)
 {
-    ms_drm_queue* q = void, tmp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("q", "tmp", "&ms_drm_queue_", "list", q{
+    foreach(q; ms_drm_queue_.byEntriesSafe!ms_drm_queue){
         if (q.seq == seq) {
             ms_drm_abort_one(q);
             break;
         }
-    }));
+    }
 }
 
 import externs.attrs;
@@ -542,7 +538,6 @@ void ms_drm_abort(ScrnInfoPtr scrn, Bool function(void* data, void* match_data) 
  */
 private void ms_drm_sequence_handler(int fd, ulong frame, ulong ns, Bool is64bit, ulong user_data)
 {
-    ms_drm_queue* tmp = void;
     uint seq = cast(uint) user_data;
     xf86CrtcPtr crtc = null;
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr) null;
@@ -561,16 +556,15 @@ private void ms_drm_sequence_handler(int fd, ulong frame, ulong ns, Bool is64bit
     if (!crtc)
         return;
 
-    ms_drm_queue* q_;
     /* Now run all of the vblank events for this CRTC with an expired MSC */
-    mixin(xorg_list_for_each_entry_safe!("q_", "tmp", "&ms_drm_queue_", "list", q{
+    foreach(q_; ms_drm_queue_.byEntries!ms_drm_queue) {
         if (q_.crtc == crtc && q_.msc <= msc) {
             q_.list.removeFromList();
             if (!q_.aborted)
                 q_.handler(msc, ns / 1000, q_.data);
             free(q_);
         }
-    }));
+    }
 
     /* Find this CRTC's next queued MSC and next non-queued MSC to be handled */
     msc = UINT64_MAX;
@@ -592,10 +586,10 @@ private void ms_drm_sequence_handler(int fd, ulong frame, ulong ns, Bool is64bit
     if (msc < next_msc && !ms_queue_vblank(crtc, MS_QUEUE_ABSOLUTE, msc, null, seq)) {
         xf86DrvMsg(crtc.scrn.scrnIndex, X_WARNING,
                    "failed to queue next vblank event, aborting lost events\n");
-        mixin(xorg_list_for_each_entry_safe!("q_", "tmp", "&ms_drm_queue_", "list", q{
+        foreach(q_; ms_drm_queue_.byEntriesSafe!ms_drm_queue){
             if (q_.crtc == crtc && q_.msc < next_msc)
                 ms_drm_abort_one(q_);
-        }));
+        }
     }
 }
 

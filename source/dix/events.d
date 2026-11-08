@@ -1584,8 +1584,6 @@ static if(XINERAMA){
  */
 void PlayReleasedEvents()
 {
-    QdEventPtr tmp = void;
-    QdEventPtr qe = void;
     DeviceIntPtr dev = void;
     DeviceIntPtr pDev = void;
 static if(XINERAMA){
@@ -1593,7 +1591,7 @@ static if(XINERAMA){
 }
 
  restart:
-    mixin(xorg_list_for_each_entry_safe!("qe", "tmp", "&syncEvents.pending", "next", q{
+    foreach(qe; syncEvents.pending.byEntriesSafe!(QdEventPtr, "next")){
         if (!qe.device.deviceGrab.sync.frozen) {
             qe.next.removeFromList();
             pDev = qe.device;
@@ -1641,7 +1639,7 @@ static if(XINERAMA){
             /* So to play it safe, restart at the head of the queue */
             goto restart;
         }
-    }));
+    }
 }
 
 /**
@@ -5686,7 +5684,7 @@ static if(XINERAMA){
  */
 void InitEvents()
 {
-    QdEventPtr qe = void, tmp = void;
+    // QdEventPtr qe = void, tmp = void;
 
     inputInfo.numDevices = 0;
     inputInfo.devices = cast(DeviceIntPtr) null;
@@ -5706,9 +5704,9 @@ void InitEvents()
     syncEvents.replayDev = cast(DeviceIntPtr) null;
     syncEvents.replayWin = NullWindow;
     if (syncEvents.pending.next)
-        mixin(xorg_list_for_each_entry_safe!("qe", "tmp", "&syncEvents.pending", "next", q{
+        foreach(qe; syncEvents.pending.byEntriesSafe!(QdEventPtr, "next")){
             free(qe);
-        }));
+        }
     syncEvents.pending.initList();
     syncEvents.playingEvents = FALSE;
     syncEvents.time.months = 0;

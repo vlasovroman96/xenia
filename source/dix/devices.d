@@ -953,18 +953,16 @@ private void FreeAllDeviceClasses(ClassesPtr classes)
 
 private void FreePendingFrozenDeviceEvents(DeviceIntPtr dev)
 {
-    QdEventPtr qe = void, tmp = void;
-
     if (!dev.deviceGrab.sync.frozen)
         return;
 
     /* Dequeue any frozen pending events */
-    mixin(xorg_list_for_each_entry_safe!("qe", "tmp", "&syncEvents.pending", "next", q{
+    foreach(qe; syncEvents.pending.byEntriesSafe!(QdEventPtr, "next")){
         if (qe.device == dev) {
             qe.next.removeFromList();
             free(qe);
         }
-    }));
+    }
 }
 
 /**

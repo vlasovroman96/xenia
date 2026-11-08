@@ -119,14 +119,13 @@ void LoaderInitPath() {
 }
 
 void LoaderClosePath() {
-    LoaderModulePathListItem* item = void, next = void;
-    mixin(xorg_list_for_each_entry_safe!("item", "next", "&modulePathLists", "entry", q{
+    foreach(item; modulePathLists.byEntriesSafe!(LoaderModulePathListItem, "entry")) {
         item.entry.removeFromList();
         free(item.name);
         if (item.paths)
             FreeStringList(item.paths);
         free(item);
-    }));
+    }
     modulePathLists.removeFromList();
     FreeStringList(defaultPathList);
 }

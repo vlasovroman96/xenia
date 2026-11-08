@@ -195,12 +195,10 @@ static if (POLL || POLLSET) {
 static if (EPOLL || PORT) {
 private void ospoll_clean_deleted(ospoll* ospoll)
 {
-    ospollfd* osfd = void, tmp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("osfd", "tmp", "&ospoll.deleted", "deleted", q{
+    foreach(osfd; ospoll.deleted.byEntriesSafe!(ospollfd, "deleted")){
         osfd.deleted.removeFromList();
         free(osfd);
-    }));
+    }
 }
 }
 

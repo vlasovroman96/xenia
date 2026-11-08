@@ -576,7 +576,6 @@ void ms_tearfree_dri_abort_all(xf86CrtcPtr crtc)
 {
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr) crtc.driver_private;
     drmmode_tearfree_ptr trf = &drmmode_crtc.tearfree;
-    ms_crtc_pageflip* flip = void, tmp = void;
     ulong usec = 0, msc = 0;
 
     /* Nothing to abort if there aren't any DRI clients waiting for a flip */
@@ -589,17 +588,14 @@ void ms_tearfree_dri_abort_all(xf86CrtcPtr crtc)
      * time and MSC for this CRTC.
      */
     ms_get_crtc_ust_msc(crtc, &usec, &msc);
-    mixin(xorg_list_for_each_entry_safe!("flip", "tmp", "&trf.dri_flip_list", "node", q{
+    foreach(flip; trf.dri_flip_list.byEntriesSafe!(ms_crtc_pageflip, "node"))
         ms_pageflip_handler(msc, usec, flip);
-    }));
     trf.dri_flip_list.initList();
 }
 
 private void ms_tearfree_dri_notify(drmmode_tearfree_ptr trf, ulong msc, ulong usec)
 {
-    ms_crtc_pageflip* flip = void, tmp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("flip", "tmp", "&trf.dri_flip_list", "node", q{
+    foreach(flip; trf.dri_flip_list.byEntriesSafe!(ms_crtc_pageflip, "node")){
         /* If a TearFree flip was already pending at the time this DRI client's
          * pixmap was copied, then the pixmap isn't contained in this TearFree
          * flip, but will be part of the next TearFree flip instead.
@@ -610,7 +606,7 @@ private void ms_tearfree_dri_notify(drmmode_tearfree_ptr trf, ulong msc, ulong u
             flip.node.removeFromList();
             ms_pageflip_handler(msc, usec, flip);
         }
-    }));
+    }
 }
 
 private void ms_tearfree_flip_abort(void* data)

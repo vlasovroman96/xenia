@@ -83,17 +83,15 @@ void busfault_unregister(busfault* busfault)
 
 void busfault_check()
 {
-    busfault* busfault = void, tmp = void;
-
     if (!busfaulted)
         return;
 
     busfaulted = FALSE;
 
-    mixin(xorg_list_for_each_entry_safe!("busfault", "tmp", "&busfaults", "list", q{
-        if (!busfault.valid)
-            (*busfault.notify)(busfault.context);
-    }));
+    foreach(busfault_; busfaults.byEntriesSafe!busfault) {
+        if (!busfault_.valid)
+            (*busfault_.notify)(busfault_.context);
+    }
 }
 
 private void function(int sig, siginfo_t* info, void* param) previous_busfault_sigaction;

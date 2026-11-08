@@ -94,23 +94,14 @@ HashTable ht_create(int keySize, int dataSize, HashFunc hash, HashCompareFunc co
 void ht_destroy(HashTable ht)
 {
     int c;
-    BucketPtr it = null;
-    BucketPtr tmp = null;
     int numBuckets = 1 << ht.bucketBits;
-    
     for (c = 0; c < numBuckets; ++c) {
-        // Создаем явную переменную для головы списка в текущей итерации
-        auto head = ht.buckets[c]; 
-        
-        // Передаем "head" как фиксированную строку. 
-        // Теперь макрос развернется в &(head), что абсолютно валидно и прозрачно для D.
-        mixin(xorg_list_for_each_entry_safe!("it","tmp", "&head", "l", 
-        q{
+        foreach(it; ht.buckets[c].byEntriesSafe!(BucketPtr, "l")) {
             it.l.removeFromList();
             free(it.key);
             free(it.data);
             free(it);
-        }));
+        }
     }
     free(ht.buckets);
     free(ht);
@@ -131,12 +122,11 @@ private Bool double_size(HashTable ht)
         }
 
         for (c = 0; c < numBuckets; ++c) {
-            BucketPtr it = void, tmp = void;
-            mixin(xorg_list_for_each_entry_safe!("it", "tmp", "&ht.buckets[c]", "l", q{
+            foreach(it; ht.buckets[c].byEntriesSafe!(BucketPtr, "l")) {
                 XList* newBucket = &newBuckets[ht.hash(ht.cdata, it.key, newBucketBits)];
                 it.l.removeFromList();
                 newBucket.addListNext(&it.l);
-            }));
+            }
         }
         free(ht.buckets);
 

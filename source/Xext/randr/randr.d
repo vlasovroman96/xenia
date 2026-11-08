@@ -815,13 +815,11 @@ private void RRCloseScreen(CallbackListPtr* pcbl, ScreenPtr pScreen, void* unuse
 {
     mixin(rrScrPriv!("pScreen"));
     int j = void;
-    RRLeasePtr lease = void, next = void;
 
     dixScreenUnhookClose(pScreen, &RRCloseScreen);
 
-    mixin(xorg_list_for_each_entry_safe!("lease", "next", "&pScrPriv.leases", "list", q{
+    foreach(lease; pScrPriv.leases.byEntriesSafe!RRLeasePtr)
         RRTerminateLease(lease);
-    }));
     for (j = pScrPriv.numCrtcs - 1; j >= 0; j--)
         RRCrtcDestroy(pScrPriv.crtcs[j]);
     for (j = pScrPriv.numOutputs - 1; j >= 0; j--)

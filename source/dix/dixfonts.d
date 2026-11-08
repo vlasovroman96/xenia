@@ -2013,15 +2013,13 @@ private int add_fs_fd(int fd, FontFdHandlerProcPtr handler, void* data)
 
 private void remove_fs_fd(int fd)
 {
-    fs_fd_entry* entry = void, temp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("entry", "temp", "&fs_fd_list", "entry", q{
+    foreach(entry; fs_fd_list.byEntriesSafe!(fs_fd_entry, "entry")) {
         if (entry.fd == fd) {
             entry.entry.removeFromList();
             free(entry);
             break;
         }
-    }));
+    }
     RemoveNotifyFd(fd);
 }
 
