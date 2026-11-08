@@ -707,7 +707,6 @@ private void TouchAddPassiveGrabListener(DeviceIntPtr dev, TouchPointInfoPtr ti,
 
 private Bool TouchAddRegularListener(DeviceIntPtr dev, TouchPointInfoPtr ti, WindowPtr win, InternalEvent* ev)
 {
-    InputClients* iclients = null;
     OtherInputMasks* inputMasks = null;
     ushort evtype = 0;        /* may be event type or emulated event type */
     TouchListenerType type = TOUCH_LISTENER_REGULAR;
@@ -730,7 +729,7 @@ private Bool TouchAddRegularListener(DeviceIntPtr dev, TouchPointInfoPtr ti, Win
     inputMasks = mixin(wOtherInputMasks!("win"));
 
     if ((mask & EVENT_XI2_MASK) && (inputMasks !is null)) {
-        mixin(nt_list_for_each_entry!("iclients", "inputMasks.inputClients", "next", q{
+        foreach(iclients; inputMasks.inputClients.ntRange!"next") {
             if (!xi2mask_isset(iclients.xi2mask, dev, evtype))
                 continue;
 
@@ -740,14 +739,14 @@ private Bool TouchAddRegularListener(DeviceIntPtr dev, TouchPointInfoPtr ti, Win
             TouchAddListener(ti, iclients.resource, RT_INPUTCLIENT, XI2,
                              type, TOUCH_LISTENER_AWAITING_BEGIN, win, null);
             return TRUE;
-        }));
+        }
     }
 
     if ((mask & EVENT_XI1_MASK) && (inputMasks !is null)) {
         int xitype = GetXIType(cast(EventType)TouchGetPointerEventType(ev));
         Mask xi_filter = event_get_filter_from_type(dev, xitype);
 
-        mixin(nt_list_for_each_entry!("iclients", "inputMasks.inputClients", "next", q{
+        foreach(iclients; inputMasks.inputClients.ntRange!"next") {
             if (!(iclients.mask[dev.id] & xi_filter))
                 continue;
 
@@ -757,13 +756,12 @@ private Bool TouchAddRegularListener(DeviceIntPtr dev, TouchPointInfoPtr ti, Win
                              TOUCH_LISTENER_AWAITING_BEGIN,
                              win, null);
             return TRUE;
-        }));
+        }
     }
 
     if (mask & EVENT_CORE_MASK) {
         int coretype = GetCoreType(cast(EventType)TouchGetPointerEventType(ev));
         Mask core_filter = event_get_filter_from_type(dev, coretype);
-        OtherClients* oclients = void;
 
         /* window owner */
         if (InputDevIsMaster(dev) && (win.eventMask & core_filter)) {
@@ -776,7 +774,7 @@ private Bool TouchAddRegularListener(DeviceIntPtr dev, TouchPointInfoPtr ti, Win
         }
 
         /* all others */
-        mixin(nt_list_for_each_entry!("oclients", "mixin(wOtherClients!(`win`))", "next", q{
+        foreach(oclients; mixin(wOtherClients!(`win`)).ntRange!"next") {
             if (!(oclients.mask & core_filter))
                 continue;
 
@@ -784,7 +782,7 @@ private Bool TouchAddRegularListener(DeviceIntPtr dev, TouchPointInfoPtr ti, Win
             TouchAddListener(ti, oclients.resource, X11_RESTYPE_OTHERCLIENT, CORE,
                              type, TOUCH_LISTENER_AWAITING_BEGIN, win, null);
             return TRUE;
-        }));
+        }
     }
 
     return FALSE;

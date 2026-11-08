@@ -1219,10 +1219,9 @@ private void _XkbApplyState(DeviceIntPtr dev, Bool genStateNotify, int evtype, i
 
 void XkbPushLockedStateToSlaves(DeviceIntPtr master, int evtype, int key)
 {
-    DeviceIntPtr dev = void;
     Bool genStateNotify = void;
 
-    mixin(nt_list_for_each_entry!("dev", "inputInfo.devices", "next", q{
+    foreach(dev; inputInfo.devices.ntRange!"next") {
         if (!dev.key || GetMaster(dev, MASTER_KEYBOARD) != master)
             continue;
 
@@ -1238,7 +1237,7 @@ void XkbPushLockedStateToSlaves(DeviceIntPtr master, int evtype, int key)
             master.key.xkbInfo.state.latched_group;
 
         _XkbApplyState(dev, genStateNotify, evtype, key);
-    }));;
+    }
 }
 
 private void XkbActionGetFilter(DeviceIntPtr dev, DeviceEvent* event, KeyCode key, XkbAction* act, int* sendEvent)

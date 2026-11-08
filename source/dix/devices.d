@@ -1100,21 +1100,20 @@ void CloseDownDevices()
  */
 void AbortDevices()
 {
-    DeviceIntPtr dev = void;
-
     /* Do not call input_lock as we don't know what
      * state the input thread might be in, and that could
      * cause a dead-lock.
      */
-    mixin(nt_list_for_each_entry!("dev", "inputInfo.devices", "next", q{
+    //Issue 66: Use std.algorithm.filter
+    foreach(dev; inputInfo.devices.ntRange!"next") {
         if (!InputDevIsMaster(dev))
             (*dev.deviceProc) (dev, DEVICE_ABORT);
-    }));
+    }
 
-    mixin(nt_list_for_each_entry!("dev", "inputInfo.off_devices", "next", q{
+    foreach(dev; inputInfo.off_devices.ntRange!"next") {
         if (!InputDevIsMaster(dev))
             (*dev.deviceProc) (dev, DEVICE_ABORT);
-    }));
+    }
 }
 
 /**

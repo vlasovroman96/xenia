@@ -383,11 +383,11 @@ private int ScreenSaverFreeSuspend(void* value, XID id)
         screenSaverSuspended = FALSE;
 
     void checkSuspend() {
-            DeviceIntPtr dev = void;
+            //Issue #65: Use std.algorithm.each 
             UpdateCurrentTimeIf();
-            mixin(nt_list_for_each_entry!("dev", "inputInfo.devices", "next", q{
+            foreach(dev; inputInfo.devices.ntRange!"next") {
                 NoticeTime(dev, currentTime);
-            }));
+            }
             SetScreenSaverTimer();
     }
         /* The screensaver could be active, since suspending it (by design)

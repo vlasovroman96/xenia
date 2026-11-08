@@ -1480,10 +1480,10 @@ void LastEventTimeToggleResetFlag(int deviceid, Bool state)
 
 void LastEventTimeToggleResetAll(Bool state)
 {
-    DeviceIntPtr dev = void;
-    mixin(nt_list_for_each_entry!("dev", "inputInfo.devices", "next", q{
+    //Issue 65: Use std.algorithm.each
+    foreach(dev; inputInfo.devices.ntRange!"next") {
         LastEventTimeToggleResetFlag(dev.id, FALSE);
-    }));
+    }
     LastEventTimeToggleResetFlag(XIAllDevices, FALSE);
     LastEventTimeToggleResetFlag(XIAllMasterDevices, FALSE);
 }

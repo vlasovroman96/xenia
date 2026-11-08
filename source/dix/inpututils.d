@@ -833,21 +833,19 @@ private void input_option_free(InputOption* o)
  */
 InputOption* input_option_new(InputOption* list, const(char)* key, const(char)* value)
 {
-    InputOption* opt = null;
-
     if (!key)
         return null;
 
     if (list) {
-        mixin(nt_list_for_each_entry!("opt", "list", "list.next", q{
+        foreach(opt; list.ntRange!"list.next") {
             if (strcmp(input_option_get_key(opt), key) == 0) {
                 input_option_set_value(opt, value);
                 return list;
             }
-        }));
+        }
     }
 
-    opt = cast(InputOption*) cast(InputOption*) calloc(1, InputOption.sizeof);
+    InputOption* opt = cast(InputOption*) cast(InputOption*) calloc(1, InputOption.sizeof);
     if (!opt)
         return null;
 
@@ -866,16 +864,15 @@ InputOption* input_option_new(InputOption* list, const(char)* key, const(char)* 
 
 InputOption* input_option_free_element(InputOption* list, const(char)* key)
 {
-    InputOption* element = void;
-
-    mixin(nt_list_for_each_entry!("element", "list", "list.next", q{
+    //Issue 64: Use std.algorithm.find
+    foreach(element; list.ntRange!"list.next") {
         if (strcmp(input_option_get_key(element), key) == 0) {
             mixin(nt_list_del!("element", "list", "InputOption", "list.next"));
 
             input_option_free(element);
             break;
         }
-    }));
+    }
     return list;
 }
 
@@ -901,12 +898,11 @@ void input_option_free_list(InputOption** opt)
  */
 InputOption* input_option_find(InputOption* list, const(char)* key)
 {
-    InputOption* element = void;
-
-    mixin(nt_list_for_each_entry!("element", "list", "list.next", q{
+    //Issue 64: Use std.algorithm.find
+    foreach(element; list.ntRange!"list.next") {
         if (strcmp(input_option_get_key(element), key) == 0)
             return element;
-    }));
+    }
 
     return null;
 }

@@ -1050,15 +1050,13 @@ int UpdateDeviceState(DeviceIntPtr device, DeviceEvent* event)
  */
 pragma(inline, true) private Bool TouchClientWantsOwnershipEvents(ClientPtr client, DeviceIntPtr dev, WindowPtr win)
 {
-    InputClients* iclient = void;
-
     assert(mixin(wOtherInputMasks!("win")));
-    mixin(nt_list_for_each_entry!("iclient", "mixin(wOtherInputMasks!(`win`)).inputClients", "next", q{
+    foreach(iclient; mixin(wOtherInputMasks!(`*win`)).inputClients.ntRange!"next") {
         if (dixClientForInputClients(iclient) != client)
             continue;
 
         return xi2mask_isset(iclient.xi2mask, dev, XI_TouchOwnership);
-    }));
+    }
 
     return FALSE;
 }
@@ -1384,12 +1382,12 @@ private Bool RetrieveTouchDeliveryData(DeviceIntPtr dev, TouchPointInfoPtr ti, I
 
             assert(mixin(wOtherInputMasks!("*win")));
 
+            //Issue #64: Use std.algorithm.find
             InputClients* iclients = null;
-            mixin(nt_list_for_each_entry!("iclients",
-                                `mixin(wOtherInputMasks!("*win")).inputClients`, `next`, q{
-                if (xi2mask_isset(iclients.xi2mask, dev, evtype))
+            foreach(iclients_; mixin(wOtherInputMasks!(`*win`)).inputClients.ntRange!("next", true)(&iclients)) {
+                if (xi2mask_isset(iclients_.xi2mask, dev, evtype))
                 break;
-            }));
+            }
 
             mixin(BUG_RETURN_VAL!("!iclients", "FALSE"));
 
@@ -1402,12 +1400,13 @@ private Bool RetrieveTouchDeliveryData(DeviceIntPtr dev, TouchPointInfoPtr ti, I
 
             assert(mixin(wOtherInputMasks!("*win")));
 
+            // Issue #64
             InputClients* iclients = null;
-            mixin(nt_list_for_each_entry!("iclients",
-                                   `mixin(wOtherInputMasks!("*win")).inputClients`, `next`, q{
-                if (iclients.mask[dev.id] & xi_filter)
+            
+            foreach(iclients_; mixin(wOtherInputMasks!(`*win`)).inputClients.ntRange!("next", true)(&iclients)) {
+                if (iclients_.mask[dev.id] & xi_filter)
                 break;
-            }));
+            }
 
             mixin(BUG_RETURN_VAL!("!iclients", "FALSE"));
 
@@ -1416,14 +1415,14 @@ private Bool RetrieveTouchDeliveryData(DeviceIntPtr dev, TouchPointInfoPtr ti, I
         else {
             int coretype = GetCoreType(cast(EventType)TouchGetPointerEventType(ev));
             Mask core_filter = event_get_filter_from_type(dev, coretype);
+            //Can we use std.algorithm.find here? Issue #64
             OtherClients* oclients = void;
 
             /* all others */
-            mixin(nt_list_for_each_entry!("oclients",
-                                   `cast(OtherClients*) mixin(wOtherClients!("*win"))`, `next`, q{
-                if (oclients.mask & core_filter)
+            foreach(oclients_; mixin(wOtherInputMasks!(`*win`)).inputClients.ntRange!("next", true)(&oclients)) {
+                if ((cast(OtherClients*)oclients_).mask & core_filter)
                     break;
-            }));
+            }
 
             /* if owner selected, oclients is NULL */
             *client = oclients ? dixClientForOtherClients(oclients) : dixClientForWindow(*win);
@@ -2249,10 +2248,11 @@ private Bool RetrieveGestureDeliveryData(DeviceIntPtr dev, InternalEvent* ev, Ge
         evtype = GetXI2Type(ev.any.type);
 
         assert(mixin(wOtherInputMasks!("*win")));
-        mixin(nt_list_for_each_entry!("iclients", "mixin(wOtherInputMasks!(`*win`)).inputClients", "next", q{
-            if (xi2mask_isset(iclients.xi2mask, dev, evtype))
+        //Issue #64: Use std.algorithm.find
+        foreach(iclients_; mixin(wOtherInputMasks!(`*win`)).inputClients.ntRange!("next", true)(&iclients)) {
+            if (xi2mask_isset(iclients_.xi2mask, dev, evtype))
                 break;
-        }));
+        }
 
         mixin(BUG_RETURN_VAL!("!iclients", "FALSE"));
 

@@ -1121,7 +1121,6 @@ int xf86NewInputDevice(InputInfoPtr pInfo, DeviceIntPtr* pdev, BOOL enable)
 int NewInputDeviceRequest(InputOption* options, InputAttributes* attrs, DeviceIntPtr* pdev)
 {
     InputInfoPtr pInfo = null;
-    InputOption* option = null;
     int rval = Success;
     int is_auto = 0;
 
@@ -1129,7 +1128,7 @@ int NewInputDeviceRequest(InputOption* options, InputAttributes* attrs, DeviceIn
     if (!pInfo)
         return BadAlloc;
 
-    mixin(nt_list_for_each_entry!("option", "options", "list.next", q{
+    foreach(option; options.ntRange!"list.next") {
         const(char)* key = input_option_get_key(option);
         const(char)* value = input_option_get_value(option);
 
@@ -1173,14 +1172,15 @@ int NewInputDeviceRequest(InputOption* options, InputAttributes* attrs, DeviceIn
 
         if (strcmp(key, "minor") == 0)
             pInfo.minor = atoi(value);
-    }));
+    }
 
-    mixin(nt_list_for_each_entry!("option", "options", "list.next", q{
+    //Issue #65: Use std.algorithm.each
+    foreach(option; options.ntRange!"list.next") {
         /* Copy option key/value strings from the provided list */
         pInfo.options = xf86AddNewOption(pInfo.options,
                                           input_option_get_key(option),
                                           input_option_get_value(option));
-    }));
+    }
 
     /* Apply InputClass settings */
     if (attrs) {

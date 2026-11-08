@@ -227,7 +227,6 @@ private void GestureAddPassiveGrabListener(DeviceIntPtr dev, GestureInfoPtr gi, 
 
 private void GestureAddRegularListener(DeviceIntPtr dev, GestureInfoPtr gi, WindowPtr win, InternalEvent* ev)
 {
-    InputClients* iclients = null;
     OtherInputMasks* inputMasks = null;
     ushort evtype = cast(ushort)GetXI2Type(ev.any.type);
     int mask = void;
@@ -239,14 +238,14 @@ private void GestureAddRegularListener(DeviceIntPtr dev, GestureInfoPtr gi, Wind
     inputMasks = mixin(wOtherInputMasks!("win"));
 
     if ((mask & EVENT_XI2_MASK) && (inputMasks !is null)) {
-        mixin(nt_list_for_each_entry!("iclients", "inputMasks.inputClients", "next", q{
+        foreach(iclients; inputMasks.inputClients.ntRange!"next") {
             if (!xi2mask_isset(iclients.xi2mask, dev, evtype))
                 continue;
 
             GestureAddListener(gi, iclients.resource, RT_INPUTCLIENT,
                                GESTURE_LISTENER_REGULAR, win, null);
             return;
-        }));
+        }
     }
 }
 

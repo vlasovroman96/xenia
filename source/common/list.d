@@ -362,6 +362,28 @@ auto ntListGetNext(string mem = "next", T)(T entryNode) {
  * @param list The list to iterate through.
  * @param member Member name of the field pointing to next struct.
  */
+
+auto ntRange(string mem, bool useRef = false, U, T) (T entryNode, U rv = null) {
+    struct NtRange{
+        T node;
+        static if(useRef)
+            U refVar;
+        
+        bool empty() => node == null;
+        void popFront() { 
+            node = cast(T)mixin("node." ~ mem); 
+            static if(useRef)
+                refVar = cast(U)&node;
+        }
+        T front() => cast(T)mixin("node." ~ mem);
+    }
+
+    static if(useRef)
+        return NtRange(entryNode, rv);
+    else
+        return NtRange(entryNode);
+}
+
 enum string nt_list_for_each_entry(string _entry, string _list, string _member, string lambda) = `
 	for (` ~ _entry ~ ` = ` ~ _list ~ `; ` ~ _entry ~ `; ` ~ _entry ~ ` = cast(typeof(`~_entry~`))(` ~ _entry ~ `).` ~ _member ~ `){` ~ lambda~`}`;
 

@@ -545,7 +545,6 @@ private int CreatePointerBarrierClient(ClientPtr client, xXFixesCreatePointerBar
     int err = void;
     int i = void;
     CARD16* in_devices = void;
-    DeviceIntPtr dev = void;
 
     const(int) size = (PointerBarrierClient).sizeof
                    + ((DeviceIntPtr).sizeof * stuff.num_devices);
@@ -595,7 +594,7 @@ private int CreatePointerBarrierClient(ClientPtr client, xXFixesCreatePointerBar
 
     /* Alloc one per master pointer, they're the ones that can be blocked */
     ret.per_device.initList();
-    mixin(nt_list_for_each_entry!("dev", "inputInfo.devices", "next", q{
+    foreach(dev; inputInfo.devices.ntRange!"next") {
         PointerBarrierDevice* pbd = void;
 
         if (dev.type != MASTER_POINTER)
@@ -611,7 +610,7 @@ private int CreatePointerBarrierClient(ClientPtr client, xXFixesCreatePointerBar
         input_lock();
         ret.per_device.addListNext(&pbd.entry);
         input_unlock();
-    }));
+    }
 
     ret.id = stuff.barrier;
     ret.barrier.x1 = stuff.x1;
