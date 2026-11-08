@@ -345,6 +345,9 @@ void ntListInit(string member, T)(T listEntry) {
  * @param list The list or current element.
  * @param member Member name of the field pointing to next struct.
  */
+auto ntListGetNext(string mem = "next", T)(T entryNode) {
+    return mixin("entryNode." ~ mem); 
+}
 
 /**
  * Iterate through each element in the list.
@@ -450,7 +453,7 @@ enum string nt_list_del(string _entry, string _list, string _type, string _membe
 		} else {					
 		    `~_type~`* __prev = ` ~ _list ~ `;			
 		    while (__prev.` ~ _member ~ ` && __prev.` ~ _member ~ ` != __e)	
-			__prev = ` ~ `cast(typeof(__prev))`~nt_list_next!(`__prev`, _member) ~ `;	
+			__prev = ` ~ `cast(typeof(__prev)) __prev.ntListGetNext!("`~_member~`");	
 		    if (__prev.` ~ _member ~ `)			
 			__prev.` ~ _member ~ ` = __e.` ~ _member ~ `;		
 		}						
