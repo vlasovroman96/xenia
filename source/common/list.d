@@ -384,9 +384,6 @@ auto ntRange(string mem, bool useRef = false, U, T) (T entryNode, U rv = null) {
         return NtRange(entryNode);
 }
 
-enum string nt_list_for_each_entry(string _entry, string _list, string _member, string lambda) = `
-	for (` ~ _entry ~ ` = ` ~ _list ~ `; ` ~ _entry ~ `; ` ~ _entry ~ ` = cast(typeof(`~_entry~`))(` ~ _entry ~ `).` ~ _member ~ `){` ~ lambda~`}`;
-
 /**
  * Iterate through each element in the list, keeping a backup pointer to the
  * element. This macro allows for the deletion of a list element while
