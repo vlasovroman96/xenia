@@ -881,13 +881,11 @@ InputOption* input_option_free_element(InputOption* list, const(char)* key)
  */
 void input_option_free_list(InputOption** opt)
 {
-    InputOption* element = void, tmp = void;
-
-    mixin(nt_list_for_each_entry_safe!("element", "tmp", "*opt", "list.next", q{
+    foreach(element; (*opt).ntRangeSafe!"list.next") {
         mixin(nt_list_del!("element", "*opt", "InputOption", "list.next"));
 
         input_option_free(element);
-    }));
+    }
     *opt = null;
 }
 

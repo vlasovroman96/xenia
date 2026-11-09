@@ -559,27 +559,26 @@ Bool DisableDevice(DeviceIntPtr dev, BOOL sendevent)
 
 void DisableAllDevices()
 {
-    DeviceIntPtr dev = void, tmp = void;
-
+    //Issues #65, #66
     /* Disable slave devices first, excluding XTest devices */
-    mixin(nt_list_for_each_entry_safe!("dev", "tmp", "inputInfo.devices", "next", q{
+    foreach(dev; inputInfo.devices.ntRangeSafe!"next") {
         if (!IsXTestDevice(dev, null) && !InputDevIsMaster(dev))
             DisableDevice(dev, FALSE);
-    }));
+    }
     /* Disable XTest devices */
-    mixin(nt_list_for_each_entry_safe!("dev", "tmp", "inputInfo.devices", "next", q{
+    foreach(dev; inputInfo.devices.ntRangeSafe!"next") {
         if (!InputDevIsMaster(dev))
             DisableDevice(dev, FALSE);
-    }));
+    }
     /* master keyboards need to be disabled first */
-    mixin(nt_list_for_each_entry_safe!("dev", "tmp", "inputInfo.devices", "next", q{
+    foreach(dev; inputInfo.devices.ntRangeSafe!"next") {
         if (dev.enabled && InputDevIsMaster(dev) && IsKeyboardDevice(dev))
             DisableDevice(dev, FALSE);
-    }));
-    mixin(nt_list_for_each_entry_safe!("dev", "tmp", "inputInfo.devices", "next", q{
+    }
+    foreach(dev; inputInfo.devices.ntRangeSafe!"next") {
         if (dev.enabled)
             DisableDevice(dev, FALSE);
-    }));
+    }
 }
 
 /**

@@ -396,12 +396,33 @@ auto ntRange(string mem, bool useRef = false, U, T) (T entryNode, U rv = null) {
  * @param list The list to iterate through.
  * @param member Member name of the field pointing to next struct.
  */
-enum string nt_list_for_each_entry_safe(string _entry, string _tmp, string _list, string _member, string funcbody) = `
-	for (` ~ _entry ~ ` = ` ~ _list ~ `, ` ~ _tmp ~ ` = (` ~ _entry ~ `) ? cast(typeof(`~_entry~`))(` ~ _entry ~ `).` ~ _member ~ ` : null;
-		` ~ _entry ~ `;							
-		` ~ _entry ~ ` = ` ~ _tmp ~ `, ` ~ _tmp ~ ` = (` ~ _tmp ~ `) ? cast(typeof(`~_tmp~`))(` ~ _tmp ~ `).` ~ _member ~ `: null) {
-            `~funcbody~`
-        }`;
+auto ntRangeSafe(string mem, bool useRef = false, U, T) (T entryNode, U rv = null) {
+    struct NtRange{
+        T node;
+        T tmp;
+        static if(useRef)
+            U refVar;
+        
+        bool empty() => node == null;
+        void popFront() { 
+            node = tmp;
+            tmp = tmp ? cast(T)mixin("tmp." ~ mem) : null;
+            static if(useRef)
+                refVar = cast(U)&node;
+        }
+        T front() => cast(T)node;
+
+        this(T entry) {
+            node = entry;
+            tmp = entry ? cast(T)mixin("entry." ~ mem) : null; 
+        }
+    }
+
+    static if(useRef)
+        return NtRange(entryNode, rv);
+    else
+        return NtRange(entryNode);
+}
 
 /**
  * Append the element to the end of the list. This macro may be used to
