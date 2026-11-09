@@ -732,6 +732,8 @@ enum CantBeFiltered = NoEventMask;
  * time a button is pressed, the filter is modified to also contain the
  * matching ButtonXMotion mask.
  */
+enum MAXEVENTS =       128;
+
 Mask[MAXEVENTS][MAXDEVICES] event_filters;
 
 private const(Mask)[MAXEVENTS] default_filter = [
