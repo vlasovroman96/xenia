@@ -375,7 +375,7 @@ auto ntRange(string mem, bool useRef = false, U, T) (T entryNode, U rv = null) {
             static if(useRef)
                 refVar = cast(U)&node;
         }
-        T front() => cast(T)mixin("node." ~ mem);
+        T front() => cast(T)node;
     }
 
     static if(useRef)
