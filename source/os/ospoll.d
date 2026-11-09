@@ -195,12 +195,10 @@ static if (POLL || POLLSET) {
 static if (EPOLL || PORT) {
 private void ospoll_clean_deleted(ospoll* ospoll)
 {
-    ospollfd* osfd = void, tmp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("osfd", "tmp", "&ospoll.deleted", "deleted", q{
-        xorg_list_del(&osfd.deleted);
+    foreach(osfd; ospoll.deleted.byEntriesSafe!(ospollfd, "deleted")){
+        osfd.deleted.removeFromList();
         free(osfd);
-    }));
+    }
 }
 }
 
@@ -268,7 +266,7 @@ static if (EPOLL) {
         free (ospoll);
         return null;
     }
-    xorg_list_init(&ospoll.deleted);
+    ospoll.deleted.initList();
     return ospoll;
 }
 static if (POLL) {
@@ -470,7 +468,7 @@ static if (PORT) {
         ospoll.num--;
         osfd.callback = null;
         osfd.data = null;
-        xorg_list_add(&osfd.deleted, &ospoll.deleted);
+        ospoll.deleted.addListNext(&osfd.deleted);
 }
 static if (EPOLL) {
         ospollfd* osfd = ospoll.fds[pos];
@@ -483,7 +481,7 @@ static if (EPOLL) {
         ospoll.num--;
         osfd.callback = null;
         osfd.data = null;
-        xorg_list_add(&osfd.deleted, &ospoll.deleted);
+        ospoll.deleted.addListNext(&osfd.deleted);
 }
 static if (POLL) {
         array_delete(ospoll.fds, ospoll.num, typeof(ospoll.fds[0]).sizeof, pos);
@@ -655,7 +653,7 @@ enum MAX_EVENTS =      256;
             osfd.callback(osfd.fd, xevents, osfd.data);
 
         if (osfd.trigger == ospoll_trigger_level &&
-            !xorg_list_is_empty(&osfd.deleted)) {
+            !osfd.deleted.isEmpty()) {
             epoll_mod(ospoll, osfd);
         }
     }

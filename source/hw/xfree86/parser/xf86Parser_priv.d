@@ -24,22 +24,20 @@ int xf86writeConfigFile(const(char)* filename, XF86ConfigPtr cptr);
 
 pragma(inline, true) void xf86freeMatchGroup(xf86MatchGroup* group)
 {
-    xorg_list_del(&group.entry);
-    xf86MatchPattern* pattern = void, next_pattern = void;
-    mixin(xorg_list_for_each_entry_safe!("pattern", "next_pattern", "&group.patterns", "entry", q{
-        xorg_list_del(&pattern.entry);
+    group.entry.removeFromList();
+    foreach(pattern; group.patterns.byEntriesSafe!(xf86MatchPattern, "entry")){
+        pattern.entry.removeFromList();
         if (pattern.str)
             free(pattern.str);
         free(pattern);
-    }));
+    }
     free(group);
 }
 
 pragma(inline, true) void xf86freeMatchGroupList(XList* grouplist) {
-    xf86MatchGroup* group = void, next = void;
-    mixin(xorg_list_for_each_entry_safe!("group", "next", "grouplist", "entry", q{
+    foreach(group; grouplist.byEntriesSafe!(xf86MatchGroup, "entry")) {
         xf86freeMatchGroup(group);
-    }));
+    }
 }
 
  /* _XSERVER_XF86_PARSER_PRIV */

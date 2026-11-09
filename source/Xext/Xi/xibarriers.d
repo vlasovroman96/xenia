@@ -130,33 +130,31 @@ private PointerBarrierDevice* AllocBarrierDevice()
     pbd.release_event_id = 0;
     pbd.hit = FALSE;
     pbd.seen = FALSE;
-    xorg_list_init(&pbd.entry);
+    pbd.entry.initList();
 
     return pbd;
 }
 
 private void FreePointerBarrierClient(PointerBarrierClient* c)
 {
-    PointerBarrierDevice* pbd = null, tmp = null;
-
-    if (!xorg_list_is_empty(&c.per_device)) {
-        mixin(xorg_list_for_each_entry_safe!("pbd", "tmp", "&c.per_device", "entry", q{
+    if (!c.per_device.isEmpty()) {
+        foreach(pbd; c.per_device.byEntriesSafe!(PointerBarrierDevice, "entry")){
             free(pbd);
-        }));
+        }
     }
     free(c);
 }
 
 private PointerBarrierDevice* GetBarrierDevice(PointerBarrierClient* c, int deviceid)
 {
-    PointerBarrierDevice* p = void, pbd = null;
+    PointerBarrierDevice* pbd = null;
 
-    mixin(xorg_list_for_each_entry!("p", "&(c.per_device)", "entry", q{
+    foreach(p; c.per_device.byEntries!(PointerBarrierDevice*, "entry")) {
         if (p.deviceid == deviceid) {
             pbd = p;
             break;
         }
-    }));
+    }
 
     return pbd;
 }
@@ -335,10 +333,10 @@ private BOOL barrier_blocks_device(PointerBarrierClient* client, DeviceIntPtr de
  */
 private PointerBarrierClient* barrier_find_nearest(BarrierScreenPtr cs, DeviceIntPtr dev, int dir, int x1, int y1, int x2, int y2)
 {
-    PointerBarrierClient* c = void, nearest = null;
+    PointerBarrierClient* nearest = null;
     double min_distance = INT_MAX;      /* can't get higher than that in X anyway */
 
-    mixin(xorg_list_for_each_entry!("c", "&cs.barriers", "entry", q{
+    foreach(c; cs.barriers.byEntries!(PointerBarrierClient, "entry")) {
         PointerBarrier* b = &c.barrier;
         PointerBarrierDevice* pbd = void;
         double distance = void;
@@ -362,7 +360,7 @@ private PointerBarrierClient* barrier_find_nearest(BarrierScreenPtr cs, DeviceIn
                 nearest = c;
             }
         }
-    }));
+    }
 
     return nearest;
 }
@@ -417,7 +415,7 @@ void input_constrain_cursor(DeviceIntPtr dev, ScreenPtr pScreen, int current_x, 
     if (nevents)
         *nevents = 0;
 
-    if (xorg_list_is_empty(&cs.barriers) || InputDevIsFloating(dev))
+    if (cs.barriers.isEmpty() || InputDevIsFloating(dev))
         goto out_;
 
     /**
@@ -485,11 +483,11 @@ void input_constrain_cursor(DeviceIntPtr dev, ScreenPtr pScreen, int current_x, 
         *nevents += 1;
     }
 
-    mixin(xorg_list_for_each_entry!("c", "&cs.barriers", "entry", q{
+    foreach(iter; cs.barriers.byEntries!(PointerBarrierClient, "entry")) {
         PointerBarrierDevice* pbd = void;
         int flags = 0;
 
-        pbd = GetBarrierDevice(c, master.id);
+        pbd = GetBarrierDevice(iter, master.id);
         if (!pbd)
             continue;
 
@@ -497,7 +495,7 @@ void input_constrain_cursor(DeviceIntPtr dev, ScreenPtr pScreen, int current_x, 
         if (!pbd.hit)
             continue;
 
-        if (barrier_inside_hit_box(&c.barrier, x, y))
+        if (barrier_inside_hit_box(&iter.barrier, x, y))
             continue;
 
         pbd.hit = FALSE;
@@ -509,10 +507,10 @@ void input_constrain_cursor(DeviceIntPtr dev, ScreenPtr pScreen, int current_x, 
 
         ev.flags = flags;
         ev.event_id = pbd.barrier_event_id;
-        ev.barrierid = cast(int)c.id;
+        ev.barrierid = cast(int)iter.id;
 
         ev.dt = cast(short)(ms - pbd.last_timestamp);
-        ev.window = c.window;
+        ev.window = iter.window;
         pbd.last_timestamp = ms;
 
         // root x/y is filled in later
@@ -522,7 +520,7 @@ void input_constrain_cursor(DeviceIntPtr dev, ScreenPtr pScreen, int current_x, 
         *nevents += 1;
 
         pbd.barrier_event_id++;
-    }));
+    }
 
  out_:
     *out_x = x;
@@ -547,7 +545,6 @@ private int CreatePointerBarrierClient(ClientPtr client, xXFixesCreatePointerBar
     int err = void;
     int i = void;
     CARD16* in_devices = void;
-    DeviceIntPtr dev = void;
 
     const(int) size = (PointerBarrierClient).sizeof
                    + ((DeviceIntPtr).sizeof * stuff.num_devices);
@@ -556,7 +553,7 @@ private int CreatePointerBarrierClient(ClientPtr client, xXFixesCreatePointerBar
         return BadAlloc;
     }
 
-    xorg_list_init(&ret.per_device);
+    ret.per_device.initList();
 
     err = dixLookupWindow(&pWin, stuff.window, client, DixReadAccess);
     ScreenPtr pScreen = pWin.drawable.pScreen;
@@ -596,8 +593,8 @@ private int CreatePointerBarrierClient(ClientPtr client, xXFixesCreatePointerBar
     }
 
     /* Alloc one per master pointer, they're the ones that can be blocked */
-    xorg_list_init(&ret.per_device);
-    mixin(nt_list_for_each_entry!("dev", "inputInfo.devices", "next", q{
+    ret.per_device.initList();
+    foreach(dev; inputInfo.devices.ntRange!"next") {
         PointerBarrierDevice* pbd = void;
 
         if (dev.type != MASTER_POINTER)
@@ -611,9 +608,9 @@ private int CreatePointerBarrierClient(ClientPtr client, xXFixesCreatePointerBar
         pbd.deviceid = dev.id;
 
         input_lock();
-        xorg_list_add(&pbd.entry, &ret.per_device);
+        ret.per_device.addListNext(&pbd.entry);
         input_unlock();
-    }));
+    }
 
     ret.id = stuff.barrier;
     ret.barrier.x1 = stuff.x1;
@@ -628,7 +625,7 @@ private int CreatePointerBarrierClient(ClientPtr client, xXFixesCreatePointerBar
     if (barrier_is_vertical(&ret.barrier))
         ret.barrier.directions &= ~(BarrierPositiveY | BarrierNegativeY);
     input_lock();
-    xorg_list_add(&ret.entry, &cs.barriers);
+    cs.barriers.addListNext(&ret.entry);
     input_unlock();
 
     *client_out = ret;
@@ -646,7 +643,7 @@ private int BarrierFreeBarrier(void* data, XID id)
     Time ms = GetTimeInMillis();
     DeviceIntPtr dev = null;
 
-    c = containerOf!(PointerBarrierClient, "barrier")(data);
+    c = data.containerOf!(PointerBarrierClient, "barrier");
     ScreenPtr pScreen = c.pScreen;
 
     for (dev = inputInfo.devices; dev; dev = dev.next) {
@@ -694,7 +691,7 @@ private int BarrierFreeBarrier(void* data, XID id)
     }
 
     input_lock();
-    xorg_list_del(&c.entry);
+    c.entry.removeFromList();
     input_unlock();
 
     FreePointerBarrierClient(c);
@@ -716,7 +713,7 @@ private void add_master_func(void* res, XID id, void* devid)
     pbd.deviceid = *deviceid;
 
     input_lock();
-    xorg_list_add(&pbd.entry, &barrier.per_device);
+    barrier.per_device.addListNext(&pbd.entry);
     input_unlock();
 }
 
@@ -763,7 +760,7 @@ private void remove_master_func(void* res, XID id, void* devid)
     }
 
     input_lock();
-    xorg_list_del(&pbd.entry);
+    pbd.entry.removeFromList();
     input_unlock();
     free(pbd);
 }
@@ -906,7 +903,7 @@ Bool XIBarrierInit()
         cs = cast(BarrierScreenPtr) calloc(1, BarrierScreenRec.sizeof);
         if (!cs)
             return FALSE;
-        xorg_list_init(&cs.barriers);
+        cs.barriers.initList();
         mixin(SetBarrierScreen!(`walkScreen`, `cs`));
     });
 

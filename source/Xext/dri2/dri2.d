@@ -189,12 +189,7 @@ private ScreenPtr GetScreenPrime(ScreenPtr primary, int prime_id)
     if (prime_id == 0)
         return primary;
 
-    ScreenPtr secondary = void;
-    // pragma(msg, xorg_list_for_each_entry!(
-    // "secondary",
-    // "&primary.secondary_list",
-    // "secondary_head"));
-   mixin(xorg_list_for_each_entry!("secondary", "&primary.secondary_list", "secondary_head", q{
+    foreach(secondary; primary.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
         if (!secondary.is_offload_secondary)
             continue;
 
@@ -204,7 +199,7 @@ private ScreenPtr GetScreenPrime(ScreenPtr primary, int prime_id)
 
         if (ds.prime_id == prime_id)
             return secondary;
-    }));
+    }
     return primary;
 }
 
@@ -260,7 +255,7 @@ private DRI2DrawablePtr DRI2AllocateDrawable(DrawablePtr pDraw)
     pPriv.swap_limit = 1;      /* default to double buffering */
     pPriv.last_swap_msc = 0;
     pPriv.last_swap_ust = 0;
-    xorg_list_init(&pPriv.reference_list);
+    pPriv.reference_list.initList();
     pPriv.needInvalidate = FALSE;
     pPriv.redirectpixmap = null;
     pPriv.prime_secondary_pixmap = null;
@@ -308,12 +303,10 @@ struct DRI2DrawableRefRec {
 
 private DRI2DrawableRefPtr DRI2LookupDrawableRef(DRI2DrawablePtr pPriv, XID id)
 {
-    DRI2DrawableRefPtr ref_ = void;
-
-    mixin(xorg_list_for_each_entry!("ref_", "&pPriv.reference_list", "link", q{
+    foreach(ref_; pPriv.reference_list.byEntries!(DRI2DrawableRefPtr, "link")) {
         if (ref_.id == id)
             return ref_;
-    }));
+    }
 
     return null;
 }
@@ -340,7 +333,7 @@ private int DRI2AddDrawableRef(DRI2DrawablePtr pPriv, XID id, XID dri2_id, DRI2I
     ref_.dri2_id = dri2_id;
     ref_.invalidate = invalidate;
     ref_.priv = priv;
-    xorg_list_add(&ref_.link, &pPriv.reference_list);
+    pPriv.reference_list.addListNext(&ref_.link);
 
     return Success;
 }
@@ -380,10 +373,9 @@ private int DRI2DrawableGone(void* p, XID id)
 {
     DRI2DrawablePtr pPriv = cast(DRI2DrawablePtr)p;
 
-    DRI2DrawableRefPtr ref_ = void, next = void;
-    mixin(xorg_list_for_each_entry_safe!("ref_", "next", "&(pPriv.reference_list)", "link", q{
+    foreach(ref_; pPriv.reference_list.byEntriesSafe!(DRI2DrawableRefPtr, "link")) {
         if (ref_.dri2_id == id) {
-            xorg_list_del(&ref_.link);
+            ref_.link.removeFromList();
             /* If this was the last ref under this X drawable XID,
              * unregister the X drawable resource. */
             if (!DRI2LookupDrawableRef(pPriv, ref_.id))
@@ -393,13 +385,13 @@ private int DRI2DrawableGone(void* p, XID id)
         }
 
         if (ref_.id == id) {
-            xorg_list_del(&ref_.link);
+            ref_.link.removeFromList();
             FreeResourceByType(ref_.dri2_id, dri2DrawableRes, TRUE);
             free(ref_);
         }
-    }));
+    }
 
-    if (!xorg_list_is_empty(&pPriv.reference_list))
+    if (!pPriv.reference_list.isEmpty())
         return Success;
 
     DrawablePtr pDraw = pPriv.drawable;
@@ -671,10 +663,9 @@ private void DRI2InvalidateDrawable(DrawablePtr pDraw)
 
     pPriv.needInvalidate = FALSE;
 
-    DRI2DrawableRefPtr ref_ = void;
-    mixin(xorg_list_for_each_entry!("ref_", "&pPriv.reference_list", "link", q{
+    foreach(ref_; pPriv.reference_list.byEntries!(DRI2DrawableRefPtr, "link")) {
         ref_.invalidate(pDraw, ref_.priv, ref_.id);
-    }));
+    }
 }
 
 /*

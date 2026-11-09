@@ -71,29 +71,27 @@ GlxServerVendor* GlxCreateVendor(const(GlxServerImports)* imports)
     }
     memcpy(&vendor.glxvc, imports, GlxServerImports.sizeof);
 
-    xorg_list_append(&vendor.entry, &GlxVendorList);
+    GlxVendorList.appendList(&vendor.entry);
     return vendor;
 }
 
 void GlxDestroyVendor(GlxServerVendor* vendor)
 {
     if (vendor !is null) {
-        xorg_list_del(&vendor.entry);
+        vendor.entry.removeFromList();
         free(vendor);
     }
 }
 
 void GlxVendorExtensionReset(const(ExtensionEntry)* extEntry)
 {
-    GlxServerVendor* vendor = void, tempVendor = void;
-
     // TODO: Do we allow the driver to destroy a vendor library handle from
     // here?
-    mixin(xorg_list_for_each_entry_safe!("vendor", "tempVendor", "(&GlxVendorList)", "entry", q{
+    foreach(vendor; GlxVendorList.byEntries!(GlxServerVendor, "entry")) {
         if (vendor.glxvc.extensionCloseDown !is null) {
             vendor.glxvc.extensionCloseDown(extEntry);
         }
-    }));
+    }
 
     // If the server is exiting instead of starting a new generation, then
     // free the remaining GlxServerVendor structs.
@@ -101,7 +99,7 @@ void GlxVendorExtensionReset(const(ExtensionEntry)* extEntry)
     // XXX this used to be conditional on xf86ServerIsExiting, but it's
     // cleaner to just always create the vendor struct on every generation,
     // if nothing else so all ddxes get the same behavior.
-    mixin(xorg_list_for_each_entry_safe!("vendor", "tempVendor", "&GlxVendorList", "entry", q{
+    foreach(vendor; GlxVendorList.byEntries!(GlxServerVendor, "entry")) {
         GlxDestroyVendor(vendor);
-    }));
+    }
 }

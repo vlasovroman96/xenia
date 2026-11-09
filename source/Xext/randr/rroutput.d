@@ -381,9 +381,8 @@ private int RROutputDestroyResource(void* value, XID pid)
     if (pScreen) {
         mixin(rrScrPriv!("pScreen"));
         int i = void;
-        RRLeasePtr lease = void, next = void;
 
-        mixin(xorg_list_for_each_entry_safe!("lease", "next", "&pScrPriv.leases", "list", q{
+        foreach(lease; pScrPriv.leases.byEntriesSafe!RRLeasePtr) {
             int o = void;
             for (o = 0; o < lease.numOutputs; o++) {
                 if (lease.outputs[o] == output) {
@@ -391,7 +390,7 @@ private int RROutputDestroyResource(void* value, XID pid)
                     break;
                 }
             }
-        }));
+        }
 
         if (pScrPriv.primaryOutput == output)
             pScrPriv.primaryOutput = null;
@@ -565,7 +564,6 @@ int ProcRRSetOutputPrimary(ClientPtr client)
     WindowPtr pWin = void;
     rrScrPrivPtr pScrPriv = void;
     int ret = void;
-    ScreenPtr secondary = void;
 
     ret = dixLookupWindow(&pWin, stuff.window, client, DixGetAttrAccess);
     if (ret != Success)
@@ -593,12 +591,10 @@ int ProcRRSetOutputPrimary(ClientPtr client)
     {
         RRSetPrimaryOutput(pWin.drawable.pScreen, pScrPriv, output);
 
-        mixin(xorg_list_for_each_entry!("secondary",
-                                 "&pWin.drawable.pScreen.secondary_list",
-                                 "secondary_head", q{
+        foreach(secondary; pWin.drawable.pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {                      
             if (secondary.is_output_secondary)
                 RRSetPrimaryOutput(secondary, mixin(rrGetScrPriv!("secondary")), output);
-        }));
+        }
     }
 
     return Success;

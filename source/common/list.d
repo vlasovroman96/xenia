@@ -2,106 +2,14 @@ module common.list;
 @nogc nothrow:
 extern(C): __gshared:
 /*
+ * Copyright © 2026, Roman Vlasov
  * Copyright © 2010 Intel Corporation
  * Copyright © 2010 Francisco Jerez <currojerez@riseup.net>
  *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice (including the next
- * paragraph) shall be included in all copies or substantial portions of the
- * Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
- *
+ * See COPYING for the full license texts.
  */
-
  
-public import core.stdc.stddef; /* offsetof() */
-
-/**
- * @file Classic doubly-link circular list implementation.
- * For real usage examples of the linked list, see the file test/list.c
- *
- * Example:
- * We need to keep a list of struct foo in the parent struct bar, i.e. what
- * we want is something like this.
- *
- *     struct bar {
- *          ...
- *          struct foo *list_of_foos; -----> struct foo {}, struct foo {}, struct foo{}
- *          ...
- *     }
- *
- * We need one list head in bar and a list element in all list_of_foos (both are of
- * data type 'struct xorg_list').
- *
- *     struct bar {
- *          ...
- *          struct XList list_of_foos;
- *          ...
- *     }
- *
- *     struct foo {
- *          ...
- *          struct XList entry;
- *          ...
- *     }
- *
- * Now we initialize the list head:
- *
- *     struct bar bar;
- *     ...
- *     xorg_list_init(&bar.list_of_foos);
- *
- * Then we create the first element and add it to this list:
- *
- *     struct foo *foo = malloc(...);
- *     ....
- *     xorg_list_add(&foo->entry, &bar.list_of_foos);
- *
- * Repeat the above for each element you want to add to the list. Deleting
- * works with the element itself.
- *      xorg_list_del(&foo->entry);
- *      free(foo);
- *
- * Note: calling xorg_list_del(&bar.list_of_foos) will set bar.list_of_foos to an empty
- * list again.
- *
- * Looping through the list requires a 'struct foo' as iterator and the
- * name of the field the subnodes use.
- *
- * struct foo *iterator;
- * mixin(xorg_list_for_each_entry!("iterator", "&bar.list_of_foos", "entry", q{ {
- *      if (iterator->something == ...)
- *             ...
- * }
- *
- * Note: You must not call xorg_list_del() on the iterator if you continue the
- * loop. You need to run the safe for-each loop instead:
- *
- * struct foo *iterator, *next;
- * mixin(xorg_list_for_each_entry_safe!("iterator", "next", "bar.list_of_foos", "entry") {
- *      if (...)
- *              xorg_list_del(&iterator->entry);
- * }
- *
- * WARNING: entries MUST NOT be added to the list twice, otherwise iterating
- *          will end up in infinite loop.
- * WARNING: entries MUST NOT be added to multiple lists - use separate entry
- *          nodes within the container struct, if it needs to be added to
- *          several lists at the same time.
- */
+import std.traits : isPointer;
 
 /**
  * The linkage struct for list nodes. This struct must be part of your
@@ -115,298 +23,187 @@ public import core.stdc.stddef; /* offsetof() */
  */
 struct XList {
     XList* next, prev;
-}
 
-/**
- * Initialize the list as an empty list.
- *
- * Example:
- * xorg_list_init(&bar->list_of_foos);
- *
- * @param list The list to initialize
- */
-pragma(inline, true) void xorg_list_init(XList* list)
-{
-    list.next = list.prev = list;
-}
+@nogc nothrow:
 
-pragma(inline, true) void __xorg_list_autoinit(XList* head)
-{
-    if ((!head.prev) && (!head.next))
-        xorg_list_init(head);
-}
-
-pragma(inline, true) void __xorg_list_add(XList* entry, XList* prev, XList* next)
-{
-    next.prev = entry;
-    entry.next = next;
-    entry.prev = prev;
-    prev.next = entry;
-}
-
-/**
- * Insert a new element after the given list head. The new element does not
- * need to be initialised as empty list.
- * The list changes from:
- *      head → some element → ...
- * to
- *      head → new element → older element → ...
- *
- * Example:
- * struct foo *newfoo = malloc(...);
- * xorg_list_add(&newfoo->entry, &bar->list_of_foos);
- *
- * @param entry The new element to prepend to the list.
- * @param head The existing list.
- */
-pragma(inline, true) void xorg_list_add(XList* entry, XList* head)
-{
-    __xorg_list_autoinit(head);
-    __xorg_list_add(entry, head, head.next);
-}
-
-/**
- * Append a new element to the end of the list given with this list head.
- *
- * The list changes from:
- *      head → some element → ... → lastelement
- * to
- *      head → some element → ... → lastelement → new element
- *
- * Example:
- * struct foo *newfoo = malloc(...);
- * xorg_list_append(&newfoo->entry, &bar->list_of_foos);
- *
- * @param entry The new element to append to the list.
- * @param head The existing list.
- */
-pragma(inline, true) void xorg_list_append(XList* entry, XList* head)
-{
-    __xorg_list_autoinit(head);
-    __xorg_list_add(entry, head.prev, head);
-}
-
-pragma(inline, true) void __xorg_list_del(XList* prev, XList* next)
-{
-    next.prev = prev;
-    prev.next = next;
-}
-
-/**
- * Remove the element from the list it is in. Using this function will reset
- * the pointers to/from this element so it is removed from the list. It does
- * NOT free the element itself or manipulate it otherwise.
- *
- * Using xorg_list_del on a pure list head (like in the example at the top of
- * this file) will NOT remove the first element from
- * the list but rather reset the list as empty list.
- *
- * Example:
- * xorg_list_del(&foo->entry);
- *
- * @param entry The element to remove.
- */
-pragma(inline, true) void xorg_list_del(XList* entry)
-{
-    __xorg_list_del(entry.prev, entry.next);
-    xorg_list_init(entry);
-}
-
-/**
- * Check if the list is empty.
- *
- * Example:
- * xorg_list_is_empty(&bar->list_of_foos);
- *
- * @return True if the list is empty or False if the list contains one or more
- * elements.
- */
-pragma(inline, true) int xorg_list_is_empty(XList* head)
-{
-    return ((head.next is null) || (head.next == head));
-}
-
-/**
- * @brief check whether element already is in list
- *
- * @param entry The element to check for
- * @param head The existing list.
- * @return zero when entry isn't present in list, otherwise non-zero
- */
-pragma(inline, true) int xorg_list_present(XList* entry, XList* head)
-{
-    for (XList* l = head.next; l && (l != head); l=l.next) {
-        if (l == entry)
-            return 1;
+    /** 
+     * Initialize list
+     */
+    void _init() {
+        this.next = this.prev = &this;
     }
-    return 0;
+
+    alias initList = _init;
+
+    /**
+     * Initilize list only if both pointers are **null**
+     */
+    void autoinit() {
+        if (!this.prev && !this.next)
+            this._init();
+    }
+
+    /** 
+     * Inserting element to the next position 
+     */
+    void insertNext(XList* elem) {
+        elem.prev = &this;
+        elem.next = this.next;
+        next.prev = elem;
+        this.next = elem;
+    }
+
+    /** 
+     * Inserting element after list head 
+     */
+    void addListNext(XList* elem) {
+        this.autoinit();
+        this.insertNext(elem);
+    }
+
+    /** 
+     * Inserting element to the end of the list 
+     */
+    void appendList(XList* elem) {
+        this.autoinit();
+        this.prev.insertNext(elem);
+    }
+
+    /** 
+     * Cutting off element from the list 
+     */
+    void cutOff() {
+        this.next.prev = this.prev;
+        this.prev.next = this.next;
+    }
+
+    /** 
+     * Deleting element from the list 
+     */
+    void removeFromList() {
+        this.cutOff();
+        this.initList();
+    }
+
+    /** 
+     * Returns true if list is empty
+     */
+    bool isEmpty() {
+        return (!this.next || this.next == &this);
+    }
+
+    /** 
+     * Returns true if element presents in the list
+     */
+    bool isPresent(XList* elem) {
+        for (XList* l = this.next; l && (l != &this); l=l.next) {
+            if (l == elem)
+                return true;
+        }
+        return false;
+    }
+
+    /** 
+     * Adds element only if it not presents in the list
+     */
+    bool addNoDups(XList* elem) {
+        if (this.isPresent(elem))
+            return false;
+
+        this.addListNext(elem);
+        return true;
+    }
+
+    /** 
+     * Appends element only if it not presents in the list
+     */
+    bool appendNoDups(XList* elem) {
+        if (this.isPresent(elem))
+            return false;
+
+        this.appendList(elem);
+        return true;
+    }
+
+    /** 
+     * Returns: 
+     *      Container instance of type **T** where XList node element has name **member**
+     */
+    auto getContainer(T, string member = "list")() {
+        return containerOf!(T, member)(&this);
+    }
+
+    /**
+     * Retrieve the first/last list entry for the given list pointer.
+     */
+    auto getFirstEntry(T, string member = "list")() {
+        return this.next.getContainer!(T, member);
+    }
+
+    //ditto
+    auto getLastEntry(T, string member = "list")() {
+        return this.prev.getContainer!(T, member);
+    }
+
+    /** 
+     * Returns:
+     *      Entries range 
+     */
+    auto byEntries(T, string member = "list")() {
+        struct Entries {
+            XList* start;
+            XList* current;
+
+            auto front() => current.getContainer!(T, member);
+            bool empty() => current == start;
+            void popFront() { current = current.next; }
+        }
+
+        return Entries(&this, this.next);
+    }
+
+    /** 
+     * Safe version of byEntries
+     */
+    auto byEntriesSafe(T, string member = "list")() {
+        struct Entries {
+            XList* head;
+            XList* current;
+            XList* next;
+
+            auto front() => current.getContainer!(T, member);
+            bool empty() => current == head;
+            void popFront() { 
+                current = next; 
+                if(current != head)
+                    next = current.next;    
+            }
+        }
+
+        return Entries(&this, this.next, this.next.next);
+    }
 }
 
-/**
- * @brief prepend a new element to the end of the list if not existing yet
- *
- * Same as xorg_list_add(), but protecting against duplicate insertion.
- *
- * @param entry The new element to append to the list.
- * @param head The existing list.
- * @return zero if element already in list, otherwise non-zero
- */
-pragma(inline, true) int xorg_list_add_ndup(XList* entry, XList* head)
+template offsetOf(T, string member)
 {
-    if (xorg_list_present(entry, head))
-        return 0;
-
-    xorg_list_add(entry, head);
-    return 1;
-}
-
-/**
- * @brief append a new element to the end of the list if not existing yet
- *
- * Same as xorg_list_append(), but protecting against duplicate insertion.
- *
- * @param entry The new element to append to the list.
- * @param head The existing list.
- * @return zero if element already in list, otherwise non-zero
- */
-pragma(inline, true) int xorg_list_append_ndup(XList* entry, XList* head)
-{
-    if (xorg_list_present(entry, head))
-        return 0;
-
-    xorg_list_append(entry, head);
-    return 1;
-}
-
-/**
- * Returns a pointer to the container of this list element.
- *
- * Example:
- * struct foo* f;
- * f = container_of(&foo->entry, struct foo, entry);
- * assert(f == foo);
- *
- * @param ptr Pointer to the struct xorg_list.
- * @param type Data type of the list element.
- * @param member Member name of the struct XList field in the list element.
- * @return A pointer to the data struct containing the list head.
- */
-
-// version (container_of) {} else {
-// enum string container_of(string ptr, string type, string member) = `
-//     cast(type*)(cast(char*)(` ~ ptr ~ `) - ` ~type~`.`~member~`.offsetof)`;
-// }
-
-template offsetof(T, string member)
-{
-    enum offsetof =
+    enum offsetOf =
         __traits(getMember, T.init, member).offsetof;
 }
 
-T* containerOf(T, string member)(void* ptr)
+@property
+auto containerOf(T, string member)(void* ptr)
 {
-    enum offset = __traits(getMember, T.init, member).offsetof;
+    enum offset = offsetOf!(T, member);
 
-    return cast(T*)(cast(ubyte*)ptr - offset);
+    static if(isPointer!T) {
+        alias RetType = T;
+    }
+    else
+        alias RetType = T*;
+
+    return cast(RetType)(ptr - offset);
 }
 
-/**
- * Alias of container_of
- */
-enum xorg_list_entry(string ptr, string type, string member) =
-    "containerOf!(" ~ type ~ ", \"" ~ member ~ "\")(" ~ ptr ~ ")";
-
-/**
- * Retrieve the first list entry for the given list pointer.
- *
- * Example:
- * struct foo *first;
- * first = xorg_list_first_entry(&bar->list_of_foos, struct foo, list_of_foos);
- *
- * @param ptr The list head
- * @param type Data type of the list element to retrieve
- * @param member Member name of the struct XList field in the list element.
- * @return A pointer to the first list element.
- */
-enum string xorg_list_first_entry(string ptr, string type, string member) = "
-    " ~ xorg_list_entry!("(" ~ ptr ~ ").next", type, member) ~ "";
-
-/**
- * Retrieve the last list entry for the given listpointer.
- *
- * Example:
- * struct foo *first;
- * first = mixin(xorg_list_last_entry!("&bar->list_of_foos", "struct foo", "list_of_foos"));
- *
- * @param ptr The list head
- * @param type Data type of the list element to retrieve
- * @param member Member name of the struct XList field in the list element.
- * @return A pointer to the last list element.
- */
-enum string xorg_list_last_entry(string ptr, string type, string member) = `
-    ` ~ xorg_list_entry!(`(` ~ ptr ~ `).prev`, type, member) ~ ``;
-
-alias __container_of(alias ptr, alias sample, alias member) = 
-    container_of!(sample, member )(ptr);
-
-/**
- * Loop through the list given by head and set pos to struct in the list.
- *
- * Example:
- * struct foo *iterator;
- * xorg_list_for_each_entry(iterator, &bar->list_of_foos, entry) {
- *      [modify iterator]
- * }
- *
- * This macro is not safe for node deletion. Use xorg_list_for_each_entry_safe
- * instead.
- *
- * @param pos Iterator variable of the type of the list elements.
- * @param head List head
- * @param member Member name of the struct XList in the list elements.
- *
- */
-//  pragma(msg, xorg_list_for_each_entry!(
-//     "ref_",
-//     "&pPriv.reference_list",
-//     "link",
-//     q{}
-// ));
-template xorg_list_for_each_entry(string pos, string head, string member, string bodyCode)
-{
-    const string xorg_list_for_each_entry = 
-        "for (" ~ pos ~ " = containerOf!(typeof(*" ~ pos ~ "), \"" ~ member ~ "\")((" ~ head ~ ").next); "
-        ~ "(((" ~ head ~ ").next !is null) && &" ~ pos ~ "." ~ member ~ " !is (" ~ head ~ ")); "
-        ~ pos ~ " = containerOf!(typeof(*" ~ pos ~ "), \"" ~ member ~ "\")(" ~ pos ~ "." ~ member ~ ".next)) {"
-        ~ bodyCode
-        ~ "}";
-}
-/*
- * Loop through the list, keeping a backup pointer to the element. This
- * macro allows for the deletion of a list element while looping through the
- * list.
- *
- * See xorg_list_for_each_entry for more details.
- */
-template xorg_list_for_each_entry_safe(
-    string pos,
-    string tmp,
-    string head,
-    string member,
-    string bodyCode)
-{
-    enum xorg_list_for_each_entry_safe =
-        "for ("
-        ~ pos ~ " = containerOf!(typeof(*" ~ pos ~ "), \"" ~ member ~ "\")((" ~ head ~ ").next), "
-        ~ tmp ~ " = containerOf!(typeof(*" ~ pos ~ "), \"" ~ member ~ "\")(" ~ pos ~ "." ~ member ~ ".next); "
-        ~ "(((" ~ head ~ ").next !is null) && &" ~ pos ~ "." ~ member ~ " != (" ~ head ~ ")); "
-        ~ pos ~ " = " ~ tmp ~ ", "
-        ~ tmp ~ " = containerOf!(typeof(*" ~ tmp ~ "), \"" ~ member ~ "\")(" ~ pos ~ "." ~ member ~ ".next)) {"
-        ~ bodyCode
-        ~ "}";
-}
-
-// alias 
 /* NULL-Terminated List Interface
  *
  * The interface below does _not_ use the struct XList as described above.
@@ -428,13 +225,14 @@ template xorg_list_for_each_entry_safe(
  *
  * Example:
  * struct foo *list = malloc();
- * mixin(nt_list_init!("list", "next"));
+ * foo.ntListInit!"next";
  *
- * @param list The list element that will be the start of the list
+ * @param listEntry The list element that will be the start of the list
  * @param member Member name of the field pointing to next struct
  */
-enum string nt_list_init(string _list, string _member) = `
-	(` ~ _list ~ `).` ~ _member ~ ` = null`;
+void ntListInit(string member, T)(T listEntry) {
+    mixin("listEntry." ~ member) = null;
+}
 
 /**
  * Returns the next element in the list or NULL on termination.
@@ -449,8 +247,9 @@ enum string nt_list_init(string _list, string _member) = `
  * @param list The list or current element.
  * @param member Member name of the field pointing to next struct.
  */
-enum string nt_list_next(string _list, string _member) = `
-	(` ~ _list ~ `).` ~ _member ~ ``;
+auto ntListGetNext(string mem = "next", T)(T entryNode) {
+    return mixin("entryNode." ~ mem); 
+}
 
 /**
  * Iterate through each element in the list.
@@ -465,8 +264,27 @@ enum string nt_list_next(string _list, string _member) = `
  * @param list The list to iterate through.
  * @param member Member name of the field pointing to next struct.
  */
-enum string nt_list_for_each_entry(string _entry, string _list, string _member, string lambda) = `
-	for (` ~ _entry ~ ` = ` ~ _list ~ `; ` ~ _entry ~ `; ` ~ _entry ~ ` = cast(typeof(`~_entry~`))(` ~ _entry ~ `).` ~ _member ~ `){` ~ lambda~`}`;
+
+auto ntRange(string mem, bool useRef = false, U, T) (T entryNode, U rv = null) {
+    struct NtRange{
+        T node;
+        static if(useRef)
+            U refVar;
+        
+        bool empty() => node == null;
+        void popFront() { 
+            node = cast(T)mixin("node." ~ mem); 
+            static if(useRef)
+                refVar = cast(U)&node;
+        }
+        T front() => cast(T)node;
+    }
+
+    static if(useRef)
+        return NtRange(entryNode, rv);
+    else
+        return NtRange(entryNode);
+}
 
 /**
  * Iterate through each element in the list, keeping a backup pointer to the
@@ -480,12 +298,33 @@ enum string nt_list_for_each_entry(string _entry, string _list, string _member, 
  * @param list The list to iterate through.
  * @param member Member name of the field pointing to next struct.
  */
-enum string nt_list_for_each_entry_safe(string _entry, string _tmp, string _list, string _member, string funcbody) = `
-	for (` ~ _entry ~ ` = ` ~ _list ~ `, ` ~ _tmp ~ ` = (` ~ _entry ~ `) ? cast(typeof(`~_entry~`))(` ~ _entry ~ `).` ~ _member ~ ` : null;
-		` ~ _entry ~ `;							
-		` ~ _entry ~ ` = ` ~ _tmp ~ `, ` ~ _tmp ~ ` = (` ~ _tmp ~ `) ? cast(typeof(`~_tmp~`))(` ~ _tmp ~ `).` ~ _member ~ `: null) {
-            `~funcbody~`
-        }`;
+auto ntRangeSafe(string mem, bool useRef = false, U, T) (T entryNode, U rv = null) {
+    struct NtRange{
+        T node;
+        T tmp;
+        static if(useRef)
+            U refVar;
+        
+        bool empty() => node == null;
+        void popFront() { 
+            node = tmp;
+            tmp = tmp ? cast(T)mixin("tmp." ~ mem) : null;
+            static if(useRef)
+                refVar = cast(U)&node;
+        }
+        T front() => cast(T)node;
+
+        this(T entry) {
+            node = entry;
+            tmp = entry ? cast(T)mixin("entry." ~ mem) : null; 
+        }
+    }
+
+    static if(useRef)
+        return NtRange(entryNode, rv);
+    else
+        return NtRange(entryNode);
+}
 
 /**
  * Append the element to the end of the list. This macro may be used to
@@ -505,10 +344,14 @@ enum string nt_list_for_each_entry_safe(string _entry, string _tmp, string _list
  * @param type The list type
  * @param member Member name of the field pointing to next struct
  */
-enum string nt_list_append(string _entry, string _list, string _type, string _member) = `
-	`~_type~`* __iterator = ` ~ _list ~ `;					
-	while (__iterator.` ~ _member ~ `) { __iterator = cast(`~_type~`*)__iterator.` ~ _member ~ `;}
-	__iterator.` ~ _member ~ ` = ` ~ _entry ~ `;`;
+void ntListAppend(string member, T) (T list, T entry) {
+    T iterator = list;
+    while(mixin("iterator." ~ member)) {
+        iterator = cast(T)mixin("iterator." ~ member);
+    }
+
+    mixin("iterator." ~ member) = entry;
+}
 
 /**
  * Insert the element at the next position in the list. This macro may be
@@ -527,11 +370,10 @@ enum string nt_list_append(string _entry, string _list, string _type, string _me
  * @param type The list type
  * @param member Member name of the field pointing to next struct
  */
-enum string nt_list_insert(string _entry, string _list, string _type, string _member) = `
-    do {								
-	` ~ nt_list_append!(`(` ~ _list ~ `).` ~ _member ~ ``, _entry, _type, _member) ~ `;	
-	(` ~ _list ~ `).` ~ _member ~ ` = ` ~ _entry ~ `;					
-    } while (0)`;
+void ntListInsert(string member, T) (T list, T entry) {
+    list.ntListAppend!member(entry);
+    mixin("list." ~ member) = entry;
+}
 
 /**
  * Delete the entry from the list by iterating through the list and
@@ -548,20 +390,25 @@ enum string nt_list_insert(string _entry, string _list, string _type, string _me
  * @param type The list type
  * @param member Member name of the field pointing to the next entry
  */
-enum string nt_list_del(string _entry, string _list, string _type, string _member) = `					
-		`~_type~`* __e = ` ~ _entry ~ `;				
-		if (__e is null || ` ~ _list ~ ` is null) break;        
-		if ((` ~ _list ~ `) == __e) {				
-		    ` ~ _list ~ ` = cast(`~_type~`*)__e.` ~ _member ~ `;			
-		} else {					
-		    `~_type~`* __prev = ` ~ _list ~ `;			
-		    while (__prev.` ~ _member ~ ` && __prev.` ~ _member ~ ` != __e)	
-			__prev = ` ~ `cast(typeof(__prev))`~nt_list_next!(`__prev`, _member) ~ `;	
-		    if (__prev.` ~ _member ~ `)			
-			__prev.` ~ _member ~ ` = __e.` ~ _member ~ `;		
-		}						
-		` ~ nt_list_init!(`__e`, _member) ~ `;`;
+bool ntListDel(string member, T) (T entry, ref T list) {
+    T e = entry;
+    if(!e || !list)
+        return true;
 
+    if(list == e)
+        list = cast(T)mixin("e." ~ member);
+    else {
+        T prev = list;
+        while(mixin("prev." ~ member) && mixin("prev." ~ member) != e) {
+            prev = cast(T) prev.ntListGetNext!member;
+        }   
+        if(mixin("prev." ~ member))
+            mixin("prev." ~ member) = mixin("e." ~ member);
+    }
+    e.ntListInit!member;
+
+    return false;
+}
 /**
  * DO NOT USE THIS.
  * This is a remainder of the xfree86 DDX attempt of having a set of generic
@@ -573,5 +420,4 @@ struct generic_list_rec {
 }alias GenericListRec = generic_list_rec;
 alias GenericListPtr = generic_list_rec*;
 alias glp = generic_list_rec*;
-
 

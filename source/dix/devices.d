@@ -559,27 +559,26 @@ Bool DisableDevice(DeviceIntPtr dev, BOOL sendevent)
 
 void DisableAllDevices()
 {
-    DeviceIntPtr dev = void, tmp = void;
-
+    //Issues #65, #66
     /* Disable slave devices first, excluding XTest devices */
-    mixin(nt_list_for_each_entry_safe!("dev", "tmp", "inputInfo.devices", "next", q{
+    foreach(dev; inputInfo.devices.ntRangeSafe!"next") {
         if (!IsXTestDevice(dev, null) && !InputDevIsMaster(dev))
             DisableDevice(dev, FALSE);
-    }));
+    }
     /* Disable XTest devices */
-    mixin(nt_list_for_each_entry_safe!("dev", "tmp", "inputInfo.devices", "next", q{
+    foreach(dev; inputInfo.devices.ntRangeSafe!"next") {
         if (!InputDevIsMaster(dev))
             DisableDevice(dev, FALSE);
-    }));
+    }
     /* master keyboards need to be disabled first */
-    mixin(nt_list_for_each_entry_safe!("dev", "tmp", "inputInfo.devices", "next", q{
+    foreach(dev; inputInfo.devices.ntRangeSafe!"next") {
         if (dev.enabled && InputDevIsMaster(dev) && IsKeyboardDevice(dev))
             DisableDevice(dev, FALSE);
-    }));
-    mixin(nt_list_for_each_entry_safe!("dev", "tmp", "inputInfo.devices", "next", q{
+    }
+    foreach(dev; inputInfo.devices.ntRangeSafe!"next") {
         if (dev.enabled)
             DisableDevice(dev, FALSE);
-    }));
+    }
 }
 
 /**
@@ -953,18 +952,16 @@ private void FreeAllDeviceClasses(ClassesPtr classes)
 
 private void FreePendingFrozenDeviceEvents(DeviceIntPtr dev)
 {
-    QdEventPtr qe = void, tmp = void;
-
     if (!dev.deviceGrab.sync.frozen)
         return;
 
     /* Dequeue any frozen pending events */
-    mixin(xorg_list_for_each_entry_safe!("qe", "tmp", "&syncEvents.pending", "next", q{
+    foreach(qe; syncEvents.pending.byEntriesSafe!(QdEventPtr, "next")){
         if (qe.device == dev) {
-            xorg_list_del(&qe.next);
+            qe.next.removeFromList();
             free(qe);
         }
-    }));
+    }
 }
 
 /**
@@ -1102,21 +1099,20 @@ void CloseDownDevices()
  */
 void AbortDevices()
 {
-    DeviceIntPtr dev = void;
-
     /* Do not call input_lock as we don't know what
      * state the input thread might be in, and that could
      * cause a dead-lock.
      */
-    mixin(nt_list_for_each_entry!("dev", "inputInfo.devices", "next", q{
+    //Issue 66: Use std.algorithm.filter
+    foreach(dev; inputInfo.devices.ntRange!"next") {
         if (!InputDevIsMaster(dev))
             (*dev.deviceProc) (dev, DEVICE_ABORT);
-    }));
+    }
 
-    mixin(nt_list_for_each_entry!("dev", "inputInfo.off_devices", "next", q{
+    foreach(dev; inputInfo.off_devices.ntRange!"next") {
         if (!InputDevIsMaster(dev))
             (*dev.deviceProc) (dev, DEVICE_ABORT);
-    }));
+    }
 }
 
 /**

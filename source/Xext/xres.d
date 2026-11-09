@@ -114,7 +114,7 @@ private void* AddFragment(XList* frags, int bytes)
         return null;
     } else {
         f.bytes = bytes;
-        xorg_list_add(&f.l, frags.prev);
+        frags.prev.addListNext(&f.l);
         return cast(char*) f + typeof(*f).sizeof;
     }
 }
@@ -125,12 +125,11 @@ private void* AddFragment(XList* frags, int bytes)
 */
 private void DestroyFragments(XList* frags)
 {
-    FragmentList* it = void, tmp = void;
-    if (!xorg_list_is_empty(frags)) {
-        mixin(xorg_list_for_each_entry_safe!( "it", "tmp", "frags", "l",q{
-            xorg_list_del(&it.l);
+    if (!frags.isEmpty()) {
+        foreach(it; frags.byEntriesSafe!(FragmentList,  "l")){
+            it.l.removeFromList();
             free(it);
-        }));
+        }
     }
 }
 
@@ -139,7 +138,7 @@ private Bool InitConstructResourceBytesCtx(ConstructResourceBytesCtx* ctx, Clien
     ctx.sendClient = sendClient;
     ctx.numSizes = 0;
     ctx.resultBytes = 0;
-    xorg_list_init(&ctx.response);
+    ctx.response.initList();
     ctx.status = Success;
     ctx.numSpecs = numSpecs;
     ctx.specs = specs;
@@ -828,11 +827,9 @@ private int ProcXResQueryResourceBytes(ClientPtr client)
             SwapXResQueryResourceBytes(&ctx.response);
         }
 
-        FragmentList* it = void;
-        mixin(xorg_list_for_each_entry!("it", "&ctx.response", "l", q{
+        foreach(it; ctx.response.byEntries!(FragmentList, "l")) {
             x_rpcbuf_write_CARD8s(&rpcbuf, cast(ubyte*)mixin(FRAGMENT_DATA!(`it`)), it.bytes);
-        }));
-
+        }  
         if (rpcbuf.wpos != ctx.resultBytes)
             LogMessage(X_WARNING, "ProcXResQueryClientIds() rpcbuf size (%ld) context size (%ld)\n",
                        cast(c_ulong)rpcbuf.wpos, cast(c_ulong)ctx.resultBytes);

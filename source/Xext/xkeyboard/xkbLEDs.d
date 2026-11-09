@@ -469,13 +469,14 @@ void XkbForceUpdateDeviceLEDs(DeviceIntPtr dev)
 
     if (InputDevIsMaster(dev)) {
         master = dev;
-        mixin(nt_list_for_each_entry!("dev", "inputInfo.devices", "next", q{
-            if (!dev.key || GetMaster(dev, MASTER_KEYBOARD) != master)
+        auto range = inputInfo.devices.ntRange!("next", true)(&dev);
+        foreach(dev_; range) {
+            if (!dev_.key || GetMaster(dev_, MASTER_KEYBOARD) != master)
                 continue;
 
-            sli = XkbFindSrvLedInfo(dev, XkbDfltXIClass, XkbDfltXIId, 0);
-            XkbDDXUpdateDeviceIndicators(dev, sli, sli.effectiveState);
-        }));
+            sli = XkbFindSrvLedInfo(dev_, XkbDfltXIClass, XkbDfltXIId, 0);
+            XkbDDXUpdateDeviceIndicators(dev_, sli, sli.effectiveState);
+        }
     }
 }
 

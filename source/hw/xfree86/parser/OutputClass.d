@@ -158,7 +158,7 @@ XF86ConfOutputClassPtr xf86parseOutputClassSection()
             else {
                 group = xf86createMatchGroup(xf86_lex_val.str, MATCH_EXACT, FALSE);
                 if (group)
-                    xorg_list_add(&group.entry, &ptr.match_driver);
+                    ptr.match_driver.addListNext(&group.entry);
                 free(xf86_lex_val.str);
             }
             break;
@@ -168,7 +168,7 @@ XF86ConfOutputClassPtr xf86parseOutputClassSection()
             else {
                 group = xf86createMatchGroup(xf86_lex_val.str, MATCH_EXACT, FALSE);
                 if (group)
-                    xorg_list_add(&group.entry, &ptr.match_layout);
+                    ptr.match_layout.addListNext(&group.entry);
                 free(xf86_lex_val.str);
             }
             break;
@@ -193,8 +193,6 @@ version (DEBUG) {
 
 void xf86printOutputClassSection(FILE* cf, XF86ConfOutputClassPtr ptr)
 {
-    xf86MatchGroup* group = void;
-    xf86MatchPattern* pattern = void;
     Bool not_first = void;
 
     while (ptr) {
@@ -210,25 +208,24 @@ void xf86printOutputClassSection(FILE* cf, XF86ConfOutputClassPtr ptr)
         if (ptr.modulepath)
             fprintf(cf, "\tModulePath      \"%s\"\n", ptr.modulepath);
 
-        mixin(xorg_list_for_each_entry!("group", "&ptr.match_driver", "entry", q{
+        foreach(group; ptr.match_driver.byEntries!(xf86MatchGroup, "entry")) {
             fprintf(cf, "\tMatchDriver     \"");
             not_first = FALSE;
-            mixin(xorg_list_for_each_entry!("pattern", "&group.patterns", "entry", q{
+            foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
                 not_first = TRUE;
-            }));
+            }
             fprintf(cf, "\"\n");
-        }));
-
-        mixin(xorg_list_for_each_entry!("group", "&ptr.match_layout", "entry", q{
+        }
+        foreach(group; ptr.match_layout.byEntries!(xf86MatchGroup, "entry")) {
             fprintf(cf, "\tMatchLayout     \"");
             not_first = FALSE;
-            mixin(xorg_list_for_each_entry!("pattern", "&group.patterns", "entry", q{
+            foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
                 not_first = TRUE;
-            }));
+            }
             fprintf(cf, "\"\n");
-        }));
+        }
 
         fprintf(cf, "EndSection\n\n");
         ptr = cast(_XF86ConfOutputClassRec*)ptr.list.next;

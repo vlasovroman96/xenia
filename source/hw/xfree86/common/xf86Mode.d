@@ -1333,7 +1333,6 @@ int xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes, const(char)**
     Bool userModes = FALSE;
     int saveType = void;
     PixmapFormatRec* BankFormat = void;
-    ClockRangePtr cp = void;
     Bool inferred_virtual = FALSE;
 
     DebugF
@@ -1434,15 +1433,15 @@ int xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes, const(char)**
     /*
      * Store the clockRanges for later use by the VidMode extension.
      */
-    mixin(nt_list_for_each_entry!("cp", "clockRanges", "next",q{
+    foreach(cp; clockRanges.ntRange!"next") {
         ClockRangePtr newCR = cast(ClockRange*)XNFalloc(ClockRange.sizeof);
         memcpy(newCR, cp, ClockRange.sizeof);
         newCR.next = null;
         if (scrp.clockRanges is null)
             scrp.clockRanges = newCR;
         else
-            mixin(nt_list_append!("newCR", "scrp.clockRanges", "ClockRange", "next"));
-    }));
+            scrp.clockRanges.ntListAppend!"next"(newCR);
+    }
 
     /* Determine which pixmap format to pass to scanLineWidth() */
     if (scrp.depth > 4)

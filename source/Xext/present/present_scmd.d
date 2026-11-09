@@ -236,14 +236,12 @@ private void present_re_execute(present_vblank_ptr vblank)
 
 private void present_flip_try_ready(ScreenPtr screen)
 {
-    present_vblank_ptr vblank = void;
-
-    mixin(xorg_list_for_each_entry!("vblank", "&present_flip_queue", "event_queue", q{
+    foreach(vblank; present_flip_queue.byEntries!(present_vblank_ptr, "event_queue")) {
         if (vblank.queued) {
             present_re_execute(vblank);
             return;
         }
-    }));
+    }
 }
 
 private void present_flip_idle(ScreenPtr screen)
@@ -335,7 +333,7 @@ private void present_flip_notify(present_vblank_ptr vblank, ulong ust, ulong crt
 
     present_flip_idle(screen);
 
-    xorg_list_del(&vblank.event_queue);
+    vblank.event_queue.removeFromList();
 
     /* Transfer reference for pixmap and fence from vblank to screen_priv */
     screen_priv.flip_crtc = vblank.crtc;
@@ -361,19 +359,17 @@ private void present_flip_notify(present_vblank_ptr vblank, ulong ust, ulong crt
 
 void present_event_notify(ulong event_id, ulong ust, ulong msc)
 {
-    present_vblank_ptr vblank = void;
-
     if (!event_id)
         return;
     // DebugPresent(("\te %" ~PRIu64 ~ " ust %" ~PRIu64 ~ " msc %" ~PRIu64 ~ "\n", event_id, ust, msc));
-    mixin(xorg_list_for_each_entry!("vblank", "&present_exec_queue", "event_queue", q{
+    foreach(vblank; present_exec_queue.byEntries!(present_vblank_ptr, "event_queue")) {
         long match = event_id - vblank.event_id;
         if (match == 0) {
             present_execute(vblank, ust, msc);
             return;
         }
-    }));
-    mixin(xorg_list_for_each_entry!("vblank", "&present_flip_queue", "event_queue", q{
+    }
+    foreach(vblank; present_flip_queue.byEntries!(present_vblank_ptr, "event_queue")) {
         if (vblank.event_id == event_id) {
             if (vblank.queued)
                 present_execute(vblank, ust, msc);
@@ -381,7 +377,7 @@ void present_event_notify(ulong event_id, ulong ust, ulong msc)
                 present_flip_notify(vblank, ust, msc);
             return;
         }
-    }));
+    }
 
     mixin(DIX_FOR_EACH_SCREEN!q{
         present_screen_priv_ptr screen_priv = present_screen_priv(walkScreen);
@@ -406,7 +402,6 @@ private void present_check_flip_window(WindowPtr window)
     present_screen_priv_ptr screen_priv = present_screen_priv(screen);
     present_window_priv_ptr window_priv = present_window_priv(window);
     present_vblank_ptr flip_pending = screen_priv.flip_pending;
-    present_vblank_ptr vblank = void;
     PresentFlipReason reason = void;
 
     /* If this window hasn't ever been used with Present, it can't be
@@ -438,7 +433,7 @@ private void present_check_flip_window(WindowPtr window)
     }
 
     /* Now check any queued vblanks */
-    mixin(xorg_list_for_each_entry!("vblank", "&window_priv.vblank", "window_list", q{
+    foreach(vblank; window_priv.vblank.byEntries!(present_vblank_ptr, "window_list")) {
         if (vblank.queued && vblank.flip && !present_check_flip(vblank.crtc, window, vblank.pixmap, vblank.sync_flip, null, 0, 0, &reason)) {
             vblank.flip = FALSE;
             
@@ -447,7 +442,7 @@ private void present_check_flip_window(WindowPtr window)
             if (vblank.sync_flip)
                 vblank.exec_msc = vblank.target_msc;
         }
-    }));
+    }
 }
 
 private Bool present_scmd_can_window_flip(WindowPtr window)
@@ -533,15 +528,15 @@ private void present_execute(present_vblank_ptr vblank, ulong ust, ulong crtc_ms
             // DebugPresent(("\tr %"~ PRIu64 ~ " %p (pending %p unflip %"~ PRIu64 ~ ")\n",
             //               vblank.event_id, vblank,
             //               screen_priv.flip_pending, screen_priv.unflip_event_id));
-            xorg_list_del(&vblank.event_queue);
-            xorg_list_append(&vblank.event_queue, &present_flip_queue);
+            vblank.event_queue.removeFromList();
+            present_flip_queue.appendList(&vblank.event_queue);
             vblank.flip_ready = TRUE;
             return;
         }
     }
 
-    xorg_list_del(&vblank.event_queue);
-    xorg_list_del(&vblank.window_list);
+    vblank.event_queue.removeFromList();
+    vblank.window_list.removeFromList();
     vblank.queued = FALSE;
 
     if (vblank.pixmap && vblank.window &&
@@ -559,7 +554,7 @@ private void present_execute(present_vblank_ptr vblank, ulong ust, ulong crtc_ms
              */
             screen_priv.flip_pending = vblank;
 
-            xorg_list_add(&vblank.event_queue, &present_flip_queue);
+            present_flip_queue.addListNext(&vblank.event_queue);
             /* Try to flip
              */
             if (present_flip(vblank.crtc, vblank.event_id, vblank.target_msc, vblank.pixmap, vblank.sync_flip)) {
@@ -588,7 +583,7 @@ private void present_execute(present_vblank_ptr vblank, ulong ust, ulong crtc_ms
                 return;
             }
 
-            xorg_list_del(&vblank.event_queue);
+            vblank.event_queue.removeFromList();
             /* Oops, flip failed. Clear the flip_pending field
               */
             screen_priv.flip_pending = null;
@@ -659,9 +654,8 @@ private void present_execute(present_vblank_ptr vblank, ulong ust, ulong crtc_ms
         }
 
         if (vblank.queued) {
-            xorg_list_add(&vblank.event_queue, &present_exec_queue);
-            xorg_list_append(&vblank.window_list,
-                             &present_get_window_priv(window, TRUE).vblank);
+            present_exec_queue.addListNext(&vblank.event_queue);
+            present_get_window_priv(window, TRUE).vblank.appendList(&vblank.window_list);
             return;
         }
     }
@@ -708,7 +702,6 @@ present_notify_ptr notifies, int num_notifies)
     ulong target_msc = void;
     ulong crtc_msc = 0;
     int ret = void;
-    present_vblank_ptr vblank = void, tmp = void;
     ScreenPtr screen = window.drawable.pScreen;
     present_window_priv_ptr window_priv = present_get_window_priv(window, TRUE);
     present_screen_priv_ptr screen_priv = present_screen_priv(screen);
@@ -754,7 +747,7 @@ present_notify_ptr notifies, int num_notifies)
      */
 
     if (!update && pixmap) {
-        mixin(xorg_list_for_each_entry_safe!("vblank", "tmp", "&window_priv.vblank", "window_list", q{
+        foreach(vblank; window_priv.vblank.byEntriesSafe!(present_vblank_ptr, "window_list")) {
 
             if (!vblank.pixmap)
                 continue;
@@ -773,11 +766,11 @@ present_notify_ptr notifies, int num_notifies)
             present_vblank_scrap(vblank);
             if (vblank.flip_ready)
                 present_re_execute(vblank);
-        }));
+        }
     }
 
     uint inf = screen_priv.info ? screen_priv.info.capabilities : 0;
-        vblank = present_vblank_create(window,
+    present_vblank_ptr    vblank = present_vblank_create(window,
                                     pixmap,
                                     serial,
                                     valid,
@@ -811,7 +804,7 @@ present_notify_ptr notifies, int num_notifies)
              (vblank.flip && vblank.sync_flip))
         vblank.exec_msc--;
 
-    xorg_list_append(&vblank.event_queue, &present_exec_queue);
+    present_exec_queue.appendList(&vblank.event_queue);
     vblank.queued = TRUE;
     if (msc_is_after(vblank.exec_msc, crtc_msc)) {
         ret = present_queue_vblank(screen, window, target_crtc, vblank.event_id, vblank.exec_msc);
@@ -883,7 +876,7 @@ present_notify_ptr notifies, int num_notifies)
      */
 
     if (!update && pixmap) {
-        mixin(xorg_list_for_each_entry_safe!("vblank", "tmp", "&window_priv.vblank", "window_list", q{
+        foreach(vblank; window_priv.vblank.byEntriesSafe!(present_vblank_ptr, "window_list")) {
 
             if (!vblank.pixmap)
                 continue;
@@ -902,7 +895,7 @@ present_notify_ptr notifies, int num_notifies)
             present_vblank_scrap(vblank);
             if (vblank.flip_ready)
                 present_re_execute(vblank);
-        }));
+        }
     }
 
     uint inf = screen_priv.info ? screen_priv.info.capabilities : 0;
@@ -937,7 +930,7 @@ present_notify_ptr notifies, int num_notifies)
              (vblank.flip && vblank.sync_flip))
         vblank.exec_msc--;
 
-    xorg_list_append(&vblank.event_queue, &present_exec_queue);
+    present_exec_queue.appendList(&vblank.event_queue);
     vblank.queued = TRUE;
     if (msc_is_after(vblank.exec_msc, crtc_msc)) {
         ret = present_queue_vblank(screen, window, target_crtc, vblank.event_id, vblank.exec_msc);
@@ -955,8 +948,6 @@ present_notify_ptr notifies, int num_notifies)
 
 private void present_scmd_abort_vblank(ScreenPtr screen, WindowPtr window, RRCrtcPtr crtc, ulong event_id, ulong msc)
 {
-    present_vblank_ptr vblank = void;
-
     if (crtc is null)
         present_fake_abort_vblank(screen, event_id, msc);
     else
@@ -966,21 +957,21 @@ private void present_scmd_abort_vblank(ScreenPtr screen, WindowPtr window, RRCrt
         (*screen_priv.info.abort_vblank) (crtc, event_id, msc);
     }
 
-    mixin(xorg_list_for_each_entry!("vblank", "&present_exec_queue", "event_queue", q{
+    foreach(vblank; present_exec_queue.byEntries!(present_vblank_ptr, "event_queue")) {
         long match = event_id - vblank.event_id;
         if (match == 0) {
-            xorg_list_del(&vblank.event_queue);
+            vblank.event_queue.removeFromList();
             vblank.queued = FALSE;
             return;
         }
-    }));
-    mixin(xorg_list_for_each_entry!("vblank", "&present_flip_queue", "event_queue", q{
+    }
+    foreach(vblank; present_flip_queue.byEntries!(present_vblank_ptr, "event_queue")) {
         if (vblank.event_id == event_id) {
-            xorg_list_del(&vblank.event_queue);
+            vblank.event_queue.removeFromList();
             vblank.queued = FALSE;
             return;
         }
-    }));
+    }
 }
 
 private void present_scmd_flip_destroy(ScreenPtr screen)
@@ -1017,8 +1008,8 @@ void present_scmd_init_mode_hooks(present_screen_priv_ptr screen_priv)
 
 Bool present_init()
 {
-    xorg_list_init(&present_exec_queue);
-    xorg_list_init(&present_flip_queue);
+    present_exec_queue.initList();
+    present_flip_queue.initList();
     present_fake_queue_init();
     return TRUE;
 }

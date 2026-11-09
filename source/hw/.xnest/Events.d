@@ -240,13 +240,12 @@ private void xnest_handle_event(xcb_generic_event_t* event)
 void xnestCollectEvents()
 {
     /* process queued events */
-    xnest_event_queue* tmp = null, walk = null;
-    mixin(xorg_list_for_each_entry_safe!("walk", "tmp", "xnestUpstreamInfo.eventQueue.entry", "entry", q{
+    foreach(walk; xnestUpstreamInfo.eventQueue.entry.byEntriesSafe!(xnest_event_queue, "entry")){
         xnest_handle_event(walk.event);
-        xorg_list_del(&walk.entry);
+        walk.entry.removeFromList();
         free(walk.event);
         free(walk);
-    }));
+    }
 
     xcb_flush(xnestUpstreamInfo.conn);
 

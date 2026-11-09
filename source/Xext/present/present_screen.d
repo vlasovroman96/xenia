@@ -54,8 +54,8 @@ present_window_priv_ptr present_get_window_priv(WindowPtr window, Bool create)
     window_priv = cast(present_window_priv_t*)calloc (1, present_window_priv_rec.sizeof);
     if (!window_priv)
         return null;
-    xorg_list_init(&window_priv.vblank);
-    xorg_list_init(&window_priv.notifies);
+    window_priv.vblank.initList();
+    window_priv.notifies.initList();
 
     window_priv.window = window;
     window_priv.crtc = PresentCrtcNeverSet;
@@ -88,12 +88,11 @@ private void present_free_window_vblank(WindowPtr window)
     ScreenPtr screen = window.drawable.pScreen;
     present_screen_priv_ptr screen_priv = present_screen_priv(screen);
     present_window_priv_ptr window_priv = present_window_priv(window);
-    present_vblank_ptr vblank = void, tmp = void;
 
-    mixin(xorg_list_for_each_entry_safe!("vblank", "tmp", "&window_priv.vblank", "window_list", q{
+    foreach(vblank; window_priv.vblank.byEntriesSafe!(present_vblank_ptr, "window_list")) {
         screen_priv.abort_vblank(window.drawable.pScreen, window, vblank.crtc, vblank.event_id, vblank.target_msc);
         present_vblank_destroy(vblank);
-    }));
+    }
 }
 
 /*

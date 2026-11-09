@@ -131,7 +131,7 @@ enum SmartScheduleSignalEnable = FALSE;
 
 pragma(inline, true) Bool client_is_ready(ClientPtr client)
 {
-    return !xorg_list_is_empty(&client.ready);
+    return !client.ready.isEmpty();
 }
 
 // Bool clients_are_ready();
@@ -140,17 +140,17 @@ pragma(inline, true) Bool client_is_ready(ClientPtr client)
 
 pragma(inline, true) void output_pending_mark(ClientPtr client)
 {
-    if (!client.clientGone && xorg_list_is_empty(&client.output_pending))
-        xorg_list_append(&client.output_pending, &output_pending_clients);
+    if (!client.clientGone && client.output_pending.isEmpty())
+        output_pending_clients.appendList(&client.output_pending);
 }
 
 pragma(inline, true) void output_pending_clear(ClientPtr client)
 {
-    xorg_list_del(&client.output_pending);
+    client.output_pending.removeFromList();
 }
 
 pragma(inline, true) Bool any_output_pending() {
-    return !xorg_list_is_empty(&output_pending_clients);
+    return !output_pending_clients.isEmpty();
 }
 
 enum SMART_MAX_PRIORITY =  (20);

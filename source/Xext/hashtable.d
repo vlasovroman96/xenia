@@ -82,7 +82,7 @@ HashTable ht_create(int keySize, int dataSize, HashFunc hash, HashCompareFunc co
 
     if (ht.buckets) {
         for (c = 0; c < numBuckets; ++c) {
-            xorg_list_init(&ht.buckets[c]);
+            ht.buckets[c].initList();
         }
         return ht;
     } else {
@@ -94,23 +94,14 @@ HashTable ht_create(int keySize, int dataSize, HashFunc hash, HashCompareFunc co
 void ht_destroy(HashTable ht)
 {
     int c;
-    BucketPtr it = null;
-    BucketPtr tmp = null;
     int numBuckets = 1 << ht.bucketBits;
-    
     for (c = 0; c < numBuckets; ++c) {
-        // Создаем явную переменную для головы списка в текущей итерации
-        auto head = ht.buckets[c]; 
-        
-        // Передаем "head" как фиксированную строку. 
-        // Теперь макрос развернется в &(head), что абсолютно валидно и прозрачно для D.
-        mixin(xorg_list_for_each_entry_safe!("it","tmp", "&head", "l", 
-        q{
-            xorg_list_del(&it.l);
+        foreach(it; ht.buckets[c].byEntriesSafe!(BucketPtr, "l")) {
+            it.l.removeFromList();
             free(it.key);
             free(it.data);
             free(it);
-        }));
+        }
     }
     free(ht.buckets);
     free(ht);
@@ -127,16 +118,15 @@ private Bool double_size(HashTable ht)
     newBuckets = cast(XList*) calloc(newNumBuckets, typeof(*ht.buckets).sizeof);
     if (newBuckets) {
         for (c = 0; c < newNumBuckets; ++c) {
-            xorg_list_init(&newBuckets[c]);
+            newBuckets[c].initList();
         }
 
         for (c = 0; c < numBuckets; ++c) {
-            BucketPtr it = void, tmp = void;
-            mixin(xorg_list_for_each_entry_safe!("it", "tmp", "&ht.buckets[c]", "l", q{
+            foreach(it; ht.buckets[c].byEntriesSafe!(BucketPtr, "l")) {
                 XList* newBucket = &newBuckets[ht.hash(ht.cdata, it.key, newBucketBits)];
-                xorg_list_del(&it.l);
-                xorg_list_add(&it.l, newBucket);
-            }));
+                it.l.removeFromList();
+                newBucket.addListNext(&it.l);
+            }
         }
         free(ht.buckets);
 
@@ -165,7 +155,7 @@ void* ht_add(HashTable ht, const(void)* key)
     if (ht.dataSize && !elem.data) {
         goto outOfMemory;
     }
-    xorg_list_add(&elem.l, bucket);
+    bucket.addListNext(&elem.l);
     ++ht.elements;
 
     memcpy(elem.key, key, ht.keySize);
@@ -174,7 +164,7 @@ void* ht_add(HashTable ht, const(void)* key)
         ht.bucketBits < MAXHASHSIZE) {
         if (!double_size(ht)) {
             --ht.elements;
-            xorg_list_del(&elem.l);
+            elem.l.removeFromList();
             goto outOfMemory;
         }
     }
@@ -197,30 +187,29 @@ void ht_remove(HashTable ht, const(void)* key)
 {
     uint index = ht.hash(ht.cdata, key, ht.bucketBits);
     XList* bucket = &ht.buckets[index];
-    BucketPtr it = void;
 
-    mixin(xorg_list_for_each_entry!("it", "bucket", "l", q{
+    foreach(it; bucket.byEntries!(BucketPtr, "l")) {
         if (ht.compare(ht.cdata, key, it.key) == 0) {
-            xorg_list_del(&it.l);
+            it.l.removeFromList();
             --ht.elements;
             free(it.key);
             free(it.data);
             free(it);
             return;
-        }}));
+        }
+    }
 }
 
 void* ht_find(HashTable ht, const(void)* key)
 {
     uint index = ht.hash(ht.cdata, key, ht.bucketBits);
     XList* bucket = &ht.buckets[index];
-    BucketPtr it = void;
 
-    mixin(xorg_list_for_each_entry!("it", "bucket", "l", q{
+    foreach(it; bucket.byEntries!(BucketPtr, "l")) {
         if (ht.compare(ht.cdata, key, it.key) == 0) {
             return it.data ? it.data : (cast(char*) it.key + ht.keySize);
         }
-    }));
+    }
 
     return null;
 }
@@ -230,12 +219,11 @@ void ht_dump_distribution(HashTable ht)
     int c = void;
     int numBuckets = 1 << ht.bucketBits;
     for (c = 0; c < numBuckets; ++c) {
-        BucketPtr it = void;
         int n = 0;
 
-        mixin(xorg_list_for_each_entry!("it", "&ht.buckets[c]", "l", q{
+        foreach(it; ht.buckets[c].byEntries!(BucketPtr, "l")) {
             ++n;
-        }));
+        }
         printf("%d: %d\n", c, n);
     }
 }
@@ -294,11 +282,10 @@ void ht_dump_contents(HashTable ht, void function(void* opaque, void* key) @nogc
     int c = void;
     int numBuckets = 1 << ht.bucketBits;
     for (c = 0; c < numBuckets; ++c) {
-        BucketPtr it = void;
         int n = 0;
 
         printf("%d: ", c);
-        mixin(xorg_list_for_each_entry!("it", "&ht.buckets[c]", "l", q{
+        foreach(it; ht.buckets[c].byEntries!(BucketPtr, "l")) {
             if (n > 0) {
                 printf(", ");
             }
@@ -306,7 +293,7 @@ void ht_dump_contents(HashTable ht, void function(void* opaque, void* key) @nogc
             printf("->");
             print_value(opaque, it.data);
             ++n;
-        }));
+        }
         printf("\n");
     }
 }

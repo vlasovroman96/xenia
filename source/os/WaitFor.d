@@ -126,7 +126,8 @@ pragma(inline, true) private OsTimerPtr first_timer()
     /* inline xorg_list_is_empty which can't handle volatile */
     if (timers.next == &timers)
         return null;
-    return mixin(xorg_list_first_entry!("timers", "_OsTimerRec", "list"));
+        
+    return timers.getFirstEntry!(_OsTimerRec, "list");
 }
 
 /*
@@ -249,26 +250,25 @@ void AdjustWaitForDelay(void* waitTime, int newdelay)
 }
 
 pragma(inline, true) private Bool timer_pending(OsTimerPtr timer) {
-    return !xorg_list_is_empty(&timer.list);
+    return !timer.list.isEmpty();
 }
 
 /* If time has rewound, re-run every affected timer.
  * Timers might drop out of the list, so we have to restart every time. */
 private void CheckAllTimers()
 {
-    OsTimerPtr timer = void;
     CARD32 now = void;
 
     input_lock();
  start:
     now = GetTimeInMillis();
 
-    mixin(xorg_list_for_each_entry!("timer", "&timers", "list", q{
+    foreach(timer; timers.byEntries!OsTimerPtr) {
         if (timer.expires - now > timer.delta + 250) {
             DoTimer(timer, now);
             goto start;
         }
-    }));
+    }
     input_unlock();
 }
 
@@ -276,7 +276,7 @@ private void DoTimer(OsTimerPtr timer, CARD32 now)
 {
     CARD32 newTime = void;
 
-    xorg_list_del(&timer.list);
+    timer.list.removeFromList();
     newTime = (*timer.callback) (timer, now, timer.arg);
     if (newTime)
         TimerSet(timer, 0, newTime, timer.callback, timer.arg);
@@ -297,19 +297,18 @@ void DoTimers(CARD32 now)
 
 OsTimerPtr TimerSet(OsTimerPtr timer, int flags, CARD32 millis, OsTimerCallback func, void* arg)
 {
-    OsTimerPtr existing = void;
     CARD32 now = GetTimeInMillis();
 
     if (!timer) {
         timer = cast(_OsTimerRec*) calloc(1, _OsTimerRec.sizeof);
         if (!timer)
             return null;
-        xorg_list_init(&timer.list);
+        timer.list.initList();
     }
     else {
         input_lock();
         if (timer_pending(timer)) {
-            xorg_list_del(&timer.list);
+            timer.list.removeFromList();
             if (flags & TimerForceOld)
                 cast(void) (*timer.callback) (timer, now, timer.arg);
         }
@@ -329,13 +328,15 @@ OsTimerPtr TimerSet(OsTimerPtr timer, int flags, CARD32 millis, OsTimerCallback 
     timer.arg = arg;
     input_lock();
 
-    /* Sort into list */
-    mixin(xorg_list_for_each_entry!("existing", "&timers", "list", q{;
-        if (cast(int) (existing.expires - millis) > 0)
+    XList* position = &timers;
+    foreach(existing_; timers.byEntries!(OsTimerPtr)) {
+        if (cast(int) (existing_.expires - millis) > 0) {
+            position = &existing_.list;
             break;
-    }));
+        }
+    }
     /* This even works at the end of the list -- existing->list will be timers */
-    xorg_list_append(&timer.list, &existing.list);
+    position.appendList(&timer.list);
 
     /* Check to see if the timer is ready to run now */
     if (cast(int) (millis - now) <= 0)
@@ -362,7 +363,7 @@ void TimerCancel(OsTimerPtr timer)
     if (!timer)
         return;
     input_lock();
-    xorg_list_del(&timer.list);
+    timer.list.removeFromList();
     input_unlock();
 }
 
@@ -377,17 +378,16 @@ void TimerFree(OsTimerPtr timer)
 void TimerInit()
 {
     static Bool been_here;
-    OsTimerPtr timer = void, tmp = void;
 
     if (!been_here) {
         been_here = TRUE;
-        xorg_list_init(cast(XList*) &timers);
+        timers.initList();
     }
 
-    mixin(xorg_list_for_each_entry_safe!("timer", "tmp", "&timers", "list", q{
-        xorg_list_del(&timer.list);
+    foreach(timer; timers.byEntriesSafe!OsTimerPtr) {
+        timer.list.removeFromList();
         free(timer);
-    }));
+    }
 }
 
 static if(DPMSExtension) {

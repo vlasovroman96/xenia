@@ -676,11 +676,8 @@ version (HAVE_FNMATCH_H) {
  */
 Bool MatchAttrToken(const(char)* attr, XList* groups)
 {
-    xf86MatchGroup* group = void;
-    xf86MatchPattern* pattern = void;
-
     /* If there are no groups, accept the match */
-    if (xorg_list_is_empty(groups))
+    if (groups.isEmpty())
         return TRUE;
 
     /* If there are groups but no attribute, reject the match */
@@ -692,19 +689,19 @@ Bool MatchAttrToken(const(char)* attr, XList* groups)
      * match. Each list entry is a list of patterns obtained from
      * a separate Match line.
      */
-    mixin(xorg_list_for_each_entry!("group", "groups", "entry", q{
+    foreach(group; groups.byEntries!(xf86MatchGroup, "entry")) {
         Bool match = FALSE;
 
-        mixin(xorg_list_for_each_entry!("pattern", "&group.patterns", "entry", q{
+        foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
             /* It is enough to find one pattern matched by the attribute */
             match = ((!match_token(attr, pattern)) == pattern.is_negated);
             if (match)
                 goto group_done;
-        }));
+        }
       group_done:
         if (match == group.is_negated)
             return FALSE;
-    }));
+    }
 
     /* All the entries in the list matched the attribute */
     return TRUE;
@@ -750,7 +747,7 @@ private Bool InputClassMatches(XF86ConfInputClassPtr iclass, InputInfoPtr idev, 
      * MatchTag string
      * See if any of the device's tags match any of the MatchTag tokens.
      */
-    if (!xorg_list_is_empty(&iclass.match_tag)) {
+    if (!iclass.match_tag.isEmpty()) {
         char** tag = void;
         Bool match = void;
 
@@ -1048,7 +1045,7 @@ int xf86NewInputDevice(InputInfoPtr pInfo, DeviceIntPtr* pdev, BOOL enable)
                 PausedInputDevicePtr new_device = cast(PausedInputDevicePtr)XNFalloc((PausedInputDeviceRec).sizeof);
                 new_device.pInfo = pInfo;
 
-                xorg_list_append(&new_device.node, &new_input_devices_list);
+                new_input_devices_list.appendList(&new_device.node);
                 systemd_logind_release_fd(pInfo.major, pInfo.minor, fd);
                 free(path);
                 return BadMatch;
@@ -1124,7 +1121,6 @@ int xf86NewInputDevice(InputInfoPtr pInfo, DeviceIntPtr* pdev, BOOL enable)
 int NewInputDeviceRequest(InputOption* options, InputAttributes* attrs, DeviceIntPtr* pdev)
 {
     InputInfoPtr pInfo = null;
-    InputOption* option = null;
     int rval = Success;
     int is_auto = 0;
 
@@ -1132,7 +1128,7 @@ int NewInputDeviceRequest(InputOption* options, InputAttributes* attrs, DeviceIn
     if (!pInfo)
         return BadAlloc;
 
-    mixin(nt_list_for_each_entry!("option", "options", "list.next", q{
+    foreach(option; options.ntRange!"list.next") {
         const(char)* key = input_option_get_key(option);
         const(char)* value = input_option_get_value(option);
 
@@ -1176,14 +1172,15 @@ int NewInputDeviceRequest(InputOption* options, InputAttributes* attrs, DeviceIn
 
         if (strcmp(key, "minor") == 0)
             pInfo.minor = atoi(value);
-    }));
+    }
 
-    mixin(nt_list_for_each_entry!("option", "options", "list.next", q{
+    //Issue #65: Use std.algorithm.each
+    foreach(option; options.ntRange!"list.next") {
         /* Copy option key/value strings from the provided list */
         pInfo.options = xf86AddNewOption(pInfo.options,
                                           input_option_get_key(option),
                                           input_option_get_value(option));
-    }));
+    }
 
     /* Apply InputClass settings */
     if (attrs) {
@@ -1250,16 +1247,14 @@ void DeleteInputDeviceRequest(DeviceIntPtr pDev)
 // //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 void RemoveInputDeviceTraces(const(char)* config_info)
 {
-    PausedInputDevicePtr d = void, tmp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("d", "tmp", "&new_input_devices_list", "node", q{
+    foreach(d; new_input_devices_list.byEntriesSafe!(PausedInputDevicePtr, "node")){
         const(char)* ci = xf86findOptionValue(d.pInfo.options, "config_info");
         if (!ci || strcmp(ci, config_info) != 0)
             continue;
 
-        xorg_list_del(&d.node);
+        d.node.removeFromList();
         free(d);
-    }));
+    }
 }
 
 /*
@@ -1645,9 +1640,7 @@ void xf86InputEnableVTProbe()
 {
     int is_auto = 0;
     DeviceIntPtr pdev = void;
-    PausedInputDevicePtr d = void, tmp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("d", "tmp", "&new_input_devices_list", "node", q{
+    foreach(d; new_input_devices_list.byEntriesSafe!(PausedInputDevicePtr, "node")){
         InputInfoPtr pInfo = d.pInfo;
         const(char)* value = xf86findOptionValue(pInfo.options, "_source");
 
@@ -1661,9 +1654,9 @@ void xf86InputEnableVTProbe()
         xf86NewInputDevice(pInfo, &pdev,
                                   (!is_auto ||
                                    (is_auto && xf86Info.autoEnableDevices)));
-        xorg_list_del(&d.node);
+        d.node.removeFromList();
         free(d);
-    }));
+    }
 }
 
 /* end of xf86Xinput.c */

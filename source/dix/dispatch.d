@@ -314,21 +314,21 @@ XList output_pending_clients;
 
 private void init_client_ready()
 {
-    xorg_list_init(&ready_clients);
-    xorg_list_init(&saved_ready_clients);
-    xorg_list_init(&output_pending_clients);
+    ready_clients.initList();
+    saved_ready_clients.initList();
+    output_pending_clients.initList();
 }
 
 Bool clients_are_ready()
 {
-    return !xorg_list_is_empty(&ready_clients);
+    return !ready_clients.isEmpty();
 }
 
 /* Client has requests queued or data on the network */
 void mark_client_ready(ClientPtr client)
 {
-    if (xorg_list_is_empty(&client.ready))
-        xorg_list_append(&client.ready, &ready_clients);
+    if (client.ready.isEmpty())
+        ready_clients.appendList(&client.ready);
 }
 
 /*
@@ -337,47 +337,43 @@ void mark_client_ready(ClientPtr client)
  */
 void mark_client_saved_ready(ClientPtr client)
 {
-    if (xorg_list_is_empty(&client.ready))
-        xorg_list_append(&client.ready, &saved_ready_clients);
+    if (client.ready.isEmpty())
+        saved_ready_clients.appendList(&client.ready);
 }
 
 /* Client has no requests queued and no data on network */
 void mark_client_not_ready(ClientPtr client)
 {
-    xorg_list_del(&client.ready);
+    client.ready.removeFromList();
 }
 
 private void mark_client_grab(ClientPtr grab)
 {
-    ClientPtr client = void, tmp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("client", "tmp", "&ready_clients", "ready", q{
+    foreach(client; saved_ready_clients.byEntriesSafe!(ClientPtr, "ready")){
         if (client != grab) {
-            xorg_list_del(&client.ready);
-            xorg_list_append(&client.ready, &saved_ready_clients);
+            client.ready.removeFromList();
+            saved_ready_clients.appendList(&client.ready);
         }
-    }));
+    }
 }
 
 private void mark_client_ungrab()
 {
-    ClientPtr client = void, tmp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("client", "tmp", "&saved_ready_clients", "ready", q{
-        xorg_list_del(&client.ready);
-        xorg_list_append(&client.ready, &ready_clients);
-    }));
+    foreach(client; saved_ready_clients.byEntriesSafe!(ClientPtr, "ready")){
+        client.ready.removeFromList();
+        ready_clients.appendList(&client.ready);
+    }
 }
 
 private ClientPtr SmartScheduleClient()
 {
-    ClientPtr pClient = void, best = null;
+    ClientPtr best = null;
     c_long now = SmartScheduleTime;
     int nready = 0;
     int bestRobin = 0;
     c_long idle = 2 * SmartScheduleSlice;
 
-    mixin(xorg_list_for_each_entry!("pClient", "&ready_clients", "ready", q{
+    foreach(pClient; ready_clients.byEntries!(ClientPtr, "ready")) {
         nready++;
         if ((now - pClient.smart_stop_tick) >= idle) {
             if (pClient.smart_priority < 0)
@@ -401,7 +397,7 @@ version (SMART_DEBUG) {
         if ((now - SmartLastPrint) >= 5000)
             fprintf(stderr, " %2d: %3d", pClient.index, pClient.smart_priority);
 }
-    }));
+    }
 version (SMART_DEBUG) {
     if ((now - SmartLastPrint) >= 5000) {
         fprintf(stderr, " use %2d\n", best.index);
@@ -3689,8 +3685,8 @@ private void KillAllClients()
 void InitClient(ClientPtr client, int i, void* ospriv)
 {
     client.index = cast(ushort)i;
-    xorg_list_init(&client.ready);
-    xorg_list_init(&client.output_pending);
+    client.ready.initList();
+    client.output_pending.initList();
     client.clientAsMask = (cast(Mask) i) << CLIENTOFFSET;
     client.closeDownMode = i ? DestroyAll : RetainPermanent;
     client.requestVector = InitialVector.ptr;
@@ -4021,8 +4017,8 @@ private int init_screen(ScreenPtr pScreen, int i, Bool gpu)
     pScreen.ClipNotify = null;    /* for R4 ddx compatibility */
     pScreen.CreateScreenResources = null;
 
-    xorg_list_init(&pScreen.pixmap_dirty_list);
-    xorg_list_init(&pScreen.secondary_list);
+    pScreen.pixmap_dirty_list.initList();
+    pScreen.secondary_list.initList();
 
     /*
      * This loop gets run once for every Screen that gets added,
@@ -4167,7 +4163,7 @@ void AttachUnboundGPU(ScreenPtr pScreen, ScreenPtr new_)
 {
     assert(new_.isGPU);
     assert(!new_.current_primary);
-    xorg_list_add(&new_.secondary_head, &pScreen.secondary_list);
+    pScreen.secondary_list.addListNext(&new_.secondary_head);
     new_.current_primary = pScreen;
 }
 
@@ -4176,7 +4172,7 @@ void DetachUnboundGPU(ScreenPtr secondary)
     assert(secondary.isGPU);
     assert(!secondary.is_output_secondary);
     assert(!secondary.is_offload_secondary);
-    xorg_list_del(&secondary.secondary_head);
+    secondary.secondary_head.removeFromList();
     secondary.current_primary = null;
 }
 

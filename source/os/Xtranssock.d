@@ -583,7 +583,7 @@ version (SOCK_MAXADDRLEN) {
 
     ciptr.fd = fd;
 
-    addrlen = portlen + offsetof!(sock.sockaddr, "sa_data");
+    addrlen = portlen + offsetOf!(sock.sockaddr, "sa_data");
     if ((addr = cast(sock.sockaddr*) calloc (1, addrlen)) is null) {
 	prmsg (1, "SocketReopen: malloc(addr) failed\n");
 	free (ciptr);
@@ -1039,12 +1039,12 @@ version (BSD44SOCKETS) {
 static if (HasVersion!"BSD44SOCKETS" || HasVersion!"SUN_LEN") {
     namelen = SUN_LEN(&sockname);
 } else {
-    namelen = cast(int)(strlen(cast(char*)sockname.sun_path.ptr) + offsetof!(sock_.sockaddr_un, "sun_path"));
+    namelen = cast(int)(strlen(cast(char*)sockname.sun_path.ptr) + offsetOf!(sock_.sockaddr_un, "sun_path"));
 }
 
     if (abstract_) {
 	sockname.sun_path[0] = '\0';
-	namelen = cast(int)(offsetof!(sock_.sockaddr_un, "sun_path") + 1 + strlen(cast(char*)sockname.sun_path.ptr + 1));
+	namelen = cast(int)(offsetOf!(sock_.sockaddr_un, "sun_path") + 1 + strlen(cast(char*)sockname.sun_path.ptr + 1));
     }
     else
 	unlink (cast(char*)sockname.sun_path.ptr);

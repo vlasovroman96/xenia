@@ -58,10 +58,9 @@ void RRDeliverLeaseEvent(ClientPtr client, WindowPtr window)
 {
     ScreenPtr screen = window.drawable.pScreen;
     rrScrPrivPtr scr_priv = mixin(rrGetScrPriv!("screen"));
-    RRLeasePtr lease = void;
 
     UpdateCurrentTimeIf();
-    mixin(xorg_list_for_each_entry!("lease", "&scr_priv.leases", "list", q{
+    foreach(lease; scr_priv.leases.byEntries!RRLeasePtr) {
         if (lease.id != None && (lease.state == RRLeaseCreating ||
                                   lease.state == RRLeaseTerminating))
         {
@@ -75,7 +74,7 @@ void RRDeliverLeaseEvent(ClientPtr client, WindowPtr window)
             );
             WriteEventsToClient(client, 1, cast(xEvent*) &le);
         }
-    }));
+    }
 }
 
 /*
@@ -107,7 +106,7 @@ private RRLeasePtr RRLeaseAlloc(ScreenPtr screen, RRLease lid, int numCrtcs, int
     if (!lease)
         return null;
     lease.screen = screen;
-    xorg_list_init(&lease.list);
+    lease.list.initList();
     lease.id = lid;
     lease.state = RRLeaseCreating;
     lease.numCrtcs = numCrtcs;
@@ -124,14 +123,13 @@ Bool RRCrtcIsLeased(RRCrtcPtr crtc)
 {
     ScreenPtr screen = crtc.pScreen;
     rrScrPrivPtr scr_priv = mixin(rrGetScrPriv!("screen"));
-    RRLeasePtr lease = void;
     int c = void;
 
-    mixin(xorg_list_for_each_entry!("lease", "&scr_priv.leases", "list", q{
+    foreach(lease; scr_priv.leases.byEntries!RRLeasePtr) {
         for (c = 0; c < lease.numCrtcs; c++)
             if (lease.crtcs[c] == crtc)
                 return TRUE;
-    }));
+    }
     return FALSE;
 }
 
@@ -142,14 +140,13 @@ Bool RROutputIsLeased(RROutputPtr output)
 {
     ScreenPtr screen = output.pScreen;
     rrScrPrivPtr scr_priv = mixin(rrGetScrPriv!("screen"));
-    RRLeasePtr lease = void;
     int o = void;
 
-    mixin(xorg_list_for_each_entry!("lease", "&scr_priv.leases", "list", q{
+    foreach(lease; scr_priv.leases.byEntries!RRLeasePtr) {
         for (o = 0; o < lease.numOutputs; o++)
             if (lease.outputs[o] == output)
                 return TRUE;
-    }));
+    }
     return FALSE;
 }
 
@@ -168,7 +165,7 @@ void RRLeaseTerminated(RRLeasePtr lease)
     if (lease.id != None)
         FreeResource(cast(uint)lease.id, X11_RESTYPE_NONE);
 
-    xorg_list_del(&lease.list);
+    lease.list.removeFromList();
 }
 
 /*
@@ -339,7 +336,7 @@ int ProcRRCreateLease(ClientPtr client)
     }
 
 leaseReturned:
-    xorg_list_add(&lease.list, &scr_priv.leases);
+    scr_priv.leases.addListNext(&lease.list);
 
     if (!AddResource(cast(uint)stuff.lid, RRLeaseType, lease)) {
         close(fd);

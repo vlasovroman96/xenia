@@ -171,17 +171,16 @@ RRCrtcPtr rr_crtc_covering_box(ScreenPtr pScreen, BoxPtr box, Bool screen_is_xf8
 private RRCrtcPtr rr_crtc_covering_box_on_secondary(ScreenPtr pScreen, BoxPtr box)
 {
     if (!pScreen.isGPU) {
-        ScreenPtr secondary = void;
         RRCrtcPtr crtc = null;
 
-        mixin(xorg_list_for_each_entry!("secondary", "&pScreen.secondary_list", "secondary_head", q{
+        foreach(secondary; pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")){
             if (!secondary.is_output_secondary)
                 continue;
 
             crtc = rr_crtc_covering_box(secondary, box, FALSE);
             if (crtc)
                 return crtc;
-        }));
+        }
     }
 
     return null;
@@ -263,22 +262,19 @@ Bool ms_get_kernel_ust_msc(xf86CrtcPtr crtc, ulong* msc, ulong* ust)
 
 private void ms_drm_set_seq_msc(uint seq, ulong msc)
 {
-    ms_drm_queue* q = void;
-
-    mixin(xorg_list_for_each_entry!("q", "&ms_drm_queue_", "list", q{
+    foreach(q; ms_drm_queue_.byEntries!ms_drm_queue) {
         if (q.seq == seq) {
             q.msc = msc;
             break;
         }
-    }));
+    }
 }
 
 private void ms_drm_set_seq_queued(uint seq, ulong msc)
 {
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr)null;
-    ms_drm_queue* q = void;
 
-    mixin(xorg_list_for_each_entry!("q", "&ms_drm_queue_", "list", q{
+    foreach(q; ms_drm_queue_.byEntries!ms_drm_queue) {
         if (q.seq == seq) {
             drmmode_crtc = cast(drmmode_crtc_private_rec*)q.crtc.driver_private;
             if (msc < drmmode_crtc.next_msc)
@@ -287,7 +283,7 @@ private void ms_drm_set_seq_queued(uint seq, ulong msc)
             q.kernel_queued = TRUE;
             break;
         }
-    }));
+    }
 }
 
 private Bool ms_queue_coalesce(xf86CrtcPtr crtc, uint seq, ulong msc)
@@ -469,7 +465,7 @@ uint ms_drm_queue_alloc(xf86CrtcPtr crtc, void* data, ms_drm_handler_proc handle
     q.abort = abort;
 
     /* Keep the list formatted in ascending order of sequence number */
-    xorg_list_append(&q.list, &ms_drm_queue_);
+    ms_drm_queue_.appendList(&q.list);
 
     return q.seq;
 }
@@ -489,7 +485,7 @@ void ms_drm_abort_one(ms_drm_queue* q)
         q.abort(q.data);
         q.aborted = TRUE;
     } else {
-        xorg_list_del(&q.list);
+        q.list.removeFromList();
         q.abort(q.data);
         free(q);
     }
@@ -501,12 +497,10 @@ void ms_drm_abort_one(ms_drm_queue* q)
  */
 private void ms_drm_abort_scrn(ScrnInfoPtr scrn)
 {
-    ms_drm_queue* q = void, tmp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("q", "tmp", "&ms_drm_queue_", "list", q{
+    foreach(q; ms_drm_queue_.byEntriesSafe!ms_drm_queue){
         if (q.scrn == scrn)
             ms_drm_abort_one(q);
-    }));
+    }
 }
 
 /**
@@ -514,14 +508,12 @@ private void ms_drm_abort_scrn(ScrnInfoPtr scrn)
  */
 void ms_drm_abort_seq(ScrnInfoPtr scrn, uint seq)
 {
-    ms_drm_queue* q = void, tmp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("q", "tmp", "&ms_drm_queue_", "list", q{
+    foreach(q; ms_drm_queue_.byEntriesSafe!ms_drm_queue){
         if (q.seq == seq) {
             ms_drm_abort_one(q);
             break;
         }
-    }));
+    }
 }
 
 import externs.attrs;
@@ -532,14 +524,12 @@ import externs.attrs;
  */
 void ms_drm_abort(ScrnInfoPtr scrn, Bool function(void* data, void* match_data) match, void* match_data)
 {
-    ms_drm_queue* q = void;
-
-    mixin(xorg_list_for_each_entry!("q", "&ms_drm_queue_", "list", q{
+    foreach(q; ms_drm_queue_.byEntries!ms_drm_queue) {
         if (assumeNoGC(match)(q.data, match_data)) {
             ms_drm_abort_one(q);
             break;
         }
-    }));
+    }
 }
 
 /*
@@ -548,39 +538,37 @@ void ms_drm_abort(ScrnInfoPtr scrn, Bool function(void* data, void* match_data) 
  */
 private void ms_drm_sequence_handler(int fd, ulong frame, ulong ns, Bool is64bit, ulong user_data)
 {
-    ms_drm_queue* q = void, tmp = void;
     uint seq = cast(uint) user_data;
     xf86CrtcPtr crtc = null;
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr) null;
     ulong msc = void, next_msc = UINT64_MAX;
 
     /* Handle the seq for this event first in order to get the CRTC */
-    mixin(xorg_list_for_each_entry!("q", "&ms_drm_queue_", "list", q{
+    foreach(q; ms_drm_queue_.byEntries!ms_drm_queue) {
         if (q.seq == seq) {
             crtc = q.crtc;
             msc = ms_kernel_msc_to_crtc_msc(crtc, frame, is64bit);
-        //comment
             q.msc = msc;
             break;
         }
-    }));
+    }
 
     if (!crtc)
         return;
 
     /* Now run all of the vblank events for this CRTC with an expired MSC */
-    mixin(xorg_list_for_each_entry_safe!("q", "tmp", "&ms_drm_queue_", "list", q{
-        if (q.crtc == crtc && q.msc <= msc) {
-            xorg_list_del(&q.list);
-            if (!q.aborted)
-                q.handler(msc, ns / 1000, q.data);
-            free(q);
+    foreach(q_; ms_drm_queue_.byEntries!ms_drm_queue) {
+        if (q_.crtc == crtc && q_.msc <= msc) {
+            q_.list.removeFromList();
+            if (!q_.aborted)
+                q_.handler(msc, ns / 1000, q_.data);
+            free(q_);
         }
-    }));
+    }
 
     /* Find this CRTC's next queued MSC and next non-queued MSC to be handled */
     msc = UINT64_MAX;
-    mixin(xorg_list_for_each_entry!("q", "&ms_drm_queue_", "list", q{
+    foreach(q; ms_drm_queue_.byEntries!ms_drm_queue) {
         if (q.crtc == crtc) {
             if (q.kernel_queued) {
                 if (q.msc < next_msc)
@@ -590,7 +578,7 @@ private void ms_drm_sequence_handler(int fd, ulong frame, ulong ns, Bool is64bit
                 seq = q.seq;
             }
         }
-    }));
+    }
 
     /* Queue an event if the next queued MSC isn't soon enough */
     drmmode_crtc = cast(drmmode_crtc_private_rec*)crtc.driver_private;
@@ -598,10 +586,10 @@ private void ms_drm_sequence_handler(int fd, ulong frame, ulong ns, Bool is64bit
     if (msc < next_msc && !ms_queue_vblank(crtc, MS_QUEUE_ABSOLUTE, msc, null, seq)) {
         xf86DrvMsg(crtc.scrn.scrnIndex, X_WARNING,
                    "failed to queue next vblank event, aborting lost events\n");
-        mixin(xorg_list_for_each_entry_safe!("q", "tmp", "&ms_drm_queue_", "list", q{
-            if (q.crtc == crtc && q.msc < next_msc)
-                ms_drm_abort_one(q);
-        }));
+        foreach(q_; ms_drm_queue_.byEntriesSafe!ms_drm_queue){
+            if (q_.crtc == crtc && q_.msc < next_msc)
+                ms_drm_abort_one(q_);
+        }
     }
 }
 
@@ -620,7 +608,7 @@ private void ms_drm_handler(int fd, uint frame, uint sec, uint usec, void* user_
 
 Bool ms_drm_queue_is_empty()
 {
-    return xorg_list_is_empty(&ms_drm_queue_);
+    return ms_drm_queue_.isEmpty();
 }
 
 Bool ms_vblank_screen_init(ScreenPtr screen)
@@ -628,7 +616,7 @@ Bool ms_vblank_screen_init(ScreenPtr screen)
     ScrnInfoPtr scrn = xf86ScreenToScrn(screen);
     modesettingPtr ms = mixin(modesettingPTR!("scrn"));
     modesettingEntPtr ms_ent = ms_ent_priv(scrn);
-    xorg_list_init(&ms_drm_queue_);
+    ms_drm_queue_.initList();
 
     __traits(getMember, ms.event_context, "version") = 4;
     ms.event_context.vblank_handler = &ms_drm_handler;

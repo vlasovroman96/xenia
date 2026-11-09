@@ -3406,11 +3406,11 @@ int dixSaveScreens(ClientPtr client, int on, int mode)
     screenIsSaved = what;
     if (mode == ScreenSaverReset) {
         if (on == SCREEN_SAVER_FORCER) {
-            DeviceIntPtr dev = void;
             UpdateCurrentTimeIf();
-            mixin(nt_list_for_each_entry!("dev", "inputInfo.devices", "next", q{
+            //Issue #65: Use std.algorithm.each 
+            foreach(dev; inputInfo.devices.ntRange!"next") {
                 NoticeTime(dev, currentTime);
-            }));;
+            }
         }
         SetScreenSaverTimer();
     }

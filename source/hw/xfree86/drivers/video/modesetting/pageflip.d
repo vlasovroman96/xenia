@@ -379,7 +379,7 @@ private Bool ms_tearfree_dri_flip(modesettingPtr ms, xf86CrtcPtr crtc, void* eve
     flipdata.abort_handler = pageflip_abort;
 
     /* Keep the list in FIFO order so that clients are notified in order */
-    xorg_list_append(&flip.node, &trf.dri_flip_list);
+    trf.dri_flip_list.appendList(&flip.node);
     return TRUE;
 }
 
@@ -560,16 +560,14 @@ Bool ms_tearfree_dri_abort(xf86CrtcPtr crtc, Bool function(void* data, void* mat
 {
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr) crtc.driver_private;
     drmmode_tearfree_ptr trf = &drmmode_crtc.tearfree;
-    ms_crtc_pageflip* flip = void;
 
     /* The window is getting destroyed; abort without notifying the client */
-    mixin(xorg_list_for_each_entry!("flip", "&trf.dri_flip_list", "node", q{
+    foreach(flip; trf.dri_flip_list.byEntries!(ms_crtc_pageflip, "node"))
         if (match(flip.flipdata.event, match_data)) {
-            xorg_list_del(&flip.node);
+            flip.node.removeFromList();
             ms_pageflip_abort(flip);
             return TRUE;
         }
-    }));
 
     return FALSE;
 }
@@ -578,11 +576,10 @@ void ms_tearfree_dri_abort_all(xf86CrtcPtr crtc)
 {
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr) crtc.driver_private;
     drmmode_tearfree_ptr trf = &drmmode_crtc.tearfree;
-    ms_crtc_pageflip* flip = void, tmp = void;
     ulong usec = 0, msc = 0;
 
     /* Nothing to abort if there aren't any DRI clients waiting for a flip */
-    if (xorg_list_is_empty(&trf.dri_flip_list))
+    if (trf.dri_flip_list.isEmpty())
         return;
 
     /* Even though we're aborting, these clients' pixmaps were actually blitted,
@@ -591,17 +588,14 @@ void ms_tearfree_dri_abort_all(xf86CrtcPtr crtc)
      * time and MSC for this CRTC.
      */
     ms_get_crtc_ust_msc(crtc, &usec, &msc);
-    mixin(xorg_list_for_each_entry_safe!("flip", "tmp", "&trf.dri_flip_list", "node", q{
+    foreach(flip; trf.dri_flip_list.byEntriesSafe!(ms_crtc_pageflip, "node"))
         ms_pageflip_handler(msc, usec, flip);
-    }));
-    xorg_list_init(&trf.dri_flip_list);
+    trf.dri_flip_list.initList();
 }
 
 private void ms_tearfree_dri_notify(drmmode_tearfree_ptr trf, ulong msc, ulong usec)
 {
-    ms_crtc_pageflip* flip = void, tmp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("flip", "tmp", "&trf.dri_flip_list", "node", q{
+    foreach(flip; trf.dri_flip_list.byEntriesSafe!(ms_crtc_pageflip, "node")){
         /* If a TearFree flip was already pending at the time this DRI client's
          * pixmap was copied, then the pixmap isn't contained in this TearFree
          * flip, but will be part of the next TearFree flip instead.
@@ -609,10 +603,10 @@ private void ms_tearfree_dri_notify(drmmode_tearfree_ptr trf, ulong msc, ulong u
         if (flip.tearfree_seq) {
             flip.tearfree_seq = 0;
         } else {
-            xorg_list_del(&flip.node);
+            flip.node.removeFromList();
             ms_pageflip_handler(msc, usec, flip);
         }
-    }));
+    }
 }
 
 private void ms_tearfree_flip_abort(void* data)

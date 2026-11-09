@@ -120,28 +120,26 @@ private void initializeExtensionModules()
 private void load_extension_config()
 {
     XF86ConfModulePtr mod_con = xf86configptr.conf_modules;
-    XF86LoadPtr modp = void;
 
     /* Only the best. */
     if (!mod_con)
         return;
 
-    mixin(nt_list_for_each_entry!("modp", "mod_con.mod_load_lst", "list.next", q{
-        InputOption* opt = void;
-
+    foreach(modp; mod_con.mod_load_lst.ntRange!"list.next") {
         if (strcasecmp(modp.load_name, "extmod") != 0)
             continue;
 
         /* extmod options are of the form "omit <extension-name>" */
-        mixin(nt_list_for_each_entry!("opt", "modp.load_opt", "list.next", q{
+        foreach(opt; modp.load_opt.ntRange!"list.next") {
             const(char)* key = input_option_get_key(opt);
             if (strncasecmp(key, "omit", 4) != 0 || strlen(key) < 5)
                 continue;
             if (EnableDisableExtension(key + 4, FALSE))
                 xf86MarkOptionUsed(opt);
-        }));
+        }
 
 // version (XSELINUX) {
+//          InputOption* opt = void;
 //         if ((opt = xf86FindOption(cast(_InputOption*)modp.load_opt,
 //                                   "SELinux mode disabled"))) {
 //             xf86MarkOptionUsed(opt);
@@ -158,7 +156,7 @@ private void load_extension_config()
 //             selinuxEnforcingState = SELINUX_MODE_ENFORCING;
 //         }
 // }
-    }));
+    }
 }
 
 void xf86ExtensionInit()

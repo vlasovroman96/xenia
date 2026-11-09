@@ -367,23 +367,21 @@ Bool PixmapStartDirtyTracking(DrawablePtr src, PixmapPtr secondary_dst, int x, i
     RegionUninit(&dstregion);
 
     DamageRegister(src, dirty_update.damage);
-    xorg_list_add(&dirty_update.ent, &screen.pixmap_dirty_list);
+    screen.pixmap_dirty_list.addListNext(&dirty_update.ent);
     return TRUE;
 }
 
 Bool PixmapStopDirtyTracking(DrawablePtr src, PixmapPtr secondary_dst)
 {
     ScreenPtr screen = src.pScreen;
-    PixmapDirtyUpdatePtr ent = void, safe = void;
-
-    mixin(xorg_list_for_each_entry_safe!("ent", "safe", "&screen.pixmap_dirty_list", "ent", q{
+    foreach(ent; screen.pixmap_dirty_list.byEntriesSafe!(PixmapDirtyUpdatePtr, "ent")){
         if (ent.src == src && ent.secondary_dst == secondary_dst) {
             if (ent.damage)
                 DamageDestroy(ent.damage);
-            xorg_list_del(&ent.ent);
+            ent.ent.removeFromList();
             free(ent);
         }
-    }));
+    }
     return TRUE;
 }
 

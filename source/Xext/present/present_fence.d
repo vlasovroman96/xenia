@@ -47,14 +47,14 @@ struct present_fence {
  */
 private Bool present_fence_sync_check_trigger(SyncTrigger* trigger, long oldval)
 {
-    present_fence* present_fence = mixin(xorg_list_entry!("trigger", "present_fence", "trigger"));
+    present_fence* present_fence = trigger.containerOf!(present_fence, "trigger");
 
     return present_fence.callback !is null;
 }
 
 private void present_fence_sync_trigger_fired(SyncTrigger* trigger)
 {
-    present_fence* present_fence = mixin(xorg_list_entry!("trigger", "present_fence", "trigger"));
+    present_fence* present_fence = trigger.containerOf!(present_fence, "trigger");
 
     if (present_fence.callback)
         (*present_fence.callback)(present_fence.param);
@@ -62,7 +62,7 @@ private void present_fence_sync_trigger_fired(SyncTrigger* trigger)
 
 private void present_fence_sync_counter_destroyed(SyncTrigger* trigger)
 {
-    present_fence* present_fence = mixin(xorg_list_entry!("trigger", "present_fence", "trigger"));
+    present_fence* present_fence = trigger.containerOf!(present_fence, "trigger");
 
     present_fence.fence = null;
 }

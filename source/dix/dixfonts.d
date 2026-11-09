@@ -2007,21 +2007,19 @@ private int add_fs_fd(int fd, FontFdHandlerProcPtr handler, void* data)
         free(entry);
         return FALSE;
     }
-    xorg_list_add(&entry.entry, &fs_fd_list);
+    fs_fd_list.addListNext(&entry.entry);
     return TRUE;
 }
 
 private void remove_fs_fd(int fd)
 {
-    fs_fd_entry* entry = void, temp = void;
-
-    mixin(xorg_list_for_each_entry_safe!("entry", "temp", "&fs_fd_list", "entry", q{
+    foreach(entry; fs_fd_list.byEntriesSafe!(fs_fd_entry, "entry")) {
         if (entry.fd == fd) {
-            xorg_list_del(&entry.entry);
+            entry.entry.removeFromList();
             free(entry);
             break;
         }
-    }));
+    }
     RemoveNotifyFd(fd);
 }
 
@@ -2041,7 +2039,7 @@ private int _init_fs_handlers(FontPathElementPtr fpe, FontBlockHandlerProcPtr bl
         if (!RegisterBlockAndWakeupHandlers(&fs_block_handler,
                                             &FontWakeup, block_handler))
             return AllocError;
-        xorg_list_init(&fs_fd_list);
+        fs_fd_list.initList();
         fs_handlers_installed++;
     }
     QueueFontWakeup(fpe);

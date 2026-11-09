@@ -1480,10 +1480,10 @@ void LastEventTimeToggleResetFlag(int deviceid, Bool state)
 
 void LastEventTimeToggleResetAll(Bool state)
 {
-    DeviceIntPtr dev = void;
-    mixin(nt_list_for_each_entry!("dev", "inputInfo.devices", "next", q{
+    //Issue 65: Use std.algorithm.each
+    foreach(dev; inputInfo.devices.ntRange!"next") {
         LastEventTimeToggleResetFlag(dev.id, FALSE);
-    }));
+    }
     LastEventTimeToggleResetFlag(XIAllDevices, FALSE);
     LastEventTimeToggleResetFlag(XIAllMasterDevices, FALSE);
 }
@@ -1504,8 +1504,8 @@ void EnqueueEvent(InternalEvent* ev, DeviceIntPtr device)
     int eventlen = void;
     DeviceEvent* event = &ev.device_event;
 
-    if (!xorg_list_is_empty(&syncEvents.pending))
-        tail = mixin(xorg_list_last_entry!("&syncEvents.pending", "QdEventRec", "next"));
+    if (!syncEvents.pending.isEmpty())
+        tail = syncEvents.pending.getLastEntry!(QdEventRec, "next");
 
     NoticeTimeMillis(device, &ev.any.time);
 
@@ -1564,13 +1564,13 @@ static if(XINERAMA){
     QdEventPtr qe = cast(QdEventPtr) calloc(1, ((QdEventRec).sizeof + eventlen));
     if (!qe)
         return;
-    xorg_list_init(&qe.next);
+    qe.next.initList();
     qe.device = device;
     qe.pScreen = pSprite.hotPhys.pScreen;
     qe.months = currentTime.months;
     qe.event = cast(InternalEvent*) (qe + 1);
     CopyPartialInternalEvent(qe.event, cast(InternalEvent*)event);
-    xorg_list_append(&qe.next, &syncEvents.pending);
+    syncEvents.pending.appendList(&qe.next);
 }
 
 /**
@@ -1584,8 +1584,6 @@ static if(XINERAMA){
  */
 void PlayReleasedEvents()
 {
-    QdEventPtr tmp = void;
-    QdEventPtr qe = void;
     DeviceIntPtr dev = void;
     DeviceIntPtr pDev = void;
 static if(XINERAMA){
@@ -1593,9 +1591,9 @@ static if(XINERAMA){
 }
 
  restart:
-    mixin(xorg_list_for_each_entry_safe!("qe", "tmp", "&syncEvents.pending", "next", q{
+    foreach(qe; syncEvents.pending.byEntriesSafe!(QdEventPtr, "next")){
         if (!qe.device.deviceGrab.sync.frozen) {
-            xorg_list_del(&qe.next);
+            qe.next.removeFromList();
             pDev = qe.device;
             if (qe.event.any.type == ET_Motion)
                 CheckVirtualMotion(pDev, qe, NullWindow);
@@ -1641,7 +1639,7 @@ static if(XINERAMA){
             /* So to play it safe, restart at the head of the queue */
             goto restart;
         }
-    }));
+    }
 }
 
 /**
@@ -1678,7 +1676,7 @@ private void ComputeFreezes()
         FreezeThaw(dev, dev.deviceGrab.sync.other ||
                    (dev.deviceGrab.sync.state >= GRAB_STATE_FROZEN));
     if (syncEvents.playingEvents ||
-        (!replayDev && xorg_list_is_empty(&syncEvents.pending)))
+        (!replayDev && syncEvents.pending.isEmpty()))
         return;
     syncEvents.playingEvents = TRUE;
     if (replayDev) {
@@ -5686,7 +5684,7 @@ static if(XINERAMA){
  */
 void InitEvents()
 {
-    QdEventPtr qe = void, tmp = void;
+    // QdEventPtr qe = void, tmp = void;
 
     inputInfo.numDevices = 0;
     inputInfo.devices = cast(DeviceIntPtr) null;
@@ -5706,10 +5704,10 @@ void InitEvents()
     syncEvents.replayDev = cast(DeviceIntPtr) null;
     syncEvents.replayWin = NullWindow;
     if (syncEvents.pending.next)
-        mixin(xorg_list_for_each_entry_safe!("qe", "tmp", "&syncEvents.pending", "next", q{
+        foreach(qe; syncEvents.pending.byEntriesSafe!(QdEventPtr, "next")){
             free(qe);
-        }));
-    xorg_list_init(&syncEvents.pending);
+        }
+    syncEvents.pending.initList();
     syncEvents.playingEvents = FALSE;
     syncEvents.time.months = 0;
     syncEvents.time.milliseconds = 0;   /* hardly matters */

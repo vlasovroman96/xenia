@@ -209,7 +209,7 @@ private void InputReady(int fd, int xevents, void* data)
  */
 int InputThreadRegisterDev(int fd, NotifyFdProcPtr readInputProc, void* readInputArgs)
 {
-    InputThreadDevice* dev = void, old = void;
+    InputThreadDevice* dev = void;
 
     if (!inputThreadInfo)
         return SetNotifyFd(fd, readInputProc, X_NOTIFY_READ, readInputArgs);
@@ -217,12 +217,12 @@ int InputThreadRegisterDev(int fd, NotifyFdProcPtr readInputProc, void* readInpu
     input_lock();
 
     dev = null;
-    mixin(xorg_list_for_each_entry!("old", "&inputThreadInfo.devs", "node", q{
+    foreach(old; inputThreadInfo.devs.byEntries!(InputThreadDevice, "node")) {
         if (old.fd == fd && old.state != device_state_removed) {
             dev = old;
             break;
         }
-    }));
+    }
 
     if (dev) {
         dev.readInputProc = readInputProc;
@@ -242,7 +242,7 @@ int InputThreadRegisterDev(int fd, NotifyFdProcPtr readInputProc, void* readInpu
 
         /* Do not prepend, so that any dev->state == device_state_removed
          * with the same dev->fd get processed first. */
-        xorg_list_append(&dev.node, &inputThreadInfo.devs);
+        inputThreadInfo.devs.appendList(&dev.node);
     }
 
     inputThreadInfo.changed = TRUE;
@@ -264,7 +264,7 @@ int InputThreadRegisterDev(int fd, NotifyFdProcPtr readInputProc, void* readInpu
  */
 int InputThreadUnregisterDev(int fd)
 {
-    InputThreadDevice* dev = void;
+    InputThreadDevice* dev_ = void;
     Bool found_device = FALSE;
 
     /* return silently if input thread is already finished (e.g., at
@@ -276,12 +276,13 @@ int InputThreadUnregisterDev(int fd)
     }
 
     input_lock();
-    mixin(xorg_list_for_each_entry!("dev", "&inputThreadInfo.devs", "node", q{;
+    foreach(dev; inputThreadInfo.devs.byEntries!(InputThreadDevice, "node")) {
         if (dev.fd == fd) {
             found_device = TRUE;
+            dev_ = dev;
             break;
         }
-    }));
+    }
 
     /* fd didn't match any registered device. */
     if (!found_device) {
@@ -289,7 +290,7 @@ int InputThreadUnregisterDev(int fd)
         return 0;
     }
 
-    dev.state = device_state_removed;
+    dev_.state = device_state_removed;
     inputThreadInfo.changed = TRUE;
 
     input_unlock();
@@ -352,11 +353,9 @@ version (HAVE_PTHREAD_SETNAME_NP_WITH_TID) {
 
         /* Check for hotplug changes and modify the ospoll structure to suit */
         if (inputThreadInfo.changed) {
-            InputThreadDevice* dev = void, tmp = void;
-
             input_lock();
             inputThreadInfo.changed = FALSE;
-            mixin(xorg_list_for_each_entry_safe!("dev", "tmp", "&inputThreadInfo.devs", "node", q{
+            foreach(dev; inputThreadInfo.devs.byEntriesSafe!(InputThreadDevice, "node")){
                 switch (dev.state) {
                 case device_state_added:
                     ospoll_add(inputThreadInfo.fds, dev.fd,
@@ -370,11 +369,11 @@ version (HAVE_PTHREAD_SETNAME_NP_WITH_TID) {
                     break;
                 case device_state_removed:
                     ospoll_remove(inputThreadInfo.fds, dev.fd);
-                    xorg_list_del(&dev.node);
+                    dev.node.removeFromList();
                     free(dev);
                     break;
                 default: break;}
-            }));
+            }
             input_unlock();
         }
 
@@ -425,7 +424,7 @@ void InputThreadPreInit()
     inputThreadInfo.changed = FALSE;
 
     inputThreadInfo.thread = 0;
-    xorg_list_init(&inputThreadInfo.devs);
+    inputThreadInfo.devs.initList();
     inputThreadInfo.fds = ospoll_create();
 
     /* By making read head non-blocking, we ensure that while the main thread
@@ -502,8 +501,6 @@ void InputThreadInit()
  */
 void InputThreadFini()
 {
-    InputThreadDevice* dev = void, next = void;
-
     if (!inputThreadInfo)
         return;
 
@@ -512,11 +509,11 @@ void InputThreadFini()
     input_force_unlock();
     pthread_join(inputThreadInfo.thread, null);
 
-    mixin(xorg_list_for_each_entry_safe!("dev", "next", "&inputThreadInfo.devs", "node", q{
+    foreach(dev; inputThreadInfo.devs.byEntriesSafe!(InputThreadDevice, "node")){
         ospoll_remove(inputThreadInfo.fds, dev.fd);
         free(dev);
-    }));
-    xorg_list_init(&inputThreadInfo.devs);
+    }
+    inputThreadInfo.devs.initList();
     ospoll_destroy(inputThreadInfo.fds);
 
     RemoveNotifyFd(inputThreadInfo.readPipe);

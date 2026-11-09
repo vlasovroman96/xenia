@@ -308,7 +308,7 @@ private ms_dri2_resource* ms_get_resource(XID id, RESTYPE type)
 
     resource.id = id;
     resource.type = type;
-    xorg_list_init(&resource.list);
+    resource.list.initList();
     return resource;
 }
 
@@ -579,23 +579,23 @@ private Bool ms_dri2_add_frame_event(ms_dri2_frame_event_ptr info)
     if (resource is null)
         return FALSE;
 
-    xorg_list_add(&info.client_resource, &resource.list);
+    resource.list.addListNext(&info.client_resource);
 
     resource = ms_get_resource(info.drawable.id, frame_event_drawable_type);
     if (resource is null) {
-        xorg_list_del(&info.client_resource);
+        info.client_resource.removeFromList();
         return FALSE;
     }
 
-    xorg_list_add(&info.drawable_resource, &resource.list);
+    resource.list.addListNext(&info.drawable_resource);
 
     return TRUE;
 }
 
 private void ms_dri2_del_frame_event(ms_dri2_frame_event_rec* info)
 {
-    xorg_list_del(&info.client_resource);
-    xorg_list_del(&info.drawable_resource);
+    info.client_resource.removeFromList();
+    info.drawable_resource.removeFromList();
 
     if (info.front)
         ms_dri2_destroy_buffer(null, info.front);
@@ -1139,12 +1139,11 @@ private int ms_dri2_frame_event_client_gone(void* data, XID id)
 {
     ms_dri2_resource* resource = cast(ms_dri2_resource*)data;
 
-    while (!xorg_list_is_empty(&resource.list)) {
-        ms_dri2_frame_event_ptr info = mixin(xorg_list_first_entry!("&resource.list",
-                                  "ms_dri2_frame_event_rec",
-                                  "client_resource"));
+    while (!resource.list.isEmpty()) {
+        ms_dri2_frame_event_ptr info = 
+            resource.list.getFirstEntry!(ms_dri2_frame_event_rec, "client_resource");
 
-        xorg_list_del(&info.client_resource);
+        info.client_resource.removeFromList();
         info.client = null;
     }
     free(resource);
@@ -1156,12 +1155,11 @@ private int ms_dri2_frame_event_drawable_gone(void* data, XID id)
 {
     ms_dri2_resource* resource = cast(ms_dri2_resource*)data;
 
-    while (!xorg_list_is_empty(&resource.list)) {
-        ms_dri2_frame_event_ptr info = mixin(xorg_list_first_entry!("&resource.list",
-                                  "ms_dri2_frame_event_rec",
-                                  "drawable_resource"));
+    while (!resource.list.isEmpty()) {
+        ms_dri2_frame_event_ptr info = 
+            resource.list.getFirstEntry!(ms_dri2_frame_event_rec, "drawable_resource");
 
-        xorg_list_del(&info.drawable_resource);
+        info.drawable_resource.removeFromList();
         info.drawable = null;
     }
     free(resource);

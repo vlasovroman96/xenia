@@ -1044,7 +1044,7 @@ SyncCounter* SyncCreateSystemCounter(const(char)* name, long initial, long resol
         psci.private_ = null;
         psci.bracket_greater = LLONG_MAX;
         psci.bracket_less = LLONG_MIN;
-        xorg_list_add(&psci.entry, &SysCounterList);
+        SysCounterList.addListNext(&psci.entry);
     }
     return pCounter;
 }
@@ -1192,7 +1192,7 @@ private int FreeCounter(void* env, XID id)
             free(ptl); /* destroy the trigger list as we go */
         }
         if (mixin(IsSystemCounter!(`pCounter`)) && pCounter.pSysCounterInfo) {
-            xorg_list_del(&pCounter.pSysCounterInfo.entry);
+            pCounter.pSysCounterInfo.entry.removeFromList();
             free(pCounter.pSysCounterInfo.name);
             free(pCounter.pSysCounterInfo.private_);
             free(pCounter.pSysCounterInfo);
@@ -1279,12 +1279,10 @@ private int ProcSyncListSystemCounters(ClientPtr client)
 {
     mixin(X_REQUEST_HEAD_STRUCT!xSyncListSystemCountersReq);
 
-    SysCounterInfo* psci = void;
-
     x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
 
     CARD32 nCounters = 0;
-    mixin(xorg_list_for_each_entry!("psci", "&SysCounterList", "entry", q{
+    foreach(psci; SysCounterList.byEntries!(SysCounterInfo, "entry")) {
         CARD16 namelen = cast(ushort)strlen(psci.name);
 
         /* write xSyncSystemCounter:
@@ -1300,7 +1298,7 @@ private int ProcSyncListSystemCounters(ClientPtr client)
         x_rpcbuf_pad(&rpcbuf);
 
         nCounters++;
-    }));
+    }
 
     if (rpcbuf.error)
         return BadAlloc;
@@ -2143,7 +2141,7 @@ void SyncExtensionInit()
     });
 
     RTCounter = CreateNewResourceType(&FreeCounter, "SyncCounter");
-    xorg_list_init(&SysCounterList);
+    SysCounterList.initList();
     RTAlarm = CreateNewResourceType(&FreeAlarm, "SyncAlarm");
     RTAwait = CreateNewResourceType(&FreeAwait, "SyncAwait");
     RTFence = CreateNewResourceType(&FreeFence, "SyncFence");
@@ -2492,6 +2490,6 @@ void SyncRemoveDeviceIdleTime(SyncCounter* counter)
     /* FreeAllResources() frees all system counters before the devices are
        shut down, check if there are any left before freeing the device's
        counter */
-    if (counter && !xorg_list_is_empty(&SysCounterList))
-        xorg_list_del(&counter.pSysCounterInfo.entry);
+    if (counter && !SysCounterList.isEmpty())
+        counter.pSysCounterInfo.entry.removeFromList();
 }
