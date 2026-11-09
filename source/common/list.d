@@ -468,11 +468,10 @@ void ntListAppend(string member, T) (T list, T entry) {
  * @param type The list type
  * @param member Member name of the field pointing to next struct
  */
-enum string nt_list_insert(string _entry, string _list, string _type, string _member) = `
-    do {								
-	` ~ nt_list_append!(`(` ~ _list ~ `).` ~ _member ~ ``, _entry, _type, _member) ~ `;	
-	(` ~ _list ~ `).` ~ _member ~ ` = ` ~ _entry ~ `;					
-    } while (0)`;
+void ntListInsert(string member, T) (T list, T entry) {
+    list.ntListAppend!member(entry);
+    mixin("list." ~ member) = entry;
+}
 
 /**
  * Delete the entry from the list by iterating through the list and
