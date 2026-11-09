@@ -70,6 +70,8 @@ import dix.colormap_priv;
 import externs.X11.extensions.randrproto;
 import dix.validate;
 
+enum MAXFORMATS =	8;
+
 struct _PixmapFormat {
     ubyte depth;
     ubyte bitsPerPixel;

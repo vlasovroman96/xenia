@@ -90,7 +90,6 @@ public import core.sys.posix.pthread;
 import dsl.pixman;
 public import dix.scrintstr;
 
-enum MAXFORMATS =	8;
 enum MAXDEVICES =	256      /* input devices */;
 
 enum GPU_SCREEN_OFFSET = 256;
