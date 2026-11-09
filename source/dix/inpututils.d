@@ -854,7 +854,7 @@ InputOption* input_option_new(InputOption* list, const(char)* key, const(char)* 
     input_option_set_value(opt, value);
 
     if (list) {
-        mixin(nt_list_append!("opt", "list", "InputOption", "list.next"));
+        list.ntListAppend!"list.next"(opt);
 
         return list;
     }

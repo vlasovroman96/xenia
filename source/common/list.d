@@ -442,10 +442,14 @@ auto ntRangeSafe(string mem, bool useRef = false, U, T) (T entryNode, U rv = nul
  * @param type The list type
  * @param member Member name of the field pointing to next struct
  */
-enum string nt_list_append(string _entry, string _list, string _type, string _member) = `
-	`~_type~`* __iterator = ` ~ _list ~ `;					
-	while (__iterator.` ~ _member ~ `) { __iterator = cast(`~_type~`*)__iterator.` ~ _member ~ `;}
-	__iterator.` ~ _member ~ ` = ` ~ _entry ~ `;`;
+void ntListAppend(string member, T) (T list, T entry) {
+    T iterator = list;
+    while(mixin("iterator." ~ member)) {
+        iterator = cast(T)mixin("iterator." ~ member);
+    }
+
+    mixin("iterator." ~ member) = entry;
+}
 
 /**
  * Insert the element at the next position in the list. This macro may be

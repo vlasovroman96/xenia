@@ -1440,7 +1440,7 @@ int xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes, const(char)**
         if (scrp.clockRanges is null)
             scrp.clockRanges = newCR;
         else
-            mixin(nt_list_append!("newCR", "scrp.clockRanges", "ClockRange", "next"));
+            scrp.clockRanges.ntListAppend!"next"(newCR);
     }
 
     /* Determine which pixmap format to pass to scanLineWidth() */
