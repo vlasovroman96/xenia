@@ -162,6 +162,9 @@ struct XList {
         return Entries(&this, this.next);
     }
 
+    /** 
+     * Safe version of byEntries
+     */
     auto byEntriesSafe(T, string member = "list")() {
         struct Entries {
             XList* head;
@@ -387,20 +390,6 @@ void ntListInsert(string member, T) (T list, T entry) {
  * @param type The list type
  * @param member Member name of the field pointing to the next entry
  */
-// enum string nt_list_del(string _entry, string _list, string _type, string _member) = `					
-// 		`~_type~`* __e = ` ~ _entry ~ `;				
-// 		if (__e is null || ` ~ _list ~ ` is null) break;        
-// 		if ((` ~ _list ~ `) == __e) {				
-// 		    ` ~ _list ~ ` = cast(`~_type~`*)__e.` ~ _member ~ `;			
-// 		} else {					
-// 		    `~_type~`* __prev = ` ~ _list ~ `;			
-// 		    while (__prev.` ~ _member ~ ` && __prev.` ~ _member ~ ` != __e)	
-// 			__prev = ` ~ `cast(typeof(__prev)) __prev.ntListGetNext!("`~_member~`");	
-// 		    if (__prev.` ~ _member ~ `)			
-// 			__prev.` ~ _member ~ ` = __e.` ~ _member ~ `;		
-// 		}						
-// 		__e.ntListInit!("` ~_member~`");`;
-
 bool ntListDel(string member, T) (T entry, ref T list) {
     T e = entry;
     if(!e || !list)
