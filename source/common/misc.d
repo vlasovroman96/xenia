@@ -90,8 +90,6 @@ public import core.sys.posix.pthread;
 import dsl.pixman;
 public import dix.scrintstr;
 
-enum GPU_SCREEN_OFFSET = 256;
-
 /* 128 event opcodes for core + extension events, excluding GE */
 enum MAXEVENTS =       128;
 enum EXTENSION_EVENT_BASE = 64;

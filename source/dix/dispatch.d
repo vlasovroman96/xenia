@@ -170,6 +170,8 @@ import dix.window;
 
 import externs.libdbus;
 
+import hw.xfree86.common.xf86Helper;
+
 alias INT32_MAX = core.stdc.stdint.INT32_MAX;
 
 alias StartListFontsWithInfoFn = extern(C) int function(

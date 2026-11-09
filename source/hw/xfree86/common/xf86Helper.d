@@ -100,6 +100,7 @@ import xf86Globals;
 // bool  xorgHWAccess;
 
 // DevPrivateKeyRec xf86ScreenKeyRec;
+enum GPU_SCREEN_OFFSET = 256;
 
 enum xf86ScreenKey = (&xf86ScreenKeyRec);
 
