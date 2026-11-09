@@ -72,8 +72,6 @@ TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
 OF THIS SOFTWARE.
 
 ******************************************************************/
-version (MISC_H) {} else {
-enum MISC_H = 1;
 /*
  *  X internal definitions
  *
@@ -330,5 +328,3 @@ alias x_server_generation_t = c_ulong;
 
 // static ulong globalSerialNumber = 0;
 // x_server_generation_t serverGeneration;
-
-}                          /* MISC_H */
