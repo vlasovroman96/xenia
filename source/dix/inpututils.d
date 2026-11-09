@@ -867,7 +867,8 @@ InputOption* input_option_free_element(InputOption* list, const(char)* key)
     //Issue 64: Use std.algorithm.find
     foreach(element; list.ntRange!"list.next") {
         if (strcmp(input_option_get_key(element), key) == 0) {
-            mixin(nt_list_del!("element", "list", "InputOption", "list.next"));
+            if(element.ntListDel!"list.next"(list)) 
+                break;
 
             input_option_free(element);
             break;
@@ -882,7 +883,8 @@ InputOption* input_option_free_element(InputOption* list, const(char)* key)
 void input_option_free_list(InputOption** opt)
 {
     foreach(element; (*opt).ntRangeSafe!"list.next") {
-        mixin(nt_list_del!("element", "*opt", "InputOption", "list.next"));
+        if(element.ntListDel!"list.next"(*opt))
+            break;
 
         input_option_free(element);
     }
