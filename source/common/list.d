@@ -180,41 +180,41 @@ struct XList {
     /** 
      * Returns true if list is empty
      */
-    int isEmpty() {
+    bool isEmpty() {
         return (!this.next || this.next == &this);
     }
 
     /** 
      * Returns true if element presents in the list
      */
-    int isPresent(XList* elem) {
+    bool isPresent(XList* elem) {
         for (XList* l = this.next; l && (l != &this); l=l.next) {
             if (l == elem)
-                return 1;
+                return true;
         }
-        return 0;
+        return false;
     }
 
     /** 
      * Adds element only if it not presents in the list
      */
-    int addNoDups(XList* elem) {
+    bool addNoDups(XList* elem) {
         if (this.isPresent(elem))
-            return 0;
+            return false;
 
         this.addListNext(elem);
-        return 1;
+        return true;
     }
 
     /** 
      * Appends element only if it not presents in the list
      */
-    int appendNoDups(XList* elem) {
+    bool appendNoDups(XList* elem) {
         if (this.isPresent(elem))
-            return 0;
+            return false;
 
         this.appendList(elem);
-        return 1;
+        return true;
     }
 
     /** 
