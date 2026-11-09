@@ -90,10 +90,6 @@ public import core.sys.posix.pthread;
 import dsl.pixman;
 public import dix.scrintstr;
 
-enum MAXSCREENS =	16;
-
-enum MAXGPUSCREENS =	16;
-
 enum MAXFORMATS =	8;
 enum MAXDEVICES =	256      /* input devices */;
 

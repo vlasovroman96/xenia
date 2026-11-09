@@ -742,6 +742,10 @@ RegionPtr BitmapToRegion(ScreenPtr _pScreen, PixmapPtr pPix)
     return (*(_pScreen).BitmapToRegion) (pPix);        /* no mi version?! */
 }
 
+enum MAXSCREENS =	16;
+
+enum MAXGPUSCREENS =	16;
+
 struct _ScreenInfo {
     int imageByteOrder;
     int bitmapScanlineUnit;
