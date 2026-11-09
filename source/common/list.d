@@ -130,15 +130,7 @@ struct XList {
      *      Container instance of type **T** where XList node element has name **member**
      */
     auto getContainer(T, string member = "list")() {
-        enum offset = __traits(getMember, T.init, member).offsetof;
-
-        static if(isPointer!T) {
-            alias RetType = T;
-        }
-        else
-            alias RetType = T*;
-
-        return cast(RetType)(cast(ubyte*)&this - offset);
+        return containerOf!(T, member)(&this);
     }
 
     /**
@@ -206,7 +198,7 @@ auto containerOf(T, string member)(void* ptr)
     else
         alias RetType = T*;
 
-    return cast(RetType)(cast(ubyte*)ptr - offset);
+    return cast(RetType)(ptr - offset);
 }
 
 /* NULL-Terminated List Interface
