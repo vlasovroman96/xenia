@@ -12,80 +12,6 @@ extern(C): __gshared:
 import std.traits : isPointer;
 
 /**
- * @file Classic doubly-link circular list implementation.
- * For real usage examples of the linked list, see the file test/list.c
- *
- * Example:
- * We need to keep a list of struct foo in the parent struct bar, i.e. what
- * we want is something like this.
- *
- *     struct bar {
- *          ...
- *          struct foo *list_of_foos; -----> struct foo {}, struct foo {}, struct foo{}
- *          ...
- *     }
- *
- * We need one list head in bar and a list element in all list_of_foos (both are of
- * data type 'struct xorg_list').
- *
- *     struct bar {
- *          ...
- *          struct XList list_of_foos;
- *          ...
- *     }
- *
- *     struct foo {
- *          ...
- *          struct XList entry;
- *          ...
- *     }
- *
- * Now we initialize the list head:
- *
- *     struct bar bar;
- *     ...
- *     xorg_list_init(&bar.list_of_foos);
- *
- * Then we create the first element and add it to this list:
- *
- *     struct foo *foo = malloc(...);
- *     ....
- *     xorg_list_add(&foo->entry, &bar.list_of_foos);
- *
- * Repeat the above for each element you want to add to the list. Deleting
- * works with the element itself.
- *      xorg_list_del(&foo->entry);
- *      free(foo);
- *
- * Note: calling xorg_list_del(&bar.list_of_foos) will set bar.list_of_foos to an empty
- * list again.
- *
- * Looping through the list requires a 'struct foo' as iterator and the
- * name of the field the subnodes use.
- *
- * struct foo *iterator;
- * //mixin(xorg_list_for_each_entry!("iterator", "&bar.list_of_foos", "entry", q{ {
- *      if (iterator->something == ...)
- *             ...
- * }
- *
- * Note: You must not call xorg_list_del() on the iterator if you continue the
- * loop. You need to run the safe for-each loop instead:
- *
- * struct foo *iterator, *next;
- * mixin(xorg_list_for_each_entry_safe!("iterator", "next", "bar.list_of_foos", "entry") {
- *      if (...)
- *              xorg_list_del(&iterator->entry);
- * }
- *
- * WARNING: entries MUST NOT be added to the list twice, otherwise iterating
- *          will end up in infinite loop.
- * WARNING: entries MUST NOT be added to multiple lists - use separate entry
- *          nodes within the container struct, if it needs to be added to
- *          several lists at the same time.
- */
-
-/**
  * The linkage struct for list nodes. This struct must be part of your
  * to-be-linked struct. struct XList is required for both the head of the
  * list and for each list node.
@@ -283,7 +209,6 @@ auto containerOf(T, string member)(void* ptr)
     return cast(RetType)(cast(ubyte*)ptr - offset);
 }
 
-// alias 
 /* NULL-Terminated List Interface
  *
  * The interface below does _not_ use the struct XList as described above.
@@ -514,5 +439,4 @@ struct generic_list_rec {
 }alias GenericListRec = generic_list_rec;
 alias GenericListPtr = generic_list_rec*;
 alias glp = generic_list_rec*;
-
 
