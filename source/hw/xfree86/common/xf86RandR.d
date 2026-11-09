@@ -45,6 +45,7 @@ import randr.rrinfo;
 import randr.randr;
 import dix.screen_hooks;
 import hw.xfree86.modes.displaymode;
+import dix.devices;
 
 struct _xf86RandRInfo {
     int virtualX;

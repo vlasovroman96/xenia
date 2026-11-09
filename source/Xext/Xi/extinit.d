@@ -165,6 +165,7 @@ import common.misc;
 import os.log;
 import std.conv;
 import dix.extension;
+import dix.devices;
 
 import externs.X11.extensions.XI;
 

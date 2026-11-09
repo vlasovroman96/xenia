@@ -114,7 +114,7 @@ import dix.timestamp;
 
 // CallbackListPtr DeviceAccessCallback = null;
 
-
+enum MAXDEVICES =	256      /* input devices */;
 
 private void DeviceSetTransform(DeviceIntPtr dev, float* transform_data)
 {

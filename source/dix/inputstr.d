@@ -66,7 +66,7 @@ import xkb.xkbsrv_priv;
 import mi.misyncstr;
 import xkb.xkbstr;
 import dix.timestamp;
-
+import dix.devices;
 
 alias CARD8 = x11.Xmd.CARD8;
 

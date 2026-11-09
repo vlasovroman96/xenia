@@ -63,6 +63,8 @@ import hw.xfree86.common.xf86Crtc;
 import randr.rrinfo;
 import hw.xfree86.modes.displaymode;
 import dix.window;
+import dix.devices;
+
 
 struct _xf86RandR12Info {
     int virtualX;
