@@ -4817,7 +4817,7 @@ int OtherClientGone(void* value, XID id)
     assert(0);
 }
 
-XRetCode EventSelectForWindow(WindowPtr pWin, ClientPtr client, Mask mask)
+int EventSelectForWindow(WindowPtr pWin, ClientPtr client, Mask mask)
 {
     Mask check = void;
     int rc = void;

@@ -94,17 +94,6 @@ alias ATOM = uint;
 
 public import externs.libdbus;
 
-
-/* @brief generic X return code
- *
- * this type is should be used instead of plain int for all functions
- * returning and X error code (that's possibly sent to the client),
- * in order to make return value semantics clear to the humen reader.
- *
- * part of public SDK / driver API.
- */
-alias XRetCode = int;
-
 version (TRUE) {} else {
 // enum TRUE = 1;
 // enum FALSE = 0;

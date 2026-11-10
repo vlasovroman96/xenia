@@ -244,7 +244,7 @@ int dixLookupResourceOwner(ClientPtr* result, XID id, ClientPtr client, Mask acc
     return rc;
 }
 
-XRetCode AlterSaveSetForClient(ClientPtr client, WindowPtr pWin, uint mode, Bool toRoot, Bool map)
+int AlterSaveSetForClient(ClientPtr client, WindowPtr pWin, uint mode, Bool toRoot, Bool map)
 {
     uint numnow = void;
     SaveSetElt* pTmp = null;
