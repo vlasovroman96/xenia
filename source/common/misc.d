@@ -94,11 +94,6 @@ alias ATOM = uint;
 
 public import externs.libdbus;
 
-version (TRUE) {} else {
-// enum TRUE = 1;
-// enum FALSE = 0;
-}
-
 public import os.os;                 /* for ALLOCATE_LOCAL and DEALLOCATE_LOCAL */
 //public import x11.X;         /* for bcopy, bzero, and bcmp */
 
