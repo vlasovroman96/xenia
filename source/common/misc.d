@@ -97,7 +97,6 @@ public import externs.libdbus;
 public import os.os;                 /* for ALLOCATE_LOCAL and DEALLOCATE_LOCAL */
 //public import x11.X;         /* for bcopy, bzero, and bcmp */
 
-enum NullBox = cast(BoxPtr)0;
 
 /* @deprecated */
 auto min(T, S) (T a, S b) {

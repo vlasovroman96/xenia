@@ -100,6 +100,8 @@ alias RegionPtr = pixman_region16*;
 public import x11.X;
 public import core.stdc.limits;
 
+enum NullBox = cast(BoxPtr)0;
+
 
 /* Return values from RectIn() */
 
