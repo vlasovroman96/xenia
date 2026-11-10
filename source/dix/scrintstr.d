@@ -537,7 +537,7 @@ template _SCREEN_HOOK_TYPE(NAME, FUNCTYPE, ARRSIZE) {
 
 struct _Screen {
     int myNum;                  /* index of this instance in Screens[] */
-    ATOM id;
+    Atom id;
     short x, y, width, height;
     short mmWidth, mmHeight;
     short numDepths;

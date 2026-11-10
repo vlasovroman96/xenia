@@ -105,6 +105,9 @@ alias EventSwapPtr = void function(xEvent*, xEvent*);
 // int* CheckExtension(const(char)* extname);
 // int* GetExtensionEntry(int major);
 
+/* 128 event opcodes for core + extension events, excluding GE */
+enum EXTENSION_EVENT_BASE = 64;
+enum EXTENSION_BASE = 128;
 
 private ExtensionEntry** extensions = cast(ExtensionEntry**) null;
 

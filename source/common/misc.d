@@ -90,10 +90,6 @@ public import core.sys.posix.pthread;
 import dsl.pixman;
 public import dix.scrintstr;
 
-/* 128 event opcodes for core + extension events, excluding GE */
-enum EXTENSION_EVENT_BASE = 64;
-enum EXTENSION_BASE = 128;
-
 alias ATOM = uint;
 
 public import externs.libdbus;
