@@ -90,8 +90,6 @@ public import core.sys.posix.pthread;
 import dsl.pixman;
 public import dix.scrintstr;
 
-alias ATOM = uint;
-
 public import externs.libdbus;
 
 public import os.os;                 /* for ALLOCATE_LOCAL and DEALLOCATE_LOCAL */

@@ -118,7 +118,7 @@ struct _rrPropertyValue {
 
 struct _rrProperty {
     RRPropertyPtr next;
-    ATOM propertyName;
+    Atom propertyName;
     Bool is_pending;
     Bool range;
     Bool immutable_;

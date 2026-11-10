@@ -781,7 +781,7 @@ private void SecurityProperty(CallbackListPtr* pcbl, void* unused, void* calldat
 {
     XacePropertyAccessRec* rec = cast(XacePropertyAccessRec*)calldata;
     SecurityStateRec* subj = void, obj = void;
-    ATOM name = (*rec.ppProp).propertyName;
+    Atom name = (*rec.ppProp).propertyName;
     Mask requested = rec.access_mode;
     Mask allowed = SecurityResourceMask | DixReadAccess;
 

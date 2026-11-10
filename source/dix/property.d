@@ -50,7 +50,7 @@ SOFTWARE.
 
 import build.xlibre_server;
 
-//import x11.X;
+import x11.X;
 //import x11.Xproto;
 
 import dix.dix_priv;
@@ -79,8 +79,8 @@ public import dix.privates;
 
 struct _Property {
     _Property* next;
-    ATOM propertyName;
-    ATOM type;                  /* ignored by server */
+    Atom propertyName;
+    Atom type;                  /* ignored by server */
     uint format;            /* format of data for swapping - 8,16,32 */
     uint size;              /* size of data in (format/8) bytes */
     void* data;                 /* private to client */
