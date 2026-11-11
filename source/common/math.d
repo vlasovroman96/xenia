@@ -5,13 +5,21 @@ module common.math;
  * See COPYING for the full license texts.
  */
 
-/* @deprecated */
+//Issue #67: replace max/min by std.algorithm;
 auto min(T, S) (T a, S b) {
     return a < b ? a : b;
 }
 
+//Issue #67: replace max/min by std.algorithm;
 auto max(T, S) (T a, S b) {
     return a > b ? a : b;
 }
 
-enum string modulus(string a, string b, string d) = `if (((` ~ d ~ `) = (` ~ a ~ `) % (` ~ b ~ `)) < 0) (` ~ d ~ `) += (` ~ b ~ `);`;
+auto modulus(A, B)(A a, B b) {
+    int d = a % b;
+
+    if (d < 0) 
+        d += b;
+
+    return d;
+}

@@ -40,8 +40,9 @@ private void fbStipple(FbBits* dst, FbStride dstStride, int dstX, int dstBpp, in
     int h = void, w = void;
     int x = void, y = void;
 
-    mixin(modulus!("-yRot", "stipHeight", "stipY"));
-    mixin(modulus!("dstX / dstBpp - xRot", "stipWidth", "stipX"));
+    stipY = modulus( -yRot, stipHeight);
+    stipX = modulus( dstX / dstBpp - xRot, stipWidth);
+    
     y = 0;
     while (height) {
         h = stipHeight - stipY;

@@ -1114,7 +1114,7 @@ Bool exaFillRegionTiled(DrawablePtr pDrawable, RegionPtr pRegion, PixmapPtr pTil
             if (alu == GXcopy)
                 height = min(height, tileHeight);
 
-            mixin(modulus!("dstY - yoff - pDrawable.y - pPatOrg.y", "tileHeight", "tileY"));
+            tileY = modulus(dstY - yoff - pDrawable.y - pPatOrg.y, tileHeight);
 
             while (height > 0) {
                 int width = pBox[i].x2 - pBox[i].x1;
@@ -1129,8 +1129,7 @@ Bool exaFillRegionTiled(DrawablePtr pDrawable, RegionPtr pRegion, PixmapPtr pTil
                     h = height;
                 height -= h;
 
-                mixin(modulus!("dstX - xoff - pDrawable.x - pPatOrg.x", "tileWidth",
-                        "tileX"));
+                tileX = modulus(dstX - xoff - pDrawable.x - pPatOrg.x, tileWidth);
 
                 while (width > 0) {
                     int w = tileWidth - tileX;

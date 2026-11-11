@@ -341,8 +341,8 @@ enum string glamor_get_repeat_coords(string pixmap, string priv, string repeat_t
 		// (` ~ pixmap ~ `).drawable.width,			
 		// ` ~ priv ~ `.box.x1, ` ~ priv ~ `.box.x2,				
 		// ` ~ priv ~ `.box.y1, ` ~ priv ~ `.box.y2);				
-	`~modulus!(_x1_ , pixmap ~ `.drawable.width`, `c`) ~`; 	
-	`~modulus!(_y1_, pixmap~`.drawable.height`, `d`)~`;	
+	c = modulus(`~_x1_~`, ` ~ pixmap ~ `.drawable.width); 	
+	d = modulus(`~_y1_~`, ` ~ pixmap ~ `.drawable.height);	
 	//DEBUGF("c %d d %d \n", c, d);					
 	if (` ~ repeat_type ~ ` == RepeatReflect) {				
 		odd_x = abs((` ~ _x1_ ~ ` - c)					

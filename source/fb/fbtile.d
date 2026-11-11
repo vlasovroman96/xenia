@@ -56,9 +56,9 @@ void fbEvenTile(FbBits* dst, FbStride dstStride, int dstX, int width, int height
      * Compute tile start scanline and rotation parameters
      */
     tileEnd = tile + tileHeight * tileStride;
-    mixin(modulus!("-yRot", "tileHeight", "tileY"));
+    tileY = modulus(-yRot, tileHeight);
     t = tile + tileY * tileStride;
-    mixin(modulus!("-xRot", "FB_UNIT", "tileX"));
+    tileX = modulus(-xRot, FB_UNIT);
     rot = tileX;
 
     while (height--) {
@@ -100,7 +100,7 @@ void fbOddTile(FbBits* dst, FbStride dstStride, int dstX, int width, int height,
     int h = void, w = void;
     int x = void, y = void;
 
-    mixin(modulus!("-yRot", "tileHeight", "tileY"));
+    tileY = modulus(-yRot, tileHeight);
     y = 0;
     while (height) {
         h = tileHeight - tileY;
@@ -109,7 +109,7 @@ void fbOddTile(FbBits* dst, FbStride dstStride, int dstX, int width, int height,
         height -= h;
         widthTmp = width;
         x = dstX;
-        mixin(modulus!("dstX - xRot", "tileWidth", "tileX"));
+        tileX = modulus(dstX - xRot, tileWidth);
         while (widthTmp) {
             w = tileWidth - tileX;
             if (w > widthTmp)

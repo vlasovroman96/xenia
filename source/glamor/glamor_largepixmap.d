@@ -327,9 +327,9 @@ private void _glamor_largepixmap_reflect_fixup(short* xy1, short* xy2, int wh)
         *xy2 = cast(short)wh;
         return;
     }
-    mixin(modulus!("*xy1", "wh", "c1"));
+    c1 = modulus(*xy1, wh);
     odd1 = ((*xy1 - c1) / wh) & 0x1;
-    mixin(modulus!("*xy2", "wh", "c2"));
+    c2 = modulus(*xy2, wh);
     odd2 = ((*xy2 - c2) / wh) & 0x1;
 
     if (odd1 && odd2) {
@@ -610,8 +610,8 @@ private glamor_pixmap_clipped_regions* _glamor_compute_clipped_regions(PixmapPtr
                                     temp_box.x1 = cast(short)temp_extent.x1;
                                     temp_box.x2 = cast(short)temp_extent.x2;
                                 }
-                                mixin(modulus!("temp_box.x1", "pixmap_width", "temp_box.x1"));
-                                mixin(modulus!("temp_box.x2", "pixmap_width", "temp_box.x2"));
+                                temp_box.x1 = cast(short)modulus(temp_box.x1, pixmap_width);
+                                temp_box.x2 = cast(short)modulus(temp_box.x2, pixmap_width);
                                 if (temp_box.x2 == 0)
                                     temp_box.x2 = cast(short)pixmap_width;
                             }
@@ -637,10 +637,8 @@ private glamor_pixmap_clipped_regions* _glamor_compute_clipped_regions(PixmapPtr
                                     temp_box.y2 = cast(short)temp_extent.y2;
                                 }
 
-                                mixin(modulus!("temp_box.y1", "pixmap_height",
-                                        "temp_box.y1"));
-                                mixin(modulus!("temp_box.y2", "pixmap_height",
-                                        "temp_box.y2"));
+                                temp_box.y1 = cast(short)modulus(temp_box.y1, pixmap_height);
+                                temp_box.y2 = cast(short)modulus(temp_box.y2, pixmap_height);
                                 if (temp_box.y2 == 0)
                                     temp_box.y2 = cast(short)pixmap_height;
                             }
@@ -838,12 +836,12 @@ private void glamor_merge_clipped_regions(PixmapPtr pixmap, glamor_pixmap_privat
 
                 //mixin(DEBUGF!(`"box x1 %d y1 %d x2 %d y2 %d \n"`,
                     //    `box.x1`, `box.y1`, `box.x2`, `box.y2`));
-                mixin(modulus!("box.x1", "pixmap_width", "c"));
+                c = modulus(box.x1, pixmap_width);
                 dx = c - (box.x1 - temp_box.x1);
                 copy_box.x1 = cast(short)(box.x1 - temp_box.x1);
                 copy_box.x2 = cast(short)(box.x2 - temp_box.x1);
 
-                mixin(modulus!("box.y1", "pixmap_height", "d"));
+                d = modulus(box.y1, pixmap_height);
                 dy = d - (box.y1 - temp_box.y1);
                 copy_box.y1 = cast(short)(box.y1 - temp_box.y1);
                 copy_box.y2 = cast(short)(box.y2 - temp_box.y1);
@@ -991,9 +989,9 @@ private void _glamor_process_transformed_clipped_region(PixmapPtr pixmap, glamor
             int rem = void;
 
             temp_box = RegionExtents(clipped_regions[0].region);
-            mixin(modulus!("temp_box.x1", "pixmap.drawable.width", "rem"));
+            rem = modulus(temp_box.x1, pixmap.drawable.width);
             shift_x = (temp_box.x1 - rem) / pixmap.drawable.width;
-            mixin(modulus!("temp_box.y1", "pixmap.drawable.height", "rem"));
+            rem = modulus(temp_box.y1, pixmap.drawable.height);
             shift_y = (temp_box.y1 - rem) / pixmap.drawable.height;
 
             if (shift_x != 0) {
