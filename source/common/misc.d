@@ -95,23 +95,6 @@ public import externs.libdbus;
 public import os.os;                 /* for ALLOCATE_LOCAL and DEALLOCATE_LOCAL */
 //public import x11.X;         /* for bcopy, bzero, and bcmp */
 
-
-/* @deprecated */
-auto min(T, S) (T a, S b) {
-    return a < b ? a : b;
-}
-
-auto max(T, S) (T a, S b) {
-    return a > b ? a : b;
-}
-// enum string min(string a, string b) = `(((` ~ a ~ `) < (` ~ b ~ `)) ? (` ~ a ~ `) : (` ~ b ~ `))`;
-// enum string max(string a, string b) = `(((` ~ a ~ `) > (` ~ b ~ `)) ? (` ~ a ~ `) : (` ~ b ~ `))`;
-/* abs() is a function, not a macro; include the file declaring
- * it in case we haven't done that yet.
- */
-/* this assumes b > 0 */
-enum string modulus(string a, string b, string d) = `if (((` ~ d ~ `) = (` ~ a ~ `) % (` ~ b ~ `)) < 0) (` ~ d ~ `) += (` ~ b ~ `);`;
-
 /* XXX Not for modules */
 public import core.stdc.limits;
 static if (!HasVersion!"MAXSHORT" || !HasVersion!"MINSHORT" || 

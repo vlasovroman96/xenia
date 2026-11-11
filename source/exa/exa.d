@@ -48,6 +48,7 @@ import os.utils;
 import os.WaitFor;
 import render.picture;
 import dix.screen_hooks;
+import common.math;
 
 
 

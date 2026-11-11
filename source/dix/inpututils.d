@@ -49,6 +49,7 @@ import dix.events;
 import dix.devices;
 import externs.attrs;
 import xkb.xkbstr;
+import common.math;
 
 
 /* Check if a button map change is okay with the device.

@@ -49,6 +49,7 @@ import xf86_priv;
 import hw.xfree86.common.xf86Priv;
 import xf86Globals;
 import xf86Mode;
+import common.math;
 
 static if(XF86VIDMODE){
 import hw.xfree86.xext.vidmode;

@@ -51,6 +51,7 @@ import dix.screen_hooks;
 // import miext.rootless.rootlessCommon;
 import dix.window;
 import dix.picture;
+import common.math;
 
 
 enum string wrap(string priv, string real_, string mem, string func) = `{

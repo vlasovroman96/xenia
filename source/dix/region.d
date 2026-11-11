@@ -93,6 +93,8 @@ import os.io;
 import core.stdc.stdlib;
 import core.stdc.string;
 import common.misc;
+import common.math;
+
 
 alias RegionRec = pixman_region16;
 alias RegionPtr = pixman_region16*;

@@ -59,6 +59,7 @@ import core.stdc.string;
 
 import common.misc;
 import set;
+import common.math;
 
 enum string RecordIsMemberOfSet(string _pSet, string _m) = `
 (*(`~_pSet~`).ops.IsMemberOfSet)((`~_pSet~`), (`~_m~`))`;

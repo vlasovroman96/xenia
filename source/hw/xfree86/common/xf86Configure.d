@@ -68,6 +68,7 @@ import interpret_edid;
 import Monitor;
 import Screen;
 import hw.xfree86.modes.displaymode;
+import common.math;
 
 
 

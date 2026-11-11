@@ -72,7 +72,7 @@ import dix.events;
 import externs.attrs;
 import dix.dixutils;
 import dix.inpututils;
-
+import common.math;
 
 /* Number of motion history events to store. */
 enum MOTION_HISTORY_SIZE = 256;

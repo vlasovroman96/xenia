@@ -167,6 +167,7 @@ import xf86Events;
 import dix.timestamp;
 import dix.atom;
 import dix.window;
+import common.math;
 
 import externs.libdbus;
 

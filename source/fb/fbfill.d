@@ -30,6 +30,8 @@ import fb.fb_priv;
 import externs.attrs;
 import fb.fb;
 import fb.fbrop;
+import common.math;
+
 
 private void fbStipple(FbBits* dst, FbStride dstStride, int dstX, int dstBpp, int width, int height, FbStip* stip, FbStride stipStride, int stipWidth, int stipHeight, FbBits fgand, FbBits fgxor, FbBits bgand, FbBits bgxor, int xRot, int yRot)
 {

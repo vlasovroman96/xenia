@@ -67,6 +67,7 @@ import dix.privates;
 import Xext.xace;
 import os.log;
 import externs.attrs;
+import common.math;
 
 enum LAST_ERROR = 255;
 

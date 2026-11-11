@@ -61,6 +61,7 @@ import os.inputthread;
 import core.stdc.errno;
 import core.stdc.stdio;
 import dix.dispatch;
+import common.math;
 
 version (Windows) {
 //import externs.X11.Xwinsock;

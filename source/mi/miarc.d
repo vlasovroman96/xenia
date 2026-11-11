@@ -69,6 +69,7 @@ import mizerarc;
 import mi.mifpoly;
 import dix.gc;
 import dix.dispatch;
+import common.math;
 
 
 enum string MIWIDEARCSETUP(string x, string y, string dy, string slw, string e, string xk, string xm, string yk, string ym) = `

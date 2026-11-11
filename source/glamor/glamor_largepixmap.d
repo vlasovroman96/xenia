@@ -15,6 +15,7 @@ import glamor.glamor;
 import externs.attrs;
 import region;
 import dix.picture;
+import common.math;
 
 alias INT16_MAX = core.stdc.stdint.INT16_MAX;
 

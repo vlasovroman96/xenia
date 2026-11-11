@@ -60,6 +60,7 @@ import dix.pixmap;
 import miscanfill;
 import mipoly;
 import region;
+import common.math;
 
 enum NUMPTSTOBUFFER = 200;
 

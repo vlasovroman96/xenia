@@ -64,6 +64,7 @@ import render.picture;
 import dix.screen_hooks;
 import dix.window;
 import dix.picture;
+import common.math;
 
 
 Bool noCompositeExtension = FALSE;

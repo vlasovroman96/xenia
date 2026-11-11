@@ -103,6 +103,7 @@ import xf86Init;
 import hw.xfree86.common.xf86Option;
 import xf86Bus;
 import hw.xfree86.modes.displaymode;
+import common.math;
 
 
 private void printModeRejectMessage(int index, DisplayModePtr p, int status)

@@ -38,6 +38,7 @@ import exa.exa;
 import os.log;
 import exa.exa_offscreen;
 import exa.exa_priv;
+import common.math;
 
 
 static if (DEBUG_MIGRATE) {

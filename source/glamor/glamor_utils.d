@@ -30,6 +30,7 @@ import externs.X11.extensions.renderproto;
 import dix.gc;
 import dix.dixutils;
 import dix.picture;
+import common.math;
 
 
 

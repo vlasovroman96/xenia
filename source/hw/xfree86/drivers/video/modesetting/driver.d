@@ -116,6 +116,7 @@ import randr.randr;
 import xf86Globals;
 import externs.gbm;
 import dix.window;
+import common.math;
 
 //FIX IT
 extern(C) void* LoaderSymbolFromModule(void*, const(char)*);

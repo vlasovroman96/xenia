@@ -72,6 +72,8 @@ import os.utils;
 import externs.X11.extensions.XI2proto;
 import dix.events;
 import os.inputthread;
+import common.math;
+
 
 RESTYPE PointerBarrierType;
 

@@ -64,6 +64,7 @@ import randr.rrinfo;
 import hw.xfree86.modes.displaymode;
 import dix.window;
 import dix.devices;
+import common.math;
 
 
 struct _xf86RandR12Info {

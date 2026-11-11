@@ -170,6 +170,7 @@ public import dix.privates;
 //public import x11.Xprotostr;
 public import dix.inputstr;
 import mi.mi_priv;
+import common.math;
 
 
 

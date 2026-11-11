@@ -72,6 +72,7 @@ import dix.events;
 import os.osinit;
 import dix.extension;
 import build.xlibre_server;
+import common.math;
 
 private RESTYPE RTContext;       /* internal resource type for Record contexts */
 

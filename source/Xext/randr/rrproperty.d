@@ -50,6 +50,7 @@ import dix.swapreq;
 import randr.rrmode;
 import randr.rrinfo;
 import dix.window;
+import common.math;
 
 private int DeliverPropertyEvent(WindowPtr pWin, void* value)
 {

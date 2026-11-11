@@ -53,6 +53,7 @@ import dix.timestamp;
 
 import externs.attrs;
 import dix.picture;
+import common.math;
  
 
 /* XFixed is just `int`, so better check whether it's really 32bit */

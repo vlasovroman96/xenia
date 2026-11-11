@@ -91,6 +91,8 @@ import hw.xfree86.modes.displaymode;
 //public import externs.X11.extensions._randr;
 import os.log;
 import xf86Globals;
+import common.math;
+
 // import dix.events;
 // import xf86Configure;
 

@@ -70,6 +70,7 @@ import dix.swapreq;
 import dix.events;
 import dix.atom;
 import dix.window;
+ import common.math;
 
 public import common.misc;
 public import dix.privates;

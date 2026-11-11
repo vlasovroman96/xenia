@@ -55,6 +55,7 @@ import common.xserver_properties;
 import dix.devices;
 import dix.events;
 import os.inputthread;
+import common.math;
 
 
 /**

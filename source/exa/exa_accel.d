@@ -45,6 +45,7 @@ import mifillarc;
 import mipolytext;
 import mi.micopy;
 import fb.fb;
+import common.math;
 
 private void exaFillSpans(DrawablePtr pDrawable, GCPtr pGC, int n, DDXPointPtr ppt, int* pwidth, int fSorted)
 {

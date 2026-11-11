@@ -37,6 +37,7 @@ import dix.picturestr;
 import externs.X11.extensions.renderproto;
 import externs.attrs;
 import dix.picture;
+import common.math;
 
 
 private XFixed miLineFixedX(xLineFixed* l, XFixed y, Bool ceil)

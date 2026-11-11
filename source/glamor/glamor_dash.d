@@ -33,6 +33,7 @@ import glamor.glamor_transfer;
 import glamor.glamor_prepare;
 import glamor.glamor;
 import dix.gc;
+import common.math;
 
 enum dash_vs_vars = "in vec3 primitive;\n"
     ~ "out float dash_offset;\n";

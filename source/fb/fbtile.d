@@ -27,6 +27,7 @@ import build.dix_config;
 
 import fb.fb;
 import fb.fbrop;
+import common.math;
 
 /*
  * Accelerated tile fill -- tile width is a power of two not greater

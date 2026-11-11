@@ -40,6 +40,7 @@ import xf86DDC_priv;
 import os.log;
 import hw.xfree86.common.edid;
 import hw.xfree86.common.xf86Helper;
+import common.math;
 
 
 enum EXT_TAG =   0x00;
