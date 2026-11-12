@@ -87,6 +87,7 @@ import x11.Xdefs;
 public import mi.mipointer;
 public import dix.scrnintstr;
 import x11.Xdefs;
+import common.math;
 
 struct _MiPointerScreenRec {
     miPointerSpriteFuncPtr spriteFuncs; /* sprite-specific methods */

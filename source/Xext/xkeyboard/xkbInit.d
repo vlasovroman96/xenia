@@ -788,7 +788,7 @@ else {
                 if (((i + 1) < argc) && (isdigit(cast(ubyte)argv[i + 1][0]))) {
                     /*
                      * presumption that the reasonably useful range of
-                     * values fits in 0..MAXINT since SunOS 4 doesn't
+                     * values fits in 0..INT_MAX since SunOS 4 doesn't
                      * have strtoul.
                      */
                     XkbDfltAccessXTimeoutMask = cast(uint)

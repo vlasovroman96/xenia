@@ -186,7 +186,7 @@ int RRChangeProviderProperty(RRProviderPtr provider, Atom property, Atom type, i
 
     if (mode == PropModeReplace || len > 0) {
         void* new_data = null, old_data = null;
-        if (total_len > MAXINT / size_in_bytes) {
+        if (total_len > INT_MAX / size_in_bytes) {
             cleanupProperty(prop, add);
             return BadValue;
         }

@@ -746,8 +746,8 @@ pragma(inline, true) BoxRec glamor_no_rendering_bounds()
     BoxRec bounds = {
         x1: 0,
         y1: 0,
-        x2: MAXSHORT,
-        y2: MAXSHORT,
+        x2: SHRT_MAX,
+        y2: SHRT_MAX,
     };
 
     return bounds;
@@ -756,8 +756,8 @@ pragma(inline, true) BoxRec glamor_no_rendering_bounds()
 pragma(inline, true) BoxRec glamor_start_rendering_bounds()
 {
     BoxRec bounds = {
-        x1: MAXSHORT,
-        y1: MAXSHORT,
+        x1: SHRT_MAX,
+        y1: SHRT_MAX,
         x2: 0,
         y2: 0,
     };

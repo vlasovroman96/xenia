@@ -95,27 +95,6 @@ public import externs.libdbus;
 public import os.os;                 /* for ALLOCATE_LOCAL and DEALLOCATE_LOCAL */
 //public import x11.X;         /* for bcopy, bzero, and bcmp */
 
-/* XXX Not for modules */
-public import core.stdc.limits;
-static if (!HasVersion!"MAXSHORT" || !HasVersion!"MINSHORT" || 
-    !HasVersion!"MAXINT" || !HasVersion!"MININT") {
-/*
- * Some implementations #define these through <math.h>, so preclude
- * #include'ing it later.
- */
-
-public import core.stdc.math;
-enum MAXSHORT = SHRT_MAX;
-enum MINSHORT = SHRT_MIN;
-enum MAXINT = INT_MAX;
-enum MININT = INT_MIN;
-
-public import core.stdc.assert_;
-public import core.stdc.ctype;
-public import core.stdc.stdio;              /* for fopen, etc... */
-
-}
-
 /**
  * Calculate the number of bytes needed to hold bits.
  * @param bits The minimum number of bits needed.

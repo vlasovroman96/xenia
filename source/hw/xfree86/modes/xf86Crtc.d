@@ -71,6 +71,7 @@ import ddc;
 import randr.rrcrtc;
 import hw.xfree86.modes.displaymode;
 import hw.xfree86.common.edid;
+import common.math;
 
 version (XV) {
 import xf86xv;

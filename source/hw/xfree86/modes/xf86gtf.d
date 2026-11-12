@@ -69,6 +69,8 @@ import hw.xfree86.common.xf86Helper;
 import xf86Modes;
 import core.stdc.string;
 import hw.xfree86.modes.displaymode;
+import common.math;
+
 enum MARGIN_PERCENT =    1.8   /* % of active vertical image                */;
 enum CELL_GRAN =         8.0   /* assumed character cell granularity        */;
 enum MIN_PORCH =         1     /* minimum front porch                       */;

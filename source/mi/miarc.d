@@ -985,8 +985,8 @@ void miWideArc(DrawablePtr pDraw, GCPtr pGC, int narcs, xArc* parcs)
         fTricky = TRUE;
 
         /* find bounding box around arcs */
-        xMin = yMin = MAXSHORT;
-        xMax = yMax = MINSHORT;
+        xMin = yMin = SHRT_MAX;
+        xMax = yMax = SHRT_MIN;
 
         for (i = narcs, parc = parcs; --i >= 0; parc++) {
             xMin = min(xMin, parc.x);

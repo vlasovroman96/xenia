@@ -5,6 +5,9 @@ module common.math;
  * See COPYING for the full license texts.
  */
 
+//Issue #68: Drop core.stdc.math
+public import core.stdc.math;
+
 //Issue #67: replace max/min by std.algorithm;
 auto min(T, S) (T a, S b) {
     return a < b ? a : b;

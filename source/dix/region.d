@@ -1587,10 +1587,10 @@ RegionPtr RegionFromRects(int nrects, xRectangle* prect, int ctype)
     if (nrects == 1) {
         x1 = prect.x;
         y1 = prect.y;
-        if ((x2 = x1 + cast(int) prect.width) > MAXSHORT)
-            x2 = MAXSHORT;
-        if ((y2 = y1 + cast(int) prect.height) > MAXSHORT)
-            y2 = MAXSHORT;
+        if ((x2 = x1 + cast(int) prect.width) > SHRT_MAX)
+            x2 = SHRT_MAX;
+        if ((y2 = y1 + cast(int) prect.height) > SHRT_MAX)
+            y2 = SHRT_MAX;
         if (x1 != x2 && y1 != y2) {
             pRgn.extents.x1 = cast(short)x1;
             pRgn.extents.y1 = cast(short)y1;
@@ -1610,10 +1610,10 @@ RegionPtr RegionFromRects(int nrects, xRectangle* prect, int ctype)
     for (int i = nrects; --i >= 0; prect++) {
         x1 = prect.x;
         y1 = prect.y;
-        if ((x2 = x1 + cast(int) prect.width) > MAXSHORT)
-            x2 = MAXSHORT;
-        if ((y2 = y1 + cast(int) prect.height) > MAXSHORT)
-            y2 = MAXSHORT;
+        if ((x2 = x1 + cast(int) prect.width) > SHRT_MAX)
+            x2 = SHRT_MAX;
+        if ((y2 = y1 + cast(int) prect.height) > SHRT_MAX)
+            y2 = SHRT_MAX;
         if (x1 != x2 && y1 != y2) {
             pBox.x1 = cast(short)x1;
             pBox.y1 = cast(short)y1;

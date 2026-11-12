@@ -1284,11 +1284,11 @@ private int RecordSanityCheckRegisterClients(RecordContextPtr pContext, ClientPt
     int i = void;
     XID recordingClient = void;
 
-    /* LimitClients is 2048 at max, way less that MAXINT */
+    /* LimitClients is 2048 at max, way less that INT_MAX */
     if (stuff.nClients > LimitClients)
         return BadValue;
 
-    if (stuff.nRanges > (MAXINT - 4 * stuff.nClients) / xRecordRange.sizeof)
+    if (stuff.nRanges > (INT_MAX - 4 * stuff.nClients) / xRecordRange.sizeof)
         return BadValue;
 
     if (((client.req_len << 2) - xRecordRegisterClientsReq.sizeof) !=

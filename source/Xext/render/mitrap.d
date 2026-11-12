@@ -53,10 +53,10 @@ private XFixed miLineFixedX(xLineFixed* l, XFixed y, Bool ceil)
 
 void miTrapezoidBounds(int ntrap, xTrapezoid* traps, BoxPtr box)
 {
-    box.y1 = MAXSHORT;
-    box.y2 = MINSHORT;
-    box.x1 = MAXSHORT;
-    box.x2 = MINSHORT;
+    box.y1 = SHRT_MAX;
+    box.y2 = SHRT_MIN;
+    box.x1 = SHRT_MAX;
+    box.x2 = SHRT_MIN;
     for (; ntrap; ntrap--, traps++) {
         INT16 x1 = void, y1 = void, x2 = void, y2 = void;
 

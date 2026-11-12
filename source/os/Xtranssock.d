@@ -96,6 +96,8 @@ import os.ossock;
  import os.io_priv;
  import externs.attrs;
 import os.Xtransutil;
+import common.math;
+public import core.stdc.ctype;
 
 alias listen = core.sys.posix.sys.socket.listen;
 alias socket = core.sys.posix.sys.socket.socket;

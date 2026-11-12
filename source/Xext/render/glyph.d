@@ -486,10 +486,10 @@ private void GlyphExtents(int nlist, GlyphListPtr list, GlyphPtr* glyphs, BoxPtr
 
     x = 0;
     y = 0;
-    extents.x1 = MAXSHORT;
-    extents.x2 = MINSHORT;
-    extents.y1 = MAXSHORT;
-    extents.y2 = MINSHORT;
+    extents.x1 = SHRT_MAX;
+    extents.x2 = SHRT_MIN;
+    extents.y1 = SHRT_MAX;
+    extents.y2 = SHRT_MIN;
     while (nlist--) {
         x += list.xOff;
         y += list.yOff;
@@ -498,17 +498,17 @@ private void GlyphExtents(int nlist, GlyphListPtr list, GlyphPtr* glyphs, BoxPtr
         while (n--) {
             glyph = *glyphs++;
             x1 = x - glyph.info.x;
-            if (x1 < MINSHORT)
-                x1 = MINSHORT;
+            if (x1 < SHRT_MIN)
+                x1 = SHRT_MIN;
             y1 = y - glyph.info.y;
-            if (y1 < MINSHORT)
-                y1 = MINSHORT;
+            if (y1 < SHRT_MIN)
+                y1 = SHRT_MIN;
             x2 = x1 + glyph.info.width;
-            if (x2 > MAXSHORT)
-                x2 = MAXSHORT;
+            if (x2 > SHRT_MAX)
+                x2 = SHRT_MAX;
             y2 = y1 + glyph.info.height;
-            if (y2 > MAXSHORT)
-                y2 = MAXSHORT;
+            if (y2 > SHRT_MAX)
+                y2 = SHRT_MAX;
             if (x1 < extents.x1)
                 extents.x1 = cast(short)x1;
             if (x2 > extents.x2)

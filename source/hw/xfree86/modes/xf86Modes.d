@@ -419,11 +419,11 @@ void xf86ValidateModesSize(ScrnInfoPtr pScrn, DisplayModePtr modeList, int maxX,
     DisplayModePtr mode = void;
 
     if (maxPitch <= 0)
-        maxPitch = MAXINT;
+        maxPitch = INT_MAX;
     if (maxX <= 0)
-        maxX = MAXINT;
+        maxX = INT_MAX;
     if (maxY <= 0)
-        maxY = MAXINT;
+        maxY = INT_MAX;
 
     for (mode = modeList; mode !is null; mode = mode.next) {
         if ((xf86ModeWidth(mode, RR_Rotate_0) > maxPitch ||

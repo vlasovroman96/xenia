@@ -228,7 +228,7 @@ private int miChangePictureFilter(PicturePtr pPicture, int filter, XFixed* param
     return Success;
 }
 
-enum string BOUND(string v) = `cast(INT16) ((` ~ v ~ `) < MINSHORT ? MINSHORT : (` ~ v ~ `) > MAXSHORT ? MAXSHORT : (` ~ v ~ `))`;
+enum string BOUND(string v) = `cast(INT16) ((` ~ v ~ `) < SHRT_MIN ? SHRT_MIN : (` ~ v ~ `) > SHRT_MAX ? SHRT_MAX : (` ~ v ~ `))`;
 
 pragma(inline, true) private pixman_bool_t miClipPictureReg(pixman_region16_t* pRegion, pixman_region16_t* pClip, int dx, int dy)
 {

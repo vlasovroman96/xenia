@@ -47,7 +47,7 @@ import glamor.glamor_transfer;
 import externs.X11.extensions.Xv;
 import glamor.glamor;
 import glamor.glamor_pixmap;
-
+import common.math;
 
 // //import externs.X11.extensions.Xv;
 import hw.xfree86.common.fourcc;

@@ -349,13 +349,13 @@ int ProcXFixesInvertRegion(ClientPtr client)
     /* Compute bounds, limit to 16 bits */
     bounds.x1 = stuff.x;
     bounds.y1 = stuff.y;
-    if (cast(int) stuff.x + cast(int) stuff.width > MAXSHORT)
-        bounds.x2 = cast(short)(MAXSHORT);
+    if (cast(int) stuff.x + cast(int) stuff.width > SHRT_MAX)
+        bounds.x2 = cast(short)(SHRT_MAX);
     else
         bounds.x2 = cast(short)(stuff.x + stuff.width);
 
-    if (cast(int) stuff.y + cast(int) stuff.height > MAXSHORT)
-        bounds.y2 = cast(short)(MAXSHORT);
+    if (cast(int) stuff.y + cast(int) stuff.height > SHRT_MAX)
+        bounds.y2 = cast(short)(SHRT_MAX);
     else
         bounds.y2 = cast(short)(stuff.y + stuff.height);
 

@@ -315,7 +315,7 @@ static if (XTRANS_SEND_FDS) {
                 needed = cast(uint)mixin(get_big_req_len!(`request`, `client`));
         }
         client.req_len = needed;
-        if (needed > MAXINT >> 2) {
+        if (needed > INT_MAX >> 2) {
             /* Check for potential integer overflow */
             return -(BadLength);
         }
@@ -409,7 +409,7 @@ static if (XTRANS_SEND_FDS) {
                     needed = cast(int)mixin(get_big_req_len!(`request`, `client`));
             }
             client.req_len = needed;
-            if (needed > MAXINT >> 2)
+            if (needed > INT_MAX >> 2)
                 return -(BadLength);
             needed <<= 2;
         }

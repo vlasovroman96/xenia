@@ -87,7 +87,7 @@ private void RRScanOldConfig(ScreenPtr pScreen, Rotation rotations)
     RRCrtcPtr crtc = void;
     RRModePtr mode = void, newMode = null;
     int i = void;
-    CARD16 minWidth = MAXSHORT, minHeight = MAXSHORT;
+    CARD16 minWidth = SHRT_MAX, minHeight = SHRT_MAX;
     CARD16 maxWidth = 0, maxHeight = 0;
     CARD16 width = void, height = void;
 

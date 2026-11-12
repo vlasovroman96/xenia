@@ -57,8 +57,8 @@ private short bound(short a, ushort b)
 {
     int v = cast(int) a + cast(int) b;
 
-    if (v > MAXSHORT)
-        return MAXSHORT;
+    if (v > SHRT_MAX)
+        return SHRT_MAX;
     return cast(short)v;
 }
 

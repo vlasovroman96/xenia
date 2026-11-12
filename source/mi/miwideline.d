@@ -174,8 +174,8 @@ private void miInitSpanGroup(SpanGroup* spanGroup)
     spanGroup.size = 0;
     spanGroup.count = 0;
     spanGroup.group = null;
-    spanGroup.ymin = MAXSHORT;
-    spanGroup.ymax = MINSHORT;
+    spanGroup.ymin = SHRT_MAX;
+    spanGroup.ymax = SHRT_MIN;
 }                               /* InitSpanGroup */
 
 enum string YMIN(string spans) = `(` ~ spans ~ `.points[0].y)`;
@@ -616,8 +616,8 @@ private void miFillUniqueSpanGroup(DrawablePtr pDraw, GCPtr pGC, SpanGroup* span
     }
 
     spanGroup.count = 0;
-    spanGroup.ymin = MAXSHORT;
-    spanGroup.ymax = MINSHORT;
+    spanGroup.ymin = SHRT_MAX;
+    spanGroup.ymax = SHRT_MIN;
 }
 
 private Bool InitSpans(Spans* spans, size_t nspans)

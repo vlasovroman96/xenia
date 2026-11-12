@@ -29,6 +29,7 @@ import externs.attrs;
 import dix.picture;
 
 public import dix.picturestr;
+import common.math;
 
 alias RRTransformRec = _rrTransform;
 alias RRTransformPtr = _rrTransform*;

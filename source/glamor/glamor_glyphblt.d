@@ -190,7 +190,7 @@ private Bool glamor_push_pixels_gl(GCPtr gc, PixmapPtr bitmap, DrawablePtr drawa
     char* vbo_offset = void;
     Bool ret = FALSE;
 
-    if (w * h > MAXINT / (2 * float.sizeof))
+    if (w * h > INT_MAX / (2 * float.sizeof))
         goto bail;
 
     pixmap_priv = glamor_get_pixmap_private(pixmap);

@@ -235,14 +235,14 @@ private Bool miCreateETandAET(int count, DDXPointPtr pts, EdgeTable* ET, EdgeTab
     AET.next = null;
     AET.back = null;
     AET.nextWETE = null;
-    AET.bres.minor = MININT;
+    AET.bres.minor = INT_MIN;
 
     /*
      *  initialize the Edge Table.
      */
     ET.scanlines.next = null;
-    ET.ymax = MININT;
-    ET.ymin = MAXINT;
+    ET.ymax = INT_MIN;
+    ET.ymin = INT_MAX;
     pSLLBlock.next = null;
 
     PrevPt = &pts[count - 1];

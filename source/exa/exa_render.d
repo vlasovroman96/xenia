@@ -500,10 +500,10 @@ void exaCompositeRects(CARD8 op, PicturePtr pSrc, PicturePtr pMask, PicturePtr p
      */
     if (!pMask) {
         RegionRec region = void;
-        int x1 = MAXSHORT;
-        int y1 = MAXSHORT;
-        int x2 = MINSHORT;
-        int y2 = MINSHORT;
+        int x1 = SHRT_MAX;
+        int y1 = SHRT_MAX;
+        int x2 = SHRT_MIN;
+        int y2 = SHRT_MIN;
         BoxRec box = void;
 
         /* We have to manage the damage ourselves, since CompositeRects isn't
@@ -539,9 +539,9 @@ void exaCompositeRects(CARD8 op, PicturePtr pSrc, PicturePtr pMask, PicturePtr p
             return;
 
         box.x1 = cast(short)(x1);
-        box.x2 = cast(short)(x2 < MAXSHORT ? x2 : MAXSHORT);
+        box.x2 = cast(short)(x2 < SHRT_MAX ? x2 : SHRT_MAX);
         box.y1 = cast(short)(y1);
-        box.y2 = cast(short)(y2 < MAXSHORT ? y2 : MAXSHORT);
+        box.y2 = cast(short)(y2 < SHRT_MAX ? y2 : SHRT_MAX);
 
         /* The pixmap migration code relies on pendingDamage indicating
          * the bounds of the current rendering, so we need to force
