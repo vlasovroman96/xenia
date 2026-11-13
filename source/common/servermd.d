@@ -73,5 +73,4 @@ auto PixmapBytePad(T, S) (T w, S d) {
 
 enum string BitmapBytePad(string w) = `
     ((cast(int)((` ~ w ~ `) + BITMAP_SCANLINE_PAD - 1) >> LOG2_BITMAP_PAD) << LOG2_BYTES_PER_SCANLINE_PAD)`;
-
-}                          /* SERVERMD_H */
+    
