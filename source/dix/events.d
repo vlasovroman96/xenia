@@ -168,6 +168,7 @@ import xkb.xkbstr;
 import dix.extension;
 import dix.screen_hooks;
 import dix.window;
+import common.swap;
 
 enum EventType {
     ET_KeyPress = 2,

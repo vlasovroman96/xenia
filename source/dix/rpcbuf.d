@@ -13,6 +13,7 @@ import dix.dix_priv;
 import dix.rpcbuf_priv;
 import dix.swapreq;
 import common.bytes;
+import common.swap;
 
 pragma(inline, true) Bool __x_rpcbuf_write_bin_pad(x_rpcbuf_t* rpcbuf, const(char)* val, size_t len)
 {

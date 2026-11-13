@@ -66,6 +66,7 @@ import dix.inputstr;           /* DeviceIntPtr      */
 import Xi.exglobals;
 public import Xi.extinit;
 import common.bytes;
+import common.swap;
 
 
 // XExtensionVersion XIVersion;

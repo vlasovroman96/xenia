@@ -38,6 +38,7 @@ import glx.unpack;
 import glx.indirect_dispatch;
  import Xext.glx.fix;
 import glx.indirect_dispatch_swap;
+import common.swap;
 
 
 void __glXDispSwap_SeparableFilter2D(GLbyte* pc)

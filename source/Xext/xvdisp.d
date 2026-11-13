@@ -62,6 +62,7 @@ import dix.screen_hooks;
 import dix.atom;
 import dix.dispatch;
 import common.bytes;
+import common.swap;
 
 
 static if(XINERAMA){

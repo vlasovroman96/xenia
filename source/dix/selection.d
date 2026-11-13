@@ -62,6 +62,8 @@ import os.io;
 import dix.events;
 import dix.timestamp;
 import dix.atom;
+import common.swap;
+
 /*****************************************************************
  * Selection Stuff
  *

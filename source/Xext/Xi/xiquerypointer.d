@@ -64,6 +64,7 @@ import dix.events;
 import dix.inpututils;
 import xkb.xkbstr;
 import common.bytes;
+import common.swap;
 
 /***********************************************************************
  *

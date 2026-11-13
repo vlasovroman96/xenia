@@ -61,6 +61,7 @@ import externs.X11.extensions.XIproto;
 import dix.dixutils;
 import dix.devices;
 import dix.events;
+import common.swap;
 
 
 import dix.inputstr;           /* DeviceIntPtr      */

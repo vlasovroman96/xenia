@@ -39,6 +39,7 @@ import dix.dix_priv;
 import dix.request_priv;
 import miext.extinit_priv;
 import dix.extension;
+import common.swap;
 
 private int ProcBigReqDispatch(ClientPtr client)
 {

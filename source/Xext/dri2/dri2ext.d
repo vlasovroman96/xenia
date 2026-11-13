@@ -58,6 +58,7 @@ import dix.extension;
 import dix.dixutils;
 import dix.events;
 import Xext.panoramiXsrv;
+import common.swap;
 
 /* For the static extension loader */
 Bool noDRI2Extension = FALSE;

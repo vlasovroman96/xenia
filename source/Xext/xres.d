@@ -40,6 +40,7 @@ import externs.X11.extensions.XResproto;
 import os.log;
 import dix.extension;
 import registry;
+import common.swap;
 
 Bool noResExtension = FALSE;
 

@@ -74,6 +74,7 @@ import dix.extension;
 import build.xlibre_server;
 import common.math;
 import common.bytes;
+import common.swap;
 
 private RESTYPE RTContext;       /* internal resource type for Record contexts */
 

@@ -97,6 +97,7 @@ import core.stdc.stdlib;
 import core.sys.posix.unistd;
 import core.sys.posix.pthread;
 import os.Xtransint;
+import common.swap;
 
 CallbackListPtr ReplyCallback = null;
 CallbackListPtr FlushCallback;

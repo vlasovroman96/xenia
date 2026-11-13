@@ -92,6 +92,7 @@ import dix.extension;
 import dix.dixutils;
 import externs.X11.fonts.fontproto;
 import Xext.shm_priv;
+import common.swap;
 
 enum string FONTCHARSET(string font)	 = font;
 enum string FONTMAXBOUNDS(string font,string field) = `(`~font~`).info.maxbounds.`~field;

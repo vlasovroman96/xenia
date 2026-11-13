@@ -32,6 +32,7 @@ import externs.X11.extensions.XvMC;
 import dix.extension;
 import dix.screen_hooks;
 import Xext.xvmain;
+import common.swap;
 
 
 enum SERVER_XVMC_MAJOR_VERSION =               1;

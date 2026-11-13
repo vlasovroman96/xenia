@@ -53,6 +53,7 @@ import dix.dispatch;
 
 import xfixes.xfixesint;
 import externs.X11.extensions.xfixesproto;
+import common.swap;
 
 private DevPrivateKeyRec ClientDisconnectPrivateKeyRec;
 

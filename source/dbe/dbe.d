@@ -59,6 +59,7 @@ import dix.gc;
 import dix.extension;
 import dix.screen_hooks;
 import dix.window;
+import common.swap;
 
 /* GLOBALS */
 // Bool noDbeExtension = FALSE;

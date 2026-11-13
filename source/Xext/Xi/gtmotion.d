@@ -71,6 +71,7 @@ import dix.dixutils;
 import dix.devices;
 import dix.timestamp;
 import common.bytes;
+import common.swap;
 
 
 /****************************************************************************

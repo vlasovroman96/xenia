@@ -35,6 +35,7 @@ import Xext.xace;
 import externs.X11.extensions.xfixesproto;
 import externs.X11.extensions.xfixeswire;
 import dix.events;
+import common.swap;
 
 private RESTYPE SelectionClientType, SelectionWindowType;
 private Bool SelectionCallbackRegistered = FALSE;

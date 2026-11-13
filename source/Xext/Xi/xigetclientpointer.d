@@ -46,6 +46,7 @@ import Xi.exglobals;
 import dix.devices;
 import dix.dixutils;
 import externs.X11.extensions.XI2proto;
+import common.swap;
 
 /***********************************************************************
  * This procedure allows a client to query another client's client pointer

@@ -57,6 +57,7 @@ import dix.dixutils;
 import dix.events;
 import os.io;
 import os.log;
+import common.swap;
 
 struct _DamageClient {
     CARD32 major_version;

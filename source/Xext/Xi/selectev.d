@@ -70,6 +70,7 @@ import Xi.exglobals;
 import Xi.grabdev;
 import dix.dixutils;
 import std.conv;
+import common.swap;
 
 private int HandleDevicePresenceMask(ClientPtr client, WindowPtr win, XEventClass* cls, CARD16* count)
 {

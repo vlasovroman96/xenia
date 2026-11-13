@@ -61,6 +61,7 @@ import Xext.glx.fix;
  import glx.indirect_dispatch_swap;
  import core.stdc.config: c_long, c_ulong;
  import os.io;
+import common.swap;
 
 
 /**

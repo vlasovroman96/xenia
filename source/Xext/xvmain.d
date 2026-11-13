@@ -110,6 +110,7 @@ import dix.dixutils;
 import dix.gc;
 import dix.events;
 import dix.screen_hooks;
+import common.swap;
 
 
 enum string SCREEN_PROLOGUE(string pScreen, string field) = `((` ~ pScreen ~ `).` ~ field ~ ` = (cast(XvScreenPtr) 

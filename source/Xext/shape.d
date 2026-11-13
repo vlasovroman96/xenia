@@ -62,6 +62,7 @@ import dix.dixutils;
 import dix.extension;
 import dix.events;
 import dix.screen_hooks;
+import common.swap;
 
 
 Bool noShapeExtension = FALSE;

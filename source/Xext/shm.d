@@ -84,6 +84,7 @@ import dix.events;
 import dix.screen_hooks;
 import dix.window;
 import dix.damage;
+import common.swap;
 
 enum string XSHM_PUT_IMAGE_ARGS = "
     DrawablePtr,		/* dst */

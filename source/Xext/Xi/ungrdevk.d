@@ -73,6 +73,7 @@ import externs.X11.extensions.XI;
 import dix.devices;
 import dix.dixutils;
 import dix.events;
+import common.swap;
 
 enum AllModifiersMask = ( 
 	ShiftMask | LockMask | ControlMask | Mod1Mask | Mod2Mask | 

@@ -54,6 +54,7 @@ import dix.events;
 import dix.inpututils;
 import dix.timestamp;
 import common.math;
+import common.swap;
 
 
 int ProcXIGrabDevice(ClientPtr client)

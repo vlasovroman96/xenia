@@ -38,6 +38,7 @@ import glx.indirect_dispatch;
 import glx.glxcmds;
 import os.log;
 import glx.vndext;
+import common.swap;
 
 
 int DoSwapInterval(__GLXclientState* cl, GLbyte* pc, int do_swap)

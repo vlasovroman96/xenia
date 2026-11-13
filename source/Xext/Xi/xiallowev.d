@@ -56,6 +56,7 @@ import dix.devices;
 import dix.dixutils;
 import dix.events;
 import dix.timestamp;
+import common.swap;
 
 int ProcXIAllowEvents(ClientPtr client)
 {

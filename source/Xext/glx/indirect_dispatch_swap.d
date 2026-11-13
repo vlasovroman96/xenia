@@ -40,6 +40,7 @@ import glx.singlesize;
 import Xext.glx.fix;
 import glx.glxext;
 import glx.glxcmds;
+import common.swap;
 
 
 enum string __GLX_PAD(string x) = `(((` ~ x ~ `) + 3) & ~3)`;

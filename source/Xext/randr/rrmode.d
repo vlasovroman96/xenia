@@ -43,6 +43,7 @@ import render.filter;
 import dix.swapreq;
 import randr.rrmode;
 import common.bytes;
+import common.swap;
 
 RESTYPE RRModeType;
 

@@ -67,6 +67,7 @@ import externs.X11.extensions.XI;
 import dix.globals;
 import dix.devices;
 import common.bytes;
+import common.swap;
 
 
 

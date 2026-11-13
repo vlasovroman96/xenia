@@ -49,6 +49,7 @@ import common.bytes;
  import Xext.glx.fix;
  import core.stdc.stdint;
  import os.io;
+import common.swap;
 
  alias SIZE_MAX = core.stdc.stdint.SIZE_MAX;
 

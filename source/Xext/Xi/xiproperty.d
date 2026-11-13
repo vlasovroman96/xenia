@@ -57,6 +57,7 @@ import dix.events;
 import os.inputthread;
 import common.math;
 import common.bytes;
+import common.swap;
 
 
 /**

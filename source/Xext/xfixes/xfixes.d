@@ -74,6 +74,7 @@ import cursor;
 import disconnect;
 import dix.extension;
 import common.math;
+import common.swap;
 
 // import externs.X11.extensions.Xfixeenum string
 enum string VERIFY_REGION(string pRegion, string rid, string client, string mode)	=

@@ -61,6 +61,7 @@ import xfixes.region;
 import dix.extension;
 import render.picture;
 public import composite.compint;
+import common.swap;
 
 
 

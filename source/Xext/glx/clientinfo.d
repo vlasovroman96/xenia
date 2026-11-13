@@ -30,6 +30,7 @@ import glx.indirect_dispatch;
 import glx.unpack;
  import Xext.glx.fix;
  import glx.indirect_util;
+import common.swap;
 
 
 alias BadLength = x11.X.BadLength;

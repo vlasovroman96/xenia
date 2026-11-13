@@ -40,6 +40,8 @@ import glx.singlesize;
 import glx.glxext; 
 import glx.glxcmds;
 import glx.indirect_size_get;
+import common.swap;
+
 alias CARD32 = x11.Xmd.CARD32;
 alias BOOL = x11.Xmd.BOOL;
 

@@ -76,6 +76,7 @@ import externs.X11.extensions.XI;
 import xkb.xkbsrv_priv;
 import dix.devices;
 import dix.events;
+import common.swap;
 
 enum VPC =        20              /* Max # valuators per chunk */;
 

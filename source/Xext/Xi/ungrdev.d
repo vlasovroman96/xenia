@@ -68,6 +68,7 @@ import externs.X11.extensions.XI;
 import dix.devices;
 import dix.dixutils;
 import dix.timestamp;
+import common.swap;
 
 /***********************************************************************
  *

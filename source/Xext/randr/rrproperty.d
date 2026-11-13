@@ -52,6 +52,7 @@ import randr.rrinfo;
 import dix.window;
 import common.math;
 import common.bytes;
+import common.swap;
 
 private int DeliverPropertyEvent(WindowPtr pWin, void* value)
 {

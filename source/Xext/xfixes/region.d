@@ -46,6 +46,7 @@ import render.picture;
 import dix.gc;
 import Xext.shape;
 import dix.picture;
+import common.swap;
 
 RESTYPE RegionResType;
 

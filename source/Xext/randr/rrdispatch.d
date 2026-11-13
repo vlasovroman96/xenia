@@ -30,6 +30,7 @@ import randr.randrstr_priv;
 import randr.rrdispatch_priv;
 import os.fmt;
 import randr.randr;
+import common.swap;
 
 import common.protocol_versions;
 

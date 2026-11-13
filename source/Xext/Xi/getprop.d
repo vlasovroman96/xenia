@@ -72,6 +72,7 @@ import Xi.getprop;
 import externs.X11.extensions.XIproto;
 import dix.devices;
 import dix.dixutils;
+import common.swap;
 
 // XExtEventInfo[1] EventInfo;
 // int ExtEventIndex;

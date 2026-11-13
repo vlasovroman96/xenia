@@ -62,6 +62,7 @@ import dix.events;
 import dix.inpututils;
 import xkb.xkbstr;
 import common.bytes;
+import common.swap;
 
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))

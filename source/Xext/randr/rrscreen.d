@@ -52,6 +52,7 @@ import os.log;
 import randr.rrdispatch;
 import dix.timestamp;
 import common.bytes;
+import common.swap;
 
 
 /*

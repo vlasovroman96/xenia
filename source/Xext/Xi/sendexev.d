@@ -74,6 +74,7 @@ import dix.devices;
 import dix.events;
 import tables;
 import common.bytes;
+import common.swap;
 
 // int lastEvent;           /* Defined in extension.c */
 

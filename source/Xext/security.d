@@ -66,6 +66,7 @@ import os.WaitFor;
 import registry;
 import dix.dispatch;
 import common.bytes;
+import common.swap;
 
 
 enum XSecurityAllEventMasks = 1<<0;

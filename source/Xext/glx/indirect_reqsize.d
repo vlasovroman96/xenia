@@ -36,6 +36,7 @@ import glx.indirect_size;
 import glx.indirect_reqsize;
  import Xext.glx.fix;
  import glx.indirect_size_get;
+import common.swap;
 
 
 version (HAVE_ALIAS) {

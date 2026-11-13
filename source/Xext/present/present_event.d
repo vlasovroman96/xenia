@@ -31,6 +31,7 @@ import present.present_fence;
 import externs.X11.extensions.presenttokens;
 import externs.X11.extensions.presentproto;
 import dix.events;
+import common.swap;
 
 private RESTYPE present_event_type;
 

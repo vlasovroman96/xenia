@@ -61,6 +61,7 @@ import dix.devices;
 import externs.X11.extensions.XKBproto;
 import xkb.XKBGAlloc;
 import dix.extension;
+import common.swap;
 
 // import externs.X11.extensions.XKBgeom;
 

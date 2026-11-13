@@ -50,6 +50,7 @@ import dix.inputstr;
 import Xi.exglobals;
 import Xi.extinit;
 public import Xi.extinit;
+import common.swap;
 
 // XExtensionVersion XIVersion;     /* defined in getvers.c */
 

@@ -168,6 +168,8 @@ import dix.extension;
 import dix.devices;
 
 import externs.X11.extensions.XI;
+import common.swap;
+
 
 /* Masks for XI events have to be aligned with core event (partially anyway).
  * If DeviceButtonMotionMask is != ButtonMotionMask, event delivery

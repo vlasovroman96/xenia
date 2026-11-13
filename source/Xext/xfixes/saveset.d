@@ -31,6 +31,7 @@ import dix.resource_priv;
 
 import xfixes.xfixesint;
 import externs.X11.extensions.xfixesproto;
+import common.swap;
 
 
 int ProcXFixesChangeSaveSet(ClientPtr client)

@@ -36,6 +36,7 @@ import xfixes.region;
 import Xext.sync;
 import randr.rrcrtc;
 import build.xlibre_server;
+import common.swap;
 
 alias XSyncFence = CARD32;
 

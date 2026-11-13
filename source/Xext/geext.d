@@ -42,6 +42,7 @@ import common.protocol_versions;
 import os.log;
 import dix.extension;
 import dix.events;
+import common.swap;
 
 enum MAXEXTENSIONS =   128;
 

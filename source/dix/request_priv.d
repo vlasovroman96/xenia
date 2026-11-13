@@ -14,6 +14,7 @@ import common.bytes;
 public import os.os;      /* WriteToClient */
 import dix.request_priv;
 import os.io;
+import common.swap;
 
 enum string REQUEST(alias type) = 
     type.stringof ~`* stuff = cast(`~type.stringof~`*)client.requestBuffer;`;

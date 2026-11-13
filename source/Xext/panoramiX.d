@@ -71,6 +71,7 @@ import dix.screen_hooks;
 import render.render;
 import tables;
 import os.utils;
+import common.swap;
 
 
 struct PanoramiXInfo {

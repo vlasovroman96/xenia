@@ -107,6 +107,7 @@ import dix.inpututils;
 import xkb.xkbstr;
 import dix.timestamp;
 import common.math;
+import common.swap;
 
 /** @file
  * This file handles input device-related stuff.

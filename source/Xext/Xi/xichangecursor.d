@@ -55,6 +55,7 @@ import dix.devices;
 import dix.dixutils;
 import dix.events;
 import dix.window;
+import common.swap;
 
 /***********************************************************************
  *

@@ -53,6 +53,7 @@ import xkb.xkbsrv_priv;
 import xkb.xkbsrv_priv;
 import dix.devices;
 import externs.X11.extensions.XI;
+import common.swap;
 
 
 /***********************************************************************

@@ -106,6 +106,7 @@ import os.log;
 import randr.rrdispatch;
 public import pseudoramiX;
 import dix.extension;
+import common.swap;
 
 /* Xinerama is not multi-screen capable; just report about screen 0 */
 enum RR_XINERAMA_SCREEN =  0;

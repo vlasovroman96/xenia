@@ -63,6 +63,7 @@ import externs.gnu;
 import dix.devices;
 import dix.inpututils;
 import dix.extension;
+import common.swap;
 
 /***====================================================================***/
 

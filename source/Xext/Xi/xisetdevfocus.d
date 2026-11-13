@@ -45,6 +45,7 @@ import dix.window;          /* window structure  */
 import Xi.exglobals;          /* BadDevice */
 import dix.devices;
 import dix.dixutils;
+import common.swap;
 
 int ProcXISetFocus(ClientPtr client)
 {

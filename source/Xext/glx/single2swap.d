@@ -46,6 +46,7 @@ import Xext.glx.fix;
 import glx.glxcmds;
 import os.io;
 import glx.single2;
+import common.swap;
 
 int __glXDispSwap_FeedbackBuffer(__GLXclientState* cl, GLbyte* pc)
 {

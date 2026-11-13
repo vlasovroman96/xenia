@@ -47,6 +47,7 @@ import dix.dixstruct_priv;
 import dix.swaprep;
 import externs.X11.extensions.xcmiscproto;
 import dix.extension;
+import common.swap;
 
 private int ProcXCMiscGetVersion(ClientPtr client)
 {

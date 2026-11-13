@@ -93,6 +93,7 @@ public import mi.misync;
 import x11.Xdefs;
 import dix.dixstruct_priv;
 import common.bytes;
+import common.swap;
 
 // void  SyncVerifyFence(SyncFence** ppFence, XID fid, ClientPtr client, Mask mode);
 

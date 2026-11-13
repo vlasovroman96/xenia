@@ -79,6 +79,7 @@ import dix.extension;
 import dix.dixutils;
 import os.utils;
 import dix.events;
+import common.swap;
 
 Bool noScreenSaverExtension = FALSE;
 

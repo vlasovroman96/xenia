@@ -63,6 +63,7 @@ import dix.swaprep;
 import os.io;
 import os.log;
 import std.conv;
+import common.swap;
 
 
 

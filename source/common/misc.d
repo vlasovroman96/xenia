@@ -98,70 +98,70 @@ public import os.os;                 /* for ALLOCATE_LOCAL and DEALLOCATE_LOCAL 
 /* some macros to help swap requests, replies, and events */
 
 
-static if (HasVersion!"__GNUC__" && ((__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 3))) {
+// static if (HasVersion!"__GNUC__" && ((__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 3))) {
 
-} else {
-pragma(inline, true) void wrong_size()
-{
-}
-}
+// } else {
+// pragma(inline, true) void wrong_size()
+// {
+// }
+// }
 
-static if (!(HasVersion!"__GNUC__")) {
-pragma(inline, true) int __builtin_constant_p(int x)
-{
-    return 0;
-}
-}
+// static if (!(HasVersion!"__GNUC__")) {
+// pragma(inline, true) int __builtin_constant_p(int x)
+// {
+//     return 0;
+// }
+// }
 
-pragma(inline, true) ulong bswap_64(ulong x)
-{
-    return (((x & 0xFF00000000000000uL) >> 56) |
-            ((x & 0x00FF000000000000uL) >> 40) |
-            ((x & 0x0000FF0000000000uL) >> 24) |
-            ((x & 0x000000FF00000000uL) >>  8) |
-            ((x & 0x00000000FF000000uL) <<  8) |
-            ((x & 0x0000000000FF0000uL) << 24) |
-            ((x & 0x000000000000FF00uL) << 40) |
-            ((x & 0x00000000000000FFuL) << 56));
-}
+// pragma(inline, true) ulong bswap_64(ulong x)
+// {
+//     return (((x & 0xFF00000000000000uL) >> 56) |
+//             ((x & 0x00FF000000000000uL) >> 40) |
+//             ((x & 0x0000FF0000000000uL) >> 24) |
+//             ((x & 0x000000FF00000000uL) >>  8) |
+//             ((x & 0x00000000FF000000uL) <<  8) |
+//             ((x & 0x0000000000FF0000uL) << 24) |
+//             ((x & 0x000000000000FF00uL) << 40) |
+//             ((x & 0x00000000000000FFuL) << 56));
+// }
 
-ref auto swapll(T)(T* t) {
-		if (T.sizeof != 8) 
-			wrong_size(); 
-		*t = cast(ulong)bswap_64(*t);          
-}
-
-pragma(inline, true) uint bswap_32(uint x)
-{
-    return (((x & 0xFF000000) >> 24) |
-            ((x & 0x00FF0000) >> 8) |
-            ((x & 0x0000FF00) << 8) |
-            ((x & 0x000000FF) << 24));
-}
-
-ref auto swapl(T)(T* t) {
-		if (T.sizeof != 4) 
-			wrong_size(); 
-		*t = cast(ulong)bswap_32(cast(uint)*(t)); 
-}
-
-pragma(inline, true) ushort bswap_16(ushort x)
-{
-    return (((x & 0xFF00) >> 8) |
-            ((x & 0x00FF) << 8));
-}
-
-// enum string swaps(string x) = `do { 
-// 		if (typeof(*(` ~ x ~ `)).sizeof != 2) 
+// ref auto swapll(T)(T* t) {
+// 		if (T.sizeof != 8) 
 // 			wrong_size(); 
-// 		*(` ~ x ~ `) = bswap_16(*(` ~ x ~ `)); 
-// 	} while (0)`;
+// 		*t = cast(ulong)bswap_64(*t);          
+// }
 
-void swaps(T)(T* x) {
-    if (typeof(*x).sizeof != 2) 
-			wrong_size(); 
-	*x = bswap_16(*x); 
-}
+// pragma(inline, true) uint bswap_32(uint x)
+// {
+//     return (((x & 0xFF000000) >> 24) |
+//             ((x & 0x00FF0000) >> 8) |
+//             ((x & 0x0000FF00) << 8) |
+//             ((x & 0x000000FF) << 24));
+// }
+
+// ref auto swapl(T)(T* t) {
+// 		if (T.sizeof != 4) 
+// 			wrong_size(); 
+// 		*t = cast(ulong)bswap_32(cast(uint)*(t)); 
+// }
+
+// pragma(inline, true) ushort bswap_16(ushort x)
+// {
+//     return (((x & 0xFF00) >> 8) |
+//             ((x & 0x00FF) << 8));
+// }
+
+// // enum string swaps(string x) = `do { 
+// // 		if (typeof(*(` ~ x ~ `)).sizeof != 2) 
+// // 			wrong_size(); 
+// // 		*(` ~ x ~ `) = bswap_16(*(` ~ x ~ `)); 
+// // 	} while (0)`;
+
+// void swaps(T)(T* x) {
+//     if (typeof(*x).sizeof != 2) 
+// 			wrong_size(); 
+// 	*x = bswap_16(*x); 
+// }
 
 /* copy 32-bit value from src to dst byteswapping on the way */
 // enum string cpswapl(string src, string dst) = `do { 
@@ -170,11 +170,11 @@ void swaps(T)(T* x) {
 // 		(` ~ dst ~ `) = bswap_32((` ~ src ~ `)); 
 // 	} while (0)`;\
 
-void cpswapl(T, U)(ref T src, ref U dst) {
-    if (typeof(src).sizeof != 4 || typeof(dst).sizeof != 4)
-			wrong_size(); 
-		dst = bswap_32(cast(uint)src); 
-}
+// void cpswapl(T, U)(ref T src, ref U dst) {
+//     if (typeof(src).sizeof != 4 || typeof(dst).sizeof != 4)
+// 			wrong_size(); 
+// 		dst = bswap_32(cast(uint)src); 
+// }
 
 /* copy short from src to dst byteswapping on the way */
 // enum string cpswaps(string src, string dst) = `do { 
@@ -190,11 +190,11 @@ void cpswapl(T, U)(ref T src, ref U dst) {
 // 	} while (0)`;
 
 
-void cpswaps(T, U)(ref T src, ref U dst) {
-    if (typeof(src).sizeof != 2 || typeof(dst).sizeof != 2) 
-			wrong_size(); 
-		dst = bswap_16(src); 
-}
+// void cpswaps(T, U)(ref T src, ref U dst) {
+//     if (typeof(src).sizeof != 2 || typeof(dst).sizeof != 2) 
+// 			wrong_size(); 
+// 		dst = bswap_16(src); 
+// }
 
 // void SwapShorts(short* list, c_ulong count);
 

@@ -71,6 +71,7 @@ import Xi.exglobals;
 import Xi.grabdev;
 import dix.dixutils;
 import externs.X11.extensions.XI;
+import common.swap;
 
 
 /***********************************************************************

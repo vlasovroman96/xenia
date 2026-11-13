@@ -67,6 +67,7 @@ import dix.inputstr;           /* DeviceIntPtr      */
 import Xi.exglobals;
 import dix.dixutils;
 import dix.devices;
+import common.swap;
 
 
 /***********************************************************************

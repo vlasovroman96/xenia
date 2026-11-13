@@ -63,6 +63,7 @@ import Xi.xibarriers;
 import os.utils;
 import dix.devices;
 import dix.events;
+import common.swap;
 
 /**
  * Send the current state of the device hierarchy to all clients.

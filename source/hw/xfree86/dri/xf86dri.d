@@ -69,6 +69,7 @@ import xf86Extensions;
 import os.log;
 import dix.extension;
 import common.math;
+import common.swap;
 
 private int DRIErrorBase;
 

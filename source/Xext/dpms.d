@@ -56,6 +56,7 @@ import dix.extension;
 
 import os.WaitFor;
 import dix.events;
+import common.swap;
 
 Bool noDPMSExtension = FALSE;
 

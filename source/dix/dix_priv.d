@@ -32,6 +32,7 @@ public import dix.resource;
 public import dix.dixutils;
 public import dix.globals;
 public import dix.events;
+import common.swap;
 
 import os.io;
 

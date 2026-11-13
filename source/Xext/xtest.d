@@ -82,6 +82,7 @@ import dix.timestamp;
 import dix.inpututils;
 import dix.dispatch;
 import dix.window;
+import common.swap;
 
 enum XTestCurrentCursor = cast(Cursor)1;
 

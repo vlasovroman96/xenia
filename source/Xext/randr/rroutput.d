@@ -45,6 +45,7 @@ import render.filter;
 import dix.swapreq;
 import randr.rrmode;
 import randr.rrinfo;
+import common.swap;
 
 RESTYPE RROutputType;
 

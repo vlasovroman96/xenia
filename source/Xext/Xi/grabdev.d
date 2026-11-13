@@ -73,6 +73,7 @@ import externs.X11.extensions.XI;
 import dix.dixutils;
 import dix.devices;
 import dix.events;
+import common.swap;
 
 
 // XExtEventInfo[1] EventInfo;

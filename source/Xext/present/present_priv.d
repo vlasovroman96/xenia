@@ -41,6 +41,7 @@ public import dri3.dri3;
 import present.present_fence;
 import externs.X11.extensions.presentproto;
 public import present.present_vblank; 
+import common.swap;
 
 enum PresentFlipReason {
     PRESENT_FLIP_REASON_UNKNOWN,

@@ -92,6 +92,7 @@ import externs.attrs;
 import os.io;
 import x11.Xosdefs;
 import dix.dispatch;
+import common.swap;
 
 alias sockaddr_in = os.access.sockaddr_in;
 

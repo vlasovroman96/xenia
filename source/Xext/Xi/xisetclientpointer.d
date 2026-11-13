@@ -53,6 +53,7 @@ import Xi.exglobals;
 import dix.devices;
 import dix.dixutils;
 import dix.events;
+import common.swap;
 
 int ProcXISetClientPointer(ClientPtr client)
 {

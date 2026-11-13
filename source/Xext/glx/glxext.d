@@ -60,6 +60,7 @@ import glx.glxscreens_h;
 import os.log;
 import os.io;
 import dix.dispatch;
+import common.swap;
 
 
 /*

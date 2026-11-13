@@ -53,6 +53,7 @@ import randr.rrinfo;
 
 import dix.swaprep;
 import common.bytes;
+import common.swap;
 
 // RESTYPE RRProviderType = 0;
 

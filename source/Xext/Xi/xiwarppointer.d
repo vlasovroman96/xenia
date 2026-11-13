@@ -56,6 +56,8 @@ import dix.devices;
 import dix.dixutils;
 import dix.events;
 import dix.window;
+import common.swap;
+
 /***********************************************************************
  *
  * This procedure allows a client to warp the pointer of a device.

@@ -64,6 +64,8 @@ alias BadValue = x11.X.BadValue;
 alias BadRequest = x11.X.BadRequest;
 alias INT32 = x11.Xmd.INT32;
 alias BadImplementation = x11.X.BadImplementation;
+import common.swap;
+
 /************************************************************************/
 
 /*

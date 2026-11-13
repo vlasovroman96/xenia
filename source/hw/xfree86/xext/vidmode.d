@@ -58,6 +58,7 @@ import common.servermd;
 import common.protocol_versions;
 import dix.extension;
 public import hw.xfree86.modes.displaymode;
+import common.swap;
 
 enum VidModeSelectMode {
     VIDMODE_H_DISPLAY,

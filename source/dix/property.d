@@ -70,7 +70,8 @@ import dix.swapreq;
 import dix.events;
 import dix.atom;
 import dix.window;
- import common.math;
+import common.math;
+import common.swap;
 
 import common.bytes;
 public import dix.privates;

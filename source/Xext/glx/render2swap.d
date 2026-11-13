@@ -42,6 +42,7 @@ import glx.indirect_dispatch;
  import glx.glxext;
  import glx.indirect_dispatch_swap;
  import glx.indirect_size_get;
+import common.swap;
 
 
 void __glXDispSwap_Map1f(GLbyte* pc)

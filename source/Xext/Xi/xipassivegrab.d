@@ -54,6 +54,7 @@ import dix.devices;
 import dix.events;
 import dix.inpututils;
 import common.math;
+import common.swap;
 
 
 int ProcXIPassiveGrabDevice(ClientPtr client)

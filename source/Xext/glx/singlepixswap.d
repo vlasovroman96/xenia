@@ -43,6 +43,7 @@ import glx.indirect_size_get;
 import core.stdc.config: c_long, c_ulong;
 import glx.glxcmds;
 import os.io;
+import common.swap;
 
 
 int __glXDispSwap_ReadPixels(__GLXclientState* cl, GLbyte* pc)
