@@ -15,7 +15,7 @@ int bytesForBits(const int bits) => (bits + 7) >> 3;
  * @return The number of 4-byte units needed to hold bytes.
  */
 pure @nogc nothrow
-int int32ForBytes(const size_t bytes) => cast(int)((bytes + 3) >> 2);
+uint int32ForBytes(const size_t bytes) => cast(uint)((bytes + 3) >> 2);
 
 /**
  * Calculate the number of bytes (in multiples of 4) needed to hold bytes.

@@ -97,6 +97,7 @@ public import os.os;                 /* for ALLOCATE_LOCAL and DEALLOCATE_LOCAL 
 
 /* some macros to help swap requests, replies, and events */
 
+
 enum string LengthRestS(string stuff) = `
     (client.req_len << 1) - ((*` ~ stuff ~ `).sizeof >> 1)`;
 
