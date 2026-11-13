@@ -55,7 +55,7 @@ import common.bytes;
 import dix.dixstruct_priv;
 import dix.scrnintstr;
 import common.servermd;
-import common.protocol_versions;
+import common.extVersions;
 import dix.extension;
 public import hw.xfree86.modes.displaymode;
 import common.swap;

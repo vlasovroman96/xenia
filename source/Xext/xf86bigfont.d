@@ -81,7 +81,7 @@ import os.osdep;
 import dix.dixstruct_priv;
 import dix.gc;
 import dix.dixfonts;
-import common.protocol_versions;
+import common.extVersions;
 
 import Xext.xf86bigfontsrv;
 import externs.X11.extensions.xf86bigfproto;

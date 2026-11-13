@@ -74,7 +74,7 @@ static if(DPMSExtension) {
 //import externs.X11.extensions.dpmsconst;
 import Xext.dpmsproc;
 }
-import common.protocol_versions;
+import common.extVersions;
 import dix.extension;
 import dix.dixutils;
 import os.utils;

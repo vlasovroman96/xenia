@@ -77,7 +77,7 @@ import dix.gc;           /* pointer for extnsionst.h */
 import Xi.exglobals;
 import dix.swaprep;
 import dix.privates;
-import common.protocol_versions;
+import common.extVersions;
 
 /* modules local to Xi */
 import Xi.handlers;

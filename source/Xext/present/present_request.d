@@ -30,7 +30,7 @@ import dri3.dri3_priv;
 import present.present_priv;
 
 import randr.randrstr_priv;
-import common.protocol_versions;
+import common.extVersions;
 import externs.X11.extensions.presentproto;
 import xfixes.region;
 import Xext.sync;

@@ -55,7 +55,7 @@ import dix.pixmap;
 import dix.dixstruct_priv;
 import dix.window;
 import dix.gc;
-import common.protocol_versions;
+import common.extVersions;
 import externs.X11.extensions.shapeproto;
 import dix.swapreq;
 import dix.dixutils;

@@ -52,7 +52,7 @@ import dix.atom;
 import common.bytes;
 import dix.inputstr;
 import xkb.xkb_procs;
-import common.protocol_versions;
+import common.extVersions;
 import xkb.xkbstr;
 import os.log;
 import dix.events;

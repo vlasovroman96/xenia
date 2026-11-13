@@ -31,7 +31,7 @@ import dix.swaprep;
 import dix.pixmap;
 import dix.window;
 import dix.gc;
-import common.protocol_versions;
+import common.extVersions;
 import common.list;
 import Xext.hashtable;
 import dix.picturestr;

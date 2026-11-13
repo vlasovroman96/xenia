@@ -77,7 +77,7 @@ import dix.dixstruct_priv;
 import dix.pixmap;
 import dix.resource;
 import Xext.syncsrv;
-import common.protocol_versions;
+import common.extVersions;
 import dix.inputstr;
 import externs.X11.extensions.syncconst;
 import externs.X11.extensions.syncproto;

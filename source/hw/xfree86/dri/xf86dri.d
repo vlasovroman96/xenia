@@ -64,7 +64,7 @@ import dix.swaprep;
 import hw.xfree86.common.xf86str;
 import dri_priv;
 import externs.libdrm;
-import common.protocol_versions;
+import common.extVersions;
 import xf86Extensions;
 import os.log;
 import dix.extension;

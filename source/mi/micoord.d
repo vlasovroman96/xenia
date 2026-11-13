@@ -27,6 +27,7 @@ extern(C): __gshared:
  * XFree86 Project.
  *
  */
+import common.servermd;
 
 version (_MICOORD_H_) {} else {
 enum _MICOORD_H_ = 1;

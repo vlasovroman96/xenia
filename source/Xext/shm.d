@@ -74,7 +74,7 @@ import dix.scrnintstr;
 import dix.pixmap;
 import common.servermd;
 import Xext.xace;
-import common.protocol_versions;
+import common.extVersions;
 import externs.X11.extensions.shmproto;
 import os.access;
 import dix.gc;

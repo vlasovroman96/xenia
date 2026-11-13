@@ -32,7 +32,7 @@ import os.fmt;
 import randr.randr;
 import common.swap;
 
-import common.protocol_versions;
+import common.extVersions;
 
 Bool RRClientKnowsRates(ClientPtr pClient)
 {

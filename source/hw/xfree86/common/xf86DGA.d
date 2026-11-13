@@ -70,7 +70,7 @@ import dix.dixstruct_priv;
 import dix.cursor;
 import dix.scrnintstr;
 import dix.swaprep;
-import common.protocol_versions;
+import common.extVersions;
 import hw.xfree86.common.xf86Helper;
 import xf86Globals;
 import dix.events;

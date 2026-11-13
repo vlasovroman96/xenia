@@ -45,7 +45,7 @@ import externs.X11.extensions.damageproto;
 import dix.dispatch;
 
 import dix.damage;
-import common.protocol_versions;
+import common.extVersions;
 import dix.dixstruct_priv;
 import dix.privates;
 import miext.damage.damage_;

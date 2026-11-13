@@ -61,7 +61,7 @@ import dix.resource;
 import render.picturestr_priv;
 import xfixes.xfixesint;
 import composite.compint;
-import common.protocol_versions;
+import common.extVersions;
 import dix.extension;
 import os.log;
 import xfixes.xfixes;

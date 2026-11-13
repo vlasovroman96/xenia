@@ -38,7 +38,7 @@ import miext.extinit_priv;
 import Xext.geext_priv;
 
 import dix.window;
-import common.protocol_versions;
+import common.extVersions;
 import os.log;
 import dix.extension;
 import dix.events;

@@ -55,7 +55,7 @@ import dix.property;
 import dix.privates;
 import Xext.xacestr;
 import Xext.securitysrv;
-import common.protocol_versions;
+import common.extVersions;
 import externs.X11.extensions.securproto;
 import externs.X11.extensions.secur;
 import os.log;
