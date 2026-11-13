@@ -184,7 +184,7 @@ alias DRI2InvalidateProcPtr = void function(DrawablePtr pDraw, void* data, XID i
  *
  * \param pDraw drawable whose swap_limit is going to be changed
  * \param swap_limit new swap_limit that going to be set
- * \return TRUE if limit is support, FALSE if not.
+ * \return True if limit is support, False if not.
  */
 alias DRI2SwapLimitValidateProcPtr = Bool function(DrawablePtr pDraw, int swap_limit);
 
@@ -469,7 +469,7 @@ private void ms_dri2_copy_region2(ScreenPtr screen, DrawablePtr drawable, Region
     DrawablePtr dst = (destBuffer.attachment == DRI2BufferFrontLeft)
         ? drawable : &dst_pixmap.drawable;
     int off_x = 0, off_y = 0;
-    Bool translate = FALSE;
+    Bool translate = False;
     RegionPtr pCopyClip = void;
     GCPtr gc = void;
 
@@ -479,7 +479,7 @@ private void ms_dri2_copy_region2(ScreenPtr screen, DrawablePtr drawable, Region
         if (!dst)
             return;
         if (dst != drawable)
-            translate = TRUE;
+            translate = True;
     }
 
     if (translate && drawable.type == DRAWABLE_WINDOW) {
@@ -547,15 +547,15 @@ private int ms_dri2_get_msc(DrawablePtr draw, CARD64* ust, CARD64* msc)
     if (crtc is null) {
         *ust = gettime_us();
         *msc = 0;
-        return TRUE;
+        return True;
     }
 
     ret = ms_get_crtc_ust_msc(crtc, ust, msc);
 
     if (ret)
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 private XID get_client_id(ClientPtr client)
@@ -578,19 +578,19 @@ private Bool ms_dri2_add_frame_event(ms_dri2_frame_event_ptr info)
     resource = ms_get_resource(get_client_id(info.client),
                                frame_event_client_type);
     if (resource is null)
-        return FALSE;
+        return False;
 
     resource.list.addListNext(&info.client_resource);
 
     resource = ms_get_resource(info.drawable.id, frame_event_drawable_type);
     if (resource is null) {
         info.client_resource.removeFromList();
-        return FALSE;
+        return False;
     }
 
     resource.list.addListNext(&info.drawable_resource);
 
-    return TRUE;
+    return True;
 }
 
 private void ms_dri2_del_frame_event(ms_dri2_frame_event_rec* info)
@@ -631,7 +631,7 @@ private void ms_dri2_flip_abort(modesettingPtr ms, void* data)
 {
     ms_present_vblank_event* event = cast(ms_present_vblank_event*)data;
 
-    ms.drmmode.dri2_flipping = FALSE;
+    ms.drmmode.dri2_flipping = False;
     free(event);
 }
 
@@ -651,7 +651,7 @@ private void ms_dri2_flip_handler(modesettingPtr ms, ulong msc, ulong ust, void*
                          DRI2_FLIP_COMPLETE, event.event_complete,
                          event.event_data);
 
-    ms.drmmode.dri2_flipping = FALSE;
+    ms.drmmode.dri2_flipping = False;
     free(event);
 }
 
@@ -666,7 +666,7 @@ private Bool ms_dri2_schedule_flip(ms_dri2_frame_event_ptr info)
 
     event = cast(ms_dri2_vblank_event*) cast(ms_dri2_vblank_event*) calloc(1, ms_dri2_vblank_event.sizeof);
     if (!event)
-        return FALSE;
+        return False;
 
     event.drawable_id = draw.id;
     event.client = info.client;
@@ -674,14 +674,14 @@ private Bool ms_dri2_schedule_flip(ms_dri2_frame_event_ptr info)
     event.event_data = info.event_data;
 
     if (ms_do_pageflip(screen, back_priv.pixmap, event,
-                       info.crtc, FALSE,
+                       info.crtc, False,
                        &ms_dri2_flip_handler,
                        &ms_dri2_flip_abort,
                        "DRI2-flip")) {
-        ms.drmmode.dri2_flipping = TRUE;
-        return TRUE;
+        ms.drmmode.dri2_flipping = True;
+        return True;
     }
-    return FALSE;
+    return False;
 }
 
 private Bool update_front(DrawablePtr draw, DRI2BufferPtr front)
@@ -696,7 +696,7 @@ private Bool update_front(DrawablePtr draw, DRI2BufferPtr front)
 
     name = ms.glamor.name_from_pixmap(pixmap, &pitch, &size);
     if (name < 0)
-        return FALSE;
+        return False;
 
     front.name = name;
 
@@ -706,7 +706,7 @@ private Bool update_front(DrawablePtr draw, DRI2BufferPtr front)
     priv.pixmap = pixmap;
     pixmap.refcnt++;
 
-    return TRUE;
+    return True;
 }
 
 private Bool can_exchange(ScrnInfoPtr scrn, DrawablePtr draw, DRI2BufferPtr front, DRI2BufferPtr back)
@@ -724,7 +724,7 @@ private Bool can_exchange(ScrnInfoPtr scrn, DrawablePtr draw, DRI2BufferPtr fron
 
         /* Don't do pageflipping if CRTCs are rotated. */
         if (drmmode_crtc.rotate_bo)
-            return FALSE;
+            return False;
 
         if (xf86_crtc_on(config.crtc[i]))
             num_crtcs_on++;
@@ -732,27 +732,27 @@ private Bool can_exchange(ScrnInfoPtr scrn, DrawablePtr draw, DRI2BufferPtr fron
 
     /* We can't do pageflipping if all the CRTCs are off. */
     if (num_crtcs_on == 0)
-        return FALSE;
+        return False;
 
     if (!update_front(draw, front))
-        return FALSE;
+        return False;
 
     front_pixmap = front_priv.pixmap;
 
     if (front_pixmap.drawable.width != back_pixmap.drawable.width)
-        return FALSE;
+        return False;
 
     if (front_pixmap.drawable.height != back_pixmap.drawable.height)
-        return FALSE;
+        return False;
 
     if (front_pixmap.drawable.bitsPerPixel !=
         back_pixmap.drawable.bitsPerPixel)
-        return FALSE;
+        return False;
 
     if (front_pixmap.devKind != back_pixmap.devKind)
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 private Bool can_flip(ScrnInfoPtr scrn, DrawablePtr draw, DRI2BufferPtr front, DRI2BufferPtr back)
@@ -932,7 +932,7 @@ private int ms_dri2_schedule_wait_msc(ClientPtr client, DrawablePtr draw, CARD64
 
         wait_info.frame = cast(int)queued_msc;
         DRI2BlockClient(client, draw);
-        return TRUE;
+        return True;
     }
 
     /*
@@ -972,13 +972,13 @@ private int ms_dri2_schedule_wait_msc(ClientPtr client, DrawablePtr draw, CARD64
 
     DRI2BlockClient(client, draw);
 
-    return TRUE;
+    return True;
 
  out_free:
     ms_dri2_del_frame_event(wait_info);
  out_complete:
     DRI2WaitMSCComplete(client, draw, cast(int)target_msc, 0, 0);
-    return TRUE;
+    return True;
 }
 
 /**
@@ -1083,7 +1083,7 @@ private int ms_dri2_schedule_swap(ClientPtr client, DrawablePtr draw, DRI2Buffer
         *target_msc = cast(int)(queued_msc + flip);
         frame_info.frame = cast(int)*target_msc;
 
-        return TRUE;
+        return True;
     }
 
     /*
@@ -1125,7 +1125,7 @@ private int ms_dri2_schedule_swap(ClientPtr client, DrawablePtr draw, DRI2Buffer
     *target_msc = queued_msc + flip;
     frame_info.frame = cast(int)(*target_msc);
 
-    return TRUE;
+    return True;
 
  blit_fallback:
     ms_dri2_blit_swap(draw, front, back);
@@ -1133,7 +1133,7 @@ private int ms_dri2_schedule_swap(ClientPtr client, DrawablePtr draw, DRI2Buffer
     if (frame_info)
         ms_dri2_del_frame_event(frame_info);
     *target_msc = 0; /* offscreen, so zero out target vblank count */
-    return TRUE;
+    return True;
 }
 
 private int ms_dri2_frame_event_client_gone(void* data, XID id)
@@ -1174,15 +1174,15 @@ private Bool ms_dri2_register_frame_event_resource_types()
         CreateNewResourceType(&ms_dri2_frame_event_client_gone,
                               "Frame Event Client");
     if (!frame_event_client_type)
-        return FALSE;
+        return False;
 
     frame_event_drawable_type =
         CreateNewResourceType(&ms_dri2_frame_event_drawable_gone,
                               "Frame Event Drawable");
     if (!frame_event_drawable_type)
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 Bool ms_dri2_screen_init(ScreenPtr screen)
@@ -1198,18 +1198,18 @@ Bool ms_dri2_screen_init(ScreenPtr screen)
     }
 
     if (!xf86LoaderCheckSymbol("DRI2Version"))
-        return FALSE;
+        return False;
 
     if (!dixRegisterPrivateKey(&ms_dri2_client_key,
                                PRIVATE_CLIENT, XID.sizeof))
-        return FALSE;
+        return False;
 
     if (serverGeneration != ms_dri2_server_generation) {
         ms_dri2_server_generation = serverGeneration;
         if (!ms_dri2_register_frame_event_resource_types()) {
             xf86DrvMsg(scrn.scrnIndex, X_WARNING,
                        "Cannot register DRI2 frame event resources\n");
-            return FALSE;
+            return False;
         }
     }
 

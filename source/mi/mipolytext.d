@@ -62,7 +62,7 @@ import build.dix_config;
 //import   x11.Xmd;
 //import   x11.Xproto;
 // //import   externs.X11.fonts.fontstruct;
-import	common.misc;
+import dix.pixmap;
 import	dix.gc;
 import	dix.dixfonts;
 import Xext.xf86bigfont;

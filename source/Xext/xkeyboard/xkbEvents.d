@@ -366,9 +366,9 @@ int XkbComputeControlsNotify(DeviceIntPtr kbd, XkbControlsPtr old, XkbControlsPt
         changedControls |= XkbIgnoreLockModsMask;
 
     if (new_.enabled_ctrls & XkbRepeatKeysMask)
-        kbd.kbdfeed.ctrl.autoRepeat = TRUE;
+        kbd.kbdfeed.ctrl.autoRepeat = True;
     else
-        kbd.kbdfeed.ctrl.autoRepeat = FALSE;
+        kbd.kbdfeed.ctrl.autoRepeat = False;
 
     if (kbd.kbdfeed && kbd.kbdfeed.CtrlProc &&
         (changedControls || forceCtrlProc))
@@ -1010,7 +1010,7 @@ int XkbRemoveResourceClient(DevicePtr inDev, XID id)
     c_ulong autoCtrls = void, autoValues = void;
     ClientPtr client = null;
 
-    found = FALSE;
+    found = False;
 
     if (!dev.key || !dev.key.xkbInfo)
         return found;
@@ -1025,7 +1025,7 @@ int XkbRemoveResourceClient(DevicePtr inDev, XID id)
             client = interest.client;
             FreeResource(cast(uint)interest.resource, RT_XKBCLIENT);
             free(interest);
-            found = TRUE;
+            found = True;
         }
         while ((!found) && (interest.next)) {
             if (interest.next.resource == id) {
@@ -1037,7 +1037,7 @@ int XkbRemoveResourceClient(DevicePtr inDev, XID id)
                 client = victim.client;
                 FreeResource(cast(uint)victim.resource, RT_XKBCLIENT);
                 free(victim);
-                found = TRUE;
+                found = True;
             }
             interest = interest.next;
         }

@@ -40,22 +40,22 @@ void InitCard(char* name)
     fbCurrScreen = XNFalloc(typeof(*fbCurrScreen).sizeof);
     // *fbCurrScreen = FbScreenConf (
     fbCurrScreen.fbdevDevicePath = null;
-    fbCurrScreen.fbDisableShadow = FALSE;
+    fbCurrScreen.fbDisableShadow = False;
 version(GLAMOR) {
     fbCurrScreen.fbdev_glvnd_provider = null;
 
     fbCurrScreen.fbdev_dri_path = null;
-    fbCurrScreen.fbdev_auto_dri3 = FALSE;
-    fbCurrScreen.fbdev_drm_master = TRUE;
+    fbCurrScreen.fbdev_auto_dri3 = False;
+    fbCurrScreen.fbdev_drm_master = True;
 
-    fbCurrScreen.es_allowed = TRUE;
-    fbCurrScreen.force_es = FALSE;
+    fbCurrScreen.es_allowed = True;
+    fbCurrScreen.force_es = False;
 
-    fbCurrScreen.fbGlamorAllowed = TRUE;
-    fbCurrScreen.fbForceGlamor = FALSE;
+    fbCurrScreen.fbGlamorAllowed = True;
+    fbCurrScreen.fbForceGlamor = False;
 }
 version(XV) {
-    .fbXVAllowed = TRUE;
+    .fbXVAllowed = True;
 }
 // #endif
                                 //    );
@@ -139,18 +139,18 @@ int ddxProcessArgument(int argc, char** argv, int i)
     }
 
     if (!strcmp(argv[i], "-noshadow")) {
-        fbCurrScreen.fbDisableShadow = TRUE;
+        fbCurrScreen.fbDisableShadow = True;
         return 1;
     }
 
 static if (GLAMOR) {
     if (!strcmp(argv[i], "-glamor")) {
-        fbCurrScreen.fbForceGlamor = TRUE;
+        fbCurrScreen.fbForceGlamor = True;
         return 1;
     }
 
     if (!strcmp(argv[i], "-noglamor")) {
-        fbCurrScreen.fbGlamorAllowed = FALSE;
+        fbCurrScreen.fbGlamorAllowed = False;
         return 1;
     }
 
@@ -166,35 +166,35 @@ static if (GLAMOR) {
     if (!strcmp(argv[i], "-dri")) {
         if (i + 1 < argc) {
             if (argv[i + 1][0] == '-' || !strcmp(argv[i + 1], "auto")) {
-                fbCurrScreen.fbdev_auto_dri3 = TRUE;
+                fbCurrScreen.fbdev_auto_dri3 = True;
             } else {
                 fbCurrScreen.fbdev_dri_path = strdup(argv[i + 1]);
             }
             return 2;
         } else {
-            fbCurrScreen.fbdev_auto_dri3 = TRUE;
+            fbCurrScreen.fbdev_auto_dri3 = True;
             return 1;
         }
     }
 
     if (!strcmp(argv[i], "-drm-master")) {
-        fbCurrScreen.fbdev_drm_master = TRUE;
+        fbCurrScreen.fbdev_drm_master = True;
         return 1;
     }
 
     if (!strcmp(argv[i], "-force-gl")) {
-        fbCurrScreen.es_allowed = FALSE;
+        fbCurrScreen.es_allowed = False;
         return 1;
     }
 
     if (!strcmp(argv[i], "-force-es")) {
-        fbCurrScreen.force_es = TRUE;
+        fbCurrScreen.force_es = True;
         return 1;
     }
 
 version (XV) {
     if (!strcmp(argv[i], "-noxv")) {
-        fbCurrScreen.fbXVAllowed = FALSE;
+        fbCurrScreen.fbXVAllowed = False;
         return 1;
     }
 }

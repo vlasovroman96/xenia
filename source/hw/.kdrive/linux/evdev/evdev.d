@@ -296,7 +296,7 @@ private void EvdevPtrDisable(KdPointerInfo* pi)
     if (!pi || !pi.driverPrivate)
         return;
 
-    KdUnregisterFd(pi, ke.fd, TRUE);
+    KdUnregisterFd(pi, ke.fd, True);
 
     if (ioctl(ke.fd, EVIOCGRAB, 0) < 0)
         perror("Ungrabbing evdev mouse device failed");
@@ -461,7 +461,7 @@ private void EvdevKbdDisable(KdKeyboardInfo* ki)
     if (!ki || !ki.driverPrivate)
         return;
 
-    KdUnregisterFd(ki, ke.fd, TRUE);
+    KdUnregisterFd(ki, ke.fd, True);
 
     if (ioctl(ke.fd, EVIOCGRAB, 0) < 0)
         perror("Ungrabbing evdev keyboard device failed");

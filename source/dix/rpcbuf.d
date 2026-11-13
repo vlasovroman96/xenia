@@ -21,22 +21,22 @@ pragma(inline, true) Bool __x_rpcbuf_write_bin_pad(x_rpcbuf_t* rpcbuf, const(cha
 
     char* reserved = cast(char*)x_rpcbuf_reserve(rpcbuf, blen);
     if (!reserved)
-        return FALSE;
+        return False;
 
     memcpy(reserved, val, len);
     memset(reserved + len, 0, blen - len);
-    return TRUE;
+    return True;
 }
 
 Bool x_rpcbuf_makeroom(x_rpcbuf_t* rpcbuf, size_t needed)
 {
     /* break out of alreay in error state */
     if (rpcbuf.error)
-        return FALSE;
+        return False;
 
     /* still enough space */
     if (rpcbuf.size > rpcbuf.wpos + needed)
-        return TRUE;
+        return True;
 
     const(size_t) newsize = (((rpcbuf.wpos + needed) / XLIBRE_RPCBUF_CHUNK_SIZE) + 1)
                                 * XLIBRE_RPCBUF_CHUNK_SIZE;
@@ -48,15 +48,15 @@ Bool x_rpcbuf_makeroom(x_rpcbuf_t* rpcbuf, size_t needed)
     rpcbuf.buffer = newbuf;
     rpcbuf.size = newsize;
 
-    return TRUE;
+    return True;
 
 err:
-    rpcbuf.error = TRUE;
+    rpcbuf.error = True;
     if (rpcbuf.err_clear) {
         free(rpcbuf.buffer);
         rpcbuf.buffer = null;
     }
-    return FALSE;
+    return False;
 }
 
 void  x_rpcbuf_clear(x_rpcbuf_t* rpcbuf)
@@ -99,7 +99,7 @@ void * x_rpcbuf_reserve0(x_rpcbuf_t* rpcbuf, size_t needed)
 Bool x_rpcbuf_write_string_pad(x_rpcbuf_t* rpcbuf, const(char)* str)
 {
     if (!str)
-        return TRUE;
+        return True;
 
     return __x_rpcbuf_write_bin_pad(rpcbuf, str, strlen(str));
 }
@@ -116,111 +116,111 @@ Bool x_rpcbuf_write_CARD8(x_rpcbuf_t* rpcbuf, CARD8 value)
 {
     CARD8* reserved = cast(ubyte*)x_rpcbuf_reserve(rpcbuf, value.sizeof);
     if (!reserved)
-        return FALSE;
+        return False;
 
     *reserved = value;
 
-    return TRUE;
+    return True;
 }
 
 Bool x_rpcbuf_write_CARD16(x_rpcbuf_t* rpcbuf, CARD16 value)
 {
     CARD16* reserved = cast(ushort*)x_rpcbuf_reserve(rpcbuf, value.sizeof);
     if (!reserved)
-        return FALSE;
+        return False;
 
     *reserved = value;
 
     if (rpcbuf.swapped)
         swaps(reserved);
 
-    return TRUE;
+    return True;
 }
 
 int x_rpcbuf_write_CARD32(x_rpcbuf_t* rpcbuf, CARD32 value)
 {
     CARD32* reserved = cast(uint*)x_rpcbuf_reserve(rpcbuf, value.sizeof);
     if (!reserved)
-        return FALSE;
+        return False;
 
     *reserved = value;
 
     if (rpcbuf.swapped)
         swapl(reserved);
 
-    return TRUE;
+    return True;
 }
 
 Bool x_rpcbuf_write_CARD64(x_rpcbuf_t* rpcbuf, CARD64 value)
 {
     CARD64* reserved = cast(ulong*)x_rpcbuf_reserve(rpcbuf, value.sizeof);
     if (!reserved)
-        return FALSE;
+        return False;
 
     *reserved = value;
 
     if (rpcbuf.swapped)
         swapll(reserved);
 
-    return TRUE;
+    return True;
 }
 
 Bool  x_rpcbuf_write_CARD8s(x_rpcbuf_t* rpcbuf, const(CARD8)* values, size_t count)
 {
     if ((!values) || (!count))
-        return TRUE;
+        return True;
 
     INT16* reserved = cast(short*)x_rpcbuf_reserve(rpcbuf, count);
     if (!reserved)
-        return FALSE;
+        return False;
 
     memcpy(reserved, values, count);
 
-    return TRUE;
+    return True;
 }
 
 Bool x_rpcbuf_write_CARD16s(x_rpcbuf_t* rpcbuf, const(CARD16)* values, size_t count)
 {
     if ((!values) || (!count))
-        return TRUE;
+        return True;
 
     INT16* reserved = cast(short*)x_rpcbuf_reserve(rpcbuf, ((CARD16).sizeof * count));
     if (!reserved)
-        return FALSE;
+        return False;
 
     memcpy(reserved, values, ((CARD16).sizeof * count));
 
     if (rpcbuf.swapped)
         SwapShorts(reserved, count);
 
-    return TRUE;
+    return True;
 }
 
 Bool  x_rpcbuf_write_CARD32s(x_rpcbuf_t* rpcbuf, const(CARD32)* values, size_t count)
 {
     if ((!values) || (!count))
-        return TRUE;
+        return True;
 
     CARD32* reserved = cast(uint*)x_rpcbuf_reserve(rpcbuf, ((CARD32).sizeof * count));
     if (!reserved)
-        return FALSE;
+        return False;
 
     memcpy(reserved, values, ((CARD32).sizeof * count));
 
     if (rpcbuf.swapped)
         SwapLongs(reserved, count);
 
-    return TRUE;
+    return True;
 }
 
 Bool x_rpcbuf_write_CARD64s(x_rpcbuf_t* rpcbuf, const(CARD64)* values, size_t count)
 {
     if ((!values) || (!count))
-        return TRUE;
+        return True;
 
     CARD64* reserved = cast(ulong*)x_rpcbuf_reserve(rpcbuf, ((CARD64).sizeof * count));
     if (!reserved)
-        return FALSE;
+        return False;
 
     memcpy(reserved, values, ((CARD64).sizeof * count));
 
@@ -228,13 +228,13 @@ Bool x_rpcbuf_write_CARD64s(x_rpcbuf_t* rpcbuf, const(CARD64)* values, size_t co
         for (size_t x = 0; x<count; x++)
             swapll(&reserved[x]);
 
-    return TRUE;
+    return True;
 }
 
 Bool x_rpcbuf_write_binary_pad(x_rpcbuf_t* rpcbuf, const(void)* values, size_t size)
 {
     if ((!values) || (!size))
-        return TRUE;
+        return True;
 
     return __x_rpcbuf_write_bin_pad(rpcbuf,cast(const char*) values, size);
 }

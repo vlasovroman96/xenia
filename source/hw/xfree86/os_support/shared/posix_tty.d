@@ -356,7 +356,7 @@ int xf86SetSerial(int fd, XF86OptionPtr options)
         free(s);
     }
 
-    if ((xf86SetBoolOption(options, "ClearDTR", FALSE)) != 0) {
+    if ((xf86SetBoolOption(options, "ClearDTR", False)) != 0) {
 version (CLEARDTR_SUPPORT) {
 version (TIOCMBIC) {
         val = TIOCM_DTR;
@@ -371,7 +371,7 @@ version (TIOCMBIC) {
         xf86MarkOptionUsedByName(options, "ClearDTR");
     }
 
-    if ((xf86SetBoolOption(options, "ClearRTS", FALSE)) != 0) {
+    if ((xf86SetBoolOption(options, "ClearRTS", False)) != 0) {
         LogMessageVerb(X_WARNING, 1, "Option ClearRTS not supported on this OS\n");
         return -1;
         xf86MarkOptionUsedByName(options, "ClearRTS");

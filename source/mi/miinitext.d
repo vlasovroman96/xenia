@@ -206,7 +206,7 @@ Bool EnableDisableExtension(const(char)* name, Bool enable)
         if (strcasecmp(name, ext.name) == 0) {
             if (ext.disablePtr !is null) {
                 *ext.disablePtr = !enable;
-                return TRUE;
+                return True;
             }
             else {
                 /* Extension is always on, impossible to disable */
@@ -216,27 +216,27 @@ Bool EnableDisableExtension(const(char)* name, Bool enable)
         }
     }
 
-    return FALSE;
+    return False;
 }
 
 void EnableDisableExtensionError(const(char)* name, Bool enable)
 {
     const(ExtensionModule)* ext = void;
     int i = void;
-    Bool found = FALSE;
+    Bool found = False;
 
     for (i = 0; i < staticExtensions.length; i++) {
         ext = &staticExtensions[i];
         if ((strcmp(name, ext.name) == 0) && (ext.disablePtr is null)) {
             ErrorF("[mi] Extension \"%s\" can not be disabled\n", name);
-            found = TRUE;
+            found = True;
             break;
         }
     }
-    if (found == FALSE) {
+    if (found == False) {
         ErrorF("[mi] Extension \"%s\" is not recognized\n", name);
         /* Disabling a non-existing extension is a no-op anyway */
-        if (enable == FALSE)
+        if (enable == False)
             return;
     }
     ListStaticExtensions();
@@ -247,14 +247,14 @@ private int numExtensionModules = 0;
 
 private void AddStaticExtensions()
 {
-    static Bool listInitialised = FALSE;
+    static Bool listInitialised = False;
 
     if (listInitialised)
         return;
-    listInitialised = TRUE;
+    listInitialised = True;
 
     /* Add built-in extensions to the list. */
-    LoadExtensionList(cast(ExtensionModule*)staticExtensions.ptr, cast(int)staticExtensions.length, TRUE);
+    LoadExtensionList(cast(ExtensionModule*)staticExtensions.ptr, cast(int)staticExtensions.length, True);
 }
 
 void InitExtensions(int argc, char** argv)

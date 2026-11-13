@@ -51,7 +51,7 @@ void fbPutImage(DrawablePtr pDrawable, GCPtr pGC, int depth, int x, int y, int w
                      pPriv.fg,
                      pPriv.bg,
                      pPriv.pm,
-                     pGC.alu, TRUE, x, y, w, h, src, srcStride, leftPad);
+                     pGC.alu, True, x, y, w, h, src, srcStride, leftPad);
         break;
     case XYPixmap:
         srcStride = cast(int)(mixin(BitmapBytePad!("w + leftPad")) / FbStip.sizeof);
@@ -63,7 +63,7 @@ void fbPutImage(DrawablePtr pDrawable, GCPtr pGC, int depth, int x, int y, int w
                              0,
                              fbReplicatePixel(cast(uint)i, pDrawable.bitsPerPixel),
                              pGC.alu,
-                             TRUE, x, y, w, h, src, srcStride, leftPad);
+                             True, x, y, w, h, src, srcStride, leftPad);
             }
             src += srcStride * h;
         }

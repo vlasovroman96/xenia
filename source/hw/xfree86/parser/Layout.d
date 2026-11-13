@@ -65,7 +65,6 @@ import xf86tokens;
 import Configint;
 import x11.Xmd;
 import x11.Xdefs;
-import common.misc;
 import hw.xfree86.parser.Flags;
 import scan;
 import core.stdc.string;
@@ -106,7 +105,7 @@ alias CLEANUP = xf86freeLayoutList;
 
 XF86ConfLayoutPtr xf86parseLayoutSection()
 {
-    int has_ident = FALSE;
+    int has_ident = False;
     int token = void;
 
     mixin(parsePrologue!("XF86ConfLayoutPtr", "XF86ConfLayoutRec"));
@@ -121,10 +120,10 @@ XF86ConfLayoutPtr xf86parseLayoutSection()
         case IDENTIFIER:
             if (xf86getSubToken(&(ptr.lay_comment)) != XF86_TOKEN_STRING)
                 mixin(ErrorP!(`QUOTE_MSG, "Identifier"`));
-            if (has_ident == TRUE)
+            if (has_ident == True)
                 mixin(ErrorP!(`MULTIPLE_MSG, "Identifier"`));
             ptr.lay_identifier = xf86_lex_val.str;
-            has_ident = TRUE;
+            has_ident = True;
             break;
         case MATCHSEAT:
             if (xf86getSubToken(&(ptr.lay_comment)) != XF86_TOKEN_STRING)
@@ -446,7 +445,7 @@ int xf86layoutAddInputDevices(XF86ConfigPtr config, XF86ConfLayoutPtr layout)
     /* add all AutoServerLayout devices to the server layout */
     while (input) {
         if (xf86CheckBoolOption
-            (input.inp_option_lst, "AutoServerLayout", FALSE)) {
+            (input.inp_option_lst, "AutoServerLayout", False)) {
             XF86ConfInputrefPtr iref = layout.lay_input_lst;
 
             /* avoid duplicates if referenced but lists AutoServerLayout too */
@@ -503,7 +502,7 @@ int xf86validateLayout(XF86ConfigPtr p)
                 xf86validationError(UNDEFINED_SCREEN_MSG,
                                     adj.adj_screen_str,
                                     layout.lay_identifier);
-                return FALSE;
+                return False;
             }
             else
                 adj.adj_screen = screen;
@@ -518,7 +517,7 @@ int xf86validateLayout(XF86ConfigPtr p)
                 xf86validationError(UNDEFINED_DEVICE_LAY_MSG,
                                     iptr.inactive_device_str,
                                     layout.lay_identifier);
-                return FALSE;
+                return False;
             }
             else
                 iptr.inactive_device = device;
@@ -526,11 +525,11 @@ int xf86validateLayout(XF86ConfigPtr p)
         }
 
         if (xf86layoutAddInputDevices(p, layout) == -1)
-            return FALSE;
+            return False;
 
         layout = cast(_XF86ConfLayoutRec*)layout.list.next;
     }
-    return TRUE;
+    return True;
 }
 
 XF86ConfLayoutPtr xf86findLayout(const(char)* name, XF86ConfLayoutPtr list)

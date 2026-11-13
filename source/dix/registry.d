@@ -85,10 +85,10 @@ int double_size_(void* p, uint n, uint size)
     *ptr = cast(char*) realloc(*ptr, n);
     if (!*ptr) {
         dixResetRegistry();
-        return FALSE;
+        return False;
     }
     memset(*ptr + s, 0, f - s);
-    return TRUE;
+    return True;
 }
 }
 

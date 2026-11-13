@@ -310,14 +310,14 @@ private Bool xf86ParseSbusBusString(const(char)* busID, int* fbNum)
     int i = void, len = void;
 
     if (StringToBusType(busID, &id) != BUS_SBUS)
-        return FALSE;
+        return False;
 
     if (*id != '/') {
         if (!strncmp(id, "fb", 2)) {
             if (!isdigit(id[2]))
-                return FALSE;
+                return False;
             *fbNum = atoi(id + 2);
-            return TRUE;
+            return True;
         }
         else {
             sbusDevicePtr* psdpp = void;
@@ -331,19 +331,19 @@ private Bool xf86ParseSbusBusString(const(char)* busID, int* fbNum)
             }
             devId = sbusDeviceTable[i].devId;
             if (!devId)
-                return FALSE;
+                return False;
             i = atoi(id + len);
             for (psdpp = xf86SbusInfo; *psdpp; ++psdpp) {
                 if ((*psdpp).devId != devId)
                     continue;
                 if (!i) {
                     *fbNum = (*psdpp).fbNum;
-                    return TRUE;
+                    return True;
                 }
                 i--;
             }
         }
-        return FALSE;
+        return False;
     }
 
     if (sparcPromInit() >= 0) {
@@ -355,16 +355,16 @@ private Bool xf86ParseSbusBusString(const(char)* busID, int* fbNum)
             for (psdpp = xf86SbusInfo; *psdpp; ++psdpp) {
                 if ((*psdpp).node.node == i) {
                     *fbNum = (*psdpp).fbNum;
-                    return TRUE;
+                    return True;
                 }
             }
         }
     }
-    return FALSE;
+    return False;
 }
 
 /*
- * Compare a BUS ID string with a SBUS bus id.  Return TRUE if they match.
+ * Compare a BUS ID string with a SBUS bus id.  Return True if they match.
  */
 
 private Bool xf86CompareSbusBusString(const(char)* busID, int fbNum)
@@ -375,12 +375,12 @@ private Bool xf86CompareSbusBusString(const(char)* busID, int fbNum)
         return fbNum == iFbNum;
     }
     else {
-        return FALSE;
+        return False;
     }
 }
 
 /*
- * Check if the slot requested is free.  If it is already in use, return FALSE.
+ * Check if the slot requested is free.  If it is already in use, return False.
  */
 
 private Bool xf86CheckSbusSlot(int fbNum)
@@ -392,10 +392,10 @@ private Bool xf86CheckSbusSlot(int fbNum)
         p = xf86Entities[i];
         /* Check if this SBUS slot is taken */
         if (p.bus.type == BUS_SBUS && p.bus.id.sbus.fbNum == fbNum)
-            return FALSE;
+            return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -418,7 +418,7 @@ private int xf86ClaimSbusSlot(sbusDevicePtr psdp, DriverPtr drvp, GDevPtr dev, B
         xf86AddDevToEntity(num, dev);
         p.bus.id.sbus.fbNum = psdp.fbNum;
         p.active = active;
-        p.inUse = FALSE;
+        p.inUse = False;
         return num;
     }
     else
@@ -454,7 +454,7 @@ int xf86MatchSbusInstances(const(char)* driverName, int sbusDevId, GDevPtr* devL
                                     allocatedInstances, Inst.sizeof);
         instances[allocatedInstances - 1].sbus = psdp;
         instances[allocatedInstances - 1].dev = null;
-        instances[allocatedInstances - 1].claimed = FALSE;
+        instances[allocatedInstances - 1].claimed = False;
         numFound++;
     }
 
@@ -551,7 +551,7 @@ int xf86MatchSbusInstances(const(char)* driverName, int sbusDevId, GDevPtr* devL
         }
         else if (dev) {
             numClaimedInstances++;
-            instances[i].claimed = TRUE;
+            instances[i].claimed = True;
             instances[i].dev = dev;
         }
         free(promPath);
@@ -579,7 +579,7 @@ int xf86MatchSbusInstances(const(char)* driverName, int sbusDevId, GDevPtr* devL
         retEntities = cast(int*) XNFreallocarray(retEntities, numFound, int.sizeof);
         retEntities[numFound - 1]
             = xf86ClaimSbusSlot(psdp, drvp, instances[i].dev,
-                                instances[i].dev.active ? TRUE : FALSE);
+                                instances[i].dev.active ? True : False);
     }
     free(instances);
     if (numFound > 0) {
@@ -637,8 +637,8 @@ void xf86SbusUseBuiltinMode(ScrnInfoPtr pScrn, sbusDevicePtr psdp)
     mode.CrtcVSyncStart = mode.VSyncStart;
     mode.CrtcVSyncEnd = mode.VSyncEnd;
     mode.CrtcVTotal = mode.VTotal;
-    mode.CrtcHAdjusted = FALSE;
-    mode.CrtcVAdjusted = FALSE;
+    mode.CrtcHAdjusted = False;
+    mode.CrtcVAdjusted = False;
     pScrn.modes = mode;
     pScrn.virtualX = psdp.width;
     pScrn.virtualY = psdp.height;
@@ -732,7 +732,7 @@ Bool xf86SbusHandleColormaps(ScreenPtr pScreen, sbusDevicePtr psdp)
     fbcmap.green = cmap.origGreen.ptr;
     fbcmap.blue = cmap.origBlue.ptr;
     if (ioctl(psdp.fd, FBIOGETCMAP, &fbcmap) >= 0)
-        cmap.origCmapValid = TRUE;
+        cmap.origCmapValid = True;
     fbcmap.index = 0;
     fbcmap.count = 2;
     fbcmap.red = data.ptr;

@@ -86,7 +86,7 @@ import common.swap;
 
 enum XTestCurrentCursor = cast(Cursor)1;
 
-Bool noTestExtensions = FALSE;
+Bool noTestExtensions = False;
 
 /* XTest events are sent during request processing and may be interrupted by
  * a SIGIO. We need a separate event list to avoid events overwriting each
@@ -201,7 +201,7 @@ private int ProcXTestFakeInput(ClientPtr client)
     xEvent* ev = void;
     DeviceIntPtr dev = null;
     WindowPtr root = void;
-    Bool extension = FALSE;
+    Bool extension = False;
     ValuatorMask mask = void;
     int[MAX_VALUATORS] valuators = 0;
     int numValuators = 0;
@@ -219,7 +219,7 @@ private int ProcXTestFakeInput(ClientPtr client)
     type = ev.u.u.type & octal!"177";
 
     if (type >= EXTENSION_EVENT_BASE) {
-        extension = TRUE;
+        extension = True;
 
         /* check device */
         int rc = dixLookupDevice(&dev, stuff.deviceid & octal!"177", client,
@@ -549,12 +549,12 @@ void InitXTestDevices()
          FatalError("Failed to allocate XTest devices");
     }
 
-    if (ActivateDevice(xtestpointer, TRUE) != Success ||
-        ActivateDevice(xtestkeyboard, TRUE) != Success) {
+    if (ActivateDevice(xtestpointer, True) != Success ||
+        ActivateDevice(xtestkeyboard, True) != Success) {
         FatalError("Failed to activate XTest core devices.");
     }
 
-    if (!EnableDevice(xtestpointer, TRUE) || !EnableDevice(xtestkeyboard, TRUE)) {
+    if (!EnableDevice(xtestpointer, True) || !EnableDevice(xtestkeyboard, True)) {
         FatalError("Failed to enable XTest core devices.");
     }
 
@@ -593,24 +593,24 @@ int AllocXTestDevice(ClientPtr client, const(char)* name, DeviceIntPtr* ptr, Dev
 
     retval =
         AllocDevicePair(client, xtestname, ptr, keybd, &CorePointerProc,
-                        &CoreKeyboardProc, FALSE);
+                        &CoreKeyboardProc, False);
     if (retval == Success) {
         (*ptr).xtest_master_id = master_ptr.id;
         (*keybd).xtest_master_id = master_keybd.id;
 
         XIChangeDeviceProperty(*ptr, XIGetKnownProperty(XI_PROP_XTEST_DEVICE),
                                XA_INTEGER, 8, PropModeReplace, 1, &dummy,
-                               FALSE);
+                               False);
         XISetDevicePropertyDeletable(*ptr,
                                      XIGetKnownProperty(XI_PROP_XTEST_DEVICE),
-                                     FALSE);
+                                     False);
         XIRegisterPropertyHandler(*ptr, &DeviceSetXTestProperty, null, null);
         XIChangeDeviceProperty(*keybd, XIGetKnownProperty(XI_PROP_XTEST_DEVICE),
                                XA_INTEGER, 8, PropModeReplace, 1, &dummy,
-                               FALSE);
+                               False);
         XISetDevicePropertyDeletable(*keybd,
                                      XIGetKnownProperty(XI_PROP_XTEST_DEVICE),
-                                     FALSE);
+                                     False);
         XIRegisterPropertyHandler(*keybd, &DeviceSetXTestProperty, null, null);
     }
 
@@ -620,15 +620,15 @@ int AllocXTestDevice(ClientPtr client, const(char)* name, DeviceIntPtr* ptr, Dev
 }
 
 /**
- * If master is NULL, return TRUE if the given device is an xtest device or
- * FALSE otherwise.
- * If master is not NULL, return TRUE if the given device is this master's
+ * If master is NULL, return True if the given device is an xtest device or
+ * False otherwise.
+ * If master is not NULL, return True if the given device is this master's
  * xtest device.
  */
 BOOL IsXTestDevice(DeviceIntPtr dev, DeviceIntPtr master)
 {
     if (InputDevIsMaster(dev)) {
-        return FALSE;
+        return False;
     }
 
     /* deviceid 0 is reserved for XIAllDevices, non-zero mid means XTest

@@ -211,7 +211,7 @@ alias XorgScreenPostCreateResourcesProcPtr = void function(CallbackListPtr* pcbl
  * @param arg opaque pointer passed to the hook
  *
  * This hook is called when CreateScreenResources() had been called
- * and returned TRUE.
+ * and returned True.
  **/
 // export void dixScreenHookPostCreateResources(ScreenPtr pScreen, XorgScreenPostCreateResourcesProcPtr func);
 

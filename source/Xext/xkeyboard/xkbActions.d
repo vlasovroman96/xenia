@@ -632,7 +632,7 @@ private int _XkbFilterPointerBtn(XkbSrvInfoPtr xkbi, XkbFilterPtr filter, uint k
                 break;
             }
             if (XkbComputeControlsNotify(xkbi.device,
-                                         &old, xkbi.desc.ctrls, &cn, FALSE)) {
+                                         &old, xkbi.desc.ctrls, &cn, False)) {
                 cn.keycode = cast(ubyte)keycode;
                 /* XXX: what about DeviceKeyPress? */
                 cn.eventType = KeyPress;
@@ -706,7 +706,7 @@ private int _XkbFilterControls(XkbSrvInfoPtr xkbi, XkbFilterPtr filter, uint key
             XkbSrvLedInfoPtr sli = void;
 
             ctrls.enabled_ctrls |= change;
-            if (XkbComputeControlsNotify(kbd, &old, ctrls, &cn, FALSE)) {
+            if (XkbComputeControlsNotify(kbd, &old, ctrls, &cn, False)) {
                 cn.keycode = cast(ubyte)keycode;
                 /* XXX: what about DeviceKeyPress? */
                 cn.eventType = KeyPress;
@@ -720,10 +720,10 @@ private int _XkbFilterControls(XkbSrvInfoPtr xkbi, XkbFilterPtr filter, uint key
             /* If sticky keys were disabled, clear all locks and latches */
             if ((old.enabled_ctrls & XkbStickyKeysMask) &&
                 (!(ctrls.enabled_ctrls & XkbStickyKeysMask))) {
-                XkbClearAllLatchesAndLocks(kbd, xkbi, FALSE, &cause);
+                XkbClearAllLatchesAndLocks(kbd, xkbi, False, &cause);
             }
             sli = XkbFindSrvLedInfo(kbd, XkbDfltXIClass, XkbDfltXIId, 0);
-            XkbUpdateIndicators(kbd, sli.usesControls, TRUE, null, &cause);
+            XkbUpdateIndicators(kbd, sli.usesControls, True, null, &cause);
             if (mixin(XkbAX_NeedFeedback!("ctrls", "XkbAX_FeatureFBMask")))
                 XkbDDXAccessXBeep(kbd, _BEEP_FEATURE_ON, change);
         }
@@ -735,7 +735,7 @@ private int _XkbFilterControls(XkbSrvInfoPtr xkbi, XkbFilterPtr filter, uint key
             XkbSrvLedInfoPtr sli = void;
 
             ctrls.enabled_ctrls &= ~change;
-            if (XkbComputeControlsNotify(kbd, &old, ctrls, &cn, FALSE)) {
+            if (XkbComputeControlsNotify(kbd, &old, ctrls, &cn, False)) {
                 cn.keycode = cast(ubyte)keycode;
                 cn.eventType = KeyRelease;
                 cn.requestMajor = 0;
@@ -747,10 +747,10 @@ private int _XkbFilterControls(XkbSrvInfoPtr xkbi, XkbFilterPtr filter, uint key
             /* If sticky keys were disabled, clear all locks and latches */
             if ((old.enabled_ctrls & XkbStickyKeysMask) &&
                 (!(ctrls.enabled_ctrls & XkbStickyKeysMask))) {
-                XkbClearAllLatchesAndLocks(kbd, xkbi, FALSE, &cause);
+                XkbClearAllLatchesAndLocks(kbd, xkbi, False, &cause);
             }
             sli = XkbFindSrvLedInfo(kbd, XkbDfltXIClass, XkbDfltXIId, 0);
-            XkbUpdateIndicators(kbd, sli.usesControls, TRUE, null, &cause);
+            XkbUpdateIndicators(kbd, sli.usesControls, True, null, &cause);
             if (mixin(XkbAX_NeedFeedback!("ctrls", "XkbAX_FeatureFBMask")))
                 XkbDDXAccessXBeep(kbd, _BEEP_FEATURE_OFF, change);
         }
@@ -921,7 +921,7 @@ private int _XkbFilterRedirectKey(XkbSrvInfoPtr xkbi, XkbFilterPtr filter, uint 
 	}
 	else {
 	    ev.type = ET_KeyPress;
-	    ev.key_repeat = TRUE;
+	    ev.key_repeat = True;
 	}
 
 	mask = mixin(XkbSARedirectVModsMask!("&filter.upAction.redirect"));
@@ -1011,11 +1011,11 @@ private int XkbHandlePrivate(DeviceIntPtr dev, KeyCode keycode, XkbAction* pActi
         }
         else if (strcasecmp(msgbuf.ptr, "ungrab") == 0) {
             LogMessage(X_INFO, "Ungrabbing devices\n");
-            UngrabAllDevices(FALSE);
+            UngrabAllDevices(False);
         }
         else if (strcasecmp(msgbuf.ptr, "clsgrb") == 0) {
             LogMessage(X_INFO, "Clear grabs\n");
-            UngrabAllDevices(TRUE);
+            UngrabAllDevices(True);
         }
         else if (strcasecmp(msgbuf.ptr, "prwins") == 0) {
             LogMessage(X_INFO, "Printing window tree\n");
@@ -1078,7 +1078,7 @@ private int _XkbFilterDeviceBtn(XkbSrvInfoPtr xkbi, XkbFilterPtr filter, uint ke
             if ((pAction.devbtn.flags & XkbSA_LockNoLock) ||
                 mixin(BitIsOn!("dev.button.down", "button")))
                 return 0;
-            XkbFakeDeviceButton(dev, TRUE, button);
+            XkbFakeDeviceButton(dev, True, button);
             filter.upAction.type = XkbSA_NoAction;
             break;
         case XkbSA_DeviceBtn:
@@ -1087,13 +1087,13 @@ private int _XkbFilterDeviceBtn(XkbSrvInfoPtr xkbi, XkbFilterPtr filter, uint ke
 
                 nClicks = pAction.btn.count;
                 for (i = 0; i < nClicks; i++) {
-                    XkbFakeDeviceButton(dev, TRUE, button);
-                    XkbFakeDeviceButton(dev, FALSE, button);
+                    XkbFakeDeviceButton(dev, True, button);
+                    XkbFakeDeviceButton(dev, False, button);
                 }
                 filter.upAction.type = XkbSA_NoAction;
             }
             else
-                XkbFakeDeviceButton(dev, TRUE, button);
+                XkbFakeDeviceButton(dev, True, button);
             break;
         default: break;}
     }
@@ -1113,10 +1113,10 @@ private int _XkbFilterDeviceBtn(XkbSrvInfoPtr xkbi, XkbFilterPtr filter, uint ke
             if ((filter.upAction.devbtn.flags & XkbSA_LockNoUnlock) ||
                 !mixin(BitIsOn!("dev.button.down", "button")))
                 return 0;
-            XkbFakeDeviceButton(dev, FALSE, button);
+            XkbFakeDeviceButton(dev, False, button);
             break;
         case XkbSA_DeviceBtn:
-            XkbFakeDeviceButton(dev, FALSE, button);
+            XkbFakeDeviceButton(dev, False, button);
             break;
         default: break;}
         filter.active = 0;
@@ -1175,14 +1175,14 @@ private int _XkbApplyFilters(XkbSrvInfoPtr xkbi, uint kc, XkbAction* pAction)
 
 private int _XkbEnsureStateChange(XkbSrvInfoPtr xkbi)
 {
-    Bool genStateNotify = FALSE;
+    Bool genStateNotify = False;
 
     /* The state may change, so if we're not in the middle of sending a state
      * notify, prepare for it */
     if ((xkbi.flags & _XkbStateNotifyInProgress) == 0) {
         xkbi.prev_state = xkbi.state;
         xkbi.flags |= _XkbStateNotifyInProgress;
-        genStateNotify = TRUE;
+        genStateNotify = True;
     }
 
     return genStateNotify;
@@ -1208,11 +1208,11 @@ private void _XkbApplyState(DeviceIntPtr dev, Bool genStateNotify, int evtype, i
         xkbi.flags &= ~_XkbStateNotifyInProgress;
     }
 
-    changed = XkbIndicatorsToUpdate(dev, changed, FALSE);
+    changed = XkbIndicatorsToUpdate(dev, changed, False);
     if (changed) {
         XkbEventCauseRec cause = void;
         mixin(XkbSetCauseKey!("&cause", "key", "cast(ubyte)evtype"));
-        XkbUpdateIndicators(dev, changed, FALSE, null, &cause);
+        XkbUpdateIndicators(dev, changed, False, null, &cause);
     }
 }
 
@@ -1529,9 +1529,9 @@ void XkbClearAllLatchesAndLocks(DeviceIntPtr dev, XkbSrvInfoPtr xkbi, Bool genEv
         sn.requestMinor = cause.mnr;
         sn.changed = cast(ushort)XkbStateChangedFlags(&os, &xkbi.state);
         XkbSendStateNotify(dev, &sn);
-        changed = XkbIndicatorsToUpdate(dev, sn.changed, FALSE);
+        changed = XkbIndicatorsToUpdate(dev, sn.changed, False);
         if (changed) {
-            XkbUpdateIndicators(dev, changed, TRUE, null, cause);
+            XkbUpdateIndicators(dev, changed, True, null, cause);
         }
     }
     return;
@@ -1578,7 +1578,7 @@ private void InjectPointerKeyEvents(DeviceIntPtr dev, int type, int button, int 
     events = InitEventList(GetMaximumEventsNum() + 1);
     input_lock();
     pScreen = miPointerGetScreen(ptr);
-    saveWait = miPointerSetWaitForUpdate(pScreen, FALSE);
+    saveWait = miPointerSetWaitForUpdate(pScreen, False);
     nevents = GetPointerEvents(events, ptr, type, button, flags, mask);
     if (InputDevIsMaster(dev) && (lastSlave && lastSlave != ptr))
         UpdateFromMaster(&events[nevents], lastSlave, DEVCHANGE_POINTER_EVENT,

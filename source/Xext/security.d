@@ -71,7 +71,7 @@ import common.swap;
 
 enum XSecurityAllEventMasks = 1<<0;
 
-Bool noSecurityExtension = FALSE;
+Bool noSecurityExtension = False;
 
 /* Extension stuff */
 private int SecurityErrorBase;   /* first Security error number */
@@ -164,8 +164,8 @@ private void SecurityLabelInitial()
     /* Do the serverClient */
     state = cast(SecurityStateRec*)dixLookupPrivate(&serverClient.devPrivates, stateKey);
     state.trustLevel = XSecurityClientTrusted;
-    state.haveState = TRUE;
-    state.live = FALSE;
+    state.haveState = True;
+    state.live = False;
 }
 
 /*
@@ -407,7 +407,7 @@ private int ProcSecurityGenerateAuthorization(ClientPtr client)
     mixin(X_REQUEST_FIELD_CARD32!"valueMask");
 
     int len = void;                    /* request length in CARD32s */
-    Bool removeAuth = FALSE;    /* if bailout, call RemoveAuthorization? */
+    Bool removeAuth = False;    /* if bailout, call RemoveAuthorization? */
     int err = void;                    /* error to return from this function */
     XID authId = void;                 /* authorization ID assigned by os layer */
     uint trustLevel = void;    /* trust level of new auth */
@@ -466,7 +466,7 @@ private int ProcSecurityGenerateAuthorization(ClientPtr client)
             SecurityValidateGroupInfoRec vgi = void;
 
             vgi.group = group;
-            vgi.valid = FALSE;
+            vgi.valid = False;
             CallCallbacks(&SecurityValidateGroupCallback, cast(void*) &vgi);
 
             /* if nobody said they recognized it, it's an error */
@@ -503,12 +503,12 @@ private int ProcSecurityGenerateAuthorization(ClientPtr client)
     /* now that we've added the auth, remember to remove it if we have to
      * abort the request for some reason (like allocation failure)
      */
-    removeAuth = TRUE;
+    removeAuth = True;
 
     /* associate additional information with this auth ID */
 
     SecurityAuthorizationPtr pAuth = cast(SecurityAuthorizationPtr)cast(SecurityAuthorizationRec*) calloc(1, SecurityAuthorizationRec.sizeof);
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     xSecurityGenerateAuthorizationReply reply = {
         authId: cast(uint)authId,
         dataLength: cast(ushort)authdata_len
@@ -617,12 +617,12 @@ private void SwapSecurityAuthorizationRevokedEvent(xSecurityAuthorizationRevoked
  * Arguments:
  *	client is the client attempting to access a device.
  *	dev is the device being accessed.
- *	fromRequest is TRUE if the device access is a direct result of
- *	  the client executing some request and FALSE if it is a
+ *	fromRequest is True if the device access is a direct result of
+ *	  the client executing some request and False if it is a
  *	  result of the server trying to send an event (e.g. KeymapNotify)
  *	  to the client.
  * Returns:
- *	TRUE if the device access should be allowed, else FALSE.
+ *	TRUE if the device access should be allowed, else False.
  *
  * Side Effects:
  *	An audit message is generated if access is denied.
@@ -665,7 +665,7 @@ private void SecurityDevice(CallbackListPtr* pcbl, void* unused, void* calldata)
  *	res is a pointer to the resource structure for this resource.
  *
  * Returns:
- *	If access is granted, the value of rval that was passed in, else FALSE.
+ *	If access is granted, the value of rval that was passed in, else False.
  *
  * Side Effects:
  *	Disallowed resource accesses are audited.
@@ -683,7 +683,7 @@ private void SecurityResource(CallbackListPtr* pcbl, void* unused, void* calldat
     /* disable background None for untrusted windows */
     if ((requested & DixCreateAccess) && (rec.rtype == X11_RESTYPE_WINDOW))
         if (subj.haveState && subj.trustLevel != XSecurityClientTrusted)
-            (cast(WindowPtr) rec.res).forcedBG = TRUE;
+            (cast(WindowPtr) rec.res).forcedBG = True;
 
     /* additional permissions for specific resource types */
     if (rec.rtype == X11_RESTYPE_WINDOW)
@@ -883,8 +883,8 @@ private void SecurityClientState(CallbackListPtr* pcbl, void* unused, void* call
     case ClientStateInitial:
         state.trustLevel = XSecurityClientTrusted;
         state.authId = None;
-        state.haveState = TRUE;
-        state.live = FALSE;
+        state.haveState = True;
+        state.live = False;
         break;
 
     case ClientStateRunning:
@@ -896,7 +896,7 @@ private void SecurityClientState(CallbackListPtr* pcbl, void* unused, void* call
         if (rc == Success) {
             /* it is a generated authorization */
             pAuth.refcnt++;
-            state.live = TRUE;
+            state.live = True;
             if (pAuth.refcnt == 1 && pAuth.timer)
                 TimerCancel(pAuth.timer);
 
@@ -913,7 +913,7 @@ private void SecurityClientState(CallbackListPtr* pcbl, void* unused, void* call
         if (rc == Success && state.live) {
             /* it is a generated authorization */
             pAuth.refcnt--;
-            state.live = FALSE;
+            state.live = False;
             if (pAuth.refcnt == 0)
                 SecurityStartAuthorizationTimer(pAuth);
         }
@@ -964,7 +964,7 @@ private void SecurityResetProc(_ExtensionEntry* extEntry)
 void SecurityExtensionInit()
 {
     _ExtensionEntry* extEntry = void;
-    int ret = TRUE;
+    int ret = True;
 
     SecurityAuthorizationResType =
         CreateNewResourceType(&SecurityDeleteAuthorization,

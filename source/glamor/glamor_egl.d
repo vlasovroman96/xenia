@@ -95,6 +95,8 @@ import core.stdc.stdlib;
 import core.stdc.string;
 import core.sys.posix.unistd;
 import externs.glob;
+import common.bools;
+
 /**
  * EGLDeviceEXT's are internally stored as a globals.
  * As such, when multiple screens query the same device,

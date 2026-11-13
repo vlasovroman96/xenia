@@ -39,22 +39,22 @@ import hw.xfree86.os_support.xf86_OSlib;
 // //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 // Bool xf86VTSwitchPending()
 // {
-//     return FALSE;
+//     return False;
 // }
 
 // //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 // Bool xf86VTSwitchAway()
 // {
-//     return FALSE;
+//     return False;
 // }
 
 // //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 // Bool xf86VTSwitchTo()
 // {
-//     return TRUE;
+//     return True;
 // }
 
 // Bool xf86VTActivate(int vtno)
 // {
-//     return TRUE;
+//     return True;
 // }

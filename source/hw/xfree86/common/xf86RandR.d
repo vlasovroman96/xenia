@@ -102,7 +102,7 @@ private Bool xf86RandRGetInfo(ScreenPtr pScreen, Rotation* rotations)
                                cast(short)mode.HDisplay, cast(short)mode.VDisplay,
                                cast(short)RRModeMM.mmWidth, cast(short)RRModeMM.mmHeight);
         if (!pSize)
-            return FALSE;
+            return False;
         RRRegisterRate(pScreen, pSize, refresh);
         if (mode == scrp.currentMode &&
             mode.HDisplay == scrp.virtualX &&
@@ -129,7 +129,7 @@ private Bool xf86RandRGetInfo(ScreenPtr pScreen, Rotation* rotations)
                                cast(short)randrp.virtualX, cast(short)randrp.virtualY,
                                cast(short)RRModeMM.mmWidth, cast(short)RRModeMM.mmHeight);
         if (!pSize)
-            return FALSE;
+            return False;
         RRRegisterRate(pScreen, pSize, refresh0);
         if (scrp.virtualX == randrp.virtualX &&
             scrp.virtualY == randrp.virtualY) {
@@ -143,11 +143,11 @@ private Bool xf86RandRGetInfo(ScreenPtr pScreen, Rotation* rotations)
 
         RRRotation.RRRotations = *rotations;
         if (!(*scrp.DriverFunc) (scrp, RR_GET_INFO, &RRRotation))
-            return TRUE;
+            return True;
         *rotations = RRRotation.RRRotations;
     }
 
-    return TRUE;
+    return True;
 }
 
 private Bool xf86RandRSetMode(ScreenPtr pScreen, DisplayModePtr mode, Bool useVirtual, int mmWidth, int mmHeight)
@@ -161,10 +161,10 @@ private Bool xf86RandRSetMode(ScreenPtr pScreen, DisplayModePtr mode, Bool useVi
     int oldVirtualX = scrp.virtualX;
     int oldVirtualY = scrp.virtualY;
     WindowPtr pRoot = pScreen.root;
-    Bool ret = TRUE;
+    Bool ret = True;
 
     if (pRoot && scrp.vtSema)
-        (*scrp.EnableDisableFBAccess) (scrp, FALSE);
+        (*scrp.EnableDisableFBAccess) (scrp, False);
     if (useVirtual) {
         scrp.virtualX = randrp.virtualX;
         scrp.virtualY = randrp.virtualY;
@@ -212,7 +212,7 @@ private Bool xf86RandRSetMode(ScreenPtr pScreen, DisplayModePtr mode, Bool useVi
         pScreen.mmHeight = cast(short)oldmmHeight;
         scrp.virtualX = cast(short)oldVirtualX;
         scrp.virtualY = cast(short)oldVirtualY;
-        ret = FALSE;
+        ret = False;
     }
     /*
      * Make sure the layout is correct
@@ -226,7 +226,7 @@ private Bool xf86RandRSetMode(ScreenPtr pScreen, DisplayModePtr mode, Bool useVi
         xf86SetViewport (pScreen, pScreen.width, pScreen.height);
         xf86SetViewport (pScreen, 0, 0);
         if (pRoot)
-            (*scrp.EnableDisableFBAccess) (scrp, TRUE);
+            (*scrp.EnableDisableFBAccess) (scrp, True);
     }
     return ret;
 }
@@ -237,10 +237,10 @@ private Bool xf86RandRSetConfig(ScreenPtr pScreen, Rotation rotation, int rate, 
     XF86RandRInfoPtr randrp = mixin(XF86RANDRINFO!(`pScreen`));
     DisplayModePtr mode = void;
     int[2][MAXDEVICES] pos = void;
-    Bool useVirtual = FALSE;
+    Bool useVirtual = False;
     Rotation oldRotation = randrp.rotation;
     DeviceIntPtr dev = void;
-    Bool view_adjusted = FALSE;
+    Bool view_adjusted = False;
 
     for (dev = inputInfo.devices; dev; dev = dev.next) {
         if (!InputDevIsMaster(dev) && !InputDevIsFloating(dev))
@@ -258,10 +258,10 @@ private Bool xf86RandRSetConfig(ScreenPtr pScreen, Rotation rotation, int rate, 
             if (pSize.width == randrp.virtualX &&
                 pSize.height == randrp.virtualY) {
                 mode = scrp.modes;
-                useVirtual = TRUE;
+                useVirtual = True;
                 break;
             }
-            return FALSE;
+            return False;
         }
     }
 
@@ -280,10 +280,10 @@ private Bool xf86RandRSetConfig(ScreenPtr pScreen, Rotation rotation, int rate, 
              * Currently we need to rely on HW support for rotation.
              */
             if (!(*scrp.DriverFunc) (scrp, RR_SET_CONFIG, &RRRotation))
-                return FALSE;
+                return False;
         }
         else
-            return FALSE;
+            return False;
 
         randrp.rotation = rotation;
     }
@@ -305,7 +305,7 @@ private Bool xf86RandRSetConfig(ScreenPtr pScreen, Rotation rotation, int rate, 
 
             randrp.rotation = oldRotation;
         }
-        return FALSE;
+        return False;
     }
 
     update_desktop_dimensions();
@@ -328,15 +328,15 @@ private Bool xf86RandRSetConfig(ScreenPtr pScreen, Rotation rotation, int rate, 
             /* Setting the viewpoint makes only sense on one device */
             if (!view_adjusted && InputDevIsMaster(dev)) {
                 xf86SetViewport(pScreen, px, py);
-                view_adjusted = TRUE;
+                view_adjusted = True;
             }
 
             if (pScreen.SetCursorPosition)
-                pScreen.SetCursorPosition(dev, pScreen, px, py, FALSE);
+                pScreen.SetCursorPosition(dev, pScreen, px, py, False);
         }
     }
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -367,21 +367,21 @@ Bool xf86RandRInit(ScreenPtr pScreen)
 static if(XINERAMA){
     /* XXX disable RandR when using Xinerama */
     if (!noPanoramiXExtension)
-        return TRUE;
+        return True;
 } /* XINERAMA */
 
     xf86RandRKey = &xf86RandRKeyRec;
 
     if (!dixRegisterPrivateKey(&xf86RandRKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
 
     XF86RandRInfoPtr randrp = cast(XF86RandRInfoRec*) calloc(1, XF86RandRInfoRec.sizeof);
     if (!randrp)
-        return FALSE;
+        return False;
 
     if (!RRScreenInit(pScreen)) {
         free(randrp);
-        return FALSE;
+        return False;
     }
     rp = mixin(rrGetScrPriv!("pScreen"));
     rp.rrGetInfo = &xf86RandRGetInfo;
@@ -397,5 +397,5 @@ static if(XINERAMA){
     randrp.rotation = RR_Rotate_0;
 
     dixSetPrivate(&pScreen.devPrivates, xf86RandRKey, randrp);
-    return TRUE;
+    return True;
 }

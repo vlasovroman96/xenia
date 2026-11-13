@@ -153,7 +153,7 @@ enum string IS_ROOT_DRAWABLE(string d) = `(((` ~ d ~ `).type == XRT_WINDOW) && (
                           /* _PANORAMIX_H_ */
 
 /* Xinerama is disabled by default unless enabled via +xinerama */
-Bool noPanoramiXExtension = TRUE;
+Bool noPanoramiXExtension = True;
 
 /*
  *	PanoramiX data declarations
@@ -445,13 +445,13 @@ Bool XineramaRegisterConnectionBlockCallback(void function() @nogc nothrow func)
     XineramaConnectionCallbackList* newlist = void;
 
     if (((newlist = cast(XineramaConnectionCallbackList*) cast(XineramaConnectionCallbackList*) calloc(1, XineramaConnectionCallbackList.sizeof)) is null))
-        return FALSE;
+        return False;
 
     newlist.next = ConnectionCallbackList;
     newlist.func = func;
     ConnectionCallbackList = newlist;
 
-    return TRUE;
+    return True;
 }
 
 private void XineramaInitData()
@@ -500,26 +500,26 @@ private void XineramaInitData()
 void PanoramiXExtensionInit()
 {
     int i = void;
-    Bool success = FALSE;
+    Bool success = False;
     ScreenPtr masterScreen = dixGetMasterScreen();
 
     if (noPanoramiXExtension)
         return;
 
     if (!dixRegisterPrivateKey(&PanoramiXScreenKeyRec, PRIVATE_SCREEN, 0)) {
-        noPanoramiXExtension = TRUE;
+        noPanoramiXExtension = True;
         return;
     }
 
     if (!dixRegisterPrivateKey
         (&PanoramiXGCKeyRec, PRIVATE_GC, PanoramiXGCRec.sizeof)) {
-        noPanoramiXExtension = TRUE;
+        noPanoramiXExtension = True;
         return;
     }
 
     PanoramiXNumScreens = screenInfo.numScreens;
     if (PanoramiXNumScreens == 1) {     /* Only 1 screen        */
-        noPanoramiXExtension = TRUE;
+        noPanoramiXExtension = True;
         return;
     }
 
@@ -542,7 +542,7 @@ void PanoramiXExtensionInit()
         dixSetPrivate(&walkScreen.devPrivates, &PanoramiXScreenKeyRec,
                       pScreenPriv);
         if (!pScreenPriv) {
-            noPanoramiXExtension = TRUE;
+            noPanoramiXExtension = True;
             return;
         }
 
@@ -567,7 +567,7 @@ void PanoramiXExtensionInit()
                                              "XineramaColormap");
 
     if (XRT_WINDOW && XRT_PIXMAP && XRT_GC && XRT_COLORMAP)
-        success = TRUE;
+        success = True;
 
     SetResourceTypeErrorValue(XRT_WINDOW, BadWindow);
     SetResourceTypeErrorValue(XRT_PIXMAP, BadPixmap);
@@ -575,7 +575,7 @@ void PanoramiXExtensionInit()
     SetResourceTypeErrorValue(XRT_COLORMAP, BadColor);
 
     if (!success) {
-        noPanoramiXExtension = TRUE;
+        noPanoramiXExtension = True;
         ErrorF(PANORAMIX_PROTOCOL_NAME ~ " extension failed to initialize\n");
         return;
     }
@@ -650,7 +650,7 @@ void PanoramiXExtensionInit()
 Bool PanoramiXCreateConnectionBlock()
 {
     int i = void, j = void, length = void;
-    Bool disable_backing_store = FALSE;
+    Bool disable_backing_store = False;
     int old_width = void, old_height = void;
     float width_mult = void, height_mult = void;
     xWindowRoot* root = void;
@@ -664,7 +664,7 @@ Bool PanoramiXCreateConnectionBlock()
 
     if (!PanoramiXNumDepths) {
         ErrorF("Xinerama error: No common visuals\n");
-        return FALSE;
+        return False;
     }
 
     ScreenPtr masterScreen = dixGetMasterScreen();
@@ -674,11 +674,11 @@ Bool PanoramiXCreateConnectionBlock()
 
         if (walkScreen.rootDepth != masterScreen.rootDepth) {
             ErrorF("Xinerama error: Root window depths differ\n");
-            return FALSE;
+            return False;
         }
         if (walkScreen.backingStoreSupport !=
             masterScreen.backingStoreSupport)
-            disable_backing_store = TRUE;
+            disable_backing_store = True;
     });
 
     if (disable_backing_store) {
@@ -691,7 +691,7 @@ Bool PanoramiXCreateConnectionBlock()
     screenInfo.numScreens = 1;
     if (!CreateConnectionBlock()) {
         screenInfo.numScreens = i;
-        return FALSE;
+        return False;
     }
 
     screenInfo.numScreens = i;
@@ -756,7 +756,7 @@ Bool PanoramiXCreateConnectionBlock()
         free(tmp);
     }
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -784,12 +784,12 @@ private Bool VisualsEqual(VisualPtr a, ScreenPtr pScreenB, VisualPtr b)
 private void PanoramiXMaybeAddDepth(DepthPtr pDepth)
 {
     int k = void;
-    Bool found = FALSE;
+    Bool found = False;
 
     mixin(XINERAMA_FOR_EACH_SCREEN_FORWARD_SKIP0!(q{
         for (k = 0; k < walkScreen.numDepths; k++) {
             if (walkScreen.allowedDepths[k].depth == pDepth.depth) {
-                found = TRUE;
+                found = True;
                 break;
             }
         }
@@ -810,16 +810,16 @@ private void PanoramiXMaybeAddDepth(DepthPtr pDepth)
 private void PanoramiXMaybeAddVisual(VisualPtr pVisual)
 {
     int k = void;
-    Bool found = FALSE;
+    Bool found = False;
 
     mixin(XINERAMA_FOR_EACH_SCREEN_FORWARD_SKIP0!(q{
-        found = FALSE;
+        found = False;
 
         for (k = 0; k < walkScreen.numVisuals; k++) {
             VisualPtr candidate = &walkScreen.visuals[k];
 
             if ((*XineramaVisualsEqualPtr) (pVisual, walkScreen, candidate)) {
-                found = TRUE;
+                found = True;
                 break;
             }
         }
@@ -885,10 +885,10 @@ void PanoramiXConsolidate()
     mixin(XINERAMA_FOR_EACH_SCREEN_BACKWARD!(q{
         root.info[walkScreenIdx].id = cast(uint)walkScreen.root.drawable.id;
         root.u.win.class_ = InputOutput;
-        root.u.win.root = TRUE;
+        root.u.win.root = True;
         saver.info[walkScreenIdx].id = walkScreen.screensaver.wid;
         saver.u.win.class_ = InputOutput;
-        saver.u.win.root = TRUE;
+        saver.u.win.root = True;
         defmap.info[walkScreenIdx].id = cast(uint)walkScreen.defColormap;
     }));
 
@@ -1061,7 +1061,7 @@ int ProcXineramaQueryScreens(ClientPtr client)
         number: number
     };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (!noPanoramiXExtension) {
         mixin(XINERAMA_FOR_EACH_SCREEN_BACKWARD!(q{
@@ -1149,14 +1149,14 @@ private Bool XineramaGetImageDataScr(BoxRec SrcBox, RegionPtr GrabRegion, Region
                                   SrcBox.y1 - pWalkDraw.y -
                                   walkScreen.y, width, height,
                                   format, planemask, data);
-            return FALSE;
+            return False;
         }
         else if (inOut == rgnOUT)
-            return TRUE;
+            return True;
 
         int nbox = RegionNumRects(GrabRegion);
         if (!nbox)
-            return TRUE;
+            return True;
 
         BoxRec* pbox = RegionRects(GrabRegion);
 
@@ -1249,9 +1249,9 @@ private Bool XineramaGetImageDataScr(BoxRec SrcBox, RegionPtr GrabRegion, Region
         free(ScratchMem);
         RegionSubtract(SrcRegion, SrcRegion, GrabRegion);
         if (!RegionNotEmpty(SrcRegion))
-            return FALSE;
+            return False;
 
-    return TRUE;
+    return True;
 }
 
 void XineramaGetImageData(DrawablePtr* pDrawables, int left, int top, int width, int height, uint format, c_ulong planemask, char* data, int pitch, Bool isRoot)

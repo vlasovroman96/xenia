@@ -38,7 +38,6 @@ import build.dix_config;
 
 //import   x11.X;
 static import   externs.X11.Xauth;
-import   common.misc;
 import os.osdep;
 import dix.dixstruct_priv;
 import   core.sys.posix.sys.types;
@@ -166,7 +165,7 @@ enum NUM_AUTHORIZATION =  protocols.length;
 
 private const(char)* authorization_file = null;
 
-private Bool ShouldLoadAuth = TRUE;
+private Bool ShouldLoadAuth = True;
 
 void InitAuthorization(const(char)* file_name)
 {
@@ -180,7 +179,7 @@ private int LoadAuthorization()
     int i = void;
     int count = 0;
 
-    ShouldLoadAuth = FALSE;
+    ShouldLoadAuth = False;
     if (!authorization_file)
         return 0;
 
@@ -229,17 +228,17 @@ XID CheckAuthorization(uint name_length, const(char)* name, uint data_length, co
     int i = void;
     stat_t buf = void;
     static time_t lastmod = 0;
-    static Bool loaded = FALSE;
+    static Bool loaded = False;
 
     if (!authorization_file || stat(authorization_file, &buf)) {
         if (lastmod != 0) {
             lastmod = 0;
-            ShouldLoadAuth = TRUE;      /* stat lost, so force reload */
+            ShouldLoadAuth = True;      /* stat lost, so force reload */
         }
     }
     else if (buf.st_mtim.tv_sec > lastmod) {
         lastmod = buf.st_mtim.tv_sec;
-        ShouldLoadAuth = TRUE;
+        ShouldLoadAuth = True;
     }
     if (ShouldLoadAuth) {
         int loadauth = LoadAuthorization();
@@ -260,7 +259,7 @@ XID CheckAuthorization(uint name_length, const(char)* name, uint data_length, co
 
         if (loadauth > 0) {
             DisableLocalAccess(); /* got at least one */
-            loaded = TRUE;
+            loaded = True;
         }
         else if (loadauth == 0 || !loaded)
             EnableLocalAccess();
@@ -287,7 +286,7 @@ void ResetAuthorization()
     for (i = 0; i < NUM_AUTHORIZATION; i++)
         if (protocols[i].Reset)
             (*protocols[i].Reset) ();
-    ShouldLoadAuth = TRUE;
+    ShouldLoadAuth = True;
 }
 
 int AuthorizationFromID(XID id, ushort* name_lenp, const(char)** namep, ushort* data_lenp, char** datap)

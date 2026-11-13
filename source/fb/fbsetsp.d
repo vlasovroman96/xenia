@@ -68,7 +68,7 @@ void fbSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* src, xPoint* ppt, int* p
                           dstStride,
                           (x1 + dstXoff) * dstBpp,
                           (x2 - x1) * dstBpp,
-                          1, pGC.alu, pPriv.pm, dstBpp, FALSE, FALSE);
+                          1, pGC.alu, pPriv.pm, dstBpp, False, False);
             }
         }
         src += PixmapBytePad(*pwidth, pDrawable.depth);

@@ -96,14 +96,14 @@ PixmapPtr exaCreatePixmap_mixed(ScreenPtr pScreen, int w, int h, int depth, uint
         pExaPixmap.use_gpu_copy = exaPixmapHasGpuCopy(pPixmap);
     }
     else {
-        pExaPixmap.use_gpu_copy = FALSE;
+        pExaPixmap.use_gpu_copy = False;
 
         if (w == 1 && h == 1) {
             pExaPixmap.sys_ptr = cast(ubyte*)calloc(1, paddedWidth);
 
             /* Set up damage tracking */
             pExaPixmap.pDamage = DamageCreate(&exaDamageReport_mixed, null,
-                                               DamageReportNonEmpty, TRUE,
+                                               DamageReportNonEmpty, True,
                                                pPixmap.drawable.pScreen,
                                                pPixmap);
 
@@ -112,7 +112,7 @@ PixmapPtr exaCreatePixmap_mixed(ScreenPtr pScreen, int w, int h, int depth, uint
                 /* This ensures that pending damage reflects the current
                  * operation. This is used by exa to optimize migration.
                  */
-                DamageSetReportAfterOp(pExaPixmap.pDamage, TRUE);
+                DamageSetReportAfterOp(pExaPixmap.pDamage, True);
             }
         }
     }
@@ -132,7 +132,7 @@ Bool exaModifyPixmapHeader_mixed(PixmapPtr pPixmap, int width, int height, int d
     Bool ret = void, has_gpu_copy = void;
 
     if (!pPixmap)
-        return FALSE;
+        return False;
 
     pScreen = pPixmap.drawable.pScreen;
     pExaScr = mixin(ExaGetScreenPriv!("pScreen"));
@@ -149,7 +149,7 @@ Bool exaModifyPixmapHeader_mixed(PixmapPtr pPixmap, int width, int height, int d
             pExaPixmap.driverPriv = null;
         }
 
-        pExaPixmap.use_gpu_copy = FALSE;
+        pExaPixmap.use_gpu_copy = False;
         pExaPixmap.score = EXA_PIXMAP_SCORE_PINNED;
     }
 
@@ -216,7 +216,7 @@ Bool exaModifyPixmapHeader_mixed(PixmapPtr pPixmap, int width, int height, int d
         ret = pExaScr.info.ModifyPixmapHeader(pPixmap, width, height, depth,
                                                 bitsPerPixel, devKind,
                                                 pPixData);
-        if (ret == TRUE)
+        if (ret == True)
             goto out_;
     }
 
@@ -274,7 +274,7 @@ Bool exaPixmapHasGpuCopy_mixed(PixmapPtr pPixmap)
     Bool ret = void;
 
     if (!pExaPixmap.driverPriv)
-        return FALSE;
+        return False;
 
     saved_ptr = pPixmap.devPrivate.ptr;
     pPixmap.devPrivate.ptr = ExaGetPixmapAddress(pPixmap);
@@ -288,7 +288,7 @@ Bool exaSharePixmapBacking_mixed(PixmapPtr pPixmap, ScreenPtr secondary, void** 
 {
     ScreenPtr pScreen = pPixmap.drawable.pScreen;
     mixin(ExaScreenPriv!("pScreen"));
-    Bool ret = FALSE;
+    Bool ret = False;
 
     exaMoveInPixmap(pPixmap);
     /* get the driver to give us a handle */
@@ -302,12 +302,12 @@ Bool exaSetSharedPixmapBacking_mixed(PixmapPtr pPixmap, void* handle)
 {
     ScreenPtr pScreen = pPixmap.drawable.pScreen;
     mixin(ExaScreenPriv!("pScreen"));
-    Bool ret = FALSE;
+    Bool ret = False;
 
     if (pExaScr.info.SetSharedPixmapBacking)
         ret = pExaScr.info.SetSharedPixmapBacking(pPixmap, handle);
 
-    if (ret == TRUE)
+    if (ret == True)
         exaMoveInPixmap(pPixmap);
 
     return ret;

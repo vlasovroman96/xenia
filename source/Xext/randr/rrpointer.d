@@ -92,7 +92,7 @@ private void RRPointerToNearestCrtc(DeviceIntPtr pDev, ScreenPtr pScreen, int x,
     }
     if (best_dx || best_dy)
         (*pScreen.SetCursorPosition) (pDev, pScreen, x + best_dx, y + best_dy,
-                                       TRUE);
+                                       True);
     pScrPriv.pointerCrtc = nearest;
 }
 

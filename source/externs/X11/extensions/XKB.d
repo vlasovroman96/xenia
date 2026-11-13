@@ -370,7 +370,7 @@ enum	XkbAllGroupsMask =	(0xf);
      *                 construct the value to be reported an event.
      * GroupForCoreState:  Given the state reported in an event,
      *                 determine the keyboard group.
-     * IsLegalGroup:   Returns TRUE if 'g' is a valid group index.
+     * IsLegalGroup:   Returns True if 'g' is a valid group index.
      */
 enum string	XkbBuildCoreState(string m,string g) = `((((` ~ g ~ `)&0x3)<<13)|((` ~ m ~ `)&0xff))`;
 enum string XkbGroupForCoreState(string s) = `(((` ~ s ~ `)>>13)&0x3)`;

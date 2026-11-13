@@ -57,7 +57,7 @@ private Bool MouseWaitForReadable(int fd, int timeout)
     for (;;) {
         n = xserver_poll(&poll_fd, 1, timeout);
         if (n > 0)
-            return TRUE;
+            return True;
         if (n < 0 && (errno == EAGAIN || errno == EINTR)) {
             timeout = cast(int) (done - GetTimeInMillis());
             if (timeout > 0)
@@ -65,7 +65,7 @@ private Bool MouseWaitForReadable(int fd, int timeout)
         }
         break;
     }
-    return FALSE;
+    return False;
 }
 
 private int MouseReadByte(Kbufio* b, int timeout)
@@ -134,8 +134,8 @@ private Bool MouseWaitForWritable(int fd, int timeout)
     poll_fd.events = POLLOUT;
     n = xserver_poll(&poll_fd, 1, timeout);
     if (n > 0)
-        return TRUE;
-    return FALSE;
+        return True;
+    return False;
 }
 
 private Bool MouseWriteByte(int fd, ubyte c, int timeout)
@@ -148,13 +148,13 @@ version (DEBUG_BYTES) {
     for (;;) {
         ret = write(fd, &c, 1);
         if (ret == 1)
-            return TRUE;
+            return True;
         if (ret == 0)
-            return FALSE;
+            return False;
         if (errno != EWOULDBLOCK)
-            return FALSE;
+            return False;
         if (!MouseWaitForWritable(fd, timeout))
-            return FALSE;
+            return False;
     }
 }
 
@@ -162,8 +162,8 @@ private Bool MouseWriteBytes(int fd, ubyte* c, int n, int timeout)
 {
     while (n--)
         if (!MouseWriteByte(fd, *c++, timeout))
-            return FALSE;
-    return TRUE;
+            return False;
+    return True;
 }
 
 enum MAX_MOUSE =   10          /* maximum length of mouse protocol */;
@@ -245,20 +245,20 @@ private Bool MouseReasonable(KdPointerInfo* pi, c_ulong flags, int dx, int dy)
     Kmouse* km = pi.driverPrivate;
 
     if (km.stage == MouseWorking)
-        return TRUE;
+        return True;
     if (dx < -50 || dx > 50) {
 version (DEBUG) {
         ErrorF("Large X %d\n", dx);
 }
-        return FALSE;
+        return False;
     }
     if (dy < -50 || dy > 50) {
 version (DEBUG) {
         ErrorF("Large Y %d\n", dy);
 }
-        return FALSE;
+        return False;
     }
-    return TRUE;
+    return True;
 }
 
 /*
@@ -299,7 +299,7 @@ private Bool ps2Parse(KdPointerInfo* pi, ubyte* ev, int ne)
         dy -= 256;
     dy = -dy;
     if (!MouseReasonable(pi, flags, dx, dy))
-        return FALSE;
+        return False;
     if (km.stage == MouseWorking) {
         KdEnqueuePointerEvent(pi, flags, dx, dy, 0);
         if (flagsrelease) {
@@ -307,7 +307,7 @@ private Bool ps2Parse(KdPointerInfo* pi, ubyte* ev, int ne)
             KdEnqueuePointerEvent(pi, flags, dx, dy, 0);
         }
     }
-    return TRUE;
+    return True;
 }
 
 
@@ -316,21 +316,21 @@ private const(KmouseProt) ps2Prot = {
     "ps/2",
     &threeComplete, &mouseValid, &ps2Parse, &ps2Init,
     0x08, 0x08, 0x00, 0x00,
-    FALSE
+    False
 };
 
 private const(KmouseProt) imps2Prot = {
     "imps/2",
     &fourComplete, &mouseValid, &ps2Parse, &ps2Init,
     0x08, 0x08, 0x00, 0x00,
-    FALSE
+    False
 };
 
 private const(KmouseProt) exps2Prot = {
     "exps/2",
     &fourComplete, &mouseValid, &ps2Parse, &ps2Init,
     0x08, 0x08, 0x00, 0x00,
-    FALSE
+    False
 };
 
 /*
@@ -414,7 +414,7 @@ private int ps2SkipInit(KdPointerInfo* pi, int ninit, Bool ret_next)
     int c = -1;
     Bool waiting = void;
 
-    waiting = FALSE;
+    waiting = False;
     while (ninit || ret_next) {
         c = MouseReadByte(&km.iob, 1); /* Minimum timeout like in xf86-input-mouse and tinyx */
         if (c == -1)
@@ -423,11 +423,11 @@ private int ps2SkipInit(KdPointerInfo* pi, int ninit, Bool ret_next)
         if (c == 0xfa) {
             ninit--;
             if (ret_next)
-                waiting = TRUE;
+                waiting = True;
         }
         /* look for packet start -- not the response */
         else if ((c & 0x08) == 0x08)
-            waiting = FALSE;
+            waiting = False;
         else if (waiting)
             break;
     }
@@ -449,8 +449,8 @@ private Bool ps2Init(KdPointerInfo* pi)
      * Send ID command
      */
     if (!MouseWriteByte(km.iob.fd, PSMC_SEND_DEV_ID, 100))
-        return FALSE;
-    id = ps2SkipInit(pi, 0, TRUE);
+        return False;
+    id = ps2SkipInit(pi, 0, True);
     switch (id) {
     case 3:
         init = wheel_3button_init;
@@ -478,8 +478,8 @@ private Bool ps2Init(KdPointerInfo* pi)
      * initialization string.  Make sure any partial event is
      * skipped
      */
-    cast(void) ps2SkipInit(pi, ninit, FALSE);
-    return TRUE;
+    cast(void) ps2SkipInit(pi, ninit, False);
+    return True;
 }
 
 private Bool busParse(KdPointerInfo* pi, ubyte* ev, int ne)
@@ -498,17 +498,17 @@ private Bool busParse(KdPointerInfo* pi, ubyte* ev, int ne)
     if ((ev[0] & 1) == 0)
         flags |= KD_BUTTON_3;
     if (!MouseReasonable(pi, flags, dx, dy))
-        return FALSE;
+        return False;
     if (km.stage == MouseWorking)
         KdEnqueuePointerEvent(pi, flags, dx, dy, 0);
-    return TRUE;
+    return True;
 }
 
 private const(KmouseProt) busProt = {
     "bus",
     &threeComplete, &mouseValid, &busParse, null,
     0xf8, 0x00, 0x00, 0x00,
-    FALSE
+    False
 };
 
 /*
@@ -531,17 +531,17 @@ private Bool msParse(KdPointerInfo* pi, ubyte* ev, int ne)
     dx = cast(char) (((ev[0] & 0x03) << 6) | (ev[1] & 0x3F));
     dy = cast(char) (((ev[0] & 0x0C) << 4) | (ev[2] & 0x3F));
     if (!MouseReasonable(pi, flags, dx, dy))
-        return FALSE;
+        return False;
     if (km.stage == MouseWorking)
         KdEnqueuePointerEvent(pi, flags, dx, dy, 0);
-    return TRUE;
+    return True;
 }
 
 private const(KmouseProt) msProt = {
     "ms",
     &threeComplete, &mouseValid, &msParse, null,
     0xc0, 0x40, 0xc0, 0x00,
-    TRUE,
+    True,
     IGNPAR,
     0,
     0,
@@ -562,7 +562,7 @@ private Bool logiComplete(KdPointerInfo* pi, ubyte* ev, int ne)
         return ne == 3;
     if (km.stage != MouseBroken && (ev[0] & ~0x23) == 0)
         return ne == 1;
-    return FALSE;
+    return False;
 }
 
 private int logiValid(KdPointerInfo* pi, ubyte* ev, int ne)
@@ -612,17 +612,17 @@ private Bool logiParse(KdPointerInfo* pi, ubyte* ev, int ne)
     }
 
     if (!MouseReasonable(pi, flags, dx, dy))
-        return FALSE;
+        return False;
     if (km.stage == MouseWorking)
         KdEnqueuePointerEvent(pi, flags, dx, dy, 0);
-    return TRUE;
+    return True;
 }
 
 private const(KmouseProt) logiProt = {
     "logitech",
     &logiComplete, &logiValid, &logiParse, null,
     0xc0, 0x40, 0xc0, 0x00,
-    TRUE,
+    True,
     IGNPAR,
     0,
     0,
@@ -651,17 +651,17 @@ private Bool mscParse(KdPointerInfo* pi, ubyte* ev, int ne)
     dy = -(cast(char) (ev[2]) + cast(char) (ev[4]));
 
     if (!MouseReasonable(pi, flags, dx, dy))
-        return FALSE;
+        return False;
     if (km.stage == MouseWorking)
         KdEnqueuePointerEvent(pi, flags, dx, dy, 0);
-    return TRUE;
+    return True;
 }
 
 private const(KmouseProt) mscProt = {
     "msc",
     &fiveComplete, &mouseValid, &mscParse, null,
     0xf8, 0x80, 0x00, 0x00,
-    TRUE,
+    True,
     IGNPAR,
     0,
     0,
@@ -938,7 +938,7 @@ private void MouseDisable(KdPointerInfo* pi)
         return;
 
     km = pi.driverPrivate;
-    KdUnregisterFd(pi, km.iob.fd, TRUE);
+    KdUnregisterFd(pi, km.iob.fd, True);
 }
 
 private void MouseFini(KdPointerInfo* pi)

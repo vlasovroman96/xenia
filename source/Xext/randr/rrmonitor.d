@@ -54,7 +54,7 @@ private Atom RRMonitorCrtcName(RRCrtcPtr crtc)
 
     if (crtc.numOutputs) {
         RROutputPtr output = crtc.outputs[0];
-        return MakeAtom(output.name, cast(uint)output.nameLength, TRUE);
+        return MakeAtom(output.name, cast(uint)output.nameLength, True);
     }
     sprintf(name.ptr, "Monitor-%08lx", cast(c_ulong)crtc.id);
     return dixAddAtom(name.ptr);
@@ -68,8 +68,8 @@ private Bool RRMonitorCrtcPrimary(RRCrtcPtr crtc)
 
     for (o = 0; o < crtc.numOutputs; o++)
         if (crtc.outputs[o] == pScrPriv.primaryOutput)
-            return TRUE;
-    return FALSE;
+            return True;
+    return False;
 }
 
 enum DEFAULT_PIXELS_PER_MM =   (96.0 / 25.4);
@@ -115,13 +115,13 @@ private Bool RRMonitorSetFromServer(RRCrtcPtr crtc, RRMonitorPtr monitor)
     monitor.numOutputs = crtc.numOutputs;
     monitor.outputs = cast(uint*)calloc(crtc.numOutputs, RROutput.sizeof);
     if (!monitor.outputs)
-        return FALSE;
+        return False;
     for (o = 0; o < crtc.numOutputs; o++)
         monitor.outputs[o] = crtc.outputs[o].id;
     monitor.primary = RRMonitorCrtcPrimary(crtc);
-    monitor.automatic = TRUE;
+    monitor.automatic = True;
     RRMonitorGetCrtcGeometry(crtc, &monitor.geometry);
-    return TRUE;
+    return True;
 }
 
 private Bool RRMonitorAutomaticGeometry(RRMonitorPtr monitor)
@@ -145,7 +145,7 @@ private void RRMonitorGetGeometry(RRMonitorPtr monitor, RRMonitorGeometryPtr geo
         *geometry = first;
         for (o = 0; o < monitor.numOutputs; o++) {
             RRCrtcPtr crtc = null;
-            Bool in_use = FALSE;
+            Bool in_use = False;
 
             for (c = 0; !in_use && c < pScrPriv.numCrtcs; c++) {
                 crtc = pScrPriv.crtcs[c];
@@ -153,7 +153,7 @@ private void RRMonitorGetGeometry(RRMonitorPtr monitor, RRMonitorGeometryPtr geo
                     continue;
                 for (co = 0; !in_use && co < crtc.numOutputs; co++)
                     if (monitor.outputs[o] == crtc.outputs[co].id)
-                        in_use = TRUE;
+                        in_use = True;
             }
 
             if (!in_use)
@@ -190,12 +190,12 @@ private Bool RRMonitorSetFromClient(RRMonitorPtr client_monitor, RRMonitorPtr mo
     monitor.numOutputs = client_monitor.numOutputs;
     monitor.outputs = cast(uint*)calloc(client_monitor.numOutputs, RROutput.sizeof);
     if (!monitor.outputs && client_monitor.numOutputs)
-        return FALSE;
+        return False;
     memcpy(monitor.outputs, client_monitor.outputs, client_monitor.numOutputs * RROutput.sizeof);
     monitor.primary = client_monitor.primary;
     monitor.automatic = client_monitor.automatic;
     RRMonitorGetGeometry(client_monitor, &monitor.geometry);
-    return TRUE;
+    return True;
 }
 
 struct _rrMonitorList {
@@ -214,8 +214,8 @@ private Bool RRMonitorInitList(ScreenPtr screen, RRMonitorListPtr mon_list, Bool
     int m = void, o = void, c = void, sc = void;
     int numCrtcs = void;
 
-    if (!RRGetInfo(screen, FALSE))
-        return FALSE;
+    if (!RRGetInfo(screen, False))
+        return False;
 
     /* Count the number of crtcs in this and any secondary screens */
     numCrtcs = pScrPriv.numCrtcs;
@@ -232,7 +232,7 @@ private Bool RRMonitorInitList(ScreenPtr screen, RRMonitorListPtr mon_list, Bool
 
     mon_list.server_crtc = cast(_rrCrtc**)calloc(numCrtcs * 2, RRCrtcPtr.sizeof);
     if (!mon_list.server_crtc)
-        return FALSE;
+        return False;
 
     /* Collect pointers to all of the active crtcs */
     c = 0;
@@ -308,7 +308,7 @@ private Bool RRMonitorInitList(ScreenPtr screen, RRMonitorListPtr mon_list, Bool
         if (RRMonitorCrtcPrimary(crtc) && mon_list.server_primary == -1)
             mon_list.server_primary = c;
     }
-    return TRUE;
+    return True;
 }
 
 private void RRMonitorFiniList(RRMonitorListPtr list)
@@ -327,18 +327,18 @@ Bool RRMonitorMakeList(ScreenPtr screen, Bool get_active, RRMonitorPtr* monitors
     RRMonitorListRec list = void;
     int m = void, c = void;
     RRMonitorPtr mon = void, monitors = void;
-    Bool has_primary = FALSE;
+    Bool has_primary = False;
 
     if (!pScrPriv)
-        return FALSE;
+        return False;
 
     if (!RRMonitorInitList(screen, &list, get_active))
-        return FALSE;
+        return False;
 
     monitors = cast(_rrMonitor*)calloc(list.num_client + list.num_server, RRMonitorRec.sizeof);
     if (!monitors) {
         RRMonitorFiniList(&list);
-        return FALSE;
+        return False;
     }
 
     mon = monitors;
@@ -369,9 +369,9 @@ Bool RRMonitorMakeList(ScreenPtr screen, Bool get_active, RRMonitorPtr* monitors
         }
         RRMonitorSetFromClient(pScrPriv.monitors[m], mon);
         if (has_primary)
-            mon.primary = FALSE;
+            mon.primary = False;
         else if (mon.primary)
-            has_primary = TRUE;
+            has_primary = True;
         mon++;
     }
 
@@ -387,16 +387,16 @@ Bool RRMonitorMakeList(ScreenPtr screen, Bool get_active, RRMonitorPtr* monitors
 
         RRMonitorSetFromServer(crtc, mon);
         if (has_primary)
-            mon.primary = FALSE;
+            mon.primary = False;
         else if (mon.primary)
-            has_primary = TRUE;
+            has_primary = True;
         mon++;
     }
 
     RRMonitorFiniList(&list);
     *nmon_ret = list.num_client + list.num_server;
     *monitors_ret = monitors;
-    return TRUE;
+    return True;
 }
 
 int RRMonitorCountList(ScreenPtr screen)
@@ -404,7 +404,7 @@ int RRMonitorCountList(ScreenPtr screen)
     RRMonitorListRec list = void;
     int nmon = void;
 
-    if (!RRMonitorInitList(screen, &list, FALSE))
+    if (!RRMonitorInitList(screen, &list, False))
         return -1;
     nmon = list.num_client + list.num_server;
     RRMonitorFiniList(&list);
@@ -464,9 +464,9 @@ private Bool RRMonitorMatchesOutputName(ScreenPtr screen, Atom name)
         RROutputPtr output = pScrPriv.outputs[o];
 
         if (output.nameLength == len && !memcmp(output.name, str, len))
-            return TRUE;
+            return True;
     }
-    return FALSE;
+    return False;
 }
 
 int RRMonitorAdd(ClientPtr client, ScreenPtr screen, RRMonitorPtr monitor)
@@ -525,7 +525,7 @@ int RRMonitorAdd(ClientPtr client, ScreenPtr screen, RRMonitorPtr monitor)
         }
 
         if (monitor.primary)
-            existing.primary = FALSE;
+            existing.primary = False;
     }
 
     /* Add the new one to the list
@@ -602,7 +602,7 @@ int ProcRRGetMonitors(ClientPtr client)
     if (!RRMonitorMakeList(screen, get_active, &monitors, &nmonitors))
         return BadAlloc;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     size_t noutputs = 0;
 
     for (size_t m = 0; m < nmonitors; m++) {
@@ -697,7 +697,7 @@ int ProcRRSetMonitor(ClientPtr client)
     monitor.pScreen = screen;
     monitor.name = stuff.monitor.name;
     monitor.primary = stuff.monitor.primary;
-    monitor.automatic = FALSE;
+    monitor.automatic = False;
     memcpy(monitor.outputs, stuff + 1, stuff.monitor.noutput * RROutput.sizeof);
     monitor.geometry.box.x1 = cast(short)(stuff.monitor.x);
     monitor.geometry.box.y1 = cast(short)(stuff.monitor.y);

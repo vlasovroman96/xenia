@@ -53,6 +53,7 @@ import glx.glxscreens;
 
 public import build.dix_config;
 public import Xext.glx.glxvndabi;
+import common.bools;
 
 alias XeGLXContextID = CARD32;
 alias XeGLXDrawable = CARD32;

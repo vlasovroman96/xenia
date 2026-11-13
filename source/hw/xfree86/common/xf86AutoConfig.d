@@ -65,8 +65,6 @@ import xf86Globals;
 import scan;
 import xf86pciBus;
 
-
-
 /* Sections for the default built-in configuration. */
 
 enum BUILTIN_DEVICE_NAME = 
@@ -188,7 +186,7 @@ Bool xf86AutoConfig()
     }
     else {
         LogMessageVerb(X_ERROR, 1, "Couldn't allocate Config record.\n");
-        return FALSE;
+        return False;
     }
 
     listPossibleVideoDrivers(&md);
@@ -225,7 +223,7 @@ Bool xf86AutoConfig()
 
     xf86initConfigFiles();
     xf86setBuiltinConfig(builtinConfig);
-    ret = xf86HandleConfigFile(TRUE);
+    ret = xf86HandleConfigFile(True);
     FreeConfig();
 
     if (ret != _ConfigStatus.CONFIG_OK)
@@ -335,13 +333,13 @@ private Bool copyScreen(confScreenPtr oscreen, GDevPtr odev, int i, char* driver
 
     confScreenPtr nscreen = cast(confScreenRec*) calloc(1, confScreenRec.sizeof);
     if (!nscreen)
-        return FALSE;
+        return False;
     memcpy(nscreen, oscreen, confScreenRec.sizeof);
 
     GDevPtr cptr = cast(GDevRec*) calloc(1, GDevRec.sizeof);
     if (!cptr) {
         free(nscreen);
-        return FALSE;
+        return False;
     }
     memcpy(cptr, odev, GDevRec.sizeof);
 
@@ -349,7 +347,7 @@ private Bool copyScreen(confScreenPtr oscreen, GDevPtr odev, int i, char* driver
         == -1) {
         free(cptr);
         free(nscreen);
-        return FALSE;
+        return False;
     }
     cptr.driver = driver;
     cptr.identifier = identifier;
@@ -360,7 +358,7 @@ private Bool copyScreen(confScreenPtr oscreen, GDevPtr odev, int i, char* driver
     xf86ConfigLayout.screens[i].screen.device = cptr;
     cptr.myScreenSection = xf86ConfigLayout.screens[i].screen;
 
-    return TRUE;
+    return True;
 }
 
 GDevPtr autoConfigDevice(GDevPtr preconf_device)
@@ -387,8 +385,8 @@ GDevPtr autoConfigDevice(GDevPtr preconf_device)
         ptr.chipRev = -1;
         ptr.irq = -1;
 
-        ptr.active = TRUE;
-        ptr.claimed = FALSE;
+        ptr.active = True;
+        ptr.claimed = False;
         ptr.identifier = "Autoconfigured Video Device";
         ptr.driver = null;
     }

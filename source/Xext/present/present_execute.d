@@ -78,12 +78,12 @@ Bool present_execute_wait(present_vblank_ptr vblank, ulong crtc_msc)
     if (vblank.exec_msc == crtc_msc + 1 &&
         screen_priv.queue_vblank(screen, window, vblank.crtc, vblank.event_id,
                                   vblank.exec_msc) == Success)
-        return TRUE;
+        return True;
 
     if (vblank.wait_fence) {
         if (!present_fence_check_triggered(vblank.wait_fence)) {
             present_fence_set_callback(vblank.wait_fence, &present_wait_fence_triggered, vblank);
-            return TRUE;
+            return True;
         }
     }
 
@@ -99,11 +99,11 @@ static if(DRI3){
         vblank.acquire_syncobj.signaled_eventfd(vblank.acquire_syncobj,
                                                   vblank.acquire_point,
                                                   vblank.efd);
-        return TRUE;
+        return True;
     }
 } /* DRI3 */
 
-    return FALSE;
+    return False;
 }
 
 void present_execute_copy(present_vblank_ptr vblank, ulong crtc_msc)
@@ -119,7 +119,7 @@ void present_execute_copy(present_vblank_ptr vblank, ulong crtc_msc)
                                              vblank.crtc,
                                              vblank.event_id,
                                              vblank.exec_msc)) {
-        vblank.queued = TRUE;
+        vblank.queued = True;
         return;
     }
 

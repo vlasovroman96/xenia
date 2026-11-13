@@ -111,7 +111,7 @@ int ProcXIQueryDevice(ClientPtr client)
         }
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     info = cast(char*)x_rpcbuf_reserve(&rpcbuf, len);
     if (!info) {
@@ -170,9 +170,9 @@ private Bool ShouldSkipDevice(ClientPtr client, int deviceid, DeviceIntPtr dev)
     if (deviceid == XIAllDevices || InputDevIsMaster(dev)) {
         int rc = dixCallDeviceAccessCallback(client, dev, DixGetAttrAccess);
         if (rc == Success)
-            return FALSE;
+            return False;
     }
-    return TRUE;
+    return True;
 }
 
 /**
@@ -458,7 +458,7 @@ private Bool ShouldListGestureInfo(ClientPtr client)
     if (pXIClient.major_version) {
         return version_compare(pXIClient.major_version, pXIClient.minor_version, 2, 4) >= 0;
     }
-    return FALSE;
+    return False;
 }
 
 /**

@@ -127,22 +127,22 @@ private Bool PictureSetDefaultIds()
 {
     /* careful here -- this list must match the #define values */
 
-    if (PictureGetFilterId(FilterNearest, -1, TRUE) != PictFilterNearest)
-        return FALSE;
-    if (PictureGetFilterId(FilterBilinear, -1, TRUE) != PictFilterBilinear)
-        return FALSE;
+    if (PictureGetFilterId(FilterNearest, -1, True) != PictFilterNearest)
+        return False;
+    if (PictureGetFilterId(FilterBilinear, -1, True) != PictFilterBilinear)
+        return False;
 
-    if (PictureGetFilterId(FilterFast, -1, TRUE) != PictFilterFast)
-        return FALSE;
-    if (PictureGetFilterId(FilterGood, -1, TRUE) != PictFilterGood)
-        return FALSE;
-    if (PictureGetFilterId(FilterBest, -1, TRUE) != PictFilterBest)
-        return FALSE;
+    if (PictureGetFilterId(FilterFast, -1, True) != PictFilterFast)
+        return False;
+    if (PictureGetFilterId(FilterGood, -1, True) != PictFilterGood)
+        return False;
+    if (PictureGetFilterId(FilterBest, -1, True) != PictFilterBest)
+        return False;
 
-    if (PictureGetFilterId(FilterConvolution, -1, TRUE) !=
+    if (PictureGetFilterId(FilterConvolution, -1, True) !=
         PictFilterConvolution)
-        return FALSE;
-    return TRUE;
+        return False;
+    return True;
 }
 
 char* PictureGetFilterName(int id)
@@ -167,7 +167,7 @@ private void PictureFreeFilterIds()
 int PictureAddFilter(ScreenPtr pScreen, const(char)* filter, PictFilterValidateParamsProcPtr ValidateParams, int width, int height)
 {
     PictureScreenPtr ps = mixin(GetPictureScreen!("pScreen"));
-    int id = PictureGetFilterId(filter, -1, TRUE);
+    int id = PictureGetFilterId(filter, -1, True);
     int i = void;
     PictFilterPtr filters = void;
 
@@ -199,12 +199,12 @@ int PictureAddFilter(ScreenPtr pScreen, const(char)* filter, PictFilterValidateP
 Bool PictureSetFilterAlias(ScreenPtr pScreen, const(char)* filter, const(char)* alias_)
 {
     PictureScreenPtr ps = mixin(GetPictureScreen!("pScreen"));
-    int filter_id = PictureGetFilterId(filter, -1, FALSE);
-    int alias_id = PictureGetFilterId(alias_, -1, TRUE);
+    int filter_id = PictureGetFilterId(filter, -1, False);
+    int alias_id = PictureGetFilterId(alias_, -1, True);
     int i = void;
 
     if (filter_id < 0 || alias_id < 0)
-        return FALSE;
+        return False;
     for (i = 0; i < ps.nfilterAliases; i++)
         if (ps.filterAliases[i].alias_id == alias_id)
             break;
@@ -218,20 +218,20 @@ Bool PictureSetFilterAlias(ScreenPtr pScreen, const(char)* filter, const(char)* 
         else
             aliases = cast(PictFilterAliasRec*) calloc(1, PictFilterAliasRec.sizeof);
         if (!aliases)
-            return FALSE;
+            return False;
         ps.filterAliases = aliases;
         ps.filterAliases[i].alias_ = PictureGetFilterName(alias_id);
         ps.filterAliases[i].alias_id = alias_id;
         ps.nfilterAliases++;
     }
     ps.filterAliases[i].filter_id = filter_id;
-    return TRUE;
+    return True;
 }
 
 PictFilterPtr PictureFindFilter(ScreenPtr pScreen, char* name, int len)
 {
     PictureScreenPtr ps = mixin(GetPictureScreen!("pScreen"));
-    int id = PictureGetFilterId(name, len, FALSE);
+    int id = PictureGetFilterId(name, len, False);
     int i = void;
 
     if (id < 0)
@@ -254,45 +254,45 @@ private Bool convolutionFilterValidateParams(ScreenPtr pScreen, int filter, XFix
     int w = void, h = void;
 
     if (nparams < 3)
-        return FALSE;
+        return False;
 
     if (mixin(xFixedFrac!("params[0]")) || mixin(xFixedFrac!("params[1]")))
-        return FALSE;
+        return False;
 
     w = mixin(xFixedToInt!("params[0]"));
     h = mixin(xFixedToInt!("params[1]"));
 
     nparams -= 2;
     if (w * h > nparams)
-        return FALSE;
+        return False;
 
     *width = w;
     *height = h;
-    return TRUE;
+    return True;
 }
 
 Bool PictureSetDefaultFilters(ScreenPtr pScreen)
 {
     if (!filterNames)
         if (!PictureSetDefaultIds())
-            return FALSE;
+            return False;
     if (PictureAddFilter(pScreen, FilterNearest, null, 1, 1) < 0)
-        return FALSE;
+        return False;
     if (PictureAddFilter(pScreen, FilterBilinear, null, 2, 2) < 0)
-        return FALSE;
+        return False;
 
     if (!PictureSetFilterAlias(pScreen, FilterNearest, FilterFast))
-        return FALSE;
+        return False;
     if (!PictureSetFilterAlias(pScreen, FilterBilinear, FilterGood))
-        return FALSE;
+        return False;
     if (!PictureSetFilterAlias(pScreen, FilterBilinear, FilterBest))
-        return FALSE;
+        return False;
 
     if (PictureAddFilter
         (pScreen, FilterConvolution, &convolutionFilterValidateParams, 0, 0) < 0)
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 void PictureResetFilters(ScreenPtr pScreen)

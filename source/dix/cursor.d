@@ -201,7 +201,7 @@ private void CheckForEmptyMask(CursorBitsPtr bits)
     ubyte* msk = bits.mask;
     int n = mixin(BitmapBytePad!("bits.width")) * bits.height;
 
-    bits.emptyMask = FALSE;
+    bits.emptyMask = False;
     while (n--)
         if (*(msk++) != 0)
             return;
@@ -213,7 +213,7 @@ private void CheckForEmptyMask(CursorBitsPtr bits)
             if (*argb++ & 0xff000000)
                 return;
     }
-    bits.emptyMask = TRUE;
+    bits.emptyMask = True;
 }
 
 /**

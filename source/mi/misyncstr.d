@@ -42,7 +42,7 @@ struct _SyncObject {
     _SyncTriggerList* pTriglist; /* list of triggers */
     XID id;                     /* resource ID */
     ubyte type;         /* SYNC_* */
-    ubyte initialized;  /* FALSE if created but not initialized */
+    ubyte initialized;  /* False if created but not initialized */
     Bool beingDestroyed;        /* in process of going away */
 }
 

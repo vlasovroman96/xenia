@@ -86,9 +86,9 @@ version (FB_DEBUG) {
 Bool fbDestroyPixmap(PixmapPtr pPixmap)
 {
     if (--pPixmap.refcnt)
-        return TRUE;
+        return True;
     FreePixmap(pPixmap);
-    return TRUE;
+    return True;
 }
 
 enum string ADDRECT(string reg,string r,string fr,string rx1,string ry1,string rx2,string ry2) = `
@@ -160,11 +160,11 @@ RegionPtr fbPixmapToRegion(PixmapPtr pPix)
         /* If the Screen left most bit of the word is set, we're starting in
          * a box */
         if (mixin(READ!("pw")) & mask0) {
-            fInBox = TRUE;
+            fInBox = True;
             rx1 = 0;
         }
         else
-            fInBox = FALSE;
+            fInBox = False;
         /* Process all words which are fully in the pixmap */
         pwLineEnd = pw + (width >> FB_SHIFT);
         for (base = 0; pw < pwLineEnd; base += FB_UNIT) {
@@ -184,7 +184,7 @@ RegionPtr fbPixmapToRegion(PixmapPtr pPix)
                     if (!fInBox) {
                         rx1 = base + ib;
                         /* start new box */
-                        fInBox = TRUE;
+                        fInBox = True;
                     }
                 }
                 else {
@@ -192,7 +192,7 @@ RegionPtr fbPixmapToRegion(PixmapPtr pPix)
                         /* end box */
                         mixin(ADDRECT!(`pReg`, `rects`, `FirstRect`,
                                 `rx1`, `h`, `base + ib`, `h + 1`));
-                        fInBox = FALSE;
+                        fInBox = False;
                     }
                 }
                 /* Shift the word VISUALLY left one. */
@@ -209,7 +209,7 @@ RegionPtr fbPixmapToRegion(PixmapPtr pPix)
                     if (!fInBox) {
                         rx1 = base + ib;
                         /* start new box */
-                        fInBox = TRUE;
+                        fInBox = True;
                     }
                 }
                 else {
@@ -217,7 +217,7 @@ RegionPtr fbPixmapToRegion(PixmapPtr pPix)
                         /* end box */
                         mixin(ADDRECT!(`pReg`, `rects`, `FirstRect`,
                                 `rx1`, `h`, `base + ib`, `h + 1`));
-                        fInBox = FALSE;
+                        fInBox = False;
                     }
                 }
                 /* Shift the word VISUALLY left one. */
@@ -233,17 +233,17 @@ RegionPtr fbPixmapToRegion(PixmapPtr pPix)
          * those on the previous line, then add 1 to all the previous  y2s and
          * throw away all the rectangles from this line
          */
-        fSame = FALSE;
+        fSame = False;
         if (irectPrevStart != -1) {
             crects = irectLineStart - irectPrevStart;
             if (crects == ((rects - FirstRect) - irectLineStart)) {
                 prectO = FirstRect + irectPrevStart;
                 prectN = prectLineStart = FirstRect + irectLineStart;
-                fSame = TRUE;
+                fSame = True;
                 while (prectO < prectLineStart) {
                     if ((prectO.x1 != prectN.x1) ||
                         (prectO.x2 != prectN.x2)) {
-                        fSame = FALSE;
+                        fSame = False;
                         break;
                     }
                     prectO++;
@@ -302,7 +302,7 @@ version (Windows) {
 } else {
             fprintf(stderr, "fbValidateBits failed\n");
 }
-            return FALSE;
+            return False;
         }
         bits++;
     }

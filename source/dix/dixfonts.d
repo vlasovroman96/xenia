@@ -268,13 +268,13 @@ Bool SetDefaultFont(const(char)* defaultfontname)
     err = OpenFont(serverClient, fid, FontLoadAll | FontOpenSync,
                    cast(uint) strlen(defaultfontname), defaultfontname);
     if (err != Success)
-        return FALSE;
+        return False;
     err = dixLookupResourceByType(cast(void**) &pf, fid, X11_RESTYPE_FONT, serverClient,
                                   DixReadAccess);
     if (err != Success)
-        return FALSE;
+        return False;
     defaultFont = pf;
-    return TRUE;
+    return True;
 }
 
 /*
@@ -426,7 +426,7 @@ static if(GLYPHPADBYTES == 8)
         if (err == Suspended) {
             if (!ClientIsAsleep(client))
                 ClientSleep(client, cast(ClientSleepProcPtr) &doOpenFont, c);
-            return TRUE;
+            return True;
         }
         break;
     }
@@ -478,7 +478,7 @@ static if(GLYPHPADBYTES == 8)
     free(c.fpe_list);
     free(cast(void*) c.fontname);
     free(c);
-    return TRUE;
+    return True;
 }
 
 int OpenFont(ClientPtr client, XID fid, Mask flags, uint lenfname, const(char)* pfontname)
@@ -660,7 +660,7 @@ private Bool doListFontsAndAliases(ClientPtr client, list_fonts_closure* c)
     int aliascount = 0;
     xListFontsReply reply;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     if (client.clientGone) {
         if (c.current.current_fpe < c.num_fpes) {
             fpe = c.fpe_list[c.current.current_fpe];
@@ -689,7 +689,7 @@ private Bool doListFontsAndAliases(ClientPtr client, list_fonts_closure* c)
                 if (!ClientIsAsleep(client))
                     ClientSleep(client,
                                 cast(ClientSleepProcPtr) &doListFontsAndAliases, c);
-                return TRUE;
+                return True;
             }
 
             err = BadFontName;
@@ -714,10 +714,10 @@ private Bool doListFontsAndAliases(ClientPtr client, list_fonts_closure* c)
                         ClientSleep(client,
                                     cast(ClientSleepProcPtr) &doListFontsAndAliases,
                                     c);
-                    return TRUE;
+                    return True;
                 }
                 if (err == Successful)
-                    c.current.list_started = TRUE;
+                    c.current.list_started = True;
             }
             if (err == Successful) {
                 char* tmpname = void;
@@ -731,7 +731,7 @@ private Bool doListFontsAndAliases(ClientPtr client, list_fonts_closure* c)
                         ClientSleep(client,
                                     cast(ClientSleepProcPtr) &doListFontsAndAliases,
                                     c);
-                    return TRUE;
+                    return True;
                 }
                 if (err == FontNameAlias) {
                     free(resolved);
@@ -782,7 +782,7 @@ private Bool doListFontsAndAliases(ClientPtr client, list_fonts_closure* c)
                 }
                 else {
                     c.saved = c.current;
-                    c.haveSaved = TRUE;
+                    c.haveSaved = True;
                     free(c.savedName);
                     c.savedName = cast(char*)calloc(1, namelen + 1);
                     if (c.savedName)
@@ -805,13 +805,13 @@ private Bool doListFontsAndAliases(ClientPtr client, list_fonts_closure* c)
          */
         if (err == BadFontName) {
  ContBadFontName:{}
-            c.current.list_started = FALSE;
+            c.current.list_started = False;
             c.current.current_fpe++;
             err = Successful;
             if (c.haveSaved) {
                 if (c.names.nnames == c.current.max_names ||
                     c.current.current_fpe == c.num_fpes) {
-                    c.haveSaved = FALSE;
+                    c.haveSaved = False;
                     c.current = c.saved;
                     /* Give the saved namelist a chance to clean itself up */
                     continue;
@@ -867,7 +867,7 @@ private Bool doListFontsAndAliases(ClientPtr client, list_fonts_closure* c)
     assumeNoGC(&xfont2_free_font_names)(names);
     free(c);
     free(resolved);
-    return TRUE;
+    return True;
 }
 
 int ListFonts(ClientPtr client, ubyte* pattern, uint length, uint max_names)
@@ -911,9 +911,9 @@ int ListFonts(ClientPtr client, ubyte* pattern, uint length, uint max_names)
     c.current.patlen = length;
     c.current.current_fpe = 0;
     c.current.max_names = max_names;
-    c.current.list_started = FALSE;
+    c.current.list_started = False;
     c.current.private_ = null;
-    c.haveSaved = FALSE;
+    c.haveSaved = False;
     c.savedName = null;
     doListFontsAndAliases(client, c);
     return Success;
@@ -953,10 +953,10 @@ private int doListFontsWithInfo(ClientPtr client, list_fonts_with_info_closure* 
                 if (!ClientIsAsleep(client))
                     ClientSleep(client,
                                 cast(ClientSleepProcPtr) &doListFontsWithInfo, c);
-                return TRUE;
+                return True;
             }
             if (err == Successful)
-                c.current.list_started = TRUE;
+                c.current.list_started = True;
         }
         if (err == Successful) {
             name = null;
@@ -968,7 +968,7 @@ private int doListFontsWithInfo(ClientPtr client, list_fonts_with_info_closure* 
                 if (!ClientIsAsleep(client))
                     ClientSleep(client,
                                 cast(ClientSleepProcPtr) &doListFontsWithInfo, c);
-                return TRUE;
+                return True;
             }
         }
         /*
@@ -1001,7 +1001,7 @@ private int doListFontsWithInfo(ClientPtr client, list_fonts_with_info_closure* 
             }
             else {
                 c.saved = c.current;
-                c.haveSaved = TRUE;
+                c.haveSaved = True;
                 c.savedNumFonts = numFonts;
                 free(c.savedName);
                 c.savedName = cast(char*)XNFalloc(namelen + 1);
@@ -1013,7 +1013,7 @@ private int doListFontsWithInfo(ClientPtr client, list_fonts_with_info_closure* 
             c.current.max_names = 1;
             c.current.current_fpe = 0;
             c.current.private_ = null;
-            c.current.list_started = FALSE;
+            c.current.list_started = False;
         }
         /*
          * At the end of this FPE, step to the next.  If we've finished
@@ -1023,13 +1023,13 @@ private int doListFontsWithInfo(ClientPtr client, list_fonts_with_info_closure* 
          */
         else if (err == BadFontName) {
  ContBadFontName:{}
-            c.current.list_started = FALSE;
+            c.current.list_started = False;
             c.current.current_fpe++;
             err = Successful;
             if (c.haveSaved) {
                 if (c.current.max_names == 0 ||
                     c.current.current_fpe == c.num_fpes) {
-                    c.haveSaved = FALSE;
+                    c.haveSaved = False;
                     c.saved.max_names -= (1 - c.current.max_names);
                     c.current = c.saved;
                 }
@@ -1140,7 +1140,7 @@ private int doListFontsWithInfo(ClientPtr client, list_fonts_with_info_closure* 
     free(c.fpe_list);
     free(c.savedName);
     free(c);
-    return TRUE;
+    return True;
 }
 
 int StartListFontsWithInfo(ClientPtr client, int length, ubyte* pattern, int max_names)
@@ -1180,10 +1180,10 @@ int StartListFontsWithInfo(ClientPtr client, int length, ubyte* pattern, int max
     c.current.patlen = length;
     c.current.current_fpe = 0;
     c.current.max_names = max_names;
-    c.current.list_started = FALSE;
+    c.current.list_started = False;
     c.current.private_ = null;
     c.savedNumFonts = 0;
-    c.haveSaved = FALSE;
+    c.haveSaved = False;
     c.savedName = null;
     doListFontsWithInfo(client, c);
     return Success;
@@ -1387,7 +1387,7 @@ private int doPolyText(ClientPtr client, poly_text_closure* c)
                     client_state = _Client_state.START_SLEEP;
                     continue;   /* on to steps 3 and 4 */
                 }
-                return TRUE;
+                return True;
             }
             else if (lgerr != Successful) {
                 err = FontToXError(lgerr);
@@ -1426,7 +1426,7 @@ private int doPolyText(ClientPtr client, poly_text_closure* c)
 
         /* restore pElt pointer for execution of remainder of the request */
         c.pElt = c.data;
-        return TRUE;
+        return True;
     }
 
     if (c.err != Success)
@@ -1456,7 +1456,7 @@ else {
            from PolyText(). */
         free(c);
     }
-    return TRUE;
+    return True;
 }
 
 int PolyText(ClientPtr client, DrawablePtr pDraw, GCPtr pGC, ubyte* pElt, ubyte* endReq, int xorg, int yorg, int reqType, XID did)
@@ -1563,7 +1563,7 @@ private int doImageText(ClientPtr client, image_text_closure* c)
 
             ClientSleep(client, cast(ClientSleepProcPtr) &doImageText, c);
         }
-        return TRUE;
+        return True;
     }
     else if (lgerr != Successful) {
         err = FontToXError(lgerr);
@@ -1598,7 +1598,7 @@ private int doImageText(ClientPtr client, image_text_closure* c)
            from PolyText(). */
         free(c);
     }
-    return TRUE;
+    return True;
 }
 
 int ImageText(ClientPtr client, DrawablePtr pDraw, GCPtr pGC, int nChars, ubyte* data, int xorg, int yorg, int reqType, XID did)
@@ -1749,7 +1749,7 @@ private int SetFontPathElements(int npaths, ubyte* paths, int* bad, Bool persist
         cp += len;
     }
 
-    FreeFontPath(font_path_elements, num_fpes, FALSE);
+    FreeFontPath(font_path_elements, num_fpes, False);
     font_path_elements = fplist;
     if (patternCache)
         assumeNoGC(&xfont2_empty_font_pattern_cache)(patternCache);
@@ -1778,7 +1778,7 @@ int SetFontPath(ClientPtr client, int npaths, ubyte* paths)
     else {
         int bad = void;
 
-        err = SetFontPathElements(npaths, paths, &bad, FALSE);
+        err = SetFontPathElements(npaths, paths, &bad, False);
         if (err != Success)
             client.errorValue = cast(uint)bad;
     }
@@ -1838,7 +1838,7 @@ int SetDefaultFontPath(const(char)* path)
     }
     *nump = cast(ubyte) size;
 
-    err = SetFontPathElements(num, newpath, &bad, TRUE);
+    err = SetFontPathElements(num, newpath, &bad, True);
 
     free(newpath);
     free(temp_path);
@@ -1928,7 +1928,7 @@ void FreeFonts()
         assumeNoGC(&xfont2_free_font_pattern_cache)(patternCache);
         patternCache = null;
     }
-    FreeFontPath(font_path_elements, num_fpes, TRUE);
+    FreeFontPath(font_path_elements, num_fpes, True);
     font_path_elements = null;
     num_fpes = 0;
     free(fpe_functions);
@@ -1999,17 +1999,17 @@ private int add_fs_fd(int fd, FontFdHandlerProcPtr handler, void* data)
     fs_fd_entry* entry = cast(fs_fd_entry*) cast(fs_fd_entry*) calloc(1, fs_fd_entry.sizeof);
 
     if (!entry)
-        return FALSE;
+        return False;
 
     entry.fd = fd;
     entry.data = data;
     entry.handler = handler;
     if (!SetNotifyFd(fd, &fs_fd_handler, X_NOTIFY_READ, entry)) {
         free(entry);
-        return FALSE;
+        return False;
     }
     fs_fd_list.addListNext(&entry.entry);
-    return TRUE;
+    return True;
 }
 
 private void remove_fs_fd(int fd)

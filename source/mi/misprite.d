@@ -44,7 +44,6 @@ import   dix.dix_priv;
 import   dix.screen_hooks_priv;
 import   mi.mipointer_priv;
 
-import   common.misc;
 import   dix.pixmap;
 import   dix.input;
 import   dix.cursor;
@@ -180,12 +179,12 @@ private void miSpriteEnableDamage(ScreenPtr pScreen, miSpriteScreenPtr pScreenPr
 
 private void miSpriteIsUp(miCursorInfoPtr pDevCursor)
 {
-    pDevCursor.isUp = TRUE;
+    pDevCursor.isUp = True;
 }
 
 private void miSpriteIsDown(miCursorInfoPtr pDevCursor)
 {
-    pDevCursor.isUp = FALSE;
+    pDevCursor.isUp = False;
 }
 
 /*
@@ -273,27 +272,27 @@ bool miSpriteInitialize(ScreenPtr pScreen, miPointerScreenFuncPtr screenFuncs)
     VisualPtr pVisual = void;
 
     if (!DamageSetup(pScreen))
-        return FALSE;
+        return False;
 
     if (!dixRegisterPrivateKey(&miSpriteScreenKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
 
     if (!dixRegisterPrivateKey
         (&miSpriteDevPrivatesKeyRec, PRIVATE_DEVICE, miCursorInfoRec.sizeof))
-        return FALSE;
+        return False;
 
     miSpriteScreenPtr pScreenPriv = cast(miSpriteScreenRec*) calloc(1, miSpriteScreenRec.sizeof);
     if (!pScreenPriv)
-        return FALSE;
+        return False;
 
     pScreenPriv.pDamage = DamageCreate(&miSpriteReportDamage,
                                         null,
                                         DamageReportRawRegion,
-                                        TRUE, pScreen, pScreen);
+                                        True, pScreen, pScreen);
 
-    if (!miPointerInitialize(pScreen, &miSpritePointerFuncs, screenFuncs, TRUE)) {
+    if (!miPointerInitialize(pScreen, &miSpritePointerFuncs, screenFuncs, True)) {
         free(pScreenPriv);
-        return FALSE;
+        return False;
     }
     for (pVisual = pScreen.visuals;
          pVisual.vid != pScreen.rootVisual; pVisual++){}
@@ -327,7 +326,7 @@ bool miSpriteInitialize(ScreenPtr pScreen, miPointerScreenFuncPtr screenFuncs)
     pScreen.InstallColormap = &miSpriteInstallColormap;
     pScreen.StoreColors = &miSpriteStoreColors;
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -413,7 +412,7 @@ private void miSpriteBlockHandler(ScreenPtr pScreen, void* timeout)
     miSpriteScreenPtr pPriv = GetSpriteScreen(pScreen);
     DeviceIntPtr pDev = void;
     miCursorInfoPtr pCursorInfo = void;
-    Bool WorkToDo = FALSE;
+    Bool WorkToDo = False;
 
     mixin(SCREEN_PROLOGUE!(`pPriv`, `pScreen`, `BlockHandler`));
 
@@ -435,7 +434,7 @@ private void miSpriteBlockHandler(ScreenPtr pScreen, void* timeout)
                 // SPRITE_DEBUG(("BlockHandler restore\n"));
                 miSpriteRestoreCursor(pDev, pScreen);
                 if (!pCursorInfo.isUp)
-                    WorkToDo = TRUE;
+                    WorkToDo = True;
             }
         }
     }
@@ -468,7 +467,7 @@ private void miSpriteInstallColormap(ColormapPtr pMap)
         for (pDev = inputInfo.devices; pDev; pDev = pDev.next) {
             if (DevHasCursor(pDev)) {
                 pCursorInfo = GetSprite(pDev);
-                pCursorInfo.checkPixels = TRUE;
+                pCursorInfo.checkPixels = True;
                 if (pCursorInfo.isUp && pCursorInfo.pScreen == pScreen)
                     miSpriteRemoveCursor(pDev, pScreen);
             }
@@ -537,7 +536,7 @@ enum string CheckDirect(string dev, string plane) = `
             for (pDev = inputInfo.devices; pDev; pDev = pDev.next) {
                 if (DevHasCursor(pDev)) {
                     pCursorInfo = GetSprite(pDev);
-                    pCursorInfo.checkPixels = TRUE;
+                    pCursorInfo.checkPixels = True;
                     if (pCursorInfo.isUp && pCursorInfo.pScreen == pScreen)
                         miSpriteRemoveCursor(pDev, pScreen);
                 }
@@ -576,7 +575,7 @@ private void miSpriteFindColors(miCursorInfoPtr pDevCursor, ScreenPtr pScreen)
         FakeFreeColor(pScreenPriv.pColormap, maskColor.pixel);
     }
 
-    pDevCursor.checkPixels = FALSE;
+    pDevCursor.checkPixels = False;
 
 }
 
@@ -591,12 +590,12 @@ private Bool miSpriteRealizeCursor(DeviceIntPtr pDev, ScreenPtr pScreen, CursorP
     miCursorInfoPtr pCursorInfo = void;
 
     if (InputDevIsFloating(pDev))
-        return FALSE;
+        return False;
 
     pCursorInfo = GetSprite(pDev);
 
     if (pCursor is pCursorInfo.pCursor)
-        pCursorInfo.checkPixels = TRUE;
+        pCursorInfo.checkPixels = True;
 
     return (!!miDCRealizeCursor(pScreen, pCursor));
 }
@@ -620,7 +619,7 @@ private void miSpriteSetCursor(DeviceIntPtr pDev, ScreenPtr pScreen, CursorPtr p
     if (!pCursor) {
         if (pPointer.shouldBeUp)
             --pScreenPriv.numberOfCursors;
-        pPointer.shouldBeUp = FALSE;
+        pPointer.shouldBeUp = False;
         if (pPointer.isUp)
             miSpriteRemoveCursor(pDev, pScreen);
         if (pScreenPriv.numberOfCursors == 0)
@@ -630,7 +629,7 @@ private void miSpriteSetCursor(DeviceIntPtr pDev, ScreenPtr pScreen, CursorPtr p
     }
     if (!pPointer.shouldBeUp)
         pScreenPriv.numberOfCursors++;
-    pPointer.shouldBeUp = TRUE;
+    pPointer.shouldBeUp = True;
     if (!pPointer.isUp)
         miSpriteRegisterBlockHandler(pScreen, pScreenPriv);
     if (pPointer.x == x &&
@@ -682,9 +681,9 @@ private Bool miSpriteDeviceCursorInitialize(DeviceIntPtr pDev, ScreenPtr pScreen
         pCursorInfo.pCursor = null;
         pCursorInfo.x = 0;
         pCursorInfo.y = 0;
-        pCursorInfo.isUp = FALSE;
-        pCursorInfo.shouldBeUp = FALSE;
-        pCursorInfo.checkPixels = TRUE;
+        pCursorInfo.isUp = False;
+        pCursorInfo.shouldBeUp = False;
+        pCursorInfo.checkPixels = True;
         pCursorInfo.pScreen = null;
     }
 
@@ -713,7 +712,7 @@ private void miSpriteRemoveCursor(DeviceIntPtr pDev, ScreenPtr pScreen)
     if (InputDevIsFloating(pDev))
         return;
 
-    DamageDrawInternal(pScreen, TRUE);
+    DamageDrawInternal(pScreen, True);
     pScreenPriv = GetSpriteScreen(pScreen);
     pCursorInfo = GetSprite(pDev);
 
@@ -731,7 +730,7 @@ private void miSpriteRemoveCursor(DeviceIntPtr pDev, ScreenPtr pScreen)
         miSpriteIsUp(pCursorInfo);
     }
     miSpriteEnableDamage(pScreen, pScreenPriv);
-    DamageDrawInternal(pScreen, FALSE);
+    DamageDrawInternal(pScreen, False);
 }
 
 /*
@@ -747,7 +746,7 @@ private void miSpriteSaveUnderCursor(DeviceIntPtr pDev, ScreenPtr pScreen)
     if (InputDevIsFloating(pDev))
         return;
 
-    DamageDrawInternal(pScreen, TRUE);
+    DamageDrawInternal(pScreen, True);
     pScreenPriv = GetSpriteScreen(pScreen);
     pCursorInfo = GetSprite(pDev);
 
@@ -764,7 +763,7 @@ private void miSpriteSaveUnderCursor(DeviceIntPtr pDev, ScreenPtr pScreen)
                         pCursorInfo.saved.y2 - pCursorInfo.saved.y1);
     // SPRITE_DEBUG(("SaveUnderCursor %d\n", pDev.id));
     miSpriteEnableDamage(pScreen, pScreenPriv);
-    DamageDrawInternal(pScreen, FALSE);
+    DamageDrawInternal(pScreen, False);
 }
 
 /*
@@ -782,7 +781,7 @@ private void miSpriteRestoreCursor(DeviceIntPtr pDev, ScreenPtr pScreen)
     if (InputDevIsFloating(pDev))
         return;
 
-    DamageDrawInternal(pScreen, TRUE);
+    DamageDrawInternal(pScreen, True);
     pScreenPriv = GetSpriteScreen(pScreen);
     pCursorInfo = GetSprite(pDev);
 
@@ -803,7 +802,7 @@ private void miSpriteRestoreCursor(DeviceIntPtr pDev, ScreenPtr pScreen)
         pCursorInfo.pScreen = pScreen;
     }
     miSpriteEnableDamage(pScreen, pScreenPriv);
-    DamageDrawInternal(pScreen, FALSE);
+    DamageDrawInternal(pScreen, False);
 }
 
 /*

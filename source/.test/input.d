@@ -75,7 +75,7 @@ private void dix_init_valuators()
     memset(&dev, 0, DeviceIntRec.sizeof);
     dev.type = MASTER_POINTER;  /* claim it's a master to stop ptracccel */
 
-    assert(InitValuatorClassDeviceStruct(null, 0, atoms.ptr, 0, 0) == FALSE);
+    assert(InitValuatorClassDeviceStruct(null, 0, atoms.ptr, 0, 0) == False);
     assert(InitValuatorClassDeviceStruct(&dev, num_axes, atoms.ptr, 0, Absolute));
 
     val = dev.valuator;
@@ -95,20 +95,20 @@ private void dix_init_valuators()
 
     /* invalid increment */
     assert(SetScrollValuator
-           (&dev, 0, SCROLL_TYPE_VERTICAL, 0.0, SCROLL_FLAG_NONE) == FALSE);
+           (&dev, 0, SCROLL_TYPE_VERTICAL, 0.0, SCROLL_FLAG_NONE) == False);
     /* invalid type */
     assert(SetScrollValuator
-           (&dev, 0, SCROLL_TYPE_VERTICAL - 1, 1.0, SCROLL_FLAG_NONE) == FALSE);
+           (&dev, 0, SCROLL_TYPE_VERTICAL - 1, 1.0, SCROLL_FLAG_NONE) == False);
     assert(SetScrollValuator
            (&dev, 0, SCROLL_TYPE_HORIZONTAL + 1, 1.0,
-            SCROLL_FLAG_NONE) == FALSE);
+            SCROLL_FLAG_NONE) == False);
     /* invalid axisnum */
     assert(SetScrollValuator
-           (&dev, 2, SCROLL_TYPE_HORIZONTAL, 1.0, SCROLL_FLAG_NONE) == FALSE);
+           (&dev, 2, SCROLL_TYPE_HORIZONTAL, 1.0, SCROLL_FLAG_NONE) == False);
 
     /* valid */
     assert(SetScrollValuator
-           (&dev, 0, SCROLL_TYPE_VERTICAL, 3.0, SCROLL_FLAG_NONE) == TRUE);
+           (&dev, 0, SCROLL_TYPE_VERTICAL, 3.0, SCROLL_FLAG_NONE) == True);
     axis = &dev.valuator.axes[0];
     assert(axis.scroll.increment == 3.0);
     assert(axis.scroll.type == SCROLL_TYPE_VERTICAL);
@@ -116,7 +116,7 @@ private void dix_init_valuators()
 
     /* valid */
     assert(SetScrollValuator
-           (&dev, 1, SCROLL_TYPE_HORIZONTAL, 2.0, SCROLL_FLAG_NONE) == TRUE);
+           (&dev, 1, SCROLL_TYPE_HORIZONTAL, 2.0, SCROLL_FLAG_NONE) == True);
     axis = &dev.valuator.axes[1];
     assert(axis.scroll.increment == 2.0);
     assert(axis.scroll.type == SCROLL_TYPE_HORIZONTAL);
@@ -124,13 +124,13 @@ private void dix_init_valuators()
 
     /* can add another non-preferred axis */
     assert(SetScrollValuator
-           (&dev, 1, SCROLL_TYPE_VERTICAL, 5.0, SCROLL_FLAG_NONE) == TRUE);
+           (&dev, 1, SCROLL_TYPE_VERTICAL, 5.0, SCROLL_FLAG_NONE) == True);
     assert(SetScrollValuator
-           (&dev, 0, SCROLL_TYPE_HORIZONTAL, 5.0, SCROLL_FLAG_NONE) == TRUE);
+           (&dev, 0, SCROLL_TYPE_HORIZONTAL, 5.0, SCROLL_FLAG_NONE) == True);
 
     /* can overwrite with Preferred */
     assert(SetScrollValuator
-           (&dev, 1, SCROLL_TYPE_VERTICAL, 5.5, SCROLL_FLAG_PREFERRED) == TRUE);
+           (&dev, 1, SCROLL_TYPE_VERTICAL, 5.5, SCROLL_FLAG_PREFERRED) == True);
     axis = &dev.valuator.axes[1];
     assert(axis.scroll.increment == 5.5);
     assert(axis.scroll.type == SCROLL_TYPE_VERTICAL);
@@ -138,7 +138,7 @@ private void dix_init_valuators()
 
     assert(SetScrollValuator
            (&dev, 0, SCROLL_TYPE_HORIZONTAL, 8.8,
-            SCROLL_FLAG_PREFERRED) == TRUE);
+            SCROLL_FLAG_PREFERRED) == True);
     axis = &dev.valuator.axes[0];
     assert(axis.scroll.increment == 8.8);
     assert(axis.scroll.type == SCROLL_TYPE_HORIZONTAL);
@@ -146,19 +146,19 @@ private void dix_init_valuators()
 
     /* can overwrite as none */
     assert(SetScrollValuator(&dev, 0, SCROLL_TYPE_NONE, 5.0,
-                             SCROLL_FLAG_NONE) == TRUE);
+                             SCROLL_FLAG_NONE) == True);
     axis = &dev.valuator.axes[0];
     assert(axis.scroll.type == SCROLL_TYPE_NONE);
 
     /* can overwrite axis with new settings */
     assert(SetScrollValuator
-           (&dev, 0, SCROLL_TYPE_VERTICAL, 5.0, SCROLL_FLAG_NONE) == TRUE);
+           (&dev, 0, SCROLL_TYPE_VERTICAL, 5.0, SCROLL_FLAG_NONE) == True);
     axis = &dev.valuator.axes[0];
     assert(axis.scroll.type == SCROLL_TYPE_VERTICAL);
     assert(axis.scroll.increment == 5.0);
     assert(axis.scroll.flags == SCROLL_FLAG_NONE);
     assert(SetScrollValuator
-           (&dev, 0, SCROLL_TYPE_VERTICAL, 3.0, SCROLL_FLAG_NONE) == TRUE);
+           (&dev, 0, SCROLL_TYPE_VERTICAL, 3.0, SCROLL_FLAG_NONE) == True);
     assert(axis.scroll.type == SCROLL_TYPE_VERTICAL);
     assert(axis.scroll.increment == 3.0);
     assert(axis.scroll.flags == SCROLL_FLAG_NONE);
@@ -181,7 +181,7 @@ private void dix_check_grab_values()
     param.this_device_mode = GrabModeSync;
     param.other_devices_mode = GrabModeSync;
     param.modifiers = AnyModifier;
-    param.ownerEvents = FALSE;
+    param.ownerEvents = False;
 
     rc = CheckGrabValues(&client, &param);
     assert(rc == Success);
@@ -225,7 +225,7 @@ private void dix_check_grab_values()
     assert(client.errorValue == (1 << 13));
 
     param.modifiers = AnyModifier;
-    param.ownerEvents = TRUE;
+    param.ownerEvents = True;
     rc = CheckGrabValues(&client, &param);
     assert(rc == Success);
 
@@ -268,7 +268,7 @@ enum string test_event() = `
     assert(core.u.keyButtonPointer.root == ROOT_WINDOW_ID); 
     assert(core.u.keyButtonPointer.event == 0); 
     assert(core.u.keyButtonPointer.child == 0); 
-    assert(core.u.keyButtonPointer.sameScreen == FALSE);`;
+    assert(core.u.keyButtonPointer.sameScreen == False);`;
 
     x = 0;
     y = 0;
@@ -422,7 +422,7 @@ private void _dix_test_xi_convert(DeviceEvent* ev, int expected_rc, int expected
         assert(kbp.root == ev.root);
         assert(kbp.event == 0);
         assert(kbp.child == 0);
-        assert(kbp.same_screen == FALSE);
+        assert(kbp.same_screen == False);
 
         while (--count > 0) {
             deviceValuator* v = cast(deviceValuator*) &xi[count];
@@ -594,24 +594,24 @@ private void dix_grab_matching()
     /* different grabtypes must fail */
     a.grabtype = CORE;
     b.grabtype = XI2;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     a.grabtype = XI;
     b.grabtype = XI2;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     a.grabtype = XI;
     b.grabtype = CORE;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     /* XI2 grabs for different devices must fail, regardless of ignoreDevice
      * XI2 grabs for master devices must fail against a slave */
@@ -634,39 +634,39 @@ private void dix_grab_matching()
     a.device = &dev1;
     b.device = &dev2;
 
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
 
     a.device = &dev2;
     b.device = &dev1;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&a, &b, TRUE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&a, &b, True);
+    assert(rc == False);
 
     a.device = inputInfo.all_master_devices;
     b.device = &dev1;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&a, &b, TRUE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&a, &b, True);
+    assert(rc == False);
 
     a.device = &dev1;
     b.device = inputInfo.all_master_devices;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&a, &b, TRUE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&a, &b, True);
+    assert(rc == False);
 
-    /* ignoreDevice FALSE must fail for different devices for CORE and XI */
+    /* ignoreDevice False must fail for different devices for CORE and XI */
     a.grabtype = XI;
     b.grabtype = XI;
     a.device = &dev1;
     b.device = &dev2;
     a.modifierDevice = &dev1;
     b.modifierDevice = &dev1;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
 
     a.grabtype = CORE;
     b.grabtype = CORE;
@@ -674,10 +674,10 @@ private void dix_grab_matching()
     b.device = &dev2;
     a.modifierDevice = &dev1;
     b.modifierDevice = &dev1;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
 
-    /* ignoreDevice FALSE must fail for different modifier devices for CORE
+    /* ignoreDevice False must fail for different modifier devices for CORE
      * and XI */
     a.grabtype = XI;
     b.grabtype = XI;
@@ -685,8 +685,8 @@ private void dix_grab_matching()
     b.device = &dev1;
     a.modifierDevice = &dev1;
     b.modifierDevice = &dev2;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
 
     a.grabtype = CORE;
     b.grabtype = CORE;
@@ -694,8 +694,8 @@ private void dix_grab_matching()
     b.device = &dev1;
     a.modifierDevice = &dev1;
     b.modifierDevice = &dev2;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
 
     /* different event type must fail */
     a.grabtype = XI2;
@@ -706,10 +706,10 @@ private void dix_grab_matching()
     b.modifierDevice = &dev1;
     a.type = XI_KeyPress;
     b.type = XI_KeyRelease;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&a, &b, TRUE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&a, &b, True);
+    assert(rc == False);
 
     a.grabtype = CORE;
     b.grabtype = CORE;
@@ -719,10 +719,10 @@ private void dix_grab_matching()
     b.modifierDevice = &dev1;
     a.type = XI_KeyPress;
     b.type = XI_KeyRelease;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&a, &b, TRUE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&a, &b, True);
+    assert(rc == False);
 
     a.grabtype = XI;
     b.grabtype = XI;
@@ -732,10 +732,10 @@ private void dix_grab_matching()
     b.modifierDevice = &dev1;
     a.type = XI_KeyPress;
     b.type = XI_KeyRelease;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&a, &b, TRUE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&a, &b, True);
+    assert(rc == False);
 
     /* different modifiers must fail */
     a.grabtype = XI2;
@@ -748,53 +748,53 @@ private void dix_grab_matching()
     b.type = XI_KeyPress;
     a.modifiersDetail.exact = 1;
     b.modifiersDetail.exact = 2;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     a.grabtype = CORE;
     b.grabtype = CORE;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     a.grabtype = XI;
     b.grabtype = XI;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     /* AnyModifier must fail for XI2 */
     a.grabtype = XI2;
     b.grabtype = XI2;
     a.modifiersDetail.exact = AnyModifier;
     b.modifiersDetail.exact = 1;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     /* XIAnyModifier must fail for CORE and XI */
     a.grabtype = XI;
     b.grabtype = XI;
     a.modifiersDetail.exact = XIAnyModifier;
     b.modifiersDetail.exact = 1;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     a.grabtype = CORE;
     b.grabtype = CORE;
     a.modifiersDetail.exact = XIAnyModifier;
     b.modifiersDetail.exact = 1;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     /* different detail must fail */
     a.grabtype = XI2;
@@ -803,24 +803,24 @@ private void dix_grab_matching()
     b.detail.exact = 2;
     a.modifiersDetail.exact = 1;
     b.modifiersDetail.exact = 1;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     a.grabtype = XI;
     b.grabtype = XI;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     a.grabtype = CORE;
     b.grabtype = CORE;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     /* detail of AnyModifier must fail */
     a.grabtype = XI2;
@@ -829,24 +829,24 @@ private void dix_grab_matching()
     b.detail.exact = 1;
     a.modifiersDetail.exact = 1;
     b.modifiersDetail.exact = 1;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     a.grabtype = CORE;
     b.grabtype = CORE;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     a.grabtype = XI;
     b.grabtype = XI;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     /* detail of XIAnyModifier must fail */
     a.grabtype = XI2;
@@ -855,24 +855,24 @@ private void dix_grab_matching()
     b.detail.exact = 1;
     a.modifiersDetail.exact = 1;
     b.modifiersDetail.exact = 1;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     a.grabtype = CORE;
     b.grabtype = CORE;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     a.grabtype = XI;
     b.grabtype = XI;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == FALSE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == FALSE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == False);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == False);
 
     /* XIAnyModifier or AnyModifier must succeed */
     a.grabtype = XI2;
@@ -881,10 +881,10 @@ private void dix_grab_matching()
     b.detail.exact = 1;
     a.modifiersDetail.exact = XIAnyModifier;
     b.modifiersDetail.exact = 1;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == TRUE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == TRUE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == True);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == True);
 
     a.grabtype = CORE;
     b.grabtype = CORE;
@@ -892,10 +892,10 @@ private void dix_grab_matching()
     b.detail.exact = 1;
     a.modifiersDetail.exact = AnyModifier;
     b.modifiersDetail.exact = 1;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == TRUE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == TRUE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == True);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == True);
 
     a.grabtype = XI;
     b.grabtype = XI;
@@ -903,10 +903,10 @@ private void dix_grab_matching()
     b.detail.exact = 1;
     a.modifiersDetail.exact = AnyModifier;
     b.modifiersDetail.exact = 1;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == TRUE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == TRUE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == True);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == True);
 
     /* AnyKey or XIAnyKeycode must succeed */
     a.grabtype = XI2;
@@ -915,10 +915,10 @@ private void dix_grab_matching()
     b.detail.exact = 1;
     a.modifiersDetail.exact = 1;
     b.modifiersDetail.exact = 1;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == TRUE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == TRUE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == True);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == True);
 
     a.grabtype = CORE;
     b.grabtype = CORE;
@@ -926,10 +926,10 @@ private void dix_grab_matching()
     b.detail.exact = 1;
     a.modifiersDetail.exact = 1;
     b.modifiersDetail.exact = 1;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == TRUE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == TRUE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == True);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == True);
 
     a.grabtype = XI;
     b.grabtype = XI;
@@ -937,10 +937,10 @@ private void dix_grab_matching()
     b.detail.exact = 1;
     a.modifiersDetail.exact = 1;
     b.modifiersDetail.exact = 1;
-    rc = GrabMatchesSecond(&a, &b, FALSE);
-    assert(rc == TRUE);
-    rc = GrabMatchesSecond(&b, &a, FALSE);
-    assert(rc == TRUE);
+    rc = GrabMatchesSecond(&a, &b, False);
+    assert(rc == True);
+    rc = GrabMatchesSecond(&b, &a, False);
+    assert(rc == True);
 }
 
 private void test_bits_to_byte(int i)
@@ -1345,7 +1345,7 @@ private void dix_valuator_mode()
     memset(&dev, 0, DeviceIntRec.sizeof);
     dev.type = MASTER_POINTER;  /* claim it's a master to stop ptracccel */
 
-    assert(InitValuatorClassDeviceStruct(null, 0, atoms.ptr, 0, 0) == FALSE);
+    assert(InitValuatorClassDeviceStruct(null, 0, atoms.ptr, 0, 0) == False);
     assert(InitValuatorClassDeviceStruct(&dev, num_axes, atoms.ptr, 0, Absolute));
 
     for (i = 0; i < num_axes; i++) {
@@ -1507,8 +1507,8 @@ private void dix_get_master()
     kbd_sprite.paired = &vck;
     floating_sprite.paired = &floating;
 
-    vcp_sprite.spriteOwner = TRUE;
-    floating_sprite.spriteOwner = TRUE;
+    vcp_sprite.spriteOwner = True;
+    floating_sprite.spriteOwner = True;
 
     ptr.master = &vcp;
     kbd.master = &vck;

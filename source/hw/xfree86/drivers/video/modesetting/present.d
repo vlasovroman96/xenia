@@ -208,7 +208,7 @@ private void ms_present_flip_handler(modesettingPtr ms, ulong msc, ulong ust, vo
                 //   cast(long) msc, cast(long) ust));
 
     if (event.unflip)
-        ms.drmmode.present_flipping = FALSE;
+        ms.drmmode.present_flipping = False;
 
     ms_present_vblank_handler(msc, ust, event);
 }
@@ -243,20 +243,20 @@ private Bool ms_present_check_unflip(RRCrtcPtr crtc, WindowPtr window, PixmapPtr
     gbm_bo* gbm = void;
 
     if (!ms.drmmode.pageflip)
-        return FALSE;
+        return False;
 
     if (ms.drmmode.dri2_flipping)
-        return FALSE;
+        return False;
 
     if (!scrn.vtSema)
-        return FALSE;
+        return False;
 
     for (i = 0; i < config.num_crtc; i++) {
         drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr) config.crtc[i].driver_private;
 
         /* Don't do pageflipping if CRTCs are rotated. */
         if (drmmode_crtc.rotate_bo)
-            return FALSE;
+            return False;
 
         if (xf86_crtc_on(config.crtc[i]))
             num_crtcs_on++;
@@ -264,7 +264,7 @@ private Bool ms_present_check_unflip(RRCrtcPtr crtc, WindowPtr window, PixmapPtr
 
     /* We can't do pageflipping if all the CRTCs are off. */
     if (num_crtcs_on == 0)
-        return FALSE;
+        return False;
 
     /*
      * Check stride, can't change that reliably on flip on some drivers, unless
@@ -272,10 +272,10 @@ private Bool ms_present_check_unflip(RRCrtcPtr crtc, WindowPtr window, PixmapPtr
      */
     if (!ms.atomic_modeset_capable &&
         pixmap.devKind != gbm_bo_get_stride(ms.drmmode.front_bo))
-        return FALSE;
+        return False;
 
     if (!ms.drmmode.glamor)
-        return FALSE;
+        return False;
 
 static if (GBM_BO_WITH_MODIFIERS) {
     /* Check if buffer format/modifier is supported by all active CRTCs */
@@ -291,7 +291,7 @@ static if (GBM_BO_WITH_MODIFIERS) {
         if (!drmmode_is_format_supported(scrn, format, modifier, !sync_flip)) {
             if (reason)
                 *reason = PRESENT_FLIP_REASON_BUFFER_FORMAT;
-            return FALSE;
+            return False;
         }
     }
 }
@@ -299,10 +299,10 @@ static if (GBM_BO_WITH_MODIFIERS) {
     /* Make sure there's a bo we can get to */
     /* XXX: actually do this.  also...is it sufficient?
      * if (!glamor_get_pixmap_private(pixmap))
-     *     return FALSE;
+     *     return False;
      */
 
-    return TRUE;
+    return True;
 }
 
 private Bool ms_present_check_flip(RRCrtcPtr crtc, WindowPtr window, PixmapPtr pixmap, Bool sync_flip, PresentFlipReason* reason)
@@ -358,7 +358,7 @@ private Bool ms_present_check_flip(RRCrtcPtr crtc, WindowPtr window, PixmapPtr p
 
     ms.flip_window = window;
 
-    return TRUE;
+    return True;
 
 no_flip:
     /* Export some info about TearFree if Present can't flip anyway */
@@ -376,7 +376,7 @@ no_flip:
                 *reason = PRESENT_FLIP_REASON_DRIVER_TEARFREE;
         }
     }
-    return FALSE;
+    return False;
 }
 
 /*
@@ -395,21 +395,21 @@ private Bool ms_present_flip(RRCrtcPtr crtc, ulong event_id, ulong target_msc, P
     /* A NULL pixmap means this is a fake flip to be routed through TearFree */
     if (pixmap &&
         !ms_present_check_flip(crtc, ms.flip_window, pixmap, sync_flip, null))
-        return FALSE;
+        return False;
 
     event = cast(ms_present_vblank_event*) cast(ms_present_vblank_event*) calloc(1, ms_present_vblank_event.sizeof);
     if (!event)
-        return FALSE;
+        return False;
 
     // DebugPresent(("\t\tms:pf %lld msc %llu\n",
                 //   cast(long) event_id, cast(long) target_msc));
 
     event.event_id = event_id;
-    event.unflip = FALSE;
+    event.unflip = False;
 
     /* Register the fake flip (indicated by a NULL pixmap) with TearFree */
     if (!pixmap)
-        return ms_do_pageflip(screen, null, event, xf86_crtc, FALSE,
+        return ms_do_pageflip(screen, null, event, xf86_crtc, False,
                               &ms_present_flip_handler, &ms_present_flip_abort,
                               "Present-TearFree-flip");
 
@@ -421,14 +421,14 @@ private Bool ms_present_flip(RRCrtcPtr crtc, ulong event_id, ulong target_msc, P
      */
     if (ms.vrr_support && ms.is_connector_vrr_capable &&
           ms_window_has_variable_refresh(ms, ms.flip_window)) {
-        ms_present_set_screen_vrr(scrn, TRUE);
+        ms_present_set_screen_vrr(scrn, True);
     }
 
     ret = ms_do_pageflip(screen, pixmap, event, xf86_crtc, !sync_flip,
                          &ms_present_flip_handler, &ms_present_flip_abort,
                          "Present-flip");
     if (ret)
-        ms.drmmode.present_flipping = TRUE;
+        ms.drmmode.present_flipping = True;
 
     return ret;
 }
@@ -444,9 +444,9 @@ private void ms_present_unflip(ScreenPtr screen, ulong event_id)
     xf86CrtcConfigPtr config = mixin(XF86_CRTC_CONFIG_PTR!("scrn"));
     int i = void;
 
-    ms_present_set_screen_vrr(scrn, FALSE);
+    ms_present_set_screen_vrr(scrn, False);
 
-    if (ms_present_check_unflip(null, screen.root, pixmap, TRUE, null)) {
+    if (ms_present_check_unflip(null, screen.root, pixmap, True, null)) {
         ms_present_vblank_event* event = void;
 
         event = cast(ms_present_vblank_event*) cast(ms_present_vblank_event*) calloc(1, ms_present_vblank_event.sizeof);
@@ -454,16 +454,16 @@ private void ms_present_unflip(ScreenPtr screen, ulong event_id)
             return;
 
         event.event_id = event_id;
-        event.unflip = TRUE;
+        event.unflip = True;
 
-        if (ms_do_pageflip(screen, pixmap, event, null, FALSE,
+        if (ms_do_pageflip(screen, pixmap, event, null, False,
                            &ms_present_flip_handler, &ms_present_flip_abort,
                            "Present-unflip")) {
             return;
         }
     }
 
-    ms.drmmode.present_flipping = FALSE;
+    ms.drmmode.present_flipping = False;
 
     for (i = 0; i < config.num_crtc; i++) {
         xf86CrtcPtr crtc = config.crtc[i];
@@ -484,7 +484,7 @@ private void ms_present_unflip(ScreenPtr screen, ulong event_id)
             crtc.funcs.set_mode_major(crtc, &crtc.mode, crtc.rotation,
                                         crtc.x, crtc.y);
         else
-            drmmode_crtc.need_modeset = TRUE;
+            drmmode_crtc.need_modeset = True;
     }
 
     present_event_notify(event_id, 0, 0);
@@ -534,7 +534,7 @@ enum DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP = 0x15;
                             DRM_CAP_ASYNC_PAGE_FLIP, &value);
     if (ret == 0 && value == 1) {
         ms_present_screen_info.capabilities |= PresentCapabilityAsync;
-        ms.drmmode.can_async_flip = TRUE;
+        ms.drmmode.can_async_flip = True;
         xf86DrvMsg(screen.myNum, X_INFO, "Async flip capable\n");
     }
 

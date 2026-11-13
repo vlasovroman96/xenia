@@ -131,9 +131,9 @@ private Bool double_size(HashTable ht)
 
         ht.buckets = newBuckets;
         ht.bucketBits = newBucketBits;
-        return TRUE;
+        return True;
     } else {
-        return FALSE;
+        return False;
     }
 }
 

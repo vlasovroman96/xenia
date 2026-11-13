@@ -52,7 +52,7 @@ enum string SameBorder(string as, string a, string bs, string b) = `EqualPixUnio
  * allocate if window->optional == NULL, otherwise do nothing.
  *
  * @param pWin the window to operate on
- * @return FALSE if allocation failed, otherwise TRUE
+ * @return False if allocation failed, otherwise True
  */
 // Bool MakeWindowOptional(WindowPtr pWin);
 

@@ -107,7 +107,7 @@ private int ProcXvQueryAdaptors(ClientPtr client)
                                           XvGetScreenKey());
 
     size_t numAdaptors = 0;
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (pxvs) {
         numAdaptors = pxvs.nAdaptors;
@@ -154,7 +154,7 @@ private int ProcXvQueryEncodings(ClientPtr client)
     XvPortPtr pPort = void;
     mixin(VALIDATE_XV_PORT!("stuff.port", "pPort", "DixReadAccess"));
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     size_t ne = pPort.pAdaptor.nEncodings;
     XvEncodingPtr pe = pPort.pAdaptor.pEncodings;
@@ -580,7 +580,7 @@ private int ProcXvQueryPortAttributes(ClientPtr client)
 
     mixin(VALIDATE_XV_PORT!("stuff.port", "pPort", "DixGetAttrAccess"));
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     size_t textSize = 0;
     for (i = 0, pAtt = pPort.pAdaptor.pAttributes;
@@ -655,7 +655,7 @@ private int SingleXvPutImage(ClientPtr client)
     return XvdiPutImage(client, pDraw, pPort, pGC, stuff.src_x, stuff.src_y,
                         stuff.src_w, stuff.src_h, stuff.drw_x, stuff.drw_y,
                         stuff.drw_w, stuff.drw_h, pImage,
-                        cast(ubyte*) (&stuff[1]), FALSE,
+                        cast(ubyte*) (&stuff[1]), False,
                         stuff.width, stuff.height);
 }
 
@@ -834,7 +834,7 @@ static if(XvMCExtension) {
 
     num_planes = pImage.num_planes;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     /* allocating for `offsets` as well as `pitches` in one block */
     /* both having CARD32 * num_planes (actually int32_t put into CARD32) */
@@ -884,7 +884,7 @@ private int ProcXvListImageFormats(ClientPtr client)
 
     pImage = pPort.pAdaptor.pImages;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     for (i = 0; i < pPort.pAdaptor.nImages; i++, pImage++) {
         /* xvImageFormatInfo */
@@ -1235,8 +1235,8 @@ private Bool hasOverlay(XvAdaptorPtr pAdapt)
 
     for (i = 0; i < pAdapt.nAttributes; i++)
         if (!strcmp(pAdapt.pAttributes[i].name, "XV_COLORKEY"))
-            return TRUE;
-    return FALSE;
+            return True;
+    return False;
 }
 
 private XvAdaptorPtr matchAdaptor(ScreenPtr pScreen, XvAdaptorPtr refAdapt, Bool isOverlay)

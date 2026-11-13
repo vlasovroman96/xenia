@@ -61,12 +61,12 @@ Bool xnestRealizeFont(ScreenPtr pScreen, FontPtr pFont)
         }
 
     if (!value_atom)
-        return FALSE;
+        return False;
 
     name = NameForAtom(value_atom);
 
     if (!name)
-        return FALSE;
+        return False;
 
     xnestPrivFont* priv = cast(xnestPrivFont*) cast(xnestPrivFont*) calloc(1, xnestPrivFont.sizeof);
     xfont2_font_set_private(pFont, xnestFontPrivateIndex, priv);
@@ -82,16 +82,16 @@ Bool xnestRealizeFont(ScreenPtr pScreen, FontPtr pFont)
     if (err) {
         ErrorF("failed to query font \"%s\": %d", name, err.error_code);
         free(err);
-        return FALSE;
+        return False;
     }
     if (!priv.font_reply) {
         ErrorF("failed to query font \"%s\": no reply", name);
-        return FALSE;
+        return False;
     }
     priv.chars_len = xcb_query_font_char_infos_length(priv.font_reply);
     priv.chars = xcb_query_font_char_infos(priv.font_reply);
 
-    return TRUE;
+    return True;
 }
 
 Bool xnestUnrealizeFont(ScreenPtr pScreen, FontPtr pFont)
@@ -101,5 +101,5 @@ Bool xnestUnrealizeFont(ScreenPtr pScreen, FontPtr pFont)
         free(xnestFontPriv(pFont));
         xfont2_font_set_private(pFont, xnestFontPrivateIndex, null);
     }
-    return TRUE;
+    return True;
 }

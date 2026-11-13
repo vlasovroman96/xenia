@@ -435,11 +435,11 @@ private Bool ctm_is_identity(const(drm_color_ctm)* ctm)
 
         if ((diagonal && val != one) ||
             (!diagonal && val != 0 && val != neg_zero)) {
-            return FALSE;
+            return False;
         }
     }
 
-    return TRUE;
+    return True;
 }
 
 pragma(inline, true) private uint* formats_ptr(drm_format_modifier_blob* blob)
@@ -483,7 +483,7 @@ Bool drmmode_is_format_supported(ScrnInfoPtr scrn, uint format, ulong modifier, 
     for (c = 0; c < xf86_config.num_crtc; c++) {
         xf86CrtcPtr crtc = xf86_config.crtc[c];
         drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr)crtc.driver_private;
-        Bool found = FALSE;
+        Bool found = False;
 
         if (!crtc.enabled)
             continue;
@@ -499,13 +499,13 @@ Bool drmmode_is_format_supported(ScrnInfoPtr scrn, uint format, ulong modifier, 
 
             if (modifier == DRM_FORMAT_MOD_INVALID ||
                 iter.num_modifiers == 0) {
-                found = TRUE;
+                found = True;
                 break;
             }
 
             for (j = 0; j < iter.num_modifiers; j++) {
                 if (iter.modifiers[j] == modifier) {
-                    found = TRUE;
+                    found = True;
                     break;
                 }
             }
@@ -514,10 +514,10 @@ Bool drmmode_is_format_supported(ScrnInfoPtr scrn, uint format, ulong modifier, 
         }
 
         if (!found)
-            return FALSE;
+            return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 static if (GBM_BO_WITH_MODIFIERS) {
@@ -547,7 +547,7 @@ uint get_modifiers_set(ScrnInfoPtr scrn, uint format, ulong** modifiers, Bool en
                 continue;
 
             for (j = 0; j < iter.num_modifiers; j++) {
-                Bool found = FALSE;
+                Bool found = False;
 
                 /* Don't choose multi-plane formats for our screen pixmap.
                  * These will get used with frontbuffer rendering, which will
@@ -562,7 +562,7 @@ uint get_modifiers_set(ScrnInfoPtr scrn, uint format, ulong** modifiers, Bool en
 
                 for (k = 0; k < count_modifiers; k++) {
                     if (iter.modifiers[j] == ret[k])
-                        found = TRUE;
+                        found = True;
                 }
                 if (!found) {
                     count_modifiers++;
@@ -592,29 +592,29 @@ private Bool get_drawable_modifiers(DrawablePtr draw, uint format, uint* num_mod
         !ms.drmmode.pageflip || ms.drmmode.dri2_flipping || !scrn.vtSema) {
         *num_modifiers = 0;
         *modifiers = null;
-        return TRUE;
+        return True;
     }
 
     async_flip = ms_window_has_async_flip(cast(WindowPtr)draw);
     ms_window_update_async_flip_modifiers(cast(WindowPtr)draw, async_flip);
 
     *num_modifiers = get_modifiers_set(scrn, format, modifiers,
-                                       TRUE, FALSE, async_flip);
-    return TRUE;
+                                       True, False, async_flip);
+    return True;
 }
 }
 
 private Bool drmmode_zaphod_string_matches(ScrnInfoPtr scrn, const(char)* s, char* output_name)
 {
     char** token = xstrtokenize(s, ", \t\n\r");
-    Bool ret = FALSE;
+    Bool ret = False;
 
     if (!token)
-        return FALSE;
+        return False;
 
     for (int i = 0; token[i]; i++) {
         if (strcmp(token[i], output_name) == 0)
-            ret = TRUE;
+            ret = True;
 
         free(token[i]);
     }
@@ -664,14 +664,14 @@ private uint drmmode_prop_info_update(drmmode_ptr drmmode, drmmode_prop_info_ptr
     assert(num_infos <= 32 && "update return type");
 
     for (i = 0; i < props.count_props; i++) {
-        Bool props_incomplete = FALSE;
+        Bool props_incomplete = False;
         uint k = void;
 
         for (j = 0; j < num_infos; j++) {
             if (info[j].prop_id == props.props[i])
                 break;
             if (!info[j].prop_id)
-                props_incomplete = TRUE;
+                props_incomplete = True;
         }
 
         /* We've already discovered this property. */
@@ -731,7 +731,7 @@ private uint drmmode_prop_info_update(drmmode_ptr drmmode, drmmode_prop_info_ptr
             if (l == prop.count_enums)
                 continue;
 
-            info[j].enum_values[k].valid = TRUE;
+            info[j].enum_values[k].valid = True;
             info[j].enum_values[k].value = prop.enums[l].value;
         }
 
@@ -768,15 +768,15 @@ private Bool drmmode_prop_info_copy(drmmode_prop_info_ptr dst, const(drmmode_pro
                 src[i].num_enum_values * typeof(*dst[i].enum_values).sizeof);
 
         for (j = 0; j < dst[i].num_enum_values; j++)
-            dst[i].enum_values[j].valid = FALSE;
+            dst[i].enum_values[j].valid = False;
     }
 
-    return TRUE;
+    return True;
 
 err:
     while (i--)
         free(dst[i].enum_values);
-    return FALSE;
+    return False;
 }
 
 private void drmmode_prop_info_free(drmmode_prop_info_ptr info, int num_props)
@@ -889,7 +889,7 @@ private int crtc_add_dpms_props(drmModeAtomicReq* req, xf86CrtcPtr crtc, int new
 {
     xf86CrtcConfigPtr xf86_config = mixin(XF86_CRTC_CONFIG_PTR!("crtc.scrn"));
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_rec*)crtc.driver_private;
-    Bool crtc_active = FALSE;
+    Bool crtc_active = False;
     int i = void;
     int ret = 0;
 
@@ -909,7 +909,7 @@ private int crtc_add_dpms_props(drmModeAtomicReq* req, xf86CrtcPtr crtc, int new
             continue;
 
         if (new_dpms == DPMSModeOn)
-            crtc_active = TRUE;
+            crtc_active = True;
 
         ret |= connector_add_prop(req, drmmode_output,
                                   DRMMODE_CONNECTOR_CRTC_ID,
@@ -996,12 +996,12 @@ Bool drmmode_crtc_get_fb_id(xf86CrtcPtr crtc, uint* fb_id, int* x, int* y)
                                 &drmmode.fb_id);
         if (ret < 0) {
             ErrorF("failed to add fb %d\n", ret);
-            return FALSE;
+            return False;
         }
         *fb_id = drmmode.fb_id;
     }
 
-    return TRUE;
+    return True;
 }
 
 void drmmode_set_dpms(ScrnInfoPtr scrn, int dpms, int flags)
@@ -1032,7 +1032,7 @@ void drmmode_set_dpms(ScrnInfoPtr scrn, int dpms, int flags)
     for (i = 0; i < xf86_config.num_crtc; i++) {
         xf86CrtcPtr crtc = xf86_config.crtc[i];
         drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr)crtc.driver_private;
-        Bool active = FALSE;
+        Bool active = False;
 
         ret |= crtc_add_dpms_props(req, crtc, dpms, &active);
 
@@ -1043,7 +1043,7 @@ void drmmode_set_dpms(ScrnInfoPtr scrn, int dpms, int flags)
             if (!drmmode_crtc_get_fb_id(crtc, &fb_id, &x, &y))
                 continue;
             ret |= plane_add_props(req, crtc, fb_id, x, y);
-            drmmode_crtc.need_modeset = FALSE;
+            drmmode_crtc.need_modeset = False;
         }
     }
 
@@ -1051,9 +1051,9 @@ void drmmode_set_dpms(ScrnInfoPtr scrn, int dpms, int flags)
         drmModeAtomicCommit(ms.fd, req, mode_flags, null);
     drmModeAtomicFree(req);
 
-    ms.pending_modeset = TRUE;
+    ms.pending_modeset = True;
     xf86DPMSSet(scrn, dpms, flags);
-    ms.pending_modeset = FALSE;
+    ms.pending_modeset = False;
 }
 
 private int drmmode_output_disable(xf86OutputPtr output)
@@ -1313,15 +1313,15 @@ Bool drmmode_SetSlaveBO(PixmapPtr ppix, drmmode_ptr drmmode, int fd_handle, int 
     if (fd_handle == -1) {
         gbm_bo_destroy(ppriv.backing_bo);
         ppriv.backing_bo = null;
-        return TRUE;
+        return True;
     }
 
-    ppriv.backing_bo = gbm_back_bo_from_fd(drmmode, TRUE, fd_handle, pitch, size);
+    ppriv.backing_bo = gbm_back_bo_from_fd(drmmode, True, fd_handle, pitch, size);
     if (!ppriv.backing_bo)
-        return FALSE;
+        return False;
 
     close(fd_handle);
-    return TRUE;
+    return True;
 }
 
 private Bool drmmode_SharedPixmapPresent(PixmapPtr ppix, xf86CrtcPtr crtc, drmmode_ptr drmmode)
@@ -1331,7 +1331,7 @@ private Bool drmmode_SharedPixmapPresent(PixmapPtr ppix, xf86CrtcPtr crtc, drmmo
     if (primary.PresentSharedPixmap(ppix)) {
         /* Success, queue flip to back target */
         if (drmmode_SharedPixmapFlip(ppix, crtc, drmmode))
-            return TRUE;
+            return True;
 
         xf86DrvMsg(drmmode.scrn.scrnIndex, X_WARNING,
                    "drmmode_SharedPixmapFlip() failed, trying again next vblank\n");
@@ -1344,12 +1344,12 @@ private Bool drmmode_SharedPixmapPresent(PixmapPtr ppix, xf86CrtcPtr crtc, drmmo
         msPixmapPrivPtr ppriv = mixin(msGetPixmapPriv!("drmmode", "ppix"));
 
         /* Set flag first in case we are immediately notified */
-        ppriv.wait_for_damage = TRUE;
+        ppriv.wait_for_damage = True;
 
         if (primary.RequestSharedPixmapNotifyDamage(ppix))
-            return TRUE;
+            return True;
         else
-            ppriv.wait_for_damage = FALSE;
+            ppriv.wait_for_damage = False;
     }
 
     /* Damage notification not available, just try again on vblank */
@@ -1400,19 +1400,19 @@ Bool drmmode_SharedPixmapPresentOnVBlank(PixmapPtr ppix, xf86CrtcPtr crtc, drmmo
     vblank_event_args* event_args = void;
 
     if (ppix == drmmode_crtc.prime_pixmap)
-        return FALSE; /* Already flipped to this pixmap */
+        return False; /* Already flipped to this pixmap */
     if (ppix != drmmode_crtc.prime_pixmap_back)
-        return FALSE; /* Pixmap is not a scanout pixmap for CRTC */
+        return False; /* Pixmap is not a scanout pixmap for CRTC */
 
     event_args = cast(vblank_event_args*) calloc(1, typeof(*event_args).sizeof);
     if (!event_args)
-        return FALSE;
+        return False;
 
     event_args.frontTarget = ppix;
     event_args.backTarget = drmmode_crtc.prime_pixmap;
     event_args.crtc = crtc;
     event_args.drmmode = drmmode;
-    event_args.flip = FALSE;
+    event_args.flip = False;
 
     ppriv.flip_seq =
         ms_drm_queue_alloc(crtc, event_args,
@@ -1431,13 +1431,13 @@ Bool drmmode_SharedPixmapFlip(PixmapPtr frontTarget, xf86CrtcPtr crtc, drmmode_p
 
     event_args = cast(vblank_event_args*) calloc(1, typeof(*event_args).sizeof);
     if (!event_args)
-        return FALSE;
+        return False;
 
     event_args.frontTarget = frontTarget;
     event_args.backTarget = drmmode_crtc.prime_pixmap;
     event_args.crtc = crtc;
     event_args.drmmode = drmmode;
-    event_args.flip = TRUE;
+    event_args.flip = True;
 
     ppriv_front.flip_seq =
         ms_drm_queue_alloc(crtc, event_args,
@@ -1448,10 +1448,10 @@ Bool drmmode_SharedPixmapFlip(PixmapPtr frontTarget, xf86CrtcPtr crtc, drmmode_p
                         ppriv_front.fb_id, DRM_MODE_PAGE_FLIP_EVENT,
                         cast(void*)cast(intptr_t) ppriv_front.flip_seq) < 0) {
         ms_drm_abort_seq(crtc.scrn, ppriv_front.flip_seq);
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 private Bool drmmode_InitSharedPixmapFlipping(xf86CrtcPtr crtc, drmmode_ptr drmmode)
@@ -1459,10 +1459,10 @@ private Bool drmmode_InitSharedPixmapFlipping(xf86CrtcPtr crtc, drmmode_ptr drmm
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr)crtc.driver_private;
 
     if (!drmmode_crtc.enable_flipping)
-        return FALSE;
+        return False;
 
     if (drmmode_crtc.flipping_active)
-        return TRUE;
+        return True;
 
     drmmode_crtc.flipping_active =
         drmmode_SharedPixmapPresent(drmmode_crtc.prime_pixmap_back,
@@ -1479,7 +1479,7 @@ private void drmmode_FiniSharedPixmapFlipping(xf86CrtcPtr crtc, drmmode_ptr drmm
     if (!drmmode_crtc.flipping_active)
         return;
 
-    drmmode_crtc.flipping_active = FALSE;
+    drmmode_crtc.flipping_active = False;
 
     /* Abort page flip event handler on prime_pixmap */
     seq = mixin(msGetPixmapPriv!("drmmode", "drmmode_crtc.prime_pixmap")).flip_seq;
@@ -1499,14 +1499,14 @@ Bool drmmode_EnableSharedPixmapFlipping(xf86CrtcPtr crtc, drmmode_ptr drmmode, P
 {
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr)crtc.driver_private;
 
-    drmmode_crtc.enable_flipping = TRUE;
+    drmmode_crtc.enable_flipping = True;
 
     /* Set front scanout pixmap */
     drmmode_crtc.enable_flipping &=
         drmmode_set_target_scanout_pixmap(crtc, front,
                                           &drmmode_crtc.prime_pixmap);
     if (!drmmode_crtc.enable_flipping)
-        return FALSE;
+        return False;
 
     /* Set back scanout pixmap */
     drmmode_crtc.enable_flipping &=
@@ -1515,17 +1515,17 @@ Bool drmmode_EnableSharedPixmapFlipping(xf86CrtcPtr crtc, drmmode_ptr drmmode, P
     if (!drmmode_crtc.enable_flipping) {
         drmmode_set_target_scanout_pixmap(crtc, null,
                                           &drmmode_crtc.prime_pixmap);
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 void drmmode_DisableSharedPixmapFlipping(xf86CrtcPtr crtc, drmmode_ptr drmmode)
 {
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr)crtc.driver_private;
 
-    drmmode_crtc.enable_flipping = FALSE;
+    drmmode_crtc.enable_flipping = False;
 
     drmmode_FiniSharedPixmapFlipping(crtc, drmmode);
 
@@ -1601,7 +1601,7 @@ private void drmmode_crtc_dpms(xf86CrtcPtr crtc, int mode)
     if (ms.atomic_modeset) {
         if (mode != DPMSModeOn && !ms.pending_modeset)
             drmmode_crtc_disable(crtc);
-    } else if (crtc.enabled == FALSE) {
+    } else if (crtc.enabled == False) {
         drmModeSetCrtc(drmmode.fd, drmmode_crtc.mode_crtc.crtc_id,
                        0, 0, 0, null, 0, null);
     }
@@ -1690,7 +1690,7 @@ static if (GLAMOR) {
 
     FreeScratchGC(gc);
 
-    pScreen.canDoBGNoneRoot = TRUE;
+    pScreen.canDoBGNoneRoot = True;
 
     dixDestroyPixmap(drmmode.fbcon_pixmap, 0);
     drmmode.fbcon_pixmap = null;
@@ -1705,7 +1705,7 @@ void drmmode_copy_damage(xf86CrtcPtr crtc, PixmapPtr dst, RegionPtr dmg, Bool em
     /* Copy the screen's pixmap into the destination pixmap */
     if (crtc.rotatedPixmap) {
         src = &crtc.rotatedPixmap.drawable;
-        xf86RotateCrtcRedisplay(crtc, dst, src, dmg, FALSE);
+        xf86RotateCrtcRedisplay(crtc, dst, src, dmg, False);
     } else {
         src = &pScreen.GetScreenPixmap(pScreen).drawable;
         PixmapDirtyCopyArea(dst, src, 0, 0, -crtc.x, -crtc.y, dmg);
@@ -1752,7 +1752,7 @@ private Bool drmmode_create_tearfree_shadow(xf86CrtcPtr crtc)
     int i = void;
 
     if (!drmmode.tearfree_enable)
-        return TRUE;
+        return True;
 
     /* Destroy the old mode's buffers and make new ones */
     drmmode_destroy_tearfree_shadow(crtc);
@@ -1764,15 +1764,15 @@ private Bool drmmode_create_tearfree_shadow(xf86CrtcPtr crtc)
             drmmode_destroy_tearfree_shadow(crtc);
             xf86DrvMsg(crtc.scrn.scrnIndex, X_ERROR,
                        "shadow creation failed for TearFree buf%d\n", i);
-            return FALSE;
+            return False;
         }
         RegionInit(&trf.buf[i].dmg, &crtc.bounds, 0);
     }
 
     /* Initialize the front buffer with the current scanout */
     drmmode_copy_damage(crtc, trf.buf[trf.back_idx ^ 1].px,
-                        &trf.buf[trf.back_idx ^ 1].dmg, TRUE);
-    return TRUE;
+                        &trf.buf[trf.back_idx ^ 1].dmg, True);
+    return True;
 }
 
 private void drmmmode_prepare_modeset(ScrnInfoPtr scrn)
@@ -1788,9 +1788,9 @@ private void drmmmode_prepare_modeset(ScrnInfoPtr scrn)
      * try lighting up new displays. This makes sure fancy
      * modifiers can't cause the modeset to fail.
      */
-    ms.drmmode.pending_modeset = TRUE;
+    ms.drmmode.pending_modeset = True;
     present_check_flips(pScreen.root);
-    ms.drmmode.pending_modeset = FALSE;
+    ms.drmmode.pending_modeset = False;
 
     ms_drain_drm_events(pScreen);
 }
@@ -1804,7 +1804,7 @@ private Bool drmmode_set_mode_major(xf86CrtcPtr crtc, DisplayModePtr mode, Rotat
     int saved_x = void, saved_y = void;
     Rotation saved_rotation = void;
     DisplayModeRec saved_mode = void;
-    Bool ret = TRUE;
+    Bool ret = True;
     Bool can_test = void;
     int i = void;
 
@@ -1837,16 +1837,16 @@ private Bool drmmode_set_mode_major(xf86CrtcPtr crtc, DisplayModePtr mode, Rotat
         if (drmmode_crtc_set_mode(crtc, can_test)) {
             xf86DrvMsg(crtc.scrn.scrnIndex, X_ERROR,
                        "failed to set mode: %s\n", strerror(errno));
-            ret = FALSE;
+            ret = False;
             goto done;
         } else
-            ret = TRUE;
+            ret = True;
 
         if (crtc.scrn.pScreen)
             xf86CrtcSetScreenSubpixelOrder(crtc.scrn.pScreen);
 
-        ms.pending_modeset = TRUE;
-        drmmode_crtc.need_modeset = FALSE;
+        ms.pending_modeset = True;
+        drmmode_crtc.need_modeset = False;
         crtc.funcs.dpms(crtc, DPMSModeOn);
 
         if (drmmode_crtc.prime_pixmap_back)
@@ -1868,8 +1868,8 @@ private Bool drmmode_set_mode_major(xf86CrtcPtr crtc, DisplayModePtr mode, Rotat
 
         /* if we only tested the mode previously, really set it now */
         if (can_test)
-            drmmode_crtc_set_mode(crtc, FALSE);
-        ms.pending_modeset = FALSE;
+            drmmode_crtc_set_mode(crtc, False);
+        ms.pending_modeset = False;
     }
 
  done:
@@ -1880,7 +1880,7 @@ private Bool drmmode_set_mode_major(xf86CrtcPtr crtc, DisplayModePtr mode, Rotat
         crtc.mode = saved_mode;
         drmmode_create_tearfree_shadow(crtc);
     } else
-        crtc.active = TRUE;
+        crtc.active = True;
 
     return ret;
 }
@@ -1911,7 +1911,7 @@ private Bool drmmode_set_cursor(xf86CrtcPtr crtc, int width, int height)
     int ret = -EINVAL;
 
     if (cursor == NullCursor)
-        return TRUE;
+        return True;
 
     ret = drmModeSetCursor2(drmmode.fd, drmmode_crtc.mode_crtc.crtc_id,
                             handle, width, height,
@@ -1931,16 +1931,16 @@ private Bool drmmode_set_cursor(xf86CrtcPtr crtc, int width, int height)
         xf86CursorInfoPtr cursor_info = xf86_config.cursor_info;
 
         cursor_info.MaxWidth = cursor_info.MaxHeight = 0;
-        drmmode_crtc.drmmode.sw_cursor = TRUE;
-        drmmode_crtc.drmmode.set_cursor_failed = TRUE;
+        drmmode_crtc.drmmode.sw_cursor = True;
+        drmmode_crtc.drmmode.set_cursor_failed = True;
     }
 
     if (ret) {
         /* fallback to swcursor */
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 pragma(inline, true) private Bool drmmode_cursor_get_pitch_slow(drmmode_crtc_private_ptr drmmode_crtc, int idx, int* pitch)
@@ -1951,17 +1951,17 @@ pragma(inline, true) private Bool drmmode_cursor_get_pitch_slow(drmmode_crtc_pri
     int width = drmmode_cursor.dimensions[idx].width;
     int height = drmmode_cursor.dimensions[idx].height;
 
-    gbm_bo* bo = gbm_create_best_bo(drmmode, FALSE, width, height, DRMMODE_CURSOR_BO);
+    gbm_bo* bo = gbm_create_best_bo(drmmode, False, width, height, DRMMODE_CURSOR_BO);
     if (!bo) {
         /* We couldn't allocate a bo, so we try to guess the pitch */
         *pitch = mixin(MAX!(`width`, `64`));
-        return FALSE;
+        return False;
     }
 
     *pitch = gbm_bo_get_stride(bo) / drmmode.cpp;
 
     gbm_bo_destroy(bo);
-    return TRUE;
+    return True;
 }
 
 private int drmmode_cursor_get_pitch(drmmode_crtc_private_ptr drmmode_crtc, int idx)
@@ -2148,7 +2148,7 @@ private void drmmode_paint_cursor(gbm_bo* cursor_bo, int cursor_pitch, int curso
  * The load_cursor_argb_check driver hook.
  *
  * Sets the hardware cursor by calling the drmModeSetCursor2 ioctl.
- * On failure, returns FALSE indicating that the X server should fall
+ * On failure, returns False indicating that the X server should fall
  * back to software cursors.
  */
 private Bool drmmode_load_cursor_argb_check(xf86CrtcPtr crtc, CARD32* image)
@@ -2190,9 +2190,9 @@ private Bool drmmode_load_cursor_argb_check(xf86CrtcPtr crtc, CARD32* image)
                        "No compatible hardware cursor size for %dx%d; "
                        ~ "falling back to software cursor\n",
                        glyph_width, glyph_height);
-            drmmode_crtc.cursor_dim_fallback_warned = TRUE;
+            drmmode_crtc.cursor_dim_fallback_warned = True;
         }
-        return FALSE;
+        return False;
     }
 
     const(int) cursor_pitch = drmmode_cursor_get_pitch(drmmode_crtc, idx);
@@ -2225,7 +2225,7 @@ private Bool drmmode_load_cursor_argb_check(xf86CrtcPtr crtc, CARD32* image)
     drmmode_crtc.cursor_width  = cursor_width;
     drmmode_crtc.cursor_height = cursor_height;
 
-    return drmmode_crtc.cursor_up ? drmmode_set_cursor(crtc, cursor_width, cursor_height) : TRUE;
+    return drmmode_crtc.cursor_up ? drmmode_set_cursor(crtc, cursor_width, cursor_height) : True;
 }
 
 private void drmmode_hide_cursor(xf86CrtcPtr crtc)
@@ -2233,7 +2233,7 @@ private void drmmode_hide_cursor(xf86CrtcPtr crtc)
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr)crtc.driver_private;
     drmmode_ptr drmmode = drmmode_crtc.drmmode;
 
-    drmmode_crtc.cursor_up = FALSE;
+    drmmode_crtc.cursor_up = False;
     drmModeSetCursor(drmmode.fd, drmmode_crtc.mode_crtc.crtc_id, 0,
                      drmmode_crtc.cursor_width, drmmode_crtc.cursor_height);
 }
@@ -2241,7 +2241,7 @@ private void drmmode_hide_cursor(xf86CrtcPtr crtc)
 private Bool drmmode_show_cursor(xf86CrtcPtr crtc)
 {
     drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr)crtc.driver_private;
-    drmmode_crtc.cursor_up = TRUE;
+    drmmode_crtc.cursor_up = True;
     return drmmode_set_cursor(crtc, drmmode_crtc.cursor_width, drmmode_crtc.cursor_height);
 }
 
@@ -2309,7 +2309,7 @@ private Bool drmmode_set_target_scanout_pixmap_gpu(xf86CrtcPtr crtc, PixmapPtr p
     }
 
     if (!ppix)
-        return TRUE;
+        return True;
 
     /* iterate over all the attached crtcs to work out the bounding box */
     for (c = 0; c < xf86_config.num_crtc; c++) {
@@ -2332,7 +2332,7 @@ private Bool drmmode_set_target_scanout_pixmap_gpu(xf86CrtcPtr crtc, PixmapPtr p
         max_height != screenpix.drawable.height) {
 
         if (!drmmode_xf86crtc_resize(crtc.scrn, total_width, max_height))
-            return FALSE;
+            return False;
 
         screenpix = screen.GetScreenPixmap(screen);
         screen.width = screenpix.drawable.width = cast(ushort)total_width;
@@ -2342,7 +2342,7 @@ private Bool drmmode_set_target_scanout_pixmap_gpu(xf86CrtcPtr crtc, PixmapPtr p
     PixmapStartDirtyTracking(&ppix.drawable, screenpix, 0, 0, this_x, 0,
                              RR_Rotate_0);
     *target = ppix;
-    return TRUE;
+    return True;
 }
 
 private Bool drmmode_set_target_scanout_pixmap_cpu(xf86CrtcPtr crtc, PixmapPtr ppix, PixmapPtr* target)
@@ -2363,13 +2363,13 @@ private Bool drmmode_set_target_scanout_pixmap_cpu(xf86CrtcPtr crtc, PixmapPtr p
     }
 
     if (!ppix)
-        return TRUE;
+        return True;
 
     ppriv = mixin(msGetPixmapPriv!("drmmode", "ppix"));
     if (!ppriv.secondary_damage) {
         ppriv.secondary_damage = DamageCreate(null, null,
                                            DamageReportNone,
-                                           TRUE,
+                                           True,
                                            crtc.randr_crtc.pScreen,
                                            null);
     }
@@ -2384,7 +2384,7 @@ private Bool drmmode_set_target_scanout_pixmap_cpu(xf86CrtcPtr crtc, PixmapPtr p
                      ppix.devKind, gbm_bo_get_handle(ppriv.backing_bo).s32, &ppriv.fb_id);
     }
     *target = ppix;
-    return TRUE;
+    return True;
 }
 
 private Bool drmmode_set_target_scanout_pixmap(xf86CrtcPtr crtc, PixmapPtr ppix, PixmapPtr* target)
@@ -2404,7 +2404,7 @@ private Bool drmmode_set_scanout_pixmap(xf86CrtcPtr crtc, PixmapPtr ppix)
 
     /* Use DisableSharedPixmapFlipping before switching to single buf */
     if (drmmode_crtc.enable_flipping)
-        return FALSE;
+        return False;
 
     return drmmode_set_target_scanout_pixmap(crtc, ppix,
                                              &drmmode_crtc.prime_pixmap);
@@ -2612,10 +2612,10 @@ private Bool is_plane_assigned(ScrnInfoPtr scrn, int plane_id)
         xf86CrtcPtr iter = xf86_config.crtc[c];
         drmmode_crtc_private_ptr drmmode_crtc = cast(drmmode_crtc_private_ptr) iter.driver_private;
         if (drmmode_crtc.plane_id == plane_id)
-            return TRUE;
+            return True;
     }
 
-    return FALSE;
+    return False;
 }
 
 /**
@@ -2632,11 +2632,11 @@ private Bool populate_format_modifiers(xf86CrtcPtr crtc, const(drmModePlane)* kp
     drm_format_modifier* blob_modifiers = void;
 
     if (!blob_id)
-        return FALSE;
+        return False;
 
     blob = drmModeGetPropertyBlob(drmmode.fd, blob_id);
     if (!blob)
-        return FALSE;
+        return False;
 
     fmt_mod_blob = cast(drm_format_modifier_blob*)blob.data;
     blob_formats = formats_ptr(fmt_mod_blob);
@@ -2665,7 +2665,7 @@ private Bool populate_format_modifiers(xf86CrtcPtr crtc, const(drmModePlane)* kp
             if (!tmp) {
                 free(modifiers);
                 drmModeFreePropertyBlob(blob);
-                return FALSE;
+                return False;
             }
             modifiers = tmp;
             modifiers[num_modifiers - 1] = mod.modifier;
@@ -2678,7 +2678,7 @@ private Bool populate_format_modifiers(xf86CrtcPtr crtc, const(drmModePlane)* kp
 
     drmModeFreePropertyBlob(blob);
 
-    return TRUE;
+    return True;
 }
 
 version (LIBDRM_HAS_PLANE_SIZE_HINTS) {
@@ -2724,7 +2724,7 @@ private void drmmode_populate_cursor_size_hints(drmmode_ptr drmmode, drmmode_crt
         drmmode_crtc.cursor.dimensions[idx].height = size_hint.height;
     }
 
-    drmmode_crtc.cursor_probed = TRUE;
+    drmmode_crtc.cursor_probed = True;
 fail:
     drmModeFreePropertyBlob(blob);
 }
@@ -2999,7 +2999,7 @@ private drmmode_cursor_dim_rec drmmode_cursor_get_fallback(drmmode_crtc_private_
     if (*height == '\0') {
         /* we have a width, but don't have a height */
         fallback.height = fallback.width;
-        drmmode_crtc.cursor_probed = TRUE;
+        drmmode_crtc.cursor_probed = True;
         return fallback;
     }
 
@@ -3008,7 +3008,7 @@ private drmmode_cursor_dim_rec drmmode_cursor_get_fallback(drmmode_crtc_private_
         return drmmode_get_kms_default(drmmode);
     }
 
-    drmmode_crtc.cursor_probed = TRUE;
+    drmmode_crtc.cursor_probed = True;
     return fallback;
 }
 
@@ -3086,12 +3086,12 @@ private uint drmmode_crtc_init(ScrnInfoPtr pScrn, drmmode_ptr drmmode, drmModeRe
                                                            OPTION_USE_GAMMA_LUT,
                                                            drmmode_crtc.use_gamma_lut);
     } else {
-        drmmode_crtc.use_gamma_lut = FALSE;
+        drmmode_crtc.use_gamma_lut = False;
     }
 
     if (drmmode_crtc.use_gamma_lut &&
         drmmode_crtc.props[DRMMODE_CRTC_CTM].prop_id) {
-        drmmode.use_ctm = TRUE;
+        drmmode.use_ctm = True;
     }
 
     return 1;
@@ -3129,7 +3129,7 @@ private void drmmode_output_update_properties(xf86OutputPtr output)
 
                         err = RRChangeOutputProperty(cast(_rrOutput*)output.randr_output, p.atoms[0],
                                                      XA_INTEGER, 32, PropModeReplace, 1,
-                                                     &value, FALSE, TRUE);
+                                                     &value, False, True);
 
                         if (err != 0) {
                             xf86DrvMsg(output.scrn.scrnIndex, X_ERROR,
@@ -3143,7 +3143,7 @@ private void drmmode_output_update_properties(xf86OutputPtr output)
                         if (k < p.mode_prop.count_enums) {
                             err = RRChangeOutputProperty(cast(_rrOutput*)output.randr_output, p.atoms[0],
                                                          XA_ATOM, 32, PropModeReplace, 1,
-                                                         &p.atoms[k + 1], FALSE, TRUE);
+                                                         &p.atoms[k + 1], False, True);
                             if (err != 0) {
                                 xf86DrvMsg(output.scrn.scrnIndex, X_ERROR,
                                            "RRChangeOutputProperty error, %d\n", err);
@@ -3162,7 +3162,7 @@ private void drmmode_output_update_properties(xf86OutputPtr output)
                                      drmmode_output.ctm_atom,
                                      XA_INTEGER, 32, PropModeReplace, 18,
                                      &drmmode_output.ctm,
-                                     FALSE, TRUE);
+                                     False, True);
         if (err != 0) {
             xf86DrvMsg(output.scrn.scrnIndex, X_ERROR,
                        "RRChangeOutputProperty error, %d\n", err);
@@ -3272,7 +3272,7 @@ private void drmmode_output_attach_tile(xf86OutputPtr output)
         koutput_get_prop_blob(drmmode.fd, koutput, "TILE");
 
     if (drmmode_output.tile_blob) {
-        if (xf86OutputParseKMSTile(cast(char*)drmmode_output.tile_blob.data, drmmode_output.tile_blob.length, &tile_info) == TRUE)
+        if (xf86OutputParseKMSTile(cast(char*)drmmode_output.tile_blob.data, drmmode_output.tile_blob.length, &tile_info) == True)
             set = &tile_info;
     }
     xf86OutputSetTile(output, set);
@@ -3342,7 +3342,7 @@ private DisplayModePtr drmmode_output_add_gtf_modes(xf86OutputPtr output, Displa
         }
     }
 
-    xf86PruneInvalidModes(output.scrn, &m, FALSE);
+    xf86PruneInvalidModes(output.scrn, &m, False);
 
     return xf86ModesAdd(Modes, m);
 }
@@ -3456,16 +3456,16 @@ private void drmmode_output_dpms(xf86OutputPtr output, int mode)
 private Bool drmmode_property_ignore(drmModePropertyPtr prop)
 {
     if (!prop)
-        return TRUE;
+        return True;
     /* ignore blob prop */
     if (prop.flags & DRM_MODE_PROP_BLOB)
-        return TRUE;
+        return True;
     /* ignore standard property */
     if (!strcmp(prop.name.ptr, "EDID") || !strcmp(prop.name.ptr, "DPMS") ||
         !strcmp(prop.name.ptr, "CRTC_ID"))
-        return TRUE;
+        return True;
 
-    return FALSE;
+    return False;
 }
 
 private void drmmode_output_create_resources(xf86OutputPtr output)
@@ -3501,7 +3501,7 @@ private void drmmode_output_create_resources(xf86OutputPtr output)
 
         if (name != BAD_RESOURCE) {
             err = RRConfigureOutputProperty(cast(_rrOutput*)output.randr_output, name,
-                                            FALSE, FALSE, TRUE,
+                                            False, False, True,
                                             1, &value);
             if (err != 0) {
                 xf86DrvMsg(output.scrn.scrnIndex, X_ERROR,
@@ -3509,7 +3509,7 @@ private void drmmode_output_create_resources(xf86OutputPtr output)
             }
             err = RRChangeOutputProperty(cast(_rrOutput*)output.randr_output, name,
                                          XA_INTEGER, 32, PropModeReplace, 1,
-                                         &value, FALSE, FALSE);
+                                         &value, False, False);
             if (err != 0) {
                 xf86DrvMsg(output.scrn.scrnIndex, X_ERROR,
                            "RRChangeOutputProperty error, %d\n", err);
@@ -3524,7 +3524,7 @@ private void drmmode_output_create_resources(xf86OutputPtr output)
             drmmode_output.ctm_atom = name;
 
             err = RRConfigureOutputProperty(cast(_rrOutput*)output.randr_output, name,
-                                            FALSE, FALSE, TRUE, 0, null);
+                                            False, False, True, 0, null);
             if (err != 0) {
                 xf86DrvMsg(output.scrn.scrnIndex, X_ERROR,
                            "RRConfigureOutputProperty error, %d\n", err);
@@ -3532,7 +3532,7 @@ private void drmmode_output_create_resources(xf86OutputPtr output)
 
             err = RRChangeOutputProperty(cast(_rrOutput*)output.randr_output, name,
                                          XA_INTEGER, 32, PropModeReplace, 18,
-                                         &ctm_identity, FALSE, FALSE);
+                                         &ctm_identity, False, False);
             if (err != 0) {
                 xf86DrvMsg(output.scrn.scrnIndex, X_ERROR,
                            "RRChangeOutputProperty error, %d\n", err);
@@ -3559,17 +3559,17 @@ private void drmmode_output_create_resources(xf86OutputPtr output)
             prop_range[0] = cast(int)drmmode_prop.values[0];
             prop_range[1] = cast(int)drmmode_prop.values[1];
             err = RRConfigureOutputProperty(cast(_rrOutput*)output.randr_output, p.atoms[0],
-                                            FALSE, TRUE,
+                                            False, True,
                                             drmmode_prop.
                                             flags & DRM_MODE_PROP_IMMUTABLE ?
-                                            TRUE : FALSE, 2, prop_range.ptr);
+                                            True : False, 2, prop_range.ptr);
             if (err != 0) {
                 xf86DrvMsg(output.scrn.scrnIndex, X_ERROR,
                            "RRConfigureOutputProperty error, %d\n", err);
             }
             err = RRChangeOutputProperty(cast(_rrOutput*)output.randr_output, p.atoms[0],
                                          XA_INTEGER, 32, PropModeReplace, 1,
-                                         &value, FALSE, TRUE);
+                                         &value, False, True);
             if (err != 0) {
                 xf86DrvMsg(output.scrn.scrnIndex, X_ERROR,
                            "RRChangeOutputProperty error, %d\n", err);
@@ -3586,10 +3586,10 @@ private void drmmode_output_create_resources(xf86OutputPtr output)
                 p.atoms[j] = dixAddAtom(e.name.ptr);
             }
             err = RRConfigureOutputProperty(cast(_rrOutput*)output.randr_output, p.atoms[0],
-                                            FALSE, FALSE,
+                                            False, False,
                                             drmmode_prop.
                                             flags & DRM_MODE_PROP_IMMUTABLE ?
-                                            TRUE : FALSE, p.num_atoms - 1,
+                                            True : False, p.num_atoms - 1,
                                             cast(INT32*) &p.atoms[1]);
             if (err != 0) {
                 xf86DrvMsg(output.scrn.scrnIndex, X_ERROR,
@@ -3601,7 +3601,7 @@ private void drmmode_output_create_resources(xf86OutputPtr output)
             /* there's always a matching value */
             err = RRChangeOutputProperty(cast(_rrOutput*)output.randr_output, p.atoms[0],
                                          XA_ATOM, 32, PropModeReplace, 1,
-                                         &p.atoms[j + 1], FALSE, TRUE);
+                                         &p.atoms[j + 1], False, True);
             if (err != 0) {
                 xf86DrvMsg(output.scrn.scrnIndex, X_ERROR,
                            "RRChangeOutputProperty error, %d\n", err);
@@ -3627,12 +3627,12 @@ private Bool drmmode_output_set_property(xf86OutputPtr output, Atom property, RR
 
             if (value.type != XA_INTEGER || value.format != 32 ||
                 value.size != 1)
-                return FALSE;
+                return False;
             val = *cast(uint*) value.data;
 
             drmModeConnectorSetProperty(drmmode.fd, drmmode_output.output_id,
                                         p.mode_prop.prop_id, cast(ulong) val);
-            return TRUE;
+            return True;
         }
         else if (p.mode_prop.flags & DRM_MODE_PROP_ENUM) {
             Atom atom = void;
@@ -3641,10 +3641,10 @@ private Bool drmmode_output_set_property(xf86OutputPtr output, Atom property, RR
 
             if (value.type != XA_ATOM || value.format != 32 ||
                 value.size != 1)
-                return FALSE;
+                return False;
             memcpy(&atom, value.data, 4);
             if (((name = NameForAtom(atom)) is null))
-                return FALSE;
+                return False;
 
             /* search for matching name string, then set its value down */
             for (j = 0; j < p.mode_prop.count_enums; j++) {
@@ -3653,7 +3653,7 @@ private Bool drmmode_output_set_property(xf86OutputPtr output, Atom property, RR
                                                 drmmode_output.output_id,
                                                 p.mode_prop.prop_id,
                                                 p.mode_prop.enums[j].value);
-                    return TRUE;
+                    return True;
                 }
             }
         }
@@ -3664,7 +3664,7 @@ private Bool drmmode_output_set_property(xf86OutputPtr output, Atom property, RR
 
         if (value.type != XA_INTEGER || value.format != 32 ||
             value.size * 4 != matrix_size)
-            return FALSE;
+            return False;
 
         memcpy(&drmmode_output.ctm, value.data, matrix_size);
 
@@ -3674,12 +3674,12 @@ private Bool drmmode_output_set_property(xf86OutputPtr output, Atom property, RR
         }
     }
 
-    return TRUE;
+    return True;
 }
 
 private Bool drmmode_output_get_property(xf86OutputPtr output, Atom property)
 {
-    return TRUE;
+    return True;
 }
 
 private const(xf86OutputFuncsRec) drmmode_output_funcs = {
@@ -3801,7 +3801,7 @@ private void drmmode_create_name(ScrnInfoPtr pScrn, drmModeConnectorPtr koutput,
 private Bool drmmode_connector_check_vrr_capable(uint drm_fd, int connector_id)
 {
     uint i = void;
-    Bool found = FALSE;
+    Bool found = False;
     ulong prop_value = 0;
     drmModeObjectPropertiesPtr props = void;
     const(char)* prop_name = "VRR_CAPABLE";
@@ -3809,7 +3809,7 @@ private Bool drmmode_connector_check_vrr_capable(uint drm_fd, int connector_id)
     props = drmModeObjectGetProperties(drm_fd, connector_id,
                                     DRM_MODE_OBJECT_CONNECTOR);
     if (!props)
-        return FALSE;
+        return False;
 
     for (i = 0; !found && i < props.count_props; ++i) {
         drmModePropertyPtr drm_prop = drmModeGetProperty(drm_fd, props.props[i]);
@@ -3819,7 +3819,7 @@ private Bool drmmode_connector_check_vrr_capable(uint drm_fd, int connector_id)
 
         if (externs.gnu.strcasecmp(drm_prop.name.ptr, prop_name) == 0) {
             prop_value = props.prop_values[i];
-            found = TRUE;
+            found = True;
         }
 
         drmModeFreeProperty(drm_prop);
@@ -3828,9 +3828,9 @@ private Bool drmmode_connector_check_vrr_capable(uint drm_fd, int connector_id)
     drmModeFreeObjectProperties(props);
 
     if(found)
-        return prop_value ? TRUE : FALSE;
+        return prop_value ? True : False;
 
-    return FALSE;
+    return False;
 }
 
 private uint drmmode_output_init(ScrnInfoPtr pScrn, drmmode_ptr drmmode, drmModeResPtr mode_res, int num, Bool dynamic, int crtcshift)
@@ -3843,7 +3843,7 @@ private uint drmmode_output_init(ScrnInfoPtr pScrn, drmmode_ptr drmmode, drmMode
     drmmode_output_private_ptr drmmode_output = void;
     char[32] name = void;
     int i = void;
-    Bool nonDesktop = FALSE;
+    Bool nonDesktop = False;
     drmModePropertyBlobPtr path_blob = null;
     const(char)* s = void;
     drmModeObjectPropertiesPtr props = void;
@@ -3926,8 +3926,8 @@ private uint drmmode_output_init(ScrnInfoPtr pScrn, drmmode_ptr drmmode, drmMode
     output.mm_height = koutput.mmHeight;
 
     output.subpixel_order = subpixel_conv_table[koutput.subpixel];
-    output.interlaceAllowed = TRUE;
-    output.doubleScanAllowed = TRUE;
+    output.interlaceAllowed = True;
+    output.doubleScanAllowed = True;
     output.driver_private = drmmode_output;
     output.non_desktop = nonDesktop;
 
@@ -4044,16 +4044,16 @@ static if (GLAMOR) {
     modesettingPtr ms = mixin(modesettingPTR!("scrn"));
 
     if (!drmmode.glamor_gbm)
-        return TRUE;
+        return True;
 
     if (!ms.glamor.egl_create_textured_pixmap_from_gbm_bo(pixmap, bo,
                                                            gbm_bo_get_used_modifiers(bo))) {
         xf86DrvMsg(scrn.scrnIndex, X_ERROR, "Failed to create pixmap\n");
-        return FALSE;
+        return False;
     }
 }
 
-    return TRUE;
+    return True;
 }
 
 Bool drmmode_glamor_handle_new_screen_pixmap(drmmode_ptr drmmode)
@@ -4062,9 +4062,9 @@ Bool drmmode_glamor_handle_new_screen_pixmap(drmmode_ptr drmmode)
     PixmapPtr screen_pixmap = screen.GetScreenPixmap(screen);
 
     if (!drmmode_set_pixmap_bo(drmmode, screen_pixmap, drmmode.front_bo))
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 private Bool drmmode_xf86crtc_resize(ScrnInfoPtr scrn, int width, int height)
@@ -4082,7 +4082,7 @@ private Bool drmmode_xf86crtc_resize(ScrnInfoPtr scrn, int width, int height)
     void* new_pixels = null;
 
     if (scrn.virtualX == width && scrn.virtualY == height)
-        return TRUE;
+        return True;
 
     xf86DrvMsg(scrn.scrnIndex, X_INFO,
                "Allocate new frame buffer %dx%d stride\n", width, height);
@@ -4147,7 +4147,7 @@ private Bool drmmode_xf86crtc_resize(ScrnInfoPtr scrn, int width, int height)
 
     gbm_bo_destroy(old_front);
 
-    return TRUE;
+    return True;
 
  fail:
     gbm_bo_destroy(drmmode.front_bo);
@@ -4157,7 +4157,7 @@ private Bool drmmode_xf86crtc_resize(ScrnInfoPtr scrn, int width, int height)
     scrn.displayWidth = old_pitch / kcpp;
     drmmode.fb_id = old_fb_id;
 
-    return FALSE;
+    return False;
 }
 
 private void drmmode_validate_leases(ScrnInfoPtr scrn)
@@ -4313,7 +4313,7 @@ Bool drmmode_pre_init(ScrnInfoPtr pScrn, drmmode_ptr drmmode, int cpp)
     if (ret > 0 || value != 1) {
         xf86DrvMsg(pScrn.scrnIndex, X_ERROR,
                    "KMS doesn't support dumb interface\n");
-        return FALSE;
+        return False;
     }
 
     xf86CrtcConfigInit(pScrn, &drmmode_xf86crtc_config_funcs);
@@ -4322,11 +4322,11 @@ Bool drmmode_pre_init(ScrnInfoPtr pScrn, drmmode_ptr drmmode, int cpp)
     drmmode.cpp = cpp;
     mode_res = drmModeGetResources(drmmode.fd);
     if (!mode_res)
-        return FALSE;
+        return False;
 
     crtcshift = ffs(ms_ent.assigned_crtcs ^ 0xffffffff) - 1;
     for (i = 0; i < mode_res.count_connectors; i++)
-        crtcs_needed += drmmode_output_init(pScrn, drmmode, mode_res, i, FALSE,
+        crtcs_needed += drmmode_output_init(pScrn, drmmode, mode_res, i, False,
                                             crtcshift);
 
     xf86DrvMsgVerb(pScrn.scrnIndex, X_INFO, MS_LOGLEVEL_DEBUG,
@@ -4351,9 +4351,9 @@ Bool drmmode_pre_init(ScrnInfoPtr pScrn, drmmode_ptr drmmode, int cpp)
     drmModeFreeResources(mode_res);
     xf86ProviderSetup(pScrn, null, "modesetting");
 
-    xf86InitialConfiguration(pScrn, TRUE);
+    xf86InitialConfiguration(pScrn, True);
 
-    return TRUE;
+    return True;
 }
 
 Bool drmmode_init(ScrnInfoPtr pScrn, drmmode_ptr drmmode)
@@ -4364,7 +4364,7 @@ static if (GLAMOR) {
 
     if (drmmode.glamor) {
         if (!ms.glamor.init(pScreen, GLAMOR_USE_EGL_SCREEN)) {
-            return FALSE;
+            return False;
         }
 static if (GBM_BO_WITH_MODIFIERS) {
         ms.glamor.set_drawable_modifiers_func(pScreen, &get_drawable_modifiers);
@@ -4372,7 +4372,7 @@ static if (GBM_BO_WITH_MODIFIERS) {
     }
 }
 
-    return TRUE;
+    return True;
 }
 
 void drmmode_adjust_frame(ScrnInfoPtr pScrn, drmmode_ptr drmmode, int x, int y)
@@ -4389,7 +4389,7 @@ void drmmode_adjust_frame(ScrnInfoPtr pScrn, drmmode_ptr drmmode, int x, int y)
 Bool drmmode_set_desired_modes(ScrnInfoPtr pScrn, drmmode_ptr drmmode, Bool set_hw, Bool ign_err)
 {
     xf86CrtcConfigPtr config = mixin(XF86_CRTC_CONFIG_PTR!("pScrn"));
-    Bool success = TRUE;
+    Bool success = True;
     int c = void;
 
     drmmmode_prepare_modeset(pScrn);
@@ -4428,7 +4428,7 @@ Bool drmmode_set_desired_modes(ScrnInfoPtr pScrn, drmmode_ptr drmmode, Bool set_
             DisplayModePtr mode = xf86OutputFindClosestMode(output, pScrn.currentMode);
 
             if (!mode)
-                return FALSE;
+                return False;
             crtc.desiredMode = *mode;
             crtc.desiredRotation = RR_Rotate_0;
             crtc.desiredX = 0;
@@ -4440,10 +4440,10 @@ Bool drmmode_set_desired_modes(ScrnInfoPtr pScrn, drmmode_ptr drmmode, Bool set_
                 set_mode_major(crtc, &crtc.desiredMode, crtc.desiredRotation,
                                crtc.desiredX, crtc.desiredY)) {
                 if (!ign_err)
-                    return FALSE;
+                    return False;
                 else {
-                    success = FALSE;
-                    crtc.enabled = FALSE;
+                    success = False;
+                    crtc.enabled = False;
                     xf86DrvMsg(pScrn.scrnIndex, X_WARNING,
                                "Failed to set the desired mode on connector %s\n",
                                output.name);
@@ -4455,7 +4455,7 @@ Bool drmmode_set_desired_modes(ScrnInfoPtr pScrn, drmmode_ptr drmmode, Bool set_
             crtc.x = crtc.desiredX;
             crtc.y = crtc.desiredY;
             if (!xf86CrtcRotate(crtc))
-                return FALSE;
+                return False;
         }
     }
 
@@ -4533,7 +4533,7 @@ private Bool drmmode_crtc_upgrade_lut(xf86CrtcPtr crtc, int num)
     ulong size = void;
 
     if (!drmmode_crtc.use_gamma_lut)
-        return TRUE;
+        return True;
 
     assert(drmmode_crtc.props[DRMMODE_CRTC_GAMMA_LUT_SIZE].prop_id);
 
@@ -4559,11 +4559,11 @@ private Bool drmmode_crtc_upgrade_lut(xf86CrtcPtr crtc, int num)
                        "Failed to allocate memory for %lld gamma ramp entries "
                        ~ "on CRTC %d.\n",
                        cast(long)size, num);
-            return FALSE;
+            return False;
         }
     }
 
-    return TRUE;
+    return True;
 }
 
 Bool drmmode_setup_colormap(ScreenPtr pScreen, ScrnInfoPtr pScrn)
@@ -4575,21 +4575,21 @@ Bool drmmode_setup_colormap(ScreenPtr pScreen, ScrnInfoPtr pScrn)
               "Initializing kms color map for depth %d, %d bpc.\n",
               pScrn.depth, pScrn.rgbBits);
     if (!miCreateDefColormap(pScreen))
-        return FALSE;
+        return False;
 
     /* If the GAMMA_LUT property is available, replace the server's default
      * gamma ramps with ones of the appropriate size. */
     for (i = 0; i < xf86_config.num_crtc; i++)
         if (!drmmode_crtc_upgrade_lut(xf86_config.crtc[i], i))
-            return FALSE;
+            return False;
 
     /* Adapt color map size and depth to color depth of screen. */
     if (!xf86HandleColormaps(pScreen, 1 << pScrn.rgbBits, 10,
                              &drmmode_load_palette, null,
                              CMAP_PALETTED_TRUECOLOR |
                              CMAP_RELOAD_ON_MODE_SWITCH))
-        return FALSE;
-    return TRUE;
+        return False;
+    return True;
 }
 
 enum DRM_MODE_LINK_STATUS_GOOD =       0;
@@ -4601,8 +4601,8 @@ void drmmode_update_kms_state(drmmode_ptr drmmode)
     drmModeResPtr mode_res = void;
     xf86CrtcConfigPtr config = mixin(XF86_CRTC_CONFIG_PTR!("scrn"));
     int i = void, j = void;
-    Bool found = FALSE;
-    Bool changed = FALSE;
+    Bool found = False;
+    Bool changed = False;
 
     /* Try to re-set the mode on all the connectors with a BAD link-state:
      * This may happen if a link degrades and a new modeset is necessary, using
@@ -4670,10 +4670,10 @@ void drmmode_update_kms_state(drmmode_ptr drmmode)
         drmmode_output_private_ptr drmmode_output = void;
 
         drmmode_output = cast(drmmode_output_private_rec*)output.driver_private;
-        found = FALSE;
+        found = False;
         for (j = 0; j < mode_res.count_connectors; j++) {
             if (mode_res.connectors[j] == drmmode_output.output_id) {
-                found = TRUE;
+                found = True;
                 break;
             }
         }
@@ -4684,12 +4684,12 @@ void drmmode_update_kms_state(drmmode_ptr drmmode)
         drmmode_output.mode_output = null;
         drmmode_output.output_id = -1;
 
-        changed = TRUE;
+        changed = True;
     }
 
     /* find new output ids we don't have outputs for */
     for (i = 0; i < mode_res.count_connectors; i++) {
-        found = FALSE;
+        found = False;
 
         for (j = 0; j < config.num_output; j++) {
             xf86OutputPtr output = config.output[j];
@@ -4697,15 +4697,15 @@ void drmmode_update_kms_state(drmmode_ptr drmmode)
 
             drmmode_output = cast(drmmode_output_private_rec*)output.driver_private;
             if (mode_res.connectors[i] == drmmode_output.output_id) {
-                found = TRUE;
+                found = True;
                 break;
             }
         }
         if (found)
             continue;
 
-        changed = TRUE;
-        drmmode_output_init(scrn, drmmode, mode_res, i, TRUE, 0);
+        changed = True;
+        drmmode_output_init(scrn, drmmode, mode_res, i, True, 0);
     }
 
     if (changed) {
@@ -4720,7 +4720,7 @@ out_free_res:
 
     drmModeFreeResources(mode_res);
 out_:
-    RRGetInfo(xf86ScrnToScreen(scrn), TRUE);
+    RRGetInfo(xf86ScrnToScreen(scrn), True);
 }
 
 version (CONFIG_UDEV_KMS) {
@@ -4729,11 +4729,11 @@ private void drmmode_handle_uevents(int fd, void* closure)
 {
     drmmode_ptr drmmode = closure;
     udev_device* dev = void;
-    Bool found = FALSE;
+    Bool found = False;
 
     while ((dev = udev_monitor_receive_device(drmmode.uevent_monitor))) {
         udev_device_unref(dev);
-        found = TRUE;
+        found = True;
     }
     if (!found)
         return;
@@ -4816,7 +4816,7 @@ pragma(inline, true) private Bool drmmode_legacy_cursor_probe_allowed(drmmode_pt
 {
     drmVersionPtr version_ = drmGetVersion(drmmode.fd);
     if (!version_) {
-        return FALSE;
+        return False;
     }
 
     if (!version_.name ||
@@ -4827,11 +4827,11 @@ pragma(inline, true) private Bool drmmode_legacy_cursor_probe_allowed(drmmode_pt
         strstr(version_.name, "vkms") ||
         strstr(version_.name, "vmwgfx")) {
         drmFreeVersion(version_);
-        return FALSE;
+        return False;
     }
 
     drmFreeVersion(version_);
-    return TRUE;
+    return True;
 }
 
 /*
@@ -4852,7 +4852,7 @@ private void drmmode_probe_cursor_size(xf86CrtcPtr crtc)
         return;
     }
 
-    drmmode_crtc.cursor_probed = TRUE;
+    drmmode_crtc.cursor_probed = True;
 
     if (!drmmode_legacy_cursor_probe_allowed(drmmode)) {
         return;
@@ -4982,7 +4982,7 @@ Bool drmmode_create_initial_bos(ScrnInfoPtr pScrn, drmmode_ptr drmmode)
 
     drmmode.front_bo = gbm_create_best_bo(drmmode, !drmmode.glamor_gbm, width, height, DRMMODE_FRONT_BO);
     if (!drmmode.front_bo) {
-        return FALSE;
+        return False;
     }
 
     pScrn.displayWidth = gbm_bo_get_stride(drmmode.front_bo) / cpp;
@@ -5006,7 +5006,7 @@ Bool drmmode_create_initial_bos(ScrnInfoPtr pScrn, drmmode_ptr drmmode)
         min_width  = mixin(MIN!(`width`, `min_width`));
         min_height = mixin(MIN!(`height`, `min_height`));
 
-        drmmode_crtc.cursor.bo = gbm_create_best_bo(drmmode, TRUE, width, height, DRMMODE_CURSOR_BO);
+        drmmode_crtc.cursor.bo = gbm_create_best_bo(drmmode, True, width, height, DRMMODE_CURSOR_BO);
         if (!drmmode_crtc.cursor.bo) {
             gbm_bo_destroy(drmmode.front_bo);
             for (int j = 0; j < i; j++) {
@@ -5015,14 +5015,14 @@ Bool drmmode_create_initial_bos(ScrnInfoPtr pScrn, drmmode_ptr drmmode)
                 gbm_bo_destroy(free_drmmode_crtc.cursor.bo);
                 free_drmmode_crtc.cursor.bo = null;
             }
-            return FALSE;
+            return False;
         }
     }
 
     ms.cursor_image_width  = min_width;
     ms.cursor_image_height = min_height;
 
-    return TRUE;
+    return True;
 }
 
 void drmmode_free_bos(ScrnInfoPtr pScrn, drmmode_ptr drmmode)
@@ -5161,7 +5161,7 @@ private void drmmode_sprite_do_set_cursor(msSpritePrivPtr sprite_priv, ScrnInfoP
             (x + cursor.bits.width > 0) &&
             (y + cursor.bits.height > 0);
     } else {
-        sprite_priv.sprite_visible = FALSE;
+        sprite_priv.sprite_visible = False;
     }
 
     ms.drmmode.sprites_visible += sprite_priv.sprite_visible - sprite_visible;

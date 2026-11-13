@@ -54,13 +54,13 @@ Bool ShadowFBInit2(ScreenPtr pScreen, RefreshAreaFuncPtr preRefreshArea, Refresh
     ShadowScreenPtr pPriv = void;
 
     if (!preRefreshArea && !postRefreshArea)
-        return FALSE;
+        return False;
 
     if (!dixRegisterPrivateKey(&ShadowScreenKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
 
     if (((pPriv = cast(ShadowScreenPtr) cast(ShadowScreenRec*) calloc(1, ShadowScreenRec.sizeof)) is null))
-        return FALSE;
+        return False;
 
     dixSetPrivate(&pScreen.devPrivates, &ShadowScreenKeyRec, pPriv);
 
@@ -73,7 +73,7 @@ Bool ShadowFBInit2(ScreenPtr pScreen, RefreshAreaFuncPtr preRefreshArea, Refresh
     pPriv.CreateWindow = pScreen.CreateWindow;
     pScreen.CreateWindow = &ShadowCreateRootWindow;
 
-    return TRUE;
+    return True;
 }
 
 Bool ShadowFBInit(ScreenPtr pScreen, RefreshAreaFuncPtr refreshArea)
@@ -135,15 +135,15 @@ private Bool ShadowCreateRootWindow(WindowPtr pWin)
         if (pPriv.preRefresh) {
             damage = DamageCreate(&shadowfbReportPre, null,
                                   DamageReportRawRegion,
-                                  TRUE, pScreen, pPriv);
+                                  True, pScreen, pPriv);
             DamageRegister(&pWin.drawable, damage);
         }
 
         if (pPriv.postRefresh) {
             damage = DamageCreate(&shadowfbReportPost, null,
                                   DamageReportRawRegion,
-                                  TRUE, pScreen, pPriv);
-            DamageSetReportAfterOp(damage, TRUE);
+                                  True, pScreen, pPriv);
+            DamageSetReportAfterOp(damage, True);
             DamageRegister(&pWin.drawable, damage);
         }
     }

@@ -35,9 +35,9 @@ alias OPT_INIT_PRIMARY = INT10Opts.OPT_INIT_PRIMARY;
 
 
 private const(OptionInfoRec)[4] INT10Options = [
-    {OPT_NOINT10, "NoINT10", OPTV_BOOLEAN, {0}, FALSE},
-    {OPT_INIT_PRIMARY, "InitPrimary", OPTV_BOOLEAN, {0}, FALSE},
-    {-1, null, OPTV_NONE, {0}, FALSE},
+    {OPT_NOINT10, "NoINT10", OPTV_BOOLEAN, {0}, False},
+    {OPT_INIT_PRIMARY, "InitPrimary", OPTV_BOOLEAN, {0}, False},
+    {-1, null, OPTV_NONE, {0}, False},
 ];
 
 version (DEBUG) {
@@ -222,10 +222,10 @@ void* xf86HandleInt10Options(ScrnInfoPtr pScrn, int entityIndex)
 
 Bool int10skip(const(void)* options)
 {
-    Bool noint10 = FALSE;
+    Bool noint10 = False;
 
     if (!options)
-        return FALSE;
+        return False;
 
     xf86GetOptValBool(options, OPT_NOINT10, &noint10);
     return noint10;
@@ -237,28 +237,28 @@ Bool int10_check_bios(int scrnIndex, int codeSeg, const(ubyte)* vbiosMem)
 
     if ((codeSeg & 0x1f) ||     /* Not 512-byte aligned otherwise */
         ((codeSeg << 4) < V_BIOS) || ((codeSeg << 4) >= SYS_SIZE))
-        return FALSE;
+        return False;
 
     if ((*vbiosMem != 0x55) || (*(vbiosMem + 1) != 0xAA) || !*(vbiosMem + 2))
-        return FALSE;
+        return False;
 
     size = *(vbiosMem + 2) * 512;
 
     if ((size + (codeSeg << 4)) > SYS_SIZE)
-        return FALSE;
+        return False;
 
     if (bios_checksum(vbiosMem, size))
         xf86DrvMsg(scrnIndex, X_INFO, "Bad V_BIOS checksum\n");
 
-    return TRUE;
+    return True;
 }
 
 Bool initPrimary(const(void)* options)
 {
-    Bool initPrimary = FALSE;
+    Bool initPrimary = False;
 
     if (!options)
-        return FALSE;
+        return False;
 
     xf86GetOptValBool(options, OPT_INIT_PRIMARY, &initPrimary);
     return initPrimary;
@@ -281,7 +281,7 @@ enum string CHECK_V_SEGMENT_RANGE(string x) = `
 	xf86DrvMsg(pInt.pScrn.scrnIndex, X_ERROR, 
 		   "V_BIOS address 0x%lx out of range\n", 
 		   cast(c_ulong)(` ~ x ~ `) << 4); 
-	return FALSE; 
+	return False; 
     }`;
 
 Bool xf86int10GetBiosSegment(xf86Int10InfoPtr pInt, void* base)
@@ -309,12 +309,12 @@ Bool xf86int10GetBiosSegment(xf86Int10InfoPtr pInt, void* base)
 
     if (segments[i] == ~0) {
         xf86DrvMsg(pInt.pScrn.scrnIndex, X_ERROR, "No V_BIOS found\n");
-        return FALSE;
+        return False;
     }
 
     xf86DrvMsg(pInt.pScrn.scrnIndex, X_INFO, "Primary V_BIOS segment is: 0x%lx\n",
                cast(c_ulong) cs);
 
     pInt.BIOSseg = cs;
-    return TRUE;
+    return True;
 }

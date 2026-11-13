@@ -61,7 +61,6 @@ import xf86tokens;
 import Configint;
 import x11.Xmd;
 import x11.Xdefs;
-import common.misc;
 import hw.xfree86.parser.Flags;
 import scan;
 
@@ -96,7 +95,7 @@ alias CLEANUP = xf86freeDeviceList;
 XF86ConfDevicePtr xf86parseDeviceSection()
 {
     int i = void;
-    int has_ident = FALSE;
+    int has_ident = False;
     int token = void;
 
     mixin(parsePrologue!("XF86ConfDevicePtr", "XF86ConfDeviceRec"));
@@ -115,10 +114,10 @@ XF86ConfDevicePtr xf86parseDeviceSection()
         case IDENTIFIER:
             if (xf86getSubToken(&(ptr.dev_comment)) != XF86_TOKEN_STRING)
                 mixin(ErrorP!(`QUOTE_MSG, "Identifier"`));
-            if (has_ident == TRUE)
+            if (has_ident == True)
                 mixin(ErrorP!(`MULTIPLE_MSG, "Identifier"`));
             ptr.dev_identifier = xf86_lex_val.str;
-            has_ident = TRUE;
+            has_ident = True;
             break;
         case VENDOR:
             if (xf86getSubToken(&(ptr.dev_comment)) != XF86_TOKEN_STRING)

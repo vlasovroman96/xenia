@@ -79,7 +79,7 @@ Bool fbCreateGC(GCPtr pGC)
     pGC.miTranslate = 1;
     pGC.fExpose = 1;
 
-    return TRUE;
+    return True;
 }
 
 /*

@@ -41,14 +41,14 @@ Bool KdShadowFbAlloc(KdScreenInfo* screen, Bool rotate)
     paddedWidth = ((width * bpp + FB_MASK) >> FB_SHIFT) * FbBits.sizeof;
     buf = calloc(paddedWidth, height);
     if (!buf)
-        return FALSE;
+        return False;
     if (screen.fb.shadow)
         free(screen.fb.frameBuffer);
-    screen.fb.shadow = TRUE;
+    screen.fb.shadow = True;
     screen.fb.frameBuffer = buf;
     screen.fb.byteStride = paddedWidth;
     screen.fb.pixelStride = paddedWidth * 8 / bpp;
-    return TRUE;
+    return True;
 }
 
 void KdShadowFbFree(KdScreenInfo* screen)
@@ -56,7 +56,7 @@ void KdShadowFbFree(KdScreenInfo* screen)
     if (screen.fb.shadow) {
         free(screen.fb.frameBuffer);
         screen.fb.frameBuffer = 0;
-        screen.fb.shadow = FALSE;
+        screen.fb.shadow = False;
     }
 }
 
@@ -70,7 +70,7 @@ Bool KdShadowSet(ScreenPtr pScreen, int randr, ShadowUpdateProc update, ShadowWi
         return shadowAdd(pScreen, pScreen.GetScreenPixmap(pScreen),
                          update, window, randr, 0);
     }
-    return TRUE;
+    return True;
 }
 
 void KdShadowUnset(ScreenPtr pScreen)

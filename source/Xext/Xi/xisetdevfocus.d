@@ -64,7 +64,7 @@ int ProcXISetFocus(ClientPtr client)
         return BadDevice;
 
     return SetInputFocus(client, dev, stuff.focus, x11.X.RevertToParent,
-                         stuff.time, TRUE);
+                         stuff.time, True);
 }
 
 int ProcXIGetFocus(ClientPtr client)

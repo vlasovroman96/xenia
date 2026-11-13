@@ -163,10 +163,10 @@ private Bool SyncCheckWarnIsCounter(const(SyncObject)* pSync, const(char)* warni
             ErrorF("         Counter type: %d\n", pSync.type);
         }
 
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 /*  Each counter maintains a simple linked list of triggers that are
@@ -263,7 +263,7 @@ int SyncAddTriggerToSyncObject(SyncTrigger* pTrigger)
  *
  *  All of them include the condition pTrigger->pSync == NULL.
  *  This is because the spec says that a trigger with a sync value
- *  of None is always TRUE.
+ *  of None is always True.
  */
 
 private Bool SyncCheckTriggerPositiveComparison(SyncTrigger* pTrigger, long oldval)
@@ -273,7 +273,7 @@ private Bool SyncCheckTriggerPositiveComparison(SyncTrigger* pTrigger, long oldv
     /* Non-counter sync objects should never get here because they
      * never trigger this comparison. */
     if (!SyncCheckWarnIsCounter(pTrigger.pSync, WARN_INVALID_COUNTER_COMPARE))
-        return FALSE;
+        return False;
 
     pCounter = cast(SyncCounter*) pTrigger.pSync;
 
@@ -287,7 +287,7 @@ private Bool SyncCheckTriggerNegativeComparison(SyncTrigger* pTrigger, long oldv
     /* Non-counter sync objects should never get here because they
      * never trigger this comparison. */
     if (!SyncCheckWarnIsCounter(pTrigger.pSync, WARN_INVALID_COUNTER_COMPARE))
-        return FALSE;
+        return False;
 
     pCounter = cast(SyncCounter*) pTrigger.pSync;
 
@@ -301,7 +301,7 @@ private Bool SyncCheckTriggerPositiveTransition(SyncTrigger* pTrigger, long oldv
     /* Non-counter sync objects should never get here because they
      * never trigger this comparison. */
     if (!SyncCheckWarnIsCounter(pTrigger.pSync, WARN_INVALID_COUNTER_COMPARE))
-        return FALSE;
+        return False;
 
     pCounter = cast(SyncCounter*) pTrigger.pSync;
 
@@ -317,7 +317,7 @@ private Bool SyncCheckTriggerNegativeTransition(SyncTrigger* pTrigger, long oldv
     /* Non-counter sync objects should never get here because they
      * never trigger this comparison. */
     if (!SyncCheckWarnIsCounter(pTrigger.pSync, WARN_INVALID_COUNTER_COMPARE))
-        return FALSE;
+        return False;
 
     pCounter = cast(SyncCounter*) pTrigger.pSync;
 
@@ -366,7 +366,7 @@ private int SyncInitTrigger(ClientPtr client, SyncTrigger* pTrigger, XID syncObj
 {
     SyncObject* pSync = pTrigger.pSync;
     SyncCounter* pCounter = null;
-    Bool newSyncObject = FALSE;
+    Bool newSyncObject = False;
 
     if (changes & XSyncCACounter) {
         if (syncObject == None) {
@@ -450,7 +450,7 @@ private int SyncInitTrigger(ClientPtr client, SyncTrigger* pTrigger, XID syncObj
         if (pSync != pTrigger.pSync) { /* new counter for trigger */
             SyncDeleteTriggerFromSyncObject(pTrigger);
             pTrigger.pSync = pSync;
-            newSyncObject = TRUE;
+            newSyncObject = True;
         }
     }
 
@@ -613,7 +613,7 @@ private void SyncAlarmTriggerFired(SyncTrigger* pTrigger)
 
         /* "The alarm is updated by repeatedly adding delta to the
          *  value of the trigger and re-initializing it until it
-         *  becomes FALSE."
+         *  becomes False."
          */
         oldvalue = paTrigger.test_value;
 
@@ -682,7 +682,7 @@ private void SyncAwaitTriggerFired(SyncTrigger* pTrigger)
         long diff = void;
         Bool overflow = void, diffgreater = void, diffequal = void;
 
-        /* "A CounterNotify event with the destroyed flag set to TRUE is
+        /* "A CounterNotify event with the destroyed flag set to True is
          *  always generated if the counter for one of the triggers is
          *  destroyed."
          */
@@ -838,8 +838,8 @@ private int SyncChangeAlarmAttributes(ClientPtr client, SyncAlarm* pAlarm, Mask 
     XSyncCounter counter = void;
     Mask origmask = mask;
     SyncTrigger trigger = void;
-    Bool select_events_changed = FALSE;
-    Bool select_events_value = FALSE;
+    Bool select_events_changed = False;
+    Bool select_events_value = False;
     long delta = void;
 
     trigger = pAlarm.trigger;
@@ -888,7 +888,7 @@ private int SyncChangeAlarmAttributes(ClientPtr client, SyncAlarm* pAlarm, Mask 
                 return BadValue;
             }
             select_events_value = cast(Bool) (*values++);
-            select_events_changed = TRUE;
+            select_events_changed = True;
             break;
 
         default:
@@ -955,7 +955,7 @@ SyncObject* SyncCreate(ClientPtr client, XID id, ubyte type)
     if (!pSync)
         return null;
 
-    pSync.initialized = FALSE;
+    pSync.initialized = False;
 
     if (!AddResource(cast(uint)id, resType, cast(void*) pSync))
         return null;
@@ -963,7 +963,7 @@ SyncObject* SyncCreate(ClientPtr client, XID id, ubyte type)
     pSync.client = client;
     pSync.id = id;
     pSync.pTriglist = null;
-    pSync.beingDestroyed = FALSE;
+    pSync.beingDestroyed = False;
     pSync.type = type;
 
     return pSync;
@@ -1010,7 +1010,7 @@ private SyncCounter* SyncCreateCounter(ClientPtr client, XSyncCounter id, long i
     pCounter.value = initialvalue;
     pCounter.pSysCounterInfo = null;
 
-    pCounter.sync.initialized = TRUE;
+    pCounter.sync.initialized = True;
 
     return pCounter;
 }
@@ -1182,7 +1182,7 @@ private int FreeCounter(void* env, XID id)
 {
     SyncCounter* pCounter = cast(SyncCounter*) env;
 
-    pCounter.sync.beingDestroyed = TRUE;
+    pCounter.sync.beingDestroyed = True;
 
     if (pCounter.sync.initialized) {
         SyncTriggerList* ptl = void, pnext = void;
@@ -1281,7 +1281,7 @@ private int ProcSyncListSystemCounters(ClientPtr client)
 {
     mixin(X_REQUEST_HEAD_STRUCT!xSyncListSystemCountersReq);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     CARD32 nCounters = 0;
     foreach(psci; SysCounterList.byEntries!(SysCounterInfo, "entry")) {
@@ -1342,7 +1342,7 @@ private int ProcSyncSetPriority(ClientPtr client)
          *  so that the change in this client's priority is immediately
          *  reflected.
          */
-        isItTimeToYield = TRUE;
+        isItTimeToYield = True;
         dispatchException |= DE_PRIORITYCHANGE;
     }
     return Success;
@@ -1696,7 +1696,7 @@ private int ProcSyncCreateAlarm(ClientPtr client)
     pAlarm.client = client;
     pAlarm.alarm_id = stuff.id;
     pAlarm.delta = 1;
-    pAlarm.events = TRUE;
+    pAlarm.events = True;
     pAlarm.state = XSyncAlarmInactive;
     pAlarm.pEventClients = null;
     status = SyncChangeAlarmAttributes(client, pAlarm, cast(uint)vmask,
@@ -1916,7 +1916,7 @@ private int ProcSyncResetFence(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    if (pFence.funcs.CheckTriggered(pFence) != TRUE)
+    if (pFence.funcs.CheckTriggered(pFence) != True)
         return BadMatch;
 
     pFence.funcs.Reset(pFence);
@@ -2409,7 +2409,7 @@ private void IdleTimeWakeupHandler(void* pCounter, int rc)
       https://bugs.freedesktop.org/show_bug.cgi?id=70476
       */
     if (LastEventTimeWasReset(priv.deviceid)) {
-        LastEventTimeToggleResetFlag(priv.deviceid, FALSE);
+        LastEventTimeToggleResetFlag(priv.deviceid, False);
         if (idle != 0) {
             IdleTimeCheckBrackets(counter, 0, less, greater);
             less = priv.value_less;
@@ -2436,7 +2436,7 @@ private void IdleTimeBracketValues(void* pCounter, long* pbracket_less, long* pb
     else if (!registered && (pbracket_less || pbracket_greater)) {
         /* Reset flag must be zero so we don't force a idle timer reset on
            the first wakeup */
-        LastEventTimeToggleResetAll(FALSE);
+        LastEventTimeToggleResetAll(False);
         RegisterBlockAndWakeupHandlers(&IdleTimeBlockHandler,
                                        &IdleTimeWakeupHandler, pCounter);
     }

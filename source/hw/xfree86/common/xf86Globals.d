@@ -113,42 +113,42 @@ shared static this() {
     consoleFd = -1;
     vtno = -1;
     lastEventTime = -1;
-    vtRequestsPending = FALSE;
+    vtRequestsPending = False;
 version(__sun) {
     .vtPendingNum = -1;
 }
-    dontVTSwitch = FALSE;
-    autoVTSwitch = TRUE;
-    ShareVTs = FALSE;
-    dontZap = FALSE;
-    dontZoom = FALSE;
+    dontVTSwitch = False;
+    autoVTSwitch = True;
+    ShareVTs = False;
+    dontZap = False;
+    dontZoom = False;
     currentScreen = null;
 static if(CSRG_BASED) {
     .consType = -1;
 }
-    allowMouseOpenFail = FALSE;
-    vidModeEnabled = TRUE;
-    vidModeAllowNonLocal = FALSE;
-    pmFlag = TRUE;
+    allowMouseOpenFail = False;
+    vidModeEnabled = True;
+    vidModeAllowNonLocal = False;
+    pmFlag = True;
 static if(HasVersion!("CONFIG_HAL") || HasVersion!("CONFIG_UDEV") || HasVersion!("CONFIG_WSCONS")) {
-    forceInputDevices = FALSE;
-    autoAddDevices = TRUE;
-    autoEnableDevices = TRUE;
+    forceInputDevices = False;
+    autoAddDevices = True;
+    autoEnableDevices = True;
 }
 else {
-    forceInputDevices = TRUE;
-    autoAddDevices = FALSE;
-    autoEnableDevices = FALSE;
+    forceInputDevices = True;
+    autoAddDevices = False;
+    autoEnableDevices = False;
 }
 // #endif
 // static if(CONFIG_UDEV_KMS) {
-    autoAddGPU = TRUE;
+    autoAddGPU = True;
 // }
 // else {
-//     autoAddGPU = FALSE;
+//     autoAddGPU = False;
 // }
-    autoBindGPU = TRUE;
-    singleDriver = FALSE;
+    autoBindGPU = True;
+    singleDriver = False;
     }
 }
 
@@ -158,15 +158,15 @@ const(char)* xf86ModulePath = DEFAULT_MODULE_PATH;
 MessageType xf86ModPathFrom = X_DEFAULT;
 const(char)* xf86LogFile = DEFAULT_LOGDIR ~"/"~ DEFAULT_LOGPREFIX;
 MessageType xf86LogFileFrom = X_DEFAULT;
-Bool xf86LogFileWasOpened = FALSE;
+Bool xf86LogFileWasOpened = False;
 serverLayoutRec xf86ConfigLayout = { null, };
 confDRIRec xf86ConfigDRI = { 0, };
 
 XF86ConfigPtr xf86configptr = null;
-Bool xf86Resetting = FALSE;
-Bool xf86Initialising = FALSE;
-Bool xf86DoConfigure = FALSE;
-Bool xf86ProbeIgnorePrimary = FALSE;
+Bool xf86Resetting = False;
+Bool xf86Initialising = False;
+Bool xf86DoConfigure = False;
+Bool xf86ProbeIgnorePrimary = False;
 DriverPtr* xf86DriverList = null;
 int xf86NumDrivers = 0;
 InputDriverPtr* xf86InputDriverList = null;
@@ -184,14 +184,14 @@ const(char)*[6] xf86VisualNames = [
 ];
 
 /* Parameters set only from the command line */
-Bool xf86fpFlag = FALSE;
-Bool xf86bsEnableFlag = FALSE;
-Bool xf86bsDisableFlag = FALSE;
-Bool xf86silkenMouseDisableFlag = FALSE;
-Bool xf86xkbdirFlag = FALSE;
+Bool xf86fpFlag = False;
+Bool xf86bsEnableFlag = False;
+Bool xf86bsDisableFlag = False;
+Bool xf86silkenMouseDisableFlag = False;
+Bool xf86xkbdirFlag = False;
 
 static if (HAVE_ACPI) {
-Bool xf86acpiDisableFlag = FALSE;
+Bool xf86acpiDisableFlag = False;
 }
 char* xf86LayoutName = null;
 char* xf86ScreenName = null;
@@ -203,17 +203,17 @@ int xf86FbBpp = -1;
 int xf86Depth = -1;
 rgb xf86Weight = { 0, 0, 0 };
 
-Bool xf86FlipPixels = FALSE;
+Bool xf86FlipPixels = False;
 Gamma xf86Gamma = { 0.0, 0.0, 0.0 };
 
-Bool xf86AllowMouseOpenFail = FALSE;
-Bool xf86AutoBindGPUDisabled = FALSE;
+Bool xf86AllowMouseOpenFail = False;
+Bool xf86AutoBindGPUDisabled = False;
 
 static if(XF86VIDMODE){
-Bool xf86VidModeDisabled = FALSE;
-Bool xf86VidModeAllowNonLocal = FALSE;
+Bool xf86VidModeDisabled = False;
+Bool xf86VidModeAllowNonLocal = False;
 }
-Bool xorgHWAccess = FALSE;
+Bool xorgHWAccess = False;
 
 int xf86GetConsoleFd()
 {

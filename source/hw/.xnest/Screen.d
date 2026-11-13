@@ -78,7 +78,7 @@ private int offset(c_ulong mask)
 private Bool xnestSaveScreen(ScreenPtr pScreen, int what)
 {
     if (xnestSoftwareScreenSaver)
-        return FALSE;
+        return False;
     else {
         switch (what) {
         case SCREEN_SAVER_ON:
@@ -107,13 +107,13 @@ private Bool xnestSaveScreen(ScreenPtr pScreen, int what)
             xnestSetInstalledColormapWindows(pScreen);
             break;
         default: break;}
-        return TRUE;
+        return True;
     }
 }
 
 private Bool xnestCursorOffScreen(ScreenPtr* ppScreen, int* x, int* y)
 {
-    return FALSE;
+    return False;
 }
 
 private void xnestCrossScreen(ScreenPtr pScreen, Bool entering)
@@ -167,23 +167,23 @@ Bool xnestOpenScreen(ScreenPtr pScreen, int argc, char** argv)
 
     if (!dixRegisterPrivateKey
         (&xnestWindowPrivateKeyRec, PRIVATE_WINDOW, xnestPrivWin.sizeof))
-        return FALSE;
+        return False;
     if (!dixRegisterPrivateKey
         (&xnestGCPrivateKeyRec, PRIVATE_GC, xnestPrivGC.sizeof))
-        return FALSE;
+        return False;
     if (!dixRegisterPrivateKey
         (&xnestPixmapPrivateKeyRec, PRIVATE_PIXMAP, xnestPrivPixmap.sizeof))
-        return FALSE;
+        return False;
     if (!dixRegisterPrivateKey
         (&xnestColormapPrivateKeyRec, PRIVATE_COLORMAP,
          xnestPrivColormap.sizeof))
-        return FALSE;
+        return False;
     if (!dixRegisterPrivateKey(&xnestScreenCursorFuncKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
 
     if (!dixRegisterScreenPrivateKey(&xnestScreenCursorPrivKeyRec, pScreen,
                                      PRIVATE_CURSOR, 0))
-        return FALSE;
+        return False;
 
     int numVisuals = 0;
     VisualPtr visuals = cast(VisualRec*) calloc(1, VisualRec.sizeof);
@@ -193,7 +193,7 @@ Bool xnestOpenScreen(ScreenPtr pScreen, int argc, char** argv)
     if (!visuals || !depths) {
         free(visuals);
         free(depths);
-        return FALSE;
+        return False;
     }
 
     if (!xnestVisualMap)
@@ -305,7 +305,7 @@ breakout:
     if (!miScreenInit(pScreen, null, xnestGeometry.width, xnestGeometry.height,
                       1, 1, xnestGeometry.width, rootDepth, numDepths, depths, defaultVisual, /* root visual */
                       numVisuals, visuals))
-        return FALSE;
+        return False;
 
     pScreen.defColormap = cast(Colormap) dixAllocServerXID();
     pScreen.minInstalledCmaps = MINCMAPS;
@@ -506,9 +506,9 @@ enum POSITION_OFFSET = `(pScreen->myNum * (xnestGeometry.width + xnestGeometry.h
     }
 
     if (!xnestCreateDefaultColormap(pScreen))
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 Bool xnestCloseScreen(ScreenPtr pScreen)
@@ -526,5 +526,5 @@ Bool xnestCloseScreen(ScreenPtr pScreen)
        the display connection.  There is no need to generate extra protocol.
      */
 
-    return TRUE;
+    return True;
 }

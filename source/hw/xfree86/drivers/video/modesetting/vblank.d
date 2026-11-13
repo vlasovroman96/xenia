@@ -102,7 +102,7 @@ int box_area(BoxPtr box)
 Bool rr_crtc_on(RRCrtcPtr crtc, Bool crtc_is_xf86_hint)
 {
     if (!crtc) {
-        return FALSE;
+        return False;
     }
     if (crtc_is_xf86_hint && crtc.devPrivate) {
          return xf86_crtc_on(cast(_xf86Crtc*)crtc.devPrivate);
@@ -177,7 +177,7 @@ private RRCrtcPtr rr_crtc_covering_box_on_secondary(ScreenPtr pScreen, BoxPtr bo
             if (!secondary.is_output_secondary)
                 continue;
 
-            crtc = rr_crtc_covering_box(secondary, box, FALSE);
+            crtc = rr_crtc_covering_box(secondary, box, False);
             if (crtc)
                 return crtc;
         }
@@ -197,7 +197,7 @@ xf86CrtcPtr ms_dri2_crtc_covering_drawable(DrawablePtr pDraw)
     box.x2 = cast(short)(box.x1 + pDraw.width);
     box.y2 = cast(short)(box.y1 + pDraw.height);
 
-    crtc = rr_crtc_covering_box(pScreen, &box, TRUE);
+    crtc = rr_crtc_covering_box(pScreen, &box, True);
     if (crtc) {
         return cast(xf86CrtcPtr)crtc.devPrivate;
     }
@@ -215,7 +215,7 @@ RRCrtcPtr ms_randr_crtc_covering_drawable(DrawablePtr pDraw)
     box.x2 = cast(short)(box.x1 + pDraw.width);
     box.y2 = cast(short)(box.y1 + pDraw.height);
 
-    crtc = rr_crtc_covering_box(pScreen, &box, TRUE);
+    crtc = rr_crtc_covering_box(pScreen, &box, True);
     if (!crtc) {
         crtc = rr_crtc_covering_box_on_secondary(pScreen, &box);
     }
@@ -233,12 +233,12 @@ Bool ms_get_kernel_ust_msc(xf86CrtcPtr crtc, ulong* msc, ulong* ust)
 
     if (ms.has_queue_sequence || !ms.tried_queue_sequence) {
         ulong ns = void;
-        ms.tried_queue_sequence = TRUE;
+        ms.tried_queue_sequence = True;
 
         ret = drmCrtcGetSequence(ms.fd, drmmode_crtc.mode_crtc.crtc_id,
                                  msc, &ns);
         if (ret != -1 || (errno != ENOTTY && errno != EINVAL)) {
-            ms.has_queue_sequence = TRUE;
+            ms.has_queue_sequence = True;
             if (ret == 0)
                 *ust = ns / 1000;
             return ret == 0;
@@ -252,11 +252,11 @@ Bool ms_get_kernel_ust_msc(xf86CrtcPtr crtc, ulong* msc, ulong* ust)
     if (ret) {
         *msc = 0;
         *ust = 0;
-        return FALSE;
+        return False;
     } else {
         *msc = vbl.reply.sequence;
         *ust = cast(CARD64) vbl.reply.tval_sec * 1000000 + vbl.reply.tval_usec;
-        return TRUE;
+        return True;
     }
 }
 
@@ -280,7 +280,7 @@ private void ms_drm_set_seq_queued(uint seq, ulong msc)
             if (msc < drmmode_crtc.next_msc)
                 drmmode_crtc.next_msc = msc;
             q.msc = msc;
-            q.kernel_queued = TRUE;
+            q.kernel_queued = True;
             break;
         }
     }
@@ -292,11 +292,11 @@ private Bool ms_queue_coalesce(xf86CrtcPtr crtc, uint seq, ulong msc)
 
     /* If the next MSC is too late, then this event can't be coalesced */
     if (msc < drmmode_crtc.next_msc)
-        return FALSE;
+        return False;
 
     /* Set the target MSC on this sequence number */
     ms_drm_set_seq_msc(seq, msc);
-    return TRUE;
+    return True;
 }
 
 Bool ms_queue_vblank(xf86CrtcPtr crtc, ms_queue_flag flags, ulong msc, ulong* msc_queued, uint seq)
@@ -310,7 +310,7 @@ Bool ms_queue_vblank(xf86CrtcPtr crtc, ms_queue_flag flags, ulong msc, ulong* ms
 
     /* Try coalescing this event into another to avoid event queue exhaustion */
     if (flags == MS_QUEUE_ABSOLUTE && ms_queue_coalesce(crtc, seq, msc))
-        return TRUE;
+        return True;
 
     for (;;) {
         /* Queue an event at the specified sequence */
@@ -318,7 +318,7 @@ Bool ms_queue_vblank(xf86CrtcPtr crtc, ms_queue_flag flags, ulong msc, ulong* ms
             uint drm_flags = 0;
             ulong kernel_queued = void;
 
-            ms.tried_queue_sequence = TRUE;
+            ms.tried_queue_sequence = True;
 
             if (flags & MS_QUEUE_RELATIVE)
                 drm_flags |= DRM_CRTC_SEQUENCE_RELATIVE;
@@ -328,16 +328,16 @@ Bool ms_queue_vblank(xf86CrtcPtr crtc, ms_queue_flag flags, ulong msc, ulong* ms
             ret = drmCrtcQueueSequence(ms.fd, drmmode_crtc.mode_crtc.crtc_id,
                                        drm_flags, msc, &kernel_queued, seq);
             if (ret == 0) {
-                msc = ms_kernel_msc_to_crtc_msc(crtc, kernel_queued, TRUE);
+                msc = ms_kernel_msc_to_crtc_msc(crtc, kernel_queued, True);
                 ms_drm_set_seq_queued(seq, msc);
                 if (msc_queued)
                     *msc_queued = msc;
-                ms.has_queue_sequence = TRUE;
-                return TRUE;
+                ms.has_queue_sequence = True;
+                return True;
             }
 
             if (ret != -1 || (errno != ENOTTY && errno != EINVAL)) {
-                ms.has_queue_sequence = TRUE;
+                ms.has_queue_sequence = True;
                 goto check;
             }
         }
@@ -353,16 +353,16 @@ Bool ms_queue_vblank(xf86CrtcPtr crtc, ms_queue_flag flags, ulong msc, ulong* ms
         vbl.request.signal = seq;
         ret = drmWaitVBlank(ms.fd, &vbl);
         if (ret == 0) {
-            msc = ms_kernel_msc_to_crtc_msc(crtc, vbl.reply.sequence, FALSE);
+            msc = ms_kernel_msc_to_crtc_msc(crtc, vbl.reply.sequence, False);
             ms_drm_set_seq_queued(seq, msc);
             if (msc_queued)
                 *msc_queued = msc;
-            return TRUE;
+            return True;
         }
     check:
         if (errno != EBUSY) {
             ms_drm_abort_seq(scrn, seq);
-            return FALSE;
+            return False;
         }
         ms_flush_drm_events(screen);
     }
@@ -483,7 +483,7 @@ void ms_drm_abort_one(ms_drm_queue* q)
     /* Don't remove vblank events if they were queued in the kernel */
     if (q.kernel_queued) {
         q.abort(q.data);
-        q.aborted = TRUE;
+        q.aborted = True;
     } else {
         q.list.removeFromList();
         q.abort(q.data);
@@ -596,14 +596,14 @@ private void ms_drm_sequence_handler(int fd, ulong frame, ulong ns, Bool is64bit
 private void ms_drm_sequence_handler_64bit(int fd, ulong frame, ulong ns, ulong user_data)
 {
     /* frame is true 64 bit wrapped into 64 bit */
-    ms_drm_sequence_handler(fd, frame, ns, TRUE, user_data);
+    ms_drm_sequence_handler(fd, frame, ns, True, user_data);
 }
 
 private void ms_drm_handler(int fd, uint frame, uint sec, uint usec, void* user_ptr)
 {
     /* frame is 32 bit wrapped into 64 bit */
     ms_drm_sequence_handler(fd, frame, (cast(ulong) sec * 1000000 + usec) * 1000,
-                            FALSE, cast(uint) cast(uintptr_t) user_ptr);
+                            False, cast(uint) cast(uintptr_t) user_ptr);
 }
 
 Bool ms_drm_queue_is_empty()
@@ -634,7 +634,7 @@ Bool ms_vblank_screen_init(ScreenPtr screen)
     } else
         ms_ent.fd_wakeup_ref++;
 
-    return TRUE;
+    return True;
 }
 
 void ms_vblank_close_screen(ScreenPtr screen)

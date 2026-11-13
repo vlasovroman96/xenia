@@ -115,7 +115,7 @@ enum string FONTPROPS(string font) =`		  (`~font~`).info.props`;
 enum string FONTGLYPHBITS(string base,string pci) =`	  (cast(ubyte *) (`~pci~`).bits)`;
 enum string FONTINFONPROPS(string font) =`	  (`~font~`).info.nprops`;
 
-Bool noXFree86BigfontExtension = FALSE;
+Bool noXFree86BigfontExtension = False;
 
 
 
@@ -131,13 +131,13 @@ int FontShmdescIndex;
 
 private uint pagesize;
 
-private Bool badSysCall = FALSE;
+private Bool badSysCall = False;
 
 static if (HasVersion!"__FreeBSD__" || HasVersion!"__NetBSD__" || HasVersion!"__OpenBSD__" || HasVersion!"Cygwin" || HasVersion!"__DragonFly__") {
 
 private void SigSysHandler(int signo)
 {
-    badSysCall = TRUE;
+    badSysCall = True;
 }
 
 private Bool CheckForShmSyscall()
@@ -148,7 +148,7 @@ private Bool CheckForShmSyscall()
     /* If no SHM support in the kernel, the bad syscall will generate SIGSYS */
     oldHandler = OsSignal(SIGSYS, &SigSysHandler);
 
-    badSysCall = FALSE;
+    badSysCall = False;
     shmid = shmget(IPC_PRIVATE, 4096, IPC_CREAT);
     if (shmid != -1) {
         /* Successful allocation - clean up */
@@ -156,7 +156,7 @@ private Bool CheckForShmSyscall()
     }
     else {
         /* Allocation failed */
-        badSysCall = TRUE;
+        badSysCall = True;
     }
     OsSignal(SIGSYS, oldHandler);
     return !badSysCall;
@@ -711,7 +711,7 @@ if (nCharInfos > 0)
             swapCharInfo(&reply.maxBounds);
         }
 
-        x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+        x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
         for (int i = 0; i < nfontprops; i++) {
             x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)pFont.info.props[i].name);

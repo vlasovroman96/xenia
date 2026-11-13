@@ -104,11 +104,11 @@ void miComputeCompositeClip(GCPtr pGC, DrawablePtr pDrawable)
 
         if (pGC.subWindowMode == IncludeInferiors) {
             pregWin = NotClippedByChildren(pWin);
-            freeTmpClip = TRUE;
+            freeTmpClip = True;
         }
         else {
             pregWin = &pWin.clipList;
-            freeTmpClip = FALSE;
+            freeTmpClip = False;
         }
         freeCompClip = pGC.freeCompClip;
 
@@ -152,7 +152,7 @@ void miComputeCompositeClip(GCPtr pGC, DrawablePtr pDrawable)
                 pGC.pCompositeClip = RegionCreate(NullBox, 0);
                 RegionIntersect(pGC.pCompositeClip, pregWin, pGC.clientClip);
             }
-            pGC.freeCompClip = TRUE;
+            pGC.freeCompClip = True;
             RegionTranslate(pGC.clientClip,
                             -(pDrawable.x + pGC.clipOrg.x),
                             -(pDrawable.y + pGC.clipOrg.y));
@@ -172,7 +172,7 @@ void miComputeCompositeClip(GCPtr pGC, DrawablePtr pDrawable)
             RegionReset(pGC.pCompositeClip, &pixbounds);
         }
         else {
-            pGC.freeCompClip = TRUE;
+            pGC.freeCompClip = True;
             pGC.pCompositeClip = RegionCreate(&pixbounds, 1);
         }
 

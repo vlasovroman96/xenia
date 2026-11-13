@@ -254,7 +254,7 @@ version (DEBUG) {
 private Bool XkbDDXCompileKeymapByNames(XkbDescPtr xkb, XkbComponentNamesPtr names, uint want, uint need, char* nameRtrn, int nameRtrnLen)
 {
     char* keymap = void;
-    Bool rc = FALSE;
+    Bool rc = False;
     XkbKeymapNamesCtx ctx = {
         xkb: xkb,
         names: names,
@@ -269,7 +269,7 @@ private Bool XkbDDXCompileKeymapByNames(XkbDescPtr xkb, XkbComponentNamesPtr nam
             strlcpy(nameRtrn, keymap, nameRtrnLen);
 
         free(keymap);
-        rc = TRUE;
+        rc = True;
     } else if (nameRtrn)
         *nameRtrn = '\0';
 
@@ -409,32 +409,32 @@ Bool XkbDDXNamesFromRules(DeviceIntPtr keybd, const(char)* rules_name, XkbRF_Var
     XkbRF_RulesPtr rules = void;
 
     if (!rules_name)
-        return FALSE;
+        return False;
 
     if (snprintf(buf.ptr, PATH_MAX, "%s/rules/%s", XkbBaseDirectory, rules_name)
         >= PATH_MAX) {
         LogMessage(X_ERROR, "XKB: Rules name is too long\n");
-        return FALSE;
+        return False;
     }
 
     file = fopen(buf.ptr, "r");
     if (!file) {
         LogMessage(X_ERROR, "XKB: Couldn't open rules file %s\n", buf.ptr);
-        return FALSE;
+        return False;
     }
 
     rules = XkbRF_Create();
     if (!rules) {
         LogMessage(X_ERROR, "XKB: Couldn't create rules struct\n");
         fclose(file);
-        return FALSE;
+        return False;
     }
 
     if (!XkbRF_LoadRules(file, rules)) {
         LogMessage(X_ERROR, "XKB: Couldn't parse rules file %s\n", rules_name);
         fclose(file);
         XkbRF_Free(rules);
-        return FALSE;
+        return False;
     }
 
     memset(names, 0, typeof(*names).sizeof);
@@ -478,13 +478,13 @@ private XkbDescPtr XkbCompileKeymapForDevice(DeviceIntPtr dev, XkbRMLVOSet* rmlv
                                     name.ptr, PATH_MAX);
         if ((need & provided) != need) {
             if (xkb) {
-                XkbFreeKeyboard(xkb, 0, TRUE);
+                XkbFreeKeyboard(xkb, 0, True);
                 xkb = null;
             }
         }
     }
 
-    XkbFreeComponentNames(&kccgst, FALSE);
+    XkbFreeComponentNames(&kccgst, False);
     return xkb;
 }
 
@@ -504,7 +504,7 @@ private XkbDescPtr KeymapOrDefaults(DeviceIntPtr dev, XkbDescPtr xkb)
 
     xkb = XkbCompileKeymapForDevice(dev, &dflts, 0);
 
-    XkbFreeRMLVOSet(&dflts, FALSE);
+    XkbFreeRMLVOSet(&dflts, False);
 
     return xkb;
 }
@@ -548,7 +548,7 @@ XkbDescPtr XkbCompileKeymapFromString(DeviceIntPtr dev, const(char)* keymap, int
                                    XkmAllIndicesMask, need, &xkb);
     if ((need & provided) != need) {
         if (xkb) {
-            XkbFreeKeyboard(xkb, 0, TRUE);
+            XkbFreeKeyboard(xkb, 0, True);
             xkb = null;
         }
     }

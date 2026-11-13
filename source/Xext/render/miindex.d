@@ -153,15 +153,15 @@ private Bool miBuildRenderColormap(ColormapPtr pColormap, Pixel* pixels, int* nu
                 blue = cast(ushort)((b * 65535 + (cube - 1) / 2) / (cube - 1));
                 if (AllocColor(pColormap, &red, &green,
                                &blue, &pixel, 0) != Success)
-                    return FALSE;
-                used[pixel] = TRUE;
+                    return False;
+                used[pixel] = True;
             }
     for (g = 0; g < gray; g++) {
         pixel = 0;
         red = green = blue = cast(ubyte)((g * 65535 + (gray - 1) / 2) / (gray - 1));
         if (AllocColor(pColormap, &red, &green, &blue, &pixel, 0) != Success)
-            return FALSE;
-        used[pixel] = TRUE;
+            return False;
+        used[pixel] = True;
     }
     n = 0;
     for (i = 0; i < pColormap.pVisual.ColormapEntries; i++)
@@ -170,7 +170,7 @@ private Bool miBuildRenderColormap(ColormapPtr pColormap, Pixel* pixels, int* nu
 
     *nump = n;
 
-    return TRUE;
+    return True;
 }
 
 /* 0 <= red, green, blue < 32 */
@@ -236,11 +236,11 @@ Bool miInitIndexed(ScreenPtr pScreen, PictFormatPtr pFormat)
     Pixel p = void, r = void, g = void, b = void;
 
     if (pVisual.ColormapEntries > MI_MAX_INDEXED)
-        return FALSE;
+        return False;
 
     if (pVisual.class_ & DynamicClass) {
         if (!miBuildRenderColormap(pColormap, pixels.ptr, &num))
-            return FALSE;
+            return False;
     }
     else {
         num = pVisual.ColormapEntries;
@@ -250,13 +250,13 @@ Bool miInitIndexed(ScreenPtr pScreen, PictFormatPtr pFormat)
 
     miIndexedPtr pIndexed = cast(miIndexedRec*) calloc(1, miIndexedRec.sizeof);
     if (!pIndexed)
-        return FALSE;
+        return False;
 
     pFormat.index.nvalues = num;
     pFormat.index.pValues = cast(xIndexValue*)calloc(num, xIndexValue.sizeof);
     if (!pFormat.index.pValues) {
         free(pIndexed);
-        return FALSE;
+        return False;
     }
 
     /*
@@ -282,12 +282,12 @@ Bool miInitIndexed(ScreenPtr pScreen, PictFormatPtr pFormat)
      */
     switch (pVisual.class_ | DynamicClass) {
     case GrayScale:
-        pIndexed.color = FALSE;
+        pIndexed.color = False;
         for (r = 0; r < 32768; r++)
             pIndexed.ent[r] = cast(ubyte)FindBestGray(pIndexed, pixels.ptr, num, cast(int)r);
         break;
     case PseudoColor:
-        pIndexed.color = TRUE;
+        pIndexed.color = True;
         p = 0;
         for (r = 0; r < 32; r++)
             for (g = 0; g < 32; g++)
@@ -299,7 +299,7 @@ Bool miInitIndexed(ScreenPtr pScreen, PictFormatPtr pFormat)
         break;
     default: break;}
     pFormat.index.devPrivate = pIndexed;
-    return TRUE;
+    return True;
 }
 
 void miCloseIndexed(ScreenPtr pScreen, PictFormatPtr pFormat)

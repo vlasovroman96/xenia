@@ -199,7 +199,7 @@ Bool miInitializeColormap(ColormapPtr pmap)
             pmap.red[i].co.local.blue = cast(ushort)(pmap.red[i].co.local.red);
         }
     }
-    return TRUE;
+    return True;
 }
 
 /* When simulating DirectColor on PseudoColor hardware, multiple
@@ -280,7 +280,7 @@ Bool miCreateDefColormap(ScreenPtr pScreen)
     int alloctype = void;
 
     if (!dixRegisterPrivateKey(&micmapScrPrivateKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
 
     for (pVisual = pScreen.visuals;
          pVisual.vid != pScreen.rootVisual; pVisual++){}
@@ -292,7 +292,7 @@ Bool miCreateDefColormap(ScreenPtr pScreen)
 
     if (dixCreateColormap(cast(uint)pScreen.defColormap, pScreen, pVisual, &cmap,
                           alloctype, serverClient) != Success)
-        return FALSE;
+        return False;
 
     if (pScreen.rootDepth > 1) {
         wp = cast(uint)pScreen.whitePixel;
@@ -300,13 +300,13 @@ Bool miCreateDefColormap(ScreenPtr pScreen)
         if ((AllocColor(cmap, &ones, &ones, &ones, &wp, 0) !=
              Success) ||
             (AllocColor(cmap, &zero, &zero, &zero, &bp, 0) != Success))
-            return FALSE;
+            return False;
         pScreen.whitePixel = wp;
         pScreen.blackPixel = bp;
     }
 
     (*pScreen.InstallColormap) (cmap);
-    return TRUE;
+    return True;
 }
 
 /*
@@ -360,7 +360,7 @@ Bool miSetVisualTypesAndMasks(int depth, int visuals, int bitsPerRGB, int prefer
 
     miVisualsPtr new_ = cast(miVisualsPtr) calloc(1, (_miVisuals).sizeof);
     if (!new_)
-        return FALSE;
+        return False;
     if (!redMask || !greenMask || !blueMask) {
         redMask = mixin(_RM!(`depth`));
         greenMask = mixin(_GM!(`depth`));
@@ -377,7 +377,7 @@ Bool miSetVisualTypesAndMasks(int depth, int visuals, int bitsPerRGB, int prefer
     new_.count = Ones(visuals);
     for (prev = &miVisuals; ((v = *prev) !is null); prev = &v.next){}
     *prev = new_;
-    return TRUE;
+    return True;
 }
 
 Bool miSetVisualTypes(int depth, int visuals, int bitsPerRGB, int preferredCVC)
@@ -404,8 +404,8 @@ private Bool miVisualTypesSet(int depth)
 
     for (visuals = miVisuals; visuals; visuals = visuals.next)
         if (visuals.depth == depth)
-            return TRUE;
-    return FALSE;
+            return True;
+    return False;
 }
 
 Bool miSetPixmapDepths()
@@ -417,10 +417,10 @@ Bool miSetPixmapDepths()
         d = screenInfo.formats[f].depth;
         if (!miVisualTypesSet(d)) {
             if (!miSetVisualTypes(d, 0, 0, -1))
-                return FALSE;
+                return False;
         }
     }
-    return TRUE;
+    return True;
 }
 
 /*
@@ -459,7 +459,7 @@ Bool miInitVisuals(VisualPtr* visualp, DepthPtr* depthp, int* nvisualp, int* nde
             int b = screenInfo.formats[f].bitsPerPixel;
             int vtype = ((sizes & (1 << (b - 1))) ? miGetDefaultVisualMask(d) : 0);
             if (!miSetVisualTypes(d, vtype, bitsPerRGB, -1))
-                return FALSE;
+                return False;
         }
     }
 
@@ -478,7 +478,7 @@ Bool miInitVisuals(VisualPtr* visualp, DepthPtr* depthp, int* nvisualp, int* nde
         free(depth);
         free(visual);
         free(preferredCVCs);
-        return FALSE;
+        return False;
     }
     *depthp = depth;
     *visualp = visual;
@@ -501,7 +501,7 @@ Bool miInitVisuals(VisualPtr* visualp, DepthPtr* depthp, int* nvisualp, int* nde
                 free(depth);
                 free(visual);
                 free(preferredCVCs);
-                return FALSE;
+                return False;
             }
         }
         depth.depth = cast(ubyte)d;
@@ -604,5 +604,5 @@ Bool miInitVisuals(VisualPtr* visualp, DepthPtr* depthp, int* nvisualp, int* nde
     *defaultVisp = depth[i].vids[j];
     free(preferredCVCs);
 
-    return TRUE;
+    return True;
 }

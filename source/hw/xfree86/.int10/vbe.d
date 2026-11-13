@@ -393,7 +393,7 @@ vbeInfoPtr VBEExtendedInit(xf86Int10InfoPtr pInt, int entityIndex, int Flags)
     void* page = null;
     ScrnInfoPtr pScrn = xf86FindScreenForEntity(entityIndex);
     vbeControllerInfoPtr vbe = null;
-    Bool init_int10 = FALSE;
+    Bool init_int10 = False;
     vbeInfoPtr vip = null;
     int screen = void;
 
@@ -409,7 +409,7 @@ vbeInfoPtr VBEExtendedInit(xf86Int10InfoPtr pInt, int entityIndex, int Flags)
         pInt = xf86ExtendedInitInt10(entityIndex, Flags);
         if (!pInt)
             goto error;
-        init_int10 = TRUE;
+        init_int10 = True;
     }
 
     page = xf86Int10AllocPages(pInt, 1, &RealOff);
@@ -521,9 +521,9 @@ private Bool vbeProbeDDC(vbeInfoPtr pVbe)
     int screen = pVbe.pInt10.pScrn.scrnIndex;
 
     if (pVbe.ddc == DDC_NONE)
-        return FALSE;
+        return False;
     if (pVbe.ddc != DDC_UNCHECKED)
-        return TRUE;
+        return True;
 
     pVbe.pInt10.ax = 0x4F15;
     pVbe.pInt10.bx = 0;
@@ -537,7 +537,7 @@ private Bool vbeProbeDDC(vbeInfoPtr pVbe)
     if ((pVbe.pInt10.ax & 0xff) != 0x4f) {
         xf86DrvMsgVerb(screen, X_INFO, 3, "VESA VBE DDC not supported\n");
         pVbe.ddc = DDC_NONE;
-        return FALSE;
+        return False;
     }
 
     switch ((pVbe.pInt10.ax >> 8) & 0xff) {
@@ -569,17 +569,17 @@ private Bool vbeProbeDDC(vbeInfoPtr pVbe)
         if (pVbe.pInt10.bx & 0x4) {
             xf86DrvMsgVerb(screen, X_INFO, 3, "VESA VBE DDC Screen blanked"
                            ~ "for data transfer\n");
-            pVbe.ddc_blank = TRUE;
+            pVbe.ddc_blank = True;
         }
         else
-            pVbe.ddc_blank = FALSE;
+            pVbe.ddc_blank = False;
 
         xf86DrvMsgVerb(screen, X_INFO, 3,
                        "VESA VBE DDC transfer in appr. %x sec.\n",
                        (pVbe.pInt10.bx >> 8) & 0xff);
     default: break;}
 
-    return TRUE;
+    return True;
 }
 
 enum VBEOpts {
@@ -591,9 +591,9 @@ alias VBEOPT_NODDC = VBEOpts.VBEOPT_NODDC;
 
 
 private const(OptionInfoRec)[4] VBEOptions = [
-    {VBEOPT_NOVBE, "NoVBE", OPTV_BOOLEAN, {0}, FALSE},
-    {VBEOPT_NODDC, "NoDDC", OPTV_BOOLEAN, {0}, FALSE},
-    {-1, null, OPTV_NONE, {0}, FALSE},
+    {VBEOPT_NOVBE, "NoVBE", OPTV_BOOLEAN, {0}, False},
+    {VBEOPT_NODDC, "NoDDC", OPTV_BOOLEAN, {0}, False},
+    {-1, null, OPTV_NONE, {0}, False},
 ];
 
 private ubyte* vbeReadEDID(vbeInfoPtr pVbe)
@@ -601,8 +601,8 @@ private ubyte* vbeReadEDID(vbeInfoPtr pVbe)
     int RealOff = pVbe.real_mode_base;
     void* page = pVbe.memory;
     ubyte* tmp = null;
-    Bool novbe = FALSE;
-    Bool noddc = FALSE;
+    Bool novbe = False;
+    Bool noddc = False;
     ScrnInfoPtr pScrn = pVbe.pInt10.pScrn;
     int screen = pScrn.scrnIndex;
     OptionInfoPtr options = void;
@@ -834,10 +834,10 @@ Bool VBEGetVBEMode(vbeInfoPtr pVbe, int* mode)
     if (mixin(R16!(`pVbe.pInt10.ax`)) == 0x4f) {
         *mode = mixin(R16!(`pVbe.pInt10.bx`));
 
-        return TRUE;
+        return True;
     }
 
-    return FALSE;
+    return False;
 }
 
 VbeModeInfoBlock* VBEGetModeInfo(vbeInfoPtr pVbe, int mode)
@@ -930,7 +930,7 @@ Bool VBESaveRestore(vbeInfoPtr pVbe, vbeSaveRestoreFunction function_, void** me
             pVbe.pInt10.cx = 0x000f;
             xf86ExecX86int10(pVbe.pInt10);
             if (mixin(R16!(`pVbe.pInt10.ax`)) != 0x4f)
-                return FALSE;
+                return False;
 
             if (function_ == MODE_SAVE) {
                 int npages = (mixin(R16!(`pVbe.pInt10.bx`)) * 64) / 4096 + 1;
@@ -939,7 +939,7 @@ Bool VBESaveRestore(vbeInfoPtr pVbe, vbeSaveRestoreFunction function_, void** me
                                                    real_mode_pages)) is null) {
                     xf86DrvMsg(screen, X_ERROR,
                                "Cannot allocate memory to save SVGA state.\n");
-                    return FALSE;
+                    return False;
                 }
             }
             *size = pVbe.pInt10.bx * 64;
@@ -949,7 +949,7 @@ Bool VBESaveRestore(vbeInfoPtr pVbe, vbeSaveRestoreFunction function_, void** me
         if (function_ != MODE_QUERY) {
 
             if (!*memory)
-                return FALSE;
+                return False;
             pVbe.pInt10.num = 0x10;
             pVbe.pInt10.ax = 0x4f04;
             switch (function_) {
@@ -960,7 +960,7 @@ Bool VBESaveRestore(vbeInfoPtr pVbe, vbeSaveRestoreFunction function_, void** me
                 pVbe.pInt10.dx = 2;
                 break;
             case MODE_QUERY:
-                return FALSE;
+                return False;
             default: break;}
             pVbe.pInt10.cx = 0x000f;
 
@@ -971,7 +971,7 @@ Bool VBESaveRestore(vbeInfoPtr pVbe, vbeSaveRestoreFunction function_, void** me
 
         }
     }
-    return TRUE;
+    return True;
 }
 
 Bool VBEBankSwitch(vbeInfoPtr pVbe, uint iBank, int window)
@@ -990,15 +990,15 @@ Bool VBEBankSwitch(vbeInfoPtr pVbe, uint iBank, int window)
     xf86ExecX86int10(pVbe.pInt10);
 
     if (mixin(R16!(`pVbe.pInt10.ax`)) != 0x4f)
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 Bool VBESetGetLogicalScanlineLength(vbeInfoPtr pVbe, vbeScanwidthCommand command, int width, int* pixels, int* bytes, int* max)
 {
     if (command < SCANWID_SET || command > SCANWID_GET_MAX)
-        return FALSE;
+        return False;
 
     /*
        Input:
@@ -1027,7 +1027,7 @@ Bool VBESetGetLogicalScanlineLength(vbeInfoPtr pVbe, vbeScanwidthCommand command
     xf86ExecX86int10(pVbe.pInt10);
 
     if (mixin(R16!(`pVbe.pInt10.ax`)) != 0x4f)
-        return FALSE;
+        return False;
 
     if (command == SCANWID_GET || command == SCANWID_GET_MAX) {
         if (pixels)
@@ -1038,7 +1038,7 @@ Bool VBESetGetLogicalScanlineLength(vbeInfoPtr pVbe, vbeScanwidthCommand command
             *max = mixin(R16!(`pVbe.pInt10.dx`));
     }
 
-    return TRUE;
+    return True;
 }
 
 Bool VBESetDisplayStart(vbeInfoPtr pVbe, int x, int y, Bool wait_retrace)
@@ -1051,9 +1051,9 @@ Bool VBESetDisplayStart(vbeInfoPtr pVbe, int x, int y, Bool wait_retrace)
     xf86ExecX86int10(pVbe.pInt10);
 
     if (mixin(R16!(`pVbe.pInt10.ax`)) != 0x4f)
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 int VBESetGetDACPaletteFormat(vbeInfoPtr pVbe, int bits)
@@ -1142,7 +1142,7 @@ CARD32* VBESetGetPaletteData(vbeInfoPtr pVbe, Bool set, int first, int num, CARD
 
 void VBEVesaSaveRestore(vbeInfoPtr pVbe, vbeSaveRestorePtr vbe_sr, vbeSaveRestoreFunction function_)
 {
-    Bool SaveSucc = FALSE;
+    Bool SaveSucc = False;
 
     if (VBE_VERSION_MAJOR(pVbe.version_) > 1
         && (function_ == MODE_SAVE || vbe_sr.pstate)) {
@@ -1153,7 +1153,7 @@ void VBEVesaSaveRestore(vbeInfoPtr pVbe, vbeSaveRestorePtr vbe_sr, vbeSaveRestor
                             cast(void*) &vbe_sr.state,
                             &vbe_sr.stateSize, &vbe_sr.statePage))) {
             if (function_ == MODE_SAVE) {
-                SaveSucc = TRUE;
+                SaveSucc = True;
                 vbe_sr.stateMode = -1; /* invalidate */
                 /* don't rely on the memory not being touched */
                 if (vbe_sr.pstate is null)

@@ -108,7 +108,6 @@ import externs.X11.Xatom;
 import os.connection;
 public import xf86Init;
 
-
 // void function() xf86OSPMClose;
 
 
@@ -321,14 +320,14 @@ private void xf86DisableInputDeviceForVTSwitch(InputInfoPtr pInfo)
 
     xf86ReleaseKeys(pInfo.dev);
     ProcessInputEvents();
-    DisableDevice(pInfo.dev, TRUE);
+    DisableDevice(pInfo.dev, True);
     seatd_libseat_close_device(pInfo);
 }
 
 void xf86EnableInputDeviceForVTSwitch(InputInfoPtr pInfo)
 {
     if (pInfo.dev && (pInfo.flags & XI86_DEVICE_DISABLED) == 0)
-        EnableDevice(pInfo.dev, TRUE);
+        EnableDevice(pInfo.dev, True);
     pInfo.flags &= ~XI86_DEVICE_DISABLED;
 }
 
@@ -347,7 +346,7 @@ private void xf86UpdateHasVTProperty(Bool hasVT)
         dixChangeWindowProperty(serverClient,
                                 xf86ScrnToScreen(xf86Screens[i]).root,
                                 property_name, XA_INTEGER, 32,
-                                PropModeReplace, 1, &value, TRUE);
+                                PropModeReplace, 1, &value, True);
     }
 }
 
@@ -384,7 +383,7 @@ void xf86VTLeave()
     IHPtr ih = void;
 
     DebugF("xf86VTSwitch: Leaving, xf86Exiting is %s\n",
-           (dispatchException & DE_TERMINATE) ? "TRUE".ptr : "FALSE".ptr);
+           (dispatchException & DE_TERMINATE) ? "True".ptr : "False".ptr);
 static if(DPMSExtension) {
     if (DPMSPowerLevel != DPMSModeOn)
         DPMSSet(serverClient, DPMSModeOn);
@@ -392,7 +391,7 @@ static if(DPMSExtension) {
     for (i = 0; i < xf86NumScreens; i++) {
         if (!(dispatchException & DE_TERMINATE))
             if (xf86Screens[i].EnableDisableFBAccess)
-                (*xf86Screens[i].EnableDisableFBAccess) (xf86Screens[i], FALSE);
+                (*xf86Screens[i].EnableDisableFBAccess) (xf86Screens[i], False);
     }
 
     /*
@@ -430,12 +429,12 @@ static if(DPMSExtension) {
          * zero all access functions to
          * trap calls when switched away.
          */
-        xf86Screens[i].vtSema = FALSE;
+        xf86Screens[i].vtSema = False;
     }
     if (xorgHWAccess)
         xf86DisableIO();
 
-    xf86UpdateHasVTProperty(FALSE);
+    xf86UpdateHasVTProperty(False);
 
     return;
 
@@ -452,7 +451,7 @@ switch_failed:
     if (!(dispatchException & DE_TERMINATE)) {
         for (i = 0; i < xf86NumScreens; i++) {
             if (xf86Screens[i].EnableDisableFBAccess)
-                (*xf86Screens[i].EnableDisableFBAccess) (xf86Screens[i], TRUE);
+                (*xf86Screens[i].EnableDisableFBAccess) (xf86Screens[i], True);
         }
     }
     dixSaveScreens(serverClient, SCREEN_SAVER_FORCER, ScreenSaverReset);
@@ -483,18 +482,18 @@ void xf86VTEnter()
     if (xorgHWAccess)
         xf86EnableIO();
     for (i = 0; i < xf86NumScreens; i++) {
-        xf86Screens[i].vtSema = TRUE;
+        xf86Screens[i].vtSema = True;
         if (!xf86Screens[i].EnterVT(xf86Screens[i]))
             FatalError("EnterVT failed for screen %d\n", i);
     }
     for (i = 0; i < xf86NumGPUScreens; i++) {
-        xf86GPUScreens[i].vtSema = TRUE;
+        xf86GPUScreens[i].vtSema = True;
         if (!xf86GPUScreens[i].EnterVT(xf86GPUScreens[i]))
             FatalError("EnterVT failed for gpu screen %d\n", i);
     }
     for (i = 0; i < xf86NumScreens; i++) {
         if (xf86Screens[i].EnableDisableFBAccess)
-            (*xf86Screens[i].EnableDisableFBAccess) (xf86Screens[i], TRUE);
+            (*xf86Screens[i].EnableDisableFBAccess) (xf86Screens[i], True);
     }
 
     /* Turn screen saver off when switching back */
@@ -517,7 +516,7 @@ static if(XSERVER_PLATFORM_BUS){
     xf86platformVTProbe();
 }
 
-    xf86UpdateHasVTProperty(TRUE);
+    xf86UpdateHasVTProperty(True);
 
     input_unlock();
 }
@@ -577,7 +576,7 @@ private void* addInputHandler(int fd, InputHandlerProc proc, void* data)
     ih.fd = fd;
     ih.ihproc = proc;
     ih.data = data;
-    ih.enabled = TRUE;
+    ih.enabled = True;
 
     if (!SetNotifyFd(fd, &xf86InputHandlerNotify, X_NOTIFY_READ, ih)) {
         free(ih);
@@ -659,7 +658,7 @@ private void xf86DisableInputHandler(void* handler)
         return;
 
     ih = cast(IHPtr)handler;
-    ih.enabled = FALSE;
+    ih.enabled = False;
     if (ih.fd >= 0)
         RemoveNotifyFd(ih.fd);
 }
@@ -672,7 +671,7 @@ private void _xf86DisableGeneralHandler(void* handler)
         return;
 
     ih = cast(IHPtr)handler;
-    ih.enabled = FALSE;
+    ih.enabled = False;
     if (ih.fd >= 0)
         RemoveNotifyFd(ih.fd);
 }
@@ -685,7 +684,7 @@ private void xf86EnableInputHandler(void* handler)
         return;
 
     ih = cast(IHPtr)handler;
-    ih.enabled = TRUE;
+    ih.enabled = True;
     if (ih.fd >= 0)
         SetNotifyFd(ih.fd, &xf86InputHandlerNotify, X_NOTIFY_READ, ih);
 }
@@ -698,7 +697,7 @@ private void _xf86EnableGeneralHandler(void* handler)
         return;
 
     ih = cast(IHPtr)handler;
-    ih.enabled = TRUE;
+    ih.enabled = True;
     if (ih.fd >= 0)
         SetNotifyFd(ih.fd, &xf86InputHandlerNotify, X_NOTIFY_READ, ih);
 }
@@ -712,6 +711,6 @@ Bool xf86VTOwner()
 {
     /* at system startup xf86Screens[0] won't be set - but we will own the VT */
     if (xf86NumScreens == 0)
-	return TRUE;
+	return True;
     return xf86Screens[0].vtSema;
 }

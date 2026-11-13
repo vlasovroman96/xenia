@@ -57,9 +57,11 @@ import build.dix_config;
 
 import core.stdc.string;
 
-import common.misc;
+import x11.Xmd;
 import set;
 import common.math;
+import x11.Xdefs;
+import core.stdc.stdlib;
 
 enum string RecordIsMemberOfSet(string _pSet, string _m) = `
 (*(`~_pSet~`).ops.IsMemberOfSet)((`~_pSet~`), (`~_m~`))`;
@@ -142,7 +144,7 @@ private c_ulong BitVectorIsMemberOfSet(RecordSetPtr pSet, int pm)
     c_ulong* pbitvec = void;
 
     if (cast(int) pm > pbvs.maxMember)
-        return FALSE;
+        return False;
     pbitvec = cast(c_ulong*) (&pbvs[1]);
     return (pbitvec[pm / BITS_PER_LONG] &
             (cast(c_ulong) 1 << (pm % BITS_PER_LONG)));
@@ -197,12 +199,12 @@ private RecordSetIteratePtr BitVectorIterateSet(RecordSetPtr pSet, RecordSetIter
     int iterbit = cast(int) cast(c_long) pIter;
     int b = void;
 
-    b = BitVectorFindBit(pSet, iterbit, TRUE);
+    b = BitVectorFindBit(pSet, iterbit, True);
     if (b == -1)
         return cast(RecordSetIteratePtr) 0;
     pInterval.first = cast(ushort)b;
 
-    b = BitVectorFindBit(pSet, b, FALSE);
+    b = BitVectorFindBit(pSet, b, False);
     pInterval.last = cast(ushort)((b < 0) ? (cast(BitVectorSetPtr) pSet).maxMember : b - 1);
     return cast(RecordSetIteratePtr)(pInterval.last + 1);
 }

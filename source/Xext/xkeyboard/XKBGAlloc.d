@@ -185,7 +185,7 @@ private void _XkbClearOutline(char* outline_in)
     XkbOutlinePtr outline = cast(XkbOutlinePtr) outline_in;
 
     if (outline.points !is null)
-        XkbFreeGeomPoints(outline, 0, outline.num_points, TRUE);
+        XkbFreeGeomPoints(outline, 0, outline.num_points, True);
     return;
 }
 
@@ -206,7 +206,7 @@ private void _XkbClearShape(char* shape_in)
     XkbShapePtr shape = cast(XkbShapePtr) shape_in;
 
     if (shape.outlines)
-        XkbFreeGeomOutlines(shape, 0, shape.num_outlines, TRUE);
+        XkbFreeGeomOutlines(shape, 0, shape.num_outlines, True);
     return;
 }
 
@@ -236,7 +236,7 @@ private void _XkbClearRow(char* row_in)
     XkbRowPtr row = cast(XkbRowPtr) row_in;
 
     if (row.keys !is null)
-        XkbFreeGeomKeys(row, 0, row.num_keys, TRUE);
+        XkbFreeGeomKeys(row, 0, row.num_keys, True);
     return;
 }
 
@@ -255,9 +255,9 @@ private void _XkbClearSection(char* section_in)
     XkbSectionPtr section = cast(XkbSectionPtr) section_in;
 
     if (section.rows !is null)
-        XkbFreeGeomRows(section, 0, section.num_rows, TRUE);
+        XkbFreeGeomRows(section, 0, section.num_rows, True);
     if (section.doodads !is null) {
-        XkbFreeGeomDoodads(section.doodads, section.num_doodads, TRUE);
+        XkbFreeGeomDoodads(section.doodads, section.num_doodads, True);
         section.doodads = null;
     }
     return;
@@ -319,20 +319,20 @@ void XkbFreeGeometry(XkbGeometryPtr geom, uint which, Bool freeMap)
     if (freeMap)
         which = XkbGeomAllMask;
     if ((which & XkbGeomPropertiesMask) && (geom.properties !is null))
-        XkbFreeGeomProperties(geom, 0, geom.num_properties, TRUE);
+        XkbFreeGeomProperties(geom, 0, geom.num_properties, True);
     if ((which & XkbGeomColorsMask) && (geom.colors !is null))
-        XkbFreeGeomColors(geom, 0, geom.num_colors, TRUE);
+        XkbFreeGeomColors(geom, 0, geom.num_colors, True);
     if ((which & XkbGeomShapesMask) && (geom.shapes !is null))
-        XkbFreeGeomShapes(geom, 0, geom.num_shapes, TRUE);
+        XkbFreeGeomShapes(geom, 0, geom.num_shapes, True);
     if ((which & XkbGeomSectionsMask) && (geom.sections !is null))
-        XkbFreeGeomSections(geom, 0, geom.num_sections, TRUE);
+        XkbFreeGeomSections(geom, 0, geom.num_sections, True);
     if ((which & XkbGeomDoodadsMask) && (geom.doodads !is null)) {
-        XkbFreeGeomDoodads(geom.doodads, geom.num_doodads, TRUE);
+        XkbFreeGeomDoodads(geom.doodads, geom.num_doodads, True);
         geom.doodads = null;
         geom.num_doodads = geom.sz_doodads = 0;
     }
     if ((which & XkbGeomKeyAliasesMask) && (geom.key_aliases !is null))
-        XkbFreeGeomKeyAliases(geom, 0, geom.num_key_aliases, TRUE);
+        XkbFreeGeomKeyAliases(geom, 0, geom.num_key_aliases, True);
     if (freeMap) {
         free(geom.label_font);
         geom.label_font = null;
@@ -355,7 +355,7 @@ void XkbFreeGeometry(XkbGeometryPtr geom, uint which, Bool freeMap)
  *
  * @see _XkbGeomAlloc
  *
- * @return TRUE if reallocation succeeded. Otherwise FALSE is returned
+ * @return True if reallocation succeeded. Otherwise False is returned
  *         and contents of "buffer" aren't touched.
  */
 Bool XkbGeomRealloc(void** buffer, int szItems, int nrItems, int itemSize, XkbGeomClearance clearance)
@@ -365,14 +365,14 @@ Bool XkbGeomRealloc(void** buffer, int szItems, int nrItems, int itemSize, XkbGe
 
     /* Check validity of arguments. */
     if (!buffer)
-        return FALSE;
+        return False;
     items = *buffer;
     if (!((items && (szItems > 0)) || (!items && !szItems)))
-        return FALSE;
+        return False;
     /* Check if there is need to resize. */
     if (nrItems != szItems)
         if (((items = reallocarray(items, nrItems, itemSize)) is null))
-            return FALSE;
+            return False;
     /* Clear specified items to zero. */
     switch (clearance) {
     case XKB_GEOM_CLEAR_EXCESS:
@@ -390,7 +390,7 @@ Bool XkbGeomRealloc(void** buffer, int szItems, int nrItems, int itemSize, XkbGe
         memset(cast(char*) items + (clearBegin * itemSize), 0,
                (nrItems - clearBegin) * itemSize);
     *buffer = items;
-    return TRUE;
+    return True;
 }
 
 private Status _XkbGeomAlloc(void** old, ushort* num, ushort* total, int num_new, size_t sz_elem)
@@ -494,7 +494,7 @@ Status XkbAllocGeometry(XkbDescPtr xkb, XkbGeometrySizesPtr sizes)
     }
     return Success;
  BAIL:
-    XkbFreeGeometry(geom, XkbGeomAllMask, TRUE);
+    XkbFreeGeometry(geom, XkbGeomAllMask, True);
     xkb.geom = null;
     return rtrn;
 }
@@ -749,9 +749,9 @@ XkbOverlayKeyPtr XkbAddGeomOverlayKey(XkbOverlayPtr overlay, XkbOverlayRowPtr ro
     if (row.row_under >= section.num_rows)
         return null;
     row_under = &section.rows[row.row_under];
-    for (i = 0, found = FALSE; i < row_under.num_keys; i++) {
+    for (i = 0, found = False; i < row_under.num_keys; i++) {
         if (strncmp(under, row_under.keys[i].name.name.ptr, XkbKeyNameLength) == 0) {
-            found = TRUE;
+            found = True;
             break;
         }
     }

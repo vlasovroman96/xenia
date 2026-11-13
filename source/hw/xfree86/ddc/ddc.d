@@ -87,10 +87,10 @@ alias DDCOPT_NODDC = DDCOpts.DDCOPT_NODDC;
 
 
 private const(OptionInfoRec)[5] DDCOptions = [
-    {DDCOPT_NODDC1, "NoDDC1", OPTV_BOOLEAN, {0}, FALSE},
-    {DDCOPT_NODDC2, "NoDDC2", OPTV_BOOLEAN, {0}, FALSE},
-    {DDCOPT_NODDC, "NoDDC", OPTV_BOOLEAN, {0}, FALSE},
-    {-1, null, OPTV_NONE, {0}, FALSE},
+    {DDCOPT_NODDC1, "NoDDC1", OPTV_BOOLEAN, {0}, False},
+    {DDCOPT_NODDC2, "NoDDC2", OPTV_BOOLEAN, {0}, False},
+    {DDCOPT_NODDC, "NoDDC", OPTV_BOOLEAN, {0}, False},
+    {-1, null, OPTV_NONE, {0}, False},
 ];
 
 /* DDC1 */
@@ -315,7 +315,7 @@ xf86MonPtr xf86DoEDID_DDC1(ScrnInfoPtr pScrn, DDC1SetSpeedProc DDC1SetSpeed, uin
     xf86MonPtr tmp = null;
 
     /* Default DDC and DDC1 to enabled. */
-    Bool noddc = FALSE, noddc1 = FALSE;
+    Bool noddc = False, noddc1 = False;
     OptionInfoPtr options = void;
 
     options = cast(_OptionInfoRec*)XNFalloc(DDCOptions.sizeof);
@@ -410,7 +410,7 @@ private Bool DDC2Read(I2CDevPtr dev, int block, ubyte* R_Buffer)
             Bool b = void;
 
             if (((seg = xf86I2CFindDev(dev.pI2CBus, 0x0060)) is null))
-                return FALSE;
+                return False;
 
             W_Buffer[0] = cast(ubyte)segment;
 
@@ -430,11 +430,11 @@ private Bool DDC2Read(I2CDevPtr dev, int block, ubyte* R_Buffer)
 
         if (xf86I2CWriteRead(dev, W_Buffer.ptr, 1, R_Buffer, EDID1_LEN)) {
             if (!DDC_checksum(R_Buffer, EDID1_LEN))
-                return TRUE;
+                return True;
         }
     }
 
-    return FALSE;
+    return False;
 }
 
 /**
@@ -442,7 +442,7 @@ private Bool DDC2Read(I2CDevPtr dev, int block, ubyte* R_Buffer)
  * unset.  EDID information blocks are interpreted and the results returned in
  * an xf86MonPtr.  Unlike xf86DoEDID_DDC[12](), this function will return
  * the complete EDID data, including all extension blocks, if the 'complete'
- * parameter is TRUE;
+ * parameter is True;
  *
  * This function does not affect the list of modes used by drivers -- it is up
  * to the driver to decide policy on what to do with EDID information.
@@ -457,7 +457,7 @@ xf86MonPtr xf86DoEEDID(ScrnInfoPtr pScrn, I2CBusPtr pBus, Bool complete)
     I2CDevPtr dev = null;
 
     /* Default DDC and DDC2 to enabled. */
-    Bool noddc = FALSE, noddc2 = FALSE;
+    Bool noddc = False, noddc2 = False;
     OptionInfoPtr options = cast(OptionInfoPtr) calloc(1, DDCOptions.sizeof);
     if (!options)
         return null;
@@ -510,5 +510,5 @@ xf86MonPtr xf86DoEEDID(ScrnInfoPtr pScrn, I2CBusPtr pBus, Bool complete)
  */
 xf86MonPtr xf86DoEDID_DDC2(ScrnInfoPtr pScrn, I2CBusPtr pBus)
 {
-    return xf86DoEEDID(pScrn, pBus, FALSE);
+    return xf86DoEEDID(pScrn, pBus, False);
 }

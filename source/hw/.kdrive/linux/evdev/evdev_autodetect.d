@@ -212,7 +212,7 @@ private Bool ReadEvdev(EventDevice* dst, FILE* f)
 
         if (getline(&line, &unused, f) < 0) {
             free(line);
-            return FALSE;
+            return False;
         }
         end = strchr(line, '\n');
         if (end) {
@@ -221,8 +221,8 @@ private Bool ReadEvdev(EventDevice* dst, FILE* f)
 
         if (line[0] == '\0') {
             free(line);
-            dst.is_read = TRUE;
-            return TRUE;
+            dst.is_read = True;
+            return True;
         }
 
         if (line[1] != ':'  ||
@@ -272,10 +272,10 @@ pragma(inline, true) private Bool EvdevIsPtr(EventDevice* dev)
 private Bool EvdevDifferentDevices(EventDevice* a, EventDevice* b)
 {
 enum string IS_DIFFERENT(string x, string y) = `(cast(x) && cast(y) && (` ~ x ~ `) != (` ~ y ~ `))`;
-enum string IS_DIFF(string f) = `if (` ~ IS_DIFFERENT!(`a.` ~ f ~ ``, `b.` ~ f ~ ``) ~ `) { return TRUE; }`;
+enum string IS_DIFF(string f) = `if (` ~ IS_DIFFERENT!(`a.` ~ f ~ ``, `b.` ~ f ~ ``) ~ `) { return True; }`;
 
     if (!a.is_read || !b.is_read) {
-        return TRUE;
+        return True;
     }
 
     mixin(IS_DIFF!(`Uniq`));
@@ -286,10 +286,10 @@ enum string IS_DIFF(string f) = `if (` ~ IS_DIFFERENT!(`a.` ~ f ~ ``, `b.` ~ f ~
     mixin(IS_DIFF!(`info.Version`));
 
     if (a.Phys[0] && b.Phys[0] && strcmp(a.Phys, b.Phys)) {
-        return TRUE;
+        return True;
     }
 
-    return FALSE;
+    return False;
 }
 
 private char* EvdevDefaultDevice(char** name, int type)

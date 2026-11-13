@@ -60,7 +60,6 @@ import xf86Config;
 import xf86Parser_priv;
 import xf86tokens;
 import Configint;
-import common.misc;
 import xf86Parser_priv;
 import xf86tokens;
 import Configint;
@@ -98,13 +97,13 @@ alias CLEANUP = xf86freeConfig;
 private int xf86validateConfig(XF86ConfigPtr p)
 {
     if (!xf86validateScreen(p))
-        return FALSE;
+        return False;
     if (!xf86validateInput(p))
-        return FALSE;
+        return False;
     if (!xf86validateLayout(p))
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 XF86ConfigPtr xf86readConfigFile()

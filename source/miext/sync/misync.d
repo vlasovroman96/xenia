@@ -50,12 +50,12 @@ void miSyncScreenDestroyFence(ScreenPtr pScreen, SyncFence* pFence)
 /* Default implementations of the per-object functions */
 void miSyncFenceSetTriggered(SyncFence* pFence)
 {
-    pFence.triggered = TRUE;
+    pFence.triggered = True;
 }
 
 void miSyncFenceReset(SyncFence* pFence)
 {
-    pFence.triggered = FALSE;
+    pFence.triggered = False;
 }
 
 Bool miSyncFenceCheckTriggered(SyncFence* pFence)
@@ -95,12 +95,12 @@ void miSyncInitFence(ScreenPtr pScreen, SyncFence* pFence, Bool initially_trigge
 
     pScreenPriv.funcs.CreateFence(pScreen, pFence, initially_triggered);
 
-    pFence.sync.initialized = TRUE;
+    pFence.sync.initialized = True;
 }
 
 void miSyncDestroyFence(SyncFence* pFence)
 {
-    pFence.sync.beingDestroyed = TRUE;
+    pFence.sync.beingDestroyed = True;
 
     if (pFence.sync.initialized) {
         ScreenPtr pScreen = pFence.pScreen;
@@ -129,11 +129,11 @@ void miSyncTriggerFence(SyncFence* pFence)
 
     /* run through triggers to see if any fired */
     do {
-        triggered = FALSE;
+        triggered = False;
         for (ptl = pFence.sync.pTriglist; ptl; ptl = ptl.next) {
             if ((*ptl.pTrigger.CheckTrigger) (ptl.pTrigger, 0)) {
                 (*ptl.pTrigger.TriggerFired) (ptl.pTrigger);
-                triggered = TRUE;
+                triggered = True;
                 break;
             }
         }
@@ -159,7 +159,7 @@ Bool miSyncSetup(ScreenPtr pScreen)
     if (!dixPrivateKeyRegistered(&miSyncScreenPrivateKey)) {
         if (!dixRegisterPrivateKey(&miSyncScreenPrivateKey, PRIVATE_SCREEN,
                                    SyncScreenPrivRec.sizeof))
-            return FALSE;
+            return False;
     }
 
     pScreenPriv = mixin(SYNC_SCREEN_PRIV!("pScreen"));
@@ -168,5 +168,5 @@ Bool miSyncSetup(ScreenPtr pScreen)
         pScreenPriv.funcs = miSyncScreenFuncs;
     }
 
-    return TRUE;
+    return True;
 }

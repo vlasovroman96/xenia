@@ -32,7 +32,7 @@ import glamor.glamor;
 import fb.fbutil;
 import glamor.glamor_pixmap;
 import fb.fb;
-
+import common.bools;
 
 /*
  * PutImage. Only does ZPixmap right now as other formats are quite a bit harder

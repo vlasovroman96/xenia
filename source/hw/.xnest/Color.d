@@ -65,7 +65,7 @@ private Bool load_colormap(ColormapPtr pCmap, int ncolors, uint* colors)
     if (!reply) {
         LogMessage(X_WARNING, "load_colormap(): missing reply for QueryColors request\n");
         free(colors);
-        return FALSE;
+        return False;
     }
 
     if (xcb_query_colors_colors_length(reply) != ncolors) {
@@ -73,7 +73,7 @@ private Bool load_colormap(ColormapPtr pCmap, int ncolors, uint* colors)
             xcb_query_colors_colors_length(reply), ncolors);
         free(reply);
         free(colors);
-        return FALSE;
+        return False;
     }
 
     xcb_rgb_t* rgb = xcb_query_colors_colors(reply);
@@ -85,7 +85,7 @@ private Bool load_colormap(ColormapPtr pCmap, int ncolors, uint* colors)
 
     free(colors);
     free(reply);
-    return TRUE;
+    return True;
 }
 
 Bool xnestCreateColormap(ColormapPtr pCmap)
@@ -146,7 +146,7 @@ Bool xnestCreateColormap(ColormapPtr pCmap)
         break;
     default: break;}
 
-    return TRUE;
+    return True;
 }
 
 void xnestDestroyColormap(ColormapPtr pCmap)
@@ -191,19 +191,19 @@ private int xnestNumOldInstalledColormapWindows = 0;
 private Bool xnestSameInstalledColormapWindows(xcb_window_t* windows, int numWindows)
 {
     if (xnestNumOldInstalledColormapWindows != numWindows)
-        return FALSE;
+        return False;
 
     if (xnestOldInstalledColormapWindows == windows)
-        return TRUE;
+        return True;
 
     if (xnestOldInstalledColormapWindows is null || windows is null)
-        return FALSE;
+        return False;
 
     if (memcmp(xnestOldInstalledColormapWindows, windows,
                numWindows * xcb_window_t.sizeof))
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 void xnestSetInstalledColormapWindows(ScreenPtr pScreen)
@@ -363,7 +363,7 @@ void xnestUninstallColormap(ColormapPtr pCmap)
     }
 }
 
-private Bool xnestInstalledDefaultColormap = FALSE;
+private Bool xnestInstalledDefaultColormap = False;
 
 int xnestListInstalledColormaps(ScreenPtr pScreen, Colormap* pCmapIDs)
 {
@@ -436,7 +436,7 @@ Bool xnestCreateDefaultColormap(ScreenPtr pScreen)
     Pixel wp = void, bp = void;
 
     if (!dixRegisterPrivateKey(&cmapScrPrivateKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
 
     for (pVisual = pScreen.visuals;
          pVisual.vid != pScreen.rootVisual; pVisual++){}
@@ -445,19 +445,19 @@ Bool xnestCreateDefaultColormap(ScreenPtr pScreen)
                        (pVisual.class_ & DynamicClass) ? AllocNone : AllocAll,
                        serverClient)
         != Success)
-        return FALSE;
+        return False;
 
     wp = pScreen.whitePixel;
     bp = pScreen.blackPixel;
     if ((AllocColor(pCmap, &ones, &ones, &ones, &wp, 0) !=
          Success) ||
         (AllocColor(pCmap, &zero, &zero, &zero, &bp, 0) != Success))
-        return FALSE;
+        return False;
     pScreen.whitePixel = wp;
     pScreen.blackPixel = bp;
     (*pScreen.InstallColormap) (pCmap);
 
-    xnestInstalledDefaultColormap = TRUE;
+    xnestInstalledDefaultColormap = True;
 
-    return TRUE;
+    return True;
 }

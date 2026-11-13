@@ -53,7 +53,7 @@ enum FbDashDeclare =
     "ubyte*       __dash, __firstDash, __lastDash;";
 
 enum string FbDashInit(string pGC,string pPriv,string dashOffset,string dashlen,string even) = `{     
-    (` ~ even ~ `) = TRUE;                                          
+    (` ~ even ~ `) = True;                                          
     __firstDash = (` ~ pGC ~ `).dash;                              
     __lastDash = __firstDash + (` ~ pGC ~ `).numInDashList;        
     (` ~ dashOffset ~ `) %= (` ~ pPriv ~ `).dashLength;                    
@@ -348,7 +348,7 @@ void ARC(FbBits* dst, FbStride dstStride, int dstBpp, xArc* arc, int drawX, int 
     bitsStride = dstStride * (FbBits.sizeof / UNIT.sizeof);
     andBits = cast(BITS) and;
     xorBits = cast(BITS) xor;
-    do360 = miZeroArcSetup(arc, &info, TRUE);
+    do360 = miZeroArcSetup(arc, &info, True);
     yorgp = bits + ((info.yorg + drawY) * bitsStride);
     yorgop = bits + ((info.yorgo + drawY) * bitsStride);
     info.xorg = (info.xorg + drawX);

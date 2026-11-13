@@ -80,12 +80,12 @@ private Bool XdmAuthenticationValidator(ARRAY8Ptr privateData, ARRAY8Ptr incomin
                 incomingData.data, incomingData.length);
     if (packet_type == ACCEPT) {
         if (incomingData.length != 8)
-            return FALSE;
+            return False;
         incoming = cast(XdmAuthKeyPtr) incomingData.data;
         XdmcpDecrementKey(incoming);
         return XdmcpCompareKeys(incoming, &global_rho);
     }
-    return FALSE;
+    return False;
 }
 
 private Bool XdmAuthenticationGenerator(ARRAY8Ptr privateData, ARRAY8Ptr outgoingData, xdmOpCode packet_type)
@@ -97,7 +97,7 @@ private Bool XdmAuthenticationGenerator(ARRAY8Ptr privateData, ARRAY8Ptr outgoin
             XdmcpWrap(cast(ubyte*) &global_rho, cast(ubyte*) &privateKey,
                       outgoingData.data, 8);
     }
-    return TRUE;
+    return True;
 }
 
 private Bool XdmAuthenticationAddAuth(int name_len, const(char)* name, int data_len, char* data)
@@ -106,9 +106,9 @@ private Bool XdmAuthenticationAddAuth(int name_len, const(char)* name, int data_
 
     XdmcpUnwrap(cast(ubyte*) data, cast(ubyte*) &privateKey,
                 cast(ubyte*) data, data_len);
-    authFromXDMCP = TRUE;
+    authFromXDMCP = True;
     ret = AddAuthorization(name_len, name, data_len, data);
-    authFromXDMCP = FALSE;
+    authFromXDMCP = False;
     return ret;
 }
 
@@ -192,10 +192,10 @@ private Bool XdmClientAuthCompare(const(XdmClientAuthPtr) a, const(XdmClientAuth
     int i = void;
 
     if (!XdmcpCompareKeys(&a.rho, &b.rho))
-        return FALSE;
+        return False;
     for (i = 0; i < 6; i++)
         if (a.client[i] != b.client[i])
-            return FALSE;
+            return False;
     return a.time == b.time;
 }
 
@@ -289,7 +289,7 @@ private XdmClientAuthPtr XdmAuthorizationValidate(ubyte* plain, int length, XdmA
     now = time(0);
     if (!gotClock) {
         clockOffset = client.time - now;
-        gotClock = TRUE;
+        gotClock = True;
     }
     now += clockOffset;
     XdmClientAuthTimeout(now);

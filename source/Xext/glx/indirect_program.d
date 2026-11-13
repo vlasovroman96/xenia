@@ -62,7 +62,7 @@ import Xext.glx.fix;
  import core.stdc.config: c_long, c_ulong;
  import os.io;
 import common.swap;
-
+import common.bools;
 
 /**
  * Handle both types of glGetProgramString calls.

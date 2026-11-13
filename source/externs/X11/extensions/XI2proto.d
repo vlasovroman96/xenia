@@ -137,7 +137,7 @@ struct xXIDeviceInfo {
     ushort attachment;     /**< Current attachment or pairing.*/
     ushort num_classes;    /**< Number of classes following this struct. */
     ushort name_len;       /**< Length of name in bytes. */
-    ubyte enabled;        /**< TRUE if device is enabled. */
+    ubyte enabled;        /**< True if device is enabled. */
     ubyte pad;
 }
 
@@ -879,7 +879,7 @@ struct xXIHierarchyInfo {
                                              ::XISlaveKeyboard,
                                              ::XISlavePointer,
                                              ::XIFloatingSlave */
-    BOOL enabled;                /**< TRUE if the device is enabled */
+    BOOL enabled;                /**< True if the device is enabled */
     ushort pad;
     uint flags;                  /**< ::XIMasterAdded, ::XIMasterRemoved,
                                              ::XISlaveAttached, ::XISlaveDetached,

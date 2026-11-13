@@ -760,13 +760,13 @@ Bool InitClientResources(ClientPtr client)
         free(resourceTypes);
         resourceTypes = cast(ResourceType*) calloc(1, predefTypes.sizeof);
         if (!resourceTypes)
-            return FALSE;
+            return False;
         memcpy(resourceTypes, predefTypes.ptr, predefTypes.sizeof);
     }
     clientTable[i = client.index].resources =
         cast(_Resource**)calloc(INITBUCKETS, ResourcePtr.sizeof);
     if (!clientTable[i].resources)
-        return FALSE;
+        return False;
     clientTable[i].buckets = INITBUCKETS;
     clientTable[i].elements = 0;
     clientTable[i].hashsize = INITHASHSIZE;
@@ -781,7 +781,7 @@ Bool InitClientResources(ClientPtr client)
     for (int j = 0; j < INITBUCKETS; j++) {
         clientTable[i].resources[j] = null;
     }
-    return TRUE;
+    return True;
 }
 
 int HashResourceID(XID id, uint numBits)
@@ -904,7 +904,7 @@ XID FakeClientID(int client)
 
     if (id != clientTable[client].endFakeID)
         return id;
-    GetXIDRange(client, TRUE, &id, &maxid);
+    GetXIDRange(client, True, &id, &maxid);
     if (!id) {
         if (!client)
             FatalError("FakeClientID: server internal ids exhausted\n");
@@ -943,7 +943,7 @@ version (XSERVER_DTRACE) {
     ResourcePtr res = cast(ResourceRec*) calloc(1, ResourceRec.sizeof);
     if (!res) {
         (*resourceTypes[type & TypeMask].deleteFunc) (value, id);
-        return FALSE;
+        return False;
     }
     res.next = *head;
     res.id = id;
@@ -952,7 +952,7 @@ version (XSERVER_DTRACE) {
     *head = res;
     rrec.elements++;
     CallResourceStateCallback(ResourceStateAdding, res);
-    return TRUE;
+    return True;
 }
 
 private void RebuildTable(int client)
@@ -1084,10 +1084,10 @@ Bool ChangeResourceValue(XID id, RESTYPE rtype, void* value)
             res; res = res.next)
             if ((res.id == id) && (res.type == rtype)) {
                 res.value = value;
-                return TRUE;
+                return True;
             }
     }
-    return FALSE;
+    return False;
 }
 
 /* Note: if func adds or deletes resources, then func can get called
@@ -1198,7 +1198,7 @@ version (XSERVER_DTRACE) {
                 clientTable[client.index].elements--;
                 elements = *eltptr;
 
-                doFreeResource(this_, FALSE);
+                doFreeResource(this_, False);
 
                 if (*eltptr != elements)
                     prev = &resources[j];       /* prev may no longer be valid */
@@ -1244,7 +1244,7 @@ version (XSERVER_DTRACE) {
             *head = this_.next;
             clientTable[client.index].elements--;
 
-            doFreeResource(this_, FALSE);
+            doFreeResource(this_, False);
         }
     }
     free(clientTable[client.index].resources);
@@ -1273,7 +1273,7 @@ static if(XINERAMA){
                                         SERVER_BIT : SERVER_MINID);
         maxid = (clientTable[client.index].fakeID | RESOURCE_ID_MASK) + 1;
         if ((id >= minid) && (id <= maxid))
-            return TRUE;
+            return True;
     }
 } /* XINERAMA */
     if (client.clientAsMask == (id & ~RESOURCE_ID_MASK)) {
@@ -1281,7 +1281,7 @@ static if(XINERAMA){
                                       DixGetAttrAccess);
         return rc == BadValue;
     }
-    return FALSE;
+    return False;
 }
 
 int dixLookupResourceByType(void** result, XID id, RESTYPE rtype, ClientPtr client, Mask mode)

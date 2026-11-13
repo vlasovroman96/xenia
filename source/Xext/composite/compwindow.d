@@ -126,7 +126,7 @@ private Bool compRepaintBorder(ClientPtr pClient, void* closure)
         pWindow.drawable.pScreen.PaintWindow(pWindow, &exposed, PW_BORDER);
         RegionUninit(&exposed);
     }
-    return TRUE;
+    return True;
 }
 
 private int compSetPixmapVisitWindow(WindowPtr pWindow, void* data)
@@ -173,7 +173,7 @@ Bool compCheckRedirect(WindowPtr pWin)
     /* Never redirect the overlay window */
     if (cs.pOverlayWin !is null) {
         if (pWin == cs.pOverlayWin) {
-            should = FALSE;
+            should = False;
         }
     }
 
@@ -195,7 +195,7 @@ Bool compCheckRedirect(WindowPtr pWin)
         else
             pWin.redirectDraw = RedirectDrawManual;
     }
-    return TRUE;
+    return True;
 }
 
 private int updateOverlayWindow(ScreenPtr pScreen)
@@ -263,12 +263,12 @@ Bool compRealizeWindow(WindowPtr pWin)
 {
     ScreenPtr pScreen = pWin.drawable.pScreen;
     CompScreenPtr cs = mixin(GetCompScreen!("pScreen"));
-    Bool ret = TRUE;
+    Bool ret = True;
 
     pScreen.RealizeWindow = cs.RealizeWindow;
     compCheckRedirect(pWin);
     if (!(*pScreen.RealizeWindow) (pWin))
-        ret = FALSE;
+        ret = False;
     cs.RealizeWindow = pScreen.RealizeWindow;
     pScreen.RealizeWindow = &compRealizeWindow;
     //compCheckTree(pWin.drawable.pScreen);
@@ -279,12 +279,12 @@ Bool compUnrealizeWindow(WindowPtr pWin)
 {
     ScreenPtr pScreen = pWin.drawable.pScreen;
     CompScreenPtr cs = mixin(GetCompScreen!("pScreen"));
-    Bool ret = TRUE;
+    Bool ret = True;
 
     pScreen.UnrealizeWindow = cs.UnrealizeWindow;
     compCheckRedirect(pWin);
     if (!(*pScreen.UnrealizeWindow) (pWin))
-        ret = FALSE;
+        ret = False;
     cs.UnrealizeWindow = pScreen.UnrealizeWindow;
     pScreen.UnrealizeWindow = &compUnrealizeWindow;
     //compCheckTree(pWin.drawable.pScreen);
@@ -326,8 +326,8 @@ Bool compIsAlternateVisual(ScreenPtr pScreen, XID visual)
 
     for (int i = 0; cs && i < cs.numAlternateVisuals; i++)
         if (cs.alternateVisuals[i] == visual)
-            return TRUE;
-    return FALSE;
+            return True;
+    return False;
 }
 
 Bool CompositeIsImplicitRedirectException(ScreenPtr pScreen, XID parentVisual, XID winVisual)
@@ -337,9 +337,9 @@ Bool CompositeIsImplicitRedirectException(ScreenPtr pScreen, XID parentVisual, X
     for (int i = 0; i < cs.numImplicitRedirectExceptions; i++)
         if (cs.implicitRedirectExceptions[i].parentVisual == parentVisual &&
             cs.implicitRedirectExceptions[i].winVisual == winVisual)
-            return TRUE;
+            return True;
 
-    return FALSE;
+    return False;
 }
 
 private Bool compImplicitRedirect(WindowPtr pWin, WindowPtr pParent)
@@ -350,14 +350,14 @@ private Bool compImplicitRedirect(WindowPtr pWin, WindowPtr pParent)
         XID parentVisual = mixin(wVisual!("pParent"));
 
         if (CompositeIsImplicitRedirectException(pScreen, parentVisual, winVisual))
-            return FALSE;
+            return False;
 
         if (winVisual != parentVisual &&
             (compIsAlternateVisual(pScreen, winVisual) ||
              compIsAlternateVisual(pScreen, parentVisual)))
-            return TRUE;
+            return True;
     }
-    return FALSE;
+    return False;
 }
 
 private void compFreeOldPixmap(WindowPtr pWin)
@@ -703,7 +703,7 @@ private void compPaintWindowToParent(WindowPtr pWin)
 
         if (cw.damaged) {
             compWindowUpdateAutomatic(pWin);
-            cw.damaged = FALSE;
+            cw.damaged = False;
         }
     }
 }
@@ -716,7 +716,7 @@ void compPaintChildrenToWindow(WindowPtr pWin)
     for (WindowPtr pChild = pWin.lastChild; pChild; pChild = pChild.prevSib)
         compPaintWindowToParent(pChild);
 
-    pWin.damagedDescendants = FALSE;
+    pWin.damagedDescendants = False;
 }
 
 WindowPtr CompositeRealChildHead(WindowPtr pWin)
@@ -779,7 +779,7 @@ int compConfigNotify(WindowPtr pWin, int x, int y, int w, int h, int bw, WindowP
     draw_y = pParent.drawable.y + y + bw;
     alloc_ret = compReallocPixmap(pWin, draw_x, draw_y, w, h, bw);
 
-    if (alloc_ret == FALSE)
+    if (alloc_ret == False)
         return BadAlloc;
     return Success;
 }

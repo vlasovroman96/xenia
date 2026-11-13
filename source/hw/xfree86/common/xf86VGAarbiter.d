@@ -119,15 +119,15 @@ Bool xf86VGAarbiterAllowDRI(ScreenPtr pScreen)
     ScrnInfoPtr pScrn = xf86ScreenToScrn(pScreen);
 
     if (vga_no_arb)
-        return TRUE;
+        return True;
 
     pci_device_vgaarb_get_info(pScrn.vgaDev, &vga_count, &rsrc_decodes);
     if (vga_count > 1) {
         if (rsrc_decodes) {
-            return FALSE;
+            return False;
         }
     }
-    return TRUE;
+    return True;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -158,7 +158,7 @@ Bool xf86VGAarbiterWrapFunctions()
     int vga_count = void, i = void;
 
     if (vga_no_arb)
-        return FALSE;
+        return False;
 
     /*
      * we need to wrap the arbiter if we have more than
@@ -166,7 +166,7 @@ Bool xf86VGAarbiterWrapFunctions()
      */
     pci_device_vgaarb_get_info(null, &vga_count, null);
     if (vga_count < 2 || !xf86Screens)
-        return FALSE;
+        return False;
 
     LogMessageVerb(X_INFO, 1,
                    "Found %d VGA devices: arbiter wrapping enabled\n",
@@ -180,13 +180,13 @@ Bool xf86VGAarbiterWrapFunctions()
 
         if (!dixRegisterPrivateKey
             (&VGAarbiterGCKeyRec, PRIVATE_GC, VGAarbiterGCRec.sizeof))
-            return FALSE;
+            return False;
 
         if (!dixRegisterPrivateKey(&VGAarbiterScreenKeyRec, PRIVATE_SCREEN, 0))
-            return FALSE;
+            return False;
 
         if (((pScreenPriv = cast(VGAarbiterScreenRec*) calloc(1, VGAarbiterScreenRec.sizeof)) is null))
-            return FALSE;
+            return False;
 
         dixSetPrivate(&pScreen.devPrivates, &VGAarbiterScreenKeyRec, pScreenPriv);
 
@@ -218,7 +218,7 @@ Bool xf86VGAarbiterWrapFunctions()
         mixin(WRAP_SPRITE);
     }
 
-    return TRUE;
+    return True;
 }
 
 /* Screen funcs */

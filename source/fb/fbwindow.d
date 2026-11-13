@@ -39,27 +39,27 @@ Bool fbCreateWindow(WindowPtr pWin)
 {
     dixSetPrivate(&pWin.devPrivates, mixin(fbGetWinPrivateKey!("pWin")),
                   mixin(fbGetScreenPixmap!("pWin.drawable.pScreen")));
-    return TRUE;
+    return True;
 }
 
 Bool fbDestroyWindow(WindowPtr pWin)
 {
-    return TRUE;
+    return True;
 }
 
 Bool fbRealizeWindow(WindowPtr pWindow)
 {
-    return TRUE;
+    return True;
 }
 
 Bool fbPositionWindow(WindowPtr pWin, int x, int y)
 {
-    return TRUE;
+    return True;
 }
 
 Bool fbUnrealizeWindow(WindowPtr pWindow)
 {
-    return TRUE;
+    return True;
 }
 
 void fbCopyWindowProc(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC, BoxPtr pbox, int nbox, int dx, int dy, Bool reverse, Bool upsidedown, Pixel bitplane, void* closure)
@@ -134,10 +134,10 @@ Bool fbChangeWindowAttributes(WindowPtr pWin, c_ulong mask)
             fbFixupWindowPixmap(&pWin.drawable, &pWin.background.pixmap);
     }
     if (mask & CWBorderPixmap) {
-        if (pWin.borderIsPixel == FALSE)
+        if (pWin.borderIsPixel == False)
             fbFixupWindowPixmap(&pWin.drawable, &pWin.border.pixmap);
     }
-    return TRUE;
+    return True;
 }
 
 void fbFillRegionSolid(DrawablePtr pDrawable, RegionPtr pRegion, FbBits and, FbBits xor)

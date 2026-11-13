@@ -118,7 +118,7 @@ int miShapedWindowIn(RegionPtr universe, RegionPtr bounding, BoxPtr rect, int x,
 
     nbox = RegionNumRects(bounding);
     boundBox = RegionRects(bounding);
-    someIn = someOut = FALSE;
+    someIn = someOut = False;
     x1 = rect.x1;
     y1 = rect.y1;
     x2 = rect.x2;
@@ -144,12 +144,12 @@ int miShapedWindowIn(RegionPtr universe, RegionPtr bounding, BoxPtr rect, int x,
         case rgnIN:
             if (someOut)
                 return rgnPART;
-            someIn = TRUE;
+            someIn = True;
             break;
         case rgnOUT:
             if (someIn)
                 return rgnPART;
-            someOut = TRUE;
+            someOut = True;
             break;
         default:
             return rgnPART;
@@ -570,7 +570,7 @@ private RegionPtr getBorderClip(WindowPtr pWin)
          * When rebuilding clip lists after out of memory,
          * assume everything is busted.
          */
-        forward = TRUE;
+        forward = True;
         RegionCopy(&totalClip, &pParent.borderClip);
         RegionIntersect(&totalClip, &totalClip, &pParent.winSize);
 
@@ -588,7 +588,7 @@ private RegionPtr getBorderClip(WindowPtr pWin)
         if ((pChild.drawable.y < pParent.lastChild.drawable.y) ||
             ((pChild.drawable.y == pParent.lastChild.drawable.y) &&
              (pChild.drawable.x < pParent.lastChild.drawable.x))) {
-            forward = TRUE;
+            forward = True;
             for (pWin = pChild; pWin; pWin = pWin.nextSib) {
                 if (pWin.valdata) {
                     RegionAppend(&totalClip, getBorderClip(pWin));
@@ -598,7 +598,7 @@ private RegionPtr getBorderClip(WindowPtr pWin)
             }
         }
         else {
-            forward = FALSE;
+            forward = False;
             pWin = pParent.lastChild;
             while (1) {
                 if (pWin.valdata) {
@@ -621,7 +621,7 @@ private RegionPtr getBorderClip(WindowPtr pWin)
      * from the totalClip to clip any siblings below it.
      */
 
-    overlap = TRUE;
+    overlap = True;
     if (kind != VTStack) {
         RegionUnion(&totalClip, &totalClip, &pParent.clipList);
         if (viewvals > 1) {

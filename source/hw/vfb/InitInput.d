@@ -68,10 +68,10 @@ private int vfbKeybdProc(DeviceIntPtr pDevice, int onoff)
         InitKeyboardDeviceStruct(pDevice, null, null, null);
         break;
     case DEVICE_ON:
-        pDev.on = TRUE;
+        pDev.on = True;
         break;
     case DEVICE_OFF:
-        pDev.on = FALSE;
+        pDev.on = False;
         break;
     case DEVICE_CLOSE:
         break;
@@ -118,11 +118,11 @@ enum NAXES = 2;
         break;
 
     case DEVICE_ON:
-        pDev.on = TRUE;
+        pDev.on = True;
         break;
 
     case DEVICE_OFF:
-        pDev.on = FALSE;
+        pDev.on = False;
         break;
 
     case DEVICE_CLOSE:
@@ -137,8 +137,8 @@ void InitInput(int argc, char** argv)
     DeviceIntPtr p = void, k = void;
     Atom xiclass = void;
 
-    p = AddInputDevice(serverClient, &vfbMouseProc, TRUE);
-    k = AddInputDevice(serverClient, &vfbKeybdProc, TRUE);
+    p = AddInputDevice(serverClient, &vfbMouseProc, True);
+    k = AddInputDevice(serverClient, &vfbKeybdProc, True);
     xiclass = dixAddAtom(XI_MOUSE);
     AssignTypeAndName(p, xiclass, "Xvfb mouse");
     xiclass = dixAddAtom(XI_KEYBOARD);

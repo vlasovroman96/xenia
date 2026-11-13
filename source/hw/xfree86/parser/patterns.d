@@ -82,11 +82,11 @@ xf86MatchGroup* xf86createMatchGroup(const(char)* arg, xf86MatchMode pref_mode, 
 
     /* Pattern starting with '!' should NOT be matched */
     if (*str == NEG_FLAG) {
-        pattern.is_negated = TRUE;
+        pattern.is_negated = True;
         str++;
     }
     else
-        pattern.is_negated = FALSE;
+        pattern.is_negated = False;
 
     pattern.str = null;
     pattern.regex = null;
@@ -195,7 +195,7 @@ void xf86printMatchPattern(FILE* cf, const(xf86MatchPattern)* pattern, Bool not_
         fprintf(cf, "%c%s%c", REGEX_FLAG,
             pattern.str ? pattern.str : "(none)".ptr, REGEX_FLAG);
     else if (pattern.mode == MATCH_SUBSTRINGS_SEQUENCE) {
-        Bool after = FALSE;
+        Bool after = False;
         char* str = cast(char*)pattern.str;
         while (*str) {
             if (after)
@@ -203,7 +203,7 @@ void xf86printMatchPattern(FILE* cf, const(xf86MatchPattern)* pattern, Bool not_
             fprintf(cf, "%s", str);
             str += strlen(str);
             str++;
-            after = TRUE;
+            after = True;
         }
     }
     else

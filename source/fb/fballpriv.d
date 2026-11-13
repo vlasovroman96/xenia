@@ -46,16 +46,16 @@ Bool fbAllocatePrivates(ScreenPtr pScreen)
 
     if (!dixRegisterPrivateKey
         (&fbScreenPrivateKeyRec, PRIVATE_SCREEN, FbScreenPrivRec.sizeof))
-        return FALSE;
+        return False;
 
     pScrPriv = mixin(fbGetScreenPrivate!("pScreen"));
 
     if (!dixRegisterScreenSpecificPrivateKey (pScreen, &pScrPriv.gcPrivateKeyRec, PRIVATE_GC, FbGCPrivRec.sizeof))
-        return FALSE;
+        return False;
     if (!dixRegisterScreenSpecificPrivateKey (pScreen, &pScrPriv.winPrivateKeyRec, PRIVATE_WINDOW, 0))
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 import build.xorg_config;
 

@@ -15,7 +15,7 @@ import xf86platformBus_priv;
 
 // Bool xf86PlatformDeviceCheckBusID(xf86_platform_device* device, const(char)* busid)
 // {
-//     return FALSE;
+//     return False;
 // }
 
 // void xf86PlatformDeviceProbe(OdevAttributes* attribs)

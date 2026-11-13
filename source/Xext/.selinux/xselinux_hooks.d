@@ -724,7 +724,7 @@ private void SELinuxResource(CallbackListPtr* pcbl, void* unused, void* calldata
     if (access_mode & DixCreateAccess && rec.rtype == X11_RESTYPE_WINDOW) {
         rc = SELinuxDoCheck(subj, obj, class_, DixBlendAccess, &auditdata);
         if (rc != Success) {
-            (cast(WindowPtr) rec.res).forcedBG = TRUE;
+            (cast(WindowPtr) rec.res).forcedBG = True;
         }
     }
 }
@@ -839,7 +839,7 @@ private void SELinuxResourceState(CallbackListPtr* pcbl, void* unused, void* cal
         }
         rc = dixChangeWindowProperty(serverClient,
                                      pWin, atom_client_ctx, XA_STRING, 8,
-                                     PropModeReplace, strlen(ctx), ctx, FALSE);
+                                     PropModeReplace, strlen(ctx), ctx, False);
         if (rc != Success) {
             FatalError("SELinux: Failed to set label property on window!\n");
         }
@@ -859,7 +859,7 @@ private void SELinuxResourceState(CallbackListPtr* pcbl, void* unused, void* cal
         }
         rc = dixChangeWindowProperty(serverClient,
                                      pWin, atom_ctx, XA_STRING, 8,
-                                     PropModeReplace, strlen(ctx), ctx, FALSE);
+                                     PropModeReplace, strlen(ctx), ctx, False);
         if (rc != Success) {
             FatalError("SELinux: Failed to set label property on window!\n");
         }
@@ -907,7 +907,7 @@ void SELinuxFlaskInit()
 {
     selinux_opt avc_option = { AVC_OPT_SETENFORCE, cast(char*) 0 };
     char* ctx = void;
-    int ret = TRUE;
+    int ret = True;
 
     switch (selinuxEnforcingState) {
     case SELINUX_MODE_ENFORCING:

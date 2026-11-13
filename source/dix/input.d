@@ -73,7 +73,7 @@ enum DEFAULT_KEYBOARD_CLICK = 	0;
 enum DEFAULT_BELL =		50;
 enum DEFAULT_BELL_PITCH =	400;
 enum DEFAULT_BELL_DURATION =	100;
-enum DEFAULT_AUTOREPEAT =	TRUE;
+enum DEFAULT_AUTOREPEAT =	True;
 enum DEFAULT_AUTOREPEATS =	[
         0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
         0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,

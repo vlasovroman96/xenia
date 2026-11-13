@@ -30,7 +30,7 @@ Bool xf86Int10ExecSetup(xf86Int10InfoPtr pInt)
     VM86S.cpu_type = CPU_586;
     memset(&VM86S.int_revectored, 0xff, typeof(VM86S.int_revectored).sizeof);
     memset(&VM86S.int21_revectored, 0xff, typeof(VM86S.int21_revectored).sizeof);
-    return TRUE;
+    return True;
 }
 
 /* get the linear address */
@@ -207,7 +207,7 @@ private Bool vm86_GP_fault(xf86Int10InfoPtr pInt)
 
     case 0xf4:
         DebugF("hlt at %p\n", lina);
-        return FALSE;
+        return False;
 
     case 0x0f:
         xf86DrvMsg(pInt.pScrn.scrnIndex, X_ERROR,
@@ -223,9 +223,9 @@ private Bool vm86_GP_fault(xf86Int10InfoPtr pInt)
         stack_trace(pInt);
         dump_code(pInt);
         xf86DrvMsg(pInt.pScrn.scrnIndex, X_ERROR, "cannot continue\n");
-        return FALSE;
+        return False;
     }                           /* end of switch() */
-    return TRUE;
+    return True;
 }
 
 private int do_vm86(xf86Int10InfoPtr pInt)

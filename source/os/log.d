@@ -128,7 +128,7 @@ enum DEFAULT_LOG_FILE_VERBOSITY =	3;
 enum DEFAULT_SYSLOG_VERBOSITY =	0;
 
 private int logFileFd = -1;
-Bool xorgLogSync = FALSE;
+Bool xorgLogSync = False;
 int xorgLogVerbosity = DEFAULT_LOG_VERBOSITY;
 int xorgLogFileVerbosity = DEFAULT_LOG_FILE_VERBOSITY;
 // version (CONFIG_SYSLOG) {
@@ -139,7 +139,7 @@ int xorgLogFileVerbosity = DEFAULT_LOG_FILE_VERBOSITY;
 /* Buffer to information logged before the log file is opened. */
 private char* saveBuffer = null;
 private int bufferSize = 0, bufferUnused = 0, bufferPos = 0;
-private Bool needBuffer = TRUE;
+private Bool needBuffer = True;
 
 // version (OSX) {
 // private char[4096] __crashreporter_info_buff__ = 0;
@@ -358,7 +358,7 @@ const(char)* LogInit(const(char)* fname, const(char)* backup)
         saveBuffer = null;
         bufferSize = 0;
     }
-    needBuffer = FALSE;
+    needBuffer = False;
 
     initSyslog();
     return logFileName;
@@ -652,7 +652,7 @@ version (CONFIG_SYSLOG) {
  * of the inSignalContext global variable. */
 private void LogSWrite(int verb, const(char)* buf, size_t len, Bool end_line)
 {
-    static Bool newline = TRUE;
+    static Bool newline = True;
 
     LogSyslogWrite(verb, buf, len, end_line);
 
@@ -930,7 +930,7 @@ void FatalError(const(char)* f, ...)
 {
     va_list args = void;
     va_list args2 = void;
-    static Bool beenhere = FALSE;
+    static Bool beenhere = False;
 
     if (beenhere)
         ErrorF("\nFatalError re-entered, aborting\n");
@@ -959,7 +959,7 @@ version (OSX) {
         OsVendorFatalError(f, args2);
     core.stdc.stdarg.va_end(args2);
     if (!beenhere) {
-        beenhere = TRUE;
+        beenhere = True;
         AbortServer();
     }
     else

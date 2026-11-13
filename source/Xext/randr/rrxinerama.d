@@ -118,7 +118,7 @@ enum RR_XINERAMA_SCREEN =  0;
 
 
 
-// Bool noRRXineramaExtension = FALSE;
+// Bool noRRXineramaExtension = False;
 
 /* Proc */
 
@@ -149,7 +149,7 @@ int ProcRRXineramaGetState(ClientPtr client)
     int rc = void;
     ScreenPtr pScreen = void;
     rrScrPrivPtr pScrPriv = void;
-    Bool active = FALSE;
+    Bool active = False;
 
     rc = dixLookupWindow(&pWin, stuff.window, client, DixGetAttrAccess);
     if (rc != Success)
@@ -159,7 +159,7 @@ int ProcRRXineramaGetState(ClientPtr client)
     pScrPriv = mixin(rrGetScrPriv!("pScreen"));
     if (pScrPriv) {
         /* XXX do we need more than this? */
-        active = TRUE;
+        active = True;
     }
 
     xPanoramiXGetStateReply reply = {
@@ -266,12 +266,12 @@ int ProcRRXineramaQueryScreens(ClientPtr client)
     mixin(REQUEST_AT_LEAST_SIZE!xXineramaQueryScreensReq);
 
     if (RRXineramaScreenActive(pScreen)) {
-        RRGetInfo(pScreen, FALSE);
-        if (!RRMonitorMakeList(pScreen, TRUE, &monitors, &nmonitors))
+        RRGetInfo(pScreen, False);
+        if (!RRMonitorMakeList(pScreen, True, &monitors, &nmonitors))
             return BadAlloc;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     xXineramaQueryScreensReply reply = {
         number: nmonitors

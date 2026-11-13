@@ -92,7 +92,6 @@ import hw.xfree86.modes.displaymode;
 import os.log;
 import xf86Globals;
 import common.math;
-
 // import dix.events;
 // import xf86Configure;
 
@@ -362,7 +361,7 @@ ScrnInfoPtr xf86AllocateScreen(DriverPtr drv, int flags)
         xf86GPUScreens[i] = cast(ScrnInfoPtr)XNFcallocarray(1, ScrnInfoRec.sizeof);
         pScrn = xf86GPUScreens[i];
         pScrn.scrnIndex = i + GPU_SCREEN_OFFSET;      /* Changes when a screen is removed */
-        pScrn.is_gpu = TRUE;
+        pScrn.is_gpu = True;
     } else {
         if (xf86Screens is null)
             xf86NumScreens = 0;
@@ -401,7 +400,7 @@ void xf86DeleteScreen(ScrnInfoPtr pScrn)
 {
     int i = void;
     int scrnIndex = void;
-    Bool is_gpu = FALSE;
+    Bool is_gpu = False;
 
     if (!pScrn)
         return;
@@ -410,7 +409,7 @@ void xf86DeleteScreen(ScrnInfoPtr pScrn)
         /* First check if the screen is valid */
         if (xf86NumGPUScreens == 0 || xf86GPUScreens is null)
             return;
-        is_gpu = TRUE;
+        is_gpu = True;
     } else {
         /* First check if the screen is valid */
         if (xf86NumScreens == 0 || xf86Screens is null)
@@ -499,7 +498,7 @@ private Bool xf86AddPixFormat(ScrnInfoPtr pScrn, int depth, int bpp, int pad)
     int i = void;
 
     if (pScrn.numFormats >= MAXFORMATS)
-        return FALSE;
+        return False;
 
     if (bpp <= 0) {
         if (depth == 1)
@@ -511,7 +510,7 @@ private Bool xf86AddPixFormat(ScrnInfoPtr pScrn, int depth, int bpp, int pad)
         else if (depth <= 32)
             bpp = 32;
         else
-            return FALSE;
+            return False;
     }
     if (pad <= 0)
         pad = BITMAP_SCANLINE_PAD;
@@ -520,7 +519,7 @@ private Bool xf86AddPixFormat(ScrnInfoPtr pScrn, int depth, int bpp, int pad)
     pScrn.formats[i].depth = cast(ubyte)depth;
     pScrn.formats[i].bitsPerPixel = cast(ubyte)bpp;
     pScrn.formats[i].scanlinePad = cast(ubyte)pad;
-    return TRUE;
+    return True;
 }
 
 /*
@@ -584,7 +583,7 @@ Bool xf86SetDepthBpp(ScrnInfoPtr scrp, int depth, int dummy, int fbbpp, int dept
              * Device sections.
              */
             GDevPtr device = void;
-            Bool found = FALSE;
+            Bool found = False;
 
             for (i = 0; i < scrp.numEntities; i++) {
                 device = xf86GetDevFromEntity(scrp.entityList[i],
@@ -594,14 +593,14 @@ Bool xf86SetDepthBpp(ScrnInfoPtr scrp, int depth, int dummy, int fbbpp, int dept
                         scrp.depth = xf86SetIntOption(cast(_InputOption*)device.options,
                                                        "DefaultDepth", -1);
                         scrp.depthFrom = X_CONFIG;
-                        found = TRUE;
+                        found = True;
                     }
                     if (xf86FindOption(cast(_InputOption*)device.options, "DefaultFbBpp")) {
                         scrp.bitsPerPixel = xf86SetIntOption(cast(_InputOption*)device.options,
                                                               "DefaultFbBpp",
                                                               -1);
                         scrp.bitsPerPixelFrom = X_CONFIG;
-                        found = TRUE;
+                        found = True;
                     }
                 }
                 if (found)
@@ -644,14 +643,14 @@ Bool xf86SetDepthBpp(ScrnInfoPtr scrp, int depth, int dummy, int fbbpp, int dept
             else {
                 xf86DrvMsg(scrp.scrnIndex, X_ERROR,
                            "No bpp for depth (%d)\n", scrp.depth);
-                return FALSE;
+                return False;
             }
         }
         else {
             xf86DrvMsg(scrp.scrnIndex, X_ERROR,
                        "xf86SetDepthBpp: internal error: depth and fbbpp"
                        ~ " are both not set\n");
-            return FALSE;
+            return False;
         }
         if (scrp.bitsPerPixel < 0) {
             if ((depth24flags & (Support24bppFb | Support32bppFb)) ==
@@ -661,7 +660,7 @@ Bool xf86SetDepthBpp(ScrnInfoPtr scrp, int depth, int dummy, int fbbpp, int dept
             else
                 xf86DrvMsg(scrp.scrnIndex, X_ERROR,
                            "Can't find fbbpp for depth 24\n");
-            return FALSE;
+            return False;
         }
         scrp.bitsPerPixelFrom = X_PROBED;
     }
@@ -685,7 +684,7 @@ Bool xf86SetDepthBpp(ScrnInfoPtr scrp, int depth, int dummy, int fbbpp, int dept
         xf86DrvMsg(scrp.scrnIndex, X_ERROR,
                    "Specified depth (%d) is not in the range 1-32\n",
                    scrp.depth);
-        return FALSE;
+        return False;
     }
     switch (scrp.bitsPerPixel) {
     case 1:
@@ -698,13 +697,13 @@ Bool xf86SetDepthBpp(ScrnInfoPtr scrp, int depth, int dummy, int fbbpp, int dept
         xf86DrvMsg(scrp.scrnIndex, X_ERROR,
                    "Specified fbbpp (%d) is not a permitted value\n",
                    scrp.bitsPerPixel);
-        return FALSE;
+        return False;
     }
     if (scrp.depth > scrp.bitsPerPixel) {
         xf86DrvMsg(scrp.scrnIndex, X_ERROR,
                    "Specified depth (%d) is greater than the fbbpp (%d)\n",
                    scrp.depth, scrp.bitsPerPixel);
-        return FALSE;
+        return False;
     }
 
     /*
@@ -797,7 +796,7 @@ Bool xf86SetDepthBpp(ScrnInfoPtr scrp, int depth, int dummy, int fbbpp, int dept
         if (!xf86AddPixFormat(scrp, scrp.depth, 0, 0)) {
             xf86DrvMsg(scrp.scrnIndex, X_ERROR,
                        "Can't add pixmap format for depth %d\n", scrp.depth);
-            return FALSE;
+            return False;
         }
     }
 
@@ -806,7 +805,7 @@ Bool xf86SetDepthBpp(ScrnInfoPtr scrp, int depth, int dummy, int fbbpp, int dept
     scrp.fbFormat.bitsPerPixel = cast(ubyte)scrp.bitsPerPixel;
     scrp.fbFormat.scanlinePad = cast(ubyte)BITMAP_SCANLINE_PAD;
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -882,7 +881,7 @@ Bool xf86SetWeight(ScrnInfoPtr scrp, rgb weight, rgb mask)
                    ~ "depth (%d)\n",
                    cast(int) scrp.weight.red, cast(int) scrp.weight.green,
                    cast(int) scrp.weight.blue, scrp.depth);
-        return FALSE;
+        return False;
     }
     if (scrp.depth > MAX_PSEUDO_DEPTH && scrp.weight.red) {
         /*
@@ -917,7 +916,7 @@ Bool xf86SetWeight(ScrnInfoPtr scrp, rgb weight, rgb mask)
         scrp.offset.green = ffs(cast(int)mask.green) - 1;
         scrp.offset.blue = ffs(cast(int)mask.blue) - 1;
     }
-    return TRUE;
+    return True;
 }
 
 Bool xf86SetDefaultVisual(ScrnInfoPtr scrp, int visual)
@@ -954,12 +953,12 @@ Bool xf86SetDefaultVisual(ScrnInfoPtr scrp, int visual)
     case DirectColor:
         xf86DrvMsg(scrp.scrnIndex, visualFrom, "Default visual is %s\n",
                    xf86VisualNames[scrp.defaultVisual]);
-        return TRUE;
+        return True;
     default:
 
         xf86DrvMsg(scrp.scrnIndex, X_ERROR,
                    "Invalid default visual class (%d)\n", scrp.defaultVisual);
-        return FALSE;
+        return False;
     }
 }
 
@@ -1013,7 +1012,7 @@ version (none) {
                "Using gamma correction (%.1f, %.1f, %.1f)\n",
                scrp.gamma.red, scrp.gamma.green, scrp.gamma.blue);
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -1319,7 +1318,7 @@ enum LOGOLDSUFFIX = ".old";
     }
 
     xf86LogFile = LogInit(xf86LogFile, LOGOLDSUFFIX);
-    xf86LogFileWasOpened = TRUE;
+    xf86LogFileWasOpened = True;
 
     xf86SetVerbosity(xf86Verbose);
     xf86SetLogVerbosity(xf86LogVerbose);
@@ -1607,13 +1606,13 @@ alias OPTION_BACKING_STORE = BSOpts.OPTION_BACKING_STORE;
 
 
 private const(OptionInfoRec)[2] BSOptions = [
-    {OPTION_BACKING_STORE, "BackingStore", OPTV_BOOLEAN, {0}, FALSE},
-    {-1, null, OPTV_NONE, {0}, FALSE}
+    {OPTION_BACKING_STORE, "BackingStore", OPTV_BOOLEAN, {0}, False},
+    {-1, null, OPTV_NONE, {0}, False}
 ];
 
 void xf86SetBackingStore(ScreenPtr pScreen)
 {
-    Bool useBS = FALSE;
+    Bool useBS = False;
     MessageType from = X_DEFAULT;
     ScrnInfoPtr pScrn = xf86ScreenToScrn(pScreen);
     OptionInfoPtr options = void;
@@ -1625,11 +1624,11 @@ void xf86SetBackingStore(ScreenPtr pScreen)
     /* check for commandline option here */
     if (xf86bsEnableFlag) {
         from = X_CMDLINE;
-        useBS = TRUE;
+        useBS = True;
     }
     else if (xf86bsDisableFlag) {
         from = X_CMDLINE;
-        useBS = FALSE;
+        useBS = False;
     }
     else {
         if (xf86GetOptValBool(options, OPTION_BACKING_STORE, &useBS))
@@ -1654,13 +1653,13 @@ alias OPTION_SILKEN_MOUSE = SMOpts.OPTION_SILKEN_MOUSE;
 
 
 private const(OptionInfoRec)[2] SMOptions = [
-    {OPTION_SILKEN_MOUSE, "SilkenMouse", OPTV_BOOLEAN, {0}, FALSE},
-    {-1, null, OPTV_NONE, {0}, FALSE}
+    {OPTION_SILKEN_MOUSE, "SilkenMouse", OPTV_BOOLEAN, {0}, False},
+    {-1, null, OPTV_NONE, {0}, False}
 ];
 
 void xf86SetSilkenMouse(ScreenPtr pScreen)
 {
-    Bool useSM = TRUE;
+    Bool useSM = True;
     MessageType from = X_DEFAULT;
     ScrnInfoPtr pScrn = xf86ScreenToScrn(pScreen);
     OptionInfoPtr options = void;
@@ -1674,7 +1673,7 @@ void xf86SetSilkenMouse(ScreenPtr pScreen)
     /* TODO VGA arb disable silken mouse */
     if (xf86silkenMouseDisableFlag) {
         from = X_CMDLINE;
-        useSM = FALSE;
+        useSM = False;
     }
     else {
         if (xf86GetOptValBool(options, OPTION_SILKEN_MOUSE, &useSM))
@@ -1732,13 +1731,13 @@ Bool xf86IsUnblank(int mode)
     switch (mode) {
     case SCREEN_SAVER_OFF:
     case SCREEN_SAVER_FORCER:
-        return TRUE;
+        return True;
     case SCREEN_SAVER_ON:
     case SCREEN_SAVER_CYCLE:
-        return FALSE;
+        return False;
     default:
         LogMessageVerb(X_WARNING, 0, "Unexpected save screen mode: %d\n", mode);
-        return TRUE;
+        return True;
     }
 }
 

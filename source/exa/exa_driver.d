@@ -424,7 +424,7 @@ struct _ExaDriver {
      * the performance of exaGlyphs() (antialiased font drawing) by allowing
      * pipelining of data uploads, avoiding a sync of the card after each glyph.
      *
-     * @return TRUE if the driver successfully uploaded the data.  FALSE
+     * @return True if the driver successfully uploaded the data.  False
      * indicates that EXA should fall back to doing the upload in software.
      *
      * UploadToScreen() is not required, but is recommended if Composite
@@ -463,7 +463,7 @@ struct _ExaDriver {
      * framebuffer memory.  Thus, it is highly recommended, even though
      * implementations are typically complicated.
      *
-     * @return TRUE if the driver successfully downloaded the data.  FALSE
+     * @return True if the driver successfully downloaded the data.  False
      * indicates that EXA should fall back to doing the download in software.
      *
      * DownloadFromScreen() is not required, but is highly recommended.
@@ -530,9 +530,9 @@ struct _ExaDriver {
      * pPix is the visible screen, because the visible screen can not be
      * migrated.
      *
-     * @return TRUE if PrepareAccess() successfully prepared the pixmap for CPU
+     * @return True if PrepareAccess() successfully prepared the pixmap for CPU
      * drawing.
-     * @return FALSE if PrepareAccess() is unsuccessful and EXA should use
+     * @return False if PrepareAccess() is unsuccessful and EXA should use
      * DownloadFromScreen() to mitigate the pixmap out.
      */
     Bool function(PixmapPtr pPix, int index) @nogc nothrow PrepareAccess;
@@ -555,7 +555,7 @@ struct _ExaDriver {
      * of exaPixmapHasGpuCopy().
      *
      * @param pPix the pixmap
-     * @return TRUE if the given drawable is in framebuffer memory.
+     * @return True if the given drawable is in framebuffer memory.
      *
      * exaPixmapHasGpuCopy() is used to determine if a pixmap is in offscreen
      * memory, meaning that acceleration could probably be done to it, and that it
@@ -725,7 +725,7 @@ Bool exaModifyPixmapHeader_driver(PixmapPtr pPixmap, int width, int height, int 
     Bool ret = void;
 
     if (!pPixmap)
-        return FALSE;
+        return False;
 
     pScreen = pPixmap.drawable.pScreen;
     pExaScr = mixin(ExaGetScreenPriv!("pScreen"));
@@ -758,7 +758,7 @@ Bool exaModifyPixmapHeader_driver(PixmapPtr pPixmap, int width, int height, int 
             pExaPixmap.sys_ptr = cast(ubyte*)pPixmap.devPrivate.ptr;
             pExaPixmap.sys_pitch = pPixmap.devKind;
         }
-        if (ret == TRUE)
+        if (ret == True)
             goto out_;
     }
 

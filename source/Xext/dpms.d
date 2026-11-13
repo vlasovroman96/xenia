@@ -58,10 +58,10 @@ import os.WaitFor;
 import dix.events;
 import common.swap;
 
-Bool noDPMSExtension = FALSE;
+Bool noDPMSExtension = False;
 
 CARD16 DPMSPowerLevel = 0;
-Bool DPMSDisabledSwitch = FALSE;
+Bool DPMSDisabledSwitch = False;
 CARD32 DPMSStandbyTime = -1;
 CARD32 DPMSSuspendTime = -1;
 CARD32 DPMSOffTime = -1;
@@ -246,17 +246,17 @@ Bool DPMSSupported()
     /* For each screen, check if DPMS is supported */
     mixin(DIX_FOR_EACH_SCREEN!("{
         if (walkScreen.DPMS !is null) {
-            return TRUE;
+            return True;
         }
     }"));
 
     mixin(DIX_FOR_EACH_GPU_SCREEN!("{
         if (walkScreen.DPMS !is null) {
-            return TRUE;
+            return True;
         }
     }"));
 
-    return FALSE;
+    return False;
 }
 
 private Bool isUnblank(int mode)
@@ -264,12 +264,12 @@ private Bool isUnblank(int mode)
     switch (mode) {
     case SCREEN_SAVER_OFF:
     case SCREEN_SAVER_FORCER:
-        return TRUE;
+        return True;
     case SCREEN_SAVER_ON:
     case SCREEN_SAVER_CYCLE:
-        return FALSE;
+        return False;
     default:
-        return TRUE;
+        return True;
     }
 }
 
@@ -334,7 +334,7 @@ private int ProcDPMSCapable(ClientPtr client)
     mixin(X_REQUEST_HEAD_STRUCT!xDPMSCapableReq);
 
     xDPMSCapableReply reply = {
-        xGenericEventcapable: TRUE
+        xGenericEventcapable: True
     };
 
     return mixin(X_SEND_REPLY_SIMPLE!("client", "reply"));
@@ -387,7 +387,7 @@ private int ProcDPMSEnable(ClientPtr client)
 
     Bool was_enabled = DPMSEnabled;
 
-    DPMSEnabled = TRUE;
+    DPMSEnabled = True;
     if (!was_enabled) {
         SetScreenSaverTimer();
         SendDPMSInfoNotify();
@@ -404,7 +404,7 @@ private int ProcDPMSDisable(ClientPtr client)
 
     DPMSSet(client, DPMSModeOn);
 
-    DPMSEnabled = FALSE;
+    DPMSEnabled = False;
     if (was_enabled) {
         SendDPMSInfoNotify();
     }

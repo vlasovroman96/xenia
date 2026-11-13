@@ -29,6 +29,7 @@ import glamor.glamor_transform;
 import glamor.glamor;
 import glamor.glamor_pixmap;;
 import dix.gc;
+import common.bools;
 
 /*
  * Set up rendering to target the specified drawable, computing an

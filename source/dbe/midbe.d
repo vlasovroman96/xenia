@@ -69,7 +69,7 @@ import dix.screen_hooks;
  *     it is called by ProcDbeAllocateBackBufferName() in dbe.c.
  *
  *     If memory allocation fails or we can not get the visual info, this
- *     function returns FALSE.  Otherwise, it returns TRUE for success.
+ *     function returns False.  Otherwise, it returns True for success.
  *
  *****************************************************************************/
 
@@ -87,7 +87,7 @@ private Bool miDbeGetVisualInfo(ScreenPtr pScreen, XdbeScreenVisualInfo* pScrVis
 
     /* Allocate an array of XdbeVisualInfo items. */
     if (((visInfo = cast(XdbeVisualInfo*) calloc(count, XdbeVisualInfo.sizeof)) is null)) {
-        return FALSE;           /* memory alloc failure */
+        return False;           /* memory alloc failure */
     }
 
     for (i = 0, k = 0; i < pScreen.numDepths; i++) {
@@ -114,7 +114,7 @@ private Bool miDbeGetVisualInfo(ScreenPtr pScreen, XdbeScreenVisualInfo* pScrVis
     pScrVisInfo.count = count;
     pScrVisInfo.visinfo = visInfo;
 
-    return TRUE;                /* success */
+    return True;                /* success */
 }
 
 /******************************************************************************
@@ -522,7 +522,7 @@ void miDbeWindowPosition(CallbackListPtr* pcbl, ScreenPtr pScreen, XorgScreenWin
             clearRect.height = cast(ushort)height;
         }
         else {
-            clear = FALSE;
+            clear = False;
         }
     }
 
@@ -619,5 +619,5 @@ Bool miDbeInit(ScreenPtr pScreen, DbeScreenPrivPtr pDbeScreenPriv)
     pDbeScreenPriv.SwapBuffers = &miDbeSwapBuffers;
     pDbeScreenPriv.WinPrivDelete = &miDbeWinPrivDelete;
 
-    return TRUE;
+    return True;
 }

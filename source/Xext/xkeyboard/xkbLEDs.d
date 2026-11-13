@@ -122,8 +122,8 @@ private Bool XkbApplyLEDChangeToKeyboard(XkbSrvInfoPtr xkbi, XkbIndicatorMapPtr 
 
     if ((map.flags & XkbIM_NoExplicit) ||
         ((map.flags & XkbIM_LEDDrivesKB) == 0))
-        return FALSE;
-    ctrlChange = stateChange = FALSE;
+        return False;
+    ctrlChange = stateChange = False;
     if (map.ctrls) {
         XkbControlsPtr ctrls = xkbi.desc.ctrls;
         uint old = void;
@@ -136,7 +136,7 @@ private Bool XkbApplyLEDChangeToKeyboard(XkbSrvInfoPtr xkbi, XkbIndicatorMapPtr 
         if (old != ctrls.enabled_ctrls) {
             change.ctrls.changed_ctrls = cast(uint)XkbControlsEnabledMask;
             change.ctrls.enabled_ctrls_changes = old ^ ctrls.enabled_ctrls;
-            ctrlChange = TRUE;
+            ctrlChange = True;
         }
     }
     state = &xkbi.state;
@@ -156,7 +156,7 @@ private Bool XkbApplyLEDChangeToKeyboard(XkbSrvInfoPtr xkbi, XkbIndicatorMapPtr 
             if (map.which_groups & XkbIM_UseLatched)
                 XkbLatchGroup(xkbi.device, 0); /* unlatch group */
             state.locked_group = cast(ubyte)i;
-            stateChange = TRUE;
+            stateChange = True;
         }
         else if (map.which_groups & (XkbIM_UseLatched | XkbIM_UseEffective)) {
             for (i = 0, bit = 1; i < XkbNumKbdGroups; i++, bit <<= 1) {
@@ -165,7 +165,7 @@ private Bool XkbApplyLEDChangeToKeyboard(XkbSrvInfoPtr xkbi, XkbIndicatorMapPtr 
             }
             state.locked_group = 0;
             XkbLatchGroup(xkbi.device, i);
-            stateChange = TRUE;
+            stateChange = True;
         }
     }
     if ((map.mods.mask) && ((map.which_mods & (~XkbIM_UseBase)) != 0)) {
@@ -178,7 +178,7 @@ private Bool XkbApplyLEDChangeToKeyboard(XkbSrvInfoPtr xkbi, XkbIndicatorMapPtr 
             else
                 state.locked_mods &= ~map.mods.mask;
             if (state.locked_mods != old)
-                stateChange = TRUE;
+                stateChange = True;
         }
         if (map.which_mods & (XkbIM_UseLatched | XkbIM_UseEffective)) {
             c_ulong newmods = void;
@@ -191,7 +191,7 @@ private Bool XkbApplyLEDChangeToKeyboard(XkbSrvInfoPtr xkbi, XkbIndicatorMapPtr 
             if (newmods != state.locked_mods) {
                 newmods &= map.mods.mask;
                 XkbLatchModifiers(xkbi.device, map.mods.mask, cast(ubyte)newmods);
-                stateChange = TRUE;
+                stateChange = True;
             }
         }
     }
@@ -212,7 +212,7 @@ private Bool ComputeAutoState(XkbIndicatorMapPtr map, XkbStatePtr state, XkbCont
     Bool on = void;
     CARD8 mods = void, group = void;
 
-    on = FALSE;
+    on = False;
     mods = group = 0;
     if (map.which_mods & XkbIM_UseAnyMods) {
         if (map.which_mods & XkbIM_UseBase)
@@ -392,7 +392,7 @@ void XkbSetIndicators(DeviceIntPtr dev, CARD32 affect, CARD32 values, XkbEventCa
     side_affected = 0;
     if (changes.state_changes != 0)
         side_affected |=
-            XkbIndicatorsToUpdate(dev, changes.state_changes, FALSE);
+            XkbIndicatorsToUpdate(dev, changes.state_changes, False);
     if (changes.ctrls.enabled_ctrls_changes)
         side_affected |= sli.usesControls;
 
@@ -423,7 +423,7 @@ void XkbSetIndicators(DeviceIntPtr dev, CARD32 affect, CARD32 values, XkbEventCa
          * required to report the necessary changes, otherwise it simply
          * notes the indicators with changed state.
          *
-         * If 'check_edevs' is TRUE, this function also checks the indicator
+         * If 'check_edevs' is True, this function also checks the indicator
          * maps for any open extension devices that have them, and updates
          * the state of any extension device indicators as necessary.
          */
@@ -572,7 +572,7 @@ XkbSrvLedInfoPtr XkbAllocSrvLedInfo(DeviceIntPtr dev, KbdFeedbackPtr kf, LedFeed
     Bool checkNames = void;
 
     sli = null;
-    checkAccel = checkNames = FALSE;
+    checkAccel = checkNames = False;
     if ((kf !is null) && (kf.xkb_sli is null)) {
         kf.xkb_sli = sli = cast(XkbSrvLedInfoRec*) calloc(1, XkbSrvLedInfoRec.sizeof);
         if (sli is null)
@@ -597,7 +597,7 @@ XkbSrvLedInfoPtr XkbAllocSrvLedInfo(DeviceIntPtr dev, KbdFeedbackPtr kf, LedFeed
             sli.physIndicators = cast(uint)xkb.indicators.phys_indicators;
             sli.names = xkb.names.indicators.ptr;
             sli.maps = xkb.indicators.maps.ptr;
-            checkNames = checkAccel = TRUE;
+            checkNames = checkAccel = True;
         }
         else {
             sli.physIndicators = XkbAllIndicatorsMask;
@@ -612,11 +612,11 @@ XkbSrvLedInfoPtr XkbAllocSrvLedInfo(DeviceIntPtr dev, KbdFeedbackPtr kf, LedFeed
         sli = kf.xkb_sli;
         sli.physIndicators = cast(uint)xkb.indicators.phys_indicators;
         if (xkb.names.indicators.ptr !is sli.names) {
-            checkNames = TRUE;
+            checkNames = True;
             sli.names = xkb.names.indicators.ptr;
         }
         if (xkb.indicators.maps.ptr !is sli.maps) {
-            checkAccel = TRUE;
+            checkAccel = True;
             sli.maps = xkb.indicators.maps.ptr;
         }
     }
@@ -961,7 +961,7 @@ void XkbApplyLedStateChanges(DeviceIntPtr dev, XkbSrvLedInfoPtr sli, uint change
         memset(cast(char*) changes, 0, XkbChangesRec.sizeof);
     }
 
-    kb_changed = FALSE;
+    kb_changed = False;
     affected = changed_leds;
     oldState = cast(uint)sli.effectiveState;
     for (i = 0, bit = 1; (i < XkbNumIndicators) && (affected); i++, bit <<= 1) {
@@ -977,7 +977,7 @@ void XkbApplyLedStateChanges(DeviceIntPtr dev, XkbSrvLedInfoPtr sli, uint change
             Bool on = ((sli.explicitState & bit) != 0);
 
             if (XkbApplyLEDChangeToKeyboard(xkbi, map, on, changes))
-                kb_changed = TRUE;
+                kb_changed = True;
         }
     }
     sli.effectiveState = (sli.autoState | sli.explicitState);

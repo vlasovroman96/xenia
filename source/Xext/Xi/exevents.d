@@ -130,6 +130,7 @@ import dix.inpututils;
 import os.inputthread;
 import dix.window;
 import common.math;
+import common.bools;
 
 
 
@@ -183,11 +184,11 @@ Bool IsPointerEvent(InternalEvent* event)
     case ET_ButtonRelease:
     case ET_Motion:
         /* XXX: enter/leave ?? */
-        return TRUE;
+        return True;
     default:
         break;
     }
-    return FALSE;
+    return False;
 }
 
 Bool IsTouchEvent(InternalEvent* event)
@@ -196,11 +197,11 @@ Bool IsTouchEvent(InternalEvent* event)
     case ET_TouchBegin:
     case ET_TouchUpdate:
     case ET_TouchEnd:
-        return TRUE;
+        return True;
     default:
         break;
     }
-    return FALSE;
+    return False;
 }
 
 Bool IsGestureEvent(InternalEvent* event)
@@ -212,11 +213,11 @@ Bool IsGestureEvent(InternalEvent* event)
     case ET_GestureSwipeBegin:
     case ET_GestureSwipeUpdate:
     case ET_GestureSwipeEnd:
-        return TRUE;
+        return True;
     default:
         break;
     }
-    return FALSE;
+    return False;
 }
 
 Bool IsGestureBeginEvent(InternalEvent* event)
@@ -224,11 +225,11 @@ Bool IsGestureBeginEvent(InternalEvent* event)
     switch (event.any.type) {
     case ET_GesturePinchBegin:
     case ET_GestureSwipeBegin:
-        return TRUE;
+        return True;
     default:
         break;
     }
-    return FALSE;
+    return False;
 }
 
 Bool IsGestureEndEvent(InternalEvent* event)
@@ -236,11 +237,11 @@ Bool IsGestureEndEvent(InternalEvent* event)
     switch (event.any.type) {
     case ET_GesturePinchEnd:
     case ET_GestureSwipeEnd:
-        return TRUE;
+        return True;
     default:
         break;
     }
-    return FALSE;
+    return False;
 }
 
 /**
@@ -1007,9 +1008,9 @@ int UpdateDeviceState(DeviceIntPtr device, DeviceEvent* event)
         UpdateDeviceMotionMask(device, b.state, b.motionMask);
     }
     else if (event.type == ET_ProximityIn)
-        device.proximity.in_proximity = TRUE;
+        device.proximity.in_proximity = True;
     else if (event.type == ET_ProximityOut)
-        device.proximity.in_proximity = FALSE;
+        device.proximity.in_proximity = False;
     else if (event.type == ET_TouchBegin) {
         mixin(BUG_RETURN_VAL!("!b || !v", "DONT_PROCESS"));
         mixin(BUG_RETURN_VAL!("!t", "DONT_PROCESS"));
@@ -1047,8 +1048,8 @@ int UpdateDeviceState(DeviceIntPtr device, DeviceEvent* event)
  * A client that does not have the TouchOwnership mask set may not receive a
  * TouchBegin event if there is at least one grab active.
  *
- * @return TRUE if the client selected for ownership events on the given
- * window for this device, FALSE otherwise
+ * @return True if the client selected for ownership events on the given
+ * window for this device, False otherwise
  */
 pragma(inline, true) private Bool TouchClientWantsOwnershipEvents(ClientPtr client, DeviceIntPtr dev, WindowPtr win)
 {
@@ -1060,7 +1061,7 @@ pragma(inline, true) private Bool TouchClientWantsOwnershipEvents(ClientPtr clie
         return xi2mask_isset(iclient.xi2mask, dev, XI_TouchOwnership);
     }
 
-    return FALSE;
+    return False;
 }
 
 private void TouchSendOwnershipEvent(DeviceIntPtr dev, TouchPointInfoPtr ti, int reason, XID resource)
@@ -1094,7 +1095,7 @@ private Bool DeliverOneTouchEvent(ClientPtr client, DeviceIntPtr dev, TouchPoint
      * the current owner of the touch, only pretend we delivered */
     if (!grab && ti.num_grabs != 0 &&
         !TouchClientWantsOwnershipEvents(client, dev, win))
-        return TRUE;
+        return True;
 
     /* If we fail here, we're going to leave a client hanging. */
     err = EventToXI2(ev, &xi2);
@@ -1102,16 +1103,16 @@ private Bool DeliverOneTouchEvent(ClientPtr client, DeviceIntPtr dev, TouchPoint
         FatalError("[Xi] %s: XI2 conversion failed in %s"
                    ~ " (%d)\n", dev.name, __FUNCTION__.ptr, err);
 
-    FixUpEventFromWindow(&ti.sprite, xi2, win, child, FALSE, XI2);
+    FixUpEventFromWindow(&ti.sprite, xi2, win, child, False, XI2);
     filter = GetEventFilter(dev, xi2);
     if (XaceHookReceiveAccess(client, win, xi2, 1) != Success)
-        return FALSE;
+        return False;
     TryClientEvents(client, dev, xi2, 1, filter, filter, NullGrab);
     free(xi2);
 
     /* Returning the value from TryClientEvents isn't useful, since all our
      * resource-gone cleanups will update the delivery list anyway. */
-    return TRUE;
+    return True;
 }
 
 private void ActivateEarlyAccept(DeviceIntPtr dev, TouchPointInfoPtr ti)
@@ -1348,7 +1349,7 @@ private void TouchCopyValuatorData(DeviceEvent* ev, TouchPointInfoPtr ti)
  * @param[out] win The window to deliver the event on.
  * @param[out] grab The grab to deliver the event through, if any.
  * @param[out] mask The XI 2.x event mask of the grab or selection, if any.
- * @return TRUE if an event should be delivered to the listener, FALSE
+ * @return True if an event should be delivered to the listener, False
  *         otherwise.
  */
 private Bool RetrieveTouchDeliveryData(DeviceIntPtr dev, TouchPointInfoPtr ti, InternalEvent* ev, TouchListener* listener, ClientPtr* client, WindowPtr* win, GrabPtr* grab, XI2Mask** mask)
@@ -1371,7 +1372,7 @@ private Bool RetrieveTouchDeliveryData(DeviceIntPtr dev, TouchPointInfoPtr ti, I
                                      listener.resource_type,
                                      serverClient, DixSendAccess);
         if (rc != Success)
-            return FALSE;
+            return False;
 
         if (listener.level == XI2) {
             int evtype = void;
@@ -1433,7 +1434,7 @@ private Bool RetrieveTouchDeliveryData(DeviceIntPtr dev, TouchPointInfoPtr ti, I
         *grab = null;
     }
 
-    return TRUE;
+    return True;
 }
 
 private int DeliverTouchEmulatedEvent(DeviceIntPtr dev, TouchPointInfoPtr ti, InternalEvent* ev, TouchListener* listener, WindowPtr win, GrabPtr grab)
@@ -1731,7 +1732,7 @@ private void ProcessBarrierEvent(InternalEvent* e, DeviceIntPtr dev)
     if (grab &&
         dixClientIdForXID(cast(XID)(be.barrierid)) == dixClientIdForXID(grab.resource) &&
         grab.window.drawable.id == be.window) {
-        DeliverGrabbedEvent(e, dev, FALSE);
+        DeliverGrabbedEvent(e, dev, False);
     } else {
         filter = GetEventFilter(dev, ev);
 
@@ -1745,9 +1746,9 @@ private BOOL IsAnotherGestureActiveOnMaster(DeviceIntPtr dev, InternalEvent* ev)
 {
     GestureClassPtr g = dev.gesture;
     if (g.gesture.active && g.gesture.sourceid != ev.gesture_event.sourceid) {
-        return TRUE;
+        return True;
     }
-    return FALSE;
+    return False;
 }
 
 /**
@@ -1761,8 +1762,8 @@ void ProcessGestureEvent(InternalEvent* ev, DeviceIntPtr dev)
 {
     GestureInfoPtr gi = void;
     DeviceIntPtr kbd = void;
-    Bool deactivateGestureGrab = FALSE;
-    Bool delivered = FALSE;
+    Bool deactivateGestureGrab = False;
+    Bool delivered = False;
 
     if (!dev.gesture)
         return;
@@ -1790,7 +1791,7 @@ void ProcessGestureEvent(InternalEvent* ev, DeviceIntPtr dev)
             dev.deviceGrab.grab &&
             dev.deviceGrab.fromPassiveGrab &&
             GrabIsGestureGrab(dev.deviceGrab.grab))
-        deactivateGestureGrab = TRUE;
+        deactivateGestureGrab = True;
 
     delivered = DeliverGestureEventToOwner(dev, gi, ev);
 
@@ -1811,7 +1812,7 @@ void ProcessGestureEvent(InternalEvent* ev, DeviceIntPtr dev)
 private void ProcessDeviceEvent(InternalEvent* ev, DeviceIntPtr device)
 {
     GrabPtr grab = void;
-    Bool deactivateDeviceGrab = FALSE;
+    Bool deactivateDeviceGrab = False;
     int key = 0, rootX = void, rootY = void;
     ButtonClassPtr b = void;
     int ret = 0;
@@ -1891,7 +1892,7 @@ private void ProcessDeviceEvent(InternalEvent* ev, DeviceIntPtr device)
         if (grab && device.deviceGrab.fromPassiveGrab &&
             (key == device.deviceGrab.activatingKey) &&
             GrabIsKeyboardGrab(device.deviceGrab.grab))
-            deactivateDeviceGrab = TRUE;
+            deactivateDeviceGrab = True;
         break;
     case ET_ButtonPress:
         if (b.map[key] == 0)   /* there's no button 0 */
@@ -1910,7 +1911,7 @@ private void ProcessDeviceEvent(InternalEvent* ev, DeviceIntPtr device)
         if (grab && !b.buttonsDown &&
             device.deviceGrab.fromPassiveGrab &&
             GrabIsPointerGrab(device.deviceGrab.grab))
-            deactivateDeviceGrab = TRUE;
+            deactivateDeviceGrab = True;
         break;
     default:
         break;
@@ -1930,7 +1931,7 @@ private void ProcessDeviceEvent(InternalEvent* ev, DeviceIntPtr device)
                                 NullGrab, NullWindow, device);
     }
 
-    if (deactivateDeviceGrab == TRUE) {
+    if (deactivateDeviceGrab == True) {
         (*device.deviceGrab.DeactivateGrab) (device);
 
         if (!InputDevIsMaster (device) && !InputDevIsFloating (device)) {
@@ -2097,7 +2098,7 @@ private int DeliverTouchEndEvent(DeviceIntPtr dev, TouchPointInfoPtr ti, Interna
             (ev.device_event.flags & (TOUCH_ACCEPT | TOUCH_REJECT)) == 0) {
             ev.any.type = ET_TouchUpdate;
             ev.device_event.flags |= TOUCH_PENDING_END;
-            ti.pending_finish = TRUE;
+            ti.pending_finish = True;
         }
 
         if (normal_end)
@@ -2110,7 +2111,7 @@ private int DeliverTouchEndEvent(DeviceIntPtr dev, TouchPointInfoPtr ti, Interna
 
 private int DeliverTouchEvent(DeviceIntPtr dev, TouchPointInfoPtr ti, InternalEvent* ev, TouchListener* listener, ClientPtr client, WindowPtr win, GrabPtr grab, XI2Mask* xi2mask)
 {
-    Bool has_ownershipmask = FALSE;
+    Bool has_ownershipmask = False;
     int rc = Success;
 
     if (xi2mask)
@@ -2153,7 +2154,7 @@ private int DeliverTouchEvent(DeviceIntPtr dev, TouchPointInfoPtr ti, InternalEv
  * @resource is non-zero, will only attempt delivery to the owner of that
  * resource.
  *
- * @return TRUE if the event was delivered at least once, FALSE otherwise
+ * @return True if the event was delivered at least once, False otherwise
  */
 void DeliverTouchEvents(DeviceIntPtr dev, TouchPointInfoPtr ti, InternalEvent* ev, XID resource)
 {
@@ -2199,16 +2200,16 @@ private Bool DeliverOneGestureEvent(ClientPtr client, DeviceIntPtr dev, GestureI
         FatalError("[Xi] %s: XI2 conversion failed in %s"
                    ~ " (%d)\n", dev.name, __FUNCTION__.ptr, err);
 
-    FixUpEventFromWindow(&gi.sprite, xi2, win, child, FALSE, XI2);
+    FixUpEventFromWindow(&gi.sprite, xi2, win, child, False, XI2);
     filter = GetEventFilter(dev, xi2);
     if (XaceHookReceiveAccess(client, win, xi2, 1) != Success)
-        return FALSE;
+        return False;
     TryClientEvents(client, dev, xi2, 1, filter, filter, NullGrab);
     free(xi2);
 
     /* Returning the value from TryClientEvents isn't useful, since all our
      * resource-gone cleanups will update the delivery list anyway. */
-    return TRUE;
+    return True;
 }
 
 /**
@@ -2220,7 +2221,7 @@ private Bool DeliverOneGestureEvent(ClientPtr client, DeviceIntPtr dev, GestureI
  * @param[out] client The client that should receive the gesture event.
  * @param[out] win The window to deliver the event on.
  * @param[out] grab The grab to deliver the event through, if any.
- * @return TRUE if an event should be delivered to the listener, FALSE
+ * @return True if an event should be delivered to the listener, False
  *         otherwise.
  */
 private Bool RetrieveGestureDeliveryData(DeviceIntPtr dev, InternalEvent* ev, GestureListener* listener, ClientPtr* client, WindowPtr* win, GrabPtr* grab)
@@ -2243,7 +2244,7 @@ private Bool RetrieveGestureDeliveryData(DeviceIntPtr dev, InternalEvent* ev, Ge
         rc = dixLookupResourceByType(cast(void**) win, listener.listener, listener.resource_type,
                                      serverClient, DixSendAccess);
         if (rc != Success)
-            return FALSE;
+            return False;
 
         /* note that we only will have XI2 listeners as
            listener->type == GESTURE_LISTENER_REGULAR */
@@ -2261,7 +2262,7 @@ private Bool RetrieveGestureDeliveryData(DeviceIntPtr dev, InternalEvent* ev, Ge
         *client = dixClientForInputClients(iclients);
     }
 
-    return TRUE;
+    return True;
 }
 
 /**
@@ -2293,11 +2294,11 @@ int InitProximityClassDeviceStruct(DeviceIntPtr dev)
 
     ProximityClassPtr proxc = cast(ProximityClassRec*) calloc(1, ProximityClassRec.sizeof);
     if (!proxc)
-        return FALSE;
+        return False;
     proxc.sourceid = dev.id;
-    proxc.in_proximity = TRUE;
+    proxc.in_proximity = True;
     dev.proximity = proxc;
-    return TRUE;
+    return True;
 }
 
 /**
@@ -2329,7 +2330,7 @@ Bool InitValuatorAxisStruct(DeviceIntPtr dev, int axnum, Atom label, int minval,
     ax.mode = cast(ubyte)mode;
 
     if (mode & OutOfProximity)
-        dev.proximity.in_proximity = FALSE;
+        dev.proximity.in_proximity = False;
 
     return SetScrollValuator(dev, axnum, SCROLL_TYPE_NONE, 0, SCROLL_FLAG_NONE);
 }
@@ -2358,20 +2359,20 @@ Bool SetScrollValuator(DeviceIntPtr dev, int axnum, ScrollType type, double incr
     case SCROLL_TYPE_NONE:
         ax = &dev.valuator.axes[axnum];
         ax.scroll.type = type;
-        return TRUE;
+        return True;
     default:
-        return FALSE;
+        return False;
     }
 
     if (increment == 0.0)
-        return FALSE;
+        return False;
 
     if (*current_ax != -1 && axnum != *current_ax) {
         ax = &dev.valuator.axes[*current_ax];
         if (ax.scroll.type == type &&
             (flags & SCROLL_FLAG_PREFERRED) &&
             (ax.scroll.flags & SCROLL_FLAG_PREFERRED))
-            return FALSE;
+            return False;
     }
     *current_ax = axnum;
 
@@ -2392,7 +2393,7 @@ Bool SetScrollValuator(DeviceIntPtr dev, int axnum, ScrollType type, double incr
     if (master && master.lastSlave == dev)
         ChangeMasterDeviceClasses(master, &dce.changed_event);
 
-    return TRUE;
+    return True;
 }
 
 int CheckGrabValues(ClientPtr client, GrabParameters* param)
@@ -2631,7 +2632,7 @@ int SelectForWindow(DeviceIntPtr dev, WindowPtr pWin, ClientPtr client, Mask mas
                             break;
                     if (i == EMASKSIZE) {
                         RecalculateDeviceDeliverableEvents(pWin);
-                        if (ShouldFreeInputMasks(pWin, FALSE))
+                        if (ShouldFreeInputMasks(pWin, False))
                             FreeResource(cast(uint)others.resource, X11_RESTYPE_NONE);
                         return Success;
                     }
@@ -2698,14 +2699,14 @@ private Bool MakeInputMasks(WindowPtr pWin)
 
     imasks = cast(_OtherInputMasks*) cast(_OtherInputMasks*) calloc(1, _OtherInputMasks.sizeof);
     if (!imasks)
-        return FALSE;
+        return False;
     imasks.xi2mask = xi2mask_new();
     if (!imasks.xi2mask) {
         free(imasks);
-        return FALSE;
+        return False;
     }
     pWin.optional.inputMasks = imasks;
-    return TRUE;
+    return True;
 }
 
 private void FreeInputMask(OtherInputMasks** imask)
@@ -2775,7 +2776,7 @@ int InputClientGone(WindowPtr pWin, XID id)
                 FreeInputClient(&other);
             }
             else if (!(other.next)) {
-                if (ShouldFreeInputMasks(pWin, TRUE)) {
+                if (ShouldFreeInputMasks(pWin, True)) {
                     OtherInputMasks* mask = mixin(wOtherInputMasks!("pWin"));
 
                     mask.inputClients = other.next;
@@ -3091,14 +3092,14 @@ void CheckDeviceGrabAndHintWindow(WindowPtr pWin, int type, deviceKeyButtonPoint
         tempGrab.resource = client.clientAsMask;
         tempGrab.window = pWin;
         tempGrab.ownerEvents =
-            (deliveryMask & DeviceOwnerGrabButtonMask) ? TRUE : FALSE;
+            (deliveryMask & DeviceOwnerGrabButtonMask) ? True : False;
         tempGrab.eventMask = deliveryMask;
         tempGrab.keyboardMode = GrabModeAsync;
         tempGrab.pointerMode = GrabModeAsync;
         tempGrab.confineTo = NullWindow;
         tempGrab.cursor = NullCursor;
         tempGrab.next = null;
-        (*dev.deviceGrab.ActivateGrab) (dev, tempGrab, currentTime, TRUE);
+        (*dev.deviceGrab.ActivateGrab) (dev, tempGrab, currentTime, True);
         FreeGrab(tempGrab);
     }
 }
@@ -3160,7 +3161,7 @@ int DeviceEventSuppressForWindow(WindowPtr pWin, ClientPtr client, Mask mask, in
         inputMasks.dontPropagateMask[maskndx] = mask;
     }
     RecalculateDeviceDeliverableEvents(pWin);
-    if (ShouldFreeInputMasks(pWin, FALSE)) {
+    if (ShouldFreeInputMasks(pWin, False)) {
         mixin(BUG_RETURN_VAL!("!inputMasks", "BadImplementation"));
         mixin(BUG_RETURN_VAL!("!inputMasks.inputClients", "BadImplementation"));
         FreeResource(cast(uint)inputMasks.inputClients.resource, X11_RESTYPE_NONE);
@@ -3180,9 +3181,9 @@ Bool ShouldFreeInputMasks(WindowPtr pWin, Bool ignoreSelectedEvents)
         for (i = 0; i < EMASKSIZE; i++)
             allInputEventMasks |= inputMasks.inputEvents[i];
     if (allInputEventMasks == 0)
-        return TRUE;
+        return True;
     else
-        return FALSE;
+        return False;
 }
 
 /***********************************************************************

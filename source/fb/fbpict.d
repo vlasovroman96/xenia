@@ -60,9 +60,9 @@ void fbComposite(CARD8 op, PicturePtr pSrc, PicturePtr pMask, PicturePtr pDst, I
     if (pMask)
         miCompositeSourceValidate(pMask);
 
-    src = image_from_pict(pSrc, FALSE, &src_xoff, &src_yoff);
-    mask = image_from_pict(pMask, FALSE, &msk_xoff, &msk_yoff);
-    dest = image_from_pict(pDst, TRUE, &dst_xoff, &dst_yoff);
+    src = image_from_pict(pSrc, False, &src_xoff, &src_yoff);
+    mask = image_from_pict(pMask, False, &msk_xoff, &msk_yoff);
+    dest = image_from_pict(pDst, True, &dst_xoff, &dst_yoff);
 
     if (src && dest && !(pMask && !mask)) {
         assumeNoGC(&pixman_image_composite)(cast(pixman_op_t)op, src, mask, dest,
@@ -145,7 +145,7 @@ enum N_STACK_GLYPHS = 512;
 		    goto next;
 		}
 
-		if (((glyphImage = image_from_pict(pPicture, FALSE, &xoff, &yoff)) is null))
+		if (((glyphImage = image_from_pict(pPicture, False, &xoff, &yoff)) is null))
 		    goto out_;
 
 		g = assumeNoGC(&pixman_glyph_cache_insert)(glyphCache, glyph, null,
@@ -171,10 +171,10 @@ enum N_STACK_GLYPHS = 512;
 	list++;
     }
 
-    if (((srcImage = image_from_pict(pSrc, FALSE, &srcXoff, &srcYoff)) is null))
+    if (((srcImage = image_from_pict(pSrc, False, &srcXoff, &srcYoff)) is null))
 	goto out_;
 
-    if (((dstImage = image_from_pict(pDst, TRUE, &dstXoff, &dstYoff)) is null))
+    if (((dstImage = image_from_pict(pDst, True, &dstXoff, &dstYoff)) is null))
 	goto out_free_src;
 
     if (maskFormat) {
@@ -299,7 +299,7 @@ static if (FB_ACCESS_WRAPPER) {
      */
     if (has_clip) {
         if (pict.clientClip)
-            assumeNoGC(&pixman_image_set_has_client_clip)(image, TRUE);
+            assumeNoGC(&pixman_image_set_has_client_clip)(image, True);
 
         if (*xoff || *yoff)
             assumeNoGC(&pixman_region_translate)(pict.pCompositeClip, *xoff, *yoff);
@@ -381,8 +381,8 @@ private void set_image_properties(pixman_image_t* image, PicturePtr pict, Bool h
      */
     if (pict.alphaMap && !is_alpha_map) {
         int alpha_xoff = void, alpha_yoff = void;
-        pixman_image_t* alpha_map = image_from_pict_internal(pict.alphaMap, FALSE, &alpha_xoff,
-                                     &alpha_yoff, TRUE);
+        pixman_image_t* alpha_map = image_from_pict_internal(pict.alphaMap, False, &alpha_xoff,
+                                     &alpha_yoff, True);
 
         assumeNoGC(&pixman_image_set_alpha_map)(image, alpha_map, pict.alphaOrigin.x,
                                    pict.alphaOrigin.y);
@@ -416,7 +416,7 @@ private void set_image_properties(pixman_image_t* image, PicturePtr pict, Bool h
     assumeNoGC(&pixman_image_set_filter)(image, filter,
                             cast(pixman_fixed_t*) pict.filter_params,
                             pict.filter_nparams);
-    assumeNoGC(&pixman_image_set_source_clipping)(image, TRUE);
+    assumeNoGC(&pixman_image_set_source_clipping)(image, True);
 }
 
 private pixman_image_t* image_from_pict_internal(PicturePtr pict, Bool has_clip, int* xoff, int* yoff, Bool is_alpha_map)
@@ -456,7 +456,7 @@ private pixman_image_t* image_from_pict_internal(PicturePtr pict, Bool has_clip,
 
 pixman_image_t* image_from_pict(PicturePtr pict, Bool has_clip, int* xoff, int* yoff)
 {
-    return image_from_pict_internal(pict, has_clip, xoff, yoff, FALSE);
+    return image_from_pict_internal(pict, has_clip, xoff, yoff, False);
 }
 
 void free_pixman_pict(PicturePtr pict, pixman_image_t* image)
@@ -471,7 +471,7 @@ Bool fbPictureInit(ScreenPtr pScreen, PictFormatPtr formats, int nformats)
     PictureScreenPtr ps = void;
 
     if (!miPictureInit(pScreen, formats, nformats))
-        return FALSE;
+        return False;
     ps = mixin(GetPictureScreen!("pScreen"));
     ps.Composite = &fbComposite;
     ps.Glyphs = &fbGlyphs;
@@ -483,5 +483,5 @@ Bool fbPictureInit(ScreenPtr pScreen, PictFormatPtr formats, int nformats)
     ps.AddTriangles = &fbAddTriangles;
     ps.Triangles = &fbTriangles;
 
-    return TRUE;
+    return True;
 }

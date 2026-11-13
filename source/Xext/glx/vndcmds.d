@@ -38,6 +38,7 @@ import Xext.hashtable;
 import glx.vndserver_priv;
 import glx.vndservervendor;
 import glx.vndext;
+import common.bools;
 
 /**
  * The length of the dispatchFuncs array. Every opcode above this is a

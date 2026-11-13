@@ -162,7 +162,7 @@ struct ShmScrPrivateRec {
     ShmFuncsPtr shmFuncs;
 }
 
-Bool noMITShmExtension = FALSE;
+Bool noMITShmExtension = False;
 
 static mixin("PixmapPtr fbShmCreatePixmap("~XSHM_CREATE_PIXMAP_ARGS~");");
 // static int ShmDetachSegment(void *value, XID shmseg);
@@ -217,11 +217,11 @@ enum string VERIFY_SHMSIZE(string shmdesc,string offset,string len,string client
 
 static if (HasVersion!"__FreeBSD__" || HasVersion!"__NetBSD__" || HasVersion!"__OpenBSD__" || HasVersion!"Cygwin" || HasVersion!"__DragonFly__") {
 
-private Bool badSysCall = FALSE;
+private Bool badSysCall = False;
 
 private void SigSysHandler(int signo)
 {
-    badSysCall = TRUE;
+    badSysCall = True;
 }
 
 private Bool CheckForShmSyscall()
@@ -232,7 +232,7 @@ private Bool CheckForShmSyscall()
     /* If no SHM support in the kernel, the bad syscall will generate SIGSYS */
     oldHandler = OsSignal(SIGSYS, &SigSysHandler);
 
-    badSysCall = FALSE;
+    badSysCall = False;
     shmid = shmget(IPC_PRIVATE, 4096, IPC_CREAT);
 
     if (shmid != -1) {
@@ -241,7 +241,7 @@ private Bool CheckForShmSyscall()
     }
     else {
         /* Allocation failed */
-        badSysCall = TRUE;
+        badSysCall = True;
     }
     OsSignal(SIGSYS, oldHandler);
     return !badSysCall;
@@ -256,11 +256,11 @@ version = MUST_CHECK_FOR_SHM_SYSCALL;
 private Bool ShmRegisterPrivates()
 {
     if (!dixRegisterPrivateKey(&shmScrPrivateKeyRec, PRIVATE_SCREEN, ShmScrPrivateRec.sizeof))
-        return FALSE;
+        return False;
     if (!dixRegisterPrivateKey(&shmPixmapPrivateKeyRec, PRIVATE_PIXMAP, 0))
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
  /*ARGSUSED*/ private void ShmResetProc(ExtensionEntry* extEntry)
@@ -401,7 +401,7 @@ private int ProcShmAttach(ClientPtr client)
         if (!shmdesc)
             return BadAlloc;
 version (SHM_FD_PASSING) {
-        shmdesc.is_fd = FALSE;
+        shmdesc.is_fd = False;
 }
         shmdesc.addr = cast(char*)shmat(cast(int)stuff.shmid, null,
                               stuff.readOnly ? SHM_RDONLY : 0);
@@ -441,7 +441,7 @@ version (SHM_FD_PASSING) {
         return Success;
 
     if (--shmdesc.refcnt)
-        return TRUE;
+        return True;
 static if (SHM_FD_PASSING) {
     if (shmdesc.is_fd) {
         if (shmdesc._busfault)
@@ -529,7 +529,7 @@ private int ShmPutImage(ClientPtr client, xShmPutImageReq* stuff)
     ShmDescPtr shmdesc = void;
 
     mixin(VALIDATE_DRAWABLE_AND_GC!("stuff.drawable", "pDraw", "DixWriteAccess"));
-    mixin(VERIFY_SHMPTR!(`stuff.shmseg`, `stuff.offset`, `FALSE`, `shmdesc`, `client`));
+    mixin(VERIFY_SHMPTR!(`stuff.shmseg`, `stuff.offset`, `False`, `shmdesc`, `client`));
     if ((stuff.sendEvent != xTrue) && (stuff.sendEvent != xFalse))
         return BadValue;
     if (stuff.format == XYBitmap) {
@@ -633,7 +633,7 @@ private int ShmGetImage(ClientPtr client, xShmGetImageReq* stuff)
     int rc = dixLookupDrawable(&pDraw, stuff.drawable, client, 0, DixReadAccess);
     if (rc != Success)
         return rc;
-    mixin(VERIFY_SHMPTR!(`stuff.shmseg`, `stuff.offset`, `TRUE`, `shmdesc`, `client`));
+    mixin(VERIFY_SHMPTR!(`stuff.shmseg`, `stuff.offset`, `True`, `shmdesc`, `client`));
     if (pDraw.type == DRAWABLE_WINDOW) {
         if (   /* check for being viewable */
                !(cast(WindowPtr) pDraw).realized ||
@@ -830,7 +830,7 @@ static if(XINERAMA){
     if (rc != Success)
         return rc;
 
-    mixin(VERIFY_SHMPTR!(`stuff.shmseg`, `stuff.offset`, `TRUE`, `shmdesc`, `client`));
+    mixin(VERIFY_SHMPTR!(`stuff.shmseg`, `stuff.offset`, `True`, `shmdesc`, `client`));
 
     x = stuff.x;
     y = stuff.y;
@@ -969,7 +969,7 @@ static if(XINERAMA){
     if (rc != Success)
         return rc;
 
-    mixin(VERIFY_SHMPTR!(`stuff.shmseg`, `stuff.offset`, `TRUE`, `shmdesc`, `client`));
+    mixin(VERIFY_SHMPTR!(`stuff.shmseg`, `stuff.offset`, `True`, `shmdesc`, `client`));
 
     width = stuff.width;
     height = stuff.height;
@@ -1006,7 +1006,7 @@ static if(XINERAMA){
         return BadAlloc;
 
     newPix.type = XRT_PIXMAP;
-    newPix.u.pix.shared_ = TRUE;
+    newPix.u.pix.shared_ = True;
     panoramix_setup_ids(newPix, client, stuff.pid);
 
     result = Success;
@@ -1098,7 +1098,7 @@ private int ShmCreatePixmap(ClientPtr client, xShmCreatePixmapReq* stuff)
     if (rc != Success)
         return rc;
 
-    mixin(VERIFY_SHMPTR!(`stuff.shmseg`, `stuff.offset`, `TRUE`, `shmdesc`, `client`));
+    mixin(VERIFY_SHMPTR!(`stuff.shmseg`, `stuff.offset`, `True`, `shmdesc`, `client`));
 
     width = stuff.width;
     height = stuff.height;
@@ -1198,7 +1198,7 @@ private int ProcShmAttachFd(ClientPtr client)
         close(fd);
         return BadAlloc;
     }
-    shmdesc.is_fd = TRUE;
+    shmdesc.is_fd = True;
     shmdesc.addr = mmap(null, statb.st_size,
                          stuff.readOnly ? PROT_READ : PROT_READ|PROT_WRITE,
                          MAP_SHARED,
@@ -1313,7 +1313,7 @@ private int ProcShmCreateSegment(ClientPtr client)
         close(fd);
         return BadAlloc;
     }
-    shmdesc.is_fd = TRUE;
+    shmdesc.is_fd = True;
     shmdesc.addr = mmap(null, stuff.size,
                          stuff.readOnly ? PROT_READ : PROT_READ|PROT_WRITE,
                          MAP_SHARED,
@@ -1345,7 +1345,7 @@ private int ProcShmCreateSegment(ClientPtr client)
         return BadAlloc;
     }
 
-    if (WriteFdToClient(client, fd, TRUE) < 0) {
+    if (WriteFdToClient(client, fd, True) < 0) {
         FreeResource(cast(uint)stuff.shmseg, X11_RESTYPE_NONE);
         close(fd);
         return BadAlloc;

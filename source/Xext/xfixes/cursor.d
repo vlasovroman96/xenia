@@ -144,8 +144,8 @@ enum string Wrap(string as,string s,string elt,string func) = `(((` ~ as ~ `).` 
 enum string Unwrap(string as,string s,string elt,string backup) = `(((` ~ backup ~ `) = (` ~ s ~ `).` ~ elt ~ `), (` ~ s ~ `).` ~ elt ~ ` = (` ~ as ~ `).` ~ elt ~ `);`;
 
 /* The cursor doesn't show up until the first XDefineCursor() */
-Bool CursorVisible = FALSE;
-Bool EnableCursor = TRUE;
+Bool CursorVisible = False;
+Bool EnableCursor = True;
 
 private CursorPtr CursorForDevice(DeviceIntPtr pDev)
 {
@@ -367,7 +367,7 @@ int ProcXFixesGetCursorImage(ClientPtr client)
     int height = pCursor.bits.height;
     int npixels = width * height;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     CARD32* image = cast(CARD32*)x_rpcbuf_reserve(&rpcbuf, npixels * CARD32.sizeof);
     if (!image)
@@ -408,7 +408,7 @@ int ProcXFixesSetCursorName(ClientPtr client)
     CursorPtr pCursor = void;
     mixin(VERIFY_CURSOR!(`pCursor`, `stuff.cursor`, `client`, `DixSetAttrAccess`));
     char* tchar = cast(char*) &stuff[1];
-    Atom atom = MakeAtom(tchar, stuff.nbytes, TRUE);
+    Atom atom = MakeAtom(tchar, stuff.nbytes, True);
     if (atom == BAD_RESOURCE)
         return BadAlloc;
 
@@ -426,7 +426,7 @@ int ProcXFixesGetCursorName(ClientPtr client)
 
     const(char)* str = ((pCursor.name) ? NameForAtom(pCursor.name) : "");
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_string_pad(&rpcbuf, str);
 
     xXFixesGetCursorNameReply reply = {
@@ -460,7 +460,7 @@ int ProcXFixesGetCursorImageAndName(ClientPtr client)
 
     const(char)* name = pCursor.name ? NameForAtom(pCursor.name) : "";
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     CARD32* image = cast(uint*)x_rpcbuf_reserve(&rpcbuf, npixels * CARD32.sizeof);
     if (!image)
@@ -561,7 +561,7 @@ private Bool ReplaceCursorLookup(void* value, XID id, void* closure)
             FreeCursor(pCursor, cursor);
         }
     }
-    return FALSE;               /* keep walking */
+    return False;               /* keep walking */
 }
 
 private void ReplaceCursor(CursorPtr pCursor, TestCursorFunc testCursor, void* closure)
@@ -640,7 +640,7 @@ int ProcXFixesChangeCursorByName(ClientPtr client)
     mixin(VERIFY_CURSOR!(`pSource`, `stuff.source`, `client`,
                   `DixReadAccess | DixGetAttrAccess`));
     tchar = cast(char*) &stuff[1];
-    name = MakeAtom(tchar, stuff.nbytes, FALSE);
+    name = MakeAtom(tchar, stuff.nbytes, False);
     if (name)
         ReplaceCursor(pSource, &TestForCursorName, &name);
     return Success;
@@ -897,10 +897,10 @@ Bool XFixesCursorInit()
     if (party_like_its_1989)
         CursorVisible = EnableCursor;
     else
-        CursorVisible = FALSE;
+        CursorVisible = False;
 
     if (!dixRegisterPrivateKey(&CursorScreenPrivateKeyRec, PRIVATE_SCREEN, CursorScreenRec.sizeof))
-        return FALSE;
+        return False;
 
     mixin(DIX_FOR_EACH_SCREEN!q{
         CursorScreenPtr cs = mixin(GetCursorScreen!(`walkScreen`));

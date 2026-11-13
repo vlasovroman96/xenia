@@ -211,7 +211,7 @@ static if (!HasVersion!"Windows") {
 
     handler = OsSignal(SIGUSR1, SIG_IGN);
     if (handler == SIG_IGN)
-        RunFromSmartParent = TRUE;
+        RunFromSmartParent = True;
     OsSignal(SIGUSR1, handler);
     ParentProcess = getppid();
 }
@@ -522,7 +522,7 @@ const(char)* ClientAuthorized(ClientPtr client, uint proto_n, char* auth_proto, 
     if (auth_id == cast(XID) ~0L) {
         if (_XSERVTransGetPeerAddr(trans_conn, &family, &fromlen, &from) != -1) {
             if (InvalidHost(cast(sockaddr*) from, fromlen, client))
-                AuthAudit(client, FALSE, cast(sockaddr*) from,
+                AuthAudit(client, False, cast(sockaddr*) from,
                           fromlen, proto_n, auth_proto, cast(int)auth_id);
             else {
                 auth_id = cast(XID) 0;
@@ -533,7 +533,7 @@ version (XSERVER_DTRACE) {
                 dtrace = (auditTrailLevel > 1);
 }
                 if(dtrace) 
-                    AuthAudit(client, TRUE,
+                    AuthAudit(client, True,
                               cast(sockaddr*) from, fromlen,
                               proto_n, auth_proto, cast(int)auth_id);
             }
@@ -551,7 +551,7 @@ version (XSERVER_DTRACE) {
     else if (dtrace2)
     {
         if (_XSERVTransGetPeerAddr(trans_conn, &family, &fromlen, &from) != -1) {
-            AuthAudit(client, TRUE, cast(sockaddr*) from, fromlen,
+            AuthAudit(client, True, cast(sockaddr*) from, fromlen,
                       proto_n, auth_proto, cast(int)auth_id);
 
             free(from);
@@ -586,7 +586,7 @@ private void ClientReady(int fd, int xevents, void* data)
         mark_client_ready(client);
     if (xevents & X_NOTIFY_WRITE) {
         ospoll_mute(server_poll, fd, X_NOTIFY_WRITE);
-        NewOutputPending = TRUE;
+        NewOutputPending = True;
     }
 }
 
@@ -787,11 +787,11 @@ Bool SetNotifyFd(int fd, NotifyFdProcPtr notify, int mask, void* data)
     n = cast(notify_fd*)ospoll_data(server_poll, fd);
     if (!n) {
         if (mask == 0)
-            return TRUE;
+            return True;
 
         n = cast(notify_fd*) cast(notify_fd*) calloc(1, notify_fd.sizeof);
         if (!n)
-            return FALSE;
+            return False;
         ospoll_add(server_poll, fd,
                    _ospoll_trigger.ospoll_trigger_level,
                    &HandleNotifyFd,
@@ -814,7 +814,7 @@ Bool SetNotifyFd(int fd, NotifyFdProcPtr notify, int mask, void* data)
         n.notify = notify;
     }
 
-    return TRUE;
+    return True;
 }
 
 /*****************
@@ -870,7 +870,7 @@ void IgnoreClient(ClientPtr client)
     if (client.ignoreCount > 1)
         return;
 
-    isItTimeToYield = TRUE;
+    isItTimeToYield = True;
     mark_client_not_ready(client);
 
     oc.flags |= OS_COMM_IGNORED;
@@ -934,7 +934,7 @@ void MakeClientGrabPervious(ClientPtr client)
 
     oc.flags &= ~OS_COMM_GRAB_IMPERVIOUS;
     set_poll_client(client);
-    isItTimeToYield = TRUE;
+    isItTimeToYield = True;
 
     if (ServerGrabCallback) {
         ServerGrabInfoRec grabinfo = void;
@@ -1018,7 +1018,7 @@ Bool AddClientOnOpenFD(int fd)
     snprintf(port.ptr, port.sizeof, ":%d", atoi(display));
     ciptr = _XSERVTransReopenCOTSServer(5, fd, port.ptr);
     if (ciptr is null)
-        return FALSE;
+        return False;
 
     _XSERVTransNonBlock(ciptr);
     ciptr.flags |= TRANS_NOXAUTH;
@@ -1027,10 +1027,10 @@ Bool AddClientOnOpenFD(int fd)
 
     if (!AllocNewConnection(ciptr, fd, connect_time)) {
         ErrorConnMax(ciptr);
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 Bool listen_to_client(ClientPtr client)
@@ -1038,18 +1038,18 @@ Bool listen_to_client(ClientPtr client)
     OsCommPtr oc = cast(OsCommPtr) client.osPrivate;
 
     if (oc.flags & OS_COMM_IGNORED)
-        return FALSE;
+        return False;
 
     if (!GrabInProgress)
-        return TRUE;
+        return True;
 
     if (client.index == GrabInProgress)
-        return TRUE;
+        return True;
 
     if (oc.flags & OS_COMM_GRAB_IMPERVIOUS)
-        return TRUE;
+        return True;
 
-    return FALSE;
+    return False;
 }
 
 private void set_poll_client(ClientPtr client)

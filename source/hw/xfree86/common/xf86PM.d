@@ -43,7 +43,7 @@ import dix.window;
 int function(int fd, pmEvent* events, int num) xf86PMGetEventFromOs = null;
 pmWait function(int fd, pmEvent event) xf86PMConfirmEventToOs = null;
 
-private Bool suspended = FALSE;
+private Bool suspended = False;
 
 private int eventName(pmEvent event, const(char)** str)
 {
@@ -103,11 +103,11 @@ private void suspend(pmEvent event, Bool undo)
 
     for (i = 0; i < xf86NumScreens; i++) {
         if (xf86Screens[i].EnableDisableFBAccess)
-            (*xf86Screens[i].EnableDisableFBAccess) (xf86Screens[i], FALSE);
+            (*xf86Screens[i].EnableDisableFBAccess) (xf86Screens[i], False);
     }
     pInfo = xf86InputDevs;
     while (pInfo) {
-        DisableDevice(pInfo.dev, TRUE);
+        DisableDevice(pInfo.dev, True);
         pInfo = pInfo.next;
     }
     input_lock();
@@ -116,7 +116,7 @@ private void suspend(pmEvent event, Bool undo)
             xf86Screens[i].PMEvent(xf86Screens[i], event, undo);
         else {
             xf86Screens[i].LeaveVT(xf86Screens[i]);
-            xf86Screens[i].vtSema = FALSE;
+            xf86Screens[i].vtSema = False;
         }
     }
 }
@@ -130,19 +130,19 @@ private void resume(pmEvent event, Bool undo)
         if (xf86Screens[i].PMEvent)
             xf86Screens[i].PMEvent(xf86Screens[i], event, undo);
         else {
-            xf86Screens[i].vtSema = TRUE;
+            xf86Screens[i].vtSema = True;
             xf86Screens[i].EnterVT(xf86Screens[i]);
         }
     }
     input_unlock();
     for (i = 0; i < xf86NumScreens; i++) {
         if (xf86Screens[i].EnableDisableFBAccess)
-            (*xf86Screens[i].EnableDisableFBAccess) (xf86Screens[i], TRUE);
+            (*xf86Screens[i].EnableDisableFBAccess) (xf86Screens[i], True);
     }
     dixSaveScreens(serverClient, SCREEN_SAVER_FORCER, ScreenSaverReset);
     pInfo = xf86InputDevs;
     while (pInfo) {
-        EnableDevice(pInfo.dev, TRUE);
+        EnableDevice(pInfo.dev, True);
         pInfo = pInfo.next;
     }
 }
@@ -162,11 +162,11 @@ version (none) {
         /* should we do this ? */
         if (!undo && !suspended) {
             suspend(event, undo);
-            suspended = TRUE;
+            suspended = True;
         }
         else if (undo && suspended) {
             resume(event, undo);
-            suspended = FALSE;
+            suspended = False;
         }
         break;
 version (none) {
@@ -176,7 +176,7 @@ version (none) {
     case XF86_APM_CRITICAL_RESUME:
         if (suspended) {
             resume(event, undo);
-            suspended = FALSE;
+            suspended = False;
         }
         break;
     default:
@@ -197,7 +197,7 @@ void xf86HandlePMEvents(int fd, void* data)
 {
     pmEvent[MAX_NO_EVENTS] events = void;
     int i = void, n = void;
-    Bool wait = FALSE;
+    Bool wait = False;
 
     if (!xf86PMGetEventFromOs)
         return;
@@ -209,17 +209,17 @@ void xf86HandlePMEvents(int fd, void* data)
                 int verb = eventName(events[i], &str);
 
                 LogMessageVerb(X_INFO, verb, "PM Event received: %s\n", str);
-                DoApmEvent(events[i], FALSE);
+                DoApmEvent(events[i], False);
                 switch (xf86PMConfirmEventToOs(fd, events[i])) {
                 case PM_WAIT:
-                    wait = TRUE;
+                    wait = True;
                     break;
                 case PM_CONTINUE:
-                    wait = FALSE;
+                    wait = False;
                     break;
                 case PM_FAILED:
-                    DoApmEvent(events[i], TRUE);
-                    wait = FALSE;
+                    DoApmEvent(events[i], True);
+                    wait = False;
                     break;
                 default:
                     break;

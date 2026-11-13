@@ -149,7 +149,7 @@ Bool xnestCreateWindow(WindowPtr pWin)
     if (!pWin.parent)          /* only the root window will have the right colormap */
         xnestSetInstalledColormapWindows(pWin.drawable.pScreen);
 
-    return TRUE;
+    return True;
 }
 
 Bool xnestDestroyWindow(WindowPtr pWin)
@@ -165,7 +165,7 @@ Bool xnestDestroyWindow(WindowPtr pWin)
     if (pWin.optional && pWin.optional.colormap && pWin.parent)
         xnestSetInstalledColormapWindows(pWin.drawable.pScreen);
 
-    return TRUE;
+    return True;
 }
 
 Bool xnestPositionWindow(WindowPtr pWin, int x, int y)
@@ -178,7 +178,7 @@ Bool xnestPositionWindow(WindowPtr pWin, int x, int y)
                          XCB_CONFIG_WINDOW_HEIGHT | 
                          XCB_CONFIG_WINDOW_BORDER_WIDTH);
 
-    return TRUE;
+    return True;
 }
 
 void xnestConfigureWindow(WindowPtr pWin, uint mask)
@@ -357,7 +357,7 @@ Bool xnestChangeWindowAttributes(WindowPtr pWin, c_ulong mask)
                                          mask,
                                          &attributes);
     }
-    return TRUE;
+    return True;
 }
 
 Bool xnestRealizeWindow(WindowPtr pWin)
@@ -366,13 +366,13 @@ Bool xnestRealizeWindow(WindowPtr pWin)
     xnestShapeWindow(pWin);
     xcb_map_window(xnestUpstreamInfo.conn, xnestWindow(pWin));
 
-    return TRUE;
+    return True;
 }
 
 Bool xnestUnrealizeWindow(WindowPtr pWin)
 {
     xcb_unmap_window(xnestUpstreamInfo.conn, xnestWindow(pWin));
-    return TRUE;
+    return True;
 }
 
 void xnestCopyWindow(WindowPtr pWin, xPoint oldOrigin, RegionPtr oldRegion)
@@ -397,10 +397,10 @@ private Bool xnestRegionEqual(RegionPtr pReg1, RegionPtr pReg2)
     uint n1 = void, n2 = void;
 
     if (pReg1 == pReg2)
-        return TRUE;
+        return True;
 
     if (pReg1 == NullRegion || pReg2 == NullRegion)
-        return FALSE;
+        return False;
 
     pBox1 = RegionRects(pReg1);
     n1 = RegionNumRects(pReg1);
@@ -409,15 +409,15 @@ private Bool xnestRegionEqual(RegionPtr pReg1, RegionPtr pReg2)
     n2 = RegionNumRects(pReg2);
 
     if (n1 != n2)
-        return FALSE;
+        return False;
 
     if (pBox1 == pBox2)
-        return TRUE;
+        return True;
 
     if (memcmp(pBox1, pBox2, n1 * BoxRec.sizeof))
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 void xnestShapeWindow(WindowPtr pWin)

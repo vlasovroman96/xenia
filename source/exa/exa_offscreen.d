@@ -402,13 +402,13 @@ void exaEnableDisableFBAccess(ScreenPtr pScreen, Bool enable)
             ExaOffscreenSwapOut(pScreen);
         else
             ExaOffscreenEjectPixmaps(pScreen);
-        pExaScr.swappedOut = TRUE;
+        pExaScr.swappedOut = True;
     }
 
     if (enable && --pExaScr.disableFbCount == 0) {
         if (pExaScr.info.exa_minor < 1)
             ExaOffscreenSwapIn(pScreen);
-        pExaScr.swappedOut = FALSE;
+        pExaScr.swappedOut = False;
     }
 }
 
@@ -512,7 +512,7 @@ ExaOffscreenArea* ExaOffscreenDefragment(ScreenPtr pScreen)
         return null;
 
     pExaDstPix = mixin(ExaGetPixmapPriv!("pDstPix"));
-    pExaDstPix.use_gpu_copy = TRUE;
+    pExaDstPix.use_gpu_copy = True;
 
     for (area = pExaScr.info.offScreenAreas.prev;
          area != pExaScr.info.offScreenAreas;) {
@@ -567,7 +567,7 @@ ExaOffscreenArea* ExaOffscreenDefragment(ScreenPtr pScreen)
         save_use_gpu_copy = pExaSrcPix.use_gpu_copy;
         save_pitch = pSrcPix.devKind;
 
-        pExaSrcPix.use_gpu_copy = TRUE;
+        pExaSrcPix.use_gpu_copy = True;
         pSrcPix.devKind = pExaSrcPix.fb_pitch;
 
         pDstPix.drawable.width = pSrcPix.drawable.width;
@@ -662,7 +662,7 @@ Bool exaOffscreenInit(ScreenPtr pScreen)
     /* Allocate a big free area */
     ExaOffscreenArea* area = cast(ExaOffscreenArea*) cast(ExaOffscreenArea*) calloc(1, ExaOffscreenArea.sizeof);
     if (!area)
-        return FALSE;
+        return False;
 
     area.state = ExaOffscreenAvail;
     area.base_offset = cast(int)pExaScr.info.offScreenBase;
@@ -682,7 +682,7 @@ Bool exaOffscreenInit(ScreenPtr pScreen)
 
     ExaOffscreenValidate(pScreen);
 
-    return TRUE;
+    return True;
 }
 
 void ExaOffscreenFini(ScreenPtr pScreen)

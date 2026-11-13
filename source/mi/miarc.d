@@ -455,7 +455,7 @@ private void miComputeCircleSpans(int lw, xArc* parc, miArcSpanData* spdata)
         mixin(MIWIDEARCSETUP!("inx", "iny", "dy", "inslw", "ine", "inxk", "inxm", "inyk", "inym"));
     }
     else {
-        spdata.hole = FALSE;
+        spdata.hole = False;
         doinner = -y;
     }
     spdata.count1 = -doinner - spdata.top;
@@ -554,14 +554,14 @@ private void miComputeEllipseSpans(int lw, xArc* parc, miArcSpanData* spdata)
         A = sqrt((Z + Z) - Nk);
         T = (Fk - Z) * K / A;
         inx = 0.0;
-        solution = FALSE;
+        solution = False;
         b = -A + K;
         d = b * b - 4 * (Z + T);
         if (d >= 0) {
             d = sqrt(d);
             y = (b + d) / 2;
             if ((y >= 0.0) && (y < hepp)) {
-                solution = TRUE;
+                solution = True;
                 if (y > hepm)
                     y = h;
                 t = y / h;
@@ -727,14 +727,14 @@ private double tailX(double K, arc_def* def, arc_bound* bounds, accelerators* ac
     }
     A = sqrt((Z + Z) - Nk);
     T = (Fk - Z) * K / A;
-    solution = FALSE;
+    solution = False;
     b = -A + K;
     d = b * b - 4 * (Z + T);
     if (d >= 0 && flip == 2) {
         d = sqrt(d);
         y = (b + d) / 2;
         if ((y >= 0.0) && (y < hepp)) {
-            solution = TRUE;
+            solution = True;
             if (y > hepm)
                 y = h;
             t = y / h;
@@ -915,7 +915,7 @@ private void miFillWideEllipse(DrawablePtr pDraw, GCPtr pGC, xArc* parc)
         }
     }
     free(spdata);
-    (*pGC.ops.FillSpans) (pDraw, pGC, cast(int)(pts - points), points, widths, FALSE);
+    (*pGC.ops.FillSpans) (pDraw, pGC, cast(int)(pts - points), points, widths, False);
 
     free(widths);
 }
@@ -976,12 +976,12 @@ void miWideArc(DrawablePtr pDraw, GCPtr pGC, int narcs, xArc* parcs)
     case GXcopy:           /* src */
     case GXcopyInverted:   /* NOT src */
     case GXset:            /* 1 */
-        fTricky = FALSE;
+        fTricky = False;
         pDrawTo = pDraw;
         pGCTo = pGC;
         break;
     default:
-        fTricky = TRUE;
+        fTricky = True;
 
         /* find bounding box around arcs */
         xMin = yMin = SHRT_MAX;
@@ -2253,7 +2253,7 @@ private double angleToLength(int angle, dashMap* map)
     double len = void, excesslen = void, sidelen = map.map[DASH_MAP_SIZE - 1], totallen = void;
     int di = void;
     int excess = void;
-    Bool oddSide = FALSE;
+    Bool oddSide = False;
 
     totallen = 0;
     if (angle >= 0) {
@@ -2300,7 +2300,7 @@ private int lengthToAngle(double len, dashMap* map)
 {
     double sidelen = map.map[DASH_MAP_SIZE - 1];
     int angle = void, angleexcess = void;
-    Bool oddSide = FALSE;
+    Bool oddSide = False;
     int a0 = void, a1 = void, a = void;
 
     angle = 0;
@@ -3049,7 +3049,7 @@ private void fillSpans(DrawablePtr pDrawable, GCPtr pGC)
                 ++i;
             }
         }
-        (*pGC.ops.FillSpans) (pDrawable, pGC, i, xSpans, xWidths, TRUE);
+        (*pGC.ops.FillSpans) (pDrawable, pGC, i, xSpans, xWidths, True);
     }
     disposeFinalSpans();
     free(xSpans);

@@ -152,7 +152,7 @@ Bool EphyrWantResize;
 char* ephyrResName = null;
 int ephyrResNameFromCmd = 0;
 char* ephyrTitle = null;
-Bool ephyr_glamor = FALSE;
+Bool ephyr_glamor = False;
 Bool ephyrNoXV;
 Bool ephyr_glamor_skip_present;
 
@@ -175,7 +175,7 @@ int hostx_want_screen_geometry(KdScreenInfo* screen, int* width, int* height, in
 
     if (scrpriv && (scrpriv.win_pre_existing != None ||
                     scrpriv.output !is null ||
-                    HostX.use_fullscreen == TRUE)) {
+                    HostX.use_fullscreen == True)) {
         *x = scrpriv.win_x;
         *y = scrpriv.win_y;
         *width = scrpriv.win_width;
@@ -257,7 +257,7 @@ int hostx_want_host_cursor()
 
 void hostx_use_sw_cursor()
 {
-    HostX.use_sw_cursor = TRUE;
+    HostX.use_sw_cursor = True;
 }
 
 xcb_cursor_t hostx_get_empty_cursor()
@@ -279,7 +279,7 @@ int hostx_want_preexisting_window(KdScreenInfo* screen)
 
 void hostx_get_output_geometry(const(char)* output, int* x, int* y, int* width, int* height)
 {
-    int i = void, name_len = 0, output_found = FALSE;
+    int i = void, name_len = 0, output_found = False;
     xcb_generic_error_t* error = void;
     xcb_randr_query_version_cookie_t version_c = void;
     xcb_randr_query_version_reply_t* version_r = void;
@@ -346,7 +346,7 @@ void hostx_get_output_geometry(const(char)* output, int* x, int* y, int* width, 
 
         if (!strcmp(name, output))
         {
-            output_found = TRUE;
+            output_found = True;
 
             /* Check if output is connected */
             if (output_info_r.crtc == XCB_NONE)
@@ -390,7 +390,7 @@ void hostx_get_output_geometry(const(char)* output, int* x, int* y, int* width, 
 
 void hostx_use_fullscreen()
 {
-    HostX.use_fullscreen = TRUE;
+    HostX.use_fullscreen = True;
 }
 
 int hostx_want_fullscreen()
@@ -454,14 +454,14 @@ private void hostx_init_shm()
 {
     /* Try to get share memory ximages for a little bit more speed */
     if (!hostx_has_extension(&xcb_shm_id) || getenv("XEPHYR_NO_SHM")) {
-        HostX.have_shm = FALSE;
+        HostX.have_shm = False;
     } else {
         xcb_generic_error_t* error = null;
         xcb_shm_query_version_cookie_t cookie = void;
         xcb_shm_query_version_reply_t* reply = void;
 
-        HostX.have_shm = TRUE;
-        HostX.have_shm_fd_passing = FALSE;
+        HostX.have_shm = True;
+        HostX.have_shm_fd_passing = False;
         cookie = xcb_shm_query_version(HostX.conn);
         reply = xcb_shm_query_version_reply(HostX.conn, cookie, &error);
         if (reply) {
@@ -485,7 +485,7 @@ static if(MITSHM){
         xcb_shm_create_segment_reply_t* reply = void;
 
         shminfo.shmseg = xcb_generate_id(HostX.conn);
-        cookie = xcb_shm_create_segment(HostX.conn, shminfo.shmseg, size, TRUE);
+        cookie = xcb_shm_create_segment(HostX.conn, shminfo.shmseg, size, True);
         reply = xcb_shm_create_segment_reply(HostX.conn, cookie, &error);
         if (reply) {
             int* fds = reply.nfd == 1 ?
@@ -516,7 +516,7 @@ static if(MITSHM){
                 shmctl(shminfo.shmid, IPC_RMID, 0);
 
                 shminfo.shmseg = xcb_generate_id(HostX.conn);
-                cookie = xcb_shm_attach_checked(HostX.conn, shminfo.shmseg, shminfo.shmid, TRUE);
+                cookie = xcb_shm_attach_checked(HostX.conn, shminfo.shmseg, shminfo.shmid, True);
                 error = xcb_request_check(HostX.conn, cookie);
 
                 if (error) {
@@ -530,7 +530,7 @@ static if(MITSHM){
 
     return shminfo.shmaddr !is null;
 } else {
-    return FALSE;
+    return False;
 } /* MITSHM */
 }
 
@@ -595,11 +595,11 @@ else {
     HostX.visual = xcb_aux_find_visual_by_id(xscreen, xscreen.root_visual);
 
     xcb_create_gc(HostX.conn, HostX.gc, HostX.winroot, 0, null);
-    cookie_WINDOW_STATE = xcb_intern_atom(HostX.conn, FALSE,
+    cookie_WINDOW_STATE = xcb_intern_atom(HostX.conn, False,
                                           strlen("_NET_WM_STATE"),
                                           "_NET_WM_STATE");
     cookie_WINDOW_STATE_FULLSCREEN =
-        xcb_intern_atom(HostX.conn, FALSE,
+        xcb_intern_atom(HostX.conn, False,
                         strlen("_NET_WM_STATE_FULLSCREEN"),
                         "_NET_WM_STATE_FULLSCREEN");
 
@@ -677,7 +677,7 @@ else {
                                           &scrpriv.win_width,
                                           &scrpriv.win_height);
 
-                HostX.use_fullscreen = TRUE;
+                HostX.use_fullscreen = True;
                 hostx_set_fullscreen_hint();
             }
 
@@ -743,7 +743,7 @@ else {
                       1,1);
     xcb_free_pixmap(HostX.conn, cursor_pxm);
     if (!hostx_want_host_cursor ()) {
-        CursorVisible = TRUE;
+        CursorVisible = True;
         /* Ditch the cursor, we provide our 'own' */
         for (index = 0; index < HostX.n_screens; index++) {
             KdScreenInfo* screen = HostX.screens[index];
@@ -762,7 +762,7 @@ else {
         xcb_shm_segment_info_t shminfo = void;
         if (!hostx_create_shm_segment(&shminfo, 1)) {
             fprintf(stderr, "\nXephyr unable to use SHM XImages\n");
-            HostX.have_shm = FALSE;
+            HostX.have_shm = False;
         } else {
             hostx_destroy_shm_segment(&shminfo, 1);
         }
@@ -888,7 +888,7 @@ hostx_screen_init(KdScreenInfo* screen,
                   int* bytes_per_line, int* bits_per_pixel)
 {
     EphyrScrPriv* scrpriv = cast(EphyrScrPriv*)screen.driver;
-    Bool shm_success = FALSE;
+    Bool shm_success = False;
 
     if (!scrpriv) {
         fprintf(stderr, "%s: Error in accessing hostx data\n", __FUNCTION__.ptr);
@@ -930,13 +930,13 @@ hostx_screen_init(KdScreenInfo* screen,
                                       scrpriv.shmsize)) {
             EPHYR_DBG
                 ("Can't create SHM Segment, falling back to plain XImages");
-            HostX.have_shm = FALSE;
+            HostX.have_shm = False;
             xcb_image_destroy(scrpriv.ximg);
         }
         else {
             EPHYR_DBG("SHM segment created %p", scrpriv.shminfo.shmaddr);
             scrpriv.ximg.data = scrpriv.shminfo.shmaddr;
-            shm_success = TRUE;
+            shm_success = True;
         }
     }
 
@@ -1144,7 +1144,7 @@ static if (GLAMOR) {
         xcb_image_shm_put(HostX.conn, scrpriv.win,
                           HostX.gc, scrpriv.ximg,
                           scrpriv.shminfo,
-                          sx, sy, dx, dy, width, height, FALSE);
+                          sx, sy, dx, dy, width, height, False);
         if (sync)
             xcb_aux_sync(HostX.conn);
     }
@@ -1215,7 +1215,7 @@ Bool hostx_load_keymap(KeySymsPtr keySyms, CARD8* modmap, XkbControlsPtr control
     /* Check for XKB availability in host X server */
     if (!hostx_has_extension(&xcb_xkb_id)) {
         EPHYR_LOG_ERROR("XKB extension is not supported in host X server.");
-        return FALSE;
+        return False;
     }
 
     use_c = xcb_xkb_use_extension(HostX.conn,
@@ -1225,11 +1225,11 @@ Bool hostx_load_keymap(KeySymsPtr keySyms, CARD8* modmap, XkbControlsPtr control
 
     if (!use_r) {
         EPHYR_LOG_ERROR("Couldn't use XKB extension.");
-        return FALSE;
+        return False;
     } else if (!use_r.supported) {
         EPHYR_LOG_ERROR("XKB extension is not supported in host X server.");
         free(use_r);
-        return FALSE;
+        return False;
     }
 
     free(use_r);
@@ -1249,7 +1249,7 @@ Bool hostx_load_keymap(KeySymsPtr keySyms, CARD8* modmap, XkbControlsPtr control
 
     if (!mapping_r) {
         EPHYR_LOG_ERROR("xcb_get_keyboard_mapping_reply() failed.");
-        return FALSE;
+        return False;
     }
 
     map_width = mapping_r.keysyms_per_keycode;
@@ -1262,7 +1262,7 @@ Bool hostx_load_keymap(KeySymsPtr keySyms, CARD8* modmap, XkbControlsPtr control
     if (!keySyms.map) {
         EPHYR_LOG_ERROR("Failed to allocate KeySym map.");
         free(mapping_r);
-        return FALSE;
+        return False;
     }
 
     for (i = 0; i < keymap_len; i++) {
@@ -1277,7 +1277,7 @@ Bool hostx_load_keymap(KeySymsPtr keySyms, CARD8* modmap, XkbControlsPtr control
 
     if (!modifier_r) {
         EPHYR_LOG_ERROR("xcb_get_modifier_mapping_reply() failed.");
-        return FALSE;
+        return False;
     }
 
     modifier_map = xcb_get_modifier_mapping_keycodes(modifier_r);
@@ -1301,7 +1301,7 @@ Bool hostx_load_keymap(KeySymsPtr keySyms, CARD8* modmap, XkbControlsPtr control
 
     if (!controls_r) {
         EPHYR_LOG_ERROR("xcb_xkb_get_controls_reply() failed.");
-        return FALSE;
+        return False;
     }
 
     controls.enabled_ctrls = controls_r.enabledControls;
@@ -1312,7 +1312,7 @@ Bool hostx_load_keymap(KeySymsPtr keySyms, CARD8* modmap, XkbControlsPtr control
 
     free(controls_r);
 
-    return TRUE;
+    return True;
 }
 
 void hostx_size_set_from_configure(Bool ss)
@@ -1389,12 +1389,12 @@ int hostx_get_window_attributes(int a_window, EphyrHostWindowAttributes* a_attrs
 
     free(geom_reply);
     free(attr_reply);
-    return TRUE;
+    return True;
 }
 
 int hostx_get_visuals_info(EphyrHostVisualInfo** a_visuals, int* a_num_entries)
 {
-    Bool is_ok = FALSE;
+    Bool is_ok = False;
     EphyrHostVisualInfo* host_visuals = null;
     int nb_items = 0, i = 0, screen_num = void;
     xcb_screen_iterator_t screens = void;
@@ -1435,7 +1435,7 @@ int hostx_get_visuals_info(EphyrHostVisualInfo** a_visuals, int* a_num_entries)
     *a_num_entries = nb_items;
     host_visuals = null;
 
-    is_ok = TRUE;
+    is_ok = True;
 _:
     free(host_visuals);
     host_visuals = null;
@@ -1446,7 +1446,7 @@ _:
 
 int hostx_create_window(int a_screen_number, EphyrBox* a_geometry, int a_visual_id, int* a_host_peer)
 {
-    Bool is_ok = FALSE;
+    Bool is_ok = False;
     xcb_window_t win = void;
     int winmask = 0;
     uint[2] attrs = void;
@@ -1500,7 +1500,7 @@ int hostx_create_window(int a_screen_number, EphyrBox* a_geometry, int a_visual_
     xcb_flush(HostX.conn);
     xcb_map_window(HostX.conn, win);
     *a_host_peer = win;
-    is_ok = TRUE;
+    is_ok = True;
  _:
     EPHYR_LOG("leave\n");
     return is_ok;
@@ -1510,7 +1510,7 @@ int hostx_destroy_window(int a_win)
 {
     xcb_destroy_window(HostX.conn, a_win);
     xcb_flush(HostX.conn);
-    return TRUE;
+    return True;
 }
 
 int hostx_set_window_geometry(int a_win, EphyrBox* a_geo)
@@ -1533,12 +1533,12 @@ int hostx_set_window_geometry(int a_win, EphyrBox* a_geo)
     xcb_configure_window(HostX.conn, a_win, mask, values.ptr);
 
     EPHYR_LOG("leave\n");
-    return TRUE;
+    return True;
 }
 
 int hostx_set_window_bounding_rectangles(int a_window, EphyrRect* a_rects, int a_num_rects)
 {
-    Bool is_ok = FALSE;
+    Bool is_ok = False;
     int i = 0;
     xcb_rectangle_t* rects = null;
 
@@ -1565,7 +1565,7 @@ int hostx_set_window_bounding_rectangles(int a_window, EphyrRect* a_rects, int a
                          0, 0,
                          a_num_rects,
                          rects);
-    is_ok = TRUE;
+    is_ok = True;
 
 _:
     free(rects);
@@ -1622,7 +1622,7 @@ Bool ephyr_glamor_init(ScreenPtr screen)
 
     if (!glamor_init(screen, GLAMOR_USE_EGL_SCREEN)) {
         FatalError("Failed to initialize glamor\n");
-        return FALSE;
+        return False;
     }
     hostx_glx_exts = __glXQueryServerString(GLX_EXTENSIONS);
     if (epoxy_extension_in_string(hostx_glx_exts,"GLX_EXT_libglvnd"))
@@ -1643,7 +1643,7 @@ version (XV) {
     }
 } /*XV*/
 
-    return TRUE;
+    return True;
 }
 
 private int ephyrSetPixmapVisitWindow(WindowPtr window, void* data)
@@ -1666,7 +1666,7 @@ Bool ephyr_glamor_create_screen_resources(ScreenPtr pScreen)
     uint tex = void;
 
     if (!ephyr_glamor)
-        return TRUE;
+        return True;
 
     /* kdrive's fbSetupScreen() told mi to have
      * miCreateScreenResources() (which is called before this) make a
@@ -1688,7 +1688,7 @@ Bool ephyr_glamor_create_screen_resources(ScreenPtr pScreen)
                                           pScreen.rootDepth,
                                           GLAMOR_CREATE_NO_LARGE);
     if (!screen_pixmap)
-        return FALSE;
+        return False;
 
     pScreen.SetScreenPixmap(screen_pixmap);
     if (pScreen.root && pScreen.SetWindowPixmap)
@@ -1697,11 +1697,11 @@ Bool ephyr_glamor_create_screen_resources(ScreenPtr pScreen)
     /* Tell the GLX code what to GL texture to read from. */
     tex = glamor_get_pixmap_texture(screen_pixmap);
     if (!tex)
-        return FALSE;
+        return False;
 
     ephyr_glamor_set_texture(scrpriv.glamor, tex);
 
-    return TRUE;
+    return True;
 }
 
 void ephyr_glamor_enable(ScreenPtr screen)

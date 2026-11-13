@@ -67,7 +67,6 @@ import xf86tokens;
 import Configint;
 import x11.Xmd;
 import x11.Xdefs;
-import common.misc;
 import hw.xfree86.parser.Flags;
 import scan;
 import core.stdc.string;
@@ -418,7 +417,7 @@ alias CLEANUP = xf86freeMonitorList;
 
 XF86ConfMonitorPtr xf86parseMonitorSection()
 {
-    int has_ident = FALSE;
+    int has_ident = False;
     int token = void;
 
     mixin(parsePrologue!("XF86ConfMonitorPtr", "XF86ConfMonitorRec"));
@@ -433,10 +432,10 @@ XF86ConfMonitorPtr xf86parseMonitorSection()
         case IDENTIFIER:
             if (xf86getSubToken(&(ptr.mon_comment)) != XF86_TOKEN_STRING)
                 mixin(ErrorP!(`QUOTE_MSG, "Identifier"`));
-            if (has_ident == TRUE)
+            if (has_ident == True)
                 mixin(ErrorP!(`MULTIPLE_MSG, "Identifier"`));
             ptr.mon_identifier = xf86_lex_val.str;
-            has_ident = TRUE;
+            has_ident = True;
             break;
         case VENDOR:
             if (xf86getSubToken(&(ptr.mon_comment)) != XF86_TOKEN_STRING)
@@ -602,7 +601,7 @@ alias CLEANUP = xf86freeModesList;
 
 XF86ConfModesPtr xf86parseModesSection()
 {
-    int has_ident = FALSE;
+    int has_ident = False;
     int token = void;
 
     mixin(parsePrologue!("XF86ConfModesPtr", "XF86ConfModesRec"));
@@ -617,10 +616,10 @@ XF86ConfModesPtr xf86parseModesSection()
         case IDENTIFIER:
             if (xf86getSubToken(&(ptr.modes_comment)) != XF86_TOKEN_STRING)
                 mixin(ErrorP!(`QUOTE_MSG, "Identifier"`));
-            if (has_ident == TRUE)
+            if (has_ident == True)
                 mixin(ErrorP!(`MULTIPLE_MSG, "Identifier"`));
             ptr.modes_identifier = xf86_lex_val.str;
-            has_ident = TRUE;
+            has_ident = True;
             break;
         case MODE:
             mixin(HANDLE_LIST!("mon_modeline_lst", "&xf86parseVerboseMode", "XF86ConfModeLinePtr"));
@@ -854,10 +853,10 @@ int xf86validateMonitor(XF86ConfigPtr p, XF86ConfScreenPtr screen)
             xf86validationError(UNDEFINED_MODES_MSG,
                                 modeslnk.ml_modes_str,
                                 screen.scrn_identifier);
-            return FALSE;
+            return False;
         }
         modeslnk.ml_modes = modes;
         modeslnk = cast(_XF86ConfModesLinkRec*)modeslnk.list.next;
     }
-    return TRUE;
+    return True;
 }

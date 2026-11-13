@@ -55,7 +55,7 @@ static if(DPMSExtension) {
 import Xext.dpmsproc;
 }
 
-Bool xnestDoFullGeneration = TRUE;
+Bool xnestDoFullGeneration = True;
 
 /* Xnest doesn't support GLX yet, so we don't link it, but still have
    satisfy DIX's symbol requirements */
@@ -64,7 +64,7 @@ void GlxExtensionInit()
 {
 }
 
-Bool noGlxExtension = FALSE;
+Bool noGlxExtension = False;
 }
 
 void InitOutput(int argc, char** argv)
@@ -111,7 +111,7 @@ void InitOutput(int argc, char** argv)
 
     xnestNumScreens = screenInfo.numScreens;
 
-    xnestDoFullGeneration = FALSE;
+    xnestDoFullGeneration = False;
 }
 
 private void xnestNotifyConnection(int fd, int ready, void* data)
@@ -126,7 +126,7 @@ void InitInput(int argc, char** argv)
     rc = AllocDevicePair(serverClient, "Xnest",
                          &xnestPointerDevice,
                          &xnestKeyboardDevice,
-                         xnestPointerProc, xnestKeyboardProc, FALSE);
+                         xnestPointerProc, xnestKeyboardProc, False);
 
     if (rc != Success)
         FatalError("Failed to init Xnest default devices.\n");
@@ -148,7 +148,7 @@ void CloseInput()
 
 void ddxGiveUp(ExitCode error)
 {
-    xnestDoFullGeneration = TRUE;
+    xnestDoFullGeneration = True;
     xnestCloseDisplay();
 }
 

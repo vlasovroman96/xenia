@@ -601,7 +601,7 @@ private Bool CheckVersion(const(char)* module_, XF86ModuleVersionInfo* data, con
                                ~ "doesn't match the server's version (%d)\n",
                                module_, abimaj, vermaj);
                 if (!LoaderIgnoreAbi)
-                    return FALSE;
+                    return False;
             }
             else if (abimin > vermin) {
                 LogMessageVerb(LoaderIgnoreAbi ? X_WARNING : X_ERROR, 0,
@@ -609,7 +609,7 @@ private Bool CheckVersion(const(char)* module_, XF86ModuleVersionInfo* data, con
                                ~ "is newer than the server's version (%d)\n",
                                module_, abimin, vermin);
                 if (!LoaderIgnoreAbi)
-                    return FALSE;
+                    return False;
             }
         }
     }
@@ -620,20 +620,20 @@ private Bool CheckVersion(const(char)* module_, XF86ModuleVersionInfo* data, con
             LogMessageVerb(X_WARNING, 2, "%s: module major version (%d) "
                            ~ "doesn't match required major version (%d)\n",
                            module_, data.majorversion, req.majorversion);
-            return FALSE;
+            return False;
         }
         else if (data.minorversion < req.minorversion) {
             LogMessageVerb(X_WARNING, 2, "%s: module minor version (%d) is "
                           ~ "less than the required minor version (%d)\n",
                           module_, data.minorversion, req.minorversion);
-            return FALSE;
+            return False;
         }
         else if (data.minorversion == req.minorversion &&
                  data.patchlevel < req.patchlevel) {
             LogMessageVerb(X_WARNING, 2, "%s: module patch level (%d) "
                            ~ "is less than the required patch level "
                            ~ "(%d)\n", module_, data.patchlevel, req.patchlevel);
-            return FALSE;
+            return False;
         }
         if (req.moduleclass) {
             if (!data.moduleclass ||
@@ -642,7 +642,7 @@ private Bool CheckVersion(const(char)* module_, XF86ModuleVersionInfo* data, con
                                ~ "match the required class (%s)\n", module_,
                                data.moduleclass ? data.moduleclass : "<NONE>",
                                req.moduleclass);
-                return FALSE;
+                return False;
             }
         }
         else if (req.abiclass != ABI_CLASS_NONE) {
@@ -651,7 +651,7 @@ private Bool CheckVersion(const(char)* module_, XF86ModuleVersionInfo* data, con
                                ~ " the required ABI class (%s)\n", module_,
                                data.abiclass ? data.abiclass : "<NONE>",
                                req.abiclass);
-                return FALSE;
+                return False;
             }
         }
         if (req.abiclass != ABI_CLASS_NONE) {
@@ -665,18 +665,18 @@ private Bool CheckVersion(const(char)* module_, XF86ModuleVersionInfo* data, con
                 LogMessageVerb(X_WARNING, 2, "%s: ABI major version (%d) "
                                ~ "doesn't match the required ABI major version "
                                ~ "(%d)\n", module_, maj, reqmaj);
-                return FALSE;
+                return False;
             }
             /* XXX Maybe this should be the other way around? */
             if (min > reqmin) {
                 LogMessageVerb(X_WARNING, 2, "%s: module ABI minor version "
                                ~ "(%d) is newer than that available (%d)\n",
                                module_, min, reqmin);
-                return FALSE;
+                return False;
             }
         }
     }
-    return TRUE;
+    return True;
 }
 
 private ModuleDescPtr AddSibling(ModuleDescPtr head, ModuleDescPtr new_)

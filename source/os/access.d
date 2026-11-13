@@ -202,7 +202,7 @@ import os.Xtransutil;
 
 alias sockaddr = core.sys.posix.sys.socket.sockaddr;
 
-Bool defeatAccessControl = FALSE;
+Bool defeatAccessControl = False;
 
 enum string addrEqual(string fam, string address, string length, string host) = `
 			 ((` ~ fam ~ `) == (` ~ host ~ `).family &&
@@ -217,8 +217,8 @@ enum string addrEqual(string fam, string address, string length, string host) = 
 
 /* XFree86 bug #156: To keep track of which hosts were explicitly requested in
    /etc/X<display>.hosts, we've added a requested field to the HOST struct,
-   and a LocalHostRequested variable.  These default to FALSE, but are set
-   to TRUE in ResetHosts when reading in /etc/X<display>.hosts.  They are
+   and a LocalHostRequested variable.  These default to False, but are set
+   to True in ResetHosts when reading in /etc/X<display>.hosts.  They are
    checked in DisableLocalHost(), which is called to disable the default
    local host entries when stronger authentication is turned on. */
 
@@ -235,15 +235,15 @@ alias HOST = _host;
 enum string MakeHost(string h,string l) = `(` ~ h ~ `)=cast(typeof(`~h~`))calloc(1, ((*` ~ h ~ `).sizeof+(` ~ l ~ `)));
 			if (` ~ h ~ `) { 
 			   (` ~ h ~ `).addr=cast(ubyte*) ((` ~ h ~ `) + 1);
-			   (` ~ h ~ `).requested = FALSE; 
+			   (` ~ h ~ `).requested = False; 
 			}`;
 enum string FreeHost(string h) = `free(` ~ h ~ `);`;
 private HOST* selfhosts = null;
 private HOST* validhosts = null;
-private int AccessEnabled = TRUE;
-private int LocalHostEnabled = FALSE;
-private int LocalHostRequested = FALSE;
-private int UsingXdmcp = FALSE;
+private int AccessEnabled = True;
+private int LocalHostEnabled = False;
+private int LocalHostRequested = False;
+private int UsingXdmcp = False;
 
 alias in_addr = core.sys.posix.arpa.inet.in_addr;
 
@@ -291,7 +291,7 @@ version (NO_LOCAL_CLIENT_CRED) {} else {
 private void EnableLocalHost()
 {
     if (!UsingXdmcp) {
-        LocalHostEnabled = TRUE;
+        LocalHostEnabled = True;
         AddLocalHosts();
     }
 }
@@ -318,7 +318,7 @@ private void DisableLocalHost()
     HOST* self = void;
 
     if (!LocalHostRequested)    /* Fix for XFree86 bug #156 */
-        LocalHostEnabled = FALSE;
+        LocalHostEnabled = False;
     for (self = selfhosts; self; self = self.next) {
         if (!self.requested)   /* Fix for XFree86 bug #156 */
             cast(void) RemoveHost(cast(ClientPtr) null, self.family, self.len,
@@ -365,7 +365,7 @@ private void EnableLocalUser()
     if (length == -1)
         return;
 
-    NewHost(FamilyServerInterpreted, addr, length, TRUE);
+    NewHost(FamilyServerInterpreted, addr, length, True);
 
     free(addr);
 }
@@ -398,8 +398,8 @@ void LocalAccessScopeUser()
 
 void AccessUsingXdmcp()
 {
-    UsingXdmcp = TRUE;
-    LocalHostEnabled = FALSE;
+    UsingXdmcp = True;
+    LocalHostEnabled = False;
 }
 
 /*
@@ -906,11 +906,11 @@ void AddLocalHosts()
     HOST* self = void;
 
     for (self = selfhosts; self; self = self.next)
-        /* Fix for XFree86 bug #156: pass addingLocal = TRUE to
+        /* Fix for XFree86 bug #156: pass addingLocal = True to
          * NewHost to tell that we are adding the default local
          * host entries and not to flag the entries as being
          * explicitly requested */
-        cast(void) NewHost(self.family, self.addr, self.len, TRUE);
+        cast(void) NewHost(self.family, self.addr, self.len, True);
 }
 
 /* Reset access control list to initial hosts */
@@ -930,7 +930,7 @@ void ResetHosts(const(char)* display)
 
     siTypesInitialize();
     AccessEnabled = !defeatAccessControl;
-    LocalHostEnabled = FALSE;
+    LocalHostEnabled = False;
     while ((host = validhosts) !is null) {
         validhosts = host.next;
         mixin(FreeHost!(`host`));
@@ -962,8 +962,8 @@ static if (HasVersion!"Windows" && HasVersion!"Windows") {
             hostname = ohostname.ptr;
             if (!strncmp("local:", lhostname.ptr, 6)) {
                 family = FamilyLocalHost;
-                NewHost(family, "".ptr, 0, FALSE);
-                LocalHostRequested = TRUE;      /* Fix for XFree86 bug #156 */
+                NewHost(family, "".ptr, 0, False);
+                LocalHostRequested = True;      /* Fix for XFree86 bug #156 */
             }
             else if (!strncmp("inet:", lhostname.ptr, 5)) {
                 family = FamilyInternet;
@@ -984,7 +984,7 @@ static if (IPv6){
             if (family == FamilyServerInterpreted) {
                 len = siCheckAddr(hostname, hostlen);
                 if (len >= 0) {
-                    NewHost(family, hostname, len, FALSE);
+                    NewHost(family, hostname, len, False);
                 }
             }
             else
@@ -1008,7 +1008,7 @@ static if (HAVE_GETADDRINFO) {
                                             cast(void**) &addr);
                             if (addr && ((family == f) ||
                                          ((family == FamilyWild) && (f != -1)))) {
-                                NewHost(f, addr, len, FALSE);
+                                NewHost(f, addr, len, False);
                             }
                         }
                         freeaddrinfo(addresses);
@@ -1032,10 +1032,10 @@ version (h_addr) {                   /* new 4.3bsd version of gethostent */
 
                         /* iterate over the addresses */
                         for (list = hp.h_addr_list; *list; list++)
-                            cast(void) NewHost(family, cast(void*) *list, len, FALSE);
+                            cast(void) NewHost(family, cast(void*) *list, len, False);
 } else {
                         cast(void) NewHost(family, cast(void*) hp.h_addr, len,
-                                       FALSE);
+                                       False);
 }
                     }
                 }
@@ -1057,28 +1057,28 @@ private Bool xtransLocalClient(ClientPtr client)
     OsCommPtr oc = cast(OsCommPtr) client.osPrivate;
 
     if (!oc.trans_conn)
-        return FALSE;
+        return False;
 
     if (!_XSERVTransGetPeerAddr(oc.trans_conn, &notused, &alen, &from)) {
         family = ConvertAddr(cast(sockaddr*) from,
                              &alen, cast(void**) &addr);
         if (family == -1) {
             free(from);
-            return FALSE;
+            return False;
         }
         if (family == FamilyLocal) {
             free(from);
-            return TRUE;
+            return True;
         }
         for (host = selfhosts; host; host = host.next) {
             if (mixin(addrEqual!(`family`, `addr`, `alen`, `host`))) {
                 free(from);
-                return TRUE;
+                return True;
             }
         }
         free(from);
     }
-    return FALSE;
+    return False;
 }
 
 /* Is client on the local host */
@@ -1087,7 +1087,7 @@ Bool ComputeLocalClient(ClientPtr client)
     const(char)* cmdname = GetClientCmdName(client);
 
     if (!xtransLocalClient(client))
-        return FALSE;
+        return False;
 
     /* If the executable name is "ssh", assume that this client connection
      * is forwarded from another host via SSH
@@ -1095,7 +1095,7 @@ Bool ComputeLocalClient(ClientPtr client)
     if (cmdname) {
         char* cmd = strdup(cmdname);
         if (!cmd)
-            return FALSE;
+            return False;
 
         Bool ret = void;
 
@@ -1115,7 +1115,7 @@ static if (!HasVersion!"Windows" || HasVersion!"Cygwin") {
         return ret;
     }
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -1300,7 +1300,7 @@ int AddHost(ClientPtr client, int family, uint length, const(void)* pAddr)
     switch (family) {
     case FamilyLocalHost:
         len = length;
-        LocalHostEnabled = TRUE;
+        LocalHostEnabled = True;
         break;
     case FamilyInternet:
 static if (IPv6){
@@ -1319,7 +1319,7 @@ static if (IPv6){
         client.errorValue = cast(uint)family;
         return BadValue;
     }
-    if (NewHost(family, pAddr, len, FALSE))
+    if (NewHost(family, pAddr, len, False))
         return Success;
     return BadAlloc;
 }
@@ -1330,8 +1330,8 @@ Bool ForEachHostInFamily(int family, Bool function(ubyte* addr, short len, void*
 
     for (host = validhosts; host; host = host.next)
         if (family == host.family && func(host.addr, host.len, closure))
-            return TRUE;
-    return FALSE;
+            return True;
+    return False;
 }
 
 /* Add a host to the access control list. This is the internal interface
@@ -1342,25 +1342,25 @@ private Bool NewHost(int family, const(void)* addr, int len, int addingLocalHost
 
     for (host = validhosts; host; host = host.next) {
         if (mixin(addrEqual!(`family`, `addr`, `len`, `host`)))
-            return TRUE;
+            return True;
     }
     if (!addingLocalHosts) {    /* Fix for XFree86 bug #156 */
         for (host = selfhosts; host; host = host.next) {
             if (mixin(addrEqual!(`family`, `addr`, `len`, `host`))) {
-                host.requested = TRUE;
+                host.requested = True;
                 break;
             }
         }
     }
     mixin(MakeHost!(`host`, `len`));
         if (!host)
-        return FALSE;
+        return False;
     host.family = cast(short)family;
     host.len = cast(short)len;
     memcpy(host.addr, addr, len);
     host.next = validhosts;
     validhosts = host;
-    return TRUE;
+    return True;
 }
 
 /* Remove a host from the access control list */
@@ -1376,7 +1376,7 @@ int RemoveHost(ClientPtr client, int family, uint length, void* pAddr)
     switch (family) {
     case FamilyLocalHost:
         len = length;
-        LocalHostEnabled = FALSE;
+        LocalHostEnabled = False;
         break;
     case FamilyInternet:
 static if (IPv6){
@@ -1654,7 +1654,7 @@ private int siTypeAdd(const(char)* typeName, siAddrMatchFunc addrMatch, siCheckA
 /* Checks to see if a host matches a server-interpreted host entry */
 private Bool siAddrMatch(int family, void* addr, int len, HOST* host, ClientPtr client)
 {
-    Bool matches = FALSE;
+    Bool matches = False;
     siType* s = void;
     const(char)* valueString = void;
     int addrlen = void;
@@ -1753,7 +1753,7 @@ version (NI_MAXHOST) {
 
 private Bool siHostnameAddrMatch(int family, void* addr, int len, const(char)* siAddr, int siAddrLen, ClientPtr client, void* typePriv)
 {
-    Bool res = FALSE;
+    Bool res = False;
 
 /* Currently only supports checking against IPv4 & IPv6 connections, but
  * support for other address families, such as DECnet, could be added if
@@ -1774,7 +1774,7 @@ static if (HasVersion!"IPv6") {
         void* hostaddr = null;
 
         if (siAddrLen >= hostname.sizeof)
-            return FALSE;
+            return False;
 
         strlcpy(hostname.ptr, siAddr, siAddrLen + 1);
 
@@ -1784,7 +1784,7 @@ static if (HasVersion!"IPv6") {
                 f = ConvertAddr(a.ai_addr, &hostaddrlen, &hostaddr);
                 if ((f == family) && (len == hostaddrlen) && hostaddr &&
                     (memcmp(addr, hostaddr, len) == 0)) {
-                    res = TRUE;
+                    res = True;
                     break;
                 }
             }
@@ -1801,7 +1801,7 @@ static if (HasVersion!"IPv6") {
         char** addrlist = void;
 
         if (siAddrLen >= hostname.sizeof)
-            return FALSE;
+            return False;
 
         strlcpy(hostname.ptr, siAddr, siAddrLen + 1);
 
@@ -1822,7 +1822,7 @@ static if (HasVersion!"IPv6") {
                                 &hostaddrlen, &hostaddr);
                 if ((f == family) && (len == hostaddrlen) &&
                     (memcmp(addr, hostaddr, len) == 0)) {
-                    res = TRUE;
+                    res = True;
 version (h_addr) {
                     break;
 }
@@ -1842,8 +1842,8 @@ private int siHostnameCheckAddr(const(char)* valueString, int length, void* type
      */
     int len = length;
     int i = void;
-    Bool dotAllowed = FALSE;
-    Bool dashAllowed = FALSE;
+    Bool dotAllowed = False;
+    Bool dashAllowed = False;
 
     if ((length <= 0) || (length >= SI_HOSTNAME_MAXLEN)) {
         len = -1;
@@ -1853,29 +1853,29 @@ private int siHostnameCheckAddr(const(char)* valueString, int length, void* type
             char c = valueString[i];
 
             if (c == 0x2E) {    /* '.' */
-                if (dotAllowed == FALSE) {
+                if (dotAllowed == False) {
                     len = -1;
                     break;
                 }
                 else {
-                    dotAllowed = FALSE;
-                    dashAllowed = FALSE;
+                    dotAllowed = False;
+                    dashAllowed = False;
                 }
             }
             else if (c == 0x2D) {       /* '-' */
-                if (dashAllowed == FALSE) {
+                if (dashAllowed == False) {
                     len = -1;
                     break;
                 }
                 else {
-                    dotAllowed = FALSE;
+                    dotAllowed = False;
                 }
             }
             else if (((c >= 0x30) && (c <= 0x3A)) /* 0-9 */ ||
                      ((c >= 0x61) && (c <= 0x7A)) /* a-z */ ||
                      ((c >= 0x41) && (c <= 0x5A)) /* A-Z */ ) {
-                dotAllowed = TRUE;
-                dashAllowed = TRUE;
+                dotAllowed = True;
+                dashAllowed = True;
             }
             else {              /* Invalid character */
                 len = -1;
@@ -1907,21 +1907,21 @@ private Bool siIPv6AddrMatch(int family, void* addr, int len, const(char)* siAdd
     char[SI_IPv6_MAXLEN] addrbuf = void;
 
     if ((family != FamilyInternet6) || (len != addr6.sizeof))
-        return FALSE;
+        return False;
 
     memcpy(addrbuf.ptr, siAddr, siAddrlen);
     addrbuf[siAddrlen] = '\0';
 
     if (core.sys.posix.arpa.inet.inet_pton(AF_INET6, addrbuf.ptr, &addr6) != 1) {
         perror("inet_pton");
-        return FALSE;
+        return False;
     }
 
     if (memcmp(addr, &addr6, len) == 0) {
-        return TRUE;
+        return True;
     }
     else {
-        return FALSE;
+        return False;
     }
 }
 
@@ -1981,11 +1981,11 @@ private siLocalCredPrivRec siLocalGroupPriv = { LOCAL_GROUP };
 
 private Bool siLocalCredGetId(const(char)* addr, int len, siLocalCredPrivPtr lcPriv, int* id)
 {
-    Bool parsedOK = FALSE;
+    Bool parsedOK = False;
     char* addrbuf = cast(char*) calloc(1, len + 1);
 
     if (addrbuf is null) {
-        return FALSE;
+        return False;
     }
 
     memcpy(addrbuf, addr, len);
@@ -1997,7 +1997,7 @@ private Bool siLocalCredGetId(const(char)* addr, int len, siLocalCredPrivPtr lcP
         errno = 0;
         *id = cast(int)strtol(addrbuf + 1, &cp, 0);
         if ((errno == 0) && (cp != (addrbuf + 1))) {
-            parsedOK = TRUE;
+            parsedOK = True;
         }
     }
     else {                      /* non-numeric name */
@@ -2006,7 +2006,7 @@ private Bool siLocalCredGetId(const(char)* addr, int len, siLocalCredPrivPtr lcP
 
             if (pw !is null) {
                 *id = cast(int) pw.pw_uid;
-                parsedOK = TRUE;
+                parsedOK = True;
             }
         }
         else {                  /* group */
@@ -2014,7 +2014,7 @@ private Bool siLocalCredGetId(const(char)* addr, int len, siLocalCredPrivPtr lcP
 
             if (gr !is null) {
                 *id = cast(int) gr.gr_gid;
-                parsedOK = TRUE;
+                parsedOK = True;
             }
         }
     }
@@ -2030,31 +2030,31 @@ private Bool siLocalCredAddrMatch(int family, void* addr, int len, const(char)* 
     siLocalCredPrivPtr lcPriv = cast(siLocalCredPrivPtr) typePriv;
 
     if (GetLocalClientCreds(client, &lcc) == -1) {
-        return FALSE;
+        return False;
     }
 
 version (HAVE_GETZONEID) {           /* Ensure process is in the same zone */
     if ((lcc.fieldsSet & LCC_ZID_SET) && (lcc.zoneid != getzoneid())) {
         FreeLocalClientCreds(lcc);
-        return FALSE;
+        return False;
     }
 }
 
-    if (siLocalCredGetId(siAddr, siAddrlen, lcPriv, &siAddrId) == FALSE) {
+    if (siLocalCredGetId(siAddr, siAddrlen, lcPriv, &siAddrId) == False) {
         FreeLocalClientCreds(lcc);
-        return FALSE;
+        return False;
     }
 
     if (lcPriv.credType == LOCAL_USER) {
         if ((lcc.fieldsSet & LCC_UID_SET) && (lcc.euid == siAddrId)) {
             FreeLocalClientCreds(lcc);
-            return TRUE;
+            return True;
         }
     }
     else {
         if ((lcc.fieldsSet & LCC_GID_SET) && (lcc.egid == siAddrId)) {
             FreeLocalClientCreds(lcc);
-            return TRUE;
+            return True;
         }
         if (lcc.pSuppGids !is null) {
             int i = void;
@@ -2062,13 +2062,13 @@ version (HAVE_GETZONEID) {           /* Ensure process is in the same zone */
             for (i = 0; i < lcc.nSuppGids; i++) {
                 if (lcc.pSuppGids[i] == siAddrId) {
                     FreeLocalClientCreds(lcc);
-                    return TRUE;
+                    return True;
                 }
             }
         }
     }
     FreeLocalClientCreds(lcc);
-    return FALSE;
+    return False;
 }
 
 private int siLocalCredCheckAddr(const(char)* addrString, int length, void* typePriv)
@@ -2077,7 +2077,7 @@ private int siLocalCredCheckAddr(const(char)* addrString, int length, void* type
     int id = void;
 
     if (siLocalCredGetId(addrString, length,
-                         cast(siLocalCredPrivPtr) typePriv, &id) == FALSE) {
+                         cast(siLocalCredPrivPtr) typePriv, &id) == False) {
         len = -1;
     }
     return len;

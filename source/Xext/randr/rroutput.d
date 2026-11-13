@@ -58,7 +58,7 @@ void RROutputChanged(RROutputPtr output, Bool configChanged)
     ScreenPtr pScreen = output.pScreen;
     rrScrPrivPtr primarysp = void;
 
-    output.changed = TRUE;
+    output.changed = True;
     if (!pScreen)
         return;
 
@@ -74,7 +74,7 @@ void RROutputChanged(RROutputPtr output, Bool configChanged)
 
     RRSetChanged(pScreen);
     if (configChanged)
-        primarysp.configChanged = TRUE;
+        primarysp.configChanged = True;
 }
 
 /*
@@ -121,20 +121,20 @@ RROutputPtr RROutputCreate(ScreenPtr pScreen, const(char)* name, int nameLength,
     Atom nonDesktopAtom = dixAddAtom(RR_PROPERTY_NON_DESKTOP);
     if (nonDesktopAtom != BAD_RESOURCE) {
         static const(INT32)[2] values = [ 0, 1 ];
-        cast(void) RRConfigureOutputProperty(output, nonDesktopAtom, FALSE, FALSE, FALSE,
+        cast(void) RRConfigureOutputProperty(output, nonDesktopAtom, False, False, False,
                                             2, values.ptr);
     }
-    RROutputSetNonDesktop(output, FALSE);
+    RROutputSetNonDesktop(output, False);
 
     /* Initialize DPI property for all outputs. */
     DPIAtom = dixAddAtom("DPI");
     if (DPIAtom != BAD_RESOURCE) {
         static const(INT32)[2] values = [ 0, 960 ]; // arbitrary range
-        cast(void) RRConfigureOutputProperty(output, DPIAtom, FALSE, TRUE, FALSE,
+        cast(void) RRConfigureOutputProperty(output, DPIAtom, False, True, False,
                                          2, values.ptr);
         INT32 value = monitorResolution ? monitorResolution : 96;
         cast(void) RRChangeOutputProperty(output, DPIAtom, XA_INTEGER, 32,
-                                      PropModeReplace, 1, &value, FALSE, FALSE);
+                                      PropModeReplace, 1, &value, False, False);
     }
 
     RRResourcesChanged(pScreen);
@@ -154,22 +154,22 @@ Bool RROutputSetClones(RROutputPtr output, RROutputPtr* clones, int numClones)
             if (output.clones[i] != clones[i])
                 break;
         if (i == numClones)
-            return TRUE;
+            return True;
     }
 
     RROutputPtr* newClones = null;
     if (numClones) {
         newClones = cast(RROutputPtr*) calloc(numClones, RROutputPtr.sizeof);
         if (!newClones)
-            return FALSE;
+            return False;
         memcpy(newClones, clones, numClones * RROutputPtr.sizeof);
     }
 
     free(output.clones);
     output.clones = newClones;
     output.numClones = numClones;
-    RROutputChanged(output, TRUE);
-    return TRUE;
+    RROutputChanged(output, True);
+    return True;
 }
 
 Bool RROutputSetModes(RROutputPtr output, RRModePtr* modes, int numModes, int numPreferred)
@@ -183,7 +183,7 @@ Bool RROutputSetModes(RROutputPtr output, RRModePtr* modes, int numModes, int nu
         if (i == numModes) {
             for (i = 0; i < numModes; i++)
                 RRModeDestroy(modes[i]);
-            return TRUE;
+            return True;
         }
     }
 
@@ -191,7 +191,7 @@ Bool RROutputSetModes(RROutputPtr output, RRModePtr* modes, int numModes, int nu
     if (numModes) {
         newModes = cast(RRModePtr*) calloc(numModes, RRModePtr.sizeof);
         if (!newModes)
-            return FALSE;
+            return False;
         memcpy(newModes, modes, numModes * RRModePtr.sizeof);
     }
 
@@ -203,8 +203,8 @@ Bool RROutputSetModes(RROutputPtr output, RRModePtr* modes, int numModes, int nu
     output.modes = newModes;
     output.numModes = numModes;
     output.numPreferred = numPreferred;
-    RROutputChanged(output, TRUE);
-    return TRUE;
+    RROutputChanged(output, True);
+    return True;
 }
 
 int RROutputAddUserMode(RROutputPtr output, RRModePtr mode)
@@ -240,7 +240,7 @@ int RROutputAddUserMode(RROutputPtr output, RRModePtr mode)
     output.userModes = newModes;
     output.userModes[output.numUserModes++] = mode;
     ++mode.refcnt;
-    RROutputChanged(output, TRUE);
+    RROutputChanged(output, True);
     RRTellChanged(pScreen);
     return Success;
 }
@@ -280,31 +280,31 @@ Bool RROutputSetCrtcs(RROutputPtr output, RRCrtcPtr* crtcs, int numCrtcs)
             if (output.crtcs[i] != crtcs[i])
                 break;
         if (i == numCrtcs)
-            return TRUE;
+            return True;
     }
 
     RRCrtcPtr* newCrtcs = null;
     if (numCrtcs) {
         newCrtcs = cast(RRCrtcPtr*) calloc(numCrtcs, RRCrtcPtr.sizeof);
         if (!newCrtcs)
-            return FALSE;
+            return False;
         memcpy(newCrtcs, crtcs, numCrtcs * RRCrtcPtr.sizeof);
     }
 
     free(output.crtcs);
     output.crtcs = newCrtcs;
     output.numCrtcs = numCrtcs;
-    RROutputChanged(output, TRUE);
-    return TRUE;
+    RROutputChanged(output, True);
+    return True;
 }
 
 Bool RROutputSetConnection(RROutputPtr output, CARD8 connection)
 {
     if (output.connection == connection)
-        return TRUE;
+        return True;
     output.connection = connection;
-    RROutputChanged(output, TRUE);
-    return TRUE;
+    RROutputChanged(output, True);
+    return True;
 }
 
 void RROutputSetSubpixelOrder(RROutputPtr output, int subpixelOrder)
@@ -313,17 +313,17 @@ void RROutputSetSubpixelOrder(RROutputPtr output, int subpixelOrder)
         return;
 
     output.subpixelOrder = cast(ubyte)subpixelOrder;
-    RROutputChanged(output, FALSE);
+    RROutputChanged(output, False);
 }
 
 Bool RROutputSetPhysicalSize(RROutputPtr output, int mmWidth, int mmHeight)
 {
     if (output.mmWidth == mmWidth && output.mmHeight == mmHeight)
-        return TRUE;
+        return True;
     output.mmWidth = mmWidth;
     output.mmHeight = mmHeight;
-    RROutputChanged(output, FALSE);
-    return TRUE;
+    RROutputChanged(output, False);
+    return True;
 }
 
 Bool RROutputSetNonDesktop(RROutputPtr output, Bool nonDesktop)
@@ -333,10 +333,10 @@ Bool RROutputSetNonDesktop(RROutputPtr output, Bool nonDesktop)
     uint value = nonDesktop ? 1 : 0;
 
     if (nonDesktopProp == None || nonDesktopProp == BAD_RESOURCE)
-        return FALSE;
+        return False;
 
     return RRChangeOutputProperty(output, nonDesktopProp, XA_INTEGER, 32,
-                                  PropModeReplace, 1, &value, TRUE, FALSE) == Success;
+                                  PropModeReplace, 1, &value, True, False) == Success;
 }
 
 void RRDeliverOutputEvent(ClientPtr client, WindowPtr pWin, RROutputPtr output)
@@ -440,9 +440,9 @@ Bool RROutputInit()
 {
     RROutputType = CreateNewResourceType(&RROutputDestroyResource, "OUTPUT");
     if (!RROutputType)
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -482,7 +482,7 @@ int ProcRRGetOutputInfo(ClientPtr client)
         nameLength: cast(ushort)output.nameLength,
     };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (leased) {
         reply.connection = RR_Disconnected;
@@ -546,7 +546,7 @@ private void RRSetPrimaryOutput(ScreenPtr pScreen, rrScrPrivPtr pScrPriv, RROutp
         RROutputChanged(output, 0);
     }
 
-    pScrPriv.layoutChanged = TRUE;
+    pScrPriv.layoutChanged = True;
 
     RRTellChanged(pScreen);
 }

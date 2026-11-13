@@ -113,10 +113,10 @@ private Bool fbdevHWGetRec(ScrnInfoPtr pScrn)
         fbdevHWPrivateIndex = xf86AllocateScrnInfoPrivateIndex();
 
     if (mixin(FBDEVHWPTR!(`pScrn`)) !is null)
-        return TRUE;
+        return True;
 
     mixin(FBDEVHWPTRLVAL!(`pScrn`)) = XNFcallocarray(1, fbdevHWRec.sizeof);
-    return TRUE;
+    return True;
 }
 
 /* -------------------------------------------------------------------- */
@@ -245,8 +245,8 @@ private void fbdev2xfree_timing(fb_var_screeninfo* var, DisplayModePtr mode)
     mode.CrtcVSyncStart = mode.VSyncStart;
     mode.CrtcVSyncEnd = mode.VSyncEnd;
     mode.CrtcVTotal = mode.VTotal;
-    mode.CrtcHAdjusted = FALSE;
-    mode.CrtcVAdjusted = FALSE;
+    mode.CrtcHAdjusted = False;
+    mode.CrtcVAdjusted = False;
 }
 
 /* -------------------------------------------------------------------- */
@@ -473,9 +473,9 @@ export Bool fbdevHWProbe(pci_device* pPci, const(char)* device, char** namep)
         fd = fbdev_open(-1, device, namep);
 
     if (-1 == fd)
-        return FALSE;
+        return False;
     close(fd);
-    return TRUE;
+    return True;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -497,19 +497,19 @@ Bool fbdevHWInit(ScrnInfoPtr pScrn, pci_device* pPci, const(char)* device)
                    ~ " and/or errors above for possible reasons\n"
                    ~ "\t(you may have to look at the server log to see"
                    ~ " warnings)\n");
-        return FALSE;
+        return False;
     }
 
     /* get current fb device settings */
     if (-1 == ioctl(fPtr.fd, FBIOGET_FSCREENINFO, cast(void*) (&fPtr.fix))) {
         xf86DrvMsg(pScrn.scrnIndex, X_ERROR,
                    "ioctl FBIOGET_FSCREENINFO: %s\n", strerror(errno));
-        return FALSE;
+        return False;
     }
     if (-1 == ioctl(fPtr.fd, FBIOGET_VSCREENINFO, cast(void*) (&fPtr.var))) {
         xf86DrvMsg(pScrn.scrnIndex, X_ERROR,
                    "ioctl FBIOGET_VSCREENINFO: %s\n", strerror(errno));
-        return FALSE;
+        return False;
     }
 
     /* we can use the current settings as "buildin mode" */
@@ -519,7 +519,7 @@ Bool fbdevHWInit(ScrnInfoPtr pScrn, pci_device* pPci, const(char)* device)
     fPtr.buildin.prev = &fPtr.buildin;
     fPtr.buildin.type |= M_T_BUILTIN;
 
-    return TRUE;
+    return True;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -594,7 +594,7 @@ version (DEBUG) {
     if (0 != ioctl(fPtr.fd, FBIOPUT_VSCREENINFO, cast(void*) (&set_var))) {
         xf86DrvMsg(pScrn.scrnIndex, X_ERROR,
                    "FBIOPUT_VSCREENINFO: %s\n", strerror(errno));
-        return FALSE;
+        return False;
     }
 
     if (!fbdev_modes_equal(&set_var, &req_var)) {
@@ -604,13 +604,13 @@ version (DEBUG) {
 version (DEBUG) {
         print_fbdev_mode("returned", &set_var);
 }
-        return FALSE;
+        return False;
     }
 
     if (!check)
         fPtr.var = set_var;
 
-    return TRUE;
+    return True;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -628,7 +628,7 @@ void fbdevHWSetVideoModes(ScrnInfoPtr pScrn)
     for (modename = pScrn.display.modes; *modename !is null; modename++) {
         for (mode = pScrn.monitor.Modes; mode !is null; mode = mode.next) {
             if (0 == strcmp(mode.name, *modename)) {
-                if (fbdevHWSetMode(pScrn, mode, TRUE))
+                if (fbdevHWSetMode(pScrn, mode, True))
                     break;
 
                 xf86DrvMsg(pScrn.scrnIndex, X_INFO,
@@ -736,7 +736,7 @@ Bool fbdevHWUnmapVidmem(ScrnInfoPtr pScrn)
                        "munmap fbmem: %s\n", strerror(errno));
         fPtr.fbmem = null;
     }
-    return TRUE;
+    return True;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -789,10 +789,10 @@ Bool fbdevHWUnmapMMIO(ScrnInfoPtr pScrn)
         if (0 != ioctl(fPtr.fd, FBIOPUT_VSCREENINFO, cast(void*) (&fPtr.var))) {
             xf86DrvMsg(pScrn.scrnIndex, X_ERROR,
                        "FBIOPUT_VSCREENINFO: %s\n", strerror(errno));
-            return FALSE;
+            return False;
         }
     }
-    return TRUE;
+    return True;
 }
 
 /* -------------------------------------------------------------------- */
@@ -802,22 +802,22 @@ Bool fbdevHWModeInit(ScrnInfoPtr pScrn, DisplayModePtr mode)
 {
     fbdevHWPtr fPtr = mixin(FBDEVHWPTR!(`pScrn`));
 
-    pScrn.vtSema = TRUE;
+    pScrn.vtSema = True;
 
     /* set */
-    if (!fbdevHWSetMode(pScrn, mode, FALSE))
-        return FALSE;
+    if (!fbdevHWSetMode(pScrn, mode, False))
+        return False;
 
     /* read back */
     if (0 != ioctl(fPtr.fd, FBIOGET_FSCREENINFO, cast(void*) (&fPtr.fix))) {
         xf86DrvMsg(pScrn.scrnIndex, X_ERROR,
                    "FBIOGET_FSCREENINFO: %s\n", strerror(errno));
-        return FALSE;
+        return False;
     }
     if (0 != ioctl(fPtr.fd, FBIOGET_VSCREENINFO, cast(void*) (&fPtr.var))) {
         xf86DrvMsg(pScrn.scrnIndex, X_ERROR,
                    "FBIOGET_VSCREENINFO: %s\n", strerror(errno));
-        return FALSE;
+        return False;
     }
 
     if (pScrn.defaultVisual == TrueColor ||
@@ -836,7 +836,7 @@ Bool fbdevHWModeInit(ScrnInfoPtr pScrn, DisplayModePtr mode)
             ((1 << fPtr.var.blue.length) - 1) << fPtr.var.blue.offset;
     }
 
-    return TRUE;
+    return True;
 }
 
 /* -------------------------------------------------------------------- */
@@ -894,7 +894,7 @@ void fbdevHWLoadPalette(ScrnInfoPtr pScrn, int numColors, int* indices, LOCO* co
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 ModeStatus fbdevHWValidMode(ScrnInfoPtr pScrn, DisplayModePtr mode, Bool verbose, int flags)
 {
-    if (!fbdevHWSetMode(pScrn, mode, TRUE))
+    if (!fbdevHWSetMode(pScrn, mode, True))
         return MODE_BAD;
 
     return MODE_OK;
@@ -903,10 +903,10 @@ ModeStatus fbdevHWValidMode(ScrnInfoPtr pScrn, DisplayModePtr mode, Bool verbose
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 Bool fbdevHWSwitchMode(ScrnInfoPtr pScrn, DisplayModePtr mode)
 {
-    if (!fbdevHWSetMode(pScrn, mode, FALSE))
-        return FALSE;
+    if (!fbdevHWSetMode(pScrn, mode, False))
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -929,9 +929,9 @@ void fbdevHWAdjustFrame(ScrnInfoPtr pScrn, int x, int y)
 Bool fbdevHWEnterVT(ScrnInfoPtr pScrn)
 {
     if (!fbdevHWModeInit(pScrn, pScrn.currentMode))
-        return FALSE;
+        return False;
     fbdevHWAdjustFrame(pScrn, pScrn.frameX0, pScrn.frameY0);
-    return TRUE;
+    return True;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -996,10 +996,10 @@ Bool fbdevHWSaveScreen(ScreenPtr pScreen, int mode)
     c_ulong unblank = void;
 
     if (!pScrn.vtSema)
-        return TRUE;
+        return True;
 
     if (fPtr.unsupported_ioctls & (1 << FBIOBLANK_UNSUPPORTED))
-        return FALSE;
+        return False;
 
     unblank = xf86IsUnblank(mode);
 
@@ -1019,10 +1019,10 @@ RETRY:
                        "FBIOBLANK: %s (Screen blanking not supported "
                        ~ "by kernel - disabling)\n", strerror(errno));
         }
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 xf86SwitchModeProc fbdevHWSwitchModeWeak()

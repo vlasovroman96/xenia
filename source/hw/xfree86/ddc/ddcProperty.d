@@ -55,7 +55,7 @@ private void setRootWindowEDID(ScreenPtr pScreen, xf86MonPtr DDC)
     Atom atom = dixAddAtom(EDID1_ATOM_NAME);
     dixChangeWindowProperty(serverClient, pScreen.root, atom, XA_INTEGER,
                             8, PropModeReplace, edidSize(DDC), DDC.rawData,
-                            FALSE);
+                            False);
 }
 
 private void addEDIDProp(CallbackListPtr* pcbl, void* scrn, void* screen)
@@ -70,7 +70,7 @@ private void addEDIDProp(CallbackListPtr* pcbl, void* scrn, void* screen)
 Bool xf86SetDDCproperties(ScrnInfoPtr pScrn, xf86MonPtr DDC)
 {
     if (!pScrn || !pScrn.monitor || !DDC)
-        return FALSE;
+        return False;
 
     xf86EdidMonitorSet(pScrn.scrnIndex, pScrn.monitor, DDC);
 
@@ -79,5 +79,5 @@ Bool xf86SetDDCproperties(ScrnInfoPtr pScrn, xf86MonPtr DDC)
     else
         setRootWindowEDID(pScrn.pScreen, DDC);
 
-    return TRUE;
+    return True;
 }

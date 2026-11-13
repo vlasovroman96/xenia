@@ -86,7 +86,7 @@ void exaDoMigration_mixed(ExaMigrationPtr pixmaps, int npixmaps, Bool can_accel)
     for (i = 0; i < npixmaps; i++) {
         if (exaPixmapIsPinned(pixmaps[i].pPix) &&
             !exaPixmapHasGpuCopy(pixmaps[i].pPix)) {
-            can_accel = FALSE;
+            can_accel = False;
             break;
         }
     }
@@ -130,12 +130,12 @@ void exaMoveInPixmap_mixed(PixmapPtr pPixmap)
 {
     ExaMigrationRec[1] pixmaps = void;
 
-    pixmaps[0].as_dst = FALSE;
-    pixmaps[0].as_src = TRUE;
+    pixmaps[0].as_dst = False;
+    pixmaps[0].as_src = True;
     pixmaps[0].pPix = pPixmap;
     pixmaps[0].pReg = null;
 
-    exaDoMigration(pixmaps.ptr, 1, TRUE);
+    exaDoMigration(pixmaps.ptr, 1, True);
 }
 
 void exaDamageReport_mixed(DamagePtr pDamage, RegionPtr pRegion, void* closure)
@@ -210,12 +210,12 @@ void exaPrepareAccessReg_mixed(PixmapPtr pPixmap, int index, RegionPtr pReg)
         }
 
         if (index == EXA_PREPARE_DEST || index == EXA_PREPARE_AUX_DEST) {
-            pixmaps[0].as_dst = TRUE;
-            pixmaps[0].as_src = FALSE;
+            pixmaps[0].as_dst = True;
+            pixmaps[0].as_src = False;
         }
         else {
-            pixmaps[0].as_dst = FALSE;
-            pixmaps[0].as_src = TRUE;
+            pixmaps[0].as_dst = False;
+            pixmaps[0].as_src = True;
         }
         pixmaps[0].pPix = pPixmap;
         pixmaps[0].pReg = pReg;
@@ -226,7 +226,7 @@ void exaPrepareAccessReg_mixed(PixmapPtr pPixmap, int index, RegionPtr pReg)
 
             /* Set up damage tracking */
             pExaPixmap.pDamage = DamageCreate(&exaDamageReport_mixed, null,
-                                               DamageReportNonEmpty, TRUE,
+                                               DamageReportNonEmpty, True,
                                                pPixmap.drawable.pScreen,
                                                pPixmap);
 
@@ -235,7 +235,7 @@ void exaPrepareAccessReg_mixed(PixmapPtr pPixmap, int index, RegionPtr pReg)
                 /* This ensures that pending damage reflects the current
                  * operation. This is used by exa to optimize migration.
                  */
-                DamageSetReportAfterOp(pExaPixmap.pDamage, TRUE);
+                DamageSetReportAfterOp(pExaPixmap.pDamage, True);
             }
 
             if (has_gpu_copy) {
@@ -246,8 +246,8 @@ void exaPrepareAccessReg_mixed(PixmapPtr pPixmap, int index, RegionPtr pReg)
                  * have to assume all of it
                  */
                 if (as_dst) {
-                    pixmaps[0].as_dst = FALSE;
-                    pixmaps[0].as_src = TRUE;
+                    pixmaps[0].as_dst = False;
+                    pixmaps[0].as_src = True;
                     pixmaps[0].pReg = null;
                 }
                 exaCopyDirtyToSys(pixmaps.ptr);
@@ -262,6 +262,6 @@ void exaPrepareAccessReg_mixed(PixmapPtr pPixmap, int index, RegionPtr pReg)
 
         pPixmap.devPrivate.ptr = pExaPixmap.sys_ptr;
         pPixmap.devKind = pExaPixmap.sys_pitch;
-        pExaPixmap.use_gpu_copy = FALSE;
+        pExaPixmap.use_gpu_copy = False;
     }
 }

@@ -92,8 +92,8 @@ import os.log;
 import os.io;
 import core.stdc.stdlib;
 import core.stdc.string;
-import common.misc;
 import common.math;
+import os.os;
 
 
 alias RegionRec = pixman_region16;
@@ -283,7 +283,7 @@ pragma(inline, true) Bool RegionUnion(RegionPtr newReg, RegionPtr reg1, RegionPt
  *	S stands for subtrahend, M for minuend and D for difference.
  *
  * Results:
- *	TRUE if successful.
+ *	True if successful.
  *
  * Side Effects:
  *	regD is overwritten.
@@ -303,7 +303,7 @@ pragma(inline, true) Bool RegionSubtract(RegionPtr regD, RegionPtr regM, RegionP
  *	that this is the same as subtracting the region from the box...
  *
  * Results:
- *	TRUE.
+ *	True.
  *
  * Side Effects:
  *	newReg is overwritten.
@@ -476,7 +476,7 @@ if (!(` ~ pReg ~ `).data || (((` ~ pReg ~ `).data.numRects + (` ~ n ~ `)) > (` ~
 
 enum string RECTALLOC(string pReg,string n) = ` {
 if ((` ~ pReg ~ `).data is null || (((` ~ pReg ~ `).data.numRects + (` ~ n ~ `)) > (` ~ pReg ~ `).data.size)) 
-    if (!RegionRectAlloc(` ~ pReg ~ `, ` ~ n ~ `)) { return FALSE; }
+    if (!RegionRectAlloc(` ~ pReg ~ `, ` ~ n ~ `)) { return False; }
 }`;
 
 enum string ADDRECT(string pNextRect,string nx1,string ny1,string nx2,string ny2) = `
@@ -493,7 +493,7 @@ enum string NEWRECT(string pReg,string pNextRect,string nx1,string ny1,string nx
     if (!(` ~ pReg ~ `).data || ((` ~ pReg ~ `).data.numRects == (` ~ pReg ~ `).data.size))
     {									
 	if (!RegionRectAlloc(` ~ pReg ~ `, 1))					
-	    return FALSE;						
+	    return False;						
 	` ~ pNextRect ~ ` = RegionTop(` ~ pReg ~ `);					
     }									
     ` ~ ADDRECT!(pNextRect,nx1,ny1,nx2,ny2) ~ `;					
@@ -587,7 +587,7 @@ Bool RegionIsValid(RegionPtr reg)
 
     if ((reg.extents.x1 > reg.extents.x2) ||
         (reg.extents.y1 > reg.extents.y2))
-        return FALSE;
+        return False;
     numRects = RegionNumRects(reg);
     if (!numRects)
         return ((reg.extents.x1 == reg.extents.x2) &&
@@ -605,7 +605,7 @@ Bool RegionIsValid(RegionPtr reg)
         pboxN = pboxP + 1;
         for (int i = numRects; --i > 0; pboxP++, pboxN++) {
             if ((pboxN.x1 >= pboxN.x2) || (pboxN.y1 >= pboxN.y2))
-                return FALSE;
+                return False;
             if (pboxN.x1 < box.x1)
                 box.x1 = pboxN.x1;
             if (pboxN.x2 > box.x2)
@@ -613,7 +613,7 @@ Bool RegionIsValid(RegionPtr reg)
             if ((pboxN.y1 < pboxP.y1) ||
                 ((pboxN.y1 == pboxP.y1) &&
                  ((pboxN.x1 < pboxP.x2) || (pboxN.y2 != pboxP.y2))))
-                return FALSE;
+                return False;
         }
         return ((box.x1 == reg.extents.x1) &&
                 (box.x2 == reg.extents.x2) &&
@@ -627,7 +627,7 @@ Bool RegionBreak(RegionPtr pReg)
     xfreeData(pReg);
     pReg.extents = RegionEmptyBox;
     pReg.data = &RegionBrokenData;
-    return FALSE;
+    return False;
 }
 
 Bool RegionRectAlloc(RegionPtr pRgn, int n)
@@ -665,7 +665,7 @@ Bool RegionRectAlloc(RegionPtr pRgn, int n)
         pRgn.data = data;
     }
     pRgn.data.size = n;
-    return TRUE;
+    return True;
 }
 
 // /*======================================================================
@@ -792,7 +792,7 @@ pragma(inline, true) private Bool RegionAppendNonO(RegionPtr pReg, BoxPtr r, Box
         r++;
     } while (r != rEnd);
 
-    return TRUE;
+    return True;
 }
 
 enum string FindBand(string r, string rBandEnd, string rEnd, string ry1) = `
@@ -823,11 +823,11 @@ enum string	AppendRegions(string newReg, string r, string rEnd) = `
 //  *      rectangle, and cannot be the same object.
 //  *
 //  * Results:
-//  *	TRUE if successful.
+//  *	True if successful.
 //  *
 //  * Side Effects:
 //  *	The new region is overwritten.
-//  *	pOverlap set to TRUE if overlapFunc ever returns TRUE.
+//  *	pOverlap set to True if overlapFunc ever returns True.
 //  *
 //  * Notes:
 //  *	The idea behind this function is to view the two regions as sets.
@@ -907,7 +907,7 @@ private Bool RegionOp(RegionPtr newReg, RegionPtr reg1, RegionPtr reg2, OverlapP
         newReg.data.numRects = 0;
     if (newSize > newReg.data.size)
         if (!RegionRectAlloc(newReg, newSize))
-            return FALSE;
+            return False;
 
     /*
      * Initialize ybot.
@@ -1052,7 +1052,7 @@ private Bool RegionOp(RegionPtr newReg, RegionPtr reg1, RegionPtr reg2, OverlapP
         mixin(DOWNSIZE!(`newReg`, `numRects`));
     }
 
-    return TRUE;
+    return True;
 }
 
 // /*-
@@ -1118,7 +1118,7 @@ private void RegionSetExtents(RegionPtr pReg)
 //  *	Handle an overlapping band for RegionIntersect.
 //  *
 //  * Results:
-//  *	TRUE if successful.
+//  *	True if successful.
 //  *
 //  * Side Effects:
 //  *	Rectangles may be added to the region.
@@ -1130,7 +1130,7 @@ enum string MERGERECT(string r) = `
 {								
     if (` ~ r ~ `.x1 <= x2) {						
 	/* Merge with current rectangle */			
-	if (` ~ r ~ `.x1 < x2) *pOverlap = TRUE;				
+	if (` ~ r ~ `.x1 < x2) *pOverlap = True;				
 	if (x2 < ` ~ r ~ `.x2) x2 = ` ~ r ~ `.x2;				
     } else {							
 	/* Add current rectangle, start new one */		
@@ -1150,11 +1150,11 @@ enum string MERGERECT(string r) = `
 //  *	left-most rectangle each time and merges it into the region.
 //  *
 //  * Results:
-//  *	TRUE if successful.
+//  *	True if successful.
 //  *
 //  * Side Effects:
 //  *	pReg is overwritten.
-//  *	pOverlap is set to TRUE if any boxes overlap.
+//  *	pOverlap is set to True if any boxes overlap.
 //  *
 //  *-----------------------------------------------------------------------
 //  */
@@ -1202,7 +1202,7 @@ enum string MERGERECT(string r) = `
     /* Add current rectangle */
     mixin(NEWRECT!(`pReg`, `pNextRect`, `x1`, `y1`, `x2`, `y2`));
 
-    return TRUE;
+    return True;
 }
 
 // /*======================================================================
@@ -1220,7 +1220,7 @@ enum string MERGERECT(string r) = `
 //  *      call RegionValidate to ensure that a valid region is constructed.
 //  *
 //  * Results:
-//  *	TRUE if successful.
+//  *	True if successful.
 //  *
 //  * Side Effects:
 //  *      dstrgn is modified if rgn has rectangles.
@@ -1238,13 +1238,13 @@ Bool RegionAppend(RegionPtr dstrgn, RegionPtr rgn)
     if (!rgn.data && (dstrgn.data == &RegionEmptyData)) {
         dstrgn.extents = rgn.extents;
         dstrgn.data = null;
-        return TRUE;
+        return True;
     }
 
     numRects = RegionNumRects(rgn);
     if (!numRects)
-        return TRUE;
-    prepend = FALSE;
+        return True;
+    prepend = False;
     size = numRects;
     dnumRects = RegionNumRects(dstrgn);
     if (!dnumRects && (size < 200))
@@ -1273,7 +1273,7 @@ Bool RegionAppend(RegionPtr dstrgn, RegionPtr rgn)
             if ((first.y1 > last.y2) ||
                 ((first.y1 == last.y1) && (first.y2 == last.y2) &&
                  (first.x1 > last.x2))) {
-                prepend = TRUE;
+                prepend = True;
                 if (rgn.extents.x1 < dstrgn.extents.x1)
                     dstrgn.extents.x1 = rgn.extents.x1;
                 if (rgn.extents.x2 > dstrgn.extents.x2)
@@ -1300,7 +1300,7 @@ Bool RegionAppend(RegionPtr dstrgn, RegionPtr rgn)
     else
         memmove(cast(char*) new_, cast(char*) old, numRects * BoxRec.sizeof);
     dstrgn.data.numRects += numRects;
-    return TRUE;
+    return True;
 }
 
 enum string ExchangeRects(string a, string b) = `
@@ -1371,11 +1371,11 @@ private void QuickSortRects(BoxRec* rects, int numRects)
 //  *      rectangles.
 //  *
 //  * Results:
-//  *	TRUE if successful.
+//  *	True if successful.
 //  *
 //  * Side Effects:
 //  *      The passed-in ``region'' may be modified.
-//  *	pOverlap set to TRUE if any rectangles overlapped, else FALSE;
+//  *	pOverlap set to True if any rectangles overlapped, else False;
 //  *
 //  * Strategy:
 //  *      Step 1. Sort the rectangles into ascending order with primary key y1
@@ -1411,19 +1411,19 @@ Bool RegionValidate(RegionPtr badreg, Bool* pOverlap)
     BoxPtr box = void;                 /* Current box in rects                 */
     BoxPtr riBox = void;               /* Last box in ri[j].reg                */
     RegionPtr hreg = void;             /* ri[j_half].reg                        */
-    Bool ret = TRUE;
+    Bool ret = True;
 
-    *pOverlap = FALSE;
+    *pOverlap = False;
     if (!badreg.data) {
         mixin(good!(`badreg`));
-        return TRUE;
+        return True;
     }
     numRects = cast(int)badreg.data.numRects;
     if (!numRects) {
         if (RegionNar(badreg))
-            return FALSE;
+            return False;
         mixin(good!(`badreg`));
-        return TRUE;
+        return True;
     }
     if (badreg.extents.x1 < badreg.extents.x2) {
         if ((numRects) == 1) {
@@ -1434,7 +1434,7 @@ Bool RegionValidate(RegionPtr badreg, Bool* pOverlap)
             mixin(DOWNSIZE!(`badreg`, `numRects`));
         }
         mixin(good!(`badreg`));
-        return TRUE;
+        return True;
     }
 
     /* Step 1: Sort the rects array into ascending (y1, x1) order */
@@ -1475,7 +1475,7 @@ Bool RegionValidate(RegionPtr badreg, Bool* pOverlap)
                 if (box.x1 <= riBox.x2) {
                     /* Merge it with riBox */
                     if (box.x1 < riBox.x2)
-                        *pOverlap = TRUE;
+                        *pOverlap = True;
                     if (box.x2 > riBox.x2)
                         riBox.x2 = box.x2;
                 }
@@ -1546,8 +1546,8 @@ Bool RegionValidate(RegionPtr badreg, Bool* pOverlap)
         for (int j = numRI & 1; j < (half + (numRI & 1)); j++) {
             reg = &ri[j].reg;
             hreg = &ri[j + half].reg;
-            if (!RegionOp(reg, reg, hreg, &RegionUnionO, TRUE, TRUE, pOverlap))
-                ret = FALSE;
+            if (!RegionOp(reg, reg, hreg, &RegionUnionO, True, True, pOverlap))
+                ret = False;
             if (hreg.extents.x1 < reg.extents.x1)
                 reg.extents.x1 = hreg.extents.x1;
             if (hreg.extents.y1 < reg.extents.y1)

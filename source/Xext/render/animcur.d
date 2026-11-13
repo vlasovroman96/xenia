@@ -165,11 +165,11 @@ private void AnimCurCancelTimer(DeviceIntPtr pDev)
 private Bool AnimCurDisplayCursor(DeviceIntPtr pDev, ScreenPtr pScreen, CursorPtr pCursor)
 {
     AnimCurScreenPtr as = mixin(GetAnimCurScreen!(`pScreen`));
-    Bool ret = TRUE;
+    Bool ret = True;
 
 
     if (InputDevIsFloating(pDev))
-        return FALSE;
+        return False;
 
     mixin(Unwrap!(`as`, `pScreen`, `DisplayCursor`));
     if (mixin(IsAnimCur!(`pCursor`))) {
@@ -221,7 +221,7 @@ private Bool AnimCurRealizeCursor(DeviceIntPtr pDev, ScreenPtr pScreen, CursorPt
 
     mixin(Unwrap!(`as`, `pScreen`, `RealizeCursor`));
     if (mixin(IsAnimCur!(`pCursor`)))
-        ret = TRUE;
+        ret = True;
     else
         ret = (*pScreen.RealizeCursor) (pDev, pScreen, pCursor);
     mixin(Wrap!(`as`, `pScreen`, `RealizeCursor`, `&AnimCurRealizeCursor`));
@@ -241,7 +241,7 @@ private Bool AnimCurUnrealizeCursor(DeviceIntPtr pDev, ScreenPtr pScreen, Cursor
         if (pScreen.myNum == 0)
             for (i = 0; i < ac.nelt; i++)
                 FreeCursor(ac.elts[i].pCursor, 0);
-        ret = TRUE;
+        ret = True;
     }
     else
         ret = (*pScreen.UnrealizeCursor) (pDev, pScreen, pCursor);
@@ -274,7 +274,7 @@ Bool AnimCurInit(ScreenPtr pScreen)
 
     if (!dixRegisterPrivateKey(&AnimCurScreenPrivateKeyRec, PRIVATE_SCREEN,
                                AnimCurScreenRec.sizeof))
-        return FALSE;
+        return False;
 
     as = mixin(GetAnimCurScreen!(`pScreen`));
 
@@ -286,7 +286,7 @@ Bool AnimCurInit(ScreenPtr pScreen)
     mixin(Wrap!(`as`, `pScreen`, `RealizeCursor`, `&AnimCurRealizeCursor`));
     mixin(Wrap!(`as`, `pScreen`, `UnrealizeCursor`, `&AnimCurUnrealizeCursor`));
     mixin(Wrap!(`as`, `pScreen`, `RecolorCursor`, `&AnimCurRecolorCursor`));
-    return TRUE;
+    return True;
 }
 
 int AnimCursorCreate(CursorPtr* cursors, CARD32* deltas, int ncursor, CursorPtr* ppCursor, ClientPtr client, XID cid)

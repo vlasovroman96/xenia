@@ -386,7 +386,7 @@ private void GetCompositeWindowBytes(void* value, XID id, ResourceSizePtr size)
 void CompositeExtensionInit()
 {
     /* Assume initialization is going to fail */
-    noCompositeExtension = TRUE;
+    noCompositeExtension = True;
 
     mixin(DIX_FOR_EACH_SCREEN!q{
 
@@ -441,7 +441,7 @@ void CompositeExtensionInit()
     CompositeReqCode = cast(CARD8) extEntry.base;
 
     /* Initialization succeeded */
-    noCompositeExtension = FALSE;
+    noCompositeExtension = False;
 }
 
 private int ProcCompositeRedirectWindow(ClientPtr client)
@@ -596,7 +596,7 @@ static if(XINERAMA){
         return BadAlloc;
 
     newPix.type = XRT_PIXMAP;
-    newPix.u.pix.shared_ = FALSE;
+    newPix.u.pix.shared_ = False;
     panoramix_setup_ids(newPix, client, stuff.pixmap);
 
     mixin(XINERAMA_FOR_EACH_SCREEN_BACKWARD!(q{
@@ -670,7 +670,7 @@ static if(XINERAMA){
             return BadAlloc;
 
         overlayWin.type = XRT_WINDOW;
-        overlayWin.u.win.root = FALSE;
+        overlayWin.u.win.root = False;
     }
 
     mixin(XINERAMA_FOR_EACH_SCREEN_BACKWARD!(q{

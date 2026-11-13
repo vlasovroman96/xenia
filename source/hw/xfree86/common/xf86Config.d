@@ -96,7 +96,6 @@ import mi.miinitext;
 import render.picture;
 import build.xlibre_server;
 import hw.xfree86.modes.displaymode;
-
 import dix.picture;
 static if(DPMSExtension) {
 import Xext.dpmsproc;
@@ -137,30 +136,30 @@ enum PROJECTROOT =	"/usr/X11R6";
 
 
 private ModuleDefault[2] ModuleDefaults = [
-    ModuleDefault("glx",TRUE,null),
-    ModuleDefault(null, FALSE, null)
+    ModuleDefault("glx", True, null),
+    ModuleDefault(null, False, null)
 ];
 // #ifdef GLXEXT
-//     ModuleDefaults[0] = ModuleDefault("glx",toLoad: TRUE,load_opt: null},
+//     ModuleDefaults[0] = ModuleDefault("glx",toLoad: True,load_opt: null},
 // #endif
 // #ifdef __CYGWIN__
 //     /* load DIX modules used by drivers first */
-//     {name: "fb",toLoad: TRUE,load_opt: null},
-//     {name: "shadow",toLoad: TRUE,load_opt: null},
+//     {name: "fb",toLoad: True,load_opt: null},
+//     {name: "shadow",toLoad: True,load_opt: null},
 // #endif
-//     {name: null,toLoad: FALSE,load_opt: null}
+//     {name: null,toLoad: False,load_opt: null}
 // ];
 
 // static this() {
 // version(GLXEXT) {
-//     ModuleDefaults[0] = ModuleDefault("glx",TRUE,null);
+//     ModuleDefaults[0] = ModuleDefault("glx",True,null);
 // }
 // version(__CYGWIN__) {
 //     /* load DIX modules used by drivers first */
-//     ModuleDefaults[1] = ModuleDefault("fb",TRUE,null);   
-//     ModuleDefaults[2] = ModuleDefault("shadow",TRUE,null);
+//     ModuleDefaults[1] = ModuleDefault("fb",True,null);   
+//     ModuleDefaults[2] = ModuleDefault("shadow",True,null);
 // }
-//     ModuleDefaults[3] = ModuleDefault( null,FALSE,null);
+//     ModuleDefaults[3] = ModuleDefault( null,False,null);
 // }
 /* Forward declarations */
 
@@ -335,38 +334,38 @@ const(char)** xf86ModulelistFromConfig(void*** optlist)
          * append it to mod_load_lst
          */
         for (i = 0; ModuleDefaults[i].name !is null; i++) {
-            if (ModuleDefaults[i].toLoad == FALSE) {
+            if (ModuleDefaults[i].toLoad == False) {
                 LogMessageVerb(X_WARNING, 1,
                                "\"%s\" is not to be loaded by default. Skipping.\n",
                                ModuleDefaults[i].name);
                 continue;
             }
-            found = FALSE;
+            found = False;
             modp = xf86configptr.conf_modules.mod_load_lst;
             while (modp) {
                 if (strcmp(modp.load_name, ModuleDefaults[i].name) == 0) {
                     LogMessageVerb(X_INFO, 1,
                                    "\"%s\" will be loaded. This was enabled by default and also specified in the config file.\n",
                                    ModuleDefaults[i].name);
-                    found = TRUE;
+                    found = True;
                     break;
                 }
                 modp = cast(XF86LoadPtr) modp.list.next;
             }
-            if (found == FALSE) {
+            if (found == False) {
                 modp = xf86configptr.conf_modules.mod_disable_lst;
                 while (modp) {
                     if (strcmp(modp.load_name, ModuleDefaults[i].name) == 0) {
                         LogMessageVerb(X_INFO, 1,
                                        "\"%s\" will be loaded even though the default is to disable it.\n",
                                        ModuleDefaults[i].name);
-                        found = TRUE;
+                        found = True;
                         break;
                     }
                     modp = cast(XF86LoadPtr) modp.list.next;
                 }
             }
-            if (found == FALSE) {
+            if (found == False) {
                 XF86LoadPtr ptr = cast(XF86LoadPtr) xf86configptr.conf_modules;
 
                 xf86addNewLoadDirective(ptr, ModuleDefaults[i].name,
@@ -380,7 +379,7 @@ const(char)** xf86ModulelistFromConfig(void*** optlist)
     else {
         xf86configptr.conf_modules = cast(XF86ConfModuleRec*)XNFcallocarray(1, XF86ConfModuleRec.sizeof);
         for (i = 0; ModuleDefaults[i].name !is null; i++) {
-            if (ModuleDefaults[i].toLoad == TRUE) {
+            if (ModuleDefaults[i].toLoad == True) {
                 XF86LoadPtr ptr = cast(XF86LoadPtr) xf86configptr.conf_modules;
 
                 xf86addNewLoadDirective(ptr, ModuleDefaults[i].name,
@@ -575,7 +574,7 @@ private void configFiles(XF86ConfFilesPtr fileconf)
     char* temp_path = void, log_buf = void, start = void, end = void;
 
     /* FontPath */
-    must_copy = TRUE;
+    must_copy = True;
 
     temp_path = defaultFontPath ? cast(char*) defaultFontPath : cast(char*) "";
     if (xf86fpFlag)
@@ -588,7 +587,7 @@ private void configFiles(XF86ConfFilesPtr fileconf)
                          *temp_path ? ",".ptr : "".ptr, temp_path) == -1)
                 new_font_path = null;
             else
-                must_copy = FALSE;
+                must_copy = False;
             defaultFontPath = new_font_path;
         }
         else
@@ -727,68 +726,68 @@ alias FLAG_SINGLE_DRIVER = FlagValues.FLAG_SINGLE_DRIVER;
 
 
 /**
- * NOTE: the last value for each entry is NOT the default. It is set to TRUE
+ * NOTE: the last value for each entry is NOT the default. It is set to True
  * if the parser found the option in the config file.
  */
 private OptionInfoRec[30] FlagOptions = [
     {FLAG_DONTVTSWITCH, "DontVTSwitch", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_DONTZAP, "DontZap", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_DONTZOOM, "DontZoom", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_DISABLEVIDMODE, "DisableVidModeExtension", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_ALLOWNONLOCAL, "AllowNonLocalXvidtune", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_ALLOWMOUSEOPENFAIL, "AllowMouseOpenFail", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_SAVER_BLANKTIME, "BlankTime", OPTV_INTEGER,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_DPMS_STANDBYTIME, "StandbyTime", OPTV_INTEGER,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_DPMS_SUSPENDTIME, "SuspendTime", OPTV_INTEGER,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_DPMS_OFFTIME, "OffTime", OPTV_INTEGER,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_NOPM, "NoPM", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_XINERAMA, "Xinerama", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_LOG, "Log", OPTV_STRING,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_RENDER_COLORMAP_MODE, "RenderColormapMode", OPTV_STRING,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_IGNORE_ABI, "IgnoreABI", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_USE_DEFAULT_FONT_PATH, "UseDefaultFontPath", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_AUTO_ADD_DEVICES, "AutoAddDevices", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_AUTO_ENABLE_DEVICES, "AutoEnableDevices", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_GLX_VISUALS, "GlxVisuals", OPTV_STRING,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_DRI2, "DRI2", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_USE_SIGIO, "UseSIGIO", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_AUTO_ADD_GPU, "AutoAddGPU", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_AUTO_BIND_GPU, "AutoBindGPU", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_MAX_CLIENTS, "MaxClients", OPTV_INTEGER,
-     {0}, FALSE },
+     {0}, False },
     {FLAG_IGLX, "IndirectGLX", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_DEBUG, "Debug", OPTV_STRING,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_ALLOW_BYTE_SWAPPED_CLIENTS, "AllowByteSwappedClients", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {FLAG_SINGLE_DRIVER, "SingleDriver", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {-1, null, OPTV_NONE,
-     {0}, FALSE},
+     {0}, False},
 ];
 
 private void configServerFlags(XF86ConfFlagsPtr flagsconf, XF86OptionPtr layoutopts)
@@ -827,7 +826,7 @@ private void configServerFlags(XF86ConfFlagsPtr flagsconf, XF86OptionPtr layouto
         LogMessageVerb(X_CONFIG, 1, "Ignoring ABI Version\n");
     }
 
-    Bool bv = FALSE;
+    Bool bv = False;
     if (xf86GetOptValBool(FlagOptions.ptr, FLAG_ALLOW_BYTE_SWAPPED_CLIENTS, &bv)) {
         dixSettingAllowByteSwappedClients = cast(bool)bv;
     }
@@ -869,7 +868,7 @@ private void configServerFlags(XF86ConfFlagsPtr flagsconf, XF86OptionPtr layouto
                    xf86Info.autoAddGPU ? "A".ptr : "Not a".ptr);
 
     if (xf86AutoBindGPUDisabled) {
-        xf86Info.autoBindGPU = FALSE;
+        xf86Info.autoBindGPU = False;
         from = X_CMDLINE;
     }
     else if (xf86IsOptionSet(FlagOptions.ptr, FLAG_AUTO_BIND_GPU)) {
@@ -909,7 +908,7 @@ static if(build.xlibre_server.XF86VIDMODE){
     if (xf86GetOptValBool(FlagOptions.ptr, FLAG_ALLOWMOUSEOPENFAIL, &value))
         xf86Info.allowMouseOpenFail = value;
 
-    xf86Info.pmFlag = TRUE;
+    xf86Info.pmFlag = True;
     if (xf86GetOptValBool(FlagOptions.ptr, FLAG_NOPM, &value))
         xf86Info.pmFlag = !value;
     {
@@ -919,7 +918,7 @@ static if(build.xlibre_server.XF86VIDMODE){
             }
             else if (!xf86NameCmp(s, "sync")) {
                 LogMessageVerb(X_CONFIG, 1, "Syncing logfile enabled\n");
-                xorgLogSync = TRUE;
+                xorgLogSync = True;
             }
             else {
                 LogMessageVerb(X_WARNING, 1, "Unknown Log option\n");
@@ -987,9 +986,9 @@ else {
     /* Xkb default options. */
     XkbInitRules(&set, rules, XKB_DFLT_MODEL, XKB_DFLT_LAYOUT, null, null);
     XkbSetRulesDflts(&set);
-    XkbFreeRMLVOSet(&set, FALSE);
+    XkbFreeRMLVOSet(&set, False);
 
-    xf86Info.useDefaultFontPath = TRUE;
+    xf86Info.useDefaultFontPath = True;
     if (xf86GetOptValBool(FlagOptions.ptr, FLAG_USE_DEFAULT_FONT_PATH, &value)) {
         xf86Info.useDefaultFontPath = value;
     }
@@ -1042,7 +1041,7 @@ static if(XINERAMA){
 } /* XINERAMA */
 
 static if(DRI2){
-    xf86Info.dri2 = FALSE;
+    xf86Info.dri2 = False;
     xf86Info.dri2From = X_DEFAULT;
     if (xf86GetOptValBool(FlagOptions.ptr, FLAG_DRI2, &value)) {
         xf86Info.dri2 = value;
@@ -1121,7 +1120,7 @@ private InputInfoPtr* addDevice(InputInfoPtr* list, InputInfoPtr pInfo)
 private Bool checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLayout)
 {
     InputInfoPtr corePointer = null, coreKeyboard = null;
-    Bool foundPointer = FALSE, foundKeyboard = FALSE;
+    Bool foundPointer = False, foundKeyboard = False;
     const(char)* pointerMsg = null, keyboardMsg = null;
     InputInfoPtr* devs = void; InputInfoPtr indp = void;
     InputInfoPtr Pointer = void, Keyboard = void;
@@ -1141,13 +1140,13 @@ private Bool checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLay
     for (devs = servlayoutp.inputs; devs && *devs; devs++) {
         indp = *devs;
         if (indp.options &&
-            xf86CheckBoolOption(indp.options, "CorePointer", FALSE)) {
+            xf86CheckBoolOption(indp.options, "CorePointer", False)) {
             if (!corePointer) {
                 corePointer = indp;
             }
         }
         if (indp.options &&
-            xf86CheckBoolOption(indp.options, "CoreKeyboard", FALSE)) {
+            xf86CheckBoolOption(indp.options, "CoreKeyboard", False)) {
             if (!coreKeyboard) {
                 coreKeyboard = indp;
             }
@@ -1163,7 +1162,7 @@ private Bool checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLay
         if (!confInput) {
             LogMessageVerb(X_ERROR, 1, "No InputDevice section called \"%s\"\n",
                     xf86PointerName);
-            return FALSE;
+            return False;
         }
         from = X_CMDLINE;
         /*
@@ -1174,12 +1173,12 @@ private Bool checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLay
             freeDevice(servlayoutp.inputs, corePointer);
             corePointer = null;
         }
-        foundPointer = TRUE;
+        foundPointer = True;
     }
 
     /* 2. ServerLayout-specified core pointer. */
     if (corePointer) {
-        foundPointer = TRUE;
+        foundPointer = True;
         from = X_CONFIG;
     }
 
@@ -1189,9 +1188,9 @@ private Bool checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLay
 
         for (p = xf86configptr.conf_input_lst; p; p = cast(XF86ConfInputPtr)p.list.next) {
             if (p.inp_option_lst &&
-                xf86CheckBoolOption(p.inp_option_lst, "CorePointer", FALSE)) {
+                xf86CheckBoolOption(p.inp_option_lst, "CorePointer", False)) {
                 confInput = p;
-                foundPointer = TRUE;
+                foundPointer = True;
                 from = X_DEFAULT;
                 pointerMsg = "first core pointer device";
                 break;
@@ -1211,7 +1210,7 @@ private Bool checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLay
             driver++;
         }
         if (confInput) {
-            foundPointer = TRUE;
+            foundPointer = True;
             from = X_DEFAULT;
             pointerMsg = "first mouse device";
         }
@@ -1223,7 +1222,7 @@ private Bool checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLay
         defPtr.inp_identifier = strdup("<default pointer>");
         defPtr.inp_driver = strdup("mouse");
         confInput = &defPtr;
-        foundPointer = TRUE;
+        foundPointer = True;
         from = X_DEFAULT;
         pointerMsg = "default mouse configuration";
     }
@@ -1250,7 +1249,7 @@ private Bool checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLay
         /* This shouldn't happen. */
         LogMessageVerb(X_ERROR, 1, "Cannot locate a core pointer device.\n");
         xf86DeleteInput(Pointer, 0);
-        return FALSE;
+        return False;
     }
 
     confInput = null;
@@ -1262,7 +1261,7 @@ private Bool checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLay
         if (!confInput) {
             LogMessageVerb(X_ERROR, 1, "No InputDevice section called \"%s\"\n",
                     xf86KeyboardName);
-            return FALSE;
+            return False;
         }
         from = X_CMDLINE;
         /*
@@ -1273,12 +1272,12 @@ private Bool checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLay
             freeDevice(servlayoutp.inputs, coreKeyboard);
             coreKeyboard = null;
         }
-        foundKeyboard = TRUE;
+        foundKeyboard = True;
     }
 
     /* 2. ServerLayout-specified core keyboard. */
     if (coreKeyboard) {
-        foundKeyboard = TRUE;
+        foundKeyboard = True;
         from = X_CONFIG;
     }
 
@@ -1288,9 +1287,9 @@ private Bool checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLay
 
         for (p = xf86configptr.conf_input_lst; p; p = cast(XF86ConfInputPtr)p.list.next) {
             if (p.inp_option_lst &&
-                xf86CheckBoolOption(p.inp_option_lst, "CoreKeyboard", FALSE)) {
+                xf86CheckBoolOption(p.inp_option_lst, "CoreKeyboard", False)) {
                 confInput = p;
-                foundKeyboard = TRUE;
+                foundKeyboard = True;
                 from = X_DEFAULT;
                 keyboardMsg = "first core keyboard device";
                 break;
@@ -1307,7 +1306,7 @@ private Bool checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLay
                                               xf86configptr.conf_input_lst);
         }
         if (confInput) {
-            foundKeyboard = TRUE;
+            foundKeyboard = True;
             from = X_DEFAULT;
             keyboardMsg = "first keyboard device";
         }
@@ -1319,7 +1318,7 @@ private Bool checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLay
         defKbd.inp_identifier = strdup("<default keyboard>");
         defKbd.inp_driver = strdup("kbd");
         confInput = &defKbd;
-        foundKeyboard = TRUE;
+        foundKeyboard = True;
         keyboardMsg = "default keyboard configuration";
         from = X_DEFAULT;
     }
@@ -1346,7 +1345,7 @@ private Bool checkCoreInputDevices(serverLayoutPtr servlayoutp, Bool implicitLay
         /* This shouldn't happen. */
         LogMessageVerb(X_ERROR, 1, "Cannot locate a core keyboard device.\n");
         xf86DeleteInput(Keyboard, 0);
-        return FALSE;
+        return False;
     }
 
     if (pointerMsg) {
@@ -1393,7 +1392,7 @@ version (CONFIG_UDEV) {
 }
     }
 
-    return TRUE;
+    return True;
 }
 
 enum LayoutValues {
@@ -1406,11 +1405,11 @@ alias LAYOUT_SINGLECARD = LayoutValues.LAYOUT_SINGLECARD;
 
 private OptionInfoRec[4] LayoutOptions = [
     {LAYOUT_ISOLATEDEVICE, "IsolateDevice", OPTV_STRING,
-     {0}, FALSE},
+     {0}, False},
     {LAYOUT_SINGLECARD, "SingleCard", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {-1, null, OPTV_NONE,
-     {0}, FALSE},
+     {0}, False},
 ];
 
 private Bool configInputDevices(XF86ConfLayoutPtr layout, serverLayoutPtr servlayoutp)
@@ -1440,7 +1439,7 @@ private Bool configInputDevices(XF86ConfLayoutPtr layout, serverLayoutPtr servla
                 free(indp[count]);
             } while (count--);
             free(indp);
-            return FALSE;
+            return False;
         }
         indp[count].options = xf86OptionListMerge(indp[count].options,
                                                    irp.iref_option_lst);
@@ -1449,7 +1448,7 @@ private Bool configInputDevices(XF86ConfLayoutPtr layout, serverLayoutPtr servla
     }
     servlayoutp.inputs = indp;
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -1469,7 +1468,7 @@ private Bool configLayout(serverLayoutPtr servlayoutp, XF86ConfLayoutPtr conf_la
     int i = 0, j = void;
 
     if (!servlayoutp)
-        return FALSE;
+        return False;
 
     /*
      * which layout section is the active one?
@@ -1488,7 +1487,7 @@ private Bool configLayout(serverLayoutPtr servlayoutp, XF86ConfLayoutPtr conf_la
         if ((l = xf86findLayout(xf86LayoutName, conf_layout)) is null) {
             LogMessageVerb(X_ERROR, 1, "No ServerLayout section called \"%s\"\n",
                            xf86LayoutName);
-            return FALSE;
+            return False;
         }
         conf_layout = l;
     }
@@ -1532,7 +1531,7 @@ private Bool configLayout(serverLayoutPtr servlayoutp, XF86ConfLayoutPtr conf_la
                 free(slp[count].screen);
             } while (count--);
             free(slp);
-            return FALSE;
+            return False;
         }
         slp[count].x = adjp.adj_x;
         slp[count].y = adjp.adj_y;
@@ -1577,10 +1576,10 @@ private Bool configLayout(serverLayoutPtr servlayoutp, XF86ConfLayoutPtr conf_la
         mixin(FIND_SUITABLE! (`XF86ConfScreenPtr`, `xf86configptr.conf_screen_lst`, `screen`));
         slp[0].screen = cast(confScreenRec*)XNFcallocarray(1, confScreenRec.sizeof);
         if (!configScreen(slp[0].screen, screen,
-                          0, X_CONFIG, TRUE)) {
+                          0, X_CONFIG, True)) {
             free(slp[0].screen);
             free(slp);
-            return FALSE;
+            return False;
         }
     }
 
@@ -1640,7 +1639,7 @@ private Bool configLayout(serverLayoutPtr servlayoutp, XF86ConfLayoutPtr conf_la
     idp = conf_layout.lay_inactive_lst;
     count = 0;
     while (idp) {
-        if (!configDevice(&gdp[count], idp.inactive_device, FALSE, FALSE))
+        if (!configDevice(&gdp[count], idp.inactive_device, False, False))
             goto bail;
         count++;
         idp = cast(XF86ConfInactivePtr) idp.list.next;
@@ -1655,7 +1654,7 @@ private Bool configLayout(serverLayoutPtr servlayoutp, XF86ConfLayoutPtr conf_la
     servlayoutp.options = conf_layout.lay_option_lst;
     from = X_DEFAULT;
 
-    return TRUE;
+    return True;
 
  bail:
     do {
@@ -1663,7 +1662,7 @@ private Bool configLayout(serverLayoutPtr servlayoutp, XF86ConfLayoutPtr conf_la
     } while (saved_count--);
     free(slp);
     free(gdp);
-    return FALSE;
+    return False;
 }
 
 /*
@@ -1679,7 +1678,7 @@ private Bool configImpliedLayout(serverLayoutPtr servlayoutp, XF86ConfScreenPtr 
     XF86ConfLayoutRec layout = void;
 
     if (!servlayoutp)
-        return FALSE;
+        return False;
 
     /*
      * which screen section is the active one?
@@ -1693,7 +1692,7 @@ private Bool configImpliedLayout(serverLayoutPtr servlayoutp, XF86ConfScreenPtr 
         if ((s = xf86findScreen(xf86ScreenName, conf_screen)) is null) {
             LogMessageVerb(X_ERROR, 1, "No Screen section called \"%s\"\n",
                            xf86ScreenName);
-            return FALSE;
+            return False;
         }
         conf_screen = s;
         from = X_CMDLINE;
@@ -1704,9 +1703,9 @@ private Bool configImpliedLayout(serverLayoutPtr servlayoutp, XF86ConfScreenPtr 
     slp = cast(screenLayoutRec*)XNFcallocarray(1, 2 * screenLayoutRec.sizeof);
     slp[0].screen = cast(confScreenRec*)XNFcallocarray(1, confScreenRec.sizeof);
     slp[1].screen = null;
-    if (!configScreen(slp[0].screen, conf_screen, 0, from, TRUE)) {
+    if (!configScreen(slp[0].screen, conf_screen, 0, from, True)) {
         free(slp);
-        return FALSE;
+        return False;
     }
     servlayoutp.id = "(implicit)";
     servlayoutp.screens = slp;
@@ -1717,7 +1716,7 @@ private Bool configImpliedLayout(serverLayoutPtr servlayoutp, XF86ConfScreenPtr 
     layout.lay_identifier = servlayoutp.id;
     if (xf86layoutAddInputDevices(conf_ptr, &layout) > 0) {
         if (!configInputDevices(&layout, servlayoutp))
-            return FALSE;
+            return False;
         from = X_DEFAULT;
     }
     else {
@@ -1727,7 +1726,7 @@ private Bool configImpliedLayout(serverLayoutPtr servlayoutp, XF86ConfScreenPtr 
         servlayoutp.inputs = indp;
     }
 
-    return TRUE;
+    return True;
 }
 
 private Bool configXvAdaptor(confXvAdaptorPtr adaptor, XF86ConfVideoAdaptorPtr conf_adaptor)
@@ -1741,7 +1740,7 @@ private Bool configXvAdaptor(confXvAdaptorPtr adaptor, XF86ConfVideoAdaptorPtr c
     adaptor.options = conf_adaptor.va_option_lst;
     if (conf_adaptor.va_busid || conf_adaptor.va_driver) {
         LogMessageVerb(X_CONFIG, 1, "|   | Unsupported device type, skipping entry\n");
-        return FALSE;
+        return False;
     }
 
     /*
@@ -1763,7 +1762,7 @@ private Bool configXvAdaptor(confXvAdaptorPtr adaptor, XF86ConfVideoAdaptorPtr c
         conf_port = cast(XF86ConfVideoPortPtr) conf_port.list.next;
     }
 
-    return TRUE;
+    return True;
 }
 
 private Bool configScreen(confScreenPtr screenp, XF86ConfScreenPtr conf_screen, int scrnum, MessageType from, Bool auto_gpu_device)
@@ -1771,7 +1770,7 @@ private Bool configScreen(confScreenPtr screenp, XF86ConfScreenPtr conf_screen, 
     int count = 0;
     XF86ConfDisplayPtr dispptr = void;
     XF86ConfAdaptorLinkPtr conf_adaptor = void;
-    Bool defaultMonitor = FALSE;
+    Bool defaultMonitor = False;
     XF86ConfScreenRec local_conf_screen = void;
     int i = void;
 
@@ -1800,12 +1799,12 @@ private Bool configScreen(confScreenPtr screenp, XF86ConfScreenPtr conf_screen, 
         memset(&defMon, 0, defMon.sizeof);
         defMon.mon_identifier = "<default monitor>";
         if (!configMonitor(screenp.monitor, &defMon))
-            return FALSE;
-        defaultMonitor = TRUE;
+            return False;
+        defaultMonitor = True;
     }
     else {
         if (!configMonitor(screenp.monitor, conf_screen.scrn_monitor))
-            return FALSE;
+            return False;
     }
     /* Configure the device. If there isn't one configured, attach to the
      * first inactive one that we can configure. If there's none that work,
@@ -1816,7 +1815,7 @@ private Bool configScreen(confScreenPtr screenp, XF86ConfScreenPtr conf_screen, 
         LogMessageVerb(X_DEFAULT, 1, "No device specified for screen \"%s\".\n"
                        ~ "\tUsing the first device section listed.\n", screenp.id);
     }
-    if (configDevice(screenp.device, conf_screen.scrn_device, TRUE, FALSE)) {
+    if (configDevice(screenp.device, conf_screen.scrn_device, True, False)) {
         screenp.device.myScreenSection = screenp;
     }
     else {
@@ -1854,7 +1853,7 @@ private Bool configScreen(confScreenPtr screenp, XF86ConfScreenPtr conf_screen, 
             }
 
             screenp.gpu_devices[i] = cast(GDevRec*)XNFcallocarray(1, GDevRec.sizeof);
-            if (configDevice(screenp.gpu_devices[i], conf_screen.scrn_gpu_devices[i], TRUE, TRUE)) {
+            if (configDevice(screenp.gpu_devices[i], conf_screen.scrn_gpu_devices[i], True, True)) {
                 screenp.gpu_devices[i].myScreenSection = screenp;
             }
             sdevice = cast(_XF86ConfDeviceRec*)conf_screen.scrn_gpu_devices[i].list.next;
@@ -1864,7 +1863,7 @@ private Bool configScreen(confScreenPtr screenp, XF86ConfScreenPtr conf_screen, 
     } else {
         for (i = 0; i < conf_screen.num_gpu_devices; i++) {
             screenp.gpu_devices[i] = cast(GDevRec*)XNFcallocarray(1, GDevRec.sizeof);
-            if (configDevice(screenp.gpu_devices[i], conf_screen.scrn_gpu_devices[i], TRUE, TRUE)) {
+            if (configDevice(screenp.gpu_devices[i], conf_screen.scrn_gpu_devices[i], True, True)) {
                 screenp.gpu_devices[i].myScreenSection = screenp;
             }
         }
@@ -1924,7 +1923,7 @@ private Bool configScreen(confScreenPtr screenp, XF86ConfScreenPtr conf_screen, 
         LogMessageVerb(X_DEFAULT, 1, "No monitor specified for screen \"%s\".\n"
                        ~ "\tUsing a default monitor configuration.\n", screenp.id);
     }
-    return TRUE;
+    return True;
 }
 
 enum MonitorValues {
@@ -1937,11 +1936,11 @@ alias MON_MAX_PIX_CLOCK = MonitorValues.MON_MAX_PIX_CLOCK;
 
 private OptionInfoRec[4] MonitorOptions = [
     {MON_REDUCEDBLANKING, "ReducedBlanking", OPTV_BOOLEAN,
-     {0}, FALSE},
+     {0}, False},
     {MON_MAX_PIX_CLOCK, "MaxPixClock", OPTV_FREQ,
-     {0}, FALSE},
+     {0}, False},
     {-1, null, OPTV_NONE,
-     {0}, FALSE},
+     {0}, False},
 ];
 
 private Bool configMonitor(MonPtr monitorp, XF86ConfMonitorPtr conf_monitor)
@@ -1964,7 +1963,7 @@ private Bool configMonitor(MonPtr monitorp, XF86ConfMonitorPtr conf_monitor)
     monitorp.gamma = zeros;
     monitorp.widthmm = conf_monitor.mon_width;
     monitorp.heightmm = conf_monitor.mon_height;
-    monitorp.reducedblanking = FALSE;
+    monitorp.reducedblanking = False;
     monitorp.maxPixClock = 0;
     monitorp.options = conf_monitor.mon_option_lst;
 
@@ -2050,7 +2049,7 @@ private Bool configMonitor(MonPtr monitorp, XF86ConfMonitorPtr conf_monitor)
 
     /* add the (VESA) default modes */
     if (!addDefaultModes(monitorp))
-        return FALSE;
+        return False;
 
     if (conf_monitor.mon_gamma_red > GAMMA_ZERO)
         monitorp.gamma.red = conf_monitor.mon_gamma_red;
@@ -2077,18 +2076,18 @@ private Bool configMonitor(MonPtr monitorp, XF86ConfMonitorPtr conf_monitor)
     if (badgamma > GAMMA_ZERO) {
         ErrorF("Gamma value %.f is out of range (%.2f - %.1f)\n", badgamma,
                GAMMA_MIN, GAMMA_MAX);
-        return FALSE;
+        return False;
     }
 
     xf86ProcessOptions(-1, cast(_InputOption*)monitorp.options, MonitorOptions.ptr);
     xf86GetOptValBool(MonitorOptions.ptr, MON_REDUCEDBLANKING,
                       &monitorp.reducedblanking);
     if (xf86GetOptValFreq(MonitorOptions.ptr, MON_MAX_PIX_CLOCK, OPTUNITS_KHZ,
-                          &maxPixClock) == TRUE) {
+                          &maxPixClock) == True) {
         monitorp.maxPixClock = cast(int) maxPixClock;
     }
 
-    return TRUE;
+    return True;
 }
 
 private int lookupVisual(const(char)* visname)
@@ -2134,7 +2133,7 @@ private Bool configDisplay(DispPtr displayp, XF86ConfDisplayPtr conf_display)
         displayp.defaultVisual = lookupVisual(conf_display.disp_visual);
         if (displayp.defaultVisual == -1) {
             ErrorF("Invalid visual name: \"%s\"\n", conf_display.disp_visual);
-            return FALSE;
+            return False;
         }
     }
     else {
@@ -2159,7 +2158,7 @@ private Bool configDisplay(DispPtr displayp, XF86ConfDisplayPtr conf_display)
     }
     displayp.modes[count] = null;
 
-    return TRUE;
+    return True;
 }
 
 private Bool configDevice(GDevPtr devicep, XF86ConfDevicePtr conf_device, Bool active, Bool gpu)
@@ -2167,7 +2166,7 @@ private Bool configDevice(GDevPtr devicep, XF86ConfDevicePtr conf_device, Bool a
     int i = void;
 
     if (!conf_device) {
-        return FALSE;
+        return False;
     }
 
     if (active) {
@@ -2211,9 +2210,9 @@ private Bool configDevice(GDevPtr devicep, XF86ConfDevicePtr conf_device, Bool a
     for (i = 0; i < devicep.numclocks; i++) {
         devicep.clock[i] = conf_device.dev_clock[i];
     }
-    devicep.claimed = FALSE;
+    devicep.claimed = False;
 
-    return TRUE;
+    return True;
 }
 
 private void configDRI(XF86ConfDRIPtr drip)
@@ -2245,13 +2244,13 @@ private void configExtensions(XF86ConfExtensionsPtr conf_ext)
             char* name = xf86OptionName(o);
             char* val = xf86OptionValue(o);
             char* n = void;
-            Bool enable = TRUE;
+            Bool enable = True;
 
             /* Handle "No<ExtensionName>" */
             n = xf86NormalizeName(name);
             if (strncmp(n, "no", 2) == 0) {
                 name += 2;
-                enable = FALSE;
+                enable = False;
             }
 
             if (!val ||
@@ -2297,7 +2296,7 @@ private Bool configInput(InputInfoPtr inputp, XF86ConfInputPtr conf_input, Messa
     inputp.options = conf_input.inp_option_lst;
     inputp.attrs = null;
 
-    return TRUE;
+    return True;
 }
 
 private Bool modeIsPresent(DisplayModePtr mode, MonPtr monitorp)
@@ -2308,10 +2307,10 @@ private Bool modeIsPresent(DisplayModePtr mode, MonPtr monitorp)
     while (knownmodes !is null) {
         if (!strcmp(mode.name, knownmodes.name) &&
             !(knownmodes.type & M_T_DEFAULT))
-            return TRUE;
+            return True;
         knownmodes = knownmodes.next;
     }
-    return FALSE;
+    return False;
 }
 
 private Bool addDefaultModes(MonPtr monitorp)
@@ -2332,7 +2331,7 @@ private Bool addDefaultModes(MonPtr monitorp)
     }
     monitorp.Last = last;
 
-    return TRUE;
+    return True;
 }
 
 private void checkInput(serverLayoutPtr layout, Bool implicit_layout)
@@ -2345,7 +2344,7 @@ private void checkInput(serverLayoutPtr layout, Bool implicit_layout)
      */
     if (!xf86Info.forceInputDevices && layout.inputs) {
         InputInfoPtr* dev = layout.inputs;
-        BOOL warned = FALSE;
+        BOOL warned = False;
 
         while (*dev) {
             if (strcmp((*dev).driver, "kbd") == 0 ||
@@ -2356,7 +2355,7 @@ private void checkInput(serverLayoutPtr layout, Bool implicit_layout)
                 if (!warned) {
                     LogMessageVerb(X_WARNING, 1, "Hotplugging is on, devices using "
                             ~ "drivers 'kbd', 'mouse' or 'vmmouse' will be disabled.\n");
-                    warned = TRUE;
+                    warned = True;
                 }
 
                 LogMessageVerb(X_WARNING, 1, "Disabling %s\n", (*dev).name);
@@ -2385,7 +2384,7 @@ static if(XSERVER_LIBPCIACCESS){
     const(char)* scanptr = void;
     Bool singlecard = 0;
 }
-    Bool implicit_layout = FALSE;
+    Bool implicit_layout = False;
     XF86ConfLayoutPtr layout = void;
 
     if (!autoconfig) {
@@ -2490,7 +2489,7 @@ static if(XSERVER_LIBPCIACCESS){
             LogMessageVerb(X_ERROR, 1, "Unable to determine the screen layout\n");
             return _ConfigStatus.CONFIG_PARSE_ERROR;
         }
-        implicit_layout = TRUE;
+        implicit_layout = True;
     }
     else {
         if (xf86configptr.conf_flags !is null) {
@@ -2549,13 +2548,13 @@ static if(XSERVER_LIBPCIACCESS){
      */
 static if(build.xlibre_server.XF86VIDMODE){
     if (xf86VidModeDisabled)
-        xf86Info.vidModeEnabled = FALSE;
+        xf86Info.vidModeEnabled = False;
     if (xf86VidModeAllowNonLocal)
-        xf86Info.vidModeAllowNonLocal = TRUE;
+        xf86Info.vidModeAllowNonLocal = True;
 }
 
     if (xf86AllowMouseOpenFail)
-        xf86Info.allowMouseOpenFail = TRUE;
+        xf86Info.allowMouseOpenFail = True;
 
     return _ConfigStatus.CONFIG_OK;
 }

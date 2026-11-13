@@ -42,7 +42,7 @@ import hw.xfree86.os_support.xf86_OSlib;
  * This file contains the common part of the video memory mapping functions
  */
 
-private VidMemInfo vidMemInfo = { FALSE, };
+private VidMemInfo vidMemInfo = { False, };
 
 void xf86InitVidMem()
 {

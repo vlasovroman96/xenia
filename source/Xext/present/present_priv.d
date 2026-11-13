@@ -376,8 +376,8 @@ present_window_priv_ptr present_get_window_priv(WindowPtr window, Bool create);
 
 /*
  * Returns:
- * TRUE if the first MSC value is after the second one
- * FALSE if the first MSC value is equal to or before the second one
+ * True if the first MSC value is after the second one
+ * False if the first MSC value is equal to or before the second one
  */
 pragma(inline, true)Bool msc_is_after(ulong test, ulong reference)
 {

@@ -118,12 +118,12 @@ private Bool check_seat(udev_device* udev_device)
         dev_seat = "seat0";
 
     if (dixSettingSeatId && strcmp(dev_seat, dixSettingSeatId))
-        return FALSE;
+        return False;
 
     if (!dixSettingSeatId && strcmp(dev_seat, "seat0"))
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 alias dev_t = core.sys.posix.sys.types.dev_t;

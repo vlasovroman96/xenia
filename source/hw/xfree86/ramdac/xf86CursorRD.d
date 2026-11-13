@@ -64,26 +64,26 @@ Bool xf86InitCursor(ScreenPtr pScreen, xf86CursorInfoPtr infoPtr)
     miPointerScreenPtr PointPriv = void;
 
     if (!xf86InitHardwareCursor(pScreen, infoPtr))
-        return FALSE;
+        return False;
 
     if (!dixRegisterPrivateKey(&xf86CursorScreenKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
 
     ScreenPriv = cast(xf86CursorScreenRec*) calloc(1, xf86CursorScreenRec.sizeof);
     if (!ScreenPriv)
-        return FALSE;
+        return False;
 
     if (!dixRegisterScreenPrivateKey(&xf86ScreenCursorBitsKeyRec, pScreen,
                                      PRIVATE_CURSOR, 0))
-        return FALSE;
+        return False;
 
     dixSetPrivate(&pScreen.devPrivates, &xf86CursorScreenKeyRec, ScreenPriv);
 
-    ScreenPriv.SWCursor = TRUE;
-    ScreenPriv.isUp = FALSE;
+    ScreenPriv.SWCursor = True;
+    ScreenPriv.isUp = False;
     ScreenPriv.CurrentCursor = null;
     ScreenPriv.CursorInfoPtr = infoPtr;
-    ScreenPriv.PalettedCursor = FALSE;
+    ScreenPriv.PalettedCursor = False;
     ScreenPriv.pInstalledMap = null;
 
     dixScreenHookClose(pScreen, &xf86CursorCloseScreen);
@@ -96,16 +96,16 @@ Bool xf86InitCursor(ScreenPtr pScreen, xf86CursorInfoPtr infoPtr)
         !(infoPtr.Flags & HARDWARE_CURSOR_TRUECOLOR_AT_8BPP)) {
         ScreenPriv.InstallColormap = pScreen.InstallColormap;
         pScreen.InstallColormap = &xf86CursorInstallColormap;
-        ScreenPriv.PalettedCursor = TRUE;
+        ScreenPriv.PalettedCursor = True;
     }
 
     PointPriv = cast(_MiPointerScreenRec*)dixLookupPrivate(&pScreen.devPrivates, miPointerScreenKey);
 
     ScreenPriv.showTransparent = PointPriv.showTransparent;
     if (infoPtr.Flags & HARDWARE_CURSOR_SHOW_TRANSPARENT)
-        PointPriv.showTransparent = TRUE;
+        PointPriv.showTransparent = True;
     else
-        PointPriv.showTransparent = FALSE;
+        PointPriv.showTransparent = False;
     ScreenPriv.spriteFuncs = PointPriv.spriteFuncs;
     PointPriv.spriteFuncs = &xf86CursorSpriteFuncs;
 
@@ -113,13 +113,13 @@ Bool xf86InitCursor(ScreenPtr pScreen, xf86CursorInfoPtr infoPtr)
     ScreenPriv.SwitchMode = pScrn.SwitchMode;
 
     ScreenPriv.ForceHWCursorCount = 0;
-    ScreenPriv.HWCursorForced = FALSE;
+    ScreenPriv.HWCursorForced = False;
 
     pScrn.EnableDisableFBAccess = &xf86CursorEnableDisableFBAccess;
     if (pScrn.SwitchMode)
         pScrn.SwitchMode = &xf86CursorSwitchMode;
 
-    return TRUE;
+    return True;
 }
 
 /***** Screen functions *****/
@@ -212,8 +212,8 @@ private void xf86CursorEnableDisableFBAccess(ScrnInfoPtr pScrn, Bool enable)
 
         xf86CursorSetCursor(pDev, pScreen, NullCursor, ScreenPriv.x,
                             ScreenPriv.y);
-        ScreenPriv.isUp = FALSE;
-        ScreenPriv.SWCursor = TRUE;
+        ScreenPriv.isUp = False;
+        ScreenPriv.SWCursor = True;
         ScreenPriv.SavedCursor = currentCursor;
     }
 
@@ -241,7 +241,7 @@ private Bool xf86CursorSwitchMode(ScrnInfoPtr pScrn, DisplayModePtr mode)
 
     if (ScreenPriv.isUp) {
         xf86SetCursor(pScreen, NullCursor, ScreenPriv.x, ScreenPriv.y);
-        ScreenPriv.isUp = FALSE;
+        ScreenPriv.isUp = False;
     }
 
     ret = (*ScreenPriv.SwitchMode) (pScrn, mode);
@@ -252,7 +252,7 @@ private Bool xf86CursorSwitchMode(ScrnInfoPtr pScrn, DisplayModePtr mode)
      * ensure the cursor is repainted by miPointerWarpCursor().
      */
     ScreenPriv.CursorToRestore = ScreenPriv.CurrentCursor;
-    miPointerSetWaitForUpdate(pScreen, FALSE);  /* Force cursor repaint */
+    miPointerSetWaitForUpdate(pScreen, False);  /* Force cursor repaint */
 
     return ret;
 }
@@ -299,7 +299,7 @@ private void xf86CursorSetCursor(DeviceIntPtr pDev, ScreenPtr pScreen, CursorPtr
                                                    y);
         else if (ScreenPriv.isUp) {
             xf86SetCursor(pScreen, NullCursor, x, y);
-            ScreenPriv.isUp = FALSE;
+            ScreenPriv.isUp = False;
         }
         FreeCursor(ScreenPriv.CurrentCursor, None);
         ScreenPriv.CurrentCursor = NullCursor;
@@ -334,15 +334,15 @@ private void xf86CursorSetCursor(DeviceIntPtr pDev, ScreenPtr pScreen, CursorPtr
                                                        NullCursor, x, y);
 
             if (xf86SetCursor(pScreen, cursor, x, y)) {
-                ScreenPriv.SWCursor = FALSE;
-                ScreenPriv.isUp = TRUE;
+                ScreenPriv.SWCursor = False;
+                ScreenPriv.isUp = True;
 
                 miPointerSetWaitForUpdate(pScreen, !infoPtr.pScrn.silkenMouse);
                 return;
             }
         }
 
-        miPointerSetWaitForUpdate(pScreen, TRUE);
+        miPointerSetWaitForUpdate(pScreen, True);
 
         if (ScreenPriv.isUp) {
             /* Remove the HW cursor, or make it transparent */
@@ -351,12 +351,12 @@ private void xf86CursorSetCursor(DeviceIntPtr pDev, ScreenPtr pScreen, CursorPtr
             }
             else {
                 xf86SetCursor(pScreen, NullCursor, x, y);
-                ScreenPriv.isUp = FALSE;
+                ScreenPriv.isUp = False;
             }
         }
 
         if (!ScreenPriv.SWCursor)
-            ScreenPriv.SWCursor = TRUE;
+            ScreenPriv.SWCursor = True;
 
     }
 
@@ -421,12 +421,12 @@ void xf86ForceHWCursor(ScreenPtr pScreen, Bool on)
     if (on) {
         if (ScreenPriv.ForceHWCursorCount++ == 0) {
             if (ScreenPriv.SWCursor && ScreenPriv.CurrentCursor) {
-                ScreenPriv.HWCursorForced = TRUE;
+                ScreenPriv.HWCursorForced = True;
                 xf86CursorSetCursor(pDev, pScreen, ScreenPriv.CurrentCursor,
                                     ScreenPriv.x, ScreenPriv.y);
             }
             else
-                ScreenPriv.HWCursorForced = FALSE;
+                ScreenPriv.HWCursorForced = False;
         }
     }
     else {

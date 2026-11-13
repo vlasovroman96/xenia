@@ -103,7 +103,7 @@ int ProcXQueryDeviceState(ClientPtr client)
         num_classes++;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     char* buf = cast(char*)x_rpcbuf_reserve(&rpcbuf, total_length);
     if (!buf)
         return BadAlloc;

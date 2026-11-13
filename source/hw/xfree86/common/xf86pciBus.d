@@ -295,7 +295,7 @@ void xf86PciProbe()
     /* Print a summary of the video devices found */
     for (k = 0; k < num; k++) {
         const(char)* prim = " ";
-        Bool memdone = FALSE, iodone = FALSE;
+        Bool memdone = False, iodone = False;
 
         info = xf86PciVideoInfo[k];
 
@@ -318,7 +318,7 @@ void xf86PciProbe()
             if (r.size && !r.is_IO) {
                 if (!memdone) {
                     xf86ErrorF(", Mem @ ");
-                    memdone = TRUE;
+                    memdone = True;
                 }
                 else
                     xf86ErrorF(", ");
@@ -332,7 +332,7 @@ void xf86PciProbe()
             if (r.size && r.is_IO) {
                 if (!iodone) {
                     xf86ErrorF(", I/O @ ");
-                    iodone = TRUE;
+                    iodone = True;
                 }
                 else
                     xf86ErrorF(", ");
@@ -368,7 +368,7 @@ int xf86ClaimPciSlot(pci_device* d, DriverPtr drvp, int chipset, GDevPtr dev, Bo
         p.bus.type = BUS_PCI;
         p.bus.id.pci = d;
         p.active = active;
-        p.inUse = FALSE;
+        p.inUse = False;
         if (dev)
             xf86AddDevToEntity(num, dev);
 
@@ -415,13 +415,13 @@ Bool xf86ParsePciBusString(const(char)* busID, int* bus, int* device, int* func)
     int i = void;
 
     if (StringToBusType(busID, &id) != BUS_PCI)
-        return FALSE;
+        return False;
 
     s = cast(char*)Xstrdup(id);
     p = strtok(s, ":");
     if (p is null || *p == 0) {
         free(s);
-        return FALSE;
+        return False;
     }
     d = strpbrk(p, "@");
     if (d !is null) {
@@ -429,14 +429,14 @@ Bool xf86ParsePciBusString(const(char)* busID, int* bus, int* device, int* func)
         for (i = 0; d[i] != 0; i++) {
             if (!isdigit(cast(ubyte)d[i])) {
                 free(s);
-                return FALSE;
+                return False;
             }
         }
     }
     for (i = 0; p[i] != 0; i++) {
         if (!isdigit(cast(ubyte)p[i])) {
             free(s);
-            return FALSE;
+            return False;
         }
     }
     *bus = atoi(p);
@@ -445,12 +445,12 @@ Bool xf86ParsePciBusString(const(char)* busID, int* bus, int* device, int* func)
     p = strtok(null, ":");
     if (p is null || *p == 0) {
         free(s);
-        return FALSE;
+        return False;
     }
     for (i = 0; p[i] != 0; i++) {
         if (!isdigit(cast(ubyte)p[i])) {
             free(s);
-            return FALSE;
+            return False;
         }
     }
     *device = atoi(p);
@@ -458,21 +458,21 @@ Bool xf86ParsePciBusString(const(char)* busID, int* bus, int* device, int* func)
     p = strtok(null, ":");
     if (p is null || *p == 0) {
         free(s);
-        return TRUE;
+        return True;
     }
     for (i = 0; p[i] != 0; i++) {
         if (!isdigit(cast(ubyte)p[i])) {
             free(s);
-            return FALSE;
+            return False;
         }
     }
     *func = atoi(p);
     free(s);
-    return TRUE;
+    return True;
 }
 
 /*
- * Compare a BUS ID string with a PCI bus id.  Return TRUE if they match.
+ * Compare a BUS ID string with a PCI bus id.  Return True if they match.
  */
 
 Bool xf86ComparePciBusString(const(char)* busID, int bus, int device, int func)
@@ -483,12 +483,12 @@ Bool xf86ComparePciBusString(const(char)* busID, int bus, int device, int func)
         return bus == ibus && device == idevice && func == ifunc;
     }
     else {
-        return FALSE;
+        return False;
     }
 }
 
 /*
- * xf86IsPrimaryPci() -- return TRUE if primary device
+ * xf86IsPrimaryPci() -- return True if primary device
  * is PCI and bus, dev and func numbers match.
  */
 
@@ -496,7 +496,7 @@ Bool xf86IsPrimaryPci(pci_device* pPci)
 {
     /* Add max. 1 screen for the IgnorePrimary fallback path */
     if (xf86ProbeIgnorePrimary && xf86NumScreens == 0)
-        return TRUE;
+        return True;
 
     if (primaryBus.type == BUS_PCI)
         return pPci == primaryBus.id.pci;
@@ -504,9 +504,9 @@ static if(XSERVER_PLATFORM_BUS){
     if (primaryBus.type == BUS_PLATFORM)
         if (primaryBus.id.plat.pdev)
             if (mixin(MATCH_PCI_DEVICES!("primaryBus.id.plat.pdev", "pPci")))
-                return TRUE;
+                return True;
 }
-    return FALSE;
+    return False;
 }
 
 /*
@@ -541,12 +541,12 @@ Bool xf86CheckPciMemBase(pci_device* pPci, memType base)
 
     for (i = 0; i < 6; i++)
         if (base == pPci.regions[i].base_addr)
-            return TRUE;
-    return FALSE;
+            return True;
+    return False;
 }
 
 /*
- * Check if the slot requested is free.  If it is already in use, return FALSE.
+ * Check if the slot requested is free.  If it is already in use, return False.
  */
 
 Bool xf86CheckPciSlot(const(pci_device)* d)
@@ -603,7 +603,7 @@ Bool xf86PciProbeDev(DriverPtr drvp)
 {
     int i = void, j = void;
     pci_device* pPci = void;
-    Bool foundScreen = FALSE;
+    Bool foundScreen = False;
     const(pci_id_match*) devices = drvp.supported_devices;
     GDevPtr* devList = void;
     const(uint) numDevs = xf86MatchDevice(drvp.driverName, &devList);
@@ -683,7 +683,7 @@ Bool xf86PciProbeDev(DriverPtr drvp)
                 if (entry != -1) {
                     if ((*drvp.PciProbe) (drvp, entry, pPci,
                                            devices[j].match_data)) {
-                        foundScreen = TRUE;
+                        foundScreen = True;
                     }
                     else
                         xf86UnclaimPciSlot(pPci, devList[i]);
@@ -718,12 +718,12 @@ private Bool pciDeviceHasBars(pci_device* pci)
 
     for (i = 0; i < 6; i++)
         if (pci.regions[i].size)
-            return TRUE;
+            return True;
 
     if (pci.rom_size)
-        return TRUE;
+        return True;
 
-    return FALSE;
+    return False;
 }
 
 struct Inst {
@@ -803,7 +803,7 @@ int xf86MatchPciInstances(const(char)* driverName, int vendorID, SymTabPtr chips
     iter = pci_slot_match_iterator_create(null);
     while ((pPci = pci_device_next(iter)) !is null) {
         uint device_class = pPci.device_class;
-        Bool foundVendor = FALSE;
+        Bool foundVendor = False;
 
         /* Convert the pre-PCI 2.0 device class for a VGA adapter to the
          * 2.0 version of the same class.
@@ -835,18 +835,18 @@ int xf86MatchPciInstances(const(char)* driverName, int vendorID, SymTabPtr chips
                     ++allocatedInstances;
                     instances[allocatedInstances - 1].pci = pPci;
                     instances[allocatedInstances - 1].dev = null;
-                    instances[allocatedInstances - 1].claimed = FALSE;
-                    instances[allocatedInstances - 1].foundHW = FALSE;
+                    instances[allocatedInstances - 1].claimed = False;
+                    instances[allocatedInstances - 1].foundHW = False;
                     instances[allocatedInstances - 1].screen = 0;
                 }
 
-                foundVendor = TRUE;
+                foundVendor = True;
 
                 if ((device_id == pPci.device_id)
                     || ((vendorID == PCI_VENDOR_GENERIC)
                         && (match_class == device_class))) {
                     if (instances !is null) {
-                        instances[allocatedInstances - 1].foundHW = TRUE;
+                        instances[allocatedInstances - 1].foundHW = True;
                         instances[allocatedInstances - 1].chip = cast(short)id.numChipset;
                     }
 
@@ -977,7 +977,7 @@ int xf86MatchPciInstances(const(char)* driverName, int vendorID, SymTabPtr chips
         }
         else {
             numClaimedInstances++;
-            instances[i].claimed = TRUE;
+            instances[i].claimed = True;
             instances[i].dev = dev;
         }
     }
@@ -999,7 +999,7 @@ int xf86MatchPciInstances(const(char)* driverName, int vendorID, SymTabPtr chips
                     break;
             }
             if (c.token == -1) {
-                instances[i].claimed = FALSE;
+                instances[i].claimed = False;
                 numClaimedInstances--;
                 LogMessageVerb(X_WARNING, 0, "%s: Chipset \"%s\" in Device "
                                ~ "section \"%s\" isn't valid for this driver\n",
@@ -1019,7 +1019,7 @@ int xf86MatchPciInstances(const(char)* driverName, int vendorID, SymTabPtr chips
                     from = X_CONFIG;
                 }
                 else {
-                    instances[i].claimed = FALSE;
+                    instances[i].claimed = False;
                     numClaimedInstances--;
                     LogMessageVerb(X_WARNING, 0, "%s: Chipset \"%s\" in Device "
                                    ~ "section \"%s\" isn't a valid PCI chipset\n",
@@ -1034,7 +1034,7 @@ int xf86MatchPciInstances(const(char)* driverName, int vendorID, SymTabPtr chips
                     break;
             }
             if (id.numChipset == -1) {
-                instances[i].claimed = FALSE;
+                instances[i].claimed = False;
                 numClaimedInstances--;
                 LogMessageVerb(X_WARNING, 0, "%s: ChipID 0x%04X in Device "
                                ~ "section \"%s\" isn't valid for this driver\n",
@@ -1053,10 +1053,10 @@ int xf86MatchPciInstances(const(char)* driverName, int vendorID, SymTabPtr chips
              * This means that there was no override and the PCI chipType
              * doesn't match one that is supported
              */
-            instances[i].claimed = FALSE;
+            instances[i].claimed = False;
             numClaimedInstances--;
         }
-        if (instances[i].claimed == TRUE) {
+        if (instances[i].claimed == True) {
             for (c = chipsets; c.token >= 0; c++) {
                 if (c.token == instances[i].chip)
                     break;

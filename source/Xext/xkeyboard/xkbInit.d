@@ -108,7 +108,7 @@ enum	PHYS_LEDS =	0x07;
 
 /***====================================================================***/
 
-enum	XKB_DFLT_RULES_PROP =	TRUE;
+enum	XKB_DFLT_RULES_PROP =	True;
 
 
 const(char)* XkbBaseDirectory = XKB_BASE_DIRECTORY;
@@ -176,7 +176,7 @@ private Bool XkbWriteRulesProp()
     len += (XkbVariantUsed ? strlen(XkbVariantUsed) : 0);
     len += (XkbOptionsUsed ? strlen(XkbOptionsUsed) : 0);
     if (len < 1)
-        return TRUE;
+        return True;
 
     len += 5;                   /* trailing NULs */
 
@@ -184,13 +184,13 @@ private Bool XkbWriteRulesProp()
         MakeAtom(_XKB_RF_NAMES_PROP_ATOM.ptr, cast(uint)strlen(_XKB_RF_NAMES_PROP_ATOM.ptr), 1);
     if (name == None) {
         ErrorF("[xkb] Atom error: %s not created\n", _XKB_RF_NAMES_PROP_ATOM.ptr);
-        return TRUE;
+        return True;
     }
     char* pval = cast(char*) calloc(1, len);
     if (!pval) {
         ErrorF("[xkb] Allocation error: %s proprerty not created\n",
                _XKB_RF_NAMES_PROP_ATOM.ptr);
-        return TRUE;
+        return True;
     }
     out_ = 0;
     if (XkbRulesUsed) {
@@ -223,9 +223,9 @@ private Bool XkbWriteRulesProp()
                out_, len);
     }
     dixChangeWindowProperty(serverClient, dixGetMasterScreen().root, name,
-                            XA_STRING, 8, PropModeReplace, len, pval, TRUE);
+                            XA_STRING, 8, PropModeReplace, len, pval, True);
     free(pval);
-    return TRUE;
+    return True;
 }
 
 void XkbInitRules(XkbRMLVOSet* rmlvo, const(char)* rules, const(char)* model, const(char)* layout, const(char)* variant, const(char)* options)
@@ -306,7 +306,7 @@ void XkbDeleteRulesDflts()
     free(XkbOptionsDflt);
     XkbOptionsDflt = null;
 
-    XkbFreeKeyboard(xkb_cached_map, XkbAllComponentsMask, TRUE);
+    XkbFreeKeyboard(xkb_cached_map, XkbAllComponentsMask, True);
     xkb_cached_map = null;
 }
 
@@ -319,8 +319,8 @@ private Bool XkbCompareUsedRMLVO(XkbRMLVOSet* rmlvo)
         mixin(DIFFERS!(`rmlvo.layout`, `XkbLayoutUsed`)) ||
         mixin(DIFFERS!(`rmlvo.variant`, `XkbVariantUsed`)) ||
         mixin(DIFFERS!(`rmlvo.options`, `XkbOptionsUsed`)))
-        return FALSE;
-    return TRUE;
+        return False;
+    return True;
 }
 
 /***====================================================================***/
@@ -330,16 +330,16 @@ import xkb.xkbDflts;
 private Bool XkbInitKeyTypes(XkbDescPtr xkb)
 {
     if (xkb.defined & XkmTypesMask)
-        return TRUE;
+        return True;
 
     initTypeNames(null);
     if (XkbAllocClientMap(xkb, XkbKeyTypesMask, num_dflt_types) != Success)
-        return FALSE;
+        return False;
     if (XkbCopyKeyTypes(dflt_types.ptr, xkb.map.types, num_dflt_types) != Success) {
-        return FALSE;
+        return False;
     }
     xkb.map.size_types = cast(ubyte)xkb.map.num_types = cast(ubyte)(num_dflt_types);
-    return TRUE;
+    return True;
 }
 
 private void XkbInitRadioGroups(XkbSrvInfoPtr xkbi)
@@ -355,7 +355,7 @@ private Status XkbInitCompatStructs(XkbDescPtr xkb)
     XkbCompatMapPtr compat = void;
 
     if (xkb.defined & XkmCompatMapMask)
-        return TRUE;
+        return True;
 
     if (XkbAllocCompatMap(xkb, XkbAllCompatMask, num_dfltSI) != Success)
         return BadAlloc;
@@ -524,10 +524,10 @@ private Bool InitKeyboardDeviceStructInternal(DeviceIntPtr dev, XkbRMLVOSet* rml
     XkbEventCauseRec cause = { 0 };
     XkbRMLVOSet rmlvo_dflts = { null };
 
-    mixin(BUG_RETURN_VAL!("dev is null", "FALSE"));
-    mixin(BUG_RETURN_VAL!("dev.key !is null", "FALSE"));
-    mixin(BUG_RETURN_VAL!("dev.kbdfeed !is null", "FALSE"));
-    mixin(BUG_RETURN_VAL!("rmlvo && keymap", "FALSE"));
+    mixin(BUG_RETURN_VAL!("dev is null", "False"));
+    mixin(BUG_RETURN_VAL!("dev.key !is null", "False"));
+    mixin(BUG_RETURN_VAL!("dev.kbdfeed !is null", "False"));
+    mixin(BUG_RETURN_VAL!("rmlvo && keymap", "False"));
 
     if (!rmlvo && !keymap) {
         rmlvo = &rmlvo_dflts;
@@ -558,7 +558,7 @@ private Bool InitKeyboardDeviceStructInternal(DeviceIntPtr dev, XkbRMLVOSet* rml
     dev.key.xkbInfo = xkbi;
 
     if (xkb_cached_map && (keymap || (rmlvo && !XkbCompareUsedRMLVO(rmlvo)))) {
-        XkbFreeKeyboard(xkb_cached_map, XkbAllComponentsMask, TRUE);
+        XkbFreeKeyboard(xkb_cached_map, XkbAllComponentsMask, True);
         xkb_cached_map = null;
     }
 
@@ -644,12 +644,12 @@ private Bool InitKeyboardDeviceStructInternal(DeviceIntPtr dev, XkbRMLVOSet* rml
         XkbSetRulesDflts(rmlvo);
         XkbSetRulesUsed(rmlvo);
     }
-    XkbFreeRMLVOSet(&rmlvo_dflts, FALSE);
+    XkbFreeRMLVOSet(&rmlvo_dflts, False);
 
-    return TRUE;
+    return True;
 
  unwind_desc:
-    XkbFreeKeyboard(xkb, 0, TRUE);
+    XkbFreeKeyboard(xkb, 0, True);
  unwind_info:
     free(xkbi);
     dev.key.xkbInfo = null;
@@ -660,8 +660,8 @@ private Bool InitKeyboardDeviceStructInternal(DeviceIntPtr dev, XkbRMLVOSet* rml
     free(dev.key);
     dev.key = null;
  unwind_rmlvo:
-    XkbFreeRMLVOSet(&rmlvo_dflts, FALSE);
-    return FALSE;
+    XkbFreeRMLVOSet(&rmlvo_dflts, False);
+    return False;
 }
 
 Bool InitKeyboardDeviceStruct(DeviceIntPtr dev, XkbRMLVOSet* rmlvo, BellProcPtr bell_func, KbdCtrlProcPtr ctrl_func)
@@ -716,7 +716,7 @@ void XkbFreeInfo(XkbSrvInfoPtr xkbi)
         xkbi.beepTimer = null;
     }
     if (xkbi.desc) {
-        XkbFreeKeyboard(xkbi.desc, XkbAllComponentsMask, TRUE);
+        XkbFreeKeyboard(xkbi.desc, XkbAllComponentsMask, True);
         xkbi.desc = null;
     }
     free(xkbi.filters);

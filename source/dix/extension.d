@@ -313,16 +313,16 @@ void CloseDownExtensions()
 private Bool ExtensionAvailable(ClientPtr client, ExtensionEntry* ext)
 {
     if (!ext)
-        return FALSE;
+        return False;
 
     ExtensionAccessCallbackParam rec = { client, ext, DixGetAttrAccess, Success };
     CallCallbacks(&ExtensionAccessCallback, &rec);
     if (rec.status != Success)
-        return FALSE;
+        return False;
 
     if (!ext.base)
-        return FALSE;
-    return TRUE;
+        return False;
+    return True;
 }
 
 int ProcQueryExtension(ClientPtr client)
@@ -355,7 +355,7 @@ int ProcListExtensions(ClientPtr client)
 
     xListExtensionsReply reply = { 0 };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (NumExtensions && extensions) {
         for (int i = 0; i < NumExtensions; i++) {

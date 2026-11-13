@@ -369,20 +369,20 @@ private SymTabRec[2] Chipsets = [
 ];
 
 private const(OptionInfoRec)[14] Options = [
-    {OPTION_SW_CURSOR, "SWcursor", OPTV_BOOLEAN, {0}, FALSE},
-    {OPTION_CURSOR_SIZE, "CursorSize", OPTV_STRING, {0}, FALSE},
-    {OPTION_DEVICE_PATH, "kmsdev", OPTV_STRING, {0}, FALSE},
-    {OPTION_SHADOW_FB, "ShadowFB", OPTV_BOOLEAN, {0}, FALSE},
-    {OPTION_ACCEL_METHOD, "AccelMethod", OPTV_STRING, {0}, FALSE},
-    {OPTION_PAGEFLIP, "PageFlip", OPTV_BOOLEAN, {0}, FALSE},
-    {OPTION_ZAPHOD_HEADS, "ZaphodHeads", OPTV_STRING, {0}, FALSE},
-    {OPTION_DOUBLE_SHADOW, "DoubleShadow", OPTV_BOOLEAN, {0}, FALSE},
-    {OPTION_ATOMIC, "Atomic", OPTV_BOOLEAN, {0}, FALSE},
-    {OPTION_VARIABLE_REFRESH, "VariableRefresh", OPTV_BOOLEAN, {0}, FALSE},
-    {OPTION_USE_GAMMA_LUT, "UseGammaLUT", OPTV_BOOLEAN, {0}, FALSE},
-    {OPTION_ASYNC_FLIP_SECONDARIES, "AsyncFlipSecondaries", OPTV_BOOLEAN, {0}, FALSE},
-    {OPTION_TEARFREE, "TearFree", OPTV_BOOLEAN, {0}, FALSE},
-    {-1, null, OPTV_NONE, {0}, FALSE}
+    {OPTION_SW_CURSOR, "SWcursor", OPTV_BOOLEAN, {0}, False},
+    {OPTION_CURSOR_SIZE, "CursorSize", OPTV_STRING, {0}, False},
+    {OPTION_DEVICE_PATH, "kmsdev", OPTV_STRING, {0}, False},
+    {OPTION_SHADOW_FB, "ShadowFB", OPTV_BOOLEAN, {0}, False},
+    {OPTION_ACCEL_METHOD, "AccelMethod", OPTV_STRING, {0}, False},
+    {OPTION_PAGEFLIP, "PageFlip", OPTV_BOOLEAN, {0}, False},
+    {OPTION_ZAPHOD_HEADS, "ZaphodHeads", OPTV_STRING, {0}, False},
+    {OPTION_DOUBLE_SHADOW, "DoubleShadow", OPTV_BOOLEAN, {0}, False},
+    {OPTION_ATOMIC, "Atomic", OPTV_BOOLEAN, {0}, False},
+    {OPTION_VARIABLE_REFRESH, "VariableRefresh", OPTV_BOOLEAN, {0}, False},
+    {OPTION_USE_GAMMA_LUT, "UseGammaLUT", OPTV_BOOLEAN, {0}, False},
+    {OPTION_ASYNC_FLIP_SECONDARIES, "AsyncFlipSecondaries", OPTV_BOOLEAN, {0}, False},
+    {OPTION_TEARFREE, "TearFree", OPTV_BOOLEAN, {0}, False},
+    {-1, null, OPTV_NONE, {0}, False}
 ];
 
 int ms_entity_index = -1;
@@ -525,18 +525,18 @@ private int check_outputs(int fd, int* count)
     int ret = void;
 
     if (!res)
-        return FALSE;
+        return False;
 
     if (count)
         *count = res.count_connectors;
 
     ret = res.count_connectors > 0;
 static if (HasVersion!"GLAMOR" && HasVersion!"GBM_HAVE_BO_USE_LINEAR") {
-    if (ret == FALSE) {
+    if (ret == False) {
         ulong value = 0;
         if (drmGetCap(fd, DRM_CAP_PRIME, &value) == 0 &&
                 (value & DRM_PRIME_CAP_EXPORT))
-            ret = TRUE;
+            ret = True;
     }
 }
     drmModeFreeResources(res);
@@ -551,7 +551,7 @@ version (XF86_PDEV_SERVER_FD) {
     if (platform_dev && (platform_dev.flags & XF86_PDEV_SERVER_FD)) {
         fd = xf86_platform_device_odev_attributes(platform_dev).fd;
         if (fd == -1)
-            return FALSE;
+            return False;
         return check_outputs(fd, null);
     }
 }
@@ -563,7 +563,7 @@ version (XF86_PDEV_SERVER_FD) {
         close(fd);
         return ret;
     }
-    return FALSE;
+    return False;
 }
 
 static if(XSERVER_LIBPCIACCESS){
@@ -581,12 +581,12 @@ char* ms_DRICreatePCIBusID(const(pci_device)* dev)
 
 private Bool probe_hw_pci(const(char)* dev, pci_device* pdev)
 {
-    int ret = FALSE, fd = open_hw(dev);
+    int ret = False, fd = open_hw(dev);
     char* id = void, devid = void;
     drmSetVersion sv = void;
 
     if (fd == -1)
-        return FALSE;
+        return False;
 
     sv.drm_di_major = 1;
     sv.drm_di_minor = 4;
@@ -594,7 +594,7 @@ private Bool probe_hw_pci(const(char)* dev, pci_device* pdev)
     sv.drm_dd_minor = -1;
     if (drmSetInterfaceVersion(fd, &sv)) {
         close(fd);
-        return FALSE;
+        return False;
     }
 
     id = drmGetBusid(fd);
@@ -622,11 +622,11 @@ private Bool ms_driver_func(ScrnInfoPtr scrn, xorgDriverFuncOp op, void* data)
     case GET_REQUIRED_HW_INTERFACES:
         flag = cast(xorgHWFlags*) (cast(CARD32*) data);
         (*flag) = 0;
-        return TRUE;
+        return True;
     case SUPPORTS_SERVER_FDS:
-        return TRUE;
+        return True;
     default:
-        return FALSE;
+        return False;
     }
 }
 
@@ -728,18 +728,18 @@ private Bool Probe(DriverPtr drv, int flags)
 {
     int i = void, numDevSections = void;
     GDevPtr* devSections = void;
-    Bool foundScreen = FALSE;
+    Bool foundScreen = False;
 
     /* For now, just bail out for PROBE_DETECT. */
     if (flags & PROBE_DETECT)
-        return FALSE;
+        return False;
 
     /*
      * Find the config file Device sections that match this
      * driver, and return if there are none.
      */
     if ((numDevSections = xf86MatchDevice("modesetting", &devSections)) <= 0) {
-        return FALSE;
+        return False;
     }
 
     for (i = 0; i < numDevSections; i++) {
@@ -748,7 +748,7 @@ private Bool Probe(DriverPtr drv, int flags)
         const(char)* dev = xf86FindOptionValue(cast(_InputOption*)devSections[i].options, "kmsdev");
 
         if (probe_hw(dev, null)) {
-            entity_num = xf86ClaimFbSlot(drv, 0, devSections[i], TRUE);
+            entity_num = xf86ClaimFbSlot(drv, 0, devSections[i], True);
         }
 
         if (entity_num != -1) {
@@ -756,7 +756,7 @@ private Bool Probe(DriverPtr drv, int flags)
         }
 
         if (scrn) {
-            foundScreen = TRUE;
+            foundScreen = True;
             ms_setup_scrn_hooks(scrn);
             scrn.Probe = &Probe;
 
@@ -774,11 +774,11 @@ private Bool Probe(DriverPtr drv, int flags)
 private Bool GetRec(ScrnInfoPtr pScrn)
 {
     if (pScrn.driverPrivate)
-        return TRUE;
+        return True;
 
     pScrn.driverPrivate = XNFcallocarray(1, modesettingRec.sizeof);
 
-    return TRUE;
+    return True;
 }
 
 private int rotate_clip(PixmapPtr pixmap, xf86CrtcPtr crtc, BoxPtr rect, drmModeClip* clip, Rotation rotation, int x, int y)
@@ -879,7 +879,7 @@ private int dispatch_damages(ScrnInfoPtr scrn, xf86CrtcPtr crtc, RegionPtr dirty
         if (ret == -EINVAL || ret == -ENOSYS) {
             xf86DrvMsg(scrn.scrnIndex, X_INFO,
                        "Disabling kernel dirty updates, not required.\n");
-            ms.dirty_enabled = FALSE;
+            ms.dirty_enabled = False;
         }
 
         free(clip);
@@ -1082,7 +1082,7 @@ private void ms_dirty_update(ScreenPtr screen, int* timeout)
                    msPixmapPrivPtr ppriv = mixin(msGetPixmapPriv!("&ms.drmmode", "ent.secondary_dst.primary_pixmap"));
 
                 if (ppriv.notify_on_damage) {
-                    ppriv.notify_on_damage = FALSE;
+                    ppriv.notify_on_damage = False;
 
                     ent.secondary_dst.drawable.pScreen.
                         SharedPixmapNotifyDamage(ent.secondary_dst);
@@ -1137,7 +1137,7 @@ private void msBlockHandler_oneshot(ScreenPtr pScreen, void* pTimeout)
 
     msBlockHandler(pScreen, pTimeout);
 
-    drmmode_set_desired_modes(pScrn, &ms.drmmode, TRUE, FALSE);
+    drmmode_set_desired_modes(pScrn, &ms.drmmode, True, False);
 }
 
 Bool ms_window_has_variable_refresh(modesettingPtr ms, WindowPtr win) {
@@ -1241,7 +1241,7 @@ private Bool load_glamor(ScrnInfoPtr pScrn)
     modesettingPtr ms = mixin(modesettingPTR!("pScrn"));
 
     if (!mod)
-        return FALSE;
+        return False;
 
     ms.glamor.back_pixmap_from_fd = cast(typeof(ms.glamor.back_pixmap_from_fd))LoaderSymbolFromModule(mod, "glamor_back_pixmap_from_fd");
     ms.glamor.block_handler = cast(typeof(ms.glamor.block_handler))LoaderSymbolFromModule(mod, "glamor_block_handler");
@@ -1261,7 +1261,7 @@ private Bool load_glamor(ScrnInfoPtr pScrn)
     ms.glamor.xv_init = cast(typeof(ms.glamor.xv_init))LoaderSymbolFromModule(mod, "glamor_xv_init");
     ms.glamor.egl_get_driver_name = cast(typeof(ms.glamor.egl_get_driver_name))LoaderSymbolFromModule(mod, "glamor_egl_get_driver_name");
 
-    return TRUE;
+    return True;
 }
 
 }
@@ -1274,8 +1274,8 @@ private void try_enable_glamor(ScrnInfoPtr pScrn)
     Bool do_glamor = (!accel_method_str ||
                       strcmp(accel_method_str, "glamor") == 0);
 
-    ms.drmmode.glamor = FALSE;
-    ms.drmmode.glamor_gbm = FALSE;
+    ms.drmmode.glamor = False;
+    ms.drmmode.glamor_gbm = False;
 
 static if (GLAMOR) {
     if (ms.drmmode.force_24_32) {
@@ -1293,7 +1293,7 @@ static if (GLAMOR) {
         if (ms.glamor.egl_init2(pScrn, ms.fd, &caps, 0)) {
             ms.drmmode.glamor_gbm = !!(caps & GLAMOR_EGL_CAP_TEXTURE_GBM_BO);
             xf86DrvMsg(pScrn.scrnIndex, X_INFO, "glamor initialized\n");
-            ms.drmmode.glamor = TRUE;
+            ms.drmmode.glamor = True;
         } else {
             xf86DrvMsg(pScrn.scrnIndex, X_INFO,
                        "glamor initialization failed\n");
@@ -1312,17 +1312,17 @@ static if (GLAMOR) {
 
 private Bool msShouldDoubleShadow(ScrnInfoPtr pScrn, modesettingPtr ms)
 {
-    Bool ret = FALSE, asked = void;
+    Bool ret = False, asked = void;
     int from = void;
     drmVersionPtr v = void;
 
     if (!ms.drmmode.shadow_enable)
-        return FALSE;
+        return False;
 
     if ((v = drmGetVersion(ms.fd)) !is null) {
         if (!strcmp(v.name, "mgag200") ||
             !strcmp(v.name, "ast")) /* XXX || rn50 */
-            ret = TRUE;
+            ret = True;
 
         drmFreeVersion(v);
     }
@@ -1362,14 +1362,14 @@ private Bool ms_get_drm_master_fd(ScrnInfoPtr pScrn)
         ms.fd = ms_ent.fd;
         ms_ent.fd_ref++;
 
-        return TRUE;
+        return True;
     }
 
-    ms.fd_passed = FALSE;
+    ms.fd_passed = False;
 
     if ((ms.fd = get_passed_fd()) >= 0) {
-        ms.fd_passed = TRUE;
-        return TRUE;
+        ms.fd_passed = True;
+        return True;
     }
 
     static if (XSERVER_PLATFORM_BUS)
@@ -1447,12 +1447,12 @@ private Bool ms_get_drm_master_fd(ScrnInfoPtr pScrn)
 }
 
     if (ms.fd < 0)
-        return FALSE;
+        return False;
 
     ms_ent.fd = ms.fd;
     ms_ent.fd_ref = 1;
 
-    return TRUE;
+    return True;
 }
 
 private Bool PreInit(ScrnInfoPtr pScrn, int flags)
@@ -1466,45 +1466,45 @@ private Bool PreInit(ScrnInfoPtr pScrn, int flags)
     int defaultdepth = void, defaultbpp = void;
 
     if (pScrn.numEntities != 1)
-        return FALSE;
+        return False;
 
     if (flags & PROBE_DETECT) {
-        return FALSE;
+        return False;
     }
 
     /* Allocate driverPrivate */
     if (!GetRec(pScrn))
-        return FALSE;
+        return False;
 
     pEnt = xf86GetEntityInfo(pScrn.entityList[0]);
 
     ms = mixin(modesettingPTR!("pScrn"));
     ms.SaveGeneration = -1;
     ms.pEnt = pEnt;
-    ms.drmmode.is_secondary = FALSE;
+    ms.drmmode.is_secondary = False;
     pScrn.displayWidth = 640;  /* default it */
 
     if (xf86IsEntityShared(pScrn.entityList[0])) {
         if (xf86IsPrimInitDone(pScrn.entityList[0]))
-            ms.drmmode.is_secondary = TRUE;
+            ms.drmmode.is_secondary = True;
         else
             xf86SetPrimInitDone(pScrn.entityList[0]);
     }
 
     pScrn.monitor = pScrn.confScreen.monitor;
-    pScrn.progClock = TRUE;
+    pScrn.progClock = True;
     pScrn.rgbBits = 8;
 
     if (!ms_get_drm_master_fd(pScrn))
-        return FALSE;
+        return False;
     ms.drmmode.fd = ms.fd;
 
     if (!check_outputs(ms.fd, &connector_count))
-        return FALSE;
+        return False;
 
     drmmode_get_default_bpp(pScrn, &ms.drmmode, &defaultdepth, &defaultbpp);
     if (defaultdepth == 24 && defaultbpp == 24) {
-        ms.drmmode.force_24_32 = TRUE;
+        ms.drmmode.force_24_32 = True;
         ms.drmmode.kbpp = 24;
         xf86DrvMsg(pScrn.scrnIndex, X_INFO,
                    "Using 24bpp hw front buffer with 32bpp shadow\n");
@@ -1516,7 +1516,7 @@ private Bool PreInit(ScrnInfoPtr pScrn, int flags)
 
     if (!xf86SetDepthBpp
         (pScrn, defaultdepth, defaultdepth, defaultbpp, bppflags))
-        return FALSE;
+        return False;
 
     switch (pScrn.depth) {
     case 15:
@@ -1528,7 +1528,7 @@ private Bool PreInit(ScrnInfoPtr pScrn, int flags)
         xf86DrvMsg(pScrn.scrnIndex, X_ERROR,
                    "Given depth (%d) is not supported by the driver\n",
                    pScrn.depth);
-        return FALSE;
+        return False;
     }
     xf86PrintDepthBpp(pScrn);
     if (!ms.drmmode.kbpp)
@@ -1537,27 +1537,27 @@ private Bool PreInit(ScrnInfoPtr pScrn, int flags)
     /* Process the options */
     xf86CollectOptions(pScrn, null);
     if (((ms.drmmode.Options = cast(OptionInfoPtr) calloc(1, Options.sizeof)) is null))
-        return FALSE;
+        return False;
     memcpy(ms.drmmode.Options, Options.ptr, Options.sizeof);
     xf86ProcessOptions(pScrn.scrnIndex, cast(_InputOption*)pScrn.options, ms.drmmode.Options);
 
     if (!xf86SetWeight(pScrn, defaultWeight, defaultWeight))
-        return FALSE;
+        return False;
     if (!xf86SetDefaultVisual(pScrn, -1))
-        return FALSE;
+        return False;
 
-    if (xf86ReturnOptValBool(ms.drmmode.Options, OPTION_SW_CURSOR, FALSE)) {
-        ms.drmmode.sw_cursor = TRUE;
+    if (xf86ReturnOptValBool(ms.drmmode.Options, OPTION_SW_CURSOR, False)) {
+        ms.drmmode.sw_cursor = True;
     }
 
     try_enable_glamor(pScrn);
 
     if (!ms.drmmode.glamor_gbm) {
-        Bool prefer_shadow = TRUE;
+        Bool prefer_shadow = True;
 
         if (ms.drmmode.force_24_32) {
-            prefer_shadow = TRUE;
-            ms.drmmode.shadow_enable = TRUE;
+            prefer_shadow = True;
+            ms.drmmode.shadow_enable = True;
         } else {
             ret = drmGetCap(ms.fd, DRM_CAP_DUMB_PREFER_SHADOW, &value);
             if (!ret) {
@@ -1583,7 +1583,7 @@ private Bool PreInit(ScrnInfoPtr pScrn, int flags)
             xf86DrvMsg(pScrn.scrnIndex, from, "VariableRefresh: %sabled\n",
                        ms.vrr_support ? "en".ptr : "dis".ptr);
 
-            ms.drmmode.async_flip_secondaries = FALSE;
+            ms.drmmode.async_flip_secondaries = False;
             from = xf86GetOptValBool(ms.drmmode.Options, OPTION_ASYNC_FLIP_SECONDARIES,
                                      &ms.drmmode.async_flip_secondaries) ? X_CONFIG : X_DEFAULT;
             xf86DrvMsg(pScrn.scrnIndex, from, "AsyncFlipSecondaries: %sabled\n",
@@ -1592,7 +1592,7 @@ private Bool PreInit(ScrnInfoPtr pScrn, int flags)
     }
 
     ms.drmmode.pageflip =
-        xf86ReturnOptValBool(ms.drmmode.Options, OPTION_PAGEFLIP, TRUE);
+        xf86ReturnOptValBool(ms.drmmode.Options, OPTION_PAGEFLIP, True);
 
     pScrn.capabilities = 0;
     ret = drmGetCap(ms.fd, DRM_CAP_PRIME, &value);
@@ -1616,19 +1616,19 @@ static if (HasVersion!"GLAMOR" && HasVersion!"GBM_HAVE_BO_USE_LINEAR") {
     ret = drmSetClientCap(ms.fd, DRM_CLIENT_CAP_ATOMIC, 0);
     ms.atomic_modeset_capable = (ret == 0);
 
-    if (xf86ReturnOptValBool(ms.drmmode.Options, OPTION_ATOMIC, FALSE)) {
+    if (xf86ReturnOptValBool(ms.drmmode.Options, OPTION_ATOMIC, False)) {
         ret = drmSetClientCap(ms.fd, DRM_CLIENT_CAP_ATOMIC, 2);
         ms.atomic_modeset = (ret == 0);
         if (!ms.atomic_modeset)
             xf86DrvMsg(pScrn.scrnIndex, X_WARNING, "Atomic modesetting not supported\n");
     } else {
-        ms.atomic_modeset = FALSE;
+        ms.atomic_modeset = False;
     }
     xf86DrvMsg(pScrn.scrnIndex, X_INFO,
                "Atomic modesetting %sabled\n", ms.atomic_modeset ? "en".ptr : "dis".ptr);
 
     /* TearFree requires glamor and, if PageFlip is enabled, universal planes */
-    if (xf86ReturnOptValBool(ms.drmmode.Options, OPTION_TEARFREE, TRUE)) {
+    if (xf86ReturnOptValBool(ms.drmmode.Options, OPTION_TEARFREE, True)) {
         if (pScrn.is_gpu) {
             xf86DrvMsg(pScrn.scrnIndex, X_WARNING,
                        "TearFree cannot synchronize PRIME; use 'PRIME Synchronization' instead\n");
@@ -1636,7 +1636,7 @@ static if (HasVersion!"GLAMOR" && HasVersion!"GBM_HAVE_BO_USE_LINEAR") {
             /* Atomic modesetting implicitly enables universal planes */
             if (!ms.drmmode.pageflip || ms.atomic_modeset ||
                 !drmSetClientCap(ms.fd, DRM_CLIENT_CAP_UNIVERSAL_PLANES, 1)) {
-                ms.drmmode.tearfree_enable = TRUE;
+                ms.drmmode.tearfree_enable = True;
                 xf86DrvMsg(pScrn.scrnIndex, X_INFO, "TearFree: enabled\n");
             } else {
                 xf86DrvMsg(pScrn.scrnIndex, X_WARNING,
@@ -1648,12 +1648,12 @@ static if (HasVersion!"GLAMOR" && HasVersion!"GBM_HAVE_BO_USE_LINEAR") {
         }
     }
 
-    ms.kms_has_modifiers = FALSE;
+    ms.kms_has_modifiers = False;
     ret = drmGetCap(ms.fd, DRM_CAP_ADDFB2_MODIFIERS, &value);
     if (ret == 0 && value != 0)
-        ms.kms_has_modifiers = TRUE;
+        ms.kms_has_modifiers = True;
 
-    if (drmmode_pre_init(pScrn, &ms.drmmode, pScrn.bitsPerPixel / 8) == FALSE) {
+    if (drmmode_pre_init(pScrn, &ms.drmmode, pScrn.bitsPerPixel / 8) == False) {
         xf86DrvMsg(pScrn.scrnIndex, X_ERROR, "KMS setup failed\n");
         goto fail;
     }
@@ -1665,13 +1665,13 @@ static if (HasVersion!"GLAMOR" && HasVersion!"GBM_HAVE_BO_USE_LINEAR") {
         Gamma zeros = { 0.0, 0.0, 0.0 };
 
         if (!xf86SetGamma(pScrn, zeros)) {
-            return FALSE;
+            return False;
         }
     }
 
     if (!(pScrn.is_gpu && connector_count == 0) && pScrn.modes is null) {
         xf86DrvMsg(pScrn.scrnIndex, X_ERROR, "No modes.\n");
-        return FALSE;
+        return False;
     }
 
     pScrn.currentMode = pScrn.modes;
@@ -1681,14 +1681,14 @@ static if (HasVersion!"GLAMOR" && HasVersion!"GBM_HAVE_BO_USE_LINEAR") {
 
     /* Load the required sub modules */
     if (!xf86LoadSubModule(pScrn, "fb")) {
-        return FALSE;
+        return False;
     }
 
     if (ms.drmmode.shadow_enable) {
         void* mod = xf86LoadSubModule(pScrn, "shadow");
 
         if (!mod)
-            return FALSE;
+            return False;
 
         ms.shadow.Setup        = cast(SetupFnPtr)LoaderSymbolFromModule(mod, "shadowSetup");
         ms.shadow.Add          = cast(AddFnPtr)LoaderSymbolFromModule(mod, "shadowAdd");
@@ -1697,9 +1697,9 @@ static if (HasVersion!"GLAMOR" && HasVersion!"GBM_HAVE_BO_USE_LINEAR") {
         ms.shadow.UpdatePacked = cast(UpdatePackedFnPtr)LoaderSymbolFromModule(mod, "shadowUpdatePacked");
     }
 
-    return TRUE;
+    return True;
  fail:
-    return FALSE;
+    return False;
 }
 
 private void* msShadowWindow(ScreenPtr screen, CARD32 row, CARD32 offset, int mode, CARD32* size, void* closure)
@@ -1806,15 +1806,15 @@ private Bool msEnableSharedPixmapFlipping(RRCrtcPtr crtc, PixmapPtr front, Pixma
     xf86CrtcPtr xf86Crtc = cast(xf86CrtcPtr)crtc.devPrivate;
 
     if (!xf86Crtc)
-        return FALSE;
+        return False;
 
     /* Not supported if we can't flip */
     if (!ms.drmmode.pageflip)
-        return FALSE;
+        return False;
 
     /* Not currently supported with reverse PRIME */
     if (ms.drmmode.reverse_prime_offload_mode)
-        return FALSE;
+        return False;
 
 static if(XSERVER_PLATFORM_BUS){
     if (ms.pEnt.location.type == BUS_PLATFORM) {
@@ -1824,12 +1824,12 @@ static if(XSERVER_PLATFORM_BUS){
         /* Not supported for devices using USB transport due to misbehaved
          * vblank events */
         if (syspath && strstr(syspath, "usb"))
-            return FALSE;
+            return False;
 
         /* EVDI uses USB transport but is platform device, not usb.
          * Exclude it explicitly. */
         if (syspath && strstr(syspath, "evdi"))
-            return FALSE;
+            return False;
     }
 }
 
@@ -1857,13 +1857,13 @@ private Bool msStartFlippingPixmapTracking(RRCrtcPtr crtc, DrawablePtr src, Pixm
 
     if (!PixmapStartDirtyTracking(src, secondary_dst1, x, y,
                                   dst_x, dst_y, rotation)) {
-        return FALSE;
+        return False;
     }
 
     if (!PixmapStartDirtyTracking(src, secondary_dst2, x, y,
                                   dst_x, dst_y, rotation)) {
         PixmapStopDirtyTracking(src, secondary_dst1);
-        return FALSE;
+        return False;
     }
 
     ppriv1.secondary_src = src;
@@ -1872,10 +1872,10 @@ private Bool msStartFlippingPixmapTracking(RRCrtcPtr crtc, DrawablePtr src, Pixm
     ppriv1.dirty = ms_dirty_get_ent(pScreen, secondary_dst1);
     ppriv2.dirty = ms_dirty_get_ent(pScreen, secondary_dst2);
 
-    ppriv1.defer_dirty_update = TRUE;
-    ppriv2.defer_dirty_update = TRUE;
+    ppriv1.defer_dirty_update = True;
+    ppriv2.defer_dirty_update = True;
 
-    return TRUE;
+    return True;
 }
 
 private Bool msPresentSharedPixmap(PixmapPtr secondary_dst)
@@ -1891,10 +1891,10 @@ private Bool msPresentSharedPixmap(PixmapPtr secondary_dst)
         redisplay_dirty(ppriv.secondary_src.pScreen, ppriv.dirty, null);
         DamageEmpty(ppriv.dirty.damage);
 
-        return TRUE;
+        return True;
     }
 
-    return FALSE;
+    return False;
 }
 
 private Bool msStopFlippingPixmapTracking(DrawablePtr src, PixmapPtr secondary_dst1, PixmapPtr secondary_dst2)
@@ -1904,7 +1904,7 @@ private Bool msStopFlippingPixmapTracking(DrawablePtr src, PixmapPtr secondary_d
 
     msPixmapPrivPtr ppriv1 = mixin(msGetPixmapPriv!("&ms.drmmode", "secondary_dst1.primary_pixmap")), ppriv2 = mixin(msGetPixmapPriv!("&ms.drmmode", "secondary_dst2.primary_pixmap"));
 
-    Bool ret = TRUE;
+    Bool ret = True;
 
     ret &= PixmapStopDirtyTracking(src, secondary_dst1);
     ret &= PixmapStopDirtyTracking(src, secondary_dst2);
@@ -1916,8 +1916,8 @@ private Bool msStopFlippingPixmapTracking(DrawablePtr src, PixmapPtr secondary_d
         ppriv1.dirty = null;
         ppriv2.dirty = null;
 
-        ppriv1.defer_dirty_update = FALSE;
-        ppriv2.defer_dirty_update = FALSE;
+        ppriv1.defer_dirty_update = False;
+        ppriv2.defer_dirty_update = False;
     }
 
     return ret;
@@ -1933,11 +1933,11 @@ private Bool modesetCreateScreenResources(ScreenPtr pScreen)
 
     Bool ret = miCreateScreenResources(pScreen);
 
-    if (!drmmode_set_desired_modes(pScrn, &ms.drmmode, pScrn.is_gpu, FALSE))
-        return FALSE;
+    if (!drmmode_set_desired_modes(pScrn, &ms.drmmode, pScrn.is_gpu, False))
+        return False;
 
     if (!drmmode_glamor_handle_new_screen_pixmap(&ms.drmmode))
-        return FALSE;
+        return False;
 
     drmmode_uevent_init(pScrn, &ms.drmmode);
 
@@ -1953,7 +1953,7 @@ private Bool modesetCreateScreenResources(ScreenPtr pScreen)
     if (ms.drmmode.shadow_enable2) {
         ms.drmmode.shadow_fb2 = calloc(1, pScrn.displayWidth * pScrn.virtualY * ((pScrn.bitsPerPixel + 7) >> 3));
         if (!ms.drmmode.shadow_fb2)
-            ms.drmmode.shadow_enable2 = FALSE;
+            ms.drmmode.shadow_enable2 = False;
     }
 
     if (!pScreen.ModifyPixmapHeader(rootPixmap, -1, -1, -1, -1, -1, pixels))
@@ -1962,13 +1962,13 @@ private Bool modesetCreateScreenResources(ScreenPtr pScreen)
     if (ms.drmmode.shadow_enable) {
         if (!ms.shadow.Add(pScreen, rootPixmap, &msUpdatePacked, &msShadowWindow,
                             0, null))
-            return FALSE;
+            return False;
     }
 
     err = drmModeDirtyFB(ms.fd, ms.drmmode.fb_id, null, 0);
 
     if ((err != -EINVAL && err != -ENOSYS) || ms.drmmode.tearfree_enable) {
-        ms.damage = DamageCreate(null, null, DamageReportNone, TRUE,
+        ms.damage = DamageCreate(null, null, DamageReportNone, True,
                                   pScreen, rootPixmap);
 
         if (ms.damage) {
@@ -1979,7 +1979,7 @@ private Bool modesetCreateScreenResources(ScreenPtr pScreen)
         else {
             xf86DrvMsg(pScrn.scrnIndex, X_ERROR,
                        "Failed to create screen damage record\n");
-            return FALSE;
+            return False;
         }
     }
 
@@ -1996,12 +1996,12 @@ private Bool modesetCreateScreenResources(ScreenPtr pScreen)
         !dixRegisterPrivateKey(&ms.drmmode.vrrPrivateKeyRec,
                                PRIVATE_WINDOW,
                                ms_vrr_priv.sizeof))
-            return FALSE;
+            return False;
 
     if (!dixRegisterPrivateKey(&asyncFlipPrivateKeyRec,
                                PRIVATE_WINDOW,
                                ms_async_flip_priv.sizeof))
-            return FALSE;
+            return False;
 
     return ret;
 }
@@ -2016,12 +2016,12 @@ static if (GLAMOR) {
     ret = ms.glamor.shareable_fd_from_pixmap(ppix.drawable.pScreen, ppix,
                                               &stride, &size);
     if (ret == -1)
-        return FALSE;
+        return False;
 
     *handle = cast(void*)cast(c_long)(ret);
-    return TRUE;
+    return True;
 }
-    return FALSE;
+    return False;
 }
 
 private Bool msSetSharedPixmapBacking(PixmapPtr ppix, void* fd_handle)
@@ -2054,7 +2054,7 @@ static if (GLAMOR) {
 
     return ret;
 } else {
-    return FALSE;
+    return False;
 }
 }
 
@@ -2066,14 +2066,14 @@ private Bool msRequestSharedPixmapNotifyDamage(PixmapPtr ppix)
 
     msPixmapPrivPtr ppriv = mixin(msGetPixmapPriv!("&ms.drmmode", "ppix.primary_pixmap"));
 
-    ppriv.notify_on_damage = TRUE;
+    ppriv.notify_on_damage = True;
 
-    return TRUE;
+    return True;
 }
 
 private Bool msSharedPixmapNotifyDamage(PixmapPtr ppix)
 {
-    Bool ret = FALSE;
+    Bool ret = False;
     int c = void;
 
     ScreenPtr screen = ppix.drawable.pScreen;
@@ -2085,7 +2085,7 @@ private Bool msSharedPixmapNotifyDamage(PixmapPtr ppix)
 
     if (!ppriv.wait_for_damage)
         return ret;
-    ppriv.wait_for_damage = FALSE;
+    ppriv.wait_for_damage = False;
 
     for (c = 0; c < xf86_config.num_crtc; c++) {
         xf86CrtcPtr crtc = xf86_config.crtc[c];
@@ -2111,11 +2111,11 @@ private Bool SetMaster(ScrnInfoPtr pScrn)
 version (XF86_PDEV_SERVER_FD) {
     if (ms.pEnt.location.type == BUS_PLATFORM &&
         (ms.pEnt.location.id.plat.flags & XF86_PDEV_SERVER_FD))
-        return TRUE;
+        return True;
 }
 
     if (ms.fd_passed)
-        return TRUE;
+        return True;
 
     ret = drmSetMaster(ms.fd);
     if (ret)
@@ -2195,16 +2195,16 @@ private Bool ScreenInit(ScreenPtr pScreen, int argc, char** argv)
     pScrn.pScreen = pScreen;
 
     if (!SetMaster(pScrn))
-        return FALSE;
+        return False;
 
 static if (GLAMOR) {
     if (ms.drmmode.glamor) {
-        ms.drmmode.glamor_gbm_device = TRUE;
+        ms.drmmode.glamor_gbm_device = True;
         ms.drmmode.gbm = ms.glamor.egl_get_gbm_device(pScreen);
     }
 }
     if (!ms.drmmode.gbm) {
-        ms.drmmode.glamor_gbm_device = FALSE;
+        ms.drmmode.glamor_gbm_device = False;
         ms.drmmode.gbm = gbm_create_device(ms.drmmode.fd);
         if (!ms.drmmode.gbm) {
             ms.drmmode.gbm = gbm_create_device_by_name(ms.drmmode.fd, "dumb");
@@ -2212,13 +2212,13 @@ static if (GLAMOR) {
     }
 
     if (!ms.drmmode.gbm) {
-        return FALSE;
+        return False;
     }
 
     /* HW dependent - FIXME */
     pScrn.displayWidth = pScrn.virtualX;
     if (!drmmode_create_initial_bos(pScrn, &ms.drmmode))
-        return FALSE;
+        return False;
 
     if (ms.drmmode.shadow_enable) {
         ms.drmmode.shadow_fb =
@@ -2226,7 +2226,7 @@ static if (GLAMOR) {
                    pScrn.displayWidth * pScrn.virtualY *
                    ((pScrn.bitsPerPixel + 7) >> 3));
         if (!ms.drmmode.shadow_fb)
-            ms.drmmode.shadow_enable = FALSE;
+            ms.drmmode.shadow_enable = False;
     }
 
     miClearVisualTypes();
@@ -2234,15 +2234,15 @@ static if (GLAMOR) {
     if (!miSetVisualTypes(pScrn.depth,
                           miGetDefaultVisualMask(pScrn.depth),
                           pScrn.rgbBits, pScrn.defaultVisual))
-        return FALSE;
+        return False;
 
     if (!miSetPixmapDepths())
-        return FALSE;
+        return False;
 
     if (!dixRegisterScreenSpecificPrivateKey
         (pScreen, &ms.drmmode.pixmapPrivateKeyRec, PRIVATE_PIXMAP,
          msPixmapPrivRec.sizeof)) {
-        return FALSE;
+        return False;
     }
 
     pScrn.memPhysBase = 0;
@@ -2252,7 +2252,7 @@ static if (GLAMOR) {
                       pScrn.virtualX, pScrn.virtualY,
                       pScrn.xDpi, pScrn.yDpi,
                       pScrn.displayWidth, pScrn.bitsPerPixel))
-        return FALSE;
+        return False;
 
     if (pScrn.bitsPerPixel > 8) {
         /* Fixup RGB ordering */
@@ -2271,15 +2271,15 @@ static if (GLAMOR) {
 
     fbPictureInit(pScreen, null, 0);
 
-    if (drmmode_init(pScrn, &ms.drmmode) == FALSE) {
+    if (drmmode_init(pScrn, &ms.drmmode) == False) {
         xf86DrvMsg(pScrn.scrnIndex, X_ERROR,
                    "Failed to initialize glamor at ScreenInit() time.\n");
-        return FALSE;
+        return False;
     }
 
     if (ms.drmmode.shadow_enable && !ms.shadow.Setup(pScreen)) {
         xf86DrvMsg(pScrn.scrnIndex, X_ERROR, "shadow fb init failed\n");
-        return FALSE;
+        return False;
     }
 
     pScreen.CreateScreenResources = &modesetCreateScreenResources;
@@ -2298,7 +2298,7 @@ static if (GLAMOR) {
         if (!dixRegisterScreenPrivateKey(&ms.drmmode.spritePrivateKeyRec,
                                          pScreen, PRIVATE_DEVICE,
                                          msSpritePrivRec.sizeof))
-            return FALSE;
+            return False;
 
         ms.SpriteFuncs = PointPriv.spriteFuncs;
         PointPriv.spriteFuncs = &drmmode_sprite_funcs;
@@ -2317,7 +2317,7 @@ static if (GLAMOR) {
 
     /* Must force it before EnterVT, so we are in control of VT and
      * later memory should be bound when allocating, e.g rotate_mem */
-    pScrn.vtSema = TRUE;
+    pScrn.vtSema = True;
 
     if (serverGeneration == 1 && bgNoneRoot && ms.drmmode.glamor_gbm) {
         ms.CreateWindow = pScreen.CreateWindow;
@@ -2344,10 +2344,10 @@ static if (GLAMOR) {
     pScreen.StopFlippingPixmapTracking = &msStopFlippingPixmapTracking;
 
     if (!xf86CrtcScreenInit(pScreen))
-        return FALSE;
+        return False;
 
     if (!drmmode_setup_colormap(pScreen, pScrn))
-        return FALSE;
+        return False;
 
     if (ms.atomic_modeset)
         xf86DPMSInit(pScreen, &drmmode_set_dpms, 0);
@@ -2373,7 +2373,7 @@ static if (HasVersion!"GLAMOR" && HasVersion!"XV") {
     if (!ms_vblank_screen_init(pScreen)) {
         xf86DrvMsg(pScrn.scrnIndex, X_ERROR,
                    "Failed to initialize vblank support.\n");
-        return FALSE;
+        return False;
     }
 
 static if (GLAMOR) {
@@ -2392,17 +2392,17 @@ static if (GLAMOR) {
             drmVersionPtr version_ = void;
 
             /* enable if we are an accelerated GPU screen */
-            ms.drmmode.reverse_prime_offload_mode = TRUE;
+            ms.drmmode.reverse_prime_offload_mode = True;
 
             if ((version_ = drmGetVersion(ms.drmmode.fd)) != null) {
                 if (!strncmp("i915", version_.name, version_.name_len)) {
-                    ms.drmmode.reverse_prime_offload_mode = FALSE;
+                    ms.drmmode.reverse_prime_offload_mode = False;
                 }
                 if (!strncmp("evdi", version_.name, version_.name_len)) {
-                    ms.drmmode.reverse_prime_offload_mode = FALSE;
+                    ms.drmmode.reverse_prime_offload_mode = False;
                 }
                 if (!strncmp("udl", version_.name, version_.name_len)) {
-                    ms.drmmode.reverse_prime_offload_mode = FALSE;
+                    ms.drmmode.reverse_prime_offload_mode = False;
                 }
                 if (!ms.drmmode.reverse_prime_offload_mode) {
                     xf86DrvMsg(pScrn.scrnIndex, X_INFO,
@@ -2425,12 +2425,12 @@ static if (GLAMOR) {
     }
 
 
-    pScrn.vtSema = TRUE;
+    pScrn.vtSema = True;
 
     if (ms.vrr_support)
         pScreen.SetWindowVRRMode = &msSetWindowVRRMode;
 
-    return TRUE;
+    return True;
 }
 
 private void AdjustFrame(ScrnInfoPtr pScrn, int x, int y)
@@ -2446,7 +2446,7 @@ private void LeaveVT(ScrnInfoPtr pScrn)
 
     xf86_hide_cursors(pScrn);
 
-    pScrn.vtSema = FALSE;
+    pScrn.vtSema = False;
 
 version (XF86_PDEV_SERVER_FD) {
     if (ms.pEnt.location.type == BUS_PLATFORM &&
@@ -2465,7 +2465,7 @@ private Bool EnterVT(ScrnInfoPtr pScrn)
 {
     modesettingPtr ms = mixin(modesettingPTR!("pScrn"));
 
-    pScrn.vtSema = TRUE;
+    pScrn.vtSema = True;
 
     SetMaster(pScrn);
 
@@ -2475,7 +2475,7 @@ private Bool EnterVT(ScrnInfoPtr pScrn)
      * happened while not being master that could prevent the previous
      * configuration from being re-applied.
      */
-    if (!drmmode_set_desired_modes(pScrn, &ms.drmmode, TRUE, TRUE)) {
+    if (!drmmode_set_desired_modes(pScrn, &ms.drmmode, True, True)) {
         xf86DisableUnusedFunctions(pScrn);
 
         /* TODO: check that at least one screen is on, to allow the user to fix
@@ -2489,7 +2489,7 @@ private Bool EnterVT(ScrnInfoPtr pScrn)
         RRTellChanged(xf86ScrnToScreen(pScrn));
     }
 
-    return TRUE;
+    return True;
 }
 
 private Bool SwitchMode(ScrnInfoPtr pScrn, DisplayModePtr mode)
@@ -2565,7 +2565,7 @@ else {
 
     pScreen.BlockHandler = ms.BlockHandler;
 
-    pScrn.vtSema = FALSE;
+    pScrn.vtSema = False;
     pScreen.CloseScreen = ms.CloseScreen;
     return (*pScreen.CloseScreen) (pScreen);
 }

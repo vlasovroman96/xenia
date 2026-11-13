@@ -149,17 +149,17 @@ private RegionPtr xnestBitBlitHelper(GCPtr pGC)
 
         xcb_flush(xnestUpstreamInfo.conn);
 
-        pending = TRUE;
+        pending = True;
         while (pending) {
             xcb_generic_event_t* event = xcb_wait_for_event(xnestUpstreamInfo.conn);
             if (!event) {
-                pending = FALSE;
+                pending = False;
                 break;
             }
 
             switch (event.response_type & ~0x80) {
                 case NoExpose:
-                    pending = FALSE;
+                    pending = False;
                     free(event);
                     break;
 

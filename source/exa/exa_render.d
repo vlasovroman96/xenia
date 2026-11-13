@@ -132,7 +132,7 @@ private void exaPrintCompositeFallback(CARD8 op, PicturePtr pSrc, PicturePtr pMa
 
 Bool exaOpReadsDestination(CARD8 op)
 {
-    /* FALSE (does not read destination) is the list of ops in the protocol
+    /* False (does not read destination) is the list of ops in the protocol
      * document with "0" in the "Fb" column and no "Ab" in the "Fa" column.
      * That's just Clear and Src.  ReduceCompositeOp() will already have
      * converted con/disjoint clear/src to Clear or Src.
@@ -141,9 +141,9 @@ Bool exaOpReadsDestination(CARD8 op)
     {
         case PictOpClear:
         case PictOpSrc:
-            return FALSE;
+            return False;
         default:
-            return TRUE;
+            return True;
     }
 }
 
@@ -155,7 +155,7 @@ private Bool exaGetPixelFromRGBA(CARD32* pixel, CARD16 red, CARD16 green, CARD16
 
     if (!PIXMAN_FORMAT_COLOR(pFormat.format) &&
         PIXMAN_FORMAT_TYPE(pFormat.format) != PIXMAN_TYPE_A)
-        return FALSE;
+        return False;
 
     int rbits = cast(int)PIXMAN_FORMAT_R(pFormat.format);
     int gbits = cast(int)PIXMAN_FORMAT_G(pFormat.format);
@@ -172,7 +172,7 @@ private Bool exaGetPixelFromRGBA(CARD32* pixel, CARD16 red, CARD16 green, CARD16
     *pixel |= (green >> (16 - gbits)) << gshift;
     *pixel |= (alpha >> (16 - abits)) << ashift;
 
-    return TRUE;
+    return True;
 }
 
 private Bool exaGetRGBAFromPixel(CARD32 pixel, CARD16* red, CARD16* green, CARD16* blue, CARD16* alpha, PictFormatPtr pFormat, pixman_format_code_t format)
@@ -180,7 +180,7 @@ private Bool exaGetRGBAFromPixel(CARD32 pixel, CARD16* red, CARD16* green, CARD1
     int rshift = void, bshift = void, gshift = void, ashift = void;
 
     if (!PIXMAN_FORMAT_COLOR(format) && PIXMAN_FORMAT_TYPE(format) != PIXMAN_TYPE_A)
-        return FALSE;
+        return False;
 
     int rbits = PIXMAN_FORMAT_R(format);
     int gbits = PIXMAN_FORMAT_G(format);
@@ -238,7 +238,7 @@ private Bool exaGetRGBAFromPixel(CARD32 pixel, CARD16* red, CARD16* green, CARD1
     else
         *alpha = 0xffff;
 
-    return TRUE;
+    return True;
 }
 
 private int exaTryDriverSolidFill(PicturePtr pSrc, PicturePtr pDst, INT16 xSrc, INT16 ySrc, INT16 xDst, INT16 yDst, CARD16 width, CARD16 height)
@@ -297,11 +297,11 @@ private int exaTryDriverSolidFill(PicturePtr pSrc, PicturePtr pDst, INT16 xSrc, 
     if (pExaScr.do_migration) {
         ExaMigrationRec[1] pixmaps = void;
 
-        pixmaps[0].as_dst = TRUE;
-        pixmaps[0].as_src = FALSE;
+        pixmaps[0].as_dst = True;
+        pixmaps[0].as_src = False;
         pixmaps[0].pPix = pDstPix;
         pixmaps[0].pReg = &region;
-        exaDoMigration(pixmaps.ptr, 1, TRUE);
+        exaDoMigration(pixmaps.ptr, 1, True);
     }
 
     if (!exaPixmapHasGpuCopy(pDstPix)) {
@@ -373,29 +373,29 @@ private int exaTryDriverCompositeRects(CARD8 op, PicturePtr pSrc, PicturePtr pMa
         ExaMigrationRec[3] pixmaps = void;
         int i = 0;
 
-        pixmaps[i].as_dst = TRUE;
+        pixmaps[i].as_dst = True;
         pixmaps[i].as_src = exaOpReadsDestination(op);
         pixmaps[i].pPix = pDstPix;
         pixmaps[i].pReg = null;
         i++;
 
         if (pSrcPix) {
-            pixmaps[i].as_dst = FALSE;
-            pixmaps[i].as_src = TRUE;
+            pixmaps[i].as_dst = False;
+            pixmaps[i].as_src = True;
             pixmaps[i].pPix = pSrcPix;
             pixmaps[i].pReg = null;
             i++;
         }
 
         if (pMaskPix) {
-            pixmaps[i].as_dst = FALSE;
-            pixmaps[i].as_src = TRUE;
+            pixmaps[i].as_dst = False;
+            pixmaps[i].as_src = True;
             pixmaps[i].pPix = pMaskPix;
             pixmaps[i].pReg = null;
             i++;
         }
 
-        exaDoMigration(pixmaps.ptr, i, TRUE);
+        exaDoMigration(pixmaps.ptr, i, True);
     }
 
     pDstPix = exaGetOffscreenPixmap(pDst.pDrawable, &dst_off_x, &dst_off_y);
@@ -670,29 +670,29 @@ private int exaTryDriverComposite(CARD8 op, PicturePtr pSrc, PicturePtr pMask, P
         ExaMigrationRec[3] pixmaps = void;
         int i = 0;
 
-        pixmaps[i].as_dst = TRUE;
+        pixmaps[i].as_dst = True;
         pixmaps[i].as_src = exaOpReadsDestination(op);
         pixmaps[i].pPix = pDstPix;
         pixmaps[i].pReg = pixmaps[0].as_src ? null : &region;
         i++;
 
         if (pSrcPix) {
-            pixmaps[i].as_dst = FALSE;
-            pixmaps[i].as_src = TRUE;
+            pixmaps[i].as_dst = False;
+            pixmaps[i].as_src = True;
             pixmaps[i].pPix = pSrcPix;
             pixmaps[i].pReg = null;
             i++;
         }
 
         if (pMaskPix) {
-            pixmaps[i].as_dst = FALSE;
-            pixmaps[i].as_src = TRUE;
+            pixmaps[i].as_dst = False;
+            pixmaps[i].as_src = True;
             pixmaps[i].pPix = pMaskPix;
             pixmaps[i].pReg = null;
             i++;
         }
 
-        exaDoMigration(pixmaps.ptr, i, TRUE);
+        exaDoMigration(pixmaps.ptr, i, True);
     }
 
     if (pSrcPix) {
@@ -888,7 +888,7 @@ void exaComposite(CARD8 op, PicturePtr pSrc, PicturePtr pMask, PicturePtr pDst, 
                 suc = exaHWCopyNtoN(pSrc.pDrawable, pDst.pDrawable, null,
                                     RegionRects(&region),
                                     RegionNumRects(&region), xSrc - xDst,
-                                    ySrc - yDst, FALSE, FALSE);
+                                    ySrc - yDst, False, False);
                 RegionUninit(&region);
 
                 /* Reset values to their original values. */

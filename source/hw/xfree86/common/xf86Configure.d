@@ -2,9 +2,9 @@ module xf86Configure;
 @nogc nothrow:
 extern(C): __gshared:
 
-// template HasVersion(string versionId) {
-// 	mixin("version("~versionId~") {enum HasVersion = true;} else {enum HasVersion = false;}");
-// }
+template HasVersion(string versionId) {
+	mixin("version("~versionId~") {enum HasVersion = true;} else {enum HasVersion = false;}");
+}
 /*
  * Copyright 2000-2002 by Alan Hourihane, Flint Mountain, North Wales.
  *
@@ -69,8 +69,6 @@ import Screen;
 import hw.xfree86.modes.displaymode;
 import common.math;
 
-
-
 struct _DevToConfig {
     GDevRec GDev;
     pci_device* pVideo;
@@ -85,8 +83,8 @@ DevToConfigPtr DevToConfig = null;
 int nDevToConfig = 0, CurrentDriver;
 
 xf86MonPtr ConfiguredMonitor;
-Bool xf86DoConfigurePass1 = TRUE;
-Bool foundMouse = FALSE;
+Bool xf86DoConfigurePass1 = True;
+Bool foundMouse = False;
 
 static if   (HasVersion!"__FreeBSD__" || HasVersion!"__FreeBSD_kernel__" || HasVersion!"__DragonFly__") {
 const(char)* DFLT_MOUSE_DEV = "/dev/sysmouse";
@@ -197,7 +195,7 @@ XF86ConfInputPtr configureInputSection()
 
         fd = open(DFLT_MOUSE_DEV, 0);
         if (fd != -1) {
-            foundMouse = TRUE;
+            foundMouse = True;
             close(fd);
         }
     }
@@ -644,7 +642,7 @@ void DoConfigure()
         DriverRec* drv = xf86DriverList[CurrentDriver];
 
         fprintf(stderr, "LOL");
-        found_screen = xf86CallDriverProbe(drv, TRUE);
+        found_screen = xf86CallDriverProbe(drv, True);
         if (found_screen && drv.Identify) {
             assumeNoGC(drv.Identify) (0);
         }
@@ -710,14 +708,14 @@ void DoConfigure()
         goto bail;
     }
 
-    xf86DoConfigurePass1 = FALSE;
+    xf86DoConfigurePass1 = False;
     /* Try to get DDC information filled in */
     xf86ConfigFile = filename.ptr;
-    if (xf86HandleConfigFile(FALSE) != _ConfigStatus.CONFIG_OK) {
+    if (xf86HandleConfigFile(False) != _ConfigStatus.CONFIG_OK) {
         goto bail;
     }
 
-    xf86DoConfigurePass1 = FALSE;
+    xf86DoConfigurePass1 = False;
 
     dev2screen = cast(int*)XNFcallocarray(nDevToConfig, int.sizeof);
 
@@ -731,22 +729,22 @@ void DoConfigure()
 
             if (driverProbed[i])
                 continue;
-            driverProbed[i] = TRUE;
+            driverProbed[i] = True;
 
             oldNumScreens = xf86NumScreens;
 
-            xf86CallDriverProbe(xf86DriverList[i], FALSE);
+            xf86CallDriverProbe(xf86DriverList[i], False);
 
             /* reorder */
             k = screennum > 0 ? screennum : 1;
             for (l = oldNumScreens; l < xf86NumScreens; l++) {
                 /* is screen primary? */
-                Bool primary = FALSE;
+                Bool primary = False;
 
                 for (n = 0; n < xf86Screens[l].numEntities; n++) {
                     if (xf86IsEntityPrimary(xf86Screens[l].entityList[n])) {
                         dev2screen[0] = l;
-                        primary = TRUE;
+                        primary = True;
                         break;
                     }
                 }

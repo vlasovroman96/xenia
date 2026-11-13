@@ -142,7 +142,7 @@ private Status MsEnable(KdPointerInfo* pi)
         goto bail;
     }
     if (KdRegisterFd(port, &MsRead, pi))
-        return TRUE;
+        return True;
     pi.driverPrivate = cast(void*) cast(intptr_t) port;
 
     return Success;
@@ -154,7 +154,7 @@ private Status MsEnable(KdPointerInfo* pi)
 
 private void MsDisable(KdPointerInfo* pi)
 {
-    KdUnregisterFd(pi, cast(int) cast(intptr_t) pi.driverPrivate, TRUE);
+    KdUnregisterFd(pi, cast(int) cast(intptr_t) pi.driverPrivate, True);
 }
 
 private void MsFini(KdPointerInfo* pi)

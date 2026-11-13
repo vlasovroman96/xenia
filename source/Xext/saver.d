@@ -81,7 +81,7 @@ import os.utils;
 import dix.events;
 import common.swap;
 
-Bool noScreenSaverExtension = FALSE;
+Bool noScreenSaverExtension = False;
 
 int ScreenSaverEventBase = 0;
 
@@ -227,7 +227,7 @@ private ScreenSaverScreenPrivatePtr MakeScreenPrivate(ScreenPtr pScreen)
 
     pPriv.events = null;
     pPriv.attr = null;
-    pPriv.hasWindow = FALSE;
+    pPriv.hasWindow = False;
     pPriv.installedMap = None;
     mixin(SetScreenPrivate!(`pScreen`, `pPriv`));
     pScreen.screensaver.ExternalScreenSaver = &ScreenSaverHandle;
@@ -256,13 +256,13 @@ private Bool setEventMask(ScreenPtr pScreen, ClientPtr client, c_ulong mask)
     mixin(SetupScreen!(`pScreen`));
 
     if (getEventMask(pScreen, client) == mask) {
-        return TRUE;
+        return True;
     }
 
     if (!pPriv) {
         pPriv = MakeScreenPrivate(pScreen);
         if (!pPriv) {
-            return FALSE;
+            return False;
         }
      }
 
@@ -283,7 +283,7 @@ private Bool setEventMask(ScreenPtr pScreen, ClientPtr client, c_ulong mask)
             pEv = cast(ScreenSaverEventPtr)cast(ScreenSaverEventRec*) calloc(1, ScreenSaverEventRec.sizeof);
             if (!pEv) {
                 CheckScreenPrivate(pScreen);
-                return FALSE;
+                return False;
             }
             *pPrev = pEv;
             pEv.next = null;
@@ -291,11 +291,11 @@ private Bool setEventMask(ScreenPtr pScreen, ClientPtr client, c_ulong mask)
             pEv.pScreen = pScreen;
             pEv.resource = FakeClientID(client.index);
             if (!AddResource(cast(uint)pEv.resource, SaverEventType, cast(void*) pEv))
-                return FALSE;
+                return False;
         }
         pEv.mask = cast(uint)mask;
     }
-    return TRUE;
+    return True;
 }
 
 private void FreeAttrs(ScreenSaverAttrPtr pAttr)
@@ -321,7 +321,7 @@ private int ScreenSaverFreeEvents(void* value, XID id)
     ScreenSaverEventPtr pEv = void; ScreenSaverEventPtr* pPrev = void;
 
     if (!pPriv) {
-        return TRUE;
+        return True;
     }
 
     for (pPrev = &pPriv.events; (pEv = *pPrev) !is null; pPrev = &pEv.next) {
@@ -331,13 +331,13 @@ private int ScreenSaverFreeEvents(void* value, XID id)
     }
 
     if (!pEv) {
-        return TRUE;
+        return True;
     }
 
     *pPrev = pEv.next;
     free(pEv);
     CheckScreenPrivate(pScreen);
-    return TRUE;
+    return True;
 }
 
 private int ScreenSaverFreeAttr(void* value, XID id)
@@ -348,11 +348,11 @@ private int ScreenSaverFreeAttr(void* value, XID id)
     mixin(SetupScreen!(`pScreen`));
 
     if (!pPriv) {
-        return TRUE;
+        return True;
     }
 
     if (pPriv.attr != pOldAttr) {
-        return TRUE;
+        return True;
     }
 
     FreeScreenAttr(pOldAttr);
@@ -362,7 +362,7 @@ private int ScreenSaverFreeAttr(void* value, XID id)
         dixSaveScreens(serverClient, SCREEN_SAVER_FORCER, ScreenSaverActive);
     }
     CheckScreenPrivate(pScreen);
-    return TRUE;
+    return True;
 }
 
 private int ScreenSaverFreeSuspend(void* value, XID id)
@@ -381,7 +381,7 @@ private int ScreenSaverFreeSuspend(void* value, XID id)
 
     /* Re-enable the screensaver if this was the last client suspending it. */
     if (screenSaverSuspended && suspendingClients is null) {
-        screenSaverSuspended = FALSE;
+        screenSaverSuspended = False;
 
     void checkSuspend() {
             //Issue #65: Use std.algorithm.each 
@@ -491,19 +491,19 @@ private Bool CreateSaverWindow(ScreenPtr pScreen)
         FreeResource(cast(uint)pSaver.wid, X11_RESTYPE_NONE);
         if (pPriv) {
             UninstallSaverColormap(pScreen);
-            pPriv.hasWindow = FALSE;
+            pPriv.hasWindow = False;
             CheckScreenPrivate(pScreen);
         }
     }
 
     if (!pPriv || ((pAttr = pPriv.attr) is null)) {
-        return FALSE;
+        return False;
     }
 
     pPriv.installedMap = None;
 
     if (GrabInProgress && GrabInProgress != pAttr.client.index) {
-        return FALSE;
+        return False;
     }
 
     pWin = dixCreateWindow(pSaver.wid, pScreen.root,
@@ -512,11 +512,11 @@ private Bool CreateSaverWindow(ScreenPtr pScreen)
                         cast(uint)pAttr.mask, cast(XID*) pAttr.values,
                         pAttr.depth, serverClient, pAttr.visual, &result);
     if (!pWin) {
-        return FALSE;
+        return False;
     }
 
     if (!AddResource(cast(uint)pWin.drawable.id, X11_RESTYPE_WINDOW, pWin)) {
-        return FALSE;
+        return False;
     }
 
     mask = 0;
@@ -527,7 +527,7 @@ private Bool CreateSaverWindow(ScreenPtr pScreen)
         mask |= CWBackPixmap;
     }
     if (pAttr.pBorderPixmap) {
-        pWin.borderIsPixel = FALSE;
+        pWin.borderIsPixel = False;
         pWin.border.pixmap = pAttr.pBorderPixmap;
         pAttr.pBorderPixmap.refcnt++;
         mask |= CWBorderPixmap;
@@ -535,12 +535,12 @@ private Bool CreateSaverWindow(ScreenPtr pScreen)
     if (pAttr.pCursor) {
         if (!MakeWindowOptional(pWin)) {
             FreeResource(cast(uint)pWin.drawable.id, X11_RESTYPE_NONE);
-            return FALSE;
+            return False;
         }
         CursorPtr cursor = RefCursor(pAttr.pCursor);
         FreeCursor(pWin.optional.cursor, cast(Cursor) 0);
         pWin.optional.cursor = cursor;
-        pWin.cursorIsNone = FALSE;
+        pWin.cursorIsNone = False;
         CheckWindowOptionalNeed(pWin);
         mask |= CWCursor;
     }
@@ -555,26 +555,26 @@ private Bool CreateSaverWindow(ScreenPtr pScreen)
 
     MapWindow(pWin, serverClient);
 
-    pPriv.hasWindow = TRUE;
+    pPriv.hasWindow = True;
     pSaver.pWindow = pWin;
 
     /* check and install our own colormap if it isn't installed now */
     wantMap = mixin(wColormap!("pWin"));
     if (wantMap == None || IsMapInstalled(wantMap, pWin)) {
-        return TRUE;
+        return True;
     }
 
     result = dixLookupResourceByType(cast(void**) &pCmap, wantMap, X11_RESTYPE_COLORMAP,
                                      serverClient, DixInstallAccess);
     if (result != Success) {
-        return TRUE;
+        return True;
     }
 
     pPriv.installedMap = wantMap;
 
     (*pCmap.pScreen.InstallColormap) (pCmap);
 
-    return TRUE;
+    return True;
 }
 
 private Bool DestroySaverWindow(ScreenPtr pScreen)
@@ -583,7 +583,7 @@ private Bool DestroySaverWindow(ScreenPtr pScreen)
     ScreenSaverStuffPtr pSaver = void;
 
     if (!pPriv || !pPriv.hasWindow) {
-        return FALSE;
+        return False;
     }
 
     pSaver = &pScreen.screensaver;
@@ -591,16 +591,16 @@ private Bool DestroySaverWindow(ScreenPtr pScreen)
         pSaver.pWindow = NullWindow;
         FreeResource(cast(uint)pSaver.wid, X11_RESTYPE_NONE);
     }
-    pPriv.hasWindow = FALSE;
+    pPriv.hasWindow = False;
     CheckScreenPrivate(pScreen);
     UninstallSaverColormap(pScreen);
-    return TRUE;
+    return True;
 }
 
 private Bool ScreenSaverHandle(ScreenPtr pScreen, int xstate, Bool force)
 {
     int state = 0;
-    Bool ret = FALSE;
+    Bool ret = False;
     ScreenSaverScreenPrivatePtr pPriv = void;
 
     switch (xstate) {
@@ -616,7 +616,7 @@ private Bool ScreenSaverHandle(ScreenPtr pScreen, int xstate, Bool force)
         state = ScreenSaverCycle;
         pPriv = mixin(GetScreenPrivate!(`pScreen`));
         if (pPriv && pPriv.hasWindow)
-            ret = TRUE;
+            ret = True;
     goto default;
 
     default: break;}
@@ -806,19 +806,19 @@ private int ScreenSaverSetAttributes(ClientPtr client, xScreenSaverSetAttributes
 
     /* Find out if the depth and visual are acceptable for this Screen */
     if ((visual != ancwopt.visual) || (depth != pParent.drawable.depth)) {
-        bool fOK = FALSE;
+        bool fOK = False;
         for (int idepth = 0; idepth < pScreen.numDepths; idepth++) {
             DepthPtr pDepth = cast(DepthPtr) &pScreen.allowedDepths[idepth];
             if ((depth == pDepth.depth) || (depth == 0)) {
                 for (int ivisual = 0; ivisual < pDepth.numVids; ivisual++) {
                     if (visual == pDepth.vids[ivisual]) {
-                        fOK = TRUE;
+                        fOK = True;
                         break;
                     }
                 }
             }
         }
-        if (fOK == FALSE) {
+        if (fOK == False) {
             return BadMatch;
         }
     }
@@ -845,7 +845,7 @@ private int ScreenSaverSetAttributes(ClientPtr client, xScreenSaverSetAttributes
     if (!pPriv) {
         pPriv = MakeScreenPrivate(pScreen);
         if (!pPriv) {
-            return FALSE;
+            return False;
         }
     }
     pAttr = cast(ScreenSaverAttrPtr)cast(ScreenSaverAttrRec*) calloc(1, ScreenSaverAttrRec.sizeof);
@@ -1252,7 +1252,7 @@ private int ProcScreenSaverSuspend(ClientPtr client)
     }
 
     if (this_) {
-        if (suspend == TRUE) {
+        if (suspend == True) {
             this_.count++;
         } else if (--this_.count == 0) {
             FreeResource(cast(uint)this_.clientResource, X11_RESTYPE_NONE);
@@ -1261,7 +1261,7 @@ private int ProcScreenSaverSuspend(ClientPtr client)
     }
 
     /* If we get to this point, this client isn't suspending the screensaver */
-    if (suspend == FALSE) {
+    if (suspend == False) {
         return Success;
     }
 
@@ -1289,7 +1289,7 @@ private int ProcScreenSaverSuspend(ClientPtr client)
 
     *prev = this_;
     if (!screenSaverSuspended) {
-        screenSaverSuspended = TRUE;
+        screenSaverSuspended = True;
         FreeScreenSaverTimer();
     }
 

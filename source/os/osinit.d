@@ -171,7 +171,7 @@ version (SA_SIGINFO)
         }
 
         if (signo != SIGQUIT)
-            CoreDump = TRUE;
+            CoreDump = True;
 
         FatalError(
             "Caught signal %d (%s). Server aborting\n",
@@ -210,7 +210,7 @@ else
         xorg_backtrace();
 
         if (signo != SIGQUIT)
-            CoreDump = TRUE;
+            CoreDump = True;
 
         FatalError(
             "Caught signal %d (%s). Server aborting\n",
@@ -224,7 +224,7 @@ else
 
 void OsInit()
 {
-    static Bool been_here = FALSE;
+    static Bool been_here = False;
 
     if (!been_here) {
 static if (!HasVersion!"Windows" || HasVersion!"Cygwin") {
@@ -291,7 +291,7 @@ static if (!HasVersion!"Windows" || HasVersion!"Cygwin") {
             setpgid(0, 0);
 }
         LockServer();
-        been_here = TRUE;
+        been_here = True;
     }
     TimerInit();
     OsVendorInit();

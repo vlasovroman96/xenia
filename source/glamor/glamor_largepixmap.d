@@ -16,6 +16,7 @@ import externs.attrs;
 import region;
 import dix.picture;
 import common.math;
+import common.bools;
 
 alias INT16_MAX = core.stdc.stdint.INT16_MAX;
 

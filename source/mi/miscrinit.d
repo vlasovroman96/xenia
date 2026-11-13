@@ -70,7 +70,7 @@ enum DEFAULTZEROLINEBIAS = (OCTANT2 | OCTANT3 | OCTANT4 | OCTANT5);
 Bool miModifyPixmapHeader(PixmapPtr pPixmap, int width, int height, int depth, int bitsPerPixel, int devKind, void* pPixData)
 {
     if (!pPixmap)
-        return FALSE;
+        return False;
 
     /*
      * If all arguments are specified, reinitialize everything (including
@@ -122,18 +122,18 @@ Bool miModifyPixmapHeader(PixmapPtr pPixmap, int width, int height, int depth, i
             pPixmap.devPrivate.ptr = pPixData;
     }
     pPixmap.drawable.serialNumber = NEXT_SERIAL_NUMBER;
-    return TRUE;
+    return True;
 }
 
 private Bool miCloseScreen(ScreenPtr pScreen)
 {
     dixDestroyPixmap(cast(PixmapPtr) pScreen.devPrivate, 0);
-    return TRUE;
+    return True;
 }
 
 private Bool miSaveScreen(ScreenPtr pScreen, int on)
 {
-    return TRUE;
+    return True;
 }
 
 void miSourceValidate(DrawablePtr pDrawable, int x, int y, int w, int h, uint subWindowMode)
@@ -167,7 +167,7 @@ Bool miCreateScreenResources(ScreenPtr pScreen)
         pPixmap =
             (*pScreen.CreatePixmap) (pScreen, 0, 0, pScreen.rootDepth, 0);
         if (!pPixmap)
-            return FALSE;
+            return False;
 
         if (!(*pScreen.ModifyPixmapHeader) (pPixmap, pScrInitParms.xsize,
                                              pScrInitParms.ysize,
@@ -176,7 +176,7 @@ Bool miCreateScreenResources(ScreenPtr pScreen)
                                              PixmapBytePad(pScrInitParms.width,
                                                            pScreen.rootDepth),
                                              pScrInitParms.pbits))
-            return FALSE;
+            return False;
         value = cast(void*) pPixmap;
     }
     else {
@@ -184,7 +184,7 @@ Bool miCreateScreenResources(ScreenPtr pScreen)
     }
     free(pScreen.devPrivate);  /* freeing miScreenInitParmsRec */
     pScreen.devPrivate = value;        /* pPixmap or pbits */
-    return TRUE;
+    return True;
 }
 
 private Bool miScreenDevPrivateInit(ScreenPtr pScreen, int width, void* pbits, int xsize, int ysize)
@@ -195,13 +195,13 @@ private Bool miScreenDevPrivateInit(ScreenPtr pScreen, int width, void* pbits, i
      */
     miScreenInitParmsPtr pScrInitParms = cast(miScreenInitParmsRec*) calloc(1, miScreenInitParmsRec.sizeof);
     if (!pScrInitParms)
-        return FALSE;
+        return False;
     pScrInitParms.pbits = pbits;
     pScrInitParms.width = width;
     pScrInitParms.xsize = xsize;
     pScrInitParms.ysize = ysize;
     pScreen.devPrivate = cast(void*) pScrInitParms;
-    return TRUE;
+    return True;
 }
 
 private PixmapPtr miGetScreenPixmap(ScreenPtr pScreen)

@@ -69,10 +69,10 @@ PixmapPtr xnestCreatePixmap(ScreenPtr pScreen, int width, int height, int depth,
 Bool xnestDestroyPixmap(PixmapPtr pPixmap)
 {
     if (--pPixmap.refcnt)
-        return TRUE;
+        return True;
     xcb_free_pixmap(xnestUpstreamInfo.conn, xnestPixmap(pPixmap));
     FreePixmap(pPixmap);
-    return TRUE;
+    return True;
 }
 
 Bool xnestModifyPixmapHeader(PixmapPtr pPixmap, int width, int height, int depth, int bitsPerPixel, int devKind, void* pPixData)

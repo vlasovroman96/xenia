@@ -19,7 +19,7 @@ void xf86CloseConsole()
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 Bool xf86VTKeepTtyIsSet()
 {
-     return FALSE;
+     return False;
 }
 
 

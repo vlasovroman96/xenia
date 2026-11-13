@@ -204,10 +204,10 @@ private Bool I2CRaiseSCL(I2CBusPtr b, int sda, int timeout)
         // I2C_TIMEOUT(ErrorF
         //             ("[I2CRaiseSCL(<%s>, %d, %d) timeout]", b.BusName, sda,
         //              timeout));
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 /* Send a start signal on the I2C bus. The start signal notifies
@@ -232,7 +232,7 @@ private Bool I2CRaiseSCL(I2CBusPtr b, int sda, int timeout)
 private Bool I2CStart(I2CBusPtr b, int timeout)
 {
     if (!I2CRaiseSCL(b, 1, timeout))
-        return FALSE;
+        return False;
 
     b.I2CPutBits(b, 1, 0);
     b.I2CUDelay(b, b.HoldTime);
@@ -241,7 +241,7 @@ private Bool I2CStart(I2CBusPtr b, int timeout)
 
     // I2C_TRACE(ErrorF("\ni2c: <"));
 
-    return TRUE;
+    return True;
 }
 
 /* This is the default I2CStop function if not supplied by the driver.
@@ -267,7 +267,7 @@ private void I2CStop(I2CDevPtr d)
 }
 
 /* Write/Read a single bit to/from a device.
- * Return FALSE if a timeout occurs.
+ * Return False if a timeout occurs.
  */
 
 private Bool I2CWriteBit(I2CBusPtr b, int sda, int timeout)
@@ -305,7 +305,7 @@ private Bool I2CReadBit(I2CBusPtr b, int* psda, int timeout)
 /* This is the default I2CPutByte function if not supplied by the driver.
  *
  * A single byte is sent to the device.
- * The function returns FALSE if a timeout occurs, you should send
+ * The function returns False if a timeout occurs, you should send
  * a stop condition afterwards to reset the bus.
  *
  * A timeout occurs,
@@ -325,11 +325,11 @@ private Bool I2CPutByte(I2CDevPtr d, I2CByte data)
     I2CBusPtr b = d.pI2CBus;
 
     if (!I2CWriteBit(b, (data >> 7) & 1, d.ByteTimeout))
-        return FALSE;
+        return False;
 
     for (i = 6; i >= 0; i--)
         if (!I2CWriteBit(b, (data >> i) & 1, d.BitTimeout))
-            return FALSE;
+            return False;
 
     b.I2CPutBits(b, 0, 1);
     b.I2CUDelay(b, b.RiseFallTime);
@@ -348,7 +348,7 @@ private Bool I2CPutByte(I2CDevPtr d, I2CByte data)
             // I2C_TIMEOUT(ErrorF("[I2CPutByte(<%s>, 0x%02x, %d, %d, %d) timeout]",
             //                    b.BusName, data, d.BitTimeout,
             //                    d.ByteTimeout, d.AcknTimeout));
-            r = FALSE;
+            r = False;
         }
 
         // I2C_TRACE(ErrorF("W%02x%c ", cast(int) data, sda ? '-' : '+'));
@@ -363,7 +363,7 @@ private Bool I2CPutByte(I2CDevPtr d, I2CByte data)
 /* This is the default I2CGetByte function if not supplied by the driver.
  *
  * A single byte is read from the device.
- * The function returns FALSE if a timeout occurs, you should send
+ * The function returns False if a timeout occurs, you should send
  * a stop condition afterwards to reset the bus.
  *
  * A timeout occurs,
@@ -386,22 +386,22 @@ private Bool I2CGetByte(I2CDevPtr d, I2CByte* data, Bool last)
     b.I2CUDelay(b, b.RiseFallTime);
 
     if (!I2CReadBit(b, &sda, d.ByteTimeout))
-        return FALSE;
+        return False;
 
     *data = (sda > 0) << 7;
 
     for (i = 6; i >= 0; i--)
         if (!I2CReadBit(b, &sda, d.BitTimeout))
-            return FALSE;
+            return False;
         else
             *data |= (sda > 0) << i;
 
     if (!I2CWriteBit(b, last ? 1 : 0, d.BitTimeout))
-        return FALSE;
+        return False;
 
     // I2C_TRACE(ErrorF("R%02x%c ", cast(int) *data, last ? '+' : '-'));
 
-    return TRUE;
+    return True;
 }
 
 /* This is the default I2CAddress function if not supplied by the driver.
@@ -434,16 +434,16 @@ private Bool I2CAddress(I2CDevPtr d, I2CSlaveAddr addr)
     if (I2CStart(d.pI2CBus, d.StartTimeout)) {
         if (I2CPutByte(d, addr & 0xFF)) {
             if ((addr & 0xF8) != 0xF0 && (addr & 0xFE) != 0x00)
-                return TRUE;
+                return True;
 
             if (I2CPutByte(d, (addr >> 8) & 0xFF))
-                return TRUE;
+                return True;
         }
 
         I2CStop(d);
     }
 
-    return FALSE;
+    return False;
 }
 
 /* These are the hardware independent I2C helper functions.
@@ -480,7 +480,7 @@ Bool xf86I2CProbeAddress(I2CBusPtr b, I2CSlaveAddr addr)
 
 /* All functions below are related to devices and take the
  * slave address and timeout values from an I2CDevRec. They
- * return FALSE in case of an error (presumably a timeout).
+ * return False in case of an error (presumably a timeout).
  */
 
 /* General purpose read and write function.
@@ -503,7 +503,7 @@ Bool xf86I2CProbeAddress(I2CBusPtr b, I2CSlaveAddr addr)
 
 private Bool I2CWriteRead(I2CDevPtr d, I2CByte* WriteBuffer, int nWrite, I2CByte* ReadBuffer, int nRead)
 {
-    Bool r = TRUE;
+    Bool r = True;
     I2CBusPtr b = d.pI2CBus;
     int s = 0;
 
@@ -582,7 +582,7 @@ Bool xf86I2CWriteByte(I2CDevPtr d, I2CByte subaddr, I2CByte byte_)
 Bool xf86I2CWriteVec(I2CDevPtr d, I2CByte* vec, int nValues)
 {
     I2CBusPtr b = d.pI2CBus;
-    Bool r = TRUE;
+    Bool r = True;
     int s = 0;
 
     if (nValues > 0) {
@@ -660,7 +660,7 @@ void xf86DestroyI2CDevRec(I2CDevPtr d, Bool unalloc)
  * result of xf86CreateI2CDevRec.
  *
  * If you don't specify timeouts for the device (n <= 0), it will inherit
- * the bus-wide defaults. The function returns TRUE on success.
+ * the bus-wide defaults. The function returns True on success.
  */
 
 Bool xf86I2CDevInit(I2CDevPtr d)
@@ -670,7 +670,7 @@ Bool xf86I2CDevInit(I2CDevPtr d)
     if (d is null ||
         (b = d.pI2CBus) is null ||
         (d.SlaveAddr & 1) || xf86I2CFindDev(b, d.SlaveAddr) !is null)
-        return FALSE;
+        return False;
 
     if (d.BitTimeout <= 0)
         d.BitTimeout = b.BitTimeout;
@@ -688,7 +688,7 @@ Bool xf86I2CDevInit(I2CDevPtr d)
                "I2C device \"%s:%s\" registered at address 0x%02X.\n",
                b.BusName, d.DevName, d.SlaveAddr);
 
-    return TRUE;
+    return True;
 }
 
 I2CDevPtr xf86I2CFindDev(I2CBusPtr b, I2CSlaveAddr addr)
@@ -783,7 +783,7 @@ void xf86DestroyI2CBusRec(I2CBusPtr b, Bool unalloc, Bool devs_too)
 /* I2C masters have to register themselves using this function.
  * It will not allocate an I2CBusRec for you, instead you may enter
  * a pointer to a statically allocated I2CBusRec or the (modified)
- * result of xf86CreateI2CBusRec. Returns TRUE on success.
+ * result of xf86CreateI2CBusRec. Returns True on success.
  *
  * At this point there won't be any traffic on the I2C bus.
  */
@@ -796,7 +796,7 @@ Bool xf86I2CBusInit(I2CBusPtr b)
      */
 
     if (b.BusName is null || xf86I2CFindBus(b.scrnIndex, b.BusName) !is null)
-        return FALSE;
+        return False;
 
     /* If the high level functions are not
      * supplied, use the generic functions.
@@ -811,7 +811,7 @@ Bool xf86I2CBusInit(I2CBusPtr b)
                 b.I2CGetByte is null ||
                 b.I2CAddress is null ||
                 b.I2CStart is null || b.I2CStop is null)
-                return FALSE;
+                return False;
         }
         else {
             b.I2CPutByte = &I2CPutByte;
@@ -844,7 +844,7 @@ Bool xf86I2CBusInit(I2CBusPtr b)
     xf86DrvMsg(b.scrnIndex, X_INFO, "I2C bus \"%s\" initialized.\n",
                b.BusName);
 
-    return TRUE;
+    return True;
 }
 
 I2CBusPtr xf86I2CFindBus(int scrnIndex, const(char)* name)

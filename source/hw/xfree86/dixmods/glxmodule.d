@@ -66,7 +66,7 @@ XF86ModuleData glxModuleData = {
 
 private void* glxSetup(void* module_, void* opts, int* errmaj, int* errmin)
 {
-    static Bool setupDone = FALSE;
+    static Bool setupDone = False;
     __GLXprovider* provider = void;
 
     if (setupDone) {
@@ -75,7 +75,7 @@ private void* glxSetup(void* module_, void* opts, int* errmaj, int* errmin)
         return null;
     }
 
-    setupDone = TRUE;
+    setupDone = True;
 
     provider = cast(__GLXprovider*)LoaderSymbol("__glXDRI2Provider");
     if (provider)

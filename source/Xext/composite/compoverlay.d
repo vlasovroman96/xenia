@@ -133,7 +133,7 @@ Bool compCreateOverlayWindow(ScreenPtr pScreen)
     CompScreenPtr cs = mixin(GetCompScreen!("pScreen"));
     WindowPtr pRoot = pScreen.root;
     WindowPtr pWin = void;
-    XID[2] attrs = [ None, TRUE ];       /* backPixmap, overrideRedirect */
+    XID[2] attrs = [ None, True ];       /* backPixmap, overrideRedirect */
     int result = void;
     int w = pScreen.width;
     int h = pScreen.height;
@@ -154,14 +154,14 @@ static if(XINERAMA){
                      pRoot.drawable.depth,
                      serverClient, cast(uint)pScreen.rootVisual, &result);
     if (pWin is null)
-        return FALSE;
+        return False;
 
     if (!AddResource(cast(uint)pWin.drawable.id, X11_RESTYPE_WINDOW, cast(void*) pWin))
-        return FALSE;
+        return False;
 
     MapWindow(pWin, serverClient);
 
-    return TRUE;
+    return True;
 }
 
 /*

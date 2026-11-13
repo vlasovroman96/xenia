@@ -42,7 +42,6 @@ import   dix.gc_priv;
 import   dix.screen_hooks_priv;
 import   dix.screenint_priv;
 
-import   common.misc;
 import   dix.input;
 import   dix.cursor;
 import dix.window;
@@ -108,20 +107,20 @@ Bool miDCInitialize(ScreenPtr pScreen, miPointerScreenFuncPtr screenFuncs)
     if (!dixRegisterPrivateKey(&miDCScreenKeyRec, PRIVATE_SCREEN, 0) ||
         !dixRegisterScreenPrivateKey(&miDCDeviceKeyRec, pScreen, PRIVATE_DEVICE,
                                      0))
-        return FALSE;
+        return False;
 
     pScreenPriv = cast(miDCScreenRec*) calloc(1, miDCScreenRec.sizeof);
     if (!pScreenPriv)
-        return FALSE;
+        return False;
 
     dixScreenHookPostClose(pScreen, &miDCCloseScreen);
     dixSetPrivate(&pScreen.devPrivates, miDCScreenKey, pScreenPriv);
 
     if (!miSpriteInitialize(pScreen, screenFuncs)) {
         free(cast(void*) pScreenPriv);
-        return FALSE;
+        return False;
     }
-    return TRUE;
+    return True;
 }
 
 private void miDCSwitchScreenCursor(ScreenPtr pScreen, CursorPtr pCursor, PixmapPtr sourceBits, PixmapPtr maskBits, PicturePtr pPicture)
@@ -158,7 +157,7 @@ private void miDCCloseScreen(CallbackListPtr* pcbl, ScreenPtr pScreen, void* unu
 
 bool miDCRealizeCursor(ScreenPtr pScreen, CursorPtr pCursor)
 {
-    return TRUE;
+    return True;
 }
 
 enum string EnsurePicture(string picture,string draw,string win) = `(` ~ picture ~ ` || miDCMakePicture(&` ~ picture ~ `,` ~ draw ~ `,` ~ win ~ `))`;
@@ -188,7 +187,7 @@ private Bool miDCRealize(ScreenPtr pScreen, CursorPtr pCursor)
     PixmapPtr sourceBits = void, maskBits = void;
 
     if (pScreenPriv.pCursor == pCursor)
-        return TRUE;
+        return True;
 
     if (pCursor.bits.argb) {
         PixmapPtr pPixmap = void;
@@ -198,18 +197,18 @@ private Bool miDCRealize(ScreenPtr pScreen, CursorPtr pCursor)
 
         pFormat = PictureMatchFormat(pScreen, 32, PIXMAN_a8r8g8b8);
         if (!pFormat)
-            return FALSE;
+            return False;
 
         pPixmap = (*pScreen.CreatePixmap) (pScreen, pCursor.bits.width,
                                             pCursor.bits.height, 32,
                                             CREATE_PIXMAP_USAGE_SCRATCH);
         if (!pPixmap)
-            return FALSE;
+            return False;
 
         pGC = GetScratchGC(32, pScreen);
         if (!pGC) {
             dixDestroyPixmap(pPixmap, 0);
-            return FALSE;
+            return False;
         }
         ValidateGC(&pPixmap.drawable, pGC);
         (*pGC.ops.PutImage) (&pPixmap.drawable, pGC, 32,
@@ -221,22 +220,22 @@ private Bool miDCRealize(ScreenPtr pScreen, CursorPtr pCursor)
                                  pFormat, 0, null, serverClient, &error);
         dixDestroyPixmap(pPixmap, 0);
         if (!pPicture)
-            return FALSE;
+            return False;
 
         miDCSwitchScreenCursor(pScreen, pCursor, null, null, pPicture);
-        return TRUE;
+        return True;
     }
 
     sourceBits = (*pScreen.CreatePixmap) (pScreen, pCursor.bits.width,
                                            pCursor.bits.height, 1, 0);
     if (!sourceBits)
-        return FALSE;
+        return False;
 
     maskBits = (*pScreen.CreatePixmap) (pScreen, pCursor.bits.width,
                                          pCursor.bits.height, 1, 0);
     if (!maskBits) {
         dixDestroyPixmap(sourceBits, 0);
-        return FALSE;
+        return False;
     }
 
     /* create the two sets of bits, clipping as appropriate */
@@ -245,7 +244,7 @@ private Bool miDCRealize(ScreenPtr pScreen, CursorPtr pCursor)
     if (!pGC) {
         dixDestroyPixmap(sourceBits, 0);
         dixDestroyPixmap(maskBits, 0);
-        return FALSE;
+        return False;
     }
 
     ValidateGC(cast(DrawablePtr) sourceBits, pGC);
@@ -275,7 +274,7 @@ private Bool miDCRealize(ScreenPtr pScreen, CursorPtr pCursor)
     FreeScratchGC(pGC);
 
     miDCSwitchScreenCursor(pScreen, pCursor, sourceBits, maskBits, null);
-    return TRUE;
+    return True;
 }
 
 bool miDCUnrealizeCursor(ScreenPtr pScreen, CursorPtr pCursor)
@@ -284,7 +283,7 @@ bool miDCUnrealizeCursor(ScreenPtr pScreen, CursorPtr pCursor)
 
     if (pCursor == pScreenPriv.pCursor)
         miDCSwitchScreenCursor(pScreen, null, null, null, null);
-    return TRUE;
+    return True;
 }
 
 private void miDCPutBits(DrawablePtr pDrawable, GCPtr sourceGC, GCPtr maskGC, int x_org, int y_org, uint w, uint h, c_ulong source, c_ulong mask)
@@ -337,7 +336,7 @@ private GCPtr miDCMakeGC(WindowPtr pWin)
     XID[2] gcvals = void;
 
     gcvals[0] = IncludeInferiors;
-    gcvals[1] = FALSE;
+    gcvals[1] = False;
     pGC = CreateGC(cast(DrawablePtr) pWin,
                    cast(uint)(GCSubwindowMode | GCGraphicsExposures), gcvals.ptr, &status,
                    cast(XID) 0, serverClient);
@@ -351,14 +350,14 @@ bool miDCPutUpCursor(DeviceIntPtr pDev, ScreenPtr pScreen, CursorPtr pCursor, in
     WindowPtr pWin = void;
 
     if (!miDCRealize(pScreen, pCursor))
-        return FALSE;
+        return False;
 
     pWin = pScreen.root;
     pBuffer = mixin(miGetDCDevice!(`pDev`, `pScreen`));
 
     if (pScreenPriv.pPicture) {
         if (!mixin(EnsurePicture!(`pBuffer.pRootPicture`, `&pWin.drawable`, `pWin`)))
-            return FALSE;
+            return False;
         CompositePicture(PictOpOver,
                          pScreenPriv.pPicture,
                          null,
@@ -373,7 +372,7 @@ bool miDCPutUpCursor(DeviceIntPtr pDev, ScreenPtr pScreen, CursorPtr pCursor, in
                     x, y, pCursor.bits.width, pCursor.bits.height,
                     source, mask);
     }
-    return TRUE;
+    return True;
 }
 
 bool miDCSaveUnderCursor(DeviceIntPtr pDev, ScreenPtr pScreen, int x, int y, int w, int h)
@@ -392,7 +391,7 @@ bool miDCSaveUnderCursor(DeviceIntPtr pDev, ScreenPtr pScreen, int x, int y, int
         pBuffer.pSave = pSave =
             (*pScreen.CreatePixmap) (pScreen, w, h, pScreen.rootDepth, 0);
         if (!pSave)
-            return FALSE;
+            return False;
     }
 
     pGC = pBuffer.pSaveGC;
@@ -400,7 +399,7 @@ bool miDCSaveUnderCursor(DeviceIntPtr pDev, ScreenPtr pScreen, int x, int y, int
         ValidateGC(cast(DrawablePtr) pSave, pGC);
     cast(void) (*pGC.ops.CopyArea) (cast(DrawablePtr) pWin, cast(DrawablePtr) pSave, pGC,
                            x, y, w, h, 0, 0);
-    return TRUE;
+    return True;
 }
 
 bool miDCRestoreUnderCursor(DeviceIntPtr pDev, ScreenPtr pScreen, int x, int y, int w, int h)
@@ -415,14 +414,14 @@ bool miDCRestoreUnderCursor(DeviceIntPtr pDev, ScreenPtr pScreen, int x, int y, 
 
     pWin = pScreen.root;
     if (!pSave)
-        return FALSE;
+        return False;
 
     pGC = pBuffer.pRestoreGC;
     if (pWin.drawable.serialNumber != pGC.serialNumber)
         ValidateGC(cast(DrawablePtr) pWin, pGC);
     cast(void) (*pGC.ops.CopyArea) (cast(DrawablePtr) pSave, cast(DrawablePtr) pWin, pGC,
                            0, 0, w, h, x, y);
-    return TRUE;
+    return True;
 }
 
 bool miDCDeviceInitialize(DeviceIntPtr pDev, ScreenPtr pScreen)
@@ -430,7 +429,7 @@ bool miDCDeviceInitialize(DeviceIntPtr pDev, ScreenPtr pScreen)
     miDCBufferPtr pBuffer = void;
 
     if (!DevHasCursor(pDev))
-        return TRUE;
+        return True;
 
     mixin(DIX_FOR_EACH_SCREEN!q{
         WindowPtr pWin;
@@ -466,10 +465,10 @@ bool miDCDeviceInitialize(DeviceIntPtr pDev, ScreenPtr pScreen)
 
 failure:
         miDCDeviceCleanup(pDev, walkScreen);
-        return FALSE;
+        return False;
     });
 
-    return TRUE;
+    return True;
 }
 
 void miDCDeviceCleanup(DeviceIntPtr pDev, ScreenPtr pScreen)

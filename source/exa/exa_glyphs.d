@@ -177,7 +177,7 @@ private Bool exaRealizeGlyphCaches(ScreenPtr pScreen, uint format)
 
     pPictFormat = PictureMatchFormat(pScreen, depth, format);
     if (!pPictFormat)
-        return FALSE;
+        return False;
 
     /* Compute the total vertical size needed for the format */
 
@@ -199,7 +199,7 @@ private Bool exaRealizeGlyphCaches(ScreenPtr pScreen, uint format)
     pPixmap = (*pScreen.CreatePixmap) (pScreen,
                                         CACHE_PICTURE_WIDTH, height, depth, 0);
     if (!pPixmap)
-        return FALSE;
+        return False;
 
     component_alpha = mixin(NeedsComponent!(`pPictFormat.format`));
     pPicture = CreatePicture(0, &pPixmap.drawable, pPictFormat,
@@ -209,7 +209,7 @@ private Bool exaRealizeGlyphCaches(ScreenPtr pScreen, uint format)
     dixDestroyPixmap(pPixmap, 0); /* picture holds a refcount */
 
     if (!pPicture)
-        return FALSE;
+        return False;
 
     /* And store the picture in all the caches for the format */
     for (i = 0; i < EXA_NUM_GLYPH_CACHES; i++) {
@@ -236,11 +236,11 @@ private Bool exaRealizeGlyphCaches(ScreenPtr pScreen, uint format)
 
     /* Each cache references the picture individually */
     FreePicture(cast(void*) pPicture, cast(XID) 0);
-    return TRUE;
+    return True;
 
  bail:
     exaUnrealizeGlyphCaches(pScreen, format);
-    return FALSE;
+    return False;
 }
 
 void exaGlyphsFini(ScreenPtr pScreen)
@@ -262,7 +262,7 @@ private int exaGlyphCacheHashLookup(ExaGlyphCachePtr cache, GlyphPtr pGlyph)
 
     slot = cast(int)(*cast(CARD32*) pGlyph.sha1) % cache.hashSize;
 
-    while (TRUE) {              /* hash table can never be full */
+    while (true) {              /* hash table can never be full */
         int entryPos = cache.hashEntries[slot];
 
         if (entryPos == -1)
@@ -288,7 +288,7 @@ private void exaGlyphCacheHashInsert(ExaGlyphCachePtr cache, GlyphPtr pGlyph, in
 
     slot = cast(int)(*cast(CARD32*) pGlyph.sha1) % cache.hashSize;
 
-    while (TRUE) {              /* hash table can never be full */
+    while (true) {              /* hash table can never be full */
         if (cache.hashEntries[slot] == -1) {
             cache.hashEntries[slot] = pos;
             return;
@@ -307,7 +307,7 @@ private void exaGlyphCacheHashRemove(ExaGlyphCachePtr cache, int pos)
 
     slot = cast(int)(*cast(CARD32*) cache.glyphs[pos].sha1) % cache.hashSize;
 
-    while (TRUE) {              /* hash table can never be full */
+    while (true) {              /* hash table can never be full */
         int entryPos = cache.hashEntries[slot];
 
         if (entryPos == -1)
@@ -392,11 +392,11 @@ private void exaGlyphCacheUploadGlyph(ScreenPtr pScreen, ExaGlyphCachePtr cache,
         ExaMigrationRec[1] pixmaps = void;
 
         /* cache pixmap must have a gpu copy. */
-        pixmaps[0].as_dst = TRUE;
-        pixmaps[0].as_src = FALSE;
+        pixmaps[0].as_dst = True;
+        pixmaps[0].as_src = False;
         pixmaps[0].pPix = pCachePixmap;
         pixmaps[0].pReg = null;
-        exaDoMigration(pixmaps.ptr, 1, TRUE);
+        exaDoMigration(pixmaps.ptr, 1, True);
     }
 
     if (!exaPixmapHasGpuCopy(pCachePixmap))

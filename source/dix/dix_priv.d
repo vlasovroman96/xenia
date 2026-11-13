@@ -259,7 +259,7 @@ void dixFreeScreen(ScreenPtr pScreen);
  * @brief call the screen's UnrealizeWindow proc
  *
  * Calls the Screen's UnrealizeWindow proc and sets pWin->realized
- * to FALSE.
+ * to False.
  *
  * @param pWin the window that's being unrealized
  */
@@ -323,7 +323,7 @@ void dixScreenRaisePixmapDestroy(PixmapPtr pPixmap);
  * @see dixScreenHookPostCreateResources
  * @param pScreen the screen to run on
  *
- * Call the screen's CreateScreenResources() proc, and if it returns TRUE,
+ * Call the screen's CreateScreenResources() proc, and if it returns True,
  * run the installed hooks afterwards.
  *
  * Should only be called by DIX itself.
@@ -343,7 +343,7 @@ Bool dixScreenRaiseCreateResources(ScreenPtr pScreen);
  * @param pEvent        event to be delivered
  * @param filter        filter mask based on event type
  * @param skipClient    don't deliver to this client (if not NULL)
- * @return TRUE when event was delivered
+ * @return True when event was delivered
  */
 // Bool MaybeDeliverEventToClient(WindowPtr pWindow, xEvent* pEvent, Mask filter, ClientPtr skipClient);
 
@@ -363,7 +363,7 @@ Bool dixScreenRaiseCreateResources(ScreenPtr pScreen);
  * @param pWindow       window to act on
  * @param pClient       client to act on
  * @param mask          mask of events to not propagate
- * @param checkOptional set to w/ TRUE when window's optional structure changed
+ * @param checkOptional set to w/ True when window's optional structure changed
  * @return X error code
  */
 // int EventSuppressForWindow(WindowPtr pWindow, ClientPtr pClient, Mask mask, Bool* checkOptional);
@@ -400,7 +400,7 @@ alias ClientSleepProcPtr = Bool function(ClientPtr client, void* closure);
  * @brief signal to sleeping client there's work to do
  *
  * @param pClient   the client to signal to
- * @return TRUE on success
+ * @return True on success
  */
 // Bool dixClientSignal(ClientPtr pClient);
 
@@ -429,7 +429,7 @@ int ClientSignalAll(ClientPtr pClient, ClientSleepProcPtr func, void* closure);
  * @brief check whether client is asleep
  *
  * @param pClient pointer to client structure
- * @return TRUE if client is sleeping and has no work to do
+ * @return True if client is sleeping and has no work to do
  */
 // Bool ClientIsAsleep(ClientPtr pClient);
 
@@ -466,8 +466,8 @@ int ClientSignalAll(ClientPtr pClient, ClientSleepProcPtr func, void* closure);
  * @param pClient pointer to client structure
  * @param pWindow pointer to window structure whose SaveSet is changed
  * @param mode    what to do when client goes away
- * @param toRoot  TRUE to reparent to root when parent's client gone
- * @param map     TRUE if window shall remain mapped
+ * @param toRoot  True to reparent to root when parent's client gone
+ * @param map     True if window shall remain mapped
  * @return X return code
  */
 // XRetCode AlterSaveSetForClient(ClientPtr pClient, WindowPtr pWin, uint mode, Bool toRoot, Bool map);
@@ -583,7 +583,7 @@ CallbackListPtr RootWindowFinalizeCallback;
  *
  * @param parent    the alleged parent
  * @param child     the alleged child
- * @return TRUE if `child` is a child window of `parent`
+ * @return True if `child` is a child window of `parent`
  */
 // Bool WindowIsParent(WindowPtr parent, WindowPtr child);
 
@@ -628,7 +628,7 @@ pragma(inline, true) private ClientPtr dixLookupXIDOwner(XID xid)
  * @return atom ID
  */
 pragma(inline, true) Atom dixAddAtom(const(char)* name) {
-    return MakeAtom(name, cast(uint)strlen(name), TRUE);
+    return MakeAtom(name, cast(uint)strlen(name), True);
 }
 
 /*
@@ -640,7 +640,7 @@ pragma(inline, true) Atom dixAddAtom(const(char)* name) {
  * @return atom ID
  */
 pragma(inline, true) Atom dixGetAtomID(const(char)* name) {
-    return MakeAtom(name, cast(uint)strlen(name), FALSE);
+    return MakeAtom(name, cast(uint)strlen(name), False);
 }
 
 /*

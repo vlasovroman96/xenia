@@ -61,7 +61,7 @@ void present_free_window_notify(present_notify_ptr notify)
 int present_add_window_notify(present_notify_ptr notify)
 {
     WindowPtr window = notify.window;
-    present_window_priv_ptr window_priv = present_get_window_priv(window, TRUE);
+    present_window_priv_ptr window_priv = present_get_window_priv(window, True);
 
     if (!window_priv)
         return BadAlloc;

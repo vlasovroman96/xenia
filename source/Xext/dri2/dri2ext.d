@@ -61,7 +61,7 @@ import Xext.panoramiXsrv;
 import common.swap;
 
 /* For the static extension loader */
-Bool noDRI2Extension = FALSE;
+Bool noDRI2Extension = False;
 
 
 private int DRI2EventBase;
@@ -73,10 +73,10 @@ private Bool validDrawable(ClientPtr client, XID drawable, Mask access_mode, Dra
                                 access_mode);
     if (*status != Success) {
         client.errorValue = cast(uint)drawable;
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 private int ProcDRI2QueryVersion(ClientPtr client)
@@ -109,7 +109,7 @@ private int ProcDRI2Connect(ClientPtr client)
                        &pDraw, &status))
         return status;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     xDRI2ConnectReply reply = { 0 };
 
     if (DRI2Connect(client, pDraw.pScreen,
@@ -215,7 +215,7 @@ private int send_buffers_reply(ClientPtr client, DrawablePtr pDrawable, DRI2Buff
         count: count - skip
     };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     for (i = 0; i < count; i++) {
         xDRI2Buffer buffer = void;

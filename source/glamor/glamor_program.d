@@ -34,6 +34,8 @@ import glamor.glamor;
 import externs.gnu;
 import dix.picture;
 import glamor.glamor_render;
+import common.bools;
+
 // import glamor.glamor_program;
 
 alias glamor_program_location = int;

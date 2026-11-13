@@ -56,7 +56,7 @@ DeviceIntPtr xtestpointer, xtestkeyboard;
 /* Needed for the screen setup, otherwise we crash during sprite initialization */
 private Bool device_cursor_init(DeviceIntPtr dev, ScreenPtr screen)
 {
-    return TRUE;
+    return True;
 }
 
 private void device_cursor_cleanup(DeviceIntPtr dev, ScreenPtr screen)
@@ -141,11 +141,11 @@ private void xtest_properties()
 
     rc = XIChangeDeviceProperty(xtestpointer, xtest_prop,
                                 XA_INTEGER, 8, PropModeReplace, 1, &value,
-                                FALSE);
+                                False);
     assert(rc == BadAccess);
     rc = XIChangeDeviceProperty(xtestkeyboard, xtest_prop,
                                 XA_INTEGER, 8, PropModeReplace, 1, &value,
-                                FALSE);
+                                False);
     assert(rc == BadAccess);
 
     xtest_cleanup();

@@ -13,14 +13,14 @@ import os.log;
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 Bool fbdevHWProbe(pci_device* pPci, const(char)* device, char** namep)
 {
-    return FALSE;
+    return False;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 Bool fbdevHWInit(ScrnInfoPtr pScrn, pci_device* pPci, const(char)* device)
 {
     LogMessageVerb(X_ERROR, 1, "fbdevhw is not available on this platform\n");
-    return FALSE;
+    return False;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -78,7 +78,7 @@ int fbdevHWLinearOffset(ScrnInfoPtr pScrn)
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 Bool fbdevHWUnmapVidmem(ScrnInfoPtr pScrn)
 {
-    return FALSE;
+    return False;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -90,13 +90,13 @@ void* fbdevHWMapMMIO(ScrnInfoPtr pScrn)
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 Bool fbdevHWUnmapMMIO(ScrnInfoPtr pScrn)
 {
-    return FALSE;
+    return False;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 Bool fbdevHWModeInit(ScrnInfoPtr pScrn, DisplayModePtr mode)
 {
-    return FALSE;
+    return False;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -123,7 +123,7 @@ ModeStatus fbdevHWValidMode(ScrnInfoPtr pScrn, DisplayModePtr mode, Bool verbose
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 Bool fbdevHWSwitchMode(ScrnInfoPtr pScrn, DisplayModePtr mode)
 {
-    return FALSE;
+    return False;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -134,7 +134,7 @@ void fbdevHWAdjustFrame(ScrnInfoPtr pScrn, int x, int y)
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 Bool fbdevHWEnterVT(ScrnInfoPtr pScrn)
 {
-    return FALSE;
+    return False;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -150,7 +150,7 @@ void fbdevHWDPMSSet(ScrnInfoPtr pScrn, int mode, int flags)
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 Bool fbdevHWSaveScreen(ScreenPtr pScreen, int mode)
 {
-    return FALSE;
+    return False;
 }
 
 xf86SwitchModeProc fbdevHWSwitchModeWeak()

@@ -155,7 +155,7 @@ static if (DEBUG_PIXMAP) {
 }
 
 enum EXA_MAX_FB =   FB_OVERLAY_MAX;
-/* Returns TRUE if the given planemask covers all the significant bits in the
+/* Returns True if the given planemask covers all the significant bits in the
  * pixel values for pDrawable.
  */
 enum string EXA_PM_IS_SOLID(string _pDrawable, string _pm) = `
@@ -477,7 +477,7 @@ pragma(inline, true) Bool exaGCReadsDestination(DrawablePtr pDrawable, c_ulong p
 {
     return ((alu != GXcopy && alu != GXclear && alu != GXset &&
              alu != GXcopyInverted) || fillStyle == FillStippled ||
-            clientClip != FALSE || !mixin(EXA_PM_IS_SOLID!("pDrawable", "planemask")));
+            clientClip != False || !mixin(EXA_PM_IS_SOLID!("pDrawable", "planemask")));
 }
 
 void exaCopyWindow(WindowPtr pWin, xPoint ptOldOrg, RegionPtr prgnSrc);

@@ -315,7 +315,7 @@ static if(XINERAMA){
         {
             Bool remember_it = noPanoramiXExtension;
 
-            noPanoramiXExtension = TRUE;
+            noPanoramiXExtension = True;
             FreeAllResources();
             noPanoramiXExtension = remember_it;
         }

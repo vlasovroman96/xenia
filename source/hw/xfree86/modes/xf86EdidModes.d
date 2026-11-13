@@ -50,14 +50,14 @@ private void handle_detailed_rblank(detailed_monitor_section* det_mon, void* dat
 {
     if (det_mon.type == DS_RANGES)
         if (det_mon.section.ranges.supported_blanking & CVT_REDUCED)
-            *cast(Bool*) data = TRUE;
+            *cast(Bool*) data = True;
 }
 
 private Bool xf86MonitorSupportsReducedBlanking(xf86MonPtr DDC)
 {
     /* EDID 1.4 explicitly defines RB support */
     if (DDC.ver.revision >= 4) {
-        Bool ret = FALSE;
+        Bool ret = False;
 
         xf86ForEachDetailedBlock(DDC, &handle_detailed_rblank, &ret);
         return ret;
@@ -65,9 +65,9 @@ private Bool xf86MonitorSupportsReducedBlanking(xf86MonPtr DDC)
 
     /* For anything older, assume digital means RB support. Boo. */
     if (DDC.features.input_type)
-        return TRUE;
+        return True;
 
-    return FALSE;
+    return False;
 }
 
 private Bool quirk_prefer_large_60(int scrnIndex, xf86MonPtr DDC_)
@@ -75,74 +75,74 @@ private Bool quirk_prefer_large_60(int scrnIndex, xf86MonPtr DDC_)
     /* Belinea 10 15 55 */
     if (memcmp(DDC_.vendor_.name.ptr, "MAX".ptr, 4) == 0 &&
         ((DDC_.vendor_.prod_id == 1516) || (DDC_.vendor_.prod_id == 0x77e)))
-        return TRUE;
+        return True;
 
     /* Acer AL1706 */
     if (memcmp(DDC_.vendor_.name.ptr, "ACR".ptr, 4) == 0 && DDC_.vendor_.prod_id == 44358)
-        return TRUE;
+        return True;
 
     /* Bug #10814: Samsung SyncMaster 225BW */
     if (memcmp(DDC_.vendor_.name.ptr, "SAM".ptr, 4) == 0 && DDC_.vendor_.prod_id == 596)
-        return TRUE;
+        return True;
 
     /* Bug #10545: Samsung SyncMaster 226BW */
     if (memcmp(DDC_.vendor_.name.ptr, "SAM".ptr, 4) == 0 && DDC_.vendor_.prod_id == 638)
-        return TRUE;
+        return True;
 
     /* Acer F51 */
     if (memcmp(DDC_.vendor_.name.ptr, "API".ptr, 4) == 0 &&
         DDC_.vendor_.prod_id == 0x7602)
-        return TRUE;
+        return True;
 
-    return FALSE;
+    return False;
 }
 
 private Bool quirk_prefer_large_75(int scrnIndex, xf86MonPtr DDC)
 {
     /* Bug #11603: Funai Electronics PM36B */
     if (memcmp(DDC.vendor_.name.ptr, "FCM".ptr, 4) == 0 && DDC.vendor_.prod_id == 13600)
-        return TRUE;
+        return True;
 
-    return FALSE;
+    return False;
 }
 
 private Bool quirk_detailed_h_in_cm(int scrnIndex, xf86MonPtr DDC)
 {
     /* Bug #11603: Funai Electronics PM36B */
     if (memcmp(DDC.vendor_.name.ptr, "FCM".ptr, 4) == 0 && DDC.vendor_.prod_id == 13600)
-        return TRUE;
+        return True;
 
-    return FALSE;
+    return False;
 }
 
 private Bool quirk_detailed_v_in_cm(int scrnIndex, xf86MonPtr DDC)
 {
     /* Bug #11603: Funai Electronics PM36B */
     if (memcmp(DDC.vendor_.name.ptr, "FCM".ptr, 4) == 0 && DDC.vendor_.prod_id == 13600)
-        return TRUE;
+        return True;
 
     /* Bug #21000: LGPhilipsLCD LP154W01-TLAJ */
     if (memcmp(DDC.vendor_.name.ptr, "LPL".ptr, 4) == 0 && DDC.vendor_.prod_id == 47360)
-        return TRUE;
+        return True;
 
     /* Bug #10304: LGPhilipsLCD LP154W01-A5 */
     if (memcmp(DDC.vendor_.name.ptr, "LPL".ptr, 4) == 0 && DDC.vendor_.prod_id == 0)
-        return TRUE;
+        return True;
 
     /* Bug #24482: LGPhilipsLCD LP154W01-TLA1 */
     if (memcmp(DDC.vendor_.name.ptr, "LPL".ptr, 4) == 0 &&
         DDC.vendor_.prod_id == 0x2a00)
-        return TRUE;
+        return True;
 
     /* Bug #28414: HP Compaq NC8430 LP154W01-TLA8 */
     if (memcmp(DDC.vendor_.name.ptr, "LPL".ptr, 4) == 0 && DDC.vendor_.prod_id == 5750)
-        return TRUE;
+        return True;
 
     /* Bug #21750: Samsung Syncmaster 2333HD */
     if (memcmp(DDC.vendor_.name.ptr, "SAM".ptr, 4) == 0 && DDC.vendor_.prod_id == 1157)
-        return TRUE;
+        return True;
 
-    return FALSE;
+    return False;
 }
 
 private Bool quirk_detailed_use_maximum_size(int scrnIndex, xf86MonPtr DDC)
@@ -150,61 +150,61 @@ private Bool quirk_detailed_use_maximum_size(int scrnIndex, xf86MonPtr DDC)
     /* ADA 1024x600 7" display */
     if (memcmp(DDC.vendor_.name.ptr, "ADA".ptr, 4) == 0 &&
         DDC.vendor_.prod_id == 4)
-        return TRUE;
+        return True;
 
     /* Bug #21324: Iiyama Vision Master 450 */
     if (memcmp(DDC.vendor_.name.ptr, "IVM".ptr, 4) == 0 && DDC.vendor_.prod_id == 6400)
-        return TRUE;
+        return True;
 
     /* Bug #41141: Acer Aspire One */
     if (memcmp(DDC.vendor_.name.ptr, "LGD".ptr, 4) == 0 &&
         DDC.vendor_.prod_id == 0x7f01)
-        return TRUE;
+        return True;
 
     /* Sony Vaio Pro 13 */
     if (memcmp(DDC.vendor_.name.ptr, "MEI".ptr, 4) == 0 &&
         DDC.vendor_.prod_id == 0x96a2)
-        return TRUE;
+        return True;
 
-    return FALSE;
+    return False;
 }
 
 private Bool quirk_135_clock_too_high(int scrnIndex, xf86MonPtr DDC)
 {
     /* Envision Peripherals, Inc. EN-7100e.  See bug #9550. */
     if (memcmp(DDC.vendor_.name.ptr, "EPI".ptr, 4) == 0 && DDC.vendor_.prod_id == 59264)
-        return TRUE;
+        return True;
 
-    return FALSE;
+    return False;
 }
 
 private Bool quirk_first_detailed_preferred(int scrnIndex, xf86MonPtr DDC)
 {
     /* Philips 107p5 CRT. Reported on xorg@ with pastebin. */
     if (memcmp(DDC.vendor_.name.ptr, "PHL".ptr, 4) == 0 && DDC.vendor_.prod_id == 57364)
-        return TRUE;
+        return True;
 
     /* Proview AY765C 17" LCD. See bug #15160 */
     if (memcmp(DDC.vendor_.name.ptr, "PTS".ptr, 4) == 0 && DDC.vendor_.prod_id == 765)
-        return TRUE;
+        return True;
 
     /* ACR of some sort RH #284231 */
     if (memcmp(DDC.vendor_.name.ptr, "ACR".ptr, 4) == 0 && DDC.vendor_.prod_id == 2423)
-        return TRUE;
+        return True;
 
     /* Peacock Ergovision 19.  See rh#492359 */
     if (memcmp(DDC.vendor_.name.ptr, "PEA".ptr, 4) == 0 && DDC.vendor_.prod_id == 9003)
-        return TRUE;
+        return True;
 
-    return FALSE;
+    return False;
 }
 
 private Bool quirk_detailed_sync_pp(int scrnIndex, xf86MonPtr DDC)
 {
     /* Bug #12439: Samsung SyncMaster 205BW */
     if (memcmp(DDC.vendor_.name.ptr, "SAM".ptr, 4) == 0 && DDC.vendor_.prod_id == 541)
-        return TRUE;
-    return FALSE;
+        return True;
+    return False;
 }
 
 /* This should probably be made more generic */
@@ -213,8 +213,8 @@ private Bool quirk_dvi_single_link(int scrnIndex, xf86MonPtr DDC)
     /* Red Hat bug #453106: Apple 23" Cinema Display */
     if (memcmp(DDC.vendor_.name.ptr, "APL".ptr, 4) == 0 &&
         DDC.vendor_.prod_id == 0x921c)
-        return TRUE;
-    return FALSE;
+        return True;
+    return False;
 }
 
 struct ddc_quirk_map_t {
@@ -502,7 +502,7 @@ private DisplayModePtr DDCModesFromStandardTiming(DisplayModePtr pool, std_timin
 
         /* HDTV hack, because you can't say 1366 */
         if (refresh == 60 && hsize == 1366 && vsize == 768) {
-            Mode = xf86CVTMode(1366, 768, 60, FALSE, FALSE);
+            Mode = xf86CVTMode(1366, 768, 60, False, False);
             Mode.HDisplay = 1366;
             Mode.HSyncStart--;
             Mode.HSyncEnd--;
@@ -513,9 +513,9 @@ private DisplayModePtr DDCModesFromStandardTiming(DisplayModePtr pool, std_timin
             if (!Mode) {
                 if (timing_level == LEVEL_CVT)
                     /* pass rb here too? */
-                    Mode = xf86CVTMode(hsize, vsize, refresh, FALSE, FALSE);
+                    Mode = xf86CVTMode(hsize, vsize, refresh, False, False);
                 else if (timing_level == LEVEL_GTF)
-                    Mode = xf86GTFMode(hsize, vsize, refresh, FALSE, FALSE);
+                    Mode = xf86GTFMode(hsize, vsize, refresh, False, False);
             }
 
         }
@@ -863,7 +863,7 @@ void xf86DetTimingApplyQuirks(detailed_monitor_section* det_mon, ddc_quirk_t qui
  */
 void xf86DDCApplyQuirks(int scrnIndex, xf86MonPtr DDC)
 {
-    ddc_quirk_t quirks = xf86DDCDetectQuirks(scrnIndex, DDC, FALSE);
+    ddc_quirk_t quirks = xf86DDCDetectQuirks(scrnIndex, DDC, False);
     int i = void;
 
     for (i = 0; i < DET_TIMINGS; i++) {
@@ -1019,7 +1019,7 @@ private void handle_detailed_modes(detailed_monitor_section* det_mon, void* data
         Mode = DDCModeFromDetailedTiming(p.DDC.scrnIndex,
                                          &det_mon.section.d_timings,
                                          p.preferred, p.quirks);
-        p.preferred = FALSE;
+        p.preferred = False;
         p.Modes = xf86ModesAdd(p.Modes, Mode);
         break;
     case DS_STD_TIMINGS:
@@ -1052,15 +1052,15 @@ DisplayModePtr xf86DDCGetModes(int scrnIndex, xf86MonPtr DDC)
     xf86DrvMsg(scrnIndex, X_INFO, "EDID vendor \"%s\", prod id %d\n",
                DDC.vendor_.name.ptr, DDC.vendor_.prod_id);
 
-    quirks = xf86DDCDetectQuirks(scrnIndex, DDC, TRUE);
+    quirks = xf86DDCDetectQuirks(scrnIndex, DDC, True);
 
     preferred = mixin(PREFERRED_TIMING_MODE!("DDC.features.msc"));
     if (DDC.ver.revision >= 4)
-        preferred = TRUE;
+        preferred = True;
     if (quirks & DDC_QUIRK_FIRST_DETAILED_PREFERRED)
-        preferred = TRUE;
+        preferred = True;
     if (quirks & (DDC_QUIRK_PREFER_LARGE_60 | DDC_QUIRK_PREFER_LARGE_75))
-        preferred = FALSE;
+        preferred = False;
 
     rb = xf86MonitorSupportsReducedBlanking(DDC);
 
@@ -1181,7 +1181,7 @@ void xf86EdidMonitorSet(int scrnIndex, MonPtr Monitor, xf86MonPtr DDC)
 
     /* Go through the detailed monitor sections */
     p.Monitor = Monitor;
-    p.quirks = xf86DDCDetectQuirks(scrnIndex, cast(_Xf86Monitor*)Monitor.DDC, FALSE);
+    p.quirks = xf86DDCDetectQuirks(scrnIndex, cast(_Xf86Monitor*)Monitor.DDC, False);
     p.have_hsync = (Monitor.nHsync != 0);
     p.have_vrefresh = (Monitor.nVrefresh != 0);
     p.have_maxpixclock = (Monitor.maxPixClock != 0);

@@ -78,7 +78,7 @@ private void touch_grow_queue()
 
     assert(dev.last.touches);
     for (i = 0; i < size; i++) {
-        dev.last.touches[i].active = TRUE;
+        dev.last.touches[i].active = True;
         dev.last.touches[i].ddx_id = i;
         dev.last.touches[i].client_id = i * 2;
     }
@@ -93,12 +93,12 @@ private void touch_grow_queue()
     for (i = 0; i < size; i++) {
         DDXTouchPointInfoPtr t = &dev.last.touches[i];
 
-        assert(t.active == TRUE);
+        assert(t.active == True);
         assert(t.ddx_id == i);
         assert(t.client_id == i * 2);
     }
 
-    assert(dev.last.touches[size].active == TRUE);
+    assert(dev.last.touches[size].active == True);
     assert(dev.last.touches[size].ddx_id == 1234);
     assert(dev.last.touches[size].client_id == 1);
 
@@ -106,7 +106,7 @@ private void touch_grow_queue()
     for (i = size + 1; i < new_size; i++) {
         DDXTouchPointInfoPtr t = &dev.last.touches[i];
 
-        assert(t.active == FALSE);
+        assert(t.active == False);
         assert(t.client_id == 0);
         assert(t.ddx_id == 0);
     }
@@ -140,48 +140,48 @@ private void touch_find_ddxid()
     inputInfo.devices = &dev;
     assert(dev.last.touches);
 
-    dev.last.touches[0].active = TRUE;
+    dev.last.touches[0].active = True;
     dev.last.touches[0].ddx_id = 10;
     dev.last.touches[0].client_id = 20;
 
     /* existing */
-    ti = TouchFindByDDXID(&dev, 10, FALSE);
+    ti = TouchFindByDDXID(&dev, 10, False);
     assert(ti == &dev.last.touches[0]);
 
     /* non-existing */
-    ti = TouchFindByDDXID(&dev, 20, FALSE);
+    ti = TouchFindByDDXID(&dev, 20, False);
     assert(ti is null);
 
     /* Non-active */
-    dev.last.touches[0].active = FALSE;
-    ti = TouchFindByDDXID(&dev, 10, FALSE);
+    dev.last.touches[0].active = False;
+    ti = TouchFindByDDXID(&dev, 10, False);
     assert(ti is null);
 
     /* create on number 2 */
-    dev.last.touches[0].active = TRUE;
+    dev.last.touches[0].active = True;
 
-    ti = TouchFindByDDXID(&dev, 20, TRUE);
+    ti = TouchFindByDDXID(&dev, 20, True);
     assert(ti == &dev.last.touches[1]);
     assert(ti.active);
     assert(ti.ddx_id == 20);
 
     /* set all to active */
     for (i = 0; i < size; i++)
-        dev.last.touches[i].active = TRUE;
+        dev.last.touches[i].active = True;
 
     /* Try to create more, succeed */
-    ti = TouchFindByDDXID(&dev, 30, TRUE);
+    ti = TouchFindByDDXID(&dev, 30, True);
     assert(ti !is null);
-    ti2 = TouchFindByDDXID(&dev, 30, TRUE);
+    ti2 = TouchFindByDDXID(&dev, 30, True);
     assert(ti == ti2);
     /* make sure we have resized */
     assert(dev.last.num_touches == 8); /* EQ grows from 5 to 8 */
 
     /* stop one touchpoint, try to create, succeed */
-    dev.last.touches[2].active = FALSE;
-    ti = TouchFindByDDXID(&dev, 35, TRUE);
+    dev.last.touches[2].active = False;
+    ti = TouchFindByDDXID(&dev, 35, True);
     assert(ti == &dev.last.touches[2]);
-    ti = TouchFindByDDXID(&dev, 40, TRUE);
+    ti = TouchFindByDDXID(&dev, 40, True);
     assert(ti == &dev.last.touches[size+1]);
 
     free_device(&dev);
@@ -253,7 +253,7 @@ private void touch_begin_touch()
     dev.name = XNFstrdup("test device");
     dev.id = 2;
 
-    ti = TouchBeginTouch(&dev, sourceid, touchid, TRUE);
+    ti = TouchBeginTouch(&dev, sourceid, touchid, True);
     assert(!ti);
 
     InitValuatorClassDeviceStruct(&dev, 2, labels.ptr, 10, Absolute);
@@ -262,7 +262,7 @@ private void touch_begin_touch()
     memset(&sprite, 0, sprite.sizeof);
     dev.spriteInfo = &sprite;
 
-    ti = TouchBeginTouch(&dev, sourceid, touchid, TRUE);
+    ti = TouchBeginTouch(&dev, sourceid, touchid, True);
     assert(ti);
     assert(ti.client_id == touchid);
     assert(ti.active);
@@ -293,11 +293,11 @@ private void touch_init()
 
     InitAtoms();
     rc = InitTouchClassDeviceStruct(&dev, 1, XIDirectTouch, 2);
-    assert(rc == FALSE);
+    assert(rc == False);
 
     InitValuatorClassDeviceStruct(&dev, 2, labels.ptr, 10, Absolute);
     rc = InitTouchClassDeviceStruct(&dev, 1, XIDirectTouch, 2);
-    assert(rc == TRUE);
+    assert(rc == True);
     assert(dev.touch);
 
     free_device(&dev);

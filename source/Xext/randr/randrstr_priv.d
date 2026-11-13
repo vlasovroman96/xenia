@@ -148,7 +148,7 @@ void RRDeliverScreenEvent(ClientPtr pClient, WindowPtr pWin, ScreenPtr pScreen);
 /*
  * Initialize randr subsystem
  *
- * @return TRUE on success
+ * @return True on success
  */
 // Bool RRInit();
 
@@ -173,7 +173,7 @@ void RRDeliverScreenEvent(ClientPtr pClient, WindowPtr pWin, ScreenPtr pScreen);
  *
  * @param pScreen the screen to check on
  * @param findCrtc the Crtc to check for
- * @return TRUE if given CRTC belongs to pScreen / secondard screens
+ * @return True if given CRTC belongs to pScreen / secondard screens
  */
 Bool RRCrtcExists(ScreenPtr pScreen, RRCrtcPtr findCrtc);
 
@@ -214,7 +214,7 @@ Bool RRReplaceScanoutPixmap(DrawablePtr pDrawable, PixmapPtr pPixmap, Bool enabl
  * Check whether given screen has any scanout pixmap attached
  *
  * @param pScreen the screen to check
- * @return TRUE if the screen has a scanout pixmap attached
+ * @return True if the screen has a scanout pixmap attached
  */
 Bool RRHasScanoutPixmap(ScreenPtr pScreen);
 
@@ -236,7 +236,7 @@ void RRLeaseFree(RRLeasePtr lease);
  * Check whether given CRTC has an active lease
  *
  * @param crtc    the CRTC to check
- * @return TRUE if there is any active lease on that CRTC
+ * @return True if there is any active lease on that CRTC
  */
 Bool RRCrtcIsLeased(RRCrtcPtr crtc);
 
@@ -244,7 +244,7 @@ Bool RRCrtcIsLeased(RRCrtcPtr crtc);
  * Check whether given output is leased
  *
  * @param output  the output to check
- * @return TRUE if theere is any active lease on that output
+ * @return True if theere is any active lease on that output
  */
 Bool RROutputIsLeased(RROutputPtr output);
 
@@ -263,14 +263,14 @@ Bool RROutputIsLeased(RROutputPtr output);
 /*
  * Initialize mode resource type
  *
- * @return TRUE on success
+ * @return True on success
  */
 Bool RRModeInit();
 
 /*
  * Initialize mode type error value
  *
- * @return TRUE on success
+ * @return True on success
  */
 void RRModeInitErrorValue();
 
@@ -305,7 +305,7 @@ void RRDeliverOutputEvent(ClientPtr pClient, WindowPtr pWin, RROutputPtr output)
 /*
  * Initialize output resource type
  *
- * @return TRUE on success
+ * @return True on success
  */
 Bool RROutputInit();
 
@@ -341,7 +341,7 @@ void RRPointerScreenConfigured(ScreenPtr pScreen);
 /*
  * Initialize render provider resource type
  *
- * @return TRUE on success
+ * @return True on success
  */
 Bool RRProviderInit();
 
@@ -379,7 +379,7 @@ void RRProviderAutoConfigGpuScreen(ScreenPtr pScreen, ScreenPtr primaryScreen);
  *
  * @param provider  the provider to query
  * @param property  Atom ID of the property to retrieve
- * @param pending   TRUE if pending (instead of current) value shall be fetched
+ * @param pending   True if pending (instead of current) value shall be fetched
  * @return pointer to property value if found, otherwise NULL
  */
 RRPropertyValuePtr RRGetProviderProperty(RRProviderPtr provider, Atom property, Bool pending);
@@ -411,8 +411,8 @@ void RRDeleteProviderProperty(RRProviderPtr provider, Atom property);
  * @param format    format (8/16/32) of the new property value
  * @param len       length in (format specific) units of the new property value
  * @param value     pointer to value data
- * @param sendevent TRUE when change notify event shall be sent
- * @param pending   TRUE when pending instead of current value shall be changed
+ * @param sendevent True when change notify event shall be sent
+ * @param pending   True when pending instead of current value shall be changed
  * @return X error code
  */
 int RRChangeProviderProperty(RRProviderPtr provider, Atom property, Atom type, int format, int mode, c_ulong len, void* value, Bool sendevent, Bool pending);
@@ -422,9 +422,9 @@ int RRChangeProviderProperty(RRProviderPtr provider, Atom property, Atom type, i
  *
  * @param provider  the provider to configure property in
  * @param property  Atom ID of the property
- * @param pending   TRUE on pending value
- * @param range     TRUE when limited range
- * @param immutable TRUE when it's immutable
+ * @param pending   True on pending value
+ * @param range     True when limited range
+ * @param immutable True when it's immutable
  * @param num_values number of allowed values
  * @param values     allowed values (array of num_values length)
  */
@@ -447,7 +447,7 @@ void RRXineramaExtensionInit();
  *
  * @param a   first transform
  * @param b   second transform
- * @return TRUE if both transforms are equal
+ * @return True if both transforms are equal
  */
 // Bool RRTransformEqual(RRTransformPtr a, RRTransformPtr b);
 
@@ -456,7 +456,7 @@ void RRXineramaExtensionInit();
  *
  * @param dst destination structure pointer
  * @param src source structure pointer
- * @return TRUE on success
+ * @return True on success
  */
 // Bool RRTransformCopy(RRTransformPtr dst, RRTransformPtr src);
 

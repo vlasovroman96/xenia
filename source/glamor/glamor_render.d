@@ -52,6 +52,7 @@ import render.picture;
 import render.mipict;
 import dix.picture;
 import common.math;
+import common.bools;
 
 alias uint32_t = core.stdc.stdint.uint32_t;
 

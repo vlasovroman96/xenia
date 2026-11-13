@@ -185,7 +185,7 @@ private Bool ephyrRealizeCursor(DeviceIntPtr dev, ScreenPtr screen, CursorPtr cu
     {
         ephyrRealizeCoreCursor(scr, cursor);
     }
-    return TRUE;
+    return True;
 }
 
 private Bool ephyrUnrealizeCursor(DeviceIntPtr dev, ScreenPtr screen, CursorPtr cursor)
@@ -197,7 +197,7 @@ private Bool ephyrUnrealizeCursor(DeviceIntPtr dev, ScreenPtr screen, CursorPtr 
         hw.cursor = None;
     }
 
-    return TRUE;
+    return True;
 }
 
 private void ephyrSetCursor(DeviceIntPtr dev, ScreenPtr screen, CursorPtr cursor, int x, int y)
@@ -223,7 +223,7 @@ private void ephyrMoveCursor(DeviceIntPtr dev, ScreenPtr screen, int x, int y)
 
 private Bool ephyrDeviceCursorInitialize(DeviceIntPtr dev, ScreenPtr screen)
 {
-    return TRUE;
+    return True;
 }
 
 private void ephyrDeviceCursorCleanup(DeviceIntPtr dev, ScreenPtr screen)
@@ -243,11 +243,11 @@ Bool ephyrCursorInit(ScreenPtr screen)
 {
     if (!dixRegisterPrivateKey(&ephyrCursorPrivateKey, PRIVATE_CURSOR,
                                ephyrCursorRec.sizeof))
-        return FALSE;
+        return False;
 
     miPointerInitialize(screen,
                         &EphyrPointerSpriteFuncs,
-                        &ephyrPointerScreenFuncs, FALSE);
+                        &ephyrPointerScreenFuncs, False);
 
-    return TRUE;
+    return True;
 }

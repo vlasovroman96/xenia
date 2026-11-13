@@ -302,9 +302,9 @@ private Bool ShouldSkipDevice(ClientPtr client, DeviceIntPtr d)
         int rc = dixCallDeviceAccessCallback(client, d, DixGetAttrAccess);
 
         if (rc == Success)
-            return FALSE;
+            return False;
     }
-    return TRUE;
+    return True;
 }
 
 /***********************************************************************
@@ -355,7 +355,7 @@ int ProcXListInputDevices(ClientPtr client)
         numdevs++;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     /* allocate space for reply */
     total_length = cast(int)(numdevs * (xDeviceInfo).sizeof + size + namesize);

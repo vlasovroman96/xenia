@@ -243,7 +243,7 @@ RegionPtr miHandleExposures(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, 
          */
         if (extents && pSrcWin && region &&
             (RegionContainsRect(region, &srcBox) != rgnIN))
-            extents = FALSE;
+            extents = False;
     }
     if (extents) {
         expBox = *RegionExtents(&rgnExposed);
@@ -410,7 +410,7 @@ void miPaintWindow(WindowPtr pWin, RegionPtr prgn, int what)
      */
     int tile_x_off = void, tile_y_off = void;
     PixUnion fill = void;
-    Bool solid = TRUE;
+    Bool solid = True;
     DrawablePtr drawable = &pWin.drawable;
 
     if (what == PW_BACKGROUND) {
@@ -429,7 +429,7 @@ void miPaintWindow(WindowPtr pWin, RegionPtr prgn, int what)
         case None:
             return;
         case BackgroundPixmap:
-            solid = FALSE;
+            solid = False;
             break;
         default: break;}
     }

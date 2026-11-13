@@ -70,15 +70,15 @@ void miTrapezoidBounds(int ntrap, xTrapezoid* traps, BoxPtr box)
         if (y2 > box.y2)
             box.y2 = y2;
 
-        x1 = cast(short)mixin(xFixedToInt!("min(miLineFixedX(&traps.left, cast(int)traps.top, FALSE),
-                             miLineFixedX(&traps.left, cast(int)traps.bottom, FALSE))"));
+        x1 = cast(short)mixin(xFixedToInt!("min(miLineFixedX(&traps.left, cast(int)traps.top, False),
+                             miLineFixedX(&traps.left, cast(int)traps.bottom, False))"));
         if (x1 < box.x1)
             box.x1 = x1;
 
         x2 = cast(short)mixin(xFixedToInt!(xFixedCeil!
                          ("max
-                          (miLineFixedX(&traps.right, cast(int)traps.top, TRUE),
-                           miLineFixedX(&traps.right, cast(int)traps.bottom, TRUE))")));
+                          (miLineFixedX(&traps.right, cast(int)traps.top, True),
+                           miLineFixedX(&traps.right, cast(int)traps.bottom, True))")));
         if (x2 > box.x2)
             box.x2 = x2;
     }

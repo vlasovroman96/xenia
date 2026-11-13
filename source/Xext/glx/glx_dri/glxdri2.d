@@ -62,6 +62,7 @@ import hw.xfree86.parser.Flags;
 import Xext.glx.fix;
 import dix.dixutils;
 import hw.xfree86.common.xf86Option;
+import common.bools;
 
 alias BadLength = x11.X.BadLength;
 alias BadAlloc = x11.X.BadAlloc;

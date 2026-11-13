@@ -68,17 +68,17 @@ alias EXAOPT_OPTIMIZE_MIGRATION = EXAOpts.EXAOPT_OPTIMIZE_MIGRATION;
 
 private const(OptionInfoRec)[6] EXAOptions = [
     {EXAOPT_MIGRATION_HEURISTIC, "MigrationHeuristic",
-     OPTV_ANYSTR, {0}, FALSE},
+     OPTV_ANYSTR, {0}, False},
     {EXAOPT_NO_COMPOSITE, "EXANoComposite",
-     OPTV_BOOLEAN, {0}, FALSE},
+     OPTV_BOOLEAN, {0}, False},
     {EXAOPT_NO_UTS, "EXANoUploadToScreen",
-     OPTV_BOOLEAN, {0}, FALSE},
+     OPTV_BOOLEAN, {0}, False},
     {EXAOPT_NO_DFS, "EXANoDownloadFromScreen",
-     OPTV_BOOLEAN, {0}, FALSE},
+     OPTV_BOOLEAN, {0}, False},
     {EXAOPT_OPTIMIZE_MIGRATION, "EXAOptimizeMigration",
-     OPTV_BOOLEAN, {0}, FALSE},
+     OPTV_BOOLEAN, {0}, False},
     {-1, null,
-     OPTV_NONE, {0}, FALSE}
+     OPTV_NONE, {0}, False}
 ];
 
 private void exaXorgCloseScreen(CallbackListPtr* pcbl, ScreenPtr pScreen, void* unused)
@@ -160,10 +160,10 @@ void exaDDXDriverInit(ScreenPtr pScreen)
 
         pExaScr.optimize_migration =
             xf86ReturnOptValBool(pScreenPriv.options,
-                                 EXAOPT_OPTIMIZE_MIGRATION, TRUE);
+                                 EXAOPT_OPTIMIZE_MIGRATION, True);
     }
 
-    if (xf86ReturnOptValBool(pScreenPriv.options, EXAOPT_NO_COMPOSITE, FALSE)) {
+    if (xf86ReturnOptValBool(pScreenPriv.options, EXAOPT_NO_COMPOSITE, False)) {
         xf86DrvMsg(pScreen.myNum, X_CONFIG,
                    "EXA: Disabling Composite operation "
                    ~ "(RENDER acceleration)\n");
@@ -171,12 +171,12 @@ void exaDDXDriverInit(ScreenPtr pScreen)
         pExaScr.info.PrepareComposite = null;
     }
 
-    if (xf86ReturnOptValBool(pScreenPriv.options, EXAOPT_NO_UTS, FALSE)) {
+    if (xf86ReturnOptValBool(pScreenPriv.options, EXAOPT_NO_UTS, False)) {
         xf86DrvMsg(pScreen.myNum, X_CONFIG, "EXA: Disabling UploadToScreen\n");
         pExaScr.info.UploadToScreen = null;
     }
 
-    if (xf86ReturnOptValBool(pScreenPriv.options, EXAOPT_NO_DFS, FALSE)) {
+    if (xf86ReturnOptValBool(pScreenPriv.options, EXAOPT_NO_DFS, False)) {
         xf86DrvMsg(pScreen.myNum, X_CONFIG,
                    "EXA: Disabling DownloadFromScreen\n");
         pExaScr.info.DownloadFromScreen = null;

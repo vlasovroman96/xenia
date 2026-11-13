@@ -95,7 +95,7 @@ enum string MI_OUTPUT_POINT(string xx, string yy) = `
 	spans.y = cast(short)(` ~ yy ~ `);
 	*widths = 1;
 	current_y = ` ~ yy ~ `;
-        new_span = FALSE;
+        new_span = False;
     }
 }`;
 
@@ -158,7 +158,7 @@ void miZeroLine(DrawablePtr pDraw, GCPtr pGC, int mode, int npt, xPoint* pptInit
         return;
     }
     Nspans = 0;
-    new_span = TRUE;
+    new_span = True;
     spans = pspanInit - 1;
     widths = pwidthInit - 1;
     ppt = pptInit;
@@ -202,12 +202,12 @@ void miZeroLine(DrawablePtr pDraw, GCPtr pGC, int mode, int npt, xPoint* pptInit
 
         if (ady + 1 > (list_len - Nspans)) {
             (*pGC.ops.FillSpans) (pDraw, pGC, Nspans, pspanInit,
-                                    pwidthInit, FALSE);
+                                    pwidthInit, False);
             Nspans = 0;
             spans = pspanInit - 1;
             widths = pwidthInit - 1;
         }
-        new_span = TRUE;
+        new_span = True;
         if (adx > ady) {
             e1 = ady << 1;
             e2 = e1 - (adx << 1);
@@ -340,7 +340,7 @@ void miZeroLine(DrawablePtr pDraw, GCPtr pGC, int mode, int npt, xPoint* pptInit
 
     if (Nspans > 0)
         (*pGC.ops.FillSpans) (pDraw, pGC, Nspans, pspanInit,
-                                pwidthInit, FALSE);
+                                pwidthInit, False);
 
     free(pwidthInit);
     free(pspanInit);

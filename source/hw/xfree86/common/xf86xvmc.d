@@ -268,19 +268,19 @@ Bool xf86XvMCScreenInit(ScreenPtr pScreen, int num_adaptors, XF86MCAdaptorPtr* a
     int i = void, j = void;
 
     if (noXvExtension)
-        return FALSE;
+        return False;
 
     if (((pAdapt = cast(XvMCAdaptorRec*)calloc(num_adaptors, XvMCAdaptorRec.sizeof)) is null))
-        return FALSE;
+        return False;
 
     if (!dixRegisterPrivateKey(&XF86XvMCScreenKeyRec, PRIVATE_SCREEN, 0)) {
         free(pAdapt);
-        return FALSE;
+        return False;
     }
 
     if (((pScreenPriv = cast(xf86XvMCScreenRec*) calloc(1, xf86XvMCScreenRec.sizeof)) is null)) {
         free(pAdapt);
-        return FALSE;
+        return False;
     }
 
     dixSetPrivate(&pScreen.devPrivates, XF86XvMCScreenKey, pScreenPriv);
@@ -302,7 +302,7 @@ Bool xf86XvMCScreenInit(ScreenPtr pScreen, int num_adaptors, XF86MCAdaptorPtr* a
             /* no adaptor by that name */
             pScreenPriv.dixinfo = null;
             free(pAdapt);
-            return FALSE;
+            return False;
         }
         pAdapt[i].num_surfaces = (*adaptors).num_surfaces;
         pAdapt[i].surfaces = cast(XvMCSurfaceInfoPtr*) ((*adaptors).surfaces);
@@ -318,9 +318,9 @@ Bool xf86XvMCScreenInit(ScreenPtr pScreen, int num_adaptors, XF86MCAdaptorPtr* a
     }
 
     if (Success != XvMCScreenInit(pScreen, num_adaptors, pAdapt))
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 XF86MCAdaptorPtr xf86XvMCCreateAdaptorRec()

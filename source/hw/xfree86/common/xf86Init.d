@@ -128,10 +128,10 @@ import std.conv;
 import hw.xfree86.common.xf86Helper;
 import os.utils;
 
-Bool xf86DoShowOptions = FALSE;
+Bool xf86DoShowOptions = False;
 
 void function() xf86OSPMClose = null;
-private Bool xorgHWOpenConsole = FALSE;
+private Bool xorgHWOpenConsole = False;
 
 /* Common pixmap formats */
 
@@ -146,7 +146,7 @@ private PixmapFormatRec[MAXFORMATS] formats = [
 ];
 
 private int numFormats = 7;
-private Bool formatsDone = FALSE;
+private Bool formatsDone = False;
 
 
 private void xf86PrintBanner()
@@ -223,7 +223,7 @@ version (linux) {
     stat_t tty0devAttributes = void;
     return (stat("/dev/tty0", &tty0devAttributes) == 0 && major(tty0devAttributes.st_rdev) == TTY_MAJOR);
 } else {
-    return TRUE;
+    return True;
 }
 }
 
@@ -249,7 +249,7 @@ private void AddSeatId(CallbackListPtr* pcbl, void* data, void* screen)
 
     err = dixChangeWindowProperty(serverClient, pScreen.root, SeatAtom,
                                   XA_STRING, 8, PropModeReplace,
-                                  strlen(cast(char*)data) + 1, data, FALSE);
+                                  strlen(cast(char*)data) + 1, data, False);
 
     if (err != Success)
         xf86DrvMsg(pScreen.myNum, X_WARNING,
@@ -266,11 +266,11 @@ enum VT_ATOM_NAME =         "XFree86_VT";
 
     err = dixChangeWindowProperty(serverClient, pScreen.root, VTAtom,
                                   XA_INTEGER, 32, PropModeReplace, 1,
-                                  &xf86Info.vtno, FALSE);
+                                  &xf86Info.vtno, False);
 
     err |= dixChangeWindowProperty(serverClient, pScreen.root, HasVTAtom,
                                    XA_INTEGER, 32, PropModeReplace, 1,
-                                   &HasVT, FALSE);
+                                   &HasVT, False);
 
     if (err != Success)
         xf86DrvMsg(pScreen.myNum, X_WARNING,
@@ -306,12 +306,12 @@ void InitOutput(int argc, char** argv)
     int i = void, j = void, k = void, scr_index = void;
     const(char)** modulelist = void;
     void** optionlist = void;
-    Bool autoconfig = FALSE;
-    Bool sigio_blocked = FALSE;
-    Bool want_hw_access = FALSE;
+    Bool autoconfig = False;
+    Bool sigio_blocked = False;
+    Bool want_hw_access = False;
     GDevPtr configured_device = void;
 
-    xf86Initialising = TRUE;
+    xf86Initialising = True;
 
     config_pre_init();
 
@@ -334,14 +334,14 @@ void InitOutput(int argc, char** argv)
 
         /* Read and parse the config file */
         if (!xf86DoConfigure && !xf86DoShowOptions) {
-            switch (xf86HandleConfigFile(FALSE)) {
+            switch (xf86HandleConfigFile(False)) {
             case _ConfigStatus.CONFIG_OK:
                 break;
             case _ConfigStatus.CONFIG_PARSE_ERROR:
                 LogMessageVerb(X_ERROR, 1, "Error parsing the config file\n");
                 return;
             case _ConfigStatus.CONFIG_NOFILE:
-                autoconfig = TRUE;
+                autoconfig = True;
                 break;
             default: break;}
         }
@@ -481,11 +481,11 @@ void InitOutput(int argc, char** argv)
                                               &flags);
 
             if (mixin(NEED_IO_ENABLED!("flags")))
-                want_hw_access = TRUE;
+                want_hw_access = True;
 
             /* Non-seat0 X servers should not open console */
             if (!(flags & HW_SKIP_CONSOLE) && !mixin(ServerIsNotSeat0!()) && xf86HasTTYs())
-                xorgHWOpenConsole = TRUE;
+                xorgHWOpenConsole = True;
         }
 
 
@@ -494,14 +494,14 @@ void InitOutput(int argc, char** argv)
                 xf86OpenConsole();
             }
         } else
-            xf86Info.dontVTSwitch = TRUE;
+            xf86Info.dontVTSwitch = True;
 
 
 	/* Enable full I/O access */
 	if (want_hw_access)
 	    xorgHWAccess = xf86EnableIO();
 
-        if (xf86BusConfig(xf86Info.singleDriver) == FALSE)
+        if (xf86BusConfig(xf86Info.singleDriver) == False)
             return;
 
 
@@ -535,7 +535,7 @@ void InitOutput(int argc, char** argv)
             xf86VGAarbiterLock(xf86Screens[i]);
             if (xf86Screens[i].PreInit &&
                 xf86Screens[i].PreInit(xf86Screens[i], 0))
-                xf86Screens[i].configured = TRUE;
+                xf86Screens[i].configured = True;
             xf86VGAarbiterUnlock(xf86Screens[i]);
         }
         for (i = 0; i < xf86NumScreens; i++)
@@ -547,7 +547,7 @@ void InitOutput(int argc, char** argv)
             xf86VGAarbiterLock(xf86GPUScreens[i]);
             if (xf86GPUScreens[i].PreInit &&
                 xf86GPUScreens[i].PreInit(xf86GPUScreens[i], 0))
-                xf86GPUScreens[i].configured = TRUE;
+                xf86GPUScreens[i].configured = True;
             xf86VGAarbiterUnlock(xf86GPUScreens[i]);
         }
         for (i = 0; i < xf86NumGPUScreens; i++)
@@ -620,7 +620,7 @@ void InitOutput(int argc, char** argv)
                 }
             }
         }
-        formatsDone = TRUE;
+        formatsDone = True;
     }
     else {
         /*
@@ -668,14 +668,14 @@ void InitOutput(int argc, char** argv)
     /* Make sure the server's VT is active */
 
     if (serverGeneration != 1) {
-        xf86Resetting = TRUE;
+        xf86Resetting = True;
         /* All screens are in the same state, so just check the first */
         if (!xf86VTOwner()) {
 // static if (HAS_USL_VTS) {
             ioctl(xf86Info.consoleFd, VT_RELDISP, VT_ACKACQ);
 // }
             input_lock();
-            sigio_blocked = TRUE;
+            sigio_blocked = True;
         }
     }
 
@@ -707,7 +707,7 @@ static if(build.xlibre_server.XFreeXDGA){
                           xf86ScreenKey, xf86Screens[i]);
             xf86Screens[i].pScreen = screenInfo.screens[scr_index];
             /* The driver should set this, but make sure it is set anyway */
-            xf86Screens[i].vtSema = TRUE;
+            xf86Screens[i].vtSema = True;
         }
         else {
             /* This shouldn't normally happen */
@@ -750,7 +750,7 @@ static if(build.xlibre_server.XFreeXDGA){
                           xf86ScreenKey, xf86GPUScreens[i]);
             pScrn.pScreen = screenInfo.gpuscreens[scr_index];
             /* The driver should set this, but make sure it is set anyway */
-            pScrn.vtSema = TRUE;
+            pScrn.vtSema = True;
         } else {
             FatalError("AddScreen/ScreenInit failed for gpu driver %d %d\n", i, scr_index);
         }
@@ -769,8 +769,8 @@ static if(build.xlibre_server.XFreeXDGA){
 
     xf86InitOrigins();
 
-    xf86Resetting = FALSE;
-    xf86Initialising = FALSE;
+    xf86Resetting = False;
+    xf86Initialising = False;
 
     RegisterBlockAndWakeupHandlers(cast(ServerBlockHandlerProcPtr) &NoopDDA, &xf86Wakeup,
                                    null);
@@ -785,7 +785,7 @@ void InitInput(int argc, char** argv)
     InputInfoPtr* pInfo = void;
     DeviceIntPtr dev = void;
 
-    xf86Info.vtRequestsPending = FALSE;
+    xf86Info.vtRequestsPending = False;
 
     /* Enable threaded input */
     InputThreadPreInit();
@@ -822,7 +822,7 @@ void CloseInput()
 
 void OsVendorInit()
 {
-    static Bool beenHere = FALSE;
+    static Bool beenHere = False;
 
     OsSignal(SIGCHLD, SIG_DFL);   /* Need to wait for child processes */
 
@@ -853,7 +853,7 @@ version (O_NONBLOCK) {
 }
 }
 
-    beenHere = TRUE;
+    beenHere = True;
 }
 
 /*
@@ -901,7 +901,7 @@ static if(DPMSExtension) {            /* Turn screens back on */
          * zero all access functions to
          * trap calls when switched away.
          */
-        xf86Screens[i].vtSema = FALSE;
+        xf86Screens[i].vtSema = False;
     }
 
     if (xorgHWOpenConsole) {
@@ -1000,21 +1000,21 @@ int ddxProcessArgument(int argc, char** argv, int i)
         return 2;
     }
     if (!strcmp(argv[i], "-flipPixels")) {
-        xf86FlipPixels = TRUE;
+        xf86FlipPixels = True;
         return 1;
     }
 static if(build.xlibre_server.XF86VIDMODE){
     if (!strcmp(argv[i], "-disableVidMode")) {
-        xf86VidModeDisabled = TRUE;
+        xf86VidModeDisabled = True;
         return 1;
     }
     if (!strcmp(argv[i], "-allowNonLocalXvidtune")) {
-        xf86VidModeAllowNonLocal = TRUE;
+        xf86VidModeAllowNonLocal = True;
         return 1;
     }
 }
     if (!strcmp(argv[i], "-allowMouseOpenFail")) {
-        xf86AllowMouseOpenFail = TRUE;
+        xf86AllowMouseOpenFail = True;
         return 1;
     }
     if (!strcmp(argv[i], "-ignoreABI")) {
@@ -1067,17 +1067,17 @@ static if(build.xlibre_server.XF86VIDMODE){
     }
     /* Notice the -fp flag, but allow it to pass to the dix layer */
     if (!strcmp(argv[i], "-fp")) {
-        xf86fpFlag = TRUE;
+        xf86fpFlag = True;
         return 0;
     }
     /* Notice the -bs flag, but allow it to pass to the dix layer */
     if (!strcmp(argv[i], "-bs")) {
-        xf86bsDisableFlag = TRUE;
+        xf86bsDisableFlag = True;
         return 0;
     }
     /* Notice the +bs flag, but allow it to pass to the dix layer */
     if (!strcmp(argv[i], "+bs")) {
-        xf86bsEnableFlag = TRUE;
+        xf86bsEnableFlag = True;
         return 0;
     }
     if (!strcmp(argv[i], "-pixmap32") || !strcmp(argv[i], "-pixmap24")) {
@@ -1168,12 +1168,12 @@ static if(build.xlibre_server.XF86VIDMODE){
         return 2;
     }
     if (!strcmp(argv[i], "-nosilk")) {
-        xf86silkenMouseDisableFlag = TRUE;
+        xf86silkenMouseDisableFlag = True;
         return 1;
     }
 static if (HAVE_ACPI) {
     if (!strcmp(argv[i], "-noacpi")) {
-        xf86acpiDisableFlag = TRUE;
+        xf86acpiDisableFlag = True;
         return 1;
     }
 }
@@ -1182,8 +1182,8 @@ static if (HAVE_ACPI) {
             ErrorF("The '-configure' option can only be used by root.\n");
             exit(1);
         }
-        xf86DoConfigure = TRUE;
-        xf86AllowMouseOpenFail = TRUE;
+        xf86DoConfigure = True;
+        xf86AllowMouseOpenFail = True;
         return 1;
     }
     if (!strcmp(argv[i], "-showopts")) {
@@ -1191,7 +1191,7 @@ static if (HAVE_ACPI) {
             ErrorF("The '-showopts' option can only be used by root.\n");
             exit(1);
         }
-        xf86DoShowOptions = TRUE;
+        xf86DoShowOptions = True;
         return 1;
     }
 static if(XSERVER_LIBPCIACCESS){
@@ -1206,15 +1206,15 @@ static if(XSERVER_LIBPCIACCESS){
 }
     /* Notice cmdline xkbdir, but pass to dix as well */
     if (!strcmp(argv[i], "-xkbdir")) {
-        xf86xkbdirFlag = TRUE;
+        xf86xkbdirFlag = True;
         return 0;
     }
     if (!strcmp(argv[i], "-novtswitch")) {
-        xf86Info.autoVTSwitch = FALSE;
+        xf86Info.autoVTSwitch = False;
         return 1;
     }
     if (!strcmp(argv[i], "-sharevts")) {
-        xf86Info.ShareVTs = TRUE;
+        xf86Info.ShareVTs = True;
         return 1;
     }
     if (!strcmp(argv[i], "-iglx") || !strcmp(argv[i], "+iglx")) {
@@ -1222,7 +1222,7 @@ static if(XSERVER_LIBPCIACCESS){
         return 0;
     }
     if (!strcmp(argv[i], "-noautoBindGPU")) {
-        xf86AutoBindGPUDisabled = TRUE;
+        xf86AutoBindGPUDisabled = True;
         return 1;
     }
 
@@ -1311,10 +1311,10 @@ Bool xf86LoadModules(const(char)** list, void** optlist)
     void* opt = void;
     int i = void;
     char* name = void;
-    Bool failed = FALSE;
+    Bool failed = False;
 
     if (!list)
-        return TRUE;
+        return True;
 
     for (i = 0; list[i] !is null; i++) {
 
@@ -1339,7 +1339,7 @@ Bool xf86LoadModules(const(char)** list, void** optlist)
 
         if (!LoadModule(name, opt, null, &errmaj)) {
             LoaderErrorMsg(null, name, errmaj, 0);
-            failed = TRUE;
+            failed = True;
         }
         free(name);
     }

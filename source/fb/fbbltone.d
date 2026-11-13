@@ -179,7 +179,7 @@ void fbBltOne(FbStip* src, FbStride srcStride, int srcX, FbBits* dst, FbStride d
     Bool copy = void;                  /* accelerate dest-invariant */
     Bool transparent = void;           /* accelerate 0 nop */
     int srcinc = void;                 /* source units consumed */
-    Bool endNeedsLoad = FALSE;  /* need load for endmask */
+    Bool endNeedsLoad = False;  /* need load for endmask */
     int startbyte = void, endbyte = void;
 
     /*
@@ -198,12 +198,12 @@ void fbBltOne(FbStip* src, FbStride srcStride, int srcX, FbBits* dst, FbStride d
      */
     unitsPerSrc = FB_STIP_UNIT / pixelsPerDst;
 
-    copy = FALSE;
-    transparent = FALSE;
+    copy = False;
+    transparent = False;
     if (bgand == 0 && fgand == 0)
-        copy = TRUE;
+        copy = True;
     else if (bgand == FB_ALLONES && bgxor == 0)
-        transparent = TRUE;
+        transparent = True;
 
     /*
      * Adjust source and dest to nearest FbBits boundary

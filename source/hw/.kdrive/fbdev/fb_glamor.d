@@ -52,7 +52,7 @@ static if (WITH_LIBDRM) {
     }
 
     if (scrpriv.dri_fd >= 0) {
-        config.fbdev_auto_dri3 = FALSE;
+        config.fbdev_auto_dri3 = False;
     }
 
     glamor_egl_conf_t glamor_egl_conf = {
@@ -60,14 +60,14 @@ static if (WITH_LIBDRM) {
                                          glvnd_vendor: config.fbdev_glvnd_provider,
                                          fd: scrpriv.dri_fd,
                                          auto_dri: config.fbdev_auto_dri3,
-                                         llvmpipe_allowed: TRUE,
-                                         force_glamor: TRUE,
+                                         llvmpipe_allowed: True,
+                                         force_glamor: True,
                                          es_disallowed: !config.es_allowed,
                                          force_es: config.force_es,
                                         };
 
     if (!glamor_egl_init_internal(&glamor_egl_conf, null)) {
-        return FALSE;
+        return False;
     }
 
     if (config.fbdev_auto_dri3) {
@@ -93,7 +93,7 @@ static if (WITH_LIBDRM) {
     }
 
     if (!glamor_init(pScreen, flags)) {
-        return FALSE;
+        return False;
     }
 
 version (XV) {
@@ -103,7 +103,7 @@ version (XV) {
     }
 }
 
-    return TRUE;
+    return True;
 }
 
 void fbdevEnableAccel(ScreenPtr pScreen)

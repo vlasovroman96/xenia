@@ -347,7 +347,7 @@ Bool DRIOpenDRMMaster(ScrnInfoPtr pScrn, c_ulong sAreaSize, const(char)* busID, 
     pDRIEntPriv = mixin(DRI_ENT_PRIV!("pScrn"));
 
     if (pDRIEntPriv && pDRIEntPriv.drmFD != -1)
-        return TRUE;
+        return True;
 
     drmWasAvailable = drmAvailable();
 
@@ -447,12 +447,12 @@ Bool DRIOpenDRMMaster(ScrnInfoPtr pScrn, c_ulong sAreaSize, const(char)* busID, 
         pDRIEntPriv;
 
     DRIDrvMsg(-1, X_INFO, "[drm] DRM open master succeeded.\n");
-    return TRUE;
+    return True;
 
  out_err:
 
     DRIOpenDRMCleanup(&tmp);
-    return FALSE;
+    return False;
 }
 
 
@@ -546,13 +546,13 @@ Bool DRIScreenInit(ScreenPtr pScreen, DRIInfoPtr pDRIInfo, int* pDRMFD)
     if (noXFree86DRIExtension) {
         DRIDrvMsg(pScreen.myNum, X_WARNING,
                   "Direct rendering has been disabled.\n");
-        return FALSE;
+        return False;
     }
 
     if (!xf86VGAarbiterAllowDRI(pScreen)) {
         DRIDrvMsg(pScreen.myNum, X_WARNING,
                   "Direct rendering is not supported when VGA arb is necessary for the device\n");
-        return FALSE;
+        return False;
     }
 
 static if(XINERAMA){
@@ -563,17 +563,17 @@ static if(XINERAMA){
     if (!noPanoramiXExtension) {
         DRIDrvMsg(pScreen.myNum, X_WARNING,
                   "Direct rendering is not supported when Xinerama is enabled\n");
-        return FALSE;
+        return False;
     }
 } /* XINERAMA */
-    if (drm_server_inited == FALSE) {
+    if (drm_server_inited == False) {
         drmSetServerInfo(&DRIDRMServerInfo);
-        drm_server_inited = TRUE;
+        drm_server_inited = True;
     }
 
     if (!DRIOpenDRMMaster(pScrn, pDRIInfo.SAREASize,
                           pDRIInfo.busIdString, pDRIInfo.drmDriverName))
-        return FALSE;
+        return False;
 
     pDRIEntPriv = mixin(DRI_ENT_PRIV!("pScrn"));
 
@@ -581,19 +581,19 @@ static if(XINERAMA){
         DRIGeneration = serverGeneration;
 
     if (!dixRegisterPrivateKey(&DRIScreenPrivKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
     if (!dixRegisterPrivateKey(&DRIWindowPrivKeyRec, PRIVATE_WINDOW, 0))
-        return FALSE;
+        return False;
 
     pDRIPriv = cast(DRIScreenPrivPtr) cast(DRIScreenPrivRec*) calloc(1, DRIScreenPrivRec.sizeof);
     if (!pDRIPriv) {
         dixSetPrivate(&pScreen.devPrivates, DRIScreenPrivKey, null);
-        return FALSE;
+        return False;
     }
 
     dixSetPrivate(&pScreen.devPrivates, DRIScreenPrivKey, pDRIPriv);
     pDRIPriv.drmFD = pDRIEntPriv.drmFD;
-    pDRIPriv.directRenderingSupport = TRUE;
+    pDRIPriv.directRenderingSupport = True;
     pDRIPriv.pDriverInfo = pDRIInfo;
     pDRIPriv.nrWindows = 0;
     pDRIPriv.nrWindowsVisible = 0;
@@ -602,8 +602,8 @@ static if(XINERAMA){
     pDRIPriv.createDummyCtx = pDRIInfo.createDummyCtx;
     pDRIPriv.createDummyCtxPriv = pDRIInfo.createDummyCtxPriv;
 
-    pDRIPriv.grabbedDRILock = FALSE;
-    pDRIPriv.drmSIGIOHandlerInstalled = FALSE;
+    pDRIPriv.grabbedDRILock = False;
+    pDRIPriv.drmSIGIOHandlerInstalled = False;
     *pDRMFD = pDRIPriv.drmFD;
 
     if (pDRIEntPriv.sAreaGrabbed || pDRIInfo.allocSarea) {
@@ -612,11 +612,11 @@ static if(XINERAMA){
                       0,
                       cast(uint)pDRIPriv.pDriverInfo.SAREASize,
                       DRM_SHM, cast(drmMapFlags)0, &pDRIPriv.hSAREA) < 0) {
-            pDRIPriv.directRenderingSupport = FALSE;
+            pDRIPriv.directRenderingSupport = False;
             dixSetPrivate(&pScreen.devPrivates, DRIScreenPrivKey, null);
             drmClose(pDRIPriv.drmFD);
             DRIDrvMsg(pScreen.myNum, X_INFO, "[drm] drmAddMap failed\n");
-            return FALSE;
+            return False;
         }
         DRIDrvMsg(pScreen.myNum, X_INFO,
                   "[drm] added %d byte SAREA at %p\n",
@@ -627,11 +627,11 @@ static if(XINERAMA){
                    pDRIPriv.hSAREA,
                    cast(uint)pDRIPriv.pDriverInfo.SAREASize,
                    cast(drmAddressPtr) (&pDRIPriv.pSAREA)) < 0) {
-            pDRIPriv.directRenderingSupport = FALSE;
+            pDRIPriv.directRenderingSupport = False;
             dixSetPrivate(&pScreen.devPrivates, DRIScreenPrivKey, null);
             drmClose(pDRIPriv.drmFD);
             DRIDrvMsg(pScreen.myNum, X_INFO, "[drm] drmMap failed\n");
-            return FALSE;
+            return False;
         }
         DRIDrvMsg(pScreen.myNum, X_INFO, "[drm] mapped SAREA %p to %p\n",
                   cast(void*) cast(uintptr_t) pDRIPriv.hSAREA, cast(void*)pDRIPriv.pSAREA);
@@ -642,7 +642,7 @@ static if(XINERAMA){
                   ~ "SAREA also for drawables.\n");
         pDRIPriv.hSAREA = pDRIEntPriv.hLSAREA;
         pDRIPriv.pSAREA = cast(XF86DRISAREAPtr) pDRIEntPriv.pLSAREA;
-        pDRIEntPriv.sAreaGrabbed = TRUE;
+        pDRIEntPriv.sAreaGrabbed = True;
     }
 
     pDRIPriv.hLSAREA = pDRIEntPriv.hLSAREA;
@@ -654,12 +654,12 @@ static if(XINERAMA){
                       frameBufferPhysicalAddress,
                       cast(uint)pDRIPriv.pDriverInfo.frameBufferSize, DRM_FRAME_BUFFER,
                       cast(drmMapFlags)0, &pDRIPriv.pDriverInfo.hFrameBuffer) < 0) {
-            pDRIPriv.directRenderingSupport = FALSE;
+            pDRIPriv.directRenderingSupport = False;
             dixSetPrivate(&pScreen.devPrivates, DRIScreenPrivKey, null);
             drmUnmap(pDRIPriv.pSAREA, cast(uint)pDRIPriv.pDriverInfo.SAREASize);
             drmClose(pDRIPriv.drmFD);
             DRIDrvMsg(pScreen.myNum, X_INFO, "[drm] drmAddMap failed\n");
-            return FALSE;
+            return False;
         }
         DRIDrvMsg(pScreen.myNum, X_INFO, "[drm] framebuffer handle = %p\n",
                   cast(void*) cast(uintptr_t) pDRIPriv.pDriverInfo.hFrameBuffer);
@@ -728,7 +728,7 @@ static if(XINERAMA){
                                                  &pDRIPriv.myContext,
                                                  flags)) is null)) {
         DRIDrvMsg(pScreen.myNum, X_ERROR, "failed to create server context\n");
-        return FALSE;
+        return False;
     }
     pDRIPriv.myContextPriv = pDRIContextPriv;
 
@@ -739,7 +739,7 @@ static if(XINERAMA){
      * hardware lock for the X server.
      */
     DRILock(pScreen, 0);
-    pDRIPriv.grabbedDRILock = TRUE;
+    pDRIPriv.grabbedDRILock = True;
 
     /* pointers so that we can prevent memory leaks later */
     pDRIPriv.hiddenContextStore = null;
@@ -758,7 +758,7 @@ static if(XINERAMA){
             DRIDrvMsg(pScreen.myNum, X_ERROR,
                       "failed to allocate hidden context\n");
             DRIDestroyContextPriv(pDRIContextPriv);
-            return FALSE;
+            return False;
         }
 
         /* allocate memory for partial 3D context store */
@@ -769,7 +769,7 @@ static if(XINERAMA){
                       "[DRI] failed to allocate partial 3D context\n");
             free(pDRIPriv.hiddenContextStore);
             DRIDestroyContextPriv(pDRIContextPriv);
-            return FALSE;
+            return False;
         }
 
         /* save initial context store */
@@ -793,7 +793,7 @@ static if(XINERAMA){
             free(pDRIPriv.hiddenContextStore);
             free(pDRIPriv.partial3DContextStore);
             DRIDestroyContextPriv(pDRIContextPriv);
-            return FALSE;
+            return False;
         }
         else {
             DRIDrvMsg(pScreen.myNum, X_INFO,
@@ -804,7 +804,7 @@ static if(XINERAMA){
         break;
     }
 
-    return TRUE;
+    return True;
 }
 
 
@@ -813,7 +813,7 @@ Bool DRIFinishScreenInit(ScreenPtr pScreen)
 {
     DRIScreenPrivPtr pDRIPriv = DRI_SCREEN_PRIV(pScreen);
     if (!pDRIPriv)
-        return FALSE;
+        return False;
     DRIInfoPtr pDRIInfo = pDRIPriv.pDriverInfo;
 
     /* Wrap DRI support */
@@ -841,11 +841,11 @@ Bool DRIFinishScreenInit(ScreenPtr pScreen)
         pDRIPriv.wrap.AdjustFrame = pScrn.AdjustFrame;
         pScrn.AdjustFrame = pDRIInfo.wrap.AdjustFrame;
     }
-    pDRIPriv.wrapped = TRUE;
+    pDRIPriv.wrapped = True;
 
     DRIDrvMsg(pScreen.myNum, X_INFO, "[DRI] installation complete\n");
 
-    return TRUE;
+    return True;
 }
 
 void DRICloseScreen(ScreenPtr pScreen)
@@ -887,7 +887,7 @@ void DRICloseScreen(ScreenPtr pScreen)
                 pDRIPriv.wrap.AdjustFrame = null;
             }
 
-            pDRIPriv.wrapped = FALSE;
+            pDRIPriv.wrapped = False;
         }
 
         if (pDRIPriv.drmSIGIOHandlerInstalled) {
@@ -946,7 +946,7 @@ void DRICloseScreen(ScreenPtr pScreen)
             }
         }
         else {
-            pDRIEntPriv.sAreaGrabbed = FALSE;
+            pDRIEntPriv.sAreaGrabbed = False;
         }
 
         if (closeMaster || (pDRIEntPriv.drmFD != pDRIPriv.drmFD)) {
@@ -988,7 +988,7 @@ drmServerInfo DRIDRMServerInfo = {
 Bool DRIExtensionInit()
 {
     if (DRIGeneration != serverGeneration) {
-        return FALSE;
+        return False;
     }
 
     DRIDrawablePrivResType = CreateNewResourceType(&DRIDrawablePrivDelete,
@@ -997,11 +997,11 @@ Bool DRIExtensionInit()
                                                   "DRIContext");
 
     if (!DRIDrawablePrivResType || !DRIContextPrivResType)
-        return FALSE;
+        return False;
 
     RegisterBlockAndWakeupHandlers(&DRIBlockHandler, &DRIWakeupHandler, null);
 
-    return TRUE;
+    return True;
 }
 
 void DRIReset()
@@ -1022,51 +1022,51 @@ Bool DRIQueryDirectRenderingCapable(ScreenPtr pScreen, Bool* isCapable)
     if (pDRIPriv)
         *isCapable = pDRIPriv.directRenderingSupport;
     else
-        *isCapable = FALSE;
+        *isCapable = False;
 
-    return TRUE;
+    return True;
 }
 
 Bool DRIOpenConnection(ScreenPtr pScreen, drm_handle_t* hSAREA, char** busIdString)
 {
     DRIScreenPrivPtr pDRIPriv = DRI_SCREEN_PRIV(pScreen);
     if (!pDRIPriv)
-        return FALSE;
+        return False;
 
     *hSAREA = pDRIPriv.hSAREA;
     *busIdString = pDRIPriv.pDriverInfo.busIdString;
 
-    return TRUE;
+    return True;
 }
 
 Bool DRIAuthConnection(ScreenPtr pScreen, drm_magic_t magic)
 {
     DRIScreenPrivPtr pDRIPriv = DRI_SCREEN_PRIV(pScreen);
     if (!pDRIPriv)
-        return FALSE;
+        return False;
 
     if (drmAuthMagic(pDRIPriv.drmFD, magic))
-        return FALSE;
-    return TRUE;
+        return False;
+    return True;
 }
 
 Bool DRICloseConnection(ScreenPtr pScreen)
 {
-    return TRUE;
+    return True;
 }
 
 Bool DRIGetClientDriverName(ScreenPtr pScreen, int* ddxDriverMajorVersion, int* ddxDriverMinorVersion, int* ddxDriverPatchVersion, char** clientDriverName)
 {
     DRIScreenPrivPtr pDRIPriv = DRI_SCREEN_PRIV(pScreen);
     if (!pDRIPriv)
-        return FALSE;
+        return False;
 
     *ddxDriverMajorVersion = pDRIPriv.pDriverInfo.ddxDriverMajorVersion;
     *ddxDriverMinorVersion = pDRIPriv.pDriverInfo.ddxDriverMinorVersion;
     *ddxDriverPatchVersion = pDRIPriv.pDriverInfo.ddxDriverPatchVersion;
     *clientDriverName = pDRIPriv.pDriverInfo.clientDriverName;
 
-    return TRUE;
+    return True;
 }
 
 /* DRICreateContextPriv and DRICreateContextPrivFromHandle are helper
@@ -1117,7 +1117,7 @@ DRIContextPrivPtr DRICreateContextPrivFromHandle(ScreenPtr pScreen, drm_context_
     pDRIContextPriv.hwContext = hHWContext;
     pDRIContextPriv.pScreen = pScreen;
     pDRIContextPriv.flags = flags;
-    pDRIContextPriv.valid3D = FALSE;
+    pDRIContextPriv.valid3D = False;
 
     if (flags & DRI_CONTEXT_2DONLY) {
         if (drmSetContextFlags(pDRIPriv.drmFD, hHWContext, DRM_CONTEXT_2DONLY)) {
@@ -1142,18 +1142,18 @@ DRIContextPrivPtr DRICreateContextPrivFromHandle(ScreenPtr pScreen, drm_context_
 Bool DRIDestroyContextPriv(DRIContextPrivPtr pDRIContextPriv)
 {
     if (!pDRIContextPriv)
-        return TRUE;
+        return True;
 
     DRIScreenPrivPtr pDRIPriv = DRI_SCREEN_PRIV(pDRIContextPriv.pScreen);
     if (!pDRIPriv)
-        return FALSE;
+        return False;
 
     if (!(pDRIContextPriv.flags & DRI_CONTEXT_RESERVED)) {
         /* Don't delete reserved contexts from
            kernel area -- the kernel manages its
            reserved contexts itself. */
         if (drmDestroyContext(pDRIPriv.drmFD, pDRIContextPriv.hwContext))
-            return FALSE;
+            return False;
     }
 
     /* Remove the tag last to prevent a race
@@ -1163,14 +1163,14 @@ Bool DRIDestroyContextPriv(DRIContextPrivPtr pDRIContextPriv)
        dispatched asynchronously. */
     drmDelContextTag(pDRIPriv.drmFD, pDRIContextPriv.hwContext);
     free(pDRIContextPriv);
-    return TRUE;
+    return True;
 }
 
 private Bool DRICreateDummyContext(ScreenPtr pScreen, Bool needCtxPriv)
 {
     DRIScreenPrivPtr pDRIPriv = DRI_SCREEN_PRIV(pScreen);
     if (pDRIPriv)
-        return FALSE;
+        return False;
 
     DRIContextPrivPtr pDRIContextPriv = void;
     void* contextStore = void;
@@ -1179,7 +1179,7 @@ private Bool DRICreateDummyContext(ScreenPtr pScreen, Bool needCtxPriv)
     assert(pDRIPriv.pSAREA);
     if (((pDRIContextPriv =
           DRICreateContextPriv(pScreen, &pDRIPriv.pSAREA.dummy_context, cast(DRIContextFlags)0)) is null)) {
-        return FALSE;
+        return False;
     }
 
     contextStore = DRIGetContextStore(pDRIContextPriv);
@@ -1190,12 +1190,12 @@ private Bool DRICreateDummyContext(ScreenPtr pScreen, Bool needCtxPriv)
                                                   cast(DRIContextType) cast(c_long)
                                                   contextStore)) {
             DRIDestroyContextPriv(pDRIContextPriv);
-            return FALSE;
+            return False;
         }
     }
 
     pDRIPriv.dummyCtxPriv = pDRIContextPriv;
-    return TRUE;
+    return True;
 }
 
 private void DRIDestroyDummyContext(ScreenPtr pScreen, Bool hasCtxPriv)
@@ -1224,7 +1224,7 @@ Bool DRICreateContext(ScreenPtr pScreen, VisualPtr visual, XID context, drm_cont
 {
     DRIScreenPrivPtr pDRIPriv = DRI_SCREEN_PRIV(pScreen);
     if (!pDRIPriv)
-        return FALSE;
+        return False;
     DRIContextPrivPtr pDRIContextPriv = void;
     void* contextStore = void;
 
@@ -1232,12 +1232,12 @@ Bool DRICreateContext(ScreenPtr pScreen, VisualPtr visual, XID context, drm_cont
         if (!DRICreateDummyContext(pScreen, pDRIPriv.createDummyCtxPriv)) {
             DRIDrvMsg(pScreen.myNum, X_INFO,
                       "[drm] Could not create dummy context\n");
-            return FALSE;
+            return False;
         }
     }
 
     if (((pDRIContextPriv = DRICreateContextPriv(pScreen, pHWContext, cast(DRIContextFlags)0)) is null)) {
-        return FALSE;
+        return False;
     }
 
     contextStore = DRIGetContextStore(pDRIContextPriv);
@@ -1247,22 +1247,22 @@ Bool DRICreateContext(ScreenPtr pScreen, VisualPtr visual, XID context, drm_cont
                                                        cast(DRIContextType) cast(c_long)
                                                        contextStore))) {
             DRIDestroyContextPriv(pDRIContextPriv);
-            return FALSE;
+            return False;
         }
     }
 
     /* track this in case the client dies before cleanup */
     if (!AddResource(cast(uint)context, DRIContextPrivResType, cast(void*) pDRIContextPriv))
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 Bool DRIDestroyContext(ScreenPtr pScreen, XID context)
 {
-    FreeResourceByType(context, DRIContextPrivResType, FALSE);
+    FreeResourceByType(context, DRIContextPrivResType, False);
 
-    return TRUE;
+    return True;
 }
 
 /* DRIContextPrivDelete is called by the resource manager. */
@@ -1271,7 +1271,7 @@ Bool DRIContextPrivDelete(void* pResource, XID id)
     DRIContextPrivPtr pDRIContextPriv = cast(DRIContextPrivPtr) pResource;
     DRIScreenPrivPtr pDRIPriv = DRI_SCREEN_PRIV(pDRIContextPriv.pScreen);
     if ((!pDRIPriv) || (!pDRIPriv.pDriverInfo))
-        return FALSE;
+        return False;
 
     if (pDRIPriv.pDriverInfo.DestroyContext) {
         void* contextStore = DRIGetContextStore(pDRIContextPriv);
@@ -1445,7 +1445,7 @@ Bool DRICreateDrawable(ScreenPtr pScreen, ClientPtr client, DrawablePtr pDrawabl
 {
     DRIScreenPrivPtr pDRIPriv = DRI_SCREEN_PRIV(pScreen);
     if (!pDRIPriv)
-        return FALSE;
+        return False;
 
     DRIDrawablePrivPtr pDRIDrawablePriv = void;
     WindowPtr pWin = void;
@@ -1463,14 +1463,14 @@ Bool DRICreateDrawable(ScreenPtr pScreen, ClientPtr client, DrawablePtr pDrawabl
         else {
             /* allocate a DRI Window Private record */
             if (((pDRIDrawablePriv = cast(DRIDrawablePrivRec*) calloc(1, DRIDrawablePrivRec.sizeof)) is null)) {
-                return FALSE;
+                return False;
             }
 
             /* Only create a drm_drawable_t once */
             if (drmCreateDrawable(pDRIPriv.drmFD,
                                   &pDRIDrawablePriv.hwDrawable)) {
                 free(pDRIDrawablePriv);
-                return FALSE;
+                return False;
             }
 
             /* add it to the list of DRI drawables for this screen */
@@ -1491,7 +1491,7 @@ Bool DRICreateDrawable(ScreenPtr pScreen, ClientPtr client, DrawablePtr pDrawabl
         /* track this in case the client dies */
         if (!AddResource(cast(uint)FakeClientID(client.index), DRIDrawablePrivResType,
                          cast(void*) cast(intptr_t) pDrawable.id))
-            return FALSE;
+            return False;
 
         if (pDRIDrawablePriv.hwDrawable) {
             drmUpdateDrawableInfo(pDRIPriv.drmFD,
@@ -1504,10 +1504,10 @@ Bool DRICreateDrawable(ScreenPtr pScreen, ClientPtr client, DrawablePtr pDrawabl
     }
     else if (pDrawable.type != DRAWABLE_PIXMAP) {      /* PBuffer */
         /* NOT_DONE */
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 private void DRIDrawablePrivDestroy(WindowPtr pWin)
@@ -1548,12 +1548,12 @@ private Bool DRIDestroyDrawableCB(void* value, XID id, void* data)
 {
     if (value == data) {
         /* This calls back DRIDrawablePrivDelete which frees private area */
-        FreeResourceByType(id, DRIDrawablePrivResType, FALSE);
+        FreeResourceByType(id, DRIDrawablePrivResType, False);
 
-        return TRUE;
+        return True;
     }
 
-    return FALSE;
+    return False;
 }
 
 Bool DRIDestroyDrawable(ScreenPtr pScreen, ClientPtr client, DrawablePtr pDrawable)
@@ -1565,10 +1565,10 @@ Bool DRIDestroyDrawable(ScreenPtr pScreen, ClientPtr client, DrawablePtr pDrawab
     }
     else {                      /* pixmap (or for GLX 1.3, a PBuffer) */
         /* NOT_DONE */
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 Bool DRIDrawablePrivDelete(void* pResource, XID id)
@@ -1585,16 +1585,16 @@ Bool DRIDrawablePrivDelete(void* pResource, XID id)
         DRIDrawablePrivPtr pDRIDrwPriv = mixin(DRI_DRAWABLE_PRIV_FROM_WINDOW!("pWin"));
 
         if (!pDRIDrwPriv)
-            return FALSE;
+            return False;
 
         if (--pDRIDrwPriv.refCount == 0)
             DRIDrawablePrivDestroy(pWin);
 
-        return TRUE;
+        return True;
     }
     else {                      /* pixmap (or for GLX 1.3, a PBuffer) */
         /* NOT_DONE */
-        return FALSE;
+        return False;
     }
 }
 
@@ -1602,7 +1602,7 @@ Bool DRIGetDrawableInfo(ScreenPtr pScreen, DrawablePtr pDrawable, uint* index, u
 {
     DRIScreenPrivPtr pDRIPriv = DRI_SCREEN_PRIV(pScreen);
     if (!pDRIPriv)
-        return FALSE;
+        return False;
 
     DRIDrawablePrivPtr pDRIDrawablePriv = void, pOldDrawPriv = void;
     WindowPtr pWin = void, pOldWin = void;
@@ -1754,22 +1754,22 @@ version (none) {
         }
         else {
             /* Not a DRIDrawable */
-            return FALSE;
+            return False;
         }
     }
     else {                      /* pixmap (or for GLX 1.3, a PBuffer) */
         /* NOT_DONE */
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 Bool DRIGetDeviceInfo(ScreenPtr pScreen, drm_handle_t* hFrameBuffer, int* fbOrigin, int* fbSize, int* fbStride, int* devPrivateSize, void** pDevPrivate)
 {
     DRIScreenPrivPtr pDRIPriv = DRI_SCREEN_PRIV(pScreen);
     if (!pDRIPriv)
-        return FALSE;
+        return False;
 
     *hFrameBuffer = pDRIPriv.pDriverInfo.hFrameBuffer;
     *fbOrigin = 0;
@@ -1778,7 +1778,7 @@ Bool DRIGetDeviceInfo(ScreenPtr pScreen, drm_handle_t* hFrameBuffer, int* fbOrig
     *devPrivateSize = pDRIPriv.pDriverInfo.devPrivateSize;
     *pDevPrivate = pDRIPriv.pDriverInfo.devPrivate;
 
-    return TRUE;
+    return True;
 }
 
 DRIInfoPtr DRICreateInfoRec()
@@ -1866,7 +1866,7 @@ void DRIDoBlockHandler(ScreenPtr pScreen, void* timeout)
 
     if (pDRIPriv.windowsTouched){}
         // DRM_SPINUNLOCK(&pDRIPriv.pSAREA.drawable_lock, 1);
-    pDRIPriv.windowsTouched = FALSE;
+    pDRIPriv.windowsTouched = False;
 
     DRIUnlock(pScreen);
 }
@@ -1925,7 +1925,7 @@ version (DEBUG) {
         /* only 3D contexts are swapped in this case */
         if (oldContext) {
             oldContextStore = DRIGetContextStore(oldContext);
-            oldContext.valid3D = TRUE;
+            oldContext.valid3D = True;
             oldContextType = DRI_3D_CONTEXT;
         }
         else {
@@ -1983,7 +1983,7 @@ version (DEBUG) {
 
                 /* now setup for a complete 3D swap */
                 oldContextStore = newContextStore;
-                oldContext.valid3D = TRUE;
+                oldContext.valid3D = True;
                 oldContextType = DRI_3D_CONTEXT;
                 newContextStore = DRIGetContextStore(newContext);
                 if ((newContext.valid3D) &&
@@ -1999,7 +1999,7 @@ version (DEBUG) {
         else {
             /* now setup for a complete 3D swap */
             oldContextStore = newContextStore;
-            oldContext.valid3D = TRUE;
+            oldContext.valid3D = True;
             oldContextType = DRI_3D_CONTEXT;
             newContextStore = DRIGetContextStore(newContext);
             if ((newContext.valid3D) &&
@@ -2233,7 +2233,7 @@ void DRIClipNotify(WindowPtr pWin, int dx, int dy)
 
         if (!pDRIPriv.windowsTouched) {
             DRILockTree(pScreen);
-            pDRIPriv.windowsTouched = TRUE;
+            pDRIPriv.windowsTouched = True;
         }
 
         if (nrects && !pDRIDrawablePriv.nrects)
@@ -2442,7 +2442,7 @@ void DRIAdjustFrame(ScrnInfoPtr pScrn, int x, int y)
             py = pScrn.frameY1;
 
         if (pScreen.SetCursorPosition)
-            pScreen.SetCursorPosition(inputInfo.pointer, pScreen, px, py, TRUE);
+            pScreen.SetCursorPosition(inputInfo.pointer, pScreen, px, py, True);
 
         return;
     }

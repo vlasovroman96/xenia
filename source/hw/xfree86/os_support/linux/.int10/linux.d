@@ -64,12 +64,12 @@ private Bool readLegacy(pci_device* dev, ubyte* buf, int base, int len)
     void* map = void;
 
     if (pci_device_map_legacy(dev, base, len, 0, &map))
-        return FALSE;
+        return False;
 
     memcpy(buf, map, len);
     pci_device_unmap_legacy(dev, map, len);
 
-    return TRUE;
+    return True;
 }
 
 xf86Int10InfoPtr xf86ExtendedInitInt10(int entityIndex, int Flags)
@@ -88,7 +88,7 @@ xf86Int10InfoPtr xf86ExtendedInitInt10(int entityIndex, int Flags)
     int pagesize = void;
     memType cs = void;
     legacyVGARec vga = void;
-    Bool videoBiosMapped = FALSE;
+    Bool videoBiosMapped = False;
     ScrnInfoPtr pScrn = void;
     if (int10Generation != serverGeneration) {
         counter = 0;
@@ -165,7 +165,7 @@ xf86Int10InfoPtr xf86ExtendedInitInt10(int entityIndex, int Flags)
     }
     else {
         DebugF("Mapping Video BIOS\n");
-        videoBiosMapped = TRUE;
+        videoBiosMapped = True;
         if ((fd = open(DEV_MEM, O_RDWR, 0)) >= 0) {
             if ((vMem = mmap(cast(void*) (V_BIOS), SYS_BIOS - V_BIOS,
                              PROT_READ | PROT_WRITE | PROT_EXEC,
@@ -246,7 +246,7 @@ version (_PC) {
         pInt.Flags = Flags & (SET_BIOS_SCRATCH | RESTORE_BIOS_SCRATCH);
         if (!(pInt.Flags & SET_BIOS_SCRATCH))
             pInt.Flags &= ~RESTORE_BIOS_SCRATCH;
-        xf86Int10SaveRestoreBIOSVars(pInt, TRUE);
+        xf86Int10SaveRestoreBIOSVars(pInt, True);
 }
     }
     else {
@@ -327,7 +327,7 @@ Bool MapCurrentInt10(xf86Int10InfoPtr pInt)
         xf86DrvMsg(pInt.pScrn.scrnIndex, X_ERROR, "Cannot shmat() low memory\n");
         xf86DrvMsg(pInt.pScrn.scrnIndex, X_ERROR,
                    "shmat(low_mem) error: %s\n", strerror(errno));
-        return FALSE;
+        return False;
     }
     if (mprotect(cast(void*) 0, V_RAM, PROT_READ | PROT_WRITE | PROT_EXEC) != 0)
         xf86DrvMsg(pInt.pScrn.scrnIndex, X_ERROR,
@@ -341,7 +341,7 @@ Bool MapCurrentInt10(xf86Int10InfoPtr pInt)
                        "Cannot shmat() high memory\n");
             xf86DrvMsg(pInt.pScrn.scrnIndex, X_ERROR,
                        "shmget error: %s\n", strerror(errno));
-            return FALSE;
+            return False;
         }
         if (mprotect(cast(void*) HIGH_MEM, HIGH_MEM_SIZE,
                      PROT_READ | PROT_WRITE | PROT_EXEC) != 0)
@@ -357,17 +357,17 @@ Bool MapCurrentInt10(xf86Int10InfoPtr pInt)
                 == MAP_FAILED) {
                 xf86DrvMsg(pInt.pScrn.scrnIndex, X_ERROR, "Cannot map V_BIOS\n");
                 close(fd);
-                return FALSE;
+                return False;
             }
         }
         else {
             xf86DrvMsg(pInt.pScrn.scrnIndex, X_ERROR, "Cannot open %s\n", DEV_MEM);
-            return FALSE;
+            return False;
         }
         close(fd);
     }
 
-    return TRUE;
+    return True;
 }
 
 void xf86FreeInt10(xf86Int10InfoPtr pInt)
@@ -376,7 +376,7 @@ void xf86FreeInt10(xf86Int10InfoPtr pInt)
         return;
 
 version (_PC) {
-    xf86Int10SaveRestoreBIOSVars(pInt, FALSE);
+    xf86Int10SaveRestoreBIOSVars(pInt, False);
 }
     if (Int10Current == pInt) {
         shmdt(0);

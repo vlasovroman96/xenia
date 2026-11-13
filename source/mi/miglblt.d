@@ -53,7 +53,6 @@ import build.dix_config;
 //import   x11.X;
 //import   x11.Xmd;
 //import   x11.Xproto;
-import	common.misc;
 // //import   externs.X11.fonts.fontstruct;
 // import        externs.X11.fonts.libxfont2;
 import	dix.dixfonts;

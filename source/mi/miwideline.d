@@ -493,7 +493,7 @@ private void miFillUniqueSpanGroup(DrawablePtr pDraw, GCPtr pGC, SpanGroup* span
         /* Already should be sorted, unique */
         spans = spanGroup.group;
         (*pGC.ops.FillSpans)
-            (pDraw, pGC, spans.count, spans.points, spans.widths, TRUE);
+            (pDraw, pGC, spans.count, spans.points, spans.widths, True);
         free(spans.points);
         free(spans.widths);
     }
@@ -608,7 +608,7 @@ private void miFillUniqueSpanGroup(DrawablePtr pDraw, GCPtr pGC, SpanGroup* span
             }
         }
 
-        (*pGC.ops.FillSpans) (pDraw, pGC, count, points, widths, TRUE);
+        (*pGC.ops.FillSpans) (pDraw, pGC, count, points, widths, True);
         free(points);
         free(widths);
         free(yspans);
@@ -624,13 +624,13 @@ private Bool InitSpans(Spans* spans, size_t nspans)
 {
     spans.points = cast(xPoint*)calloc(nspans, typeof(*spans.points).sizeof);
     if (!spans.points)
-        return FALSE;
+        return False;
     spans.widths = cast(int*)calloc(nspans, typeof(*spans.widths).sizeof);
     if (!spans.widths) {
         free(spans.points);
-        return FALSE;
+        return False;
     }
-    return TRUE;
+    return True;
 }
 
 /*
@@ -677,7 +677,7 @@ private void fillSpans(DrawablePtr pDrawable, GCPtr pGC, c_ulong pixel, Spans* s
             ValidateGC(pDrawable, pGC);
         }
         (*pGC.ops.FillSpans) (pDrawable, pGC, spans.count, spans.points,
-                                spans.widths, TRUE);
+                                spans.widths, True);
         free(spans.widths);
         free(spans.points);
         if (pixel != oldPixel.val) {
@@ -990,7 +990,7 @@ private void miLineOnePoint(DrawablePtr pDrawable, GCPtr pGC, c_ulong pixel, Spa
         }
         pt.x = cast(short)x;
         pt.y = cast(short)y;
-        (*pGC.ops.FillSpans) (pDrawable, pGC, 1, &pt, &wid, TRUE);
+        (*pGC.ops.FillSpans) (pDrawable, pGC, 1, &pt, &wid, True);
     }
     mixin(MILINERESETPIXEL!("pDrawable", "pGC", "pixel", "oldPixel"));
 }
@@ -1030,7 +1030,7 @@ private void miLineJoin(DrawablePtr pDrawable, GCPtr pGC, c_ulong pixel, SpanDat
     else {
         if (joinStyle == JoinRound) {
             miLineArc(pDrawable, pGC, pixel, spanData,
-                      pLeft, pRight, cast(double) 0.0, cast(double) 0.0, TRUE);
+                      pLeft, pRight, cast(double) 0.0, cast(double) 0.0, True);
             return;
         }
         denom =
@@ -1239,34 +1239,34 @@ private int miLineArcD(DrawablePtr pDraw, GCPtr pGC, double xorg, double yorg, x
     ybase -= y;
     ymin = ybase;
     ymax = 65536;
-    edge1IsMin = FALSE;
+    edge1IsMin = False;
     ymin1 = edgey1;
     if (edge1.dy >= 0) {
         if (!edge1.dy) {
             if (edgeleft1)
-                edge1IsMin = TRUE;
+                edge1IsMin = True;
             else
                 ymax = edgey1;
             edgey1 = 65536;
         }
         else {
             if ((edge1.signdx < 0) == edgeleft1)
-                edge1IsMin = TRUE;
+                edge1IsMin = True;
         }
     }
-    edge2IsMin = FALSE;
+    edge2IsMin = False;
     ymin2 = edgey2;
     if (edge2.dy >= 0) {
         if (!edge2.dy) {
             if (edgeleft2)
-                edge2IsMin = TRUE;
+                edge2IsMin = True;
             else
                 ymax = edgey2;
             edgey2 = 65536;
         }
         else {
             if ((edge2.signdx < 0) == edgeleft2)
-                edge2IsMin = TRUE;
+                edge2IsMin = True;
         }
     }
     if (edge1IsMin) {
@@ -1469,8 +1469,8 @@ private void miLineArc(DrawablePtr pDraw, GCPtr pGC, c_ulong pixel, SpanDataPtr 
     edge1.dy = -1;
     edge2.x = 0;                /* not used, keep memory checkers happy */
     edge2.dy = -1;
-    edgeleft1 = FALSE;
-    edgeleft2 = FALSE;
+    edgeleft1 = False;
+    edgeleft2 = False;
     if ((pGC.lineStyle != LineSolid || pGC.lineWidth > 2) &&
         ((pGC.capStyle == CapRound && pGC.joinStyle != JoinRound) ||
          (pGC.joinStyle == JoinRound && pGC.capStyle == CapButt))) {
@@ -1488,7 +1488,7 @@ private void miLineArc(DrawablePtr pDraw, GCPtr pGC, c_ulong pixel, SpanDataPtr 
         else if (rightFace) {
             edgey2 = miRoundCapClip(rightFace, isInt, &edge2, &edgeleft2);
         }
-        isInt = FALSE;
+        isInt = False;
     }
     if (!InitSpans(&spanRec, pGC.lineWidth))
         return;
@@ -1890,15 +1890,15 @@ void miWideLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* pPt
     LineFaceRec leftFace = { 0 }, rightFace = { 0 }, prevRightFace = void;
     LineFaceRec firstFace = void;
     int first = void;
-    Bool somethingDrawn = FALSE;
+    Bool somethingDrawn = False;
     Bool selfJoin = void;
 
     spanData = miSetupSpanData(pGC, &spanDataRec, npt);
     pixel = pGC.fgPixel;
     x2 = pPts.x;
     y2 = pPts.y;
-    first = TRUE;
-    selfJoin = FALSE;
+    first = True;
+    selfJoin = False;
     if (npt > 1) {
         if (mode == CoordModePrevious) {
             int nptTmp = void;
@@ -1914,14 +1914,14 @@ void miWideLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* pPt
                 ++pPtsTmp;
             }
             if (x2 == x1 && y2 == y1)
-                selfJoin = TRUE;
+                selfJoin = True;
         }
         else if (x2 == pPts[npt - 1].x && y2 == pPts[npt - 1].y) {
-            selfJoin = TRUE;
+            selfJoin = True;
         }
     }
     projectLeft = pGC.capStyle == CapProjecting && !selfJoin;
-    projectRight = FALSE;
+    projectRight = False;
     while (--npt) {
         x1 = x2;
         y1 = y2;
@@ -1933,9 +1933,9 @@ void miWideLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* pPt
             y2 += y1;
         }
         if (x1 != x2 || y1 != y2) {
-            somethingDrawn = TRUE;
+            somethingDrawn = True;
             if (npt == 1 && pGC.capStyle == CapProjecting && !selfJoin)
-                projectRight = TRUE;
+                projectRight = True;
             miWideSegment(pDrawable, pGC, pixel, spanData, x1, y1, x2, y2,
                           projectLeft, projectRight, &leftFace, &rightFace);
             if (first) {
@@ -1947,7 +1947,7 @@ void miWideLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* pPt
                     else
                         miLineArc(pDrawable, pGC, pixel, spanData,
                                   &leftFace, cast(LineFacePtr) null,
-                                  cast(double) 0.0, cast(double) 0.0, TRUE);
+                                  cast(double) 0.0, cast(double) 0.0, True);
                 }
             }
             else {
@@ -1955,8 +1955,8 @@ void miWideLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* pPt
                            &prevRightFace);
             }
             prevRightFace = rightFace;
-            first = FALSE;
-            projectLeft = FALSE;
+            first = False;
+            projectLeft = False;
         }
         if (npt == 1 && somethingDrawn) {
             if (selfJoin)
@@ -1968,7 +1968,7 @@ void miWideLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* pPt
                 else
                     miLineArc(pDrawable, pGC, pixel, spanData,
                               cast(LineFacePtr) null, &rightFace,
-                              cast(double) 0.0, cast(double) 0.0, TRUE);
+                              cast(double) 0.0, cast(double) 0.0, True);
             }
         }
     }
@@ -1981,11 +1981,11 @@ void miWideLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* pPt
         if (pGC.capStyle == CapRound) {
             miLineArc(pDrawable, pGC, pixel, spanData,
                       &leftFace, cast(LineFacePtr) null,
-                      cast(double) 0.0, cast(double) 0.0, TRUE);
+                      cast(double) 0.0, cast(double) 0.0, True);
             rightFace.dx = -1;  /* sleezy hack to make it work */
             miLineArc(pDrawable, pGC, pixel, spanData,
                       cast(LineFacePtr) null, &rightFace,
-                      cast(double) 0.0, cast(double) 0.0, TRUE);
+                      cast(double) 0.0, cast(double) 0.0, True);
         }
     }
     if (spanData)
@@ -2018,7 +2018,7 @@ private void miWideDashSegment(DrawablePtr pDrawable, GCPtr pGC, SpanDataPtr spa
     double rdx = void, rdy = void;
     double dashDx = void, dashDy = void;
     double saveK = 0.0;
-    Bool first = TRUE;
+    Bool first = True;
     double lcenterx = void, lcentery = void, rcenterx = 0.0, rcentery = 0.0;
     c_ulong fgPixel = void, bgPixel = void;
 
@@ -2182,7 +2182,7 @@ private void miWideDashSegment(DrawablePtr pDrawable, GCPtr pGC, SpanDataPtr spa
                         }
                         miLineArc(pDrawable, pGC, pixel, spanData,
                                   &lcapFace, cast(LineFacePtr) null,
-                                  lcenterx, lcentery, FALSE);
+                                  lcenterx, lcentery, False);
                     }
                     if (dx < 0) {
                         rcapFace.xa = vertices[V_BOTTOM].x;
@@ -2196,7 +2196,7 @@ private void miWideDashSegment(DrawablePtr pDrawable, GCPtr pGC, SpanDataPtr spa
                     }
                     miLineArc(pDrawable, pGC, pixel, spanData,
                               cast(LineFacePtr) null, &rcapFace,
-                              rcenterx, rcentery, FALSE);
+                              rcenterx, rcentery, False);
                     break;
                 default: break;}
             }
@@ -2213,7 +2213,7 @@ private void miWideDashSegment(DrawablePtr pDrawable, GCPtr pGC, SpanDataPtr spa
         vertices[V_TOP] = vertices[V_RIGHT];
         vertices[V_LEFT] = vertices[V_BOTTOM];
         slopes[V_LEFT].k = -slopes[V_RIGHT].k;
-        first = FALSE;
+        first = False;
     }
 
     if (pGC.lineStyle == LineDoubleDash || !(dashIndex & 1)) {
@@ -2275,7 +2275,7 @@ private void miWideDashSegment(DrawablePtr pDrawable, GCPtr pGC, SpanDataPtr spa
                 lcapFace.k = -slopes[V_LEFT].k;
             }
             miLineArc(pDrawable, pGC, pixel, spanData,
-                      &lcapFace, cast(LineFacePtr) null, rcenterx, rcentery, FALSE);
+                      &lcapFace, cast(LineFacePtr) null, rcenterx, rcentery, False);
         }
     }
     dashRemain = cast(int)((cast(double) dashRemain) - LRemain);
@@ -2318,10 +2318,10 @@ void miWideDash(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* pPt
     int prevDashIndex = void;
     SpanDataRec spanDataRec = void;
     SpanDataPtr spanData = void;
-    Bool somethingDrawn = FALSE;
+    Bool somethingDrawn = False;
     Bool selfJoin = void;
-    Bool endIsFg = FALSE, startIsFg = FALSE;
-    Bool firstIsFg = FALSE, prevIsFg = FALSE;
+    Bool endIsFg = False, startIsFg = False;
+    Bool firstIsFg = False, prevIsFg = False;
 
 version (none) {
     /* XXX backward compatibility */
@@ -2340,8 +2340,8 @@ version (none) {
     spanData = miSetupSpanData(pGC, &spanDataRec, npt);
     x2 = pPts.x;
     y2 = pPts.y;
-    first = TRUE;
-    selfJoin = FALSE;
+    first = True;
+    selfJoin = False;
     if (mode == CoordModePrevious) {
         int nptTmp = void;
         xPoint* pPtsTmp = void;
@@ -2356,13 +2356,13 @@ version (none) {
             ++pPtsTmp;
         }
         if (x2 == x1 && y2 == y1)
-            selfJoin = TRUE;
+            selfJoin = True;
     }
     else if (x2 == pPts[npt - 1].x && y2 == pPts[npt - 1].y) {
-        selfJoin = TRUE;
+        selfJoin = True;
     }
     projectLeft = pGC.capStyle == CapProjecting && !selfJoin;
-    projectRight = FALSE;
+    projectRight = False;
     dashIndex = 0;
     dashOffset = 0;
     miStepDash(cast(int) pGC.dashOffset, &dashIndex,
@@ -2378,10 +2378,10 @@ version (none) {
             y2 += y1;
         }
         if (x1 != x2 || y1 != y2) {
-            somethingDrawn = TRUE;
+            somethingDrawn = True;
             if (npt == 1 && pGC.capStyle == CapProjecting &&
                 (!selfJoin || !firstIsFg))
-                projectRight = TRUE;
+                projectRight = True;
             prevDashIndex = dashIndex;
             miWideDashSegment(pDrawable, pGC, spanData, &dashOffset, &dashIndex,
                               x1, y1, x2, y2,
@@ -2398,7 +2398,7 @@ version (none) {
                     else if (pGC.capStyle == CapRound)
                         miLineArc(pDrawable, pGC, pixel, spanData,
                                   &leftFace, cast(LineFacePtr) null,
-                                  cast(double) 0.0, cast(double) 0.0, TRUE);
+                                  cast(double) 0.0, cast(double) 0.0, True);
                 }
                 else {
                     miLineJoin(pDrawable, pGC, pixel, spanData, &leftFace,
@@ -2407,8 +2407,8 @@ version (none) {
             }
             prevRightFace = rightFace;
             prevIsFg = endIsFg;
-            first = FALSE;
-            projectLeft = FALSE;
+            first = False;
+            projectLeft = False;
         }
         if (npt == 1 && somethingDrawn) {
             if (pGC.lineStyle == LineDoubleDash || endIsFg) {
@@ -2421,7 +2421,7 @@ version (none) {
                     if (pGC.capStyle == CapRound)
                         miLineArc(pDrawable, pGC, pixel, spanData,
                                   cast(LineFacePtr) null, &rightFace,
-                                  cast(double) 0.0, cast(double) 0.0, TRUE);
+                                  cast(double) 0.0, cast(double) 0.0, True);
                 }
             }
             else {
@@ -2432,12 +2432,12 @@ version (none) {
                     pixel = pGC.fgPixel;
                     if (pGC.capStyle == CapProjecting)
                         miLineProjectingCap(pDrawable, pGC, pixel, spanData,
-                                            &firstFace, TRUE,
-                                            cast(double) 0.0, cast(double) 0.0, TRUE);
+                                            &firstFace, True,
+                                            cast(double) 0.0, cast(double) 0.0, True);
                     else if (pGC.capStyle == CapRound)
                         miLineArc(pDrawable, pGC, pixel, spanData,
                                   &firstFace, cast(LineFacePtr) null,
-                                  cast(double) 0.0, cast(double) 0.0, TRUE);
+                                  cast(double) 0.0, cast(double) 0.0, True);
                 }
             }
         }
@@ -2451,7 +2451,7 @@ version (none) {
         case CapRound:
             miLineArc(pDrawable, pGC, pixel, spanData,
                       cast(LineFacePtr) null, cast(LineFacePtr) null,
-                      cast(double) x2, cast(double) y2, FALSE);
+                      cast(double) x2, cast(double) y2, False);
             break;
         case CapProjecting:
             x1 = pGC.lineWidth;

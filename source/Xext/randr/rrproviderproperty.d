@@ -153,7 +153,7 @@ int RRChangeProviderProperty(RRProviderPtr provider, Atom property, Atom type, i
     c_ulong total_len = void;
     RRPropertyValuePtr prop_value = void;
     RRPropertyValueRec new_value = void;
-    Bool add = FALSE;
+    Bool add = False;
 
     size_in_bytes = format >> 3;
 
@@ -163,7 +163,7 @@ int RRChangeProviderProperty(RRProviderPtr provider, Atom property, Atom type, i
         prop = RRCreateProviderProperty(property);
         if (!prop)
             return BadAlloc;
-        add = TRUE;
+        add = True;
         mode = PropModeReplace;
     }
     if (pending && prop.is_pending)
@@ -245,7 +245,7 @@ int RRChangeProviderProperty(RRProviderPtr provider, Atom property, Atom type, i
     }
 
     if (pending && prop.is_pending)
-        provider.pendingProperties = TRUE;
+        provider.pendingProperties = True;
 
     if (sendevent) {
         xRRProviderPropertyNotifyEvent event = {
@@ -294,13 +294,13 @@ static if (RANDR_13_INTERFACE) {
 int RRConfigureProviderProperty(RRProviderPtr provider, Atom property, Bool pending, Bool range, Bool immutable_, int num_values, INT32* values)
 {
     RRPropertyPtr prop = RRQueryProviderProperty(provider, property);
-    Bool add = FALSE;
+    Bool add = False;
 
     if (!prop) {
         prop = RRCreateProviderProperty(property);
         if (!prop)
             return BadAlloc;
-        add = TRUE;
+        add = True;
     }
     else if (prop.immutable_ && !immutable_)
         return BadAccess;
@@ -361,7 +361,7 @@ int ProcRRListProviderProperties(ClientPtr client)
 
     mixin(VERIFY_RR_PROVIDER!("stuff.provider", "provider", "DixReadAccess"));
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     for (prop = provider.properties; prop; prop = prop.next) {
         x_rpcbuf_write_CARD32(&rpcbuf, prop.propertyName);
@@ -397,7 +397,7 @@ int ProcRRQueryProviderProperty(ClientPtr client)
     if (!prop)
         return BadName;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_INT32s(&rpcbuf, prop.valid_values, prop.num_valid);
 
     xRRQueryProviderPropertyReply reply = {
@@ -429,7 +429,7 @@ int ProcRRConfigureProviderProperty(ClientPtr client)
     num_valid =
         cast(int)(client.req_len - int32ForBytes(xRRConfigureProviderPropertyReq.sizeof));
     return RRConfigureProviderProperty(provider, stuff.property, stuff.pending,
-                                     stuff.range, FALSE, num_valid,
+                                     stuff.range, False, num_valid,
                                      cast(INT32*) (stuff + 1));
 }
 
@@ -494,8 +494,8 @@ int ProcRRChangeProviderProperty(ClientPtr client)
 
     err = RRChangeProviderProperty(provider, stuff.property,
                                  stuff.type, cast(int) format,
-                                 cast(int) mode, len, cast(void*) &stuff[1], TRUE,
-                                 TRUE);
+                                 cast(int) mode, len, cast(void*) &stuff[1], True,
+                                 True);
     if (err != Success)
         return err;
     else
@@ -578,7 +578,7 @@ int ProcRRGetProviderProperty(ClientPtr client)
         if (prop.propertyName == stuff.property)
             break;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     xRRGetProviderPropertyReply reply = { 0 };
 

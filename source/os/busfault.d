@@ -26,11 +26,10 @@ extern(C): __gshared:
 import build.dix_config;
 
 // //import x11.Xos;
-//import x11.Xdefs;
+import x11.Xdefs;
 
 import os.busfault;
 
-import common.misc;
 import common.list;
 import core.stdc.stddef;
 import core.stdc.stdlib;
@@ -70,7 +69,7 @@ busfault* busfault_register_mmap(void* addr, size_t size, busfault_notify_ptr no
     busfault_.size = size;
     busfault_.notify = notify;
     busfault_.context = context;
-    busfault_.valid = TRUE;
+    busfault_.valid = True;
 
     busfaults.addListNext(&busfault_.list);
     return busfault_;
@@ -87,7 +86,7 @@ void busfault_check()
     if (!busfaulted)
         return;
 
-    busfaulted = FALSE;
+    busfaulted = False;
 
     foreach(busfault_; busfaults.byEntriesSafe!busfault) {
         if (!busfault_.valid)
@@ -117,8 +116,8 @@ private void busfault_sigaction(int sig, siginfo_t* info, void* param)
     if (!busfault_.valid)
         goto panic_;
 
-    busfault_.valid = FALSE;
-    busfaulted = TRUE;
+    busfault_.valid = False;
+    busfaulted = True;
 
     /* The client truncated the file; unmap the shared file, map
      * /dev/zero over that area and keep going
@@ -146,8 +145,8 @@ Bool busfault_init()
     act.sa_flags = SA_SIGINFO;
     sigemptyset(&act.sa_mask);
     if (sigaction(SIGBUS, &act, &old_act) < 0)
-        return FALSE;
+        return False;
     previous_busfault_sigaction = assumeNoGC(old_act.sa_sigaction);
     busfaults.initList();
-    return TRUE;
+    return True;
 }

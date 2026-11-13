@@ -20,6 +20,7 @@ import externs.gnu;
 import os.log;
 import xf86Globals;
 import hw.xfree86.parser.Flags;
+import common.bools;
 
 enum {
     GLAMOREGLOPT_RENDERING_API,

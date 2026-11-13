@@ -260,7 +260,7 @@ int ddxProcessArgument(int argc, char** argv, int i)
     }
 static if (GLAMOR) {
     if(!strcmp (argv[i], "-glamor")) {
-        ephyr_glamor = TRUE;
+        ephyr_glamor = True;
         ephyrFuncs.initAccel = ephyr_glamor_init;
         ephyrFuncs.enableAccel = ephyr_glamor_enable;
         ephyrFuncs.disableAccel = ephyr_glamor_disable;
@@ -268,8 +268,8 @@ static if (GLAMOR) {
         return 1;
     }
     else if(!strcmp (argv[i], "-glamor_gles2")) {
-        ephyr_glamor = TRUE;
-        ephyr_glamor_gles2 = TRUE;
+        ephyr_glamor = True;
+        ephyr_glamor_gles2 = True;
         ephyrFuncs.initAccel = ephyr_glamor_init;
         ephyrFuncs.enableAccel = ephyr_glamor_enable;
         ephyrFuncs.disableAccel = ephyr_glamor_disable;
@@ -277,7 +277,7 @@ static if (GLAMOR) {
         return 1;
     }
     else if (!strcmp (argv[i], "-glamor-skip-present")) {
-        ephyr_glamor_skip_present = TRUE;
+        ephyr_glamor_skip_present = True;
         return 1;
     }
 }
@@ -302,7 +302,7 @@ static if (GLAMOR) {
         }
     }
     else if(!strcmp(argv[i], "-noxv")) {
-        ephyrNoXV = TRUE;
+        ephyrNoXV = True;
         // EPHYR_LOG("no XVideo enabled\n");
         return 1;
     }

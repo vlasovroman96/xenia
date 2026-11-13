@@ -72,7 +72,7 @@ static this()
 
 private void LinuxVTRequest(int sig)
 {
-    kdSwitchPending = TRUE;
+    kdSwitchPending = True;
 }
 
 /* Check before chowning -- this avoids touching the file system */
@@ -183,29 +183,29 @@ private void LinuxApmNotify(int fd, int mask, void* blockData)
         switch (event) {
         case APM_SYS_STANDBY:
         case APM_USER_STANDBY:
-            running = FALSE;
+            running = False;
             cmd = APM_IOC_STANDBY;
             break;
         case APM_SYS_SUSPEND:
         case APM_USER_SUSPEND:
         case APM_CRITICAL_SUSPEND:
-            running = FALSE;
+            running = False;
             cmd = APM_IOC_SUSPEND;
             break;
         case APM_NORMAL_RESUME:
         case APM_CRITICAL_RESUME:
         case APM_STANDBY_RESUME:
-            running = TRUE;
+            running = True;
             break;
         default: break;}
     }
     if (running && !LinuxApmRunning) {
         KdResume();
-        LinuxApmRunning = TRUE;
+        LinuxApmRunning = True;
     }
     else if (!running && LinuxApmRunning) {
         KdSuspend(FALSE);
-        LinuxApmRunning = FALSE;
+        LinuxApmRunning = False;
         ioctl(fd, cmd, 0);
     }
 }
@@ -222,7 +222,7 @@ private void LinuxEnable()
     if (enabled)
         return;
     if (kdSwitchPending) {
-        kdSwitchPending = FALSE;
+        kdSwitchPending = False;
         ioctl(LinuxConsoleFd, VT_RELDISP, VT_ACKACQ);
     }
     /*
@@ -232,7 +232,7 @@ private void LinuxEnable()
     if (LinuxApmFd < 0 && errno == ENOENT)
         LinuxApmFd = open("/dev/misc/apm_bios", 2);
     if (LinuxApmFd >= 0) {
-        LinuxApmRunning = TRUE;
+        LinuxApmRunning = True;
         fcntl(LinuxApmFd, F_SETFL, fcntl(LinuxApmFd, F_GETFL) | NOBLOCK);
         SetNotifyFd(LinuxApmFd, &LinuxApmNotify, X_NOTIFY_READ, null);
     }
@@ -251,7 +251,7 @@ private void LinuxEnable()
     if (ioctl(LinuxConsoleFd, KDSETMODE, KD_GRAPHICS) < 0) {
         FatalError("LinuxInit: KDSETMODE KD_GRAPHICS failed\n");
     }
-    enabled = TRUE;
+    enabled = True;
 }
 
 private Bool LinuxSpecialKey(KeySym sym)
@@ -265,20 +265,20 @@ private Bool LinuxSpecialKey(KeySym sym)
         ioctl(LinuxConsoleFd, VT_GETSTATE, &vts);
         if (con != vts.v_active && (vts.v_state & (1 << con))) {
             ioctl(LinuxConsoleFd, VT_ACTIVATE, con);
-            return TRUE;
+            return True;
         }
     }
-    return FALSE;
+    return False;
 }
 
 private void LinuxDisable()
 {
     ioctl(LinuxConsoleFd, KDSETMODE, KD_TEXT);  /* Back to text mode ... */
     if (kdSwitchPending) {
-        kdSwitchPending = FALSE;
+        kdSwitchPending = False;
         ioctl(LinuxConsoleFd, VT_RELDISP, 1);
     }
-    enabled = FALSE;
+    enabled = False;
     if (LinuxApmFd >= 0) {
         RemoveNotifyFd(LinuxApmFd);
         close(LinuxApmFd);

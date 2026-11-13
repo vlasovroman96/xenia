@@ -64,7 +64,7 @@ struct SELinuxListItemRec {
     CARD32 id;
 }
 
-Bool noSELinuxExtension = FALSE;
+Bool noSELinuxExtension = False;
 int selinuxEnforcingState = SELINUX_MODE_DEFAULT;
 
 /*
@@ -97,7 +97,7 @@ private int ProcSELinuxQueryVersion(ClientPtr client)
 
 private int SELinuxSendContextReply(ClientPtr client, security_id_t sid)
 {
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     // auto dd = &assumeNoGC(&avc_sid_to_context_raw);
 
@@ -360,7 +360,7 @@ private void SELinuxFreeItems(SELinuxListItemRec* items, int count)
 
 private int SELinuxSendItemsToClient(ClientPtr client, SELinuxListItemRec* items, int size, int count)
 {
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     /* Fill in the buffer */
     for (int k = 0; k < count; k++) {

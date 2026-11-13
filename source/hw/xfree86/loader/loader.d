@@ -166,14 +166,14 @@ void LoaderUnload(const(char)* name, void* handle)
         dlclose(handle);
 }
 
-Bool LoaderIgnoreAbi = FALSE;
-Bool is_nvidia_proprietary = FALSE;
+Bool LoaderIgnoreAbi = False;
+Bool is_nvidia_proprietary = False;
 
 void LoaderSetIgnoreAbi()
 {
     /* Only used to keep consistency with the loader api */
     /* This really doesn't have to be a proc */
-    LoaderIgnoreAbi = TRUE;
+    LoaderIgnoreAbi = True;
 }
 
 Bool LoaderShouldIgnoreABI()

@@ -233,7 +233,7 @@ Bool PixmapScreenInit(ScreenPtr pScreen)
     /* This field is used by the 470 and 390 proprietary nvidia DDX driver, and should always be NULL */
     pScreen.reserved_for_nvidia_470_and_390 = null;
 // }
-    return TRUE;
+    return True;
 }
 
 /* callable by ddx */
@@ -277,7 +277,7 @@ PixmapPtr PixmapShareToSecondary(PixmapPtr pixmap, ScreenPtr secondary)
     int depth = pixmap.drawable.depth;
 
     ret = primary.SharePixmapBacking(pixmap, secondary, &handle);
-    if (ret == FALSE)
+    if (ret == False)
         return null;
 
     spix = secondary.CreatePixmap(secondary, 0, 0, depth,
@@ -293,7 +293,7 @@ PixmapPtr PixmapShareToSecondary(PixmapPtr pixmap, ScreenPtr secondary)
     spix.primary_pixmap = pixmap;
 
     ret = secondary.SetSharedPixmapBacking(spix, handle);
-    if (ret == FALSE) {
+    if (ret == False) {
         dixDestroyPixmap(spix, 0);
         return null;
     }
@@ -318,7 +318,7 @@ Bool PixmapStartDirtyTracking(DrawablePtr src, PixmapPtr secondary_dst, int x, i
 
     dirty_update = cast(PixmapDirtyUpdateRec*) calloc(1, PixmapDirtyUpdateRec.sizeof);
     if (!dirty_update)
-        return FALSE;
+        return False;
 
     dirty_update.src = src;
     dirty_update.secondary_dst = secondary_dst;
@@ -328,7 +328,7 @@ Bool PixmapStartDirtyTracking(DrawablePtr src, PixmapPtr secondary_dst, int x, i
     dirty_update.dst_y = dst_y;
     dirty_update.rotation = rotation;
     dirty_update.damage = DamageCreate(null, &PixmapDirtyDamageDestroy,
-                                        DamageReportNone, TRUE, screen,
+                                        DamageReportNone, True, screen,
                                         dirty_update);
 
     if (rotation != RR_Rotate_0) {
@@ -343,7 +343,7 @@ Bool PixmapStartDirtyTracking(DrawablePtr src, PixmapPtr secondary_dst, int x, i
     }
     if (!dirty_update.damage) {
         free(dirty_update);
-        return FALSE;
+        return False;
     }
 
     /* Damage destination rectangle so that the destination pixmap contents
@@ -366,7 +366,7 @@ Bool PixmapStartDirtyTracking(DrawablePtr src, PixmapPtr secondary_dst, int x, i
 
     DamageRegister(src, dirty_update.damage);
     screen.pixmap_dirty_list.addListNext(&dirty_update.ent);
-    return TRUE;
+    return True;
 }
 
 Bool PixmapStopDirtyTracking(DrawablePtr src, PixmapPtr secondary_dst)
@@ -380,7 +380,7 @@ Bool PixmapStopDirtyTracking(DrawablePtr src, PixmapPtr secondary_dst)
             free(ent);
         }
     }
-    return TRUE;
+    return True;
 }
 
 void PixmapDirtyCopyArea(PixmapPtr dst, DrawablePtr src, int x, int y, int dst_x, int dst_y, RegionPtr dirty_region)
@@ -521,7 +521,7 @@ Bool PixmapSyncDirtyHelper(PixmapDirtyUpdatePtr dirty)
 
     if (RegionNil(&pixregion)) {
         RegionUninit(&pixregion);
-        return FALSE;
+        return False;
     }
 
     RegionTranslate(&pixregion, -dirty.x, -dirty.y);
@@ -532,5 +532,5 @@ Bool PixmapSyncDirtyHelper(PixmapDirtyUpdatePtr dirty)
     else
         PixmapDirtyCompositeRotate(dst, dirty, &pixregion);
     pScreen.SourceValidate = SourceValidate;
-    return TRUE;
+    return True;
 }

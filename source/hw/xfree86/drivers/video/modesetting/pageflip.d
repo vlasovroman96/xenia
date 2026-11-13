@@ -201,7 +201,7 @@ private Bool do_queue_flip_on_crtc(ScreenPtr screen, xf86CrtcPtr crtc, uint flag
              */
             if (!trf.flip_seq || ms_flush_drm_events_timeout(screen, -1) < 0) {
                 ms_drm_abort_seq(crtc.scrn, seq);
-                return TRUE;
+                return True;
             }
         }
 
@@ -209,7 +209,7 @@ private Bool do_queue_flip_on_crtc(ScreenPtr screen, xf86CrtcPtr crtc, uint flag
         xf86DrvMsg(crtc.scrn.scrnIndex, X_WARNING, "flip queue retry\n");
     }
 
-    return FALSE;
+    return False;
 }
 
 enum queue_flip_status {
@@ -300,7 +300,7 @@ private void ms_print_pageflip_error(int screen_index, const(char)* log_prefix, 
         if (clocks_since_last_log >
                 MS_ASYNC_FLIP_LOG_ENABLE_LOGS_INTERVAL_MS) {
             frequent_logs = 0;
-            logs_disabled = FALSE;
+            logs_disabled = False;
         }
         if (!logs_disabled) {
             if (clocks_since_last_log <
@@ -312,7 +312,7 @@ private void ms_print_pageflip_error(int screen_index, const(char)* log_prefix, 
                 xf86DrvMsg(screen_index, X_WARNING,
                            "%s: detected too frequent flip errors, disabling "
                            ~ "logs until frequency is reduced\n", log_prefix);
-                logs_disabled = TRUE;
+                logs_disabled = True;
             } else {
                 xf86DrvMsg(screen_index, X_WARNING,
                            "%s: queue async flip during flip on CRTC %d failed: %s\n",
@@ -337,12 +337,12 @@ private Bool ms_tearfree_dri_flip(modesettingPtr ms, xf86CrtcPtr crtc, void* eve
     RegionPtr dirty = void;
 
     if (!ms_tearfree_is_active_on_crtc(crtc))
-        return FALSE;
+        return False;
 
     /* Check for damage on the primary scanout to know if TearFree will flip */
     dirty = DamageRegion(ms.damage);
     if (RegionNil(dirty))
-        return FALSE;
+        return False;
 
     /* Compute how much of the current damage intersects with this CRTC */
     RegionInit(&region, &crtc.bounds, 0);
@@ -353,23 +353,23 @@ private Bool ms_tearfree_dri_flip(modesettingPtr ms, xf86CrtcPtr crtc, void* eve
      * because its window is fully occluded by another window on this CRTC.
      */
     if (RegionNil(&region))
-        return FALSE;
+        return False;
 
     flip = cast(ms_crtc_pageflip*) calloc(1, typeof(*flip).sizeof);
     if (!flip)
-        return FALSE;
+        return False;
 
     flipdata = cast(ms_flipdata*) calloc(1, typeof(*flipdata).sizeof);
     if (!flipdata) {
         free(flip);
-        return FALSE;
+        return False;
     }
 
     /* Only track the DRI client's fake flip on the reference CRTC, which aligns
      * with the behavior of Present when a client copies its pixmap rather than
      * directly flipping it onto the display.
      */
-    flip.on_reference_crtc = TRUE;
+    flip.on_reference_crtc = True;
     flip.flipdata = flipdata;
     flip.tearfree_seq = trf.flip_seq;
     flipdata.screen = xf86ScrnToScreen(crtc.scrn);
@@ -380,7 +380,7 @@ private Bool ms_tearfree_dri_flip(modesettingPtr ms, xf86CrtcPtr crtc, void* eve
 
     /* Keep the list in FIFO order so that clients are notified in order */
     trf.dri_flip_list.appendList(&flip.node);
-    return TRUE;
+    return True;
 }
 
 Bool ms_do_pageflip(ScreenPtr screen, PixmapPtr new_front, void* event, xf86CrtcPtr ref_crtc, Bool async, ms_pageflip_handler_proc pageflip_handler, ms_pageflip_abort_proc pageflip_abort, const(char)* log_prefix)
@@ -405,7 +405,7 @@ Bool ms_do_pageflip(ScreenPtr screen, PixmapPtr new_front, void* event, xf86Crtc
         if (!ms_tearfree_dri_flip(ms, ref_crtc, event, pageflip_handler,
                                   pageflip_abort))
             goto error_free_event;
-        return TRUE;
+        return True;
     }
 
     ms.glamor.block_handler(screen);
@@ -449,13 +449,13 @@ Bool ms_do_pageflip(ScreenPtr screen, PixmapPtr new_front, void* event, xf86Crtc
         if (!ms.drmmode.flip_bo_import_failed) {
             xf86DrvMsg(scrn.scrnIndex, X_WARNING, "%s: Import BO failed: %s\n",
                        log_prefix, strerror(errno));
-            ms.drmmode.flip_bo_import_failed = TRUE;
+            ms.drmmode.flip_bo_import_failed = True;
         }
         goto error_out;
     } else {
         if (ms.drmmode.flip_bo_import_failed &&
             new_front != screen.GetScreenPixmap(screen))
-            ms.drmmode.flip_bo_import_failed = FALSE;
+            ms.drmmode.flip_bo_import_failed = False;
     }
 
     /* Queue flips on all enabled CRTCs.
@@ -524,7 +524,7 @@ Bool ms_do_pageflip(ScreenPtr screen, PixmapPtr new_front, void* event, xf86Crtc
      */
     if (flipdata.flip_count > 1) {
         flipdata.flip_count--;
-        return TRUE;
+        return True;
     }
 
 error_undo:
@@ -547,13 +547,13 @@ error_out:
         free(flipdata);
     } else {
         flipdata.flip_count--;
-        return FALSE;
+        return False;
     }
 
 error_free_event:
     /* Free the event since the caller has no way to know it's safe to free */
     free(event);
-    return FALSE;
+    return False;
 }
 
 Bool ms_tearfree_dri_abort(xf86CrtcPtr crtc, Bool function(void* data, void* match_data) @nogc nothrow match, void* match_data)
@@ -566,10 +566,10 @@ Bool ms_tearfree_dri_abort(xf86CrtcPtr crtc, Bool function(void* data, void* mat
         if (match(flip.flipdata.event, match_data)) {
             flip.node.removeFromList();
             ms_pageflip_abort(flip);
-            return TRUE;
+            return True;
         }
 
-    return FALSE;
+    return False;
 }
 
 void ms_tearfree_dri_abort_all(xf86CrtcPtr crtc)
@@ -651,20 +651,20 @@ Bool ms_do_tearfree_flip(ScreenPtr screen, xf86CrtcPtr crtc)
     }
 
     /* Copy the damage to the back buffer and then flip it at the vblank */
-    drmmode_copy_damage(crtc, trf.buf[idx].px, &trf.buf[idx].dmg, TRUE);
+    drmmode_copy_damage(crtc, trf.buf[idx].px, &trf.buf[idx].dmg, True);
     if (do_queue_flip_on_crtc(screen, crtc, DRM_MODE_PAGE_FLIP_EVENT,
                               seq, trf.buf[idx].fb_id, 0, 0))
         goto no_flip;
 
     trf.flip_seq = seq;
-    return FALSE;
+    return False;
 
 no_flip:
     xf86DrvMsg(crtc.scrn.scrnIndex, X_WARNING,
                "TearFree flip failed, rendering frame without TearFree\n");
     drmmode_copy_damage(crtc, trf.buf[idx ^ 1].px,
-                        &trf.buf[idx ^ 1].dmg, FALSE);
-    return TRUE;
+                        &trf.buf[idx ^ 1].dmg, False);
+    return True;
 }
 }
 

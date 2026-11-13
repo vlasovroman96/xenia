@@ -50,30 +50,30 @@ RESTYPE RRModeType;
 private Bool RRModeEqual(xRRModeInfo* a, xRRModeInfo* b)
 {
     if (a.width != b.width)
-        return FALSE;
+        return False;
     if (a.height != b.height)
-        return FALSE;
+        return False;
     if (a.dotClock != b.dotClock)
-        return FALSE;
+        return False;
     if (a.hSyncStart != b.hSyncStart)
-        return FALSE;
+        return False;
     if (a.hSyncEnd != b.hSyncEnd)
-        return FALSE;
+        return False;
     if (a.hTotal != b.hTotal)
-        return FALSE;
+        return False;
     if (a.hSkew != b.hSkew)
-        return FALSE;
+        return False;
     if (a.vSyncStart != b.vSyncStart)
-        return FALSE;
+        return False;
     if (a.vSyncEnd != b.vSyncEnd)
-        return FALSE;
+        return False;
     if (a.vTotal != b.vTotal)
-        return FALSE;
+        return False;
     if (a.nameLength != b.nameLength)
-        return FALSE;
+        return False;
     if (a.modeFlags != b.modeFlags)
-        return FALSE;
-    return TRUE;
+        return False;
+    return True;
 }
 
 /*
@@ -279,9 +279,9 @@ Bool RRModeInit()
     assert(modes is null);
     RRModeType = CreateNewResourceType(&RRModeDestroyResource, "MODE");
     if (!RRModeType)
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 /*

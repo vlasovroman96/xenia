@@ -51,6 +51,7 @@ import externs.attrs;;
 import externs.X11.extensions.render_;
 import fb.fb;
 import dix.picture;
+import common.bools;
 
 private void byte_swap_swizzle(GLenum* swizzle)
 {

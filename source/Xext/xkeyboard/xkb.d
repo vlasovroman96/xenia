@@ -756,11 +756,11 @@ int ProcXkbLatchLockState(ClientPtr client)
 					changed: changed
 				};
                 XkbSendStateNotify(tmpd, &sn);
-                changed = cast(short)XkbIndicatorsToUpdate(tmpd, changed, FALSE);
+                changed = cast(short)XkbIndicatorsToUpdate(tmpd, changed, False);
                 if (changed) {
                     XkbEventCauseRec cause = { 0 };
                     mixin(XkbSetCauseXkbReq!(`&cause`, `X_kbLatchLockState`, `client`));
-                    XkbUpdateIndicators(tmpd, cast(ubyte)changed, TRUE, null, &cause);
+                    XkbUpdateIndicators(tmpd, cast(ubyte)changed, True, null, &cause);
                 }
             }
         }
@@ -1061,7 +1061,7 @@ int ProcXkbSetControls(ClientPtr client)
             *ctrl = new_;
             XkbDDXChangeControls(tmpd, &old, ctrl);
 
-            if (XkbComputeControlsNotify(tmpd, &old, ctrl, &cn, FALSE)) {
+            if (XkbComputeControlsNotify(tmpd, &old, ctrl, &cn, False)) {
                 cn.keycode = 0;
                 cn.eventType = 0;
                 cn.requestMajor = cast(ubyte)XkbReqCode;
@@ -1071,13 +1071,13 @@ int ProcXkbSetControls(ClientPtr client)
 
             sli = XkbFindSrvLedInfo(tmpd, XkbDfltXIClass, XkbDfltXIId, 0);
             if (sli)
-                XkbUpdateIndicators(tmpd, sli.usesControls, TRUE, null,
+                XkbUpdateIndicators(tmpd, sli.usesControls, True, null,
                                     &cause);
 
             /* If sticky keys were disabled, clear all locks and latches */
             if ((old.enabled_ctrls & XkbStickyKeysMask) &&
                 !(ctrl.enabled_ctrls & XkbStickyKeysMask))
-                XkbClearAllLatchesAndLocks(tmpd, xkbi, TRUE, &cause);
+                XkbClearAllLatchesAndLocks(tmpd, xkbi, True, &cause);
         }
     }
 
@@ -1571,7 +1571,7 @@ int ProcXkbGetMap(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     XkbAssembleMap(client, xkb, reply, &rpcbuf);
 
     if (rpcbuf.error)
@@ -2163,7 +2163,7 @@ private char* SetKeySyms(ClientPtr client, XkbDescPtr xkb, xkbSetMapReq* req, xk
         };
         XkbControlsRec old = *xkb.ctrls;
         xkb.ctrls.num_groups = cast(ubyte)(s);
-        if (XkbComputeControlsNotify(dev, &old, xkb.ctrls, &cn, FALSE))
+        if (XkbComputeControlsNotify(dev, &old, xkb.ctrls, &cn, False))
             XkbSendControlsNotify(dev, &cn);
     }
     return cast(char*) wire;
@@ -2590,7 +2590,7 @@ private int _XkbSetMap(ClientPtr client, DeviceIntPtr dev, xkbSetMapReq* req, ch
 
     mixin(XkbSetCauseXkbReq!(`&cause`, `X_kbSetMap`, `client`));
     memset(&change, 0, change.sizeof);
-    sentNKN = FALSE;
+    sentNKN = False;
     if ((xkb.min_key_code != req.minKeyCode) ||
         (xkb.max_key_code != req.maxKeyCode)) {
         Status status = void;
@@ -2609,7 +2609,7 @@ private int _XkbSetMap(ClientPtr client, DeviceIntPtr dev, xkbSetMapReq* req, ch
         nkn.requestMinor = X_kbSetMap;
         nkn.changed = cast(ushort)XkbNKN_KeycodesMask;
         XkbSendNewKeyboardNotify(dev, &nkn);
-        sentNKN = TRUE;
+        sentNKN = True;
     }
 
     if (req.present & XkbKeyTypesMask) {
@@ -2721,7 +2721,7 @@ int ProcXkbSetMap(ClientPtr client)
     /* Check if we can to the SetMap on the requested device. If this
        succeeds, do the same thing for all extension devices (if needed).
        If any of them fails, fail.  */
-    rc = _XkbSetMapChecks(client, dev, stuff, tmp, TRUE);
+    rc = _XkbSetMapChecks(client, dev, stuff, tmp, True);
 
     if (rc != Success)
         return rc;
@@ -2736,7 +2736,7 @@ int ProcXkbSetMap(ClientPtr client)
                 GetMaster(other, MASTER_KEYBOARD) == dev) {
                 rc = dixCallDeviceAccessCallback(client, other, DixManageAccess);
                 if (rc == Success) {
-                    rc = _XkbSetMapChecks(client, other, stuff, tmp, FALSE);
+                    rc = _XkbSetMapChecks(client, other, stuff, tmp, False);
                     if (rc != Success)
                         return rc;
                 }
@@ -2750,7 +2750,7 @@ int ProcXkbSetMap(ClientPtr client)
                 (other != master || dev != master.lastSlave))
                 continue;
 
-            rc = _XkbSetMapChecks(client, other, stuff, tmp, FALSE);
+            rc = _XkbSetMapChecks(client, other, stuff, tmp, False);
             if (rc != Success)
                 return rc;
         }
@@ -2875,7 +2875,7 @@ int ProcXkbGetCompatMap(ClientPtr client)
         groups: stuff.groups,
     };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     XkbAssembleCompatMap(client, compat, reply, &rpcbuf);
 
     if (rpcbuf.error)
@@ -2890,7 +2890,7 @@ int ProcXkbGetCompatMap(ClientPtr client)
 
 /**
  * Apply the given request on the given device.
- * If dryRun is TRUE, then value checks are performed, but the device isn't
+ * If dryRun is True, then value checks are performed, but the device isn't
  * modified.
  */
 private int _XkbSetCompatMap(ClientPtr client, DeviceIntPtr dev, xkbSetCompatMapReq* req, char* data, BOOL dryRun)
@@ -3062,7 +3062,7 @@ int ProcXkbSetCompatMap(ClientPtr client)
     data = cast(char*) &stuff[1];
 
     /* check first using a dry-run */
-    rc = _XkbSetCompatMap(client, dev, stuff, data, TRUE);
+    rc = _XkbSetCompatMap(client, dev, stuff, data, True);
     if (rc != Success)
         return rc;
     if (stuff.deviceSpec == XkbUseCoreKbd) {
@@ -3074,7 +3074,7 @@ int ProcXkbSetCompatMap(ClientPtr client)
                 rc = dixCallDeviceAccessCallback(client, other, DixManageAccess);
                 if (rc == Success) {
                     /* dry-run */
-                    rc = _XkbSetCompatMap(client, other, stuff, data, TRUE);
+                    rc = _XkbSetCompatMap(client, other, stuff, data, True);
                     if (rc != Success)
                         return rc;
                 }
@@ -3083,7 +3083,7 @@ int ProcXkbSetCompatMap(ClientPtr client)
     }
 
     /* Yay, the dry-runs succeed. Let's apply */
-    rc = _XkbSetCompatMap(client, dev, stuff, data, FALSE);
+    rc = _XkbSetCompatMap(client, dev, stuff, data, False);
     if (rc != Success)
         return rc;
     if (stuff.deviceSpec == XkbUseCoreKbd) {
@@ -3094,7 +3094,7 @@ int ProcXkbSetCompatMap(ClientPtr client)
                 GetMaster(other, MASTER_KEYBOARD) == dev) {
                 rc = dixCallDeviceAccessCallback(client, other, DixManageAccess);
                 if (rc == Success) {
-                    rc = _XkbSetCompatMap(client, other, stuff, data, FALSE);
+                    rc = _XkbSetCompatMap(client, other, stuff, data, False);
                     if (rc != Success)
                         return rc;
                 }
@@ -3192,7 +3192,7 @@ int ProcXkbGetIndicatorMap(ClientPtr client)
     };
     XkbComputeGetIndicatorMapReplySize(leds, &reply);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     XkbAssembleIndicatorMap(client, leds, reply, &rpcbuf);
 
@@ -3350,11 +3350,11 @@ int ProcXkbGetNamedIndicator(ClientPtr client)
     xkbGetNamedIndicatorReply reply = {
         deviceID: cast(ubyte)dev.id,
         indicator: stuff.indicator,
-        supported: cast(ubyte)TRUE,
+        supported: cast(ubyte)True,
         ndx: XkbNoIndicator,
     };
     if (map !is null) {
-        reply.found = TRUE;
+        reply.found = True;
         reply.on = ((sli.effectiveState & (1 << i)) != 0);
         reply.realIndicator = ((sli.physIndicators & (1 << i)) != 0);
         reply.ndx = cast(ubyte)i;
@@ -3403,7 +3403,7 @@ private XkbIndicatorMapPtr _XkbFindNamedIndicatorMap(XkbSrvLedInfoPtr sli, Atom 
 }
 
 /**
- * Creates an indicator map on the device. If dryRun is TRUE, it only checks
+ * Creates an indicator map on the device. If dryRun is True, it only checks
  * if creation is possible, but doesn't actually create it.
  */
 private int _XkbCreateIndicatorMap(DeviceIntPtr dev, Atom indicator, int ledClass, int ledID, XkbIndicatorMapPtr* map_return, int* led_return, Bool dryRun)
@@ -3453,7 +3453,7 @@ private int _XkbSetNamedIndicator(ClientPtr client, DeviceIntPtr dev, xkbSetName
     int rc = void;
 
     rc = _XkbCreateIndicatorMap(dev, stuff.indicator, stuff.ledClass,
-                                stuff.ledID, &map, &led, FALSE);
+                                stuff.ledID, &map, &led, False);
     if (rc != Success || !map)  /* oh-oh */
         return rc;
 
@@ -3529,7 +3529,7 @@ int ProcXkbSetNamedIndicator(ClientPtr client)
     /* Dry-run for checks */
     rc = _XkbCreateIndicatorMap(dev, stuff.indicator,
                                 stuff.ledClass, stuff.ledID,
-                                &map, &led, TRUE);
+                                &map, &led, True);
     if (rc != Success || !map)  /* couldn't be created or didn't exist */
         return rc;
 
@@ -3545,7 +3545,7 @@ int ProcXkbSetNamedIndicator(ClientPtr client)
                  == Success)) {
                 rc = _XkbCreateIndicatorMap(other, stuff.indicator,
                                             stuff.ledClass, stuff.ledID, &map,
-                                            &led, TRUE);
+                                            &led, True);
                 if (rc != Success || !map)
                     return rc;
             }
@@ -3815,7 +3815,7 @@ int ProcXkbGetNames(ClientPtr client)
     };
     XkbComputeGetNamesReplySize(xkb, &reply);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     XkbAssembleNames(client, xkb, reply, &rpcbuf);
 
@@ -3883,8 +3883,8 @@ private Bool _XkbCheckTypeName(Atom name, int typeNdx)
     str = NameForAtom(name);
     if ((strcmp(str, "ONE_LEVEL") == 0) || (strcmp(str, "TWO_LEVEL") == 0) ||
         (strcmp(str, "ALPHABETIC") == 0) || (strcmp(str, "KEYPAD") == 0))
-        return FALSE;
-    return TRUE;
+        return False;
+    return True;
 }
 
 /**
@@ -4350,7 +4350,7 @@ enum string	XkbSizeCountedString(string s) = `((` ~ s ~ `)?((((2+strlen(` ~ s ~ 
  *
  * @param wire The destination array, usually the wire struct
  * @param str The source string as zero-terminated C string
- * @param swap If TRUE, the length field is swapped.
+ * @param swap If True, the length field is swapped.
  *
  * @return The input string in the format <string length><string> with a
  * (swapped) 16 bit string length, non-zero terminated.
@@ -4700,7 +4700,7 @@ private Status XkbComputeGetGeometryReplySize(XkbGeometryPtr geom, xkbGetGeometr
         len += XkbSizeGeomDoodads(geom.num_doodads, geom.doodads);
         len += XkbSizeGeomKeyAliases(geom);
         rep.length= cast(uint)(len / 4);
-        rep.found = TRUE;
+        rep.found = True;
         rep.name = cast(uint)geom.name;
         rep.widthMM = geom.width_mm;
         rep.heightMM = geom.height_mm;
@@ -4715,7 +4715,7 @@ private Status XkbComputeGetGeometryReplySize(XkbGeometryPtr geom, xkbGetGeometr
     }
     else {
         rep.length= cast(uint)(0);
-        rep.found = FALSE;
+        rep.found = False;
         rep.name = cast(uint)name;
         rep.widthMM = rep.heightMM = 0;
         rep.nProperties = rep.nColors = rep.nShapes = 0;
@@ -4780,7 +4780,7 @@ int ProcXkbGetGeometry(ClientPtr client)
         goto free_out;
 
     rpcbuf.swapped = client.swapped;
-    rpcbuf.err_clear = TRUE;
+    rpcbuf.err_clear = True;
     XkbAssembleGeometry(client, geom, reply, &rpcbuf);
 
     mixin(X_REPLY_FIELD_CARD32!"name");
@@ -4797,7 +4797,7 @@ int ProcXkbGetGeometry(ClientPtr client)
 
 free_out:
     if (shouldFree)
-        XkbFreeGeometry(geom, XkbGeomAllMask, TRUE);
+        XkbFreeGeometry(geom, XkbGeomAllMask, True);
 
     return status;
 }
@@ -5302,14 +5302,14 @@ private int _XkbSetGeometry(ClientPtr client, DeviceIntPtr dev, xkbSetGeometryRe
     geom.width_mm = stuff.widthMM;
     geom.height_mm = stuff.heightMM;
     if ((status = _CheckSetGeom(geom, stuff, client)) != Success) {
-        XkbFreeGeometry(geom, XkbGeomAllMask, TRUE);
+        XkbFreeGeometry(geom, XkbGeomAllMask, True);
         xkb.geom = old;
         return status;
     }
     new_name = (xkb.names.geometry != geom.name);
     xkb.names.geometry = geom.name;
     if (old)
-        XkbFreeGeometry(old, XkbGeomAllMask, TRUE);
+        XkbFreeGeometry(old, XkbGeomAllMask, True);
     if (new_name) {
         xkbNamesNotify nn = {
             changed: cast(ushort)XkbGeometryNameMask,
@@ -5628,7 +5628,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
     status = Success;
     str = cast(ubyte*) &stuff[1];
     {
-        char* keymap = GetComponentSpec(client, stuff, &str, TRUE, &status);  /* keymap, unsupported */
+        char* keymap = GetComponentSpec(client, stuff, &str, True, &status);  /* keymap, unsupported */
         if (keymap) {
             free(keymap);
             return BadMatch;
@@ -5636,11 +5636,11 @@ int ProcXkbGetKbdByName(ClientPtr client)
     }
 
     XkbComponentNamesRec names = {
-        keycodes: GetComponentSpec(client, stuff, &str, TRUE, &status),
-        types: GetComponentSpec(client, stuff, &str, TRUE, &status),
-        compat: GetComponentSpec(client, stuff, &str, TRUE, &status),
-        symbols: GetComponentSpec(client, stuff, &str, TRUE, &status),
-        geometry: GetComponentSpec(client, stuff, &str, TRUE, &status),
+        keycodes: GetComponentSpec(client, stuff, &str, True, &status),
+        types: GetComponentSpec(client, stuff, &str, True, &status),
+        compat: GetComponentSpec(client, stuff, &str, True, &status),
+        symbols: GetComponentSpec(client, stuff, &str, True, &status),
+        geometry: GetComponentSpec(client, stuff, &str, True, &status),
     };
 
     if (status == Success) {
@@ -5676,12 +5676,12 @@ int ProcXkbGetKbdByName(ClientPtr client)
                     (strcmp(names.geometry, "%") != 0));
     if ((!names.geometry) && (fwant & XkbGBN_GeometryMask)) {
         names.geometry = cast(char*)Xstrdup("%");
-        geom_changed = FALSE;
+        geom_changed = False;
     }
 
     fwant =
-        XkbConvertGetByNameComponents(TRUE, stuff.want) | XkmVirtualModsMask;
-    fneed = XkbConvertGetByNameComponents(TRUE, stuff.need);
+        XkbConvertGetByNameComponents(True, stuff.want) | XkmVirtualModsMask;
+    fneed = XkbConvertGetByNameComponents(True, stuff.need);
 
     if (stuff.load) {
         fneed |= XkmKeymapRequired;
@@ -5695,7 +5695,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
     /* We pass dev in here so we can get the old names out if needed. */
     uint found = XkbDDXLoadKeymapByNames(dev, &names, fwant, fneed, &new_,
                                          mapFile.ptr, PATH_MAX);
-    uint reported = XkbConvertGetByNameComponents(FALSE, fwant | fneed);
+    uint reported = XkbConvertGetByNameComponents(False, fwant | fneed);
     if (new_ is null)
         reported = 0;
 
@@ -5711,7 +5711,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
 
     if (new_) {
         if (stuff.load)
-            loaded = TRUE;
+            loaded = True;
         if (stuff.load ||
             ((reported & XkbGBN_SymbolsMask) && (new_.compat))) {
             XkbChangesRec changes = { 0 };
@@ -5797,7 +5797,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
             reported &= ~XkbGBN_GeometryMask;
         else if (reported & XkbGBN_GeometryMask) {
             grep.deviceID = cast(ubyte)dev.id;
-            grep.found = TRUE;
+            grep.found = True;
             XkbComputeGetGeometryReplySize(new_.geom, &grep, None);
         }
     }
@@ -5816,10 +5816,10 @@ int ProcXkbGetKbdByName(ClientPtr client)
         swaps(&reply.reported);
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (reported & (XkbGBN_SymbolsMask | XkbGBN_TypesMask)) {
-        x_rpcbuf_t childbuf = { swapped: client.swapped, err_clear: TRUE };
+        x_rpcbuf_t childbuf = { swapped: client.swapped, err_clear: True };
 
         XkbAssembleMap(client, new_, mrep, &childbuf);
 
@@ -5843,7 +5843,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
     }
 
     if (reported & XkbGBN_CompatMapMask) {
-        x_rpcbuf_t childbuf = { swapped: client.swapped, err_clear: TRUE };
+        x_rpcbuf_t childbuf = { swapped: client.swapped, err_clear: True };
 
         XkbAssembleCompatMap(client, new_.compat, crep, &childbuf);
 
@@ -5864,7 +5864,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
     }
 
     if (reported & XkbGBN_IndicatorMapMask) {
-        x_rpcbuf_t childbuf = { swapped: client.swapped, err_clear: TRUE };
+        x_rpcbuf_t childbuf = { swapped: client.swapped, err_clear: True };
 
         XkbAssembleIndicatorMap(client, new_.indicators, irep, &childbuf);
 
@@ -5887,7 +5887,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
     }
 
     if (reported & (XkbGBN_KeyNamesMask | XkbGBN_OtherNamesMask)) {
-        x_rpcbuf_t childbuf = { swapped: client.swapped, err_clear: TRUE };
+        x_rpcbuf_t childbuf = { swapped: client.swapped, err_clear: True };
 
         XkbAssembleNames(client, new_, nrep, &childbuf);
 
@@ -5908,7 +5908,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
     }
 
     if (reported & XkbGBN_GeometryMask) {
-        x_rpcbuf_t childbuf = { swapped: client.swapped, err_clear: TRUE };
+        x_rpcbuf_t childbuf = { swapped: client.swapped, err_clear: True };
 
         XkbAssembleGeometry(client, new_.geom, grep, &childbuf);
 
@@ -5986,10 +5986,10 @@ int ProcXkbGetKbdByName(ClientPtr client)
         }
     }
     if ((new_ !is null) && (new_ != xkb)) {
-        XkbFreeKeyboard(new_, XkbAllComponentsMask, TRUE);
+        XkbFreeKeyboard(new_, XkbAllComponentsMask, True);
         new_ = null;
     }
-    XkbFreeComponentNames(&names, FALSE);
+    XkbFreeComponentNames(&names, False);
     mixin(XkbSetCauseXkbReq!(`&cause`, `X_kbGetKbdByName`, `client`));
     XkbUpdateAllDeviceIndicators(null, &cause);
 
@@ -6026,7 +6026,7 @@ private int CheckDeviceLedFBs(DeviceIntPtr dev, int class_, int id, int present,
 {
     int nFBs = 0;
     int length = 0;
-    Bool classOk = FALSE;
+    Bool classOk = False;
 
     if (class_ == XkbDfltXIClass) {
         if (dev.kbdfeed)
@@ -6043,7 +6043,7 @@ private int CheckDeviceLedFBs(DeviceIntPtr dev, int class_, int id, int present,
         ((class_ == KbdFeedbackClass) || (class_ == XkbAllXIClasses))) {
         KbdFeedbackPtr kf = void;
 
-        classOk = TRUE;
+        classOk = True;
         for (kf = dev.kbdfeed; (kf); kf = kf.next) {
             if ((id != XkbAllXIIds) && (id != XkbDfltXIId) &&
                 (id != kf.ctrl.id))
@@ -6061,7 +6061,7 @@ private int CheckDeviceLedFBs(DeviceIntPtr dev, int class_, int id, int present,
         ((class_ == LedFeedbackClass) || (class_ == XkbAllXIClasses))) {
         LedFeedbackPtr lf = void;
 
-        classOk = TRUE;
+        classOk = True;
         for (lf = dev.leds; (lf); lf = lf.next) {
             if ((id != XkbAllXIIds) && (id != XkbDfltXIId) &&
                 (id != lf.ctrl.id))
@@ -6146,7 +6146,7 @@ private int FillDeviceLedFBs(DeviceIntPtr dev, int class_, int id, uint wantLeng
             if ((id == XkbAllXIIds) || (id == XkbDfltXIId) ||
                 (id == kf.ctrl.id)) {
 
-                x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+                x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
                 int written = FillDeviceLedInfo(kf.xkb_sli, &rpcbuf, client);
                 memcpy(buffer, rpcbuf.buffer, rpcbuf.wpos);
                 x_rpcbuf_clear(&rpcbuf);
@@ -6165,7 +6165,7 @@ private int FillDeviceLedFBs(DeviceIntPtr dev, int class_, int id, uint wantLeng
         for (lf = dev.leds; (lf); lf = lf.next) {
             if ((id == XkbAllXIIds) || (id == XkbDfltXIId) ||
                 (id == lf.ctrl.id)) {
-                x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+                x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
                 int written = FillDeviceLedInfo(lf.xkb_sli, &rpcbuf, client);
                 memcpy(buffer, rpcbuf.buffer, rpcbuf.wpos);
                 x_rpcbuf_clear(&rpcbuf);
@@ -6278,7 +6278,7 @@ int ProcXkbGetDeviceInfo(ClientPtr client)
 
     length = cast(uint)reply.length * 4;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (rpcbuf.swapped) {
         swaps(&reply.present);

@@ -322,22 +322,22 @@ void XkbFreeKeyboard(XkbDescPtr xkb, uint which, Bool freeAll)
     if (freeAll)
         which = XkbAllComponentsMask;
     if (which & XkbClientMapMask)
-        XkbFreeClientMap(xkb, XkbAllClientInfoMask, TRUE);
+        XkbFreeClientMap(xkb, XkbAllClientInfoMask, True);
     if (which & XkbServerMapMask)
-        XkbFreeServerMap(xkb, XkbAllServerInfoMask, TRUE);
+        XkbFreeServerMap(xkb, XkbAllServerInfoMask, True);
     if (which & XkbCompatMapMask)
-        XkbFreeCompatMap(xkb, XkbAllCompatMask, TRUE);
+        XkbFreeCompatMap(xkb, XkbAllCompatMask, True);
     if (which & XkbIndicatorMapMask)
         XkbFreeIndicatorMaps(xkb);
     if (which & XkbNamesMask)
-        XkbFreeNames(xkb, XkbAllNamesMask, TRUE);
+        XkbFreeNames(xkb, XkbAllNamesMask, True);
     if ((which & XkbGeometryMask) && (xkb.geom !is null)) {
-        XkbFreeGeometry(xkb.geom, XkbGeomAllMask, TRUE);
+        XkbFreeGeometry(xkb.geom, XkbGeomAllMask, True);
         /* PERHAPS BONGHITS etc */
         xkb.geom = null;
     }
     if (which & XkbControlsMask)
-        XkbFreeControls(xkb, XkbAllControlsMask, TRUE);
+        XkbFreeControls(xkb, XkbAllControlsMask, True);
     if (freeAll)
         free(xkb);
     return;

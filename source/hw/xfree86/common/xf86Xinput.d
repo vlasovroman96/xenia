@@ -228,7 +228,7 @@ private void ProcessVelocityConfiguration(DeviceIntPtr pDev, const(char)* devnam
                        devname, tempf);
         prop = XIGetKnownProperty(ACCEL_PROP_CONSTANT_DECELERATION);
         XIChangeDeviceProperty(pDev, prop, float_prop, 32,
-                               PropModeReplace, 1, &tempf, FALSE);
+                               PropModeReplace, 1, &tempf, False);
     }
 
     tempf = xf86SetRealOption(cast(_InputOption*)list, "AdaptiveDeceleration", 1.0);
@@ -237,7 +237,7 @@ private void ProcessVelocityConfiguration(DeviceIntPtr pDev, const(char)* devnam
                        devname, tempf);
         prop = XIGetKnownProperty(ACCEL_PROP_ADAPTIVE_DECELERATION);
         XIChangeDeviceProperty(pDev, prop, float_prop, 32,
-                               PropModeReplace, 1, &tempf, FALSE);
+                               PropModeReplace, 1, &tempf, False);
     }
 
     /* select profile by number */
@@ -246,7 +246,7 @@ private void ProcessVelocityConfiguration(DeviceIntPtr pDev, const(char)* devnam
 
     prop = XIGetKnownProperty(ACCEL_PROP_PROFILE_NUMBER);
     if (XIChangeDeviceProperty(pDev, prop, XA_INTEGER, 32,
-                               PropModeReplace, 1, &tempi, FALSE) == Success) {
+                               PropModeReplace, 1, &tempi, False) == Success) {
         LogMessageVerb(X_CONFIG, 1, "%s: (accel) acceleration profile %i\n", devname, tempi);
     }
     else {
@@ -260,12 +260,12 @@ private void ProcessVelocityConfiguration(DeviceIntPtr pDev, const(char)* devnam
     if (tempf > 0) {
         tempf = 1000.0 / tempf;
         XIChangeDeviceProperty(pDev, prop, float_prop, 32,
-                               PropModeReplace, 1, &tempf, FALSE);
+                               PropModeReplace, 1, &tempf, False);
     }
     else {
         tempf = xf86SetRealOption(cast(_InputOption*)list, "VelocityScale", s.corr_mul);
         XIChangeDeviceProperty(pDev, prop, float_prop, 32,
-                               PropModeReplace, 1, &tempf, FALSE);
+                               PropModeReplace, 1, &tempf, False);
     }
 
     tempi = xf86SetIntOption(cast(_InputOption*)list, "VelocityTrackerCount", -1);
@@ -399,7 +399,7 @@ private void ApplyTransformationMatrix(DeviceIntPtr dev)
 
     XIChangeDeviceProperty(dev, XIGetKnownProperty(XI_PROP_TRANSFORM),
                            XIGetKnownProperty(XATOM_FLOAT), 32,
-                           PropModeReplace, 9, matrix.ptr, FALSE);
+                           PropModeReplace, 9, matrix.ptr, False);
 }
 
 private void ApplyAutoRepeat(DeviceIntPtr dev)
@@ -457,14 +457,14 @@ void xf86ProcessCommonOptions(InputInfoPtr pInfo, XF86OptionPtr list)
  *
  *	Initialize an input device.
  *
- * Returns TRUE on success, or FALSE otherwise.
+ * Returns True on success, or False otherwise.
  ***********************************************************************
  */
 private DeviceIntPtr xf86ActivateDevice(InputInfoPtr pInfo)
 {
     DeviceIntPtr dev = void;
 
-    dev = AddInputDevice(serverClient, pInfo.device_control, TRUE);
+    dev = AddInputDevice(serverClient, pInfo.device_control, True);
 
     if (dev is null) {
         LogMessageVerb(X_ERROR, 1, "Too many input devices. Ignoring %s\n", pInfo.name);
@@ -479,7 +479,7 @@ private DeviceIntPtr xf86ActivateDevice(InputInfoPtr pInfo)
 
     dev.coreEvents = pInfo.flags & XI86_ALWAYS_CORE;
     dev.type = SLAVE;
-    dev.spriteInfo.spriteOwner = FALSE;
+    dev.spriteInfo.spriteOwner = False;
 
     dev.config_info = xf86SetStrOption(pInfo.options, "config_info", null);
 
@@ -672,17 +672,17 @@ version (HAVE_FNMATCH_H) {
 
 /*
  * Match an attribute against a list of xf86MatchGroup's.
- * Return TRUE only if each list entry is successful.
+ * Return True only if each list entry is successful.
  */
 Bool MatchAttrToken(const(char)* attr, XList* groups)
 {
     /* If there are no groups, accept the match */
     if (groups.isEmpty())
-        return TRUE;
+        return True;
 
     /* If there are groups but no attribute, reject the match */
     if (!attr)
-        return FALSE;
+        return False;
 
     /*
      * Otherwise, iterate the list of groups ensuring each entry has a
@@ -690,7 +690,7 @@ Bool MatchAttrToken(const(char)* attr, XList* groups)
      * a separate Match line.
      */
     foreach(group; groups.byEntries!(xf86MatchGroup, "entry")) {
-        Bool match = FALSE;
+        Bool match = False;
 
         foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
             /* It is enough to find one pattern matched by the attribute */
@@ -700,11 +700,11 @@ Bool MatchAttrToken(const(char)* attr, XList* groups)
         }
       group_done:
         if (match == group.is_negated)
-            return FALSE;
+            return False;
     }
 
     /* All the entries in the list matched the attribute */
-    return TRUE;
+    return True;
 }
 
 /*
@@ -717,31 +717,31 @@ private Bool InputClassMatches(XF86ConfInputClassPtr iclass, InputInfoPtr idev, 
 
     /* MatchProduct substring */
     if (!MatchAttrToken(attrs.product, &iclass.match_product))
-        return FALSE;
+        return False;
 
     /* MatchVendor substring */
     if (!MatchAttrToken(attrs.vendor, &iclass.match_vendor))
-        return FALSE;
+        return False;
 
     /* MatchDevicePath pattern */
     if (!MatchAttrToken(attrs.device, &iclass.match_device))
-        return FALSE;
+        return False;
 
     /* MatchOS case-insensitive string */
     if (!MatchAttrToken(HostOS(), &iclass.match_os))
-        return FALSE;
+        return False;
 
     /* MatchPnPID pattern */
     if (!MatchAttrToken(attrs.pnp_id, &iclass.match_pnpid))
-        return FALSE;
+        return False;
 
     /* MatchUSBID pattern */
     if (!MatchAttrToken(attrs.usb_id, &iclass.match_usbid))
-        return FALSE;
+        return False;
 
     /* MatchDriver string */
     if (!MatchAttrToken(idev.driver, &iclass.match_driver))
-        return FALSE;
+        return False;
 
     /*
      * MatchTag string
@@ -752,15 +752,15 @@ private Bool InputClassMatches(XF86ConfInputClassPtr iclass, InputInfoPtr idev, 
         Bool match = void;
 
         if (!attrs.tags)
-            return FALSE;
-        for (tag = attrs.tags, match = FALSE; *tag; tag++) {
+            return False;
+        for (tag = attrs.tags, match = False; *tag; tag++) {
             if (MatchAttrToken(*tag, &iclass.match_tag)) {
-                match = TRUE;
+                match = True;
                 break;
             }
         }
         if (!match)
-            return FALSE;
+            return False;
     }
 
     /* MatchLayout string
@@ -773,32 +773,32 @@ private Bool InputClassMatches(XF86ConfInputClassPtr iclass, InputInfoPtr idev, 
     else
         layout = "";
     if (!MatchAttrToken(layout, &iclass.match_layout))
-            return FALSE;
+            return False;
 
     /* MatchIs* booleans */
     if (iclass.is_keyboard.set &&
         iclass.is_keyboard.val != ! !(attrs.flags & (ATTR_KEY|ATTR_KEYBOARD)))
-        return FALSE;
+        return False;
     if (iclass.is_pointer.set &&
         iclass.is_pointer.val != ! !(attrs.flags & ATTR_POINTER))
-        return FALSE;
+        return False;
     if (iclass.is_joystick.set &&
         iclass.is_joystick.val != ! !(attrs.flags & ATTR_JOYSTICK))
-        return FALSE;
+        return False;
     if (iclass.is_tablet.set &&
         iclass.is_tablet.val != ! !(attrs.flags & ATTR_TABLET))
-        return FALSE;
+        return False;
     if (iclass.is_tablet_pad.set &&
         iclass.is_tablet_pad.val != ! !(attrs.flags & ATTR_TABLET_PAD))
-        return FALSE;
+        return False;
     if (iclass.is_touchpad.set &&
         iclass.is_touchpad.val != ! !(attrs.flags & ATTR_TOUCHPAD))
-        return FALSE;
+        return False;
     if (iclass.is_touchscreen.set &&
         iclass.is_touchscreen.val != ! !(attrs.flags & ATTR_TOUCHSCREEN))
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -838,19 +838,19 @@ private int MergeInputClasses(InputInfoPtr idev, InputAttributes* attrs)
 
 /*
  * Iterate the list of classes and look for Option "Ignore". Return the
- * value of the last matching class and holler when returning TRUE.
+ * value of the last matching class and holler when returning True.
  */
 private Bool IgnoreInputClass(InputInfoPtr idev, InputAttributes* attrs)
 {
     XF86ConfInputClassPtr cl = void;
-    Bool ignore = FALSE;
+    Bool ignore = False;
     const(char)* ignore_class = void;
 
     for (cl = xf86configptr.conf_inputclass_lst; cl; cl = cast(_XF86ConfInputClassRec*)cl.list.next) {
         if (!InputClassMatches(cl, idev, attrs))
             continue;
         if (xf86findOption(cl.option_lst, "Ignore")) {
-            ignore = xf86CheckBoolOption(cl.option_lst, "Ignore", FALSE);
+            ignore = xf86CheckBoolOption(cl.option_lst, "Ignore", False);
             ignore_class = cl.identifier;
         }
     }
@@ -997,7 +997,7 @@ int xf86NewInputDevice(InputInfoPtr pInfo, DeviceIntPtr* pdev, BOOL enable)
 {
     InputDriverPtr drv = null;
     DeviceIntPtr dev = null;
-    Bool paused = FALSE;
+    Bool paused = False;
     int rval = void;
     char* path = null;
 
@@ -1074,27 +1074,27 @@ int xf86NewInputDevice(InputInfoPtr pInfo, DeviceIntPtr* pdev, BOOL enable)
         goto unwind;
     }
 
-    rval = ActivateDevice(dev, TRUE);
+    rval = ActivateDevice(dev, True);
     if (rval != Success) {
         LogMessageVerb(X_ERROR, 1, "Couldn't init device \"%s\"\n", pInfo.name);
-        RemoveDevice(dev, TRUE);
+        RemoveDevice(dev, True);
         goto unwind;
     }
 
     rval = xf86InputDevicePostInit(dev);
     if (rval != Success) {
         LogMessageVerb(X_ERROR, 1, "Couldn't post-init device \"%s\"\n", pInfo.name);
-        RemoveDevice(dev, TRUE);
+        RemoveDevice(dev, True);
         goto unwind;
     }
 
     /* Enable it if it's properly initialised and we're currently in the VT */
     if (enable && dev.inited && dev.startup && xf86VTOwner()) {
         input_lock();
-        EnableDevice(dev, TRUE);
+        EnableDevice(dev, True);
         if (!dev.enabled) {
             LogMessageVerb(X_ERROR, 1, "Couldn't init device \"%s\"\n", pInfo.name);
-            RemoveDevice(dev, TRUE);
+            RemoveDevice(dev, True);
             rval = BadMatch;
             input_unlock();
             goto unwind;
@@ -1233,7 +1233,7 @@ void DeleteInputDeviceRequest(DeviceIntPtr pDev)
         drv = pInfo.drv;
 
     input_lock();
-    RemoveDevice(pDev, TRUE);
+    RemoveDevice(pDev, True);
 
     if (!isMaster && pInfo !is null) {
         if (drv.UnInit)
@@ -1531,7 +1531,7 @@ int xf86ScaleAxis(int Cx, int to_max, int to_min, int from_max, int from_min)
 Bool xf86InitValuatorAxisStruct(DeviceIntPtr dev, int axnum, Atom label, int minval, int maxval, int resolution, int min_res, int max_res, int mode)
 {
     if (!dev || !dev.valuator)
-        return FALSE;
+        return False;
 
     return InitValuatorAxisStruct(dev, axnum, label, minval, maxval, resolution,
                                   min_res, max_res, mode);
@@ -1565,7 +1565,7 @@ void xf86InitValuatorDefaults(DeviceIntPtr dev, int axnum)
 void xf86DisableDevice(DeviceIntPtr dev, Bool panic)
 {
     if (!panic) {
-        DisableDevice(dev, TRUE);
+        DisableDevice(dev, True);
     }
     else {
         SendDevicePresenceEvent(dev.id, DeviceUnrecoverable);

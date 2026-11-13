@@ -160,13 +160,13 @@ private Bool xf86SigIOAdd(int fd)
 
     n = cast(pollfd*) realloc(xf86SigIOFds, (xf86SigIONum + 1) * pollfd.sizeof);
     if (!n)
-        return FALSE;
+        return False;
 
     n[xf86SigIONum].fd = fd;
     n[xf86SigIONum].events = POLLIN;
     xf86SigIONum++;
     xf86SigIOFds = n;
-    return TRUE;
+    return True;
 }
 
 private void xf86SigIORemove(int fd)
@@ -190,7 +190,7 @@ private void xf86SIGIO(int sig)
     int save_errno = errno;     /* do not clobber the global errno */
     int r = void;
 
-    inSignalContext = TRUE;
+    inSignalContext = True;
 
     mixin(SYSCALL!("r = xserver_poll(xf86SigIOFds, xf86SigIONum, 0)"));
     for (f = 0; r > 0 && f < xf86SigIONum; f++) {
@@ -208,7 +208,7 @@ private void xf86SIGIO(int sig)
     /* restore global errno */
     errno = save_errno;
 
-    inSignalContext = FALSE;
+    inSignalContext = False;
 }
 
 private int xf86IsPipe(int fd)
@@ -244,7 +244,7 @@ int xf86InstallSIGIOHandler(int fd, void function(int, void*) @nogc nothrow f, v
     sigaction_t sa = void;
     sigaction_t osa = void;
     int i = void;
-    int installed = FALSE;
+    int installed = False;
 
     for (i = 0; i < MAX_FUNCS; i++) {
         if (!xf86SigIOFuncs[i].f) {
@@ -262,7 +262,7 @@ version (O_ASYNC) {
                                    fd, strerror(errno));
                 }
                 else {
-                    installed = TRUE;
+                    installed = True;
                 }
             }
 }
@@ -274,7 +274,7 @@ static if (HasVersion!"I_SETSIG" && HasVersion!"HAVE_ISASTREAM") {
                                    fd, strerror(errno));
                 }
                 else {
-                    installed = TRUE;
+                    installed = True;
                 }
             }
 }

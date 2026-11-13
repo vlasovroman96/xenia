@@ -50,9 +50,9 @@ private Bool dri3_screen_can_one_point_one(ScreenPtr screen)
 
     if (dri3 && dri3.info && dri3.info.version_ >= 1 &&
         dri3.info.fd_from_pixmap)
-        return TRUE;
+        return True;
 
-    return FALSE;
+    return False;
 }
 
 private Bool dri3_screen_can_one_point_two(ScreenPtr screen)
@@ -63,9 +63,9 @@ private Bool dri3_screen_can_one_point_two(ScreenPtr screen)
         dri3.info.pixmap_from_fds && dri3.info.fds_from_pixmap &&
         dri3.info.get_formats && dri3.info.get_modifiers &&
         dri3.info.get_drawable_modifiers)
-        return TRUE;
+        return True;
 
-    return FALSE;
+    return False;
 }
 
 private Bool dri3_screen_can_one_point_four(ScreenPtr screen)
@@ -151,7 +151,7 @@ int dri3_send_open_reply(ClientPtr client, int fd)
         nfd: 1,
     };
 
-    if (WriteFdToClient(client, fd, TRUE) < 0) {
+    if (WriteFdToClient(client, fd, True) < 0) {
         close(fd);
         return BadAlloc;
     }
@@ -300,7 +300,7 @@ private int proc_dri3_buffer_from_pixmap(ClientPtr client)
     if (fd < 0)
         return BadPixmap;
 
-    if (WriteFdToClient(client, fd, TRUE) < 0) {
+    if (WriteFdToClient(client, fd, True) < 0) {
         close(fd);
         return BadAlloc;
     }
@@ -365,7 +365,7 @@ private int proc_dri3_fd_from_fence(ClientPtr client)
     if (fd < 0)
         return BadMatch;
 
-    if (WriteFdToClient(client, fd, FALSE) < 0)
+    if (WriteFdToClient(client, fd, False) < 0)
         return BadAlloc;
 
     return mixin(X_SEND_REPLY_SIMPLE!("client", "reply"));
@@ -394,7 +394,7 @@ private int proc_dri3_get_supported_modifiers(ClientPtr client)
                                  &nwindowmodifiers, &window_modifiers,
                                  &nscreenmodifiers, &screen_modifiers);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD64s(&rpcbuf, window_modifiers, nwindowmodifiers);
     x_rpcbuf_write_CARD64s(&rpcbuf, screen_modifiers, nscreenmodifiers);
 
@@ -543,14 +543,14 @@ private int proc_dri3_buffers_from_pixmap(ClientPtr client)
         return BadPixmap;
 
     for (i = 0; i < num_fds; i++) {
-        if (WriteFdToClient(client, fds[i], TRUE) < 0) {
+        if (WriteFdToClient(client, fds[i], True) < 0) {
             while (i--)
                 close(fds[i]);
             return BadAlloc;
         }
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)strides, num_fds);
     x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)offsets, num_fds);
 

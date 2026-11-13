@@ -324,5 +324,5 @@ void fbBltStip(FbStip* src, FbStride srcStride, int srcX, FbStip* dst, FbStride 
 {
     fbBlt(cast(FbBits*) src, mixin(FbStipStrideToBitsStride!(`srcStride`)), srcX,
           cast(FbBits*) dst, mixin(FbStipStrideToBitsStride!(`dstStride`)), dstX,
-          width, height, alu, pm, bpp, FALSE, FALSE);
+          width, height, alu, pm, bpp, False, False);
 }

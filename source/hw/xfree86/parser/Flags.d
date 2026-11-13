@@ -67,7 +67,7 @@ import xf86tokens;
 import Configint;
 import x11.Xmd;
 import x11.Xdefs;
-import common.misc;
+import dix.input;
 import scan;
 import core.stdc.string;
 import externs.gnu;
@@ -116,8 +116,8 @@ XF86ConfFlagsPtr xf86parseFlagsSection(XF86ConfFlagsPtr ptr)
     }
 
     while ((token = xf86getToken(ServerFlagsTab.ptr)) != ENDSECTION) {
-        int hasvalue = FALSE;
-        int strvalue = FALSE;
+        int hasvalue = False;
+        int strvalue = False;
         int tokentype = void;
 
         switch (token) {
@@ -131,10 +131,10 @@ XF86ConfFlagsPtr xf86parseFlagsSection(XF86ConfFlagsPtr ptr)
              * we fall through here on purpose
              */
         case DEFAULTLAYOUT:
-            strvalue = TRUE;
+            strvalue = True;
             goto case;
         case BLANKTIME,STANDBYTIME,SUSPENDTIME,OFFTIME:
-            hasvalue = TRUE;
+            hasvalue = True;
         
         goto case;
         case DONTZAP,

@@ -166,12 +166,12 @@ Bool miSyncShmScreenInit(ScreenPtr pScreen)
     SyncScreenFuncsPtr funcs = void;
 
     if (!miSyncFdScreenInit(pScreen, &miSyncShmScreenFuncs))
-        return FALSE;
+        return False;
 
     if (!dixPrivateKeyRegistered(&syncShmFencePrivateKey)) {
         if (!dixRegisterPrivateKey(&syncShmFencePrivateKey, PRIVATE_SYNC_FENCE,
                                    SyncShmFencePrivateRec.sizeof))
-            return FALSE;
+            return False;
     }
 
     funcs = miSyncGetScreenFuncs(pScreen);
@@ -179,6 +179,6 @@ Bool miSyncShmScreenInit(ScreenPtr pScreen)
     funcs.CreateFence = &miSyncShmScreenCreateFence;
     funcs.DestroyFence = &miSyncShmScreenDestroyFence;
 
-    return TRUE;
+    return True;
 }
 

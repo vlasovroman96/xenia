@@ -109,7 +109,7 @@ void set_button_up(DeviceIntPtr pDev, int button, int type)
 
 Bool button_is_down(DeviceIntPtr pDev, int button, int type)
 {
-    Bool ret = FALSE;
+    Bool ret = False;
 
     if (type & BUTTON_PROCESSED)
         ret = ret || mixin(BitIsOn!("pDev.button.down", "button"));
@@ -137,7 +137,7 @@ void set_key_up(DeviceIntPtr pDev, int key_code, int type)
 
 Bool key_is_down(DeviceIntPtr pDev, int key_code, int type)
 {
-    Bool ret = FALSE;
+    Bool ret = False;
 
     if (type & KEY_PROCESSED)
         ret = ret || mixin(BitIsOn!("pDev.key.down", "key_code"));
@@ -1320,7 +1320,7 @@ private int fill_pointer_events(InternalEvent* events, DeviceIntPtr pDev, int ty
         if (flags & POINTER_EMULATED)
             raw.flags = XIPointerEmulated;
 
-        set_raw_valuators(raw, &mask, TRUE, raw.valuators.data_raw.ptr);
+        set_raw_valuators(raw, &mask, True, raw.valuators.data_raw.ptr);
     }
 
     valuator_mask_drop_unaccelerated(&mask);
@@ -1337,7 +1337,7 @@ private int fill_pointer_events(InternalEvent* events, DeviceIntPtr pDev, int ty
         transformAbsolute(pDev, &mask);
         clipAbsolute(pDev, &mask);
         if ((flags & POINTER_NORAW) == 0 && raw)
-            set_raw_valuators(raw, &mask, FALSE, raw.valuators.data.ptr);
+            set_raw_valuators(raw, &mask, False, raw.valuators.data.ptr);
     }
     else {
         transformRelative(pDev, &mask);
@@ -1345,7 +1345,7 @@ private int fill_pointer_events(InternalEvent* events, DeviceIntPtr pDev, int ty
         if (flags & POINTER_ACCELERATE)
             accelPointer(pDev, &mask, ms);
         if ((flags & POINTER_NORAW) == 0 && raw)
-            set_raw_valuators(raw, &mask, FALSE, raw.valuators.data.ptr);
+            set_raw_valuators(raw, &mask, False, raw.valuators.data.ptr);
 
         moveRelative(pDev, flags, &mask);
     }
@@ -1525,7 +1525,7 @@ private int emulate_scroll_button_events(InternalEvent* events, DeviceIntPtr dev
         last_scroll_val -= direction * incr;
     }
 
-    while (TRUE) {
+    while (true) {
         /* The next value we want to send out a button event for */
         double next_val = last_scroll_val + direction * incr;
 
@@ -1852,8 +1852,8 @@ int GetTouchEvents(InternalEvent* events, DeviceIntPtr dev, uint ddx_touchid, us
     int num_events = 0;
     RawDeviceEvent* raw = void;
     DDXTouchPointInfoPtr ti = void;
-    int need_rawevent = TRUE;
-    Bool emulate_pointer = FALSE;
+    int need_rawevent = True;
+    Bool emulate_pointer = False;
     int client_id = 0;
 
 version (XSERVER_DTRACE) {
@@ -1891,7 +1891,7 @@ version (XSERVER_DTRACE) {
         events++;
         num_events++;
         init_raw(dev, raw, ms, type, client_id);
-        set_raw_valuators(raw, &mask, TRUE, raw.valuators.data_raw.ptr);
+        set_raw_valuators(raw, &mask, True, raw.valuators.data_raw.ptr);
     }
 
     event = &events.device_event;
@@ -1951,7 +1951,7 @@ version (XSERVER_DTRACE) {
         screeny = dev.spriteInfo.sprite.hotPhys.y;
     }
     if (need_rawevent)
-        set_raw_valuators(raw, &mask, FALSE, raw.valuators.data.ptr);
+        set_raw_valuators(raw, &mask, False, raw.valuators.data.ptr);
 
     scr = dev.spriteInfo.sprite.hotPhys.pScreen;
 

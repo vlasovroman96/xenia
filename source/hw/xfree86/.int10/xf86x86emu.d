@@ -115,7 +115,7 @@ Bool xf86Int10ExecSetup(xf86Int10InfoPtr pInt)
     for (i = 0; i < 256; i++)
         intFuncs[i] = x86emu_do_int;
     X86EMU_setupIntrFuncs(intFuncs.ptr);
-    return TRUE;
+    return True;
 }
 
 void printk(const(char)* fmt, ...)

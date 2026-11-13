@@ -367,22 +367,22 @@ c_ulong kdVideoTestTime;
 Bool kdEmulateMiddleButton;
 Bool kdRawPointerCoordinates;
 Bool kdDisableZaphod;
-Bool kdAllowZap = TRUE;
+Bool kdAllowZap = True;
 Bool kdEnabled;
 int kdSubpixelOrder;
 int kdVirtualTerminal = -1;
 Bool kdSwitchPending;
 char* kdSwitchCmd;
 xPoint kdOrigin;
-Bool kdHasPointer = FALSE;
-Bool kdHasKbd = FALSE;
+Bool kdHasPointer = False;
+Bool kdHasKbd = False;
 const(char)* kdGlobalXkbRules = null;
 const(char)* kdGlobalXkbModel = null;
 const(char)* kdGlobalXkbLayout = null;
 const(char)* kdGlobalXkbVariant = null;
 const(char)* kdGlobalXkbOptions = null;
 
-private Bool kdCaughtSignal = FALSE;
+private Bool kdCaughtSignal = False;
 
 /*
  * Carry arguments from InitOutput through driver initialization
@@ -406,7 +406,7 @@ void KdDisableScreen(ScreenPtr pScreen)
         (*pScreenPriv.card.cfuncs.disableCursor) (pScreen);
     if (pScreenPriv.card.cfuncs.dpms)
         (*pScreenPriv.card.cfuncs.dpms) (pScreen, KD_DPMS_NORMAL);
-    pScreenPriv.enabled = FALSE;
+    pScreenPriv.enabled = False;
     if (pScreenPriv.card.cfuncs.disable)
         (*pScreenPriv.card.cfuncs.disable) (pScreen);
 }
@@ -455,7 +455,7 @@ void KdDisableScreens(int ddxAbort)
     KdSuspend(ddxAbort);
     if (kdEnabled && (kdOsFuncs.Disable))
         kdOsFuncs.Disable();
-    kdEnabled = FALSE;
+    kdEnabled = False;
 }
 
 Bool KdEnableScreen(ScreenPtr pScreen)
@@ -463,11 +463,11 @@ Bool KdEnableScreen(ScreenPtr pScreen)
     mixin(KdScreenPriv!("pScreen"));
 
     if (pScreenPriv.enabled)
-        return TRUE;
+        return True;
     if (pScreenPriv.card.cfuncs.enable)
         if (!(*pScreenPriv.card.cfuncs.enable) (pScreen))
-            return FALSE;
-    pScreenPriv.enabled = TRUE;
+            return False;
+    pScreenPriv.enabled = True;
     pScreenPriv.dpmsState = KD_DPMS_NORMAL;
     pScreenPriv.card.selected = pScreenPriv.screen.mynum;
     if (!pScreenPriv.screen.softCursor &&
@@ -479,7 +479,7 @@ Bool KdEnableScreen(ScreenPtr pScreen)
     SetRootClip(pScreen, ROOT_CLIP_FULL);
     if (pScreenPriv.card.cfuncs.dpms)
         (*pScreenPriv.card.cfuncs.dpms) (pScreen, pScreenPriv.dpmsState);
-    return TRUE;
+    return True;
 }
 
 void KdResume()
@@ -504,7 +504,7 @@ void KdResume()
 void KdEnableScreens()
 {
     if (!kdEnabled) {
-        kdEnabled = TRUE;
+        kdEnabled = True;
         if (kdOsFuncs.Enable)
             (*kdOsFuncs.Enable) ();
     }
@@ -646,8 +646,8 @@ void KdParseScreen(KdScreenInfo* screen, const(char)* arg)
 
     kdOrigin.x += screen.width;
     kdOrigin.y = 0;
-    kdDumbDriver = FALSE;
-    kdSoftCursor = FALSE;
+    kdDumbDriver = False;
+    kdSoftCursor = False;
     kdSubpixelOrder = SubPixelUnknown;
 
     if (delim == '+') {
@@ -777,27 +777,27 @@ int KdProcessArgument(int argc, char** argv, int i)
         return screen_arg ? 2 : 1;
     }
     if (!strcmp(argv[i], "-zaphod")) {
-        kdDisableZaphod = TRUE;
+        kdDisableZaphod = True;
         return 1;
     }
 
     /* Kept for Compatibility */
     if (!strcmp(argv[i], "-zap")) {
-        kdAllowZap = TRUE;
+        kdAllowZap = True;
         return 1;
     }
 
     if (!strcmp(argv[i], "-nozap")) {
-        kdAllowZap = FALSE;
+        kdAllowZap = False;
         return 1;
     }
 
     if (!strcmp(argv[i], "-3button")) {
-        kdEmulateMiddleButton = FALSE;
+        kdEmulateMiddleButton = False;
         return 1;
     }
     if (!strcmp(argv[i], "-2button")) {
-        kdEmulateMiddleButton = TRUE;
+        kdEmulateMiddleButton = True;
         return 1;
     }
     if (!strcmp(argv[i], "-rawcoord")) {
@@ -805,15 +805,15 @@ int KdProcessArgument(int argc, char** argv, int i)
         return 1;
     }
     if (!strcmp(argv[i], "-dumb")) {
-        kdDumbDriver = TRUE;
+        kdDumbDriver = True;
         return 1;
     }
     if (!strcmp(argv[i], "-softCursor")) {
-        kdSoftCursor = TRUE;
+        kdSoftCursor = True;
         return 1;
     }
     if (!strcmp(argv[i], "-videoTest")) {
-        kdVideoTest = TRUE;
+        kdVideoTest = True;
         return 1;
     }
     if (!strcmp(argv[i], "-origin")) {
@@ -896,14 +896,14 @@ int KdProcessArgument(int argc, char** argv, int i)
         if (i + 1 >= argc)
             UseMsg();
         KdAddConfigPointer(argv[i + 1]);
-        kdHasPointer = TRUE;
+        kdHasPointer = True;
         return 2;
     }
     if (!strcmp(argv[i], "-keybd")) {
         if (i + 1 >= argc)
             UseMsg();
         KdAddConfigKeyboard(argv[i + 1]);
-        kdHasKbd = TRUE;
+        kdHasKbd = True;
         return 2;
     }
 
@@ -940,12 +940,12 @@ Bool KdCreateScreenResources(ScreenPtr pScreen)
     KdCardInfo* card = pScreenPriv.card;
 
     if (!miCreateScreenResources(pScreen))
-        return FALSE;
+        return False;
 
     if (card.cfuncs.createRes)
         return card.cfuncs.createRes(pScreen);
 
-    return TRUE;
+    return True;
 }
 
 Bool KdCloseScreen(ScreenPtr pScreen)
@@ -958,7 +958,7 @@ Bool KdCloseScreen(ScreenPtr pScreen)
     if (card.cfuncs.closeScreen)
         (*card.cfuncs.closeScreen)(pScreen);
 
-    pScreenPriv.closed = TRUE;
+    pScreenPriv.closed = True;
 
     ret = fbCloseScreen(pScreen);
 
@@ -998,7 +998,7 @@ Bool KdCloseScreen(ScreenPtr pScreen)
         if (card == kdCardInfo) {
             if (kdEnabled && (kdOsFuncs.Disable))
                 kdOsFuncs.Disable();
-            kdEnabled = FALSE;
+            kdEnabled = False;
         }
     }
 
@@ -1014,7 +1014,7 @@ Bool KdSaveScreen(ScreenPtr pScreen, int on)
     int dpmsState = void;
 
     if (!pScreenPriv.card.cfuncs.dpms)
-        return FALSE;
+        return False;
 
     dpmsState = pScreenPriv.dpmsState;
     switch (on) {
@@ -1037,7 +1037,7 @@ Bool KdSaveScreen(ScreenPtr pScreen, int on)
             (*pScreenPriv.card.cfuncs.dpms) (pScreen, dpmsState);
         pScreenPriv.dpmsState = dpmsState;
     }
-    return TRUE;
+    return True;
 }
 
 private Bool KdCreateWindow(WindowPtr pWin)
@@ -1125,7 +1125,7 @@ Bool KdScreenInit(ScreenPtr pScreen, int argc, char** argv)
     int width = void, height = void; int* width_mmp = void, height_mmp = void;
 
     if (!KdAllocatePrivates(pScreen))
-        return FALSE;
+        return False;
 
     pScreenPriv = KdGetScreenPriv(pScreen);
 
@@ -1161,7 +1161,7 @@ Bool KdScreenInit(ScreenPtr pScreen, int argc, char** argv)
                        width, height,
                        monitorResolution, monitorResolution,
                        screen.fb.pixelStride, screen.fb.bitsPerPixel)) {
-        return FALSE;
+        return False;
     }
 
     /*
@@ -1180,7 +1180,7 @@ Bool KdScreenInit(ScreenPtr pScreen, int argc, char** argv)
                             width, height,
                             monitorResolution, monitorResolution,
                             screen.fb.pixelStride, screen.fb.bitsPerPixel)) {
-        return FALSE;
+        return False;
     }
 
     /*
@@ -1204,18 +1204,18 @@ Bool KdScreenInit(ScreenPtr pScreen, int argc, char** argv)
     pScreen.WakeupHandler = KdWakeupHandler;
 
     if (!fbPictureInit(pScreen, 0, 0))
-        return FALSE;
+        return False;
     if (card.cfuncs.initScreen)
         if (!(*card.cfuncs.initScreen) (pScreen))
-            return FALSE;
+            return False;
 
     if (!screen.dumb && card.cfuncs.initAccel)
         if (!(*card.cfuncs.initAccel) (pScreen))
-            screen.dumb = TRUE;
+            screen.dumb = True;
 
     if (card.cfuncs.finishInitScreen)
         if (!(*card.cfuncs.finishInitScreen) (pScreen))
-            return FALSE;
+            return False;
 
     pScreen.CloseScreen = KdCloseScreen;
     pScreen.CreateScreenResources = KdCreateScreenResources;
@@ -1223,12 +1223,12 @@ Bool KdScreenInit(ScreenPtr pScreen, int argc, char** argv)
     if (screen.softCursor ||
         !card.cfuncs.initCursor || !(*card.cfuncs.initCursor) (pScreen)) {
         /* Use MI for cursor display and event queueing. */
-        screen.softCursor = TRUE;
+        screen.softCursor = True;
         miDCInitialize(pScreen, &kdPointerScreenFuncs);
     }
 
     if (!fbCreateDefColormap(pScreen)) {
-        return FALSE;
+        return False;
     }
 
     KdSetSubpixelOrder(pScreen, screen.randr);
@@ -1238,15 +1238,15 @@ Bool KdScreenInit(ScreenPtr pScreen, int argc, char** argv)
      */
     if ((!kdEnabled) && (kdOsFuncs.Enable))
         kdOsFuncs.Enable();
-    kdEnabled = TRUE;
+    kdEnabled = True;
 
     if (screen.mynum == card.selected) {
         if (card.cfuncs.preserve)
             (*card.cfuncs.preserve) (card);
         if (card.cfuncs.enable)
             if (!(*card.cfuncs.enable) (pScreen))
-                return FALSE;
-        pScreenPriv.enabled = TRUE;
+                return False;
+        pScreenPriv.enabled = True;
         if (!screen.softCursor && card.cfuncs.enableCursor)
             (*card.cfuncs.enableCursor) (pScreen);
         KdEnableColormap(pScreen);
@@ -1254,7 +1254,7 @@ Bool KdScreenInit(ScreenPtr pScreen, int argc, char** argv)
             (*card.cfuncs.enableAccel) (pScreen);
     }
 
-    return TRUE;
+    return True;
 }
 
 void KdInitScreen(KdScreenInfo* screen, int argc, char** argv)
@@ -1265,9 +1265,9 @@ void KdInitScreen(KdScreenInfo* screen, int argc, char** argv)
         FatalError("Screen initialization failed!\n");
 
     if (!card.cfuncs.initAccel)
-        screen.dumb = TRUE;
+        screen.dumb = True;
     if (!card.cfuncs.initCursor)
-        screen.softCursor = TRUE;
+        screen.softCursor = True;
 }
 
 private Bool KdSetPixmapFormats()
@@ -1296,7 +1296,7 @@ private Bool KdSetPixmapFormats()
             if (!depthToBpp[screen.fb.depth])
                 depthToBpp[screen.fb.depth] = bpp;
             else if (depthToBpp[screen.fb.depth] != bpp)
-                return FALSE;
+                return False;
         }
     }
 
@@ -1322,7 +1322,7 @@ private Bool KdSetPixmapFormats()
         }
     }
 
-    return TRUE;
+    return True;
 }
 
 private void KdAddScreen(KdScreenInfo* screen, int argc, char** argv)
@@ -1368,7 +1368,7 @@ int KdDepthToFb(ScreenPtr pScreen, int depth)
 
 private int KdSignalWrapper(int signum)
 {
-    kdCaughtSignal = TRUE;
+    kdCaughtSignal = True;
     return 1;                   /* use generic OS layer cleanup & abort */
 }
 

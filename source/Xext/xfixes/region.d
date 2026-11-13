@@ -143,7 +143,7 @@ int ProcXFixesCreateRegionFromWindow(ClientPtr client)
     mixin(X_REQUEST_FIELD_CARD32!"window");
 
     RegionPtr pRegion = void;
-    Bool copy = TRUE;
+    Bool copy = True;
     WindowPtr pWin = void;
     int rc = void;
 
@@ -159,14 +159,14 @@ int ProcXFixesCreateRegionFromWindow(ClientPtr client)
         pRegion = mixin(wBoundingShape!("pWin"));
         if (!pRegion) {
             pRegion = CreateBoundingShape(pWin);
-            copy = FALSE;
+            copy = False;
         }
         break;
     case WindowRegionClip:
         pRegion = mixin(wClipShape!("pWin"));
         if (!pRegion) {
             pRegion = CreateClipShape(pWin);
-            copy = FALSE;
+            copy = False;
         }
         break;
     default:
@@ -409,7 +409,7 @@ int ProcXFixesFetchRegion(ClientPtr client)
     BoxPtr pBox = RegionRects(pRegion);
     int nBox = RegionNumRects(pRegion);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     for (int i = 0; i < nBox; i++) {
         x_rpcbuf_write_rect(&rpcbuf,

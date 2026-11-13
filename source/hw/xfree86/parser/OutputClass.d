@@ -91,7 +91,7 @@ alias CLEANUP = xf86freeOutputClassList;
 
 XF86ConfOutputClassPtr xf86parseOutputClassSection()
 {
-    int has_ident = FALSE;
+    int has_ident = False;
     int token = void;
     xf86MatchGroup* group = void;
 
@@ -110,10 +110,10 @@ XF86ConfOutputClassPtr xf86parseOutputClassSection()
         case IDENTIFIER:
             if (xf86getSubToken(&(ptr.comment)) != XF86_TOKEN_STRING)
                 mixin(ErrorP!(`QUOTE_MSG, "Identifier"`));
-            if (has_ident == TRUE)
+            if (has_ident == True)
                 mixin(ErrorP!(`MULTIPLE_MSG, "Identifier"`));
             ptr.identifier = xf86_lex_val.str;
-            has_ident = TRUE;
+            has_ident = True;
             break;
         case DRIVER:
             if (xf86getSubToken(&(ptr.comment)) != XF86_TOKEN_STRING)
@@ -155,7 +155,7 @@ XF86ConfOutputClassPtr xf86parseOutputClassSection()
             if (xf86getSubToken(&(ptr.comment)) != XF86_TOKEN_STRING)
                 mixin(ErrorP!(`QUOTE_MSG, "MatchDriver"`));
             else {
-                group = xf86createMatchGroup(xf86_lex_val.str, MATCH_EXACT, FALSE);
+                group = xf86createMatchGroup(xf86_lex_val.str, MATCH_EXACT, False);
                 if (group)
                     ptr.match_driver.addListNext(&group.entry);
                 free(xf86_lex_val.str);
@@ -165,7 +165,7 @@ XF86ConfOutputClassPtr xf86parseOutputClassSection()
             if (xf86getSubToken(&(ptr.comment)) != XF86_TOKEN_STRING)
                 mixin(ErrorP!(`QUOTE_MSG, "MatchLayout"`));
             else {
-                group = xf86createMatchGroup(xf86_lex_val.str, MATCH_EXACT, FALSE);
+                group = xf86createMatchGroup(xf86_lex_val.str, MATCH_EXACT, False);
                 if (group)
                     ptr.match_layout.addListNext(&group.entry);
                 free(xf86_lex_val.str);
@@ -209,19 +209,19 @@ void xf86printOutputClassSection(FILE* cf, XF86ConfOutputClassPtr ptr)
 
         foreach(group; ptr.match_driver.byEntries!(xf86MatchGroup, "entry")) {
             fprintf(cf, "\tMatchDriver     \"");
-            not_first = FALSE;
+            not_first = False;
             foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
-                not_first = TRUE;
+                not_first = True;
             }
             fprintf(cf, "\"\n");
         }
         foreach(group; ptr.match_layout.byEntries!(xf86MatchGroup, "entry")) {
             fprintf(cf, "\tMatchLayout     \"");
-            not_first = FALSE;
+            not_first = False;
             foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
-                not_first = TRUE;
+                not_first = True;
             }
             fprintf(cf, "\"\n");
         }

@@ -49,6 +49,7 @@ import fb.fbglyph;
 import externs.attrs;
 import glx.glxext;
 import Xext.xf86bigfont;
+import common.bools;
 
 
 /*

@@ -437,7 +437,7 @@ static if(XINERAMA){
         // xEvent xE = {
         //     u:colormap:window: cast(uint)pWin.drawable.id,
         //     u:colormap:colormap: *pmid,
-        //     u:colormap:new: FALSE,
+        //     u:colormap:new: False,
         //     u:colormap:state: ColormapUninstalled
         // };
         xEvent xE;
@@ -564,7 +564,7 @@ private void CopyFree(int channel, int client, ColormapPtr pmapSrc, ColormapPtr 
                 if (pentSrc.refcnt > 0)
                     pentDst.refcnt = 1;
                 else
-                    pentSrc.fShared = FALSE;
+                    pentSrc.fShared = False;
             }
             FreeCell(pmapSrc, *ppix, channel);
         }
@@ -634,7 +634,7 @@ private void FreeCell(ColormapPtr pmap, Pixel i, int channel)
                 free(pent.co.shco.green);
             if (--pent.co.shco.blue.refcnt == 0)
                 free(pent.co.shco.blue);
-            pent.fShared = FALSE;
+            pent.fShared = False;
         }
         pent.refcnt = 0;
         *pCount += 1;
@@ -706,7 +706,7 @@ private int FindColor(ColormapPtr pmap, EntryPtr pentFirst, int size, xrgb* prgb
 
     Pixel Free = 0;
     /* see if there is a match, and also look for a free entry */
-    bool foundFree = FALSE;
+    bool foundFree = False;
     int count = void;
     EntryPtr pent = void;
     xColorItem def = void;
@@ -734,7 +734,7 @@ private int FindColor(ColormapPtr pmap, EntryPtr pentFirst, int size, xrgb* prgb
         }
         else if (!foundFree && pent.refcnt == 0) {
             Free = pixel;
-            foundFree = TRUE;
+            foundFree = True;
             /* If we're initializing the colormap, then we are looking for
              * the first free cell we can find, not to minimize the number
              * of entries we use.  So don't look any further. */
@@ -756,7 +756,7 @@ private int FindColor(ColormapPtr pmap, EntryPtr pentFirst, int size, xrgb* prgb
     if (!foundFree)
         return BadAlloc;
     pent = pentFirst + Free;
-    pent.fShared = FALSE;
+    pent.fShared = False;
     pent.refcnt = (client >= 0) ? 1 : AllocTemporary;
 
     switch (channel) {
@@ -1703,7 +1703,7 @@ private int AllocPseudo(int client, ColormapPtr pmap, int c, int r, Bool contig,
  * unique pixels to get the rest of them.
  *
  * Returns True iff all pixels could be allocated
- * All cells allocated will have refcnt set to AllocPrivate and shared to FALSE
+ * All cells allocated will have refcnt set to AllocPrivate and shared to False
  * (see AllocShared for why we care)
  */
 private Bool AllocCP(ColormapPtr pmap, EntryPtr pentFirst, int count, int planes, Bool contig, Pixel* pixels, Pixel* pMask)
@@ -1724,13 +1724,13 @@ private Bool AllocCP(ColormapPtr pmap, EntryPtr pentFirst, int count, int planes
             }
             ent.refcnt = AllocPrivate;
             *ppix++ = pixel;
-            ent.fShared = FALSE;
+            ent.fShared = False;
         }
         *pMask = 0;
-        return TRUE;
+        return True;
     }
     else if (planes > dplanes) {
-        return FALSE;
+        return False;
     }
 
     /* General case count pixels * 2 ^ planes cells to be allocated */
@@ -1763,7 +1763,7 @@ private Bool AllocCP(ColormapPtr pmap, EntryPtr pentFirst, int count, int planes
                         maxp = pixel + mask;
                         while (1) {
                             ent[pixel].refcnt = AllocPrivate;
-                            ent[pixel].fShared = FALSE;
+                            ent[pixel].fShared = False;
                             if (pixel == maxp)
                                 break;
                             pixel += base;
@@ -1771,7 +1771,7 @@ private Bool AllocCP(ColormapPtr pmap, EntryPtr pentFirst, int count, int planes
                         }
                     }
                     *pMask = mask;
-                    return TRUE;
+                    return True;
                 }
             }
             pixel = save + 1;
@@ -1782,7 +1782,7 @@ private Bool AllocCP(ColormapPtr pmap, EntryPtr pentFirst, int count, int planes
 
     dplanes = pmap.pVisual.nplanes;
     if (contig || planes == 1 || dplanes < 3)
-        return FALSE;
+        return False;
 
     /* this will be very slow for large maps, need a better algorithm */
 
@@ -1839,17 +1839,17 @@ private Bool AllocCP(ColormapPtr pmap, EntryPtr pentFirst, int count, int planes
                 maxp = 0;
                 while (1) {
                     ent[pixel + maxp].refcnt = AllocPrivate;
-                    ent[pixel + maxp].fShared = FALSE;
+                    ent[pixel + maxp].fShared = False;
                     mixin(GetNextBitsOrBreak!(`maxp`, `mask`, `base`));
                     *ppix++ = pixel + maxp;
                 }
             }
 
             *pMask = mask;
-            return TRUE;
+            return True;
         }
     }
-    return FALSE;
+    return False;
 }
 
 /**
@@ -1863,7 +1863,7 @@ private Bool AllocShared(ColormapPtr pmap, Pixel* ppix, int c, int r, int g, int
 
     SHAREDCOLOR** psharedList = cast(SHAREDCOLOR**) calloc(npixShared, (SHAREDCOLOR*).sizeof);
     if (!psharedList)
-        return FALSE;
+        return False;
 
     SHAREDCOLOR** ppshared = psharedList;
     for (int z = npixShared; --z >= 0;) {
@@ -1871,7 +1871,7 @@ private Bool AllocShared(ColormapPtr pmap, Pixel* ppix, int c, int r, int g, int
             for (z++; z < npixShared; z++)
                 free(ppshared[z]);
             free(psharedList);
-            return FALSE;
+            return False;
         }
     }
 
@@ -1890,7 +1890,7 @@ private Bool AllocShared(ColormapPtr pmap, Pixel* ppix, int c, int r, int g, int
                 int z = npixClientNew;
                 for (Pixel* cptr = ppixFirst; --z >= 0; cptr++) {
                     if ((*cptr & basemask) == (common | bits)) {
-                        pmap.red[*cptr].fShared = TRUE;
+                        pmap.red[*cptr].fShared = True;
                         pmap.red[*cptr].co.shco.red = pshared;
                     }
                 }
@@ -1903,7 +1903,7 @@ private Bool AllocShared(ColormapPtr pmap, Pixel* ppix, int c, int r, int g, int
             int z = npixClientNew;
             for (Pixel* cptr = ppixFirst; --z >= 0; cptr++) {
                 if ((*cptr & basemask) == common) {
-                    pmap.red[*cptr].fShared = TRUE;
+                    pmap.red[*cptr].fShared = True;
                     pmap.red[*cptr].co.shco.red = pshared;
                 }
             }
@@ -1964,7 +1964,7 @@ private Bool AllocShared(ColormapPtr pmap, Pixel* ppix, int c, int r, int g, int
         }
     }
     free(psharedList);
-    return TRUE;
+    return True;
 }
 
 /** FreeColors
@@ -2166,7 +2166,7 @@ int StoreColors(ColormapPtr pmap, int count, xColorItem* defs, ClientPtr client)
         Pixel rgbbad = cast(int)~mixin(RGBMASK!(`pVisual`));
         int n = 0;
         for (xColorItem* pdef = defs; n < count; pdef++, n++) {
-            bool ok = TRUE;
+            bool ok = True;
 
             (*pmap.pScreen.ResolveColor)
                 (&pdef.red, &pdef.green, &pdef.blue, pmap.pVisual);
@@ -2179,11 +2179,11 @@ int StoreColors(ColormapPtr pmap, int count, xColorItem* defs, ClientPtr client)
             Pixel pix = (pdef.pixel & pVisual.redMask) >> pVisual.offsetRed;
             if (pix >= numred) {
                 errVal = BadValue;
-                ok = FALSE;
+                ok = False;
             }
             else if (pmap.red[pix].refcnt != AllocPrivate) {
                 errVal = BadAccess;
-                ok = FALSE;
+                ok = False;
             }
             else if (pdef.flags & DoRed) {
                 pmap.red[pix].co.local.red = pdef.red;
@@ -2195,11 +2195,11 @@ int StoreColors(ColormapPtr pmap, int count, xColorItem* defs, ClientPtr client)
             pix = (pdef.pixel & pVisual.greenMask) >> pVisual.offsetGreen;
             if (pix >= numgreen) {
                 errVal = BadValue;
-                ok = FALSE;
+                ok = False;
             }
             else if (pmap.green[pix].refcnt != AllocPrivate) {
                 errVal = BadAccess;
-                ok = FALSE;
+                ok = False;
             }
             else if (pdef.flags & DoGreen) {
                 pmap.green[pix].co.local.green = pdef.green;
@@ -2211,11 +2211,11 @@ int StoreColors(ColormapPtr pmap, int count, xColorItem* defs, ClientPtr client)
             pix = (pdef.pixel & pVisual.blueMask) >> pVisual.offsetBlue;
             if (pix >= numblue) {
                 errVal = BadValue;
-                ok = FALSE;
+                ok = False;
             }
             else if (pmap.blue[pix].refcnt != AllocPrivate) {
                 errVal = BadAccess;
-                ok = FALSE;
+                ok = False;
             }
             else if (pdef.flags & DoBlue) {
                 pmap.blue[pix].co.local.blue = pdef.blue;
@@ -2239,16 +2239,16 @@ int StoreColors(ColormapPtr pmap, int count, xColorItem* defs, ClientPtr client)
     else {
         int n = 0;
         for (xColorItem* pdef = defs; n < count; pdef++, n++) {
-            bool ok = TRUE;
+            bool ok = True;
 
             if (pdef.pixel >= pVisual.ColormapEntries) {
                 client.errorValue = cast(uint)pdef.pixel;
                 errVal = BadValue;
-                ok = FALSE;
+                ok = False;
             }
             else if (pmap.red[pdef.pixel].refcnt != AllocPrivate) {
                 errVal = BadAccess;
-                ok = FALSE;
+                ok = False;
             }
 
             /* If this is an o.k. entry, then it gets added to the list
@@ -2272,7 +2272,7 @@ int StoreColors(ColormapPtr pmap, int count, xColorItem* defs, ClientPtr client)
                 if (pent.fShared) {
                     pent.co.shco.red.color = pdef.red;
                     if (pent.co.shco.red.refcnt > 1)
-                        ok = FALSE;
+                        ok = False;
                 }
                 else
                     pent.co.local.red = pdef.red;
@@ -2287,7 +2287,7 @@ int StoreColors(ColormapPtr pmap, int count, xColorItem* defs, ClientPtr client)
                 if (pent.fShared) {
                     pent.co.shco.green.color = pdef.green;
                     if (pent.co.shco.green.refcnt > 1)
-                        ok = FALSE;
+                        ok = False;
                 }
                 else
                     pent.co.local.green = pdef.green;
@@ -2302,7 +2302,7 @@ int StoreColors(ColormapPtr pmap, int count, xColorItem* defs, ClientPtr client)
                 if (pent.fShared) {
                     pent.co.shco.blue.color = pdef.blue;
                     if (pent.co.shco.blue.refcnt > 1)
-                        ok = FALSE;
+                        ok = False;
                 }
                 else
                     pent.co.local.blue = pdef.blue;
@@ -2377,13 +2377,13 @@ int IsMapInstalled(Colormap map, WindowPtr pWin)
     pmaps = cast(Colormap*) calloc(pWin.drawable.pScreen.maxInstalledCmaps,
                    Colormap.sizeof);
     if (!pmaps)
-        return FALSE;
+        return False;
     nummaps = (*pWin.drawable.pScreen.ListInstalledColormaps)
         (pWin.drawable.pScreen, pmaps);
-    found = FALSE;
+    found = False;
     for (int imap = 0; imap < nummaps; imap++) {
         if (pmaps[imap] == map) {
-            found = TRUE;
+            found = True;
             break;
         }
     }
@@ -2421,7 +2421,7 @@ Bool ResizeVisualArray(ScreenPtr pScreen, int new_visual_count, DepthPtr depth)
     XID* vids = cast(uint*)reallocarray(depth.vids, depth.numVids + new_visual_count,
                         XID.sizeof);
     if (!vids)
-        return FALSE;
+        return False;
 
     /* its realloced now no going back if we fail the next one */
     depth.vids = vids;
@@ -2429,7 +2429,7 @@ Bool ResizeVisualArray(ScreenPtr pScreen, int new_visual_count, DepthPtr depth)
     int numVisuals = pScreen.numVisuals + new_visual_count;
     VisualPtr visuals = cast(VisualRec*) reallocarray(pScreen.visuals, numVisuals, VisualRec.sizeof);
     if (!visuals) {
-        return FALSE;
+        return False;
     }
 
     colormap_lookup_data cdata = {
@@ -2450,5 +2450,5 @@ Bool ResizeVisualArray(ScreenPtr pScreen, int new_visual_count, DepthPtr depth)
     depth.numVids += new_visual_count;
     pScreen.numVisuals += new_visual_count;
 
-    return TRUE;
+    return True;
 }

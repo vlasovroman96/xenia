@@ -184,9 +184,9 @@ int ProcXChangeDeviceControl(ClientPtr client)
 
         if (status == Success) {
             if (e.enable)
-                EnableDevice(dev, TRUE);
+                EnableDevice(dev, True);
             else
-                DisableDevice(dev, TRUE);
+                DisableDevice(dev, True);
             ret = Success;
         }
         else if (status == DeviceBusy) {

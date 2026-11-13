@@ -61,6 +61,7 @@ import mi.miarc;
 import miglblt;
 import migc;
 import fb.fb;
+import common.bools;
 
 Bool glamor_get_drawable_location(DrawablePtr drawable)
 {

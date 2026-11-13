@@ -192,7 +192,7 @@ GlyphPtr FindGlyphByHash(ubyte* sha1, int format)
     if (!globalGlyphs[format].hashSet)
         return null;
 
-    gr = FindGlyphRef(&globalGlyphs[format], signature, TRUE, sha1);
+    gr = FindGlyphRef(&globalGlyphs[format], signature, True, sha1);
 
     if (gr.glyph && gr.glyph != DeletedGlyph)
         return gr.glyph;
@@ -256,7 +256,7 @@ void FreeGlyph(GlyphPtr glyph, int format)
             }
 
         signature = *cast(CARD32*) glyph.sha1;
-        gr = FindGlyphRef(&globalGlyphs[format], signature, TRUE, glyph.sha1.ptr);
+        gr = FindGlyphRef(&globalGlyphs[format], signature, True, glyph.sha1.ptr);
         if (gr - globalGlyphs[format].table != first)
             DuplicateRef(glyph, cast(char*)"Found wrong one".ptr);
         if (gr && gr.glyph && gr.glyph != DeletedGlyph) {
@@ -279,7 +279,7 @@ void AddGlyph(GlyphSetPtr glyphSet, GlyphPtr glyph, Glyph id)
     /* Locate existing matching glyph */
     signature = *cast(CARD32*) glyph.sha1;
     gr = FindGlyphRef(&globalGlyphs[glyphSet.fdepth], signature,
-                      TRUE, glyph.sha1.ptr);
+                      True, glyph.sha1.ptr);
     if (gr.glyph && gr.glyph != DeletedGlyph && gr.glyph != glyph) {
         glyph = gr.glyph;
     }
@@ -290,7 +290,7 @@ void AddGlyph(GlyphSetPtr glyphSet, GlyphPtr glyph, Glyph id)
     }
 
     /* Insert/replace glyphset value */
-    gr = FindGlyphRef(&glyphSet.hash, cast(uint)id, FALSE, null);
+    gr = FindGlyphRef(&glyphSet.hash, cast(uint)id, False, null);
     ++glyph.refcnt;
     if (gr.glyph && gr.glyph != DeletedGlyph)
         FreeGlyph(gr.glyph, glyphSet.fdepth);
@@ -306,22 +306,22 @@ Bool DeleteGlyph(GlyphSetPtr glyphSet, Glyph id)
     GlyphRefPtr gr = void;
     GlyphPtr glyph = void;
 
-    gr = FindGlyphRef(&glyphSet.hash, cast(uint)id, FALSE, null);
+    gr = FindGlyphRef(&glyphSet.hash, cast(uint)id, False, null);
     glyph = gr.glyph;
     if (glyph && glyph != DeletedGlyph) {
         gr.glyph = DeletedGlyph;
         glyphSet.hash.tableEntries--;
         FreeGlyph(glyph, glyphSet.fdepth);
-        return TRUE;
+        return True;
     }
-    return FALSE;
+    return False;
 }
 
 GlyphPtr FindGlyph(GlyphSetPtr glyphSet, Glyph id)
 {
     GlyphPtr glyph = void;
 
-    glyph = FindGlyphRef(&glyphSet.hash, cast(uint)id, FALSE, null).glyph;
+    glyph = FindGlyphRef(&glyphSet.hash, cast(uint)id, False, null).glyph;
     if (glyph == DeletedGlyph)
         glyph = null;
     return glyph;
@@ -371,13 +371,13 @@ GlyphPtr AllocateGlyph(xGlyphInfo* gi, int fdepth)
 private Bool AllocateGlyphHash(GlyphHashPtr hash, GlyphHashSetPtr hashSet)
 {
     if (hashSet is null)
-        return FALSE;
+        return False;
     hash.table = cast(_GlyphRefRec*)calloc(hashSet.size, GlyphRefRec.sizeof);
     if (!hash.table)
-        return FALSE;
+        return False;
     hash.hashSet = hashSet;
     hash.tableEntries = 0;
-    return TRUE;
+    return True;
 }
 
 private Bool ResizeGlyphHash(GlyphHashPtr hash, CARD32 change, Bool global)
@@ -394,11 +394,11 @@ private Bool ResizeGlyphHash(GlyphHashPtr hash, CARD32 change, Bool global)
     tableEntries = hash.tableEntries + change;
     hashSet = FindGlyphHashSet(tableEntries);
     if (hashSet == hash.hashSet)
-        return TRUE;
+        return True;
     if (global)
         CheckDuplicates(hash, cast(char*)"ResizeGlyphHashcast top".ptr);
     if (!AllocateGlyphHash(&newHash, hashSet))
-        return FALSE;
+        return False;
     if (hash.table) {
         oldSize = cast(int)hash.hashSet.size;
         for (i = 0; i < oldSize; i++) {
@@ -417,13 +417,13 @@ private Bool ResizeGlyphHash(GlyphHashPtr hash, CARD32 change, Bool global)
     *hash = newHash;
     if (global)
         CheckDuplicates(hash, cast(char*)"ResizeGlyphHashcast(char*) bottom".ptr);
-    return TRUE;
+    return True;
 }
 
 Bool ResizeGlyphSet(GlyphSetPtr glyphSet, CARD32 change)
 {
-    return (ResizeGlyphHash(&glyphSet.hash, change, FALSE) &&
-            ResizeGlyphHash(&globalGlyphs[glyphSet.fdepth], change, TRUE));
+    return (ResizeGlyphHash(&glyphSet.hash, change, False) &&
+            ResizeGlyphHash(&globalGlyphs[glyphSet.fdepth], change, True));
 }
 
 GlyphSetPtr AllocateGlyphSet(int fdepth, PictFormatPtr format)
@@ -469,7 +469,7 @@ int FreeGlyphSet(void* value, XID gid)
             globalGlyphs[glyphSet.fdepth].hashSet = null;
         }
         else
-            ResizeGlyphHash(&globalGlyphs[glyphSet.fdepth], 0, TRUE);
+            ResizeGlyphHash(&globalGlyphs[glyphSet.fdepth], 0, True);
         free(table);
         mixin(dixFreeObjectWithPrivatesM!("glyphSet", "PRIVATE_GLYPHSET"));
     }
@@ -536,7 +536,7 @@ void CompositeGlyphs(CARD8 op, PicturePtr pSrc, PicturePtr pDst, PictFormatPtr m
 
 Bool miRealizeGlyph(ScreenPtr pScreen, GlyphPtr glyph)
 {
-    return TRUE;
+    return True;
 }
 
 void miUnrealizeGlyph(ScreenPtr pScreen, GlyphPtr glyph)

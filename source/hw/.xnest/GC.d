@@ -95,7 +95,7 @@ Bool xnestCreateGC(GCPtr pGC)
                   0,
                   null);
 
-    return TRUE;
+    return True;
 }
 
 void xnestValidateGC(GCPtr pGC, c_ulong changes, DrawablePtr pDrawable)

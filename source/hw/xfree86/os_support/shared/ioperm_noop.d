@@ -38,7 +38,7 @@ import hw.xfree86.os_support.xf86_OSlib;
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 Bool xf86EnableIO()
 {
-    return TRUE;
+    return True;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))

@@ -74,9 +74,9 @@ private RRModePtr RROldModeAdd(RROutputPtr output, RRScreenSizePtr size, int ref
     }
     modes[output.numModes++] = mode;
     output.modes = modes;
-    output.changed = TRUE;
-    pScrPriv.changed = TRUE;
-    pScrPriv.configChanged = TRUE;
+    output.changed = True;
+    pScrPriv.changed = True;
+    pScrPriv.configChanged = True;
     return mode;
 }
 
@@ -117,8 +117,8 @@ private void RRScanOldConfig(ScreenPtr pScreen, Rotation rotations)
     /* check rotations */
     if (rotations != crtc.rotations) {
         crtc.rotations = rotations;
-        crtc.changed = TRUE;
-        pScrPriv.changed = TRUE;
+        crtc.changed = True;
+        pScrPriv.changed = True;
     }
 
     /* regenerate mode list */
@@ -186,26 +186,26 @@ Bool RRGetInfo(ScreenPtr pScreen, Bool force_query)
      */
     if (!force_query) {
         if (pScrPriv.numCrtcs != 0 || pScrPriv.numOutputs != 0)
-            return TRUE;
+            return True;
     }
 
     for (i = 0; i < pScrPriv.numOutputs; i++)
-        pScrPriv.outputs[i].changed = FALSE;
+        pScrPriv.outputs[i].changed = False;
     for (i = 0; i < pScrPriv.numCrtcs; i++)
-        pScrPriv.crtcs[i].changed = FALSE;
+        pScrPriv.crtcs[i].changed = False;
 
     rotations = 0;
-    pScrPriv.changed = FALSE;
-    pScrPriv.configChanged = FALSE;
+    pScrPriv.changed = False;
+    pScrPriv.configChanged = False;
 
     if (!(*pScrPriv.rrGetInfo) (pScreen, &rotations))
-        return FALSE;
+        return False;
 
     if (pScrPriv.nSizes)
         RRScanOldConfig(pScreen, rotations);
 
     RRTellChanged(pScreen);
-    return TRUE;
+    return True;
 }
 
 /*
@@ -227,20 +227,20 @@ void RRScreenSetSizeRange(ScreenPtr pScreen, CARD16 minWidth, CARD16 minHeight, 
     pScrPriv.maxWidth = maxWidth;
     pScrPriv.maxHeight = maxHeight;
     RRSetChanged(pScreen);
-    pScrPriv.configChanged = TRUE;
+    pScrPriv.configChanged = True;
 }
 
 private Bool RRScreenSizeMatches(RRScreenSizePtr a, RRScreenSizePtr b)
 {
     if (a.width != b.width)
-        return FALSE;
+        return False;
     if (a.height != b.height)
-        return FALSE;
+        return False;
     if (a.mmWidth != b.mmWidth)
-        return FALSE;
+        return False;
     if (a.mmHeight != b.mmHeight)
-        return FALSE;
-    return TRUE;
+        return False;
+    return True;
 }
 
 RRScreenSizePtr RRRegisterSize(ScreenPtr pScreen, short width, short height, short mmWidth, short mmHeight)
@@ -278,19 +278,19 @@ Bool RRRegisterRate(ScreenPtr pScreen, RRScreenSizePtr pSize, int rate)
     RRScreenRatePtr pNew = void, pRate = void;
 
     if (!pScrPriv)
-        return FALSE;
+        return False;
 
     for (i = 0; i < pSize.nRates; i++)
         if (pSize.pRates[i].rate == rate)
-            return TRUE;
+            return True;
 
     pNew = cast(RRScreenRate*) reallocarray(pSize.pRates, pSize.nRates + 1, RRScreenRate.sizeof);
     if (!pNew)
-        return FALSE;
+        return False;
     pRate = &pNew[pSize.nRates++];
     pRate.rate = cast(ushort)rate;
     pSize.pRates = pNew;
-    return TRUE;
+    return True;
 }
 
 void RRSetCurrentConfig(ScreenPtr pScreen, Rotation rotation, int rate, RRScreenSizePtr pSize)

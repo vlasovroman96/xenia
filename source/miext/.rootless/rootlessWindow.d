@@ -133,9 +133,9 @@ void RootlessNativeWindowMoved(WindowPtr pWin)
     /* Don't want to do anything to the physical window (avoids
        notification-response feedback loops) */
 
-    no_configure_window = TRUE;
+    no_configure_window = True;
     ConfigureWindow(pWin, mask, vlist.ptr, pClient);
-    no_configure_window = FALSE;
+    no_configure_window = False;
 }
 
 }                          /* __APPLE__ */
@@ -200,7 +200,7 @@ void RootlessWindowDestroy(CallbackListPtr* pcbl, ScreenPtr pScreen, WindowPtr p
 private Bool RootlessGetShape(WindowPtr pWin, RegionPtr pShape)
 {
     if (wBoundingShape(pWin) is null)
-        return FALSE;
+        return False;
 
     /* wBoundingShape is relative to *inner* origin of window.
        Translate by borderWidth to get the outside-relative position. */
@@ -209,7 +209,7 @@ private Bool RootlessGetShape(WindowPtr pWin, RegionPtr pShape)
     RegionCopy(pShape, wBoundingShape(pWin));
     RegionTranslate(pShape, pWin.borderWidth, pWin.borderWidth);
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -229,7 +229,7 @@ private void RootlessReshapeFrame(WindowPtr pWin)
     if (IsRoot(pWin))
         return;
 
-    RootlessStopDrawing(pWin, FALSE);
+    RootlessStopDrawing(pWin, False);
 
     pShape = RootlessGetShape(pWin, &newShape) ? &newShape : null;
 
@@ -372,8 +372,8 @@ private RootlessWindowRec* RootlessEnsureFrame(WindowPtr pWin)
 
     RootlessInitializeFrame(pWin, winRec);
 
-    winRec.is_drawing = FALSE;
-    winRec.is_reorder_pending = FALSE;
+    winRec.is_drawing = False;
+    winRec.is_reorder_pending = False;
     winRec.pixmap = null;
     winRec.wid = null;
     winRec.level = 0;
@@ -423,9 +423,9 @@ Bool RootlessRealizeWindow(WindowPtr pWin)
 
         winRec = RootlessEnsureFrame(pWin);
         if (winRec is null)
-            return FALSE;
+            return False;
 
-        winRec.is_reorder_pending = TRUE;
+        winRec.is_reorder_pending = True;
 
         RL_DEBUG_MSG("Top level window ");
 
@@ -489,11 +489,11 @@ Bool RootlessUnrealizeWindow(WindowPtr pWin)
     RL_DEBUG_MSG("unrealizewindow start ");
 
     if (winRec) {
-        RootlessStopDrawing(pWin, FALSE);
+        RootlessStopDrawing(pWin, False);
 
         SCREENREC(pScreen).imp.UnmapFrame(winRec.wid);
 
-        winRec.is_reorder_pending = FALSE;
+        winRec.is_reorder_pending = False;
     }
 
     SCREEN_UNWRAP(pScreen, UnrealizeWindow);
@@ -529,7 +529,7 @@ void RootlessReorderWindow(WindowPtr pWin)
                 return;
         }
 
-        RootlessStopDrawing(pWin, FALSE);
+        RootlessStopDrawing(pWin, False);
 
         /* Find the next window above this one that has a mapped frame.
          * Only include cases where the windows are in the same category of
@@ -550,7 +550,7 @@ void RootlessReorderWindow(WindowPtr pWin)
         /* If it exists, reorder the frame above us first. */
 
         if (newPrev && newPrev.is_reorder_pending) {
-            newPrev.is_reorder_pending = FALSE;
+            newPrev.is_reorder_pending = False;
             RootlessReorderWindow(newPrevW);
         }
 
@@ -665,7 +665,7 @@ void RootlessCopyWindow(WindowPtr pWin, xPoint ptOldOrg, RegionPtr prgnSrc)
         /* Move region to window local coords */
         RegionTranslate(&rgnDst, -winRec.x, -winRec.y);
 
-        RootlessStopDrawing(pWin, FALSE);
+        RootlessStopDrawing(pWin, False);
 
         SCREENREC(pScreen).imp.CopyWindow(winRec.wid,
                                             RegionNumRects(&rgnDst),
@@ -846,7 +846,7 @@ void RootlessMoveWindow(WindowPtr pWin, int x, int y, WindowPtr pSib, VTKind kin
             newW = pWin.drawable.width + 2 * newBW;
             newH = pWin.drawable.height + 2 * newBW;
 
-            StartFrameResize(pWin, FALSE,
+            StartFrameResize(pWin, False,
                              oldX, oldY, oldW, oldH, oldBW,
                              newX, newY, newW, newH, newBW);
         }
@@ -871,13 +871,13 @@ void RootlessMoveWindow(WindowPtr pWin, int x, int y, WindowPtr pSib, VTKind kin
         if (kind == VTMove) {
             winRec.x = x;
             winRec.y = y;
-            RootlessStopDrawing(pWin, FALSE);
+            RootlessStopDrawing(pWin, False);
             SCREENREC(pScreen).imp.MoveFrame(winRec.wid, pScreen,
                                                x + SCREEN_TO_GLOBAL_X,
                                                y + SCREEN_TO_GLOBAL_Y);
         }
         else {
-            FinishFrameResize(pWin, FALSE,
+            FinishFrameResize(pWin, False,
                               oldX, oldY, oldW, oldH, oldBW,
                               newX, newY, newW, newH, newBW);
         }
@@ -918,7 +918,7 @@ void RootlessResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h, WindowPt
             newW = w + 2 * newBW;
             newH = h + 2 * newBW;
 
-            StartFrameResize(pWin, TRUE,
+            StartFrameResize(pWin, True,
                              oldX, oldY, oldW, oldH, oldBW,
                              newX, newY, newW, newH, newBW);
         }
@@ -930,7 +930,7 @@ void RootlessResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h, WindowPt
         NORMAL_ROOT(pWin);
 
         if (winRec) {
-            FinishFrameResize(pWin, TRUE,
+            FinishFrameResize(pWin, True,
                               oldX, oldY, oldW, oldH, oldBW,
                               newX, newY, newW, newH, newBW);
         }
@@ -983,7 +983,7 @@ void RootlessRepositionWindow(WindowPtr pWin)
     if (winRec is null)
         return;
 
-    RootlessStopDrawing(pWin, FALSE);
+    RootlessStopDrawing(pWin, False);
     SCREENREC(pScreen).imp.MoveFrame(winRec.wid, pScreen,
                                        winRec.x + SCREEN_TO_GLOBAL_X,
                                        winRec.y + SCREEN_TO_GLOBAL_Y);
@@ -1019,7 +1019,7 @@ void RootlessReparentWindow(WindowPtr pWin, WindowPtr pPriorParent)
     pTopWin = TopLevelParent(pWin);
     assert(pTopWin != pWin);
 
-    pWin.unhittable = FALSE;
+    pWin.unhittable = False;
 
     DeleteProperty(serverClient, pWin, xa_native_window_id());
 
@@ -1051,7 +1051,7 @@ void RootlessReparentWindow(WindowPtr pWin, WindowPtr pPriorParent)
         }
 
         if (pTopWin.realized && !pWin.realized)
-            winRec.is_reorder_pending = TRUE;
+            winRec.is_reorder_pending = True;
     }
 
  out:
@@ -1070,7 +1070,7 @@ void RootlessFlushWindowColormap(WindowPtr pWin)
     if (winRec is null)
         return;
 
-    RootlessStopDrawing(pWin, FALSE);
+    RootlessStopDrawing(pWin, False);
 
     if (SCREENREC(pScreen).imp.UpdateColormap)
         SCREENREC(pScreen).imp.UpdateColormap(winRec.wid, pScreen);
@@ -1107,7 +1107,7 @@ void RootlessChangeBorderWidth(WindowPtr pWin, uint width)
             newW = pWin.drawable.width + 2 * newBW;
             newH = pWin.drawable.height + 2 * newBW;
 
-            StartFrameResize(pWin, FALSE,
+            StartFrameResize(pWin, False,
                              oldX, oldY, oldW, oldH, oldBW,
                              newX, newY, newW, newH, newBW);
         }
@@ -1119,7 +1119,7 @@ void RootlessChangeBorderWidth(WindowPtr pWin, uint width)
         NORMAL_ROOT(pWin);
 
         if (winRec) {
-            FinishFrameResize(pWin, FALSE,
+            FinishFrameResize(pWin, False,
                               oldX, oldY, oldW, oldH, oldBW,
                               newX, newY, newW, newH, newBW);
         }
@@ -1166,7 +1166,7 @@ void RootlessEnableRoot(ScreenPtr pScreen)
     pRoot = pScreen.root;
 
     RootlessEnsureFrame(pRoot);
-    (*pScreen.ClearToBackground) (pRoot, 0, 0, 0, 0, TRUE);
+    (*pScreen.ClearToBackground) (pRoot, 0, 0, 0, 0, True);
     RootlessReorderWindow(pRoot);
 }
 
@@ -1192,7 +1192,7 @@ void RootlessHideAllWindows()
     if (windows_hidden)
         return;
 
-    windows_hidden = TRUE;
+    windows_hidden = True;
 
     DIX_FOR_EACH_SCREEN({
         WindowPtr pWin = walkScreen.root;
@@ -1203,7 +1203,7 @@ void RootlessHideAllWindows()
             if (!pWin.realized)
                 continue;
 
-            RootlessStopDrawing(pWin, FALSE);
+            RootlessStopDrawing(pWin, False);
 
             winRec = WINREC(pWin);
             if (winRec !is null) {
@@ -1221,7 +1221,7 @@ void RootlessShowAllWindows()
     if (!windows_hidden)
         return;
 
-    windows_hidden = FALSE;
+    windows_hidden = False;
 
     DIX_FOR_EACH_SCREEN({
         WindowPtr pWin = walkScreen.root;

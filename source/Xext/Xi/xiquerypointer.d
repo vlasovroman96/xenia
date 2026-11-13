@@ -83,7 +83,7 @@ int ProcXIQueryPointer(ClientPtr client)
     WindowPtr pWin = void, t = void;
     SpritePtr pSprite = void;
     XkbStatePtr state = void;
-    Bool have_xi22 = FALSE;
+    Bool have_xi22 = False;
 
     /* Check if client is compliant with XInput 2.2 or later. Earlier clients
      * do not know about touches, so we must report emulated button presses. 2.2
@@ -93,7 +93,7 @@ int ProcXIQueryPointer(ClientPtr client)
 
     if (version_compare(xi_client.major_version,
                         xi_client.minor_version, 2, 2) >= 0)
-        have_xi22 = TRUE;
+        have_xi22 = True;
 
     rc = dixLookupDevice(&pDev, stuff.deviceid, client, DixReadAccess);
     if (rc != Success) {
@@ -141,7 +141,7 @@ int ProcXIQueryPointer(ClientPtr client)
         reply.group.locked_group = state.locked_group;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (pDev.button) {
         int i = void;

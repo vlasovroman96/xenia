@@ -73,8 +73,8 @@ private Bool compScreenUpdate(ClientPtr pClient, void* closure)
     compPaintChildrenToWindow(pScreen.root);
 
     /* Next damage will restore the worker */
-    cs.pendingScreenUpdate = FALSE;
-    return TRUE;
+    cs.pendingScreenUpdate = False;
+    return True;
 }
 
 void compMarkAncestors(WindowPtr pWin)
@@ -83,7 +83,7 @@ void compMarkAncestors(WindowPtr pWin)
     while (pWin) {
         if (pWin.damagedDescendants)
             return;
-        pWin.damagedDescendants = TRUE;
+        pWin.damagedDescendants = True;
         pWin = pWin.parent;
     }
 }
@@ -97,9 +97,9 @@ private void compReportDamage(DamagePtr pDamage, RegionPtr pRegion, void* closur
 
     if (!cs.pendingScreenUpdate) {
         QueueWorkProc(&compScreenUpdate, serverClient, pScreen);
-        cs.pendingScreenUpdate = TRUE;
+        cs.pendingScreenUpdate = True;
     }
-    cw.damaged = TRUE;
+    cw.damaged = True;
 
     compMarkAncestors(pWin);
 }
@@ -120,14 +120,14 @@ private Bool compMarkWindows(WindowPtr pWin, WindowPtr* ppLayerWin)
     WindowPtr pLayerWin = pWin;
 
     if (!pWin.viewable)
-        return FALSE;
+        return False;
 
     (*pScreen.MarkOverlappedWindows) (pWin, pWin, &pLayerWin);
     (*pScreen.MarkWindow) (pLayerWin.parent);
 
     *ppLayerWin = pLayerWin;
 
-    return TRUE;
+    return True;
 }
 
 private void compHandleMarkedWindows(WindowPtr pWin, WindowPtr pLayerWin)
@@ -150,7 +150,7 @@ int compRedirectWindow(ClientPtr pClient, WindowPtr pWin, int update)
     CompWindowPtr cw = mixin(GetCompWindow!("pWin"));
     CompScreenPtr cs = mixin(GetCompScreen!("pWin.drawable.pScreen"));
     WindowPtr pLayerWin = void;
-    Bool anyMarked = FALSE;
+    Bool anyMarked = False;
     int status = Success;
 
     if (pWin == cs.pOverlayWin) {
@@ -190,7 +190,7 @@ int compRedirectWindow(ClientPtr pClient, WindowPtr pWin, int update)
         cw.damage = DamageCreate(&compReportDamage,
                                   &compDestroyDamage,
                                   DamageReportNonEmpty,
-                                  FALSE, pWin.drawable.pScreen, pWin);
+                                  False, pWin.drawable.pScreen, pWin);
         if (!cw.damage) {
             free(ccw);
             free(cw);
@@ -204,8 +204,8 @@ int compRedirectWindow(ClientPtr pClient, WindowPtr pWin, int update)
         cw.clients = null;
         cw.oldx = COMP_ORIGIN_INVALID;
         cw.oldy = COMP_ORIGIN_INVALID;
-        cw.damageRegistered = FALSE;
-        cw.damaged = FALSE;
+        cw.damageRegistered = False;
+        cw.damaged = False;
         cw.pOldPixmap = NullPixmap;
         dixSetPrivate(&pWin.devPrivates, CompWindowPrivateKey, cw);
     }
@@ -219,7 +219,7 @@ int compRedirectWindow(ClientPtr pClient, WindowPtr pWin, int update)
 
         if (cw.damageRegistered) {
             DamageUnregister(cw.damage);
-            cw.damageRegistered = FALSE;
+            cw.damageRegistered = False;
         }
         cw.update = CompositeRedirectManual;
     }
@@ -273,7 +273,7 @@ void compFreeClientWindow(WindowPtr pWin, XID id)
 {
     ScreenPtr pScreen = pWin.drawable.pScreen;
     CompWindowPtr cw = mixin(GetCompWindow!("pWin"));
-    Bool anyMarked = FALSE;
+    Bool anyMarked = False;
     WindowPtr pLayerWin = void;
     PixmapPtr pPixmap = null;
 
@@ -310,7 +310,7 @@ void compFreeClientWindow(WindowPtr pWin, XID id)
         anyMarked = compMarkWindows(pWin, &pLayerWin);
 
         DamageRegister(&pWin.drawable, cw.damage);
-        cw.damageRegistered = TRUE;
+        cw.damageRegistered = True;
         pWin.redirectDraw = RedirectDrawAutomatic;
         DamageDamageRegion(&pWin.drawable, &pWin.borderSize);
     }
@@ -414,7 +414,7 @@ int compRedirectSubwindows(ClientPtr pClient, WindowPtr pWin, int update)
          * critical output
          */
         DamageExtSetCritical(pClient, true);
-        pWin.inhibitBGPaint = TRUE;
+        pWin.inhibitBGPaint = True;
     }
     return Success;
 }
@@ -442,10 +442,10 @@ void compFreeClientSubwindows(WindowPtr pWin, XID id)
                  */
                 DamageExtSetCritical(pClient, false);
                 csw.update = CompositeRedirectAutomatic;
-                pWin.inhibitBGPaint = FALSE;
+                pWin.inhibitBGPaint = False;
                 if (pWin.mapped)
                     (*pWin.drawable.pScreen.ClearToBackground) (pWin, 0, 0, 0,
-                                                                  0, TRUE);
+                                                                  0, True);
             }
 
             /*
@@ -620,7 +620,7 @@ Bool compAllocPixmap(WindowPtr pWin)
     Bool status = void;
 
     if (!pPixmap) {
-        status = FALSE;
+        status = False;
         goto out_;
     }
     if (cw.update == CompositeRedirectAutomatic)
@@ -631,12 +631,12 @@ Bool compAllocPixmap(WindowPtr pWin)
     compSetPixmap(pWin, pPixmap, bw);
     cw.oldx = COMP_ORIGIN_INVALID;
     cw.oldy = COMP_ORIGIN_INVALID;
-    cw.damageRegistered = FALSE;
+    cw.damageRegistered = False;
     if (cw.update == CompositeRedirectAutomatic) {
         DamageRegister(&pWin.drawable, cw.damage);
-        cw.damageRegistered = TRUE;
+        cw.damageRegistered = True;
     }
-    status = TRUE;
+    status = True;
 
 out_:
     /* Make sure our borderClip is up to date */
@@ -656,7 +656,7 @@ void compSetParentPixmap(WindowPtr pWin)
 
     if (cw.damageRegistered) {
         DamageUnregister(cw.damage);
-        cw.damageRegistered = FALSE;
+        cw.damageRegistered = False;
         DamageEmpty(cw.damage);
     }
     /*
@@ -696,7 +696,7 @@ Bool compReallocPixmap(WindowPtr pWin, int draw_x, int draw_y, uint w, uint h, i
     if (pix_w != pOld.drawable.width || pix_h != pOld.drawable.height) {
         pNew = compNewPixmap(pWin, pix_x, pix_y, pix_w, pix_h);
         if (!pNew)
-            return FALSE;
+            return False;
         cw.pOldPixmap = pOld;
         compSetPixmap(pWin, pNew, bw);
     }
@@ -706,5 +706,5 @@ Bool compReallocPixmap(WindowPtr pWin, int draw_x, int draw_y, uint w, uint h, i
     }
     pNew.screen_x = cast(short)pix_x;
     pNew.screen_y = cast(short)pix_y;
-    return TRUE;
+    return True;
 }

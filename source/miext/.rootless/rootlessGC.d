@@ -164,7 +164,7 @@ enum string GC_SAVE(string pGC) = `
     c_ulong _save_fg = (` ~ pGC ~ `).fgPixel;	
     c_ulong _save_bg = (` ~ pGC ~ `).bgPixel;	
     c_ulong _save_pm = (` ~ pGC ~ `).planemask;	
-    Bool _changed = FALSE;`;
+    Bool _changed = False;`;
 
 enum string GC_RESTORE(string pGC, string pDraw) = `
     do {							
@@ -192,7 +192,7 @@ enum string GC_UNSET_PM(string pGC, string pDraw) = `
             VALIDATE_GC((` ~ pGC ~ `), GCForeground |				
                         GCBackground | GCPlaneMask, (` ~ pDraw ~ `));		
             (` ~ pDraw ~ `).depth = depth;					
-            _changed = TRUE;						
+            _changed = True;						
         }								
     } while (0)`;
 

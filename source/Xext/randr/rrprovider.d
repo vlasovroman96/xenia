@@ -103,7 +103,7 @@ int ProcRRGetProviders(ClientPtr client)
         return mixin(X_SEND_REPLY_SIMPLE!("client", "reply"));
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     CARD16 count_providers = 0;
     mixin(ADD_PROVIDER!(`pScreen`));
@@ -173,7 +173,7 @@ int ProcRRGetProviderInfo(ClientPtr client)
     reply.length = (pScrPriv.numCrtcs + pScrPriv.numOutputs +
                    (reply.nAssociatedProviders * 2) + int32ForBytes(reply.nameLength));
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     extraLen = cast(uint)(reply.length << 2);
     if (extraLen) {
@@ -264,18 +264,18 @@ private void RRInitPrimeSyncProps(ScreenPtr pScreen)
     const(char)* syncStr = PRIME_SYNC_PROP;
     Atom syncProp = dixAddAtom(syncStr);
 
-    int defaultVal = TRUE;
-    INT32[2] validVals = [FALSE, TRUE];
+    int defaultVal = True;
+    INT32[2] validVals = [False, True];
 
     int i = void;
     for (i = 0; i < pScrPriv.numOutputs; i++) {
         if (!RRQueryOutputProperty(pScrPriv.outputs[i], syncProp)) {
             RRConfigureOutputProperty(pScrPriv.outputs[i], syncProp,
-                                      TRUE, FALSE, FALSE,
+                                      True, False, False,
                                       2, &validVals[0]);
             RRChangeOutputProperty(pScrPriv.outputs[i], syncProp, XA_INTEGER,
                                    8, PropModeReplace, 1, &defaultVal,
-                                   FALSE, FALSE);
+                                   False, False);
         }
     }
 }
@@ -338,7 +338,7 @@ int ProcRRSetProviderOutputSource(ClientPtr client)
 
     RRInitPrimeSyncProps(pScreen);
 
-    provider.changed = TRUE;
+    provider.changed = True;
     RRSetChanged(pScreen);
 
     RRTellChanged (pScreen);
@@ -377,7 +377,7 @@ int ProcRRSetProviderOffloadSink(ClientPtr client)
 
     pScrPriv.rrProviderSetOffloadSink(pScreen, provider, sink_provider);
 
-    provider.changed = TRUE;
+    provider.changed = True;
     RRSetChanged(pScreen);
 
     RRTellChanged (pScreen);
@@ -402,7 +402,7 @@ RRProviderPtr RRProviderCreate(ScreenPtr pScreen, const(char)* name, int nameLen
     provider.nameLength = nameLength;
     memcpy(provider.name, name, nameLength);
     provider.name[nameLength] = '\0';
-    provider.changed = FALSE;
+    provider.changed = False;
 
     if (!AddResource (provider.id, RRProviderType, cast(void*) provider))
         return null;
@@ -445,9 +445,9 @@ Bool RRProviderInit()
 {
     RRProviderType = CreateNewResourceType(&RRProviderDestroyResource, "Provider");
     if (!RRProviderType)
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 void RRDeliverProviderEvent(ClientPtr client, WindowPtr pWin, RRProviderPtr provider)
@@ -492,7 +492,7 @@ void RRProviderAutoConfigGpuScreen(ScreenPtr pScreen, ScreenPtr primaryScreen)
         pScrPriv.rrProviderSetOutputSource(pScreen, provider, primary_provider);
         RRInitPrimeSyncProps(pScreen);
 
-        primaryPriv.configChanged = TRUE;
+        primaryPriv.configChanged = True;
         RRSetChanged(primaryScreen);
     }
 

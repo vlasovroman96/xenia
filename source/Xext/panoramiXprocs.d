@@ -131,7 +131,7 @@ int PanoramiXCreateWindow(ClientPtr client)
     newWin.type = XRT_WINDOW;
     newWin.u.win.visibility = VisibilityNotViewable;
     newWin.u.win.class_ = cast(char)__traits(getMember, stuff, "class_");
-    newWin.u.win.root = FALSE;
+    newWin.u.win.root = False;
     panoramix_setup_ids(newWin, client, stuff.wid);
 
     if (__traits(getMember, stuff, "class_") == InputOnly)
@@ -713,7 +713,7 @@ int PanoramiXCreatePixmap(ClientPtr client)
         return BadAlloc;
 
     newPix.type = XRT_PIXMAP;
-    newPix.u.pix.shared_ = FALSE;
+    newPix.u.pix.shared_ = False;
     panoramix_setup_ids(newPix, client, stuff.pid);
 
     mixin(XINERAMA_FOR_EACH_SCREEN_BACKWARD!(q{
@@ -1061,8 +1061,8 @@ int PanoramiXCopyArea(ClientPtr client)
 {
     int result = void, srcx = void, srcy = void, dstx = void, dsty = void, width = void, height = void;
     PanoramiXRes* gc = void, src = void, dst = void;
-    Bool srcIsRoot = FALSE;
-    Bool dstIsRoot = FALSE;
+    Bool srcIsRoot = False;
+    Bool dstIsRoot = False;
     Bool srcShared = void, dstShared = void;
 
     mixin(REQUEST!xCopyAreaReq);
@@ -1092,9 +1092,9 @@ int PanoramiXCopyArea(ClientPtr client)
         return result;
 
     if ((dst.type == XRT_WINDOW) && dst.u.win.root)
-        dstIsRoot = TRUE;
+        dstIsRoot = True;
     if ((src.type == XRT_WINDOW) && src.u.win.root)
-        srcIsRoot = TRUE;
+        srcIsRoot = True;
 
     srcx = stuff.srcX;
     srcy = stuff.srcY;
@@ -1267,8 +1267,8 @@ int PanoramiXCopyPlane(ClientPtr client)
 {
     int srcx = void, srcy = void, dstx = void, dsty = void;
     PanoramiXRes* gc = void, src = void, dst = void;
-    Bool srcIsRoot = FALSE;
-    Bool dstIsRoot = FALSE;
+    Bool srcIsRoot = False;
+    Bool dstIsRoot = False;
     Bool srcShared = void, dstShared = void;
     DrawablePtr psrcDraw = void, pdstDraw = null;
     GCPtr pGC = null;
@@ -1301,9 +1301,9 @@ int PanoramiXCopyPlane(ClientPtr client)
         return rc;
 
     if ((dst.type == XRT_WINDOW) && dst.u.win.root)
-        dstIsRoot = TRUE;
+        dstIsRoot = True;
     if ((src.type == XRT_WINDOW) && src.u.win.root)
-        srcIsRoot = TRUE;
+        srcIsRoot = True;
 
     srcx = stuff.srcX;
     srcy = stuff.srcY;
@@ -2055,7 +2055,7 @@ int PanoramiXGetImage(ClientPtr client)
     }
 
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     /* can become quite big, so make enough room so we don't need to relloc */
     if (!x_rpcbuf_makeroom(&rpcbuf, length))

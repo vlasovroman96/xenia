@@ -146,7 +146,7 @@ private int ProcXF86DRIOpenConnection(ClientPtr client)
         return BadValue;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     if (busIdString) {
         busIdStringLength = cast(uint)strlen(busIdString);
         x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)busIdString, strlen(busIdString));
@@ -221,7 +221,7 @@ private int ProcXF86DRIGetClientDriverName(ClientPtr client)
                            cast(int*) &reply.ddxDriverPatchVersion,
                            &clientDriverName);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     if (clientDriverName) {
         reply.clientDriverNameLength = cast(uint)strlen(clientDriverName);
         x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)clientDriverName, reply.clientDriverNameLength);
@@ -370,7 +370,7 @@ private int ProcXF86DRIGetDrawableInfo(ClientPtr client)
     reply.backX = cast(short)backX;
     reply.backY = cast(short)backY;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (reply.numClipRects) {
         int j = 0;
@@ -435,7 +435,7 @@ static if (HasVersion!"LONG64" && !HasVersion!"linux") {
     reply.hFrameBufferHigh = cast(CARD32) (hFrameBuffer >> 32);
 }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD8s(&rpcbuf, cast(ubyte*)pDevPrivate, reply.devPrivateSize);
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));

@@ -40,7 +40,7 @@ void PrintDeviceGrabInfo(DeviceIntPtr dev);
  * Forcefully remove all device grabs on all devices. Optionally kill the
  * clients holding a grab
  *
- * @param kill_client TRUE if clients holding a grab should be killed
+ * @param kill_client True if clients holding a grab should be killed
  */
 void UngrabAllDevices(Bool kill_client);
 
@@ -92,7 +92,7 @@ GrabPtr CreateGrab(ClientPtr pClient, DeviceIntPtr device, DeviceIntPtr modDevic
  * @brief check whether it is a pointer grab
  *
  * @param grab pointer to the grab structure to check
- * @return TRUE if grabbed a pointer
+ * @return True if grabbed a pointer
  */
 Bool GrabIsPointerGrab(GrabPtr grab);
 
@@ -100,7 +100,7 @@ Bool GrabIsPointerGrab(GrabPtr grab);
  * @brief check whether it is a keyboard grab
  *
  * @param grab pointer to the grab structure to check
- * @return TRUE if grabbed a keyboard
+ * @return True if grabbed a keyboard
  */
 Bool GrabIsKeyboardGrab(GrabPtr grab);
 
@@ -108,7 +108,7 @@ Bool GrabIsKeyboardGrab(GrabPtr grab);
  * @brief check whether it is a gesture grab
  *
  * @param grab pointer to the grab structure to check
- * @return TRUE if grabbed a gesture
+ * @return True if grabbed a gesture
  */
 Bool GrabIsGestureGrab(GrabPtr grab);
 
@@ -132,8 +132,8 @@ int DeletePassiveGrab(void* value, XID id);
  *
  * @param pFirstGrab first grab to compare
  * @param pSecondGrab second grab to compare
- * @param ignoreDevice TRUE if devices don't need to match
- * @return TRUE if both grabs are having the same claims
+ * @param ignoreDevice True if devices don't need to match
+ * @return True if both grabs are having the same claims
  */
 Bool GrabMatchesSecond(GrabPtr pFirstGrab, GrabPtr pSecondGrab, Bool ignoreDevice);
 
@@ -161,7 +161,7 @@ int AddPassiveGrabToList(ClientPtr client, GrabPtr pGrab);
  * specifying which claims should be deleted (on which window).
  *
  * @param pMinuedGrab GrabRec structure specifying which claims to delete
- * @return TRUE if succeeded (FALSE usually indicated allocation failure)
+ * @return True if succeeded (FALSE usually indicated allocation failure)
  */
 Bool DeletePassiveGrabFromList(GrabPtr pMinuendGrab);
 

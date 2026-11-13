@@ -39,7 +39,7 @@ void fbAddTraps(PicturePtr pPicture, INT16 x_off, INT16 y_off, int ntrap, xTrap*
     pixman_image_t* image = void;
     int dst_xoff = void, dst_yoff = void;
 
-    if (((image = image_from_pict(pPicture, FALSE, &dst_xoff, &dst_yoff)) is null))
+    if (((image = image_from_pict(pPicture, False, &dst_xoff, &dst_yoff)) is null))
         return;
 
     assumeNoGC(&pixman_add_traps)(image, cast(short)(x_off + dst_xoff), cast(short)(y_off + dst_yoff),
@@ -53,7 +53,7 @@ void fbRasterizeTrapezoid(PicturePtr pPicture, xTrapezoid* trap, int x_off, int 
     pixman_image_t* image = void;
     int dst_xoff = void, dst_yoff = void;
 
-    if (((image = image_from_pict(pPicture, FALSE, &dst_xoff, &dst_yoff)) is null))
+    if (((image = image_from_pict(pPicture, False, &dst_xoff, &dst_yoff)) is null))
         return;
 
     assumeNoGC(&pixman_rasterize_trapezoid)(image, cast(pixman_trapezoid_t*) trap,
@@ -67,7 +67,7 @@ void fbAddTriangles(PicturePtr pPicture, INT16 x_off, INT16 y_off, int ntri, xTr
     pixman_image_t* image = void;
     int dst_xoff = void, dst_yoff = void;
 
-    if (((image = image_from_pict(pPicture, FALSE, &dst_xoff, &dst_yoff)) is null))
+    if (((image = image_from_pict(pPicture, False, &dst_xoff, &dst_yoff)) is null))
         return;
 
     assumeNoGC(&pixman_add_triangles)(image,
@@ -87,8 +87,8 @@ private void fbShapes(CompositeShapesFunc composite, pixman_op_t op, PicturePtr 
 
     miCompositeSourceValidate(pSrc);
 
-    src = image_from_pict(pSrc, FALSE, &src_xoff, &src_yoff);
-    dst = image_from_pict(pDst, TRUE, &dst_xoff, &dst_yoff);
+    src = image_from_pict(pSrc, False, &src_xoff, &src_yoff);
+    dst = image_from_pict(pDst, True, &dst_xoff, &dst_yoff);
 
     if (src && dst) {
         pixman_format_code_t format = void;

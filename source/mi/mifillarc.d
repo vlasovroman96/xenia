@@ -309,15 +309,15 @@ private void miEllipseAngleToSlope(int angle, int width, int height, int* dxp, i
             *d_dxp = d_dx / 2.0;
             *d_dyp = -d_dy / 2.0;
         }
-        negative_dx = FALSE;
+        negative_dx = False;
         if (d_dx < 0.0) {
             d_dx = -d_dx;
-            negative_dx = TRUE;
+            negative_dx = True;
         }
-        negative_dy = FALSE;
+        negative_dy = False;
         if (d_dy < 0.0) {
             d_dy = -d_dy;
-            negative_dy = TRUE;
+            negative_dy = True;
         }
         scale = d_dx;
         if (d_dy > d_dx)
@@ -394,8 +394,8 @@ private void miFillArcSliceSetup(xArc* arc, miArcSliceRec* slice, GCPtr pGC)
     slice.max_top_y = arc.height >> 1;
     slice.min_bot_y = 1 - (arc.height & 1);
     slice.max_bot_y = slice.max_top_y - 1;
-    slice.flip_top = FALSE;
-    slice.flip_bot = FALSE;
+    slice.flip_top = False;
+    slice.flip_bot = False;
     if (pGC.arcMode == ArcPieSlice) {
         slice.edge1_top = (angle1 < HALFCIRCLE);
         slice.edge2_top = (angle2 <= HALFCIRCLE);
@@ -435,7 +435,7 @@ private void miFillArcSliceSetup(xArc* arc, miArcSliceRec* slice, GCPtr pGC)
     else {
         double w2 = void, h2 = void, x1 = void, y1 = void, x2 = void, y2 = void, dx = void, dy = void, scale = void;
         int signdx = void, signdy = void, y = void, k = void;
-        Bool isInt1 = TRUE, isInt2 = TRUE;
+        Bool isInt1 = True, isInt2 = True;
 
         w2 = cast(double) arc.width / 2.0;
         h2 = cast(double) arc.height / 2.0;
@@ -448,7 +448,7 @@ private void miFillArcSliceSetup(xArc* arc, miArcSliceRec* slice, GCPtr pGC)
             y1 = (angle1 == QUADRANT) ? h2 : -h2;
         }
         else {
-            isInt1 = FALSE;
+            isInt1 = False;
             x1 = mixin(Dcos!(`angle1`)) * w2;
             y1 = mixin(Dsin!(`angle1`)) * h2;
         }
@@ -461,7 +461,7 @@ private void miFillArcSliceSetup(xArc* arc, miArcSliceRec* slice, GCPtr pGC)
             y2 = (angle2 == QUADRANT) ? h2 : -h2;
         }
         else {
-            isInt2 = FALSE;
+            isInt2 = False;
             x2 = mixin(Dcos!(`angle2`)) * w2;
             y2 = mixin(Dsin!(`angle2`)) * h2;
         }
@@ -516,13 +516,13 @@ private void miFillArcSliceSetup(xArc* arc, miArcSliceRec* slice, GCPtr pGC)
                     slice.min_bot_y = -y - (arc.height & 1);
                 }
             }
-            slice.edge1_top = TRUE;
+            slice.edge1_top = True;
             slice.edge1.x = 65536;
             slice.edge1.stepx = 0;
             slice.edge1.e = 0;
             slice.edge1.dx = -1;
             slice.edge2 = slice.edge1;
-            slice.edge2_top = FALSE;
+            slice.edge2_top = False;
         }
         else if (!slice.edge1.dx) {
             if (signdy < 0)
@@ -786,7 +786,7 @@ void miPolyFillArc(DrawablePtr pDraw, GCPtr pGC, int narcs_all, xArc* parcs)
             nspans = cast(int)(pts - points);
             if (nspans)
                 (*pGC.ops.FillSpans) (pDraw, pGC, nspans, points,
-                                        widths, FALSE);
+                                        widths, False);
             free (points);
         }
         parcs += narcs;

@@ -81,7 +81,7 @@ WindowPtr TopLevelParent(WindowPtr pWindow)
 
 /*
  * IsFramedWindow
- *  Returns TRUE if this window is visible inside a frame
+ *  Returns True if this window is visible inside a frame
  *  (e.g. it is visible and has a top-level or root parent)
  */
 Bool IsFramedWindow(WindowPtr pWin)
@@ -89,10 +89,10 @@ Bool IsFramedWindow(WindowPtr pWin)
     WindowPtr top = void;
 
     if (!dixPrivateKeyRegistered(&rootlessWindowPrivateKeyRec))
-        return FALSE;
+        return False;
 
     if (!pWin.realized)
-        return FALSE;
+        return False;
     top = TopLevelParent(pWin);
 
     return (top && WINREC(top));
@@ -105,7 +105,7 @@ Bool RootlessResolveColormap(ScreenPtr pScreen, int first_color, int n_colors, u
 
     map = RootlessGetColormap(pScreen);
     if (map is null || map.class_ != PseudoColor)
-        return FALSE;
+        return False;
 
     last = MIN(map.pVisual.ColormapEntries, first_color + n_colors);
     for (i = MAX(0, first_color); i < last; i++) {
@@ -131,7 +131,7 @@ Bool RootlessResolveColormap(ScreenPtr pScreen, int first_color, int n_colors, u
                                    | (blue >> 8));
     }
 
-    return TRUE;
+    return True;
 }
 
 c_ulong RootlessWID(WindowPtr pWindow) {
@@ -198,7 +198,7 @@ void RootlessStartDrawing(WindowPtr pWindow)
                      winRec.pixmap.drawable.y, winRec.pixmap.drawable.width, winRec.pixmap.drawable.height,
                      winRec.pixmap.drawable.bitsPerPixel, RootlessWID(pWindow));
 
-        winRec.is_drawing = TRUE;
+        winRec.is_drawing = True;
     } else {
         RL_DEBUG_MSG("Skipped call to xprStartDrawing (wid: %lu) because winRec->is_drawing says we already did.\n", RootlessWID(pWindow));
     }
@@ -283,14 +283,14 @@ void RootlessStopDrawing(WindowPtr pWindow, Bool flush)
         TraverseTree(top, &RestorePreDrawingPixmapVisitor, cast(void*) winRec);
         winRec.pixmap = null;
 
-        winRec.is_drawing = FALSE;
+        winRec.is_drawing = False;
     }
     else if (flush) {
         SCREENREC(pScreen).imp.UpdateRegion(winRec.wid, null);
     }
 
     if (flush && winRec.is_reorder_pending) {
-        winRec.is_reorder_pending = FALSE;
+        winRec.is_reorder_pending = False;
         RootlessReorderWindow(pWindow);
     }
 }
@@ -442,7 +442,7 @@ void RootlessDamageRect(WindowPtr pWindow, int x, int y, int w, int h)
  */
 void RootlessRedisplay(WindowPtr pWindow)
 {
-    RootlessStopDrawing(pWindow, TRUE);
+    RootlessStopDrawing(pWindow, True);
 }
 
 /*

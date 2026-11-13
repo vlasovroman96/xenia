@@ -2,9 +2,9 @@ module hw.xfree86.os_support.bus.Pci;
 @nogc nothrow:
 extern(C): __gshared:
 
-// private template HasVersion(string versionId) {
-// 	mixin("version("~versionId~") {enum HasVersion = true;} else {enum HasVersion = false;}");
-// }
+private template HasVersion(string versionId) {
+	mixin("version("~versionId~") {enum HasVersion = true;} else {enum HasVersion = false;}");
+}
 /*
  * Copyright 1998 by Concurrent Computer Corporation
  *
@@ -158,7 +158,7 @@ enum string PCI_TAG_NO_DOMAIN(string tag) =`((`~tag~`) & 0x00ffff00u)`;
 
 Bool xf86scanpci()
 {
-    Bool success = FALSE;
+    Bool success = False;
 
     import core.stdc.stdio: printf;
 printf("[PCI-DEBUG] Вызов pci_system_init()...\n");

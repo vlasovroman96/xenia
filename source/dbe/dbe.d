@@ -62,7 +62,7 @@ import dix.window;
 import common.swap;
 
 /* GLOBALS */
-// Bool noDbeExtension = FALSE;
+// Bool noDbeExtension = False;
 
 /* These are globals for use by DDX */
 DevPrivateKeyRec dbeScreenPrivKeyRec;
@@ -194,10 +194,10 @@ private int ProcDbeAllocateBackBufferName(ClientPtr client)
 
     /* See if the window's visual is on the list. */
     VisualID visual = mixin(wVisual!("pWin"));
-    Bool visualMatched = FALSE;
+    Bool visualMatched = False;
     for (int i = 0; (i < scrVisInfo.count) && !visualMatched; i++) {
         if (scrVisInfo.visinfo[i].visual == visual) {
-            visualMatched = TRUE;
+            visualMatched = True;
         }
     }
 
@@ -582,7 +582,7 @@ private int ProcDbeGetVisualInfo(ClientPtr client)
 
     count = cast(int)((stuff.n == 0) ? screenInfo.numScreens : stuff.n);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
         xDbeGetVisualInfoReply reply = {
             m: count
         };
@@ -733,8 +733,8 @@ private int ProcDbeDispatch(ClientPtr client)
  *
  * Return Values:
  *
- *     TRUE  - setup was successful
- *     FALSE - the window's background state is NONE
+ *     True  - setup was successful
+ *     False - the window's background state is NONE
  *
  *****************************************************************************/
 
@@ -778,7 +778,7 @@ private Bool DbeSetupBackgroundPainter(WindowPtr pWin, GCPtr pGC)
 
     default:
         /* pWin->backgroundState == None */
-        return FALSE;
+        return False;
     }
 
     return ChangeGC(null, pGC, cast(uint)gcmask, gcvalues.ptr) == 0;

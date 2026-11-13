@@ -460,7 +460,7 @@ private ModeStatus xf86LookupMode(ScrnInfoPtr scrp, DisplayModePtr modep, ClockR
     ClockRangePtr cp = void;
     int i = void, k = void, gap = void, minimumGap = CLOCK_TOLERANCE + 1;
     double refresh = void, bestRefresh = 0.0;
-    Bool found = FALSE;
+    Bool found = False;
     int extraFlags = 0;
     int clockIndex = -1;
     int MulFactor = 1;
@@ -548,7 +548,7 @@ private ModeStatus xf86LookupMode(ScrnInfoPtr scrp, DisplayModePtr modep, ClockR
                  * otherwise record the refresh and continue looking.
                  */
                 if (scrp.progClock) {
-                    found = TRUE;
+                    found = True;
                     if (strategy != LOOKUP_BEST_REFRESH) {
                         bestMode = p;
                         DivFactor = cp.ClockDivFactor;
@@ -595,7 +595,7 @@ private ModeStatus xf86LookupMode(ScrnInfoPtr scrp, DisplayModePtr modep, ClockR
                         status = MODE_NOCLOCK;
                     continue;
                 }
-                found = TRUE;
+                found = True;
 
                 if (strategy == LOOKUP_BEST_REFRESH) {
                     refresh = xf86ModeVRefresh(p);
@@ -792,7 +792,7 @@ private Bool xf86CheckModeSize(ScrnInfoPtr scrp, int w, int x, int y)
 
     /* Sanity check */
     if ((w < 0) || (x < 0) || (y <= 0))
-        return FALSE;
+        return False;
 
     lineWidth = (((w * bpp) + pad - 1) / pad) * pad;
     lastWidth = x * bpp;
@@ -817,9 +817,9 @@ private Bool xf86CheckModeSize(ScrnInfoPtr scrp, int w, int x, int y)
 
     if ((lineWidth * (y - 1) + lastWidth) >
         (scrp.videoRam * ((1024 * 8) / BITMAP_SCANLINE_PAD)))
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -939,7 +939,7 @@ private ModeStatus xf86InitialCheckModeForDriver(ScrnInfoPtr scrp, DisplayModePt
                 mode.SynthClock /= 2;
         }
 
-        status = (*scrp.ValidMode) (scrp, mode, FALSE,
+        status = (*scrp.ValidMode) (scrp, mode, False,
                                      MODECHECK_INITIAL);
         if (status != MODE_OK)
             return status;
@@ -1330,11 +1330,11 @@ int xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes, const(char)**
     int linePitch = -1, virtX = 0, virtY = 0;
     int newLinePitch = void, newVirtX = void, newVirtY = void;
     int modeSize = void;               /* in pixels */
-    Bool validateAllDefaultModes = FALSE;
-    Bool userModes = FALSE;
+    Bool validateAllDefaultModes = False;
+    Bool userModes = False;
     int saveType = void;
     PixmapFormatRec* BankFormat = void;
-    Bool inferred_virtual = FALSE;
+    Bool inferred_virtual = False;
 
     DebugF
         ("xf86ValidateModes(%p, %p, %p, %p,\n\t\t  %p, %d, %d, %d, %d, %d, %d, %d, %d, 0x%x)\n",
@@ -1370,7 +1370,7 @@ int xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes, const(char)**
     }
     else {
         const(char)* type = "";
-        Bool specified = FALSE;
+        Bool specified = False;
 
         if (scrp.monitor.nHsync <= 0) {
             scrp.monitor.hsync[0].lo = 31.5;
@@ -1379,7 +1379,7 @@ int xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes, const(char)**
             type = "default ";
         }
         else {
-            specified = TRUE;
+            specified = True;
         }
         for (i = 0; i < scrp.monitor.nHsync; i++) {
             if (scrp.monitor.hsync[i].lo == scrp.monitor.hsync[i].hi)
@@ -1402,7 +1402,7 @@ int xf86ValidateModes(ScrnInfoPtr scrp, DisplayModePtr availModes, const(char)**
             type = "default ";
         }
         else {
-            specified = TRUE;
+            specified = True;
         }
         for (i = 0; i < scrp.monitor.nVrefresh; i++) {
             if (scrp.monitor.vrefresh[i].lo == scrp.monitor.vrefresh[i].hi)
@@ -1592,7 +1592,7 @@ enum string _VIRTUALX(string x) = `((((` ~ x ~ `) + scrp.xInc - 1) / scrp.xInc) 
     last = null;
     if (modeNames !is null) {
         for (i = 0; modeNames[i] !is null; i++) {
-            userModes = TRUE;
+            userModes = True;
             new_ = cast(DisplayModeRec*)XNFcallocarray(1, DisplayModeRec.sizeof);
             new_.prev = last;
             new_.type = M_T_USERDEF;
@@ -1607,7 +1607,7 @@ enum string _VIRTUALX(string x) = `((((` ~ x ~ `) + scrp.xInc - 1) / scrp.xInc) 
     /* Lookup each mode */
 static if(XINERAMA){
     if (noPanoramiXExtension)
-        validateAllDefaultModes = TRUE;
+        validateAllDefaultModes = True;
 } /* XINERAMA */
 
     for (p = scrp.modes;; p = p.next) {
@@ -1623,7 +1623,7 @@ static if(XINERAMA){
             if ((numModes > 0) && !validateAllDefaultModes)
                 break;
 
-            validateAllDefaultModes = TRUE;
+            validateAllDefaultModes = True;
             r = null;
             modeSize = 0;
             for (q = scrp.modePool; q !is null; q = q.next) {
@@ -1672,7 +1672,7 @@ static if(XINERAMA){
             endp = &p.next;
         }
 
-        repeat = FALSE;
+        repeat = False;
  lookupNext:
         if (repeat && ((status = p.status) != MODE_OK))
             printModeRejectMessage(scrp.scrnIndex, p, status);
@@ -1693,7 +1693,7 @@ static if(XINERAMA){
             continue;
         }
         p.type |= saveType;
-        repeat = TRUE;
+        repeat = True;
 
         newLinePitch = linePitch;
         newVirtX = virtX;
@@ -1773,7 +1773,7 @@ static if(XINERAMA){
             scrp.virtualX = newVirtX;
             scrp.virtualY = newVirtY;
             scrp.displayWidth = newLinePitch;
-            p.status = (scrp.ValidMode) (scrp, p, FALSE,
+            p.status = (scrp.ValidMode) (scrp, p, False,
                                            MODECHECK_FINAL);
 
             if (p.status != MODE_OK) {

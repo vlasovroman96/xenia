@@ -77,19 +77,19 @@ Bool miSyncFdScreenInit(ScreenPtr pScreen, const(SyncFdScreenFuncsRec)* funcs)
 
     /* Check to see if we've already been initialized */
     if (sync_fd_screen_priv(pScreen) !is null)
-        return FALSE;
+        return False;
 
     if (!miSyncSetup(pScreen))
-        return FALSE;
+        return False;
 
     if (!dixPrivateKeyRegistered(&syncFdScreenPrivateKey)) {
         if (!dixRegisterPrivateKey(&syncFdScreenPrivateKey, PRIVATE_SCREEN, 0))
-            return FALSE;
+            return False;
     }
 
     priv = cast(SyncFdScreenPrivateRec*) calloc(1, SyncFdScreenPrivateRec.sizeof);
     if (!priv)
-        return FALSE;
+        return False;
 
     /* Will require version checks when there are multiple versions
      * of the funcs structure
@@ -99,5 +99,5 @@ Bool miSyncFdScreenInit(ScreenPtr pScreen, const(SyncFdScreenFuncsRec)* funcs)
 
     dixSetPrivate(&pScreen.devPrivates, &syncFdScreenPrivateKey, priv);
 
-    return TRUE;
+    return True;
 }

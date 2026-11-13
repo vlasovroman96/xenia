@@ -70,7 +70,7 @@ else
 /**
  * @brief force fsync() on each log write
  *
- * If set to TRUE, force fsync() on each log write.
+ * If set to True, force fsync() on each log write.
  */
 // Bool xorgLogSync;
 

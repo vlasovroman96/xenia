@@ -94,7 +94,7 @@ private Bool fbdevInitialize(KdCardInfo* card, FbdevPriv* priv)
         if (priv.fd < 0) {
             ErrorF("Error opening framebuffer %s: %s\n",
                    config.fbdevDevicePath, strerror(errno));
-            return FALSE;
+            return False;
         }
     } else {
         char[10] devbuf = "/dev/fbxx";
@@ -115,7 +115,7 @@ private Bool fbdevInitialize(KdCardInfo* card, FbdevPriv* priv)
         }
         if (priv.fd < 0) {
             ErrorF("Error opening framebuffers /dev/fb[0-31]\n");
-            return FALSE;
+            return False;
         }
     }
 
@@ -124,14 +124,14 @@ private Bool fbdevInitialize(KdCardInfo* card, FbdevPriv* priv)
     if (ioctl(priv.fd, FBIOGET_FSCREENINFO, &priv.fix) < 0) {
         perror("Error with /dev/fb ioctl FIOGET_FSCREENINFO");
         close(priv.fd);
-        return FALSE;
+        return False;
     }
     /* quiet valgrind */
     memset(&priv.var, '\0', typeof(priv.var).sizeof);
     if (ioctl(priv.fd, FBIOGET_VSCREENINFO, &priv.var) < 0) {
         perror("Error with /dev/fb ioctl FIOGET_VSCREENINFO");
         close(priv.fd);
-        return FALSE;
+        return False;
     }
 
     priv.fb_base = cast(char*) mmap(cast(caddr_t) null,
@@ -142,11 +142,11 @@ private Bool fbdevInitialize(KdCardInfo* card, FbdevPriv* priv)
     if (priv.fb_base == cast(char*) -1) {
         perror("ERROR: mmap framebuffer fails!");
         close(priv.fd);
-        return FALSE;
+        return False;
     }
     off = cast(c_ulong) priv.fix.smem_start % cast(c_ulong) getpagesize();
     priv.fb = priv.fb_base + off;
-    return TRUE;
+    return True;
 }
 
 Bool fbdevCardInit(KdCardInfo* card)
@@ -155,15 +155,15 @@ Bool fbdevCardInit(KdCardInfo* card)
 
     priv = cast(FbdevPriv*) malloc(FbdevPriv.sizeof);
     if (!priv)
-        return FALSE;
+        return False;
 
     if (!fbdevInitialize(card, priv)) {
         free(priv);
-        return FALSE;
+        return False;
     }
     card.driver = priv;
 
-    return TRUE;
+    return True;
 }
 
 private Pixel fbdevMakeContig(Pixel orig, Pixel others)
@@ -180,7 +180,7 @@ private Pixel fbdevMakeContig(Pixel orig, Pixel others)
 
 private Bool fbdevModeSupported(KdScreenInfo* screen, const(KdMonitorTiming)* t)
 {
-    return TRUE;
+    return True;
 }
 
 private void fbdevConvertMonitorTiming(const(KdMonitorTiming)* t, fb_var_screeninfo* var)
@@ -260,7 +260,7 @@ private Bool fbdevScreenInitialize(KdScreenInfo* screen, FbdevScrPriv* scrpriv)
 
     if (k < 0) {
         fprintf(stderr, "error: %s\n", strerror(errno));
-        return FALSE;
+        return False;
     }
 
     /* Re-get the "fixed" parameters since they might have changed */
@@ -344,7 +344,7 @@ enum string Mask(string o,string l) = `(((1 << ` ~ l ~ `) - 1) << ` ~ o ~ `)`;
             depth--;
         break;
     default:
-        return FALSE;
+        return False;
         break;
     }
     screen.fb.depth = depth;
@@ -361,14 +361,14 @@ Bool fbdevScreenInit(KdScreenInfo* screen)
 
     scrpriv = cast(FbdevScrPriv*) cast(FbdevScrPriv*) calloc(1, FbdevScrPriv.sizeof);
     if (!scrpriv)
-        return FALSE;
+        return False;
     screen.driver = scrpriv;
     if (!fbdevScreenInitialize(screen, scrpriv)) {
         screen.driver = 0;
         free(scrpriv);
-        return FALSE;
+        return False;
     }
-    return TRUE;
+    return True;
 }
 
 private void* fbdevWindowLinear(ScreenPtr pScreen, CARD32 row, CARD32 offset, int mode, CARD32* size, void* closure)
@@ -406,12 +406,12 @@ Bool fbdevMapFramebuffer(KdScreenInfo* screen)
     FbScreenConf* config = screen.card.closure;
 
     if (!config.fbDisableShadow) {
-        scrpriv.shadow = TRUE;
+        scrpriv.shadow = True;
     } else if (scrpriv.randr != RR_Rotate_0 ||
         priv.fix.type != FB_TYPE_PACKED_PIXELS) {
-        scrpriv.shadow = TRUE;
+        scrpriv.shadow = True;
     } else {
-        scrpriv.shadow = FALSE;
+        scrpriv.shadow = False;
     }
 
     KdComputePointerMatrix(&m, scrpriv.randr, screen.width, screen.height);
@@ -424,7 +424,7 @@ Bool fbdevMapFramebuffer(KdScreenInfo* screen)
     if (scrpriv.shadow) {
         if (!KdShadowFbAlloc(screen,
                              scrpriv.randr & (RR_Rotate_90 | RR_Rotate_270)))
-            return FALSE;
+            return False;
     }
     else {
         screen.fb.byteStride = priv.fix.line_length;
@@ -433,7 +433,7 @@ Bool fbdevMapFramebuffer(KdScreenInfo* screen)
         screen.fb.frameBuffer = cast(CARD8*) (priv.fb);
     }
 
-    return TRUE;
+    return True;
 }
 
 private void fbdevSetScreenSizes(ScreenPtr pScreen)
@@ -460,7 +460,7 @@ private void fbdevSetScreenSizes(ScreenPtr pScreen)
 private Bool fbdevUnmapFramebuffer(KdScreenInfo* screen)
 {
     KdShadowFbFree(screen);
-    return TRUE;
+    return True;
 }
 
 private Bool fbdevSetShadow(ScreenPtr pScreen)
@@ -583,7 +583,7 @@ private Bool fbdevRandRGetInfo(ScreenPtr pScreen, Rotation* rotations)
         if (pScreen.allowedDepths[n].numVids)
             break;
     if (n == pScreen.numDepths)
-        return FALSE;
+        return False;
 
     pSize = RRRegisterSize(pScreen,
                            screen.width,
@@ -593,7 +593,7 @@ private Bool fbdevRandRGetInfo(ScreenPtr pScreen, Rotation* rotations)
 
     RRSetCurrentConfig(pScreen, randr, 0, pSize);
 
-    return TRUE;
+    return True;
 }
 
 private Bool fbdevRandRSetConfig(ScreenPtr pScreen, Rotation randr, int rate, RRScreenSizePtr pSize)
@@ -671,7 +671,7 @@ private Bool fbdevRandRSetConfig(ScreenPtr pScreen, Rotation randr, int rate, RR
     if (wasEnabled)
         KdEnableScreen(pScreen);
 
-    return TRUE;
+    return True;
 
  bail4:
     fbdevUnmapFramebuffer(screen);
@@ -684,7 +684,7 @@ private Bool fbdevRandRSetConfig(ScreenPtr pScreen, Rotation randr, int rate, RR
 
     if (wasEnabled)
         KdEnableScreen(pScreen);
-    return FALSE;
+    return False;
 }
 
 private Bool fbdevRandRInit(ScreenPtr pScreen)
@@ -692,12 +692,12 @@ private Bool fbdevRandRInit(ScreenPtr pScreen)
     rrScrPrivPtr pScrPriv = void;
 
     if (!RRScreenInit(pScreen))
-        return FALSE;
+        return False;
 
     pScrPriv = mixin(rrGetScrPriv!("pScreen"));
     pScrPriv.rrGetInfo = fbdevRandRGetInfo;
     pScrPriv.rrSetConfig = fbdevRandRSetConfig;
-    return TRUE;
+    return True;
 }
 }
 
@@ -722,7 +722,7 @@ private Bool fbdevCreateColormap(ColormapPtr pmap)
         pmap.red[1].co.local.red = 0;
         pmap.red[1].co.local.green = 0;
         pmap.red[1].co.local.blue = 0;
-        return TRUE;
+        return True;
     case FB_VISUAL_MONO10:
         pScreen.blackPixel = 0;
         pScreen.whitePixel = 1;
@@ -732,13 +732,13 @@ private Bool fbdevCreateColormap(ColormapPtr pmap)
         pmap.red[1].co.local.red = 65535;
         pmap.red[1].co.local.green = 65535;
         pmap.red[1].co.local.blue = 65535;
-        return TRUE;
+        return True;
     case FB_VISUAL_STATIC_PSEUDOCOLOR:
         pVisual = pmap.pVisual;
         nent = pVisual.ColormapEntries;
         pdefs = cast(xColorItem*) calloc(nent, xColorItem.sizeof);
         if (!pdefs)
-            return FALSE;
+            return False;
         for (i = 0; i < nent; i++)
             pdefs[i].pixel = i;
         fbdevGetColors(pScreen, nent, pdefs);
@@ -748,7 +748,7 @@ private Bool fbdevCreateColormap(ColormapPtr pmap)
             pmap.red[i].co.local.blue = pdefs[i].blue;
         }
         free(pdefs);
-        return TRUE;
+        return True;
     default:
         return fbInitializeColormap(pmap);
     }
@@ -757,20 +757,20 @@ private Bool fbdevCreateColormap(ColormapPtr pmap)
 Bool fbdevInitScreen(ScreenPtr pScreen)
 {
     pScreen.CreateColormap = fbdevCreateColormap;
-    return TRUE;
+    return True;
 }
 
 Bool fbdevFinishInitScreen(ScreenPtr pScreen)
 {
     if (!shadowSetup(pScreen))
-        return FALSE;
+        return False;
 
 static if(RANDR){
     if (!fbdevRandRInit(pScreen))
-        return FALSE;
+        return False;
 }
 
-    return TRUE;
+    return True;
 }
 
 Bool fbdevCreateResources(ScreenPtr pScreen)
@@ -809,7 +809,7 @@ Bool fbdevEnable(ScreenPtr pScreen)
     k = ioctl(priv.fd, FBIOPUT_VSCREENINFO, &priv.var);
     if (k < 0) {
         perror("FBIOPUT_VSCREENINFO");
-        return FALSE;
+        return False;
     }
 
     if (priv.fix.visual == FB_VISUAL_DIRECTCOLOR) {
@@ -826,7 +826,7 @@ Bool fbdevEnable(ScreenPtr pScreen)
 
         fbdevUpdateFbColormap(priv, 0, i);
     }
-    return TRUE;
+    return True;
 }
 
 Bool fbdevDPMS(ScreenPtr pScreen, int mode)
@@ -836,20 +836,20 @@ Bool fbdevDPMS(ScreenPtr pScreen, int mode)
     static int oldmode = -1;
 
     if (mode == oldmode)
-        return TRUE;
+        return True;
 version (FBIOPUT_POWERMODE) {
     if (ioctl(priv.fd, FBIOPUT_POWERMODE, &mode) >= 0) {
         oldmode = mode;
-        return TRUE;
+        return True;
     }
 }
 version (FBIOBLANK) {
     if (ioctl(priv.fd, FBIOBLANK, mode ? mode + 1 : 0) >= 0) {
         oldmode = mode;
-        return TRUE;
+        return True;
     }
 }
-    return FALSE;
+    return False;
 }
 
 void fbdevDisable(ScreenPtr pScreen)

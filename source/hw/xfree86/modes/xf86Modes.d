@@ -191,8 +191,8 @@ void xf86SetModeCrtc(DisplayModePtr p, int adjustFlags)
     p.CrtcHBlankStart = min(p.CrtcHSyncStart, p.CrtcHDisplay);
     p.CrtcHBlankEnd = max(p.CrtcHSyncEnd, p.CrtcHTotal);
 
-    p.CrtcHAdjusted = FALSE;
-    p.CrtcVAdjusted = FALSE;
+    p.CrtcHAdjusted = False;
+    p.CrtcVAdjusted = False;
 }
 
 /**
@@ -280,10 +280,10 @@ Bool xf86ModesEqual(const(DisplayModeRec)* pMode1, const(DisplayModeRec)* pMode2
         pMode1.VSyncEnd == pMode2.VSyncEnd &&
         pMode1.VTotal == pMode2.VTotal &&
         pMode1.VScan == pMode2.VScan && pMode1.Flags == pMode2.Flags) {
-        return TRUE;
+        return True;
     }
     else {
-        return FALSE;
+        return False;
     }
 }
 
@@ -465,24 +465,24 @@ void xf86ValidateModesSync(ScrnInfoPtr pScrn, DisplayModePtr modeList, MonPtr mo
         Bool bad = void;
         int i = void;
 
-        bad = TRUE;
+        bad = True;
         for (i = 0; i < mon.nHsync; i++) {
             if (xf86ModeHSync(mode) >= mon.hsync[i].lo * (1 - SYNC_TOLERANCE)
                 && xf86ModeHSync(mode) <=
                 mon.hsync[i].hi * (1 + SYNC_TOLERANCE)) {
-                bad = FALSE;
+                bad = False;
             }
         }
         if (bad)
             mode.status = MODE_HSYNC;
 
-        bad = TRUE;
+        bad = True;
         for (i = 0; i < mon.nVrefresh; i++) {
             if (xf86ModeVRefresh(mode) >=
                 mon.vrefresh[i].lo * (1 - SYNC_TOLERANCE) &&
                 xf86ModeVRefresh(mode) <=
                 mon.vrefresh[i].hi * (1 + SYNC_TOLERANCE)) {
-                bad = FALSE;
+                bad = False;
             }
         }
         if (bad)
@@ -507,12 +507,12 @@ void xf86ValidateModesClocks(ScrnInfoPtr pScrn, DisplayModePtr modeList, int* mi
     int i = void;
 
     for (mode = modeList; mode !is null; mode = mode.next) {
-        Bool good = FALSE;
+        Bool good = False;
 
         for (i = 0; i < n_ranges; i++) {
             if (mode.Clock >= min[i] * (1 - SYNC_TOLERANCE) &&
                 mode.Clock <= max[i] * (1 + SYNC_TOLERANCE)) {
-                good = TRUE;
+                good = True;
                 break;
             }
         }
@@ -542,12 +542,12 @@ void xf86ValidateModesUserConfig(ScrnInfoPtr pScrn, DisplayModePtr modeList)
 
     for (mode = modeList; mode !is null; mode = mode.next) {
         int i = void;
-        Bool good = FALSE;
+        Bool good = False;
 
         for (i = 0; pScrn.display.modes[i] !is null; i++) {
             if (strncmp(pScrn.display.modes[i], mode.name,
                         strlen(pScrn.display.modes[i])) == 0) {
-                good = TRUE;
+                good = True;
                 break;
             }
         }
@@ -580,8 +580,8 @@ Bool xf86ModeIsReduced(const(DisplayModeRec)* mode)
         ((mode.HSyncEnd - mode.HDisplay) == 80) &&
         ((mode.HSyncEnd - mode.HSyncStart) == 32) &&
         ((mode.VSyncStart - mode.VDisplay) == 3))
-        return TRUE;
-    return FALSE;
+        return True;
+    return False;
 }
 
 /**

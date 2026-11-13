@@ -135,24 +135,24 @@ Bool miInitOverlay(ScreenPtr pScreen, miOverlayInOverlayFunc inOverlayFunc, miOv
     miOverlayScreenPtr pScreenPriv = void;
 
     if (!inOverlayFunc || !transFunc)
-        return FALSE;
+        return False;
 
     if (!dixRegisterPrivateKey
         (&miOverlayWindowKeyRec, PRIVATE_WINDOW, miOverlayWindowRec.sizeof))
-        return FALSE;
+        return False;
 
     if (!dixRegisterPrivateKey(&miOverlayScreenKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
 
     if (((pScreenPriv = cast(miOverlayScreenRec*) calloc(1, miOverlayScreenRec.sizeof)) is null))
-        return FALSE;
+        return False;
 
     dixSetPrivate(&pScreen.devPrivates, miOverlayScreenKey, pScreenPriv);
     dixScreenHookClose(pScreen, &miOverlayCloseScreen);
 
     pScreenPriv.InOverlay = inOverlayFunc;
     pScreenPriv.MakeTransparent = transFunc;
-    pScreenPriv.underlayMarked = FALSE;
+    pScreenPriv.underlayMarked = False;
 
     pScreenPriv.CreateWindow = pScreen.CreateWindow;
     pScreenPriv.DestroyWindow = pScreen.DestroyWindow;
@@ -178,7 +178,7 @@ Bool miInitOverlay(ScreenPtr pScreen, miOverlayInOverlayFunc inOverlayFunc, miOv
     pScreen.SetShape = &miOverlaySetShape;
     pScreen.ChangeBorderWidth = &miOverlayChangeBorderWidth;
 
-    return TRUE;
+    return True;
 }
 
 private void miOverlayCloseScreen(CallbackListPtr* pcbl, ScreenPtr pScreen, void* unused)
@@ -204,13 +204,13 @@ private Bool miOverlayCreateWindow(WindowPtr pWin)
     miOverlayScreenPtr pScreenPriv = mixin(MIOVERLAY_GET_SCREEN_PRIVATE!(`pScreen`));
     miOverlayWindowPtr pWinPriv = mixin(MIOVERLAY_GET_WINDOW_PRIVATE!(`pWin`));
     miOverlayTreePtr pTree = null;
-    Bool result = TRUE;
+    Bool result = True;
 
     pWinPriv.tree = null;
 
     if (!pWin.parent || !((*pScreenPriv.InOverlay) (pWin))) {
         if (((pTree = cast(miOverlayTreePtr) cast(miOverlayTreeRec*) calloc(1, miOverlayTreeRec.sizeof)) is null))
-            return FALSE;
+            return False;
     }
 
     if (pScreenPriv.CreateWindow) {
@@ -244,7 +244,7 @@ private Bool miOverlayCreateWindow(WindowPtr pWin)
             free(pTree);
     }
 
-    return TRUE;
+    return True;
 }
 
 private Bool miOverlayDestroyWindow(WindowPtr pWin)
@@ -252,7 +252,7 @@ private Bool miOverlayDestroyWindow(WindowPtr pWin)
     ScreenPtr pScreen = pWin.drawable.pScreen;
     miOverlayScreenPtr pScreenPriv = mixin(MIOVERLAY_GET_SCREEN_PRIVATE!(`pScreen`));
     miOverlayTreePtr pTree = mixin(MIOVERLAY_GET_WINDOW_TREE!(`pWin`));
-    Bool result = TRUE;
+    Bool result = True;
 
     if (pTree) {
         if (pTree.prevSib)
@@ -284,7 +284,7 @@ private Bool miOverlayUnrealizeWindow(WindowPtr pWin)
     ScreenPtr pScreen = pWin.drawable.pScreen;
     miOverlayScreenPtr pScreenPriv = mixin(MIOVERLAY_GET_SCREEN_PRIVATE!(`pScreen`));
     miOverlayTreePtr pTree = mixin(MIOVERLAY_GET_WINDOW_TREE!(`pWin`));
-    Bool result = TRUE;
+    Bool result = True;
 
     if (pTree)
         pTree.visibility = VisibilityNotViewable;
@@ -302,7 +302,7 @@ private Bool miOverlayRealizeWindow(WindowPtr pWin)
 {
     ScreenPtr pScreen = pWin.drawable.pScreen;
     miOverlayScreenPtr pScreenPriv = mixin(MIOVERLAY_GET_SCREEN_PRIVATE!(`pScreen`));
-    Bool result = TRUE;
+    Bool result = True;
 
     if (pScreenPriv.RealizeWindow) {
         pScreen.RealizeWindow = pScreenPriv.RealizeWindow;
@@ -347,7 +347,7 @@ private Bool miOverlayMarkOverlappedWindows(WindowPtr pWin, WindowPtr pFirst, Wi
     miOverlayTreePtr pTree = null, tLast = void, tChild = void;
     BoxPtr box = void;
 
-    overMarked = underMarked = markAll = FALSE;
+    overMarked = underMarked = markAll = False;
 
     if (pLayerWin)
         *pLayerWin = pWin;      /* hah! */
@@ -360,7 +360,7 @@ private Bool miOverlayMarkOverlappedWindows(WindowPtr pWin, WindowPtr pFirst, Wi
         pLast = pChild.parent.lastChild;
         while (1) {
             if (pChild == pWin)
-                markAll = TRUE;
+                markAll = True;
 
             if (doUnderlay && mixin(IN_UNDERLAY!(`pChild`)))
                 pTree = mixin(MIOVERLAY_GET_WINDOW_TREE!(`pChild`));
@@ -373,10 +373,10 @@ private Bool miOverlayMarkOverlappedWindows(WindowPtr pWin, WindowPtr pFirst, Wi
 
                 if (markAll || RegionContainsRect(&pChild.borderSize, box)) {
                     mixin(MARK_OVERLAY!(`pChild`)~`;`);
-                    overMarked = TRUE;
+                    overMarked = True;
                     if (doUnderlay && mixin(IN_UNDERLAY!(`pChild`))) {
                         mixin(MARK_UNDERLAY!(`pChild`)~`;`);
-                        underMarked = TRUE;
+                        underMarked = True;
                     }
                     if (pChild.firstChild) {
                         pChild = pChild.firstChild;
@@ -391,7 +391,7 @@ private Bool miOverlayMarkOverlappedWindows(WindowPtr pWin, WindowPtr pFirst, Wi
             }
 
             if (pChild == pWin)
-                markAll = FALSE;
+                markAll = False;
 
             if (pChild == pLast)
                 break;
@@ -435,7 +435,7 @@ private Bool miOverlayMarkOverlappedWindows(WindowPtr pWin, WindowPtr pFirst, Wi
 
                 if (RegionContainsRect(&(tChild.pWin.borderSize), box)) {
                     mixin(MARK_UNDERLAY!(`tChild.pWin`)~`;`);
-                    underMarked = TRUE;
+                    underMarked = True;
                 }
             }
 
@@ -458,7 +458,7 @@ private Bool miOverlayMarkOverlappedWindows(WindowPtr pWin, WindowPtr pFirst, Wi
         ScreenPtr pScreen = pWin.drawable.pScreen;
 
         mixin(MARK_UNDERLAY!(`pTree.parent.pWin`)~`;`);
-        mixin(MIOVERLAY_GET_SCREEN_PRIVATE!(`pScreen`)).underlayMarked = TRUE;
+        mixin(MIOVERLAY_GET_SCREEN_PRIVATE!(`pScreen`)).underlayMarked = True;
     }
 
     return underMarked || overMarked;
@@ -706,7 +706,7 @@ private void miOverlayMarkWindow(WindowPtr pWin)
     if (pTree) {
         mixin(MARK_UNDERLAY!(`pTree.parent.pWin`)~`;`);
         mixin(MIOVERLAY_GET_SCREEN_PRIVATE!(`pWin.drawable.pScreen`)).underlayMarked =
-            TRUE;
+            True;
     }
 }
 
@@ -874,7 +874,7 @@ private void miOverlayHandleExposures(WindowPtr pWin)
                 break;
             pTree = pTree.nextSib;
         }
-        pPriv.underlayMarked = FALSE;
+        pPriv.underlayMarked = False;
     }
 
     pChild = pWin;
@@ -964,12 +964,12 @@ private void miOverlayMoveWindow(WindowPtr pWin, int x, int y, WindowPtr pNextSi
 
         (*pScreen.ValidateTree) (pWin.parent, NullWindow, kind);
         if (RegionNotEmpty(&underReg)) {
-            pPriv.copyUnderlay = TRUE;
+            pPriv.copyUnderlay = True;
             (*pWin.drawable.pScreen.CopyWindow) (pWin, oldpt, &underReg);
         }
         RegionUninit(&underReg);
         if (RegionNotEmpty(&overReg)) {
-            pPriv.copyUnderlay = FALSE;
+            pPriv.copyUnderlay = False;
             (*pWin.drawable.pScreen.CopyWindow) (pWin, oldpt, &overReg);
         }
         RegionUninit(&overReg);
@@ -1087,8 +1087,8 @@ private void miOverlayResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h,
     RegionPtr oldWinClip = null, oldWinClip2 = null;
     RegionPtr borderVisible = NullRegion;
     RegionPtr borderVisible2 = NullRegion;
-    Bool shrunk = FALSE;        /* shrunk in an inner dimension */
-    Bool moved = FALSE;         /* window position changed */
+    Bool shrunk = False;        /* shrunk in an inner dimension */
+    Bool moved = False;         /* window position changed */
     Bool doUnderlay = void;
 
     /* if this is a root window, can't be resized */
@@ -1135,7 +1135,7 @@ private void miOverlayResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h,
                 }
             }
             else {
-                UnmapWindow(pChild, TRUE);
+                UnmapWindow(pChild, True);
             }
         }
         (*pScreen.MarkOverlappedWindows) (pWin, pWin, null);
@@ -1154,10 +1154,10 @@ private void miOverlayResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h,
          * can't be computed correctly without some help.
          */
         if (pWin.drawable.height > h || pWin.drawable.width > w)
-            shrunk = TRUE;
+            shrunk = True;
 
         if (newx != oldx || newy != oldy)
-            moved = TRUE;
+            moved = True;
 
         if ((pWin.drawable.height != h || pWin.drawable.width != w) &&
             mixin(HasBorder!("pWin"))) {
@@ -1206,7 +1206,7 @@ private void miOverlayResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h,
 
         (*pScreen.MarkOverlappedWindows) (pWin, pFirstChange, null);
 
-        pWin.valdata.before.resized = TRUE;
+        pWin.valdata.before.resized = True;
         pWin.valdata.before.borderVisible = borderVisible;
         if (pTree)
             pTree.valdata.borderVisible = borderVisible2;
@@ -1350,11 +1350,11 @@ private void miOverlayResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h,
 
             if (oldpt.x != x || oldpt.y != y) {
                 if (gravitate2[g]) {
-                    pPriv.copyUnderlay = TRUE;
+                    pPriv.copyUnderlay = True;
                     (*pScreen.CopyWindow) (pWin, oldpt, gravitate2[g]);
                 }
                 if (gravitate[g]) {
-                    pPriv.copyUnderlay = FALSE;
+                    pPriv.copyUnderlay = False;
                     (*pScreen.CopyWindow) (pWin, oldpt, gravitate[g]);
                 }
             }
@@ -1444,7 +1444,7 @@ private void miOverlaySetShape(WindowPtr pWin, int kind)
                 RegionSubtract(borderVisible,
                                &pWin.borderClip, &pWin.winSize);
                 pWin.valdata.before.borderVisible = borderVisible;
-                pWin.valdata.before.resized = TRUE;
+                pWin.valdata.before.resized = True;
                 if (mixin(IN_UNDERLAY!(`pWin`))) {
                     miOverlayTreePtr pTree = mixin(MIOVERLAY_GET_WINDOW_TREE!(`pWin`));
                     RegionPtr borderVisible2 = void;
@@ -1616,12 +1616,12 @@ Bool miOverlayGetPrivateClips(WindowPtr pWin, RegionPtr* borderClip, RegionPtr* 
     if (pTree) {
         *borderClip = &(pTree.borderClip);
         *clipList = &(pTree.clipList);
-        return TRUE;
+        return True;
     }
 
     *borderClip = *clipList = null;
 
-    return FALSE;
+    return False;
 }
 
 Bool miOverlayCopyUnderlay(ScreenPtr pScreen)
@@ -1642,7 +1642,7 @@ void miOverlayComputeCompositeClip(GCPtr pGC, WindowPtr pWin)
 
     if (pGC.subWindowMode == IncludeInferiors) {
         pregWin = RegionCreate(NullBox, 1);
-        freeTmpClip = TRUE;
+        freeTmpClip = True;
         if (pWin.parent || (screenIsSaved != SCREEN_SAVER_ON) ||
             !HasSaverWindow(pGC.pScreen)) {
             RegionIntersect(pregWin, &pTree.borderClip, &pWin.winSize);
@@ -1650,7 +1650,7 @@ void miOverlayComputeCompositeClip(GCPtr pGC, WindowPtr pWin)
     }
     else {
         pregWin = &pTree.clipList;
-        freeTmpClip = FALSE;
+        freeTmpClip = False;
     }
     freeCompClip = pGC.freeCompClip;
     if (!pGC.clientClip) {
@@ -1677,7 +1677,7 @@ void miOverlayComputeCompositeClip(GCPtr pGC, WindowPtr pWin)
             pGC.pCompositeClip = RegionCreate(NullBox, 0);
             RegionIntersect(pGC.pCompositeClip, pregWin, pGC.clientClip);
         }
-        pGC.freeCompClip = TRUE;
+        pGC.freeCompClip = True;
         RegionTranslate(pGC.clientClip,
                         -(pWin.drawable.x + pGC.clipOrg.x),
                         -(pWin.drawable.y + pGC.clipOrg.y));
@@ -1690,14 +1690,14 @@ Bool miOverlayCollectUnderlayRegions(WindowPtr pWin, RegionPtr* region)
 
     if (pTree) {
         *region = &pTree.borderClip;
-        return FALSE;
+        return False;
     }
 
     *region = RegionCreate(NullBox, 0);
 
     CollectUnderlayChildrenRegions(pWin, *region);
 
-    return TRUE;
+    return True;
 }
 
 private miOverlayTreePtr DoLeaf(WindowPtr pWin, miOverlayTreePtr parent, miOverlayTreePtr prevSib)
@@ -1770,11 +1770,11 @@ private Bool HasUnderlayChildren(WindowPtr pWin)
     WindowPtr pChild = void;
 
     if (((pChild = pWin.firstChild)is null))
-        return FALSE;
+        return False;
 
     while (1) {
         if (mixin(IN_UNDERLAY!(`pChild`)))
-            return TRUE;
+            return True;
 
         if (pChild.firstChild) {
             pChild = pChild.firstChild;
@@ -1790,7 +1790,7 @@ private Bool HasUnderlayChildren(WindowPtr pWin)
         pChild = pChild.nextSib;
     }
 
-    return FALSE;
+    return False;
 }
 
 private Bool CollectUnderlayChildrenRegions(WindowPtr pWin, RegionPtr pReg)
@@ -1800,14 +1800,14 @@ private Bool CollectUnderlayChildrenRegions(WindowPtr pWin, RegionPtr pReg)
     Bool hasUnderlay = void;
 
     if (((pChild = pWin.firstChild) is null))
-        return FALSE;
+        return False;
 
-    hasUnderlay = FALSE;
+    hasUnderlay = False;
 
     while (1) {
         if ((pTree = mixin(MIOVERLAY_GET_WINDOW_TREE!(`pChild`)))!is null) {
             RegionAppend(pReg, &pTree.borderClip);
-            hasUnderlay = TRUE;
+            hasUnderlay = True;
         }
         else if (pChild.firstChild) {
             pChild = pChild.firstChild;

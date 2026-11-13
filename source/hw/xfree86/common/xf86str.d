@@ -188,7 +188,7 @@ alias ClockRangePtr = x_ClockRange*;
 /*
  * The driverFunc. xorgDriverFuncOp specifies the action driver should
  * perform. If requested option is not supported function should return
- * FALSE. pointer can be used to pass arguments to the function or
+ * False. pointer can be used to pass arguments to the function or
  * to return data to the caller.
  */
 

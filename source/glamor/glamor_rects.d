@@ -32,6 +32,7 @@ import glamor.glamor_transform;
 import glamor.glamor;
 import fb.fb;
 import common.math;
+import common.bools;
 
 private const(glamor_facet) glamor_facet_polyfillrect_130 = {
     name: "poly_fill_rect",

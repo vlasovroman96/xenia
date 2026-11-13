@@ -218,11 +218,11 @@ enum VALUATOR_MODE_ALL_AXES = -1;
 // int valuator_get_mode(DeviceIntPtr dev, int axis);
 // void valuator_set_mode(DeviceIntPtr dev, int axis, int mode);
 
-/* Set to TRUE by default - os/utils.c sets it to FALSE on user request,
+/* Set to True by default - os/utils.c sets it to False on user request,
    xfixes/cursor.c uses it to determine if the cursor is enabled */
 // Bool EnableCursor;
 
-/* Set to FALSE by default - ChangeWindowAttributes sets it to TRUE on
+/* Set to False by default - ChangeWindowAttributes sets it to True on
  * CWCursor, xfixes/cursor.c uses it to determine if the cursor is enabled
  */
 // Bool CursorVisible;
@@ -321,7 +321,7 @@ void input_constrain_cursor(DeviceIntPtr pDev, ScreenPtr screen, int current_x, 
  * @brief check whether input device is a pointer device
  *
  * @param dev   pointer to device structure
- * @return TRUE if dev is a pointer device
+ * @return True if dev is a pointer device
  */
 // Bool IsPointerDevice(DeviceIntPtr dev);
     // _X_ATTRIBUTE_NONNULL_ARG(1);
@@ -330,7 +330,7 @@ void input_constrain_cursor(DeviceIntPtr pDev, ScreenPtr screen, int current_x, 
  * @brief check whether input device is a keyboard
  *
  * @param dev   pointer to device structure
- * @return TRUE if dev is a keyboard device
+ * @return True if dev is a keyboard device
  */
 // Bool IsKeyboardDevice(DeviceIntPtr dev);
     // _X_ATTRIBUTE_NONNULL_ARG(1);
@@ -339,7 +339,7 @@ void input_constrain_cursor(DeviceIntPtr pDev, ScreenPtr screen, int current_x, 
  * @brief check whether input device is a master
  *
  * @param dev   device to be checked
- * @return TRUE if the device is a master
+ * @return True if the device is a master
  */
 // Bool InputDevIsMaster(DeviceIntPtr dev);
     // _X_ATTRIBUTE_NONNULL_ARG(1);
@@ -352,7 +352,7 @@ void input_constrain_cursor(DeviceIntPtr pDev, ScreenPtr screen, int current_x, 
  * we call this state `floating`
  *
  * @param dev   device to check
- * @return TRUE if the device is in `floating` state
+ * @return True if the device is in `floating` state
  */
 // Bool InputDevIsFloating(DeviceIntPtr dev);
     // _X_ATTRIBUTE_NONNULL_ARG(1);

@@ -52,7 +52,7 @@ pragma(inline, true) ScreenPtr dixGetScreenPtr(uint idx) {
  * check whether screen with given index exists
  *
  * @param idx screen index
- * @return TRUE if the screen at this index exists
+ * @return True if the screen at this index exists
  */
 pragma(inline, true) bool dixScreenExists(uint idx) {
     return ((idx < screenInfo.numScreens) &&

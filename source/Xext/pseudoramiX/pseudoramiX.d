@@ -55,7 +55,7 @@ import common.swap;
 // enum TRACE = LogMessageVerb(X_NONE, 10, "TRACE " ~ __FILE__ ~":%s", __FUNCTION__.ptr);
 // enum string DEBUG_LOG(__VA_ARGS__) = `LogMessageVerb(X_NONE, 3, `~__VA_ARGS__~`);`;
 
-Bool noPseudoramiXExtension = FALSE;
+Bool noPseudoramiXExtension = False;
 Bool noRRXineramaExtension;
 
 int ProcPanoramiXQueryVersion(ClientPtr client);
@@ -110,7 +110,7 @@ void PseudoramiXAddScreen(int x, int y, int w, int h)
 // Copied from PanoramiXExtensionInit
 void PseudoramiXExtensionInit()
 {
-    Bool success = FALSE;
+    Bool success = False;
     ExtensionEntry* extEntry = void;
 
     if (noPseudoramiXExtension) return;
@@ -122,7 +122,7 @@ void PseudoramiXExtensionInit()
 version (none) {
     if (pseudoramiXNumScreens == 1) {
         // Only one screen - disable Xinerama extension.
-        noPseudoramiXExtension = TRUE;
+        noPseudoramiXExtension = True;
         return;
     }
 }
@@ -136,7 +136,7 @@ version (none) {
         ErrorF("PseudoramiXExtensionInit(): AddExtension failed\n");
     }
     else {
-        success = TRUE;
+        success = True;
     }
 
     /* Do not allow RRXinerama to initialize if we did */
@@ -292,7 +292,7 @@ private int ProcPseudoramiXQueryScreens(ClientPtr client)
 
     mixin(REQUEST_AT_LEAST_SIZE!xXineramaQueryScreensReq);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (!noPseudoramiXExtension) {
         for (int i = 0; i < pseudoramiXNumScreens; i++) {

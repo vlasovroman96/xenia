@@ -109,12 +109,12 @@ private Bool readIntVec(pci_device* dev, ubyte* buf, int len)
     void* map = void;
 
     if (pci_device_map_legacy(dev, 0, len, 0, &map))
-        return FALSE;
+        return False;
 
     memcpy(buf, map, len);
     pci_device_unmap_legacy(dev, map, len);
 
-    return TRUE;
+    return True;
 }
 } /* _PC */
 
@@ -183,7 +183,7 @@ version (_PC) {
         pInt.Flags = Flags & (SET_BIOS_SCRATCH | RESTORE_BIOS_SCRATCH);
         if (!(pInt.Flags & SET_BIOS_SCRATCH))
             pInt.Flags &= ~RESTORE_BIOS_SCRATCH;
-        xf86Int10SaveRestoreBIOSVars(pInt, TRUE);
+        xf86Int10SaveRestoreBIOSVars(pInt, True);
 
     }
     else {
@@ -243,13 +243,13 @@ version (_PC) {
      */
     {
         int bios_location = V_BIOS;
-        Bool done = FALSE;
+        Bool done = False;
 
         vbiosMem = cast(ubyte*) base + bios_location;
 
         if (xf86IsEntityPrimary(entityIndex)) {
             if (int10_check_bios(pScrn.scrnIndex, bios_location >> 4, cast(ubyte*)vbiosMem))
-                done = TRUE;
+                done = True;
             else
                 xf86DrvMsg(pScrn.scrnIndex, X_INFO,
                            "No legacy BIOS found -- trying PCI\n");
@@ -311,7 +311,7 @@ private void UnmapVRam(xf86Int10InfoPtr pInt)
 Bool MapCurrentInt10(xf86Int10InfoPtr pInt)
 {
     /* nothing to do here */
-    return TRUE;
+    return True;
 }
 
 void xf86FreeInt10(xf86Int10InfoPtr pInt)
@@ -319,7 +319,7 @@ void xf86FreeInt10(xf86Int10InfoPtr pInt)
     if (!pInt)
         return;
 version (_PC) {
-    xf86Int10SaveRestoreBIOSVars(pInt, FALSE);
+    xf86Int10SaveRestoreBIOSVars(pInt, False);
 }
     if (Int10Current == pInt)
         Int10Current = null;

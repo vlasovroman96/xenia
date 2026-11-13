@@ -237,7 +237,7 @@ int present_select_input(ClientPtr client, XID eid, WindowPtr window, CARD32 mas
 
     mixin(LEGAL_NEW_RESOURCE!("eid", "client"));
 
-    window_priv = present_get_window_priv(window, TRUE);
+    window_priv = present_get_window_priv(window, True);
     if (!window_priv)
         return BadAlloc;
 
@@ -263,8 +263,8 @@ Bool present_event_init()
 {
     present_event_type = CreateNewResourceType(&present_free_event, "PresentEvent");
     if (!present_event_type)
-        return FALSE;
+        return False;
 
     GERegisterExtension(present_request, &present_event_swap);
-    return TRUE;
+    return True;
 }

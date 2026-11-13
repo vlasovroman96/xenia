@@ -71,7 +71,7 @@ private int ProcXCMiscGetXIDRange(ClientPtr client)
     mixin(X_REQUEST_HEAD_STRUCT!xXCMiscGetXIDRangeReq);
 
     XID min_id = void, max_id = void;
-    GetXIDRange(client.index, FALSE, &min_id, &max_id);
+    GetXIDRange(client.index, False, &min_id, &max_id);
 
     xXCMiscGetXIDRangeReply reply = {
         start_id: cast(uint)min_id,
@@ -100,7 +100,7 @@ private int ProcXCMiscGetXIDList(ClientPtr client)
 
     size_t count = GetXIDList(client, cast(uint)stuff.count, pids);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)pids, count);
     free(pids);

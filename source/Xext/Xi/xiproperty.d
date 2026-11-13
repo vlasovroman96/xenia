@@ -336,7 +336,7 @@ private int change_property(ClientPtr client, DeviceIntPtr dev, Atom property, A
     int rc = Success;
 
     rc = XIChangeDeviceProperty(dev, property, type, format, mode, len, data,
-                                TRUE);
+                                True);
     if (rc != Success)
         client.errorValue = cast(uint)property;
 
@@ -551,7 +551,7 @@ private XIPropertyPtr XICreateDeviceProperty(Atom property)
     prop.value.format = 0;
     prop.value.size = 0;
     prop.value.data = null;
-    prop.deletable = TRUE;
+    prop.deletable = True;
 
     return prop;
 }
@@ -647,7 +647,7 @@ int XIChangeDeviceProperty(DeviceIntPtr dev, Atom property, Atom type, int forma
     c_ulong total_len = void;
     XIPropertyValuePtr prop_value = void;
     XIPropertyValueRec new_value = void;
-    Bool add = FALSE;
+    Bool add = False;
     int rc = void;
 
     size_in_bytes = format >> 3;
@@ -658,7 +658,7 @@ int XIChangeDeviceProperty(DeviceIntPtr dev, Atom property, Atom type, int forma
         prop = XICreateDeviceProperty(property);
         if (!prop)
             return BadAlloc;
-        add = TRUE;
+        add = True;
         mode = PropModeReplace;
     }
     prop_value = &prop.value;
@@ -715,10 +715,10 @@ int XIChangeDeviceProperty(DeviceIntPtr dev, Atom property, Atom type, int forma
 
         if (dev.properties.handlers) {
             XIPropertyHandlerPtr handler = void;
-            BOOL checkonly = TRUE;
+            BOOL checkonly = True;
 
-            /* run through all handlers with checkonly TRUE, then again with
-             * checkonly FALSE. Handlers MUST return error codes on the
+            /* run through all handlers with checkonly True, then again with
+             * checkonly False. Handlers MUST return error codes on the
              * checkonly run, errors on the second run are ignored */
             do {
                 handler = dev.properties.handlers;
@@ -802,7 +802,7 @@ int XISetDevicePropertyDeletable(DeviceIntPtr dev, Atom property, Bool deletable
     return Success;
 }
 
-/* rpcbuf->err_clear needs to be TRUE */
+/* rpcbuf->err_clear needs to be True */
 private int _writeDevProps(x_rpcbuf_t* rpcbuf, XID devId, ClientPtr pClient, size_t* natoms) {
     DeviceIntPtr dev = void;
     int rc = dixLookupDevice(&dev, cast(int)devId, pClient, DixListPropAccess);
@@ -823,7 +823,7 @@ int ProcXListDeviceProperties(ClientPtr client)
 {
     mixin(X_REQUEST_HEAD_STRUCT!xListDevicePropertiesReq);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     size_t natoms = 0;
     int rc = _writeDevProps(&rpcbuf, stuff.deviceid, client, &natoms);
@@ -893,7 +893,7 @@ int ProcXDeleteDeviceProperty(ClientPtr client)
         return BadAtom;
     }
 
-    rc = XIDeleteDeviceProperty(dev, stuff.property, TRUE);
+    rc = XIDeleteDeviceProperty(dev, stuff.property, True);
     return rc;
 }
 
@@ -937,7 +937,7 @@ int ProcXGetDeviceProperty(ClientPtr client)
     if (stuff.delete_ && (reply.bytesAfter == 0))
         send_property_event(dev, stuff.property, XIPropertyDeleted);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (length) {
         switch (format) {
@@ -980,7 +980,7 @@ int ProcXIListProperties(ClientPtr client)
     mixin(X_REQUEST_HEAD_STRUCT!xXIListPropertiesReq);
     mixin(X_REQUEST_FIELD_CARD16!"deviceid");
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     size_t natoms = 0;
     int rc = _writeDevProps(&rpcbuf, stuff.deviceid, client, &natoms);
@@ -1052,7 +1052,7 @@ int ProcXIDeleteProperty(ClientPtr client)
         return BadAtom;
     }
 
-    rc = XIDeleteDeviceProperty(dev, stuff.property, TRUE);
+    rc = XIDeleteDeviceProperty(dev, stuff.property, True);
     return rc;
 }
 
@@ -1096,7 +1096,7 @@ int ProcXIGetProperty(ClientPtr client)
     if (length && stuff.delete_ && (reply.bytes_after == 0))
         send_property_event(dev, stuff.property, XIPropertyDeleted);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (length) {
         switch (format) {

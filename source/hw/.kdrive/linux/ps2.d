@@ -155,7 +155,7 @@ private Status Ps2Enable(KdPointerInfo* pi)
 
 private void Ps2Disable(KdPointerInfo* pi)
 {
-    KdUnregisterFd(pi, cast(int) cast(intptr_t) pi.driverPrivate, TRUE);
+    KdUnregisterFd(pi, cast(int) cast(intptr_t) pi.driverPrivate, True);
 }
 
 private void Ps2Fini(KdPointerInfo* pi)

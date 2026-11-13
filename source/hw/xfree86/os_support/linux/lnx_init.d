@@ -77,11 +77,11 @@ import core.sys.posix.pthread;
 
 enum K_OFF = 0x4;
 
-alias FALSE = common.misc.FALSE;
-alias TRUE = common.misc.TRUE;
+// alias False = common.bools.False;
+// alias True = common.bools.TRUE;
 
 
-private Bool KeepTty = FALSE;
+private Bool KeepTty = False;
 private int activeVT = -1;
 
 private char[11] vtname = 0;
@@ -212,7 +212,7 @@ int linux_parse_vt_settings(int may_fail)
         LogMessageVerb(X_PROBED, 1,
                        "controlling tty is VT number %d, auto-enabling KeepTty\n",
                        current_vt);
-        KeepTty = TRUE;
+        KeepTty = True;
     }
 
     vt_settings_parsed = 1;
@@ -240,7 +240,7 @@ void xf86OpenConsole()
     const(char)*[3] vcs = cast(const(char)*[])[ "/dev/vc/%d", "/dev/tty%d", null ];
 
     if (serverGeneration == 1) {
-        linux_parse_vt_settings(FALSE);
+        linux_parse_vt_settings(False);
 
         if (!KeepTty) {
             pid_t ppid = getppid();
@@ -439,7 +439,7 @@ int xf86ProcessArgument(int argc, char** argv, int i)
      * when debugging (so the server can receive keyboard signals.
      */
     if (!strcmp(argv[i], "-keeptty")) {
-        KeepTty = TRUE;
+        KeepTty = True;
         return 1;
     }
 

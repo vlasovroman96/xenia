@@ -55,7 +55,7 @@ void fbGetSpans(DrawablePtr pDrawable, int wMax, xPoint* ppt, int* pwidth, int n
               dst,
               1,
               xoff,
-              *pwidth * srcBpp, 1, GXcopy, FB_ALLONES, srcBpp, FALSE, FALSE);
+              *pwidth * srcBpp, 1, GXcopy, FB_ALLONES, srcBpp, False, False);
         pchardstStart += PixmapBytePad(*pwidth, pDrawable.depth);
         ppt++;
         pwidth++;

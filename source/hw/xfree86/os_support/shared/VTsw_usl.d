@@ -62,9 +62,6 @@ import xf86Init;
 import xf86platformBus_priv;
 import lnx_init;
 import os.utils;
-alias FALSE = common.misc.FALSE;
-
-alias TRUE = common.misc.TRUE;
 import lnx_init;
 // import 
 /*
@@ -80,46 +77,46 @@ import lnx_init;
 void xf86VTRequest(int sig)
 {
     OsSignal(sig, cast(void function(int)) &xf86VTRequest);
-    xf86Info.vtRequestsPending = TRUE;
+    xf86Info.vtRequestsPending = True;
     return;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 Bool xf86VTSwitchPending()
 {
-    return xf86Info.vtRequestsPending ? TRUE : FALSE;
+    return xf86Info.vtRequestsPending ? True : False;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 Bool xf86VTSwitchAway()
 {
-    xf86Info.vtRequestsPending = FALSE;
+    xf86Info.vtRequestsPending = False;
     if (seatd_libseat_controls_session())
-        return TRUE;
+        return True;
     if (ioctl(xf86Info.consoleFd, VT_RELDISP, 1) < 0)
-        return FALSE;
+        return False;
     else
-        return TRUE;
+        return True;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 Bool xf86VTSwitchTo()
 {
-    xf86Info.vtRequestsPending = FALSE;
+    xf86Info.vtRequestsPending = False;
     if (seatd_libseat_controls_session())
-        return TRUE;
+        return True;
     if (ioctl(xf86Info.consoleFd, VT_RELDISP, VT_ACKACQ) < 0)
-        return FALSE;
+        return False;
     else
-        return TRUE;
+        return True;
 }
 
 Bool xf86VTActivate(int vtno)
 {
 static if (VT_ACTIVATE) {
     if (ioctl(xf86Info.consoleFd, VT_ACTIVATE, vtno) < 0) {
-        return FALSE;
+        return False;
     }
 }
-    return TRUE;
+    return True;
 }

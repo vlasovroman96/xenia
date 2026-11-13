@@ -116,11 +116,11 @@ private void miValidatePicture(PicturePtr pPicture, Mask mask)
 
             if (pPicture.subWindowMode == IncludeInferiors) {
                 pregWin = NotClippedByChildren(pWin);
-                freeTmpClip = TRUE;
+                freeTmpClip = True;
             }
             else {
                 pregWin = &pWin.clipList;
-                freeTmpClip = FALSE;
+                freeTmpClip = False;
             }
             freeCompClip = pPicture.freeCompClip;
 
@@ -166,7 +166,7 @@ private void miValidatePicture(PicturePtr pPicture, Mask mask)
                     RegionIntersect(pPicture.pCompositeClip,
                                     pregWin, pPicture.clientClip);
                 }
-                pPicture.freeCompClip = TRUE;
+                pPicture.freeCompClip = True;
                 RegionTranslate(pPicture.clientClip,
                                 -(pDrawable.x + pPicture.clipOrigin.x),
                                 -(pDrawable.y + pPicture.clipOrigin.y));
@@ -186,7 +186,7 @@ private void miValidatePicture(PicturePtr pPicture, Mask mask)
                 RegionReset(pPicture.pCompositeClip, &pixbounds);
             }
             else {
-                pPicture.freeCompClip = TRUE;
+                pPicture.freeCompClip = True;
                 pPicture.pCompositeClip = RegionCreate(&pixbounds, 1);
             }
 
@@ -251,12 +251,12 @@ pragma(inline, true) private pixman_bool_t miClipPictureReg(pixman_region16_t* p
         }
     }
     else if (!assumeNoGC(&pixman_region_not_empty)(pClip))
-        return FALSE;
+        return False;
     else {
         if (dx || dy)
             assumeNoGC(&pixman_region_translate)(pRegion, -dx, -dy);
         if (!assumeNoGC(&pixman_region_intersect)(pRegion, pRegion, pClip))
-            return FALSE;
+            return False;
         if (dx || dy)
             assumeNoGC(&pixman_region_translate)(pRegion, dx, dy);
     }
@@ -279,9 +279,9 @@ pragma(inline, true) private Bool miClipPictureSrc(RegionPtr pRegion, PicturePtr
                                 -(pPicture.clipOrigin.y + dy));
 
         if (!result)
-            return FALSE;
+            return False;
     }
-    return TRUE;
+    return True;
 }
 
 private void SourceValidateOnePicture(PicturePtr pPicture)
@@ -306,7 +306,7 @@ void miCompositeSourceValidate(PicturePtr pPicture)
 }
 
 /*
- * returns FALSE if the final region is empty.  Indistinguishable from
+ * returns False if the final region is empty.  Indistinguishable from
  * an allocation failure, but rendering ignores those anyways.
  */
 
@@ -326,45 +326,45 @@ Bool miComputeCompositeRegion(RegionPtr pRegion, PicturePtr pSrc, PicturePtr pMa
     if (pRegion.extents.x1 >= pRegion.extents.x2 ||
         pRegion.extents.y1 >= pRegion.extents.y2) {
         assumeNoGC(&pixman_region_init)(pRegion);
-        return FALSE;
+        return False;
     }
     /* clip against dst */
     if (!miClipPictureReg(pRegion, pDst.pCompositeClip, 0, 0)) {
         assumeNoGC(&pixman_region_fini)(pRegion);
-        return FALSE;
+        return False;
     }
     if (pDst.alphaMap) {
         if (!miClipPictureReg(pRegion, pDst.alphaMap.pCompositeClip,
                               -pDst.alphaOrigin.x, -pDst.alphaOrigin.y)) {
             assumeNoGC(&pixman_region_fini)(pRegion);
-            return FALSE;
+            return False;
         }
     }
     /* clip against src */
     if (!miClipPictureSrc(pRegion, pSrc, xDst - xSrc, yDst - ySrc)) {
         assumeNoGC(&pixman_region_fini)(pRegion);
-        return FALSE;
+        return False;
     }
     if (pSrc.alphaMap) {
         if (!miClipPictureSrc(pRegion, pSrc.alphaMap,
                               xDst - (xSrc - pSrc.alphaOrigin.x),
                               yDst - (ySrc - pSrc.alphaOrigin.y))) {
             assumeNoGC(&pixman_region_fini)(pRegion);
-            return FALSE;
+            return False;
         }
     }
     /* clip against mask */
     if (pMask) {
         if (!miClipPictureSrc(pRegion, pMask, xDst - xMask, yDst - yMask)) {
             assumeNoGC(&pixman_region_fini)(pRegion);
-            return FALSE;
+            return False;
         }
         if (pMask.alphaMap) {
             if (!miClipPictureSrc(pRegion, pMask.alphaMap,
                                   xDst - (xMask - pMask.alphaOrigin.x),
                                   yDst - (yMask - pMask.alphaOrigin.y))) {
                 assumeNoGC(&pixman_region_fini)(pRegion);
-                return FALSE;
+                return False;
             }
         }
     }
@@ -373,7 +373,7 @@ Bool miComputeCompositeRegion(RegionPtr pRegion, PicturePtr pSrc, PicturePtr pMa
     if (pMask)
         miCompositeSourceValidate(pMask);
 
-    return TRUE;
+    return True;
 }
 
 void miRenderColorToPixel(PictFormatPtr format, xRenderColor* color, CARD32* pixel)
@@ -426,19 +426,19 @@ Bool miIsSolidAlpha(PicturePtr pSrc)
     char[1] line = void;
 
     if (!pSrc.pDrawable)
-        return FALSE;
+        return False;
 
     pScreen = pSrc.pDrawable.pScreen;
 
     /* Alpha-only */
     if (PIXMAN_FORMAT_TYPE(pSrc.format) != PIXMAN_TYPE_A)
-        return FALSE;
+        return False;
     /* repeat */
     if (!pSrc.repeat)
-        return FALSE;
+        return False;
     /* 1x1 */
     if (pSrc.pDrawable.width != 1 || pSrc.pDrawable.height != 1)
-        return FALSE;
+        return False;
     line[0] = 1;
     (*pScreen.GetImage) (pSrc.pDrawable, 0, 0, 1, 1, ZPixmap, ~0L, line.ptr);
     switch (pSrc.pDrawable.bitsPerPixel) {
@@ -449,7 +449,7 @@ Bool miIsSolidAlpha(PicturePtr pSrc)
     case 8:
         return cast(CARD8) line[0] == 0xff;
     default:
-        return FALSE;
+        return False;
     }
 }
 
@@ -528,7 +528,7 @@ Bool miPictureInit(ScreenPtr pScreen, PictFormatPtr formats, int nformats)
     PictureScreenPtr ps = void;
 
     if (!PictureInit(pScreen, formats, nformats))
-        return FALSE;
+        return False;
     ps = mixin(GetPictureScreen!("pScreen"));
     ps.CreatePicture = &miCreatePicture;
     ps.DestroyPicture = &miDestroyPicture;
@@ -558,5 +558,5 @@ Bool miPictureInit(ScreenPtr pScreen, PictFormatPtr formats, int nformats)
     ps.TriStrip = &miTriStrip;  /* converts call to CompositeTriangles */
     ps.TriFan = &miTriFan;
 
-    return TRUE;
+    return True;
 }

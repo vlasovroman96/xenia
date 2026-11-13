@@ -39,7 +39,7 @@ import dix.resource;
 /*
  * Drivers are allowed to wrap this function.  Each wrapper can decide that the
  * two visuals are unequal, but if they are deemed equal, the wrapper must call
- * down and return FALSE if the wrapped function does.  This ensures that all
+ * down and return False if the wrapped function does.  This ensures that all
  * layers agree that the visuals are equal.  The first visual is always from
  * screen 0.
  */

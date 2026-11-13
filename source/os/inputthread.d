@@ -126,7 +126,7 @@ version (PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP) {} else {
     if (!input_mutex_initialized) {
         pthread_mutexattr_t mutex_attr = void;
 
-        input_mutex_initialized = TRUE;
+        input_mutex_initialized = True;
         pthread_mutexattr_init(&mutex_attr);
         pthread_mutexattr_settype(&mutex_attr, PTHREAD_MUTEX_RECURSIVE);
         pthread_mutex_init(&input_mutex, &mutex_attr);
@@ -245,7 +245,7 @@ int InputThreadRegisterDev(int fd, NotifyFdProcPtr readInputProc, void* readInpu
         inputThreadInfo.devs.appendList(&dev.node);
     }
 
-    inputThreadInfo.changed = TRUE;
+    inputThreadInfo.changed = True;
 
     input_unlock();
 
@@ -265,7 +265,7 @@ int InputThreadRegisterDev(int fd, NotifyFdProcPtr readInputProc, void* readInpu
 int InputThreadUnregisterDev(int fd)
 {
     InputThreadDevice* dev_ = void;
-    Bool found_device = FALSE;
+    Bool found_device = False;
 
     /* return silently if input thread is already finished (e.g., at
      * DisableDevice time, evdev tries to call this function again through
@@ -278,7 +278,7 @@ int InputThreadUnregisterDev(int fd)
     input_lock();
     foreach(dev; inputThreadInfo.devs.byEntries!(InputThreadDevice, "node")) {
         if (dev.fd == fd) {
-            found_device = TRUE;
+            found_device = True;
             dev_ = dev;
             break;
         }
@@ -291,7 +291,7 @@ int InputThreadUnregisterDev(int fd)
     }
 
     dev_.state = device_state_removed;
-    inputThreadInfo.changed = TRUE;
+    inputThreadInfo.changed = True;
 
     input_unlock();
 
@@ -305,7 +305,7 @@ private void InputThreadPipeNotify(int fd, int revents, void* data)
 {
     /* Empty pending input, shut down if the pipe has been closed */
     if (InputThreadReadPipe(hotplugPipeRead) == 0) {
-        inputThreadInfo.running = FALSE;
+        inputThreadInfo.running = False;
     }
 }
 
@@ -333,7 +333,7 @@ private void* InputThreadDoWork(void* arg)
 
     ddxInputThreadInit();
 
-    inputThreadInfo.running = TRUE;
+    inputThreadInfo.running = True;
 
 version (HAVE_PTHREAD_SETNAME_NP_WITH_TID) {
     pthread_setname_np (pthread_self(), "InputThread");
@@ -354,7 +354,7 @@ version (HAVE_PTHREAD_SETNAME_NP_WITH_TID) {
         /* Check for hotplug changes and modify the ospoll structure to suit */
         if (inputThreadInfo.changed) {
             input_lock();
-            inputThreadInfo.changed = FALSE;
+            inputThreadInfo.changed = False;
             foreach(dev; inputThreadInfo.devs.byEntriesSafe!(InputThreadDevice, "node")){
                 switch (dev.state) {
                 case device_state_added:
@@ -421,7 +421,7 @@ void InputThreadPreInit()
     if (!inputThreadInfo)
         FatalError("input-thread: could not allocate memory");
 
-    inputThreadInfo.changed = FALSE;
+    inputThreadInfo.changed = False;
 
     inputThreadInfo.thread = 0;
     inputThreadInfo.devs.initList();
@@ -537,7 +537,7 @@ int xthread_sigmask(int how, const(sigset_t)* set, sigset_t* oldset)
 
 } else { /* INPUTTHREAD */
 
-// Bool InputThreadEnable = FALSE;
+// Bool InputThreadEnable = False;
 
 // void input_lock() {}
 // void input_unlock() {}

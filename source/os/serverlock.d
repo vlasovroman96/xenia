@@ -83,9 +83,9 @@ enum LOCK_SUFFIX = "-lock";
 
 version (LOCK_SERVER) {
 
-private Bool StillLocking = FALSE;
+private Bool StillLocking = False;
 private char[PATH_MAX] LockFile = 0;
-private Bool nolock = FALSE;
+private Bool nolock = False;
 
 /*
  * LockServer --
@@ -119,7 +119,7 @@ void LockServer()
      * Create a temporary file containing our PID.  Attempt three times
      * to create the file.
      */
-    StillLocking = TRUE;
+    StillLocking = True;
     i = 0;
     do {
         i++;
@@ -218,7 +218,7 @@ void LockServer()
     unlink(tmp.ptr);
     if (!haslock)
         FatalError("Could not create server lock file: %s\n", LockFile.ptr);
-    StillLocking = FALSE;
+    StillLocking = False;
 }
 
 /*
@@ -237,7 +237,7 @@ void UnlockServer()
 }
 
 void DisableServerLock() {
-    nolock = TRUE;
+    nolock = True;
 }
 
 void LockServerUseMsg() {

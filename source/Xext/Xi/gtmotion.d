@@ -107,7 +107,7 @@ int ProcXGetDeviceMotionEvents(ClientPtr client)
     TimeStamp start = ClientTimeToServerTime(stuff.start);
     TimeStamp stop = ClientTimeToServerTime(stuff.stop);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (CompareTimeStamps(start, stop) != LATER &&
         CompareTimeStamps(start, currentTime) != LATER) {
@@ -118,7 +118,7 @@ int ProcXGetDeviceMotionEvents(ClientPtr client)
             INT32* coords = null;
             reply.nEvents = GetMotionHistory(dev, cast(xTimecoord**) &coords,   /* XXX */
                                            start.milliseconds, stop.milliseconds,
-                                           cast(ScreenPtr) null, FALSE);
+                                           cast(ScreenPtr) null, False);
             x_rpcbuf_write_INT32s(&rpcbuf, coords, int32ForBytes(reply.nEvents * size));
             free(coords);
         }

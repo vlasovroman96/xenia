@@ -382,8 +382,8 @@ Bool cea_db_offsets(ubyte* cea, int* start, int* end)
     if (*end == 0)
         *end = CEA_EXT_MAX_DATA_OFFSET;
     if (*end < CEA_EXT_MIN_DATA_OFFSET || *end > CEA_EXT_MAX_DATA_OFFSET)
-        return FALSE;
-    return TRUE;
+        return False;
+    return True;
 }
 
 int cea_db_len(ubyte* db)
@@ -757,7 +757,7 @@ Bool validate_version(int scrnIndex, edid_version* r)
 {
     if (r.version_ != 1) {
         xf86DrvMsg(scrnIndex, X_ERROR, "Unknown EDID version %d\n", r.version_);
-        return FALSE;
+        return False;
     }
 
     if (r.revision > MAX_EDID_MINOR)
@@ -765,7 +765,7 @@ Bool validate_version(int scrnIndex, edid_version* r)
                    "Assuming version 1.%d is compatible with 1.%d\n",
                    r.revision, MAX_EDID_MINOR);
 
-    return TRUE;
+    return True;
 }
 
 Bool gtf_supported(xf86MonPtr mon)
@@ -773,22 +773,22 @@ Bool gtf_supported(xf86MonPtr mon)
     int i = void;
 
     if (!mon)
-        return FALSE;
+        return False;
 
     if ((mon.ver.version_ == 1) && (mon.ver.revision < 4)) {
         if (mon.features.msc & 0x1)
-            return TRUE;
+            return True;
     } else {
         for (i = 0; i < DET_TIMINGS; i++) {
             detailed_monitor_section* det_timing_des = &(mon.det_mon[i]);
             if (det_timing_des && (det_timing_des.type == DS_RANGES) && (mon.features.msc & 0x1) &&
                 (det_timing_des.section.ranges.display_range_timing_flags == DR_DEFAULT_GTF
                 || det_timing_des.section.ranges.display_range_timing_flags == DR_SECONDARY_GTF))
-                    return TRUE;
+                    return True;
         }
     }
 
-    return FALSE;
+    return False;
 }
 
 bool xf86Monitor_gtf_supported(xf86MonPtr monitor)

@@ -139,7 +139,7 @@ enum string FontGetPrivate(string pFont,string n) = `((` ~ n ~ `) > (` ~ pFont ~
 
 enum string FontSetPrivate(string pFont,string n,string ptr) = `((` ~ n ~ `) > (` ~ pFont ~ `).maxPrivate ? 
 			_FontSetNewPrivate (` ~ pFont ~ `, ` ~ n ~ `, ` ~ ptr ~ `) : 
-			((((` ~ pFont ~ `).devPrivates[` ~ n ~ `] = (` ~ ptr ~ `)) != 0) || TRUE))`;
+			((((` ~ pFont ~ `).devPrivates[` ~ n ~ `] = (` ~ ptr ~ `)) != 0) || True))`;
 
 struct _FontNames {
     int nnames;

@@ -526,7 +526,7 @@ void XkbSetRepeatKeys(DeviceIntPtr pXDev, int key, int onoff)
                 pXDev.kbdfeed.ctrl.autoRepeats[key / 8];
         }
 
-        if (XkbComputeControlsNotify(pXDev, &old, ctrls, &cn, TRUE))
+        if (XkbComputeControlsNotify(pXDev, &old, ctrls, &cn, True))
             XkbSendControlsNotify(pXDev, &cn);
     }
     return;
@@ -723,7 +723,7 @@ void XkbCheckSecondaryEffects(XkbSrvInfoPtr xkbi, uint which, XkbChangesPtr chan
         XkbComputeDerivedState(xkbi);
     }
     if (which & XkbIndicatorStateNotifyMask)
-        XkbUpdateIndicators(xkbi.device, XkbAllIndicatorsMask, TRUE, changes,
+        XkbUpdateIndicators(xkbi.device, XkbAllIndicatorsMask, True, changes,
                             cause);
     return;
 }
@@ -741,7 +741,7 @@ Bool XkbEnableDisableControls(XkbSrvInfoPtr xkbi, c_ulong change, c_ulong newVal
     ctrls.enabled_ctrls &= ~change;
     ctrls.enabled_ctrls |= (change & newValues);
     if (old == ctrls.enabled_ctrls)
-        return FALSE;
+        return False;
     if (cause !is null) {
         xkbControlsNotify cn = { 0 };
 
@@ -768,8 +768,8 @@ Bool XkbEnableDisableControls(XkbSrvInfoPtr xkbi, c_ulong change, c_ulong newVal
             changes.ctrls.changed_ctrls &= ~XkbControlsEnabledMask;
     }
     sli = XkbFindSrvLedInfo(xkbi.device, XkbDfltXIClass, XkbDfltXIId, 0);
-    XkbUpdateIndicators(xkbi.device, sli.usesControls, TRUE, changes, cause);
-    return TRUE;
+    XkbUpdateIndicators(xkbi.device, sli.usesControls, True, changes, cause);
+    return True;
 }
 
 /***====================================================================***/
@@ -905,7 +905,7 @@ private Bool _XkbCopyClientMap(XkbDescPtr src, XkbDescPtr dst)
         if (!dst.map) {
             tmp = cast(XkbClientMapRec*) calloc(1, XkbClientMapRec.sizeof);
             if (!tmp)
-                return FALSE;
+                return False;
             dst.map = cast(_XkbClientMapRec*)tmp;
         }
 
@@ -914,7 +914,7 @@ private Bool _XkbCopyClientMap(XkbDescPtr src, XkbDescPtr dst)
                 tmp = reallocarray(dst.map.syms,
                                    src.map.size_syms, KeySym.sizeof);
                 if (!tmp)
-                    return FALSE;
+                    return False;
                 dst.map.syms = cast(uint*)tmp;
 
             }
@@ -934,7 +934,7 @@ private Bool _XkbCopyClientMap(XkbDescPtr src, XkbDescPtr dst)
                 tmp = reallocarray(dst.map.key_sym_map,
                                    MAP_LENGTH, XkbSymMapRec.sizeof);
                 if (!tmp)
-                    return FALSE;
+                    return False;
                 dst.map.key_sym_map = cast(_XkbSymMapRec*)tmp;
             }
             if (gap > 0) {
@@ -956,7 +956,7 @@ private Bool _XkbCopyClientMap(XkbDescPtr src, XkbDescPtr dst)
                     tmp = reallocarray(dst.map.types, src.map.num_types,
                                        XkbKeyTypeRec.sizeof);
                     if (!tmp)
-                        return FALSE;
+                        return False;
                     dst.map.types = cast(_XkbKeyType*)tmp;
                     memset(dst.map.types + dst.map.num_types, 0,
                            (src.map.num_types - dst.map.num_types) *
@@ -965,7 +965,7 @@ private Bool _XkbCopyClientMap(XkbDescPtr src, XkbDescPtr dst)
                 else {
                     tmp = calloc(src.map.num_types, XkbKeyTypeRec.sizeof);
                     if (!tmp)
-                        return FALSE;
+                        return False;
                     dst.map.types = cast(_XkbKeyType*)tmp;
                 }
             }
@@ -1027,7 +1027,7 @@ private Bool _XkbCopyClientMap(XkbDescPtr src, XkbDescPtr dst)
                                                stype.map_count,
                                                XkbKTMapEntryRec.sizeof);
                             if (!tmp)
-                                return FALSE;
+                                return False;
                             dtype.map = cast(_XkbKTMapEntry*)tmp;
                         }
                         else if (!dtype.map_count || !dtype.map ||
@@ -1035,7 +1035,7 @@ private Bool _XkbCopyClientMap(XkbDescPtr src, XkbDescPtr dst)
                             tmp = calloc(stype.map_count,
                                          XkbKTMapEntryRec.sizeof);
                             if (!tmp)
-                                return FALSE;
+                                return False;
                             dtype.map = cast(_XkbKTMapEntry*)tmp;
                         }
 
@@ -1056,14 +1056,14 @@ private Bool _XkbCopyClientMap(XkbDescPtr src, XkbDescPtr dst)
                                                stype.map_count,
                                                XkbModsRec.sizeof);
                             if (!tmp)
-                                return FALSE;
+                                return False;
                             dtype.preserve = cast(_XkbMods*)tmp;
                         }
                         else if (!dtype.preserve || !dtype.map_count ||
                                  i >= dst.map.num_types) {
                             tmp = calloc(stype.map_count, XkbModsRec.sizeof);
                             if (!tmp)
-                                return FALSE;
+                                return False;
                             dtype.preserve = cast(_XkbMods*)tmp;
                         }
 
@@ -1113,7 +1113,7 @@ private Bool _XkbCopyClientMap(XkbDescPtr src, XkbDescPtr dst)
             if (!dst.map.modmap) {
                 tmp = realloc(dst.map.modmap, MAP_LENGTH);
                 if (!tmp)
-                    return FALSE;
+                    return False;
                 dst.map.modmap = cast(ubyte*)tmp;
             }
             if (gap > 0) {
@@ -1128,10 +1128,10 @@ private Bool _XkbCopyClientMap(XkbDescPtr src, XkbDescPtr dst)
     }
     else {
         if (dst.map)
-            XkbFreeClientMap(dst, XkbAllClientInfoMask, TRUE);
+            XkbFreeClientMap(dst, XkbAllClientInfoMask, True);
     }
 
-    return TRUE;
+    return True;
 }
 
 private Bool _XkbCopyServerMap(XkbDescPtr src, XkbDescPtr dst)
@@ -1144,7 +1144,7 @@ private Bool _XkbCopyServerMap(XkbDescPtr src, XkbDescPtr dst)
         if (!dst.server) {
             tmp = cast(XkbServerMapRec*) calloc(1, XkbServerMapRec.sizeof);
             if (!tmp)
-                return FALSE;
+                return False;
             dst.server = cast(_XkbServerMapRec*)tmp;
         }
 
@@ -1153,7 +1153,7 @@ private Bool _XkbCopyServerMap(XkbDescPtr src, XkbDescPtr dst)
             if (!dst.server.explicit) {
                 tmp = realloc(dst.server.explicit, MAP_LENGTH);
                 if (!tmp)
-                    return FALSE;
+                    return False;
                 dst.server.explicit = cast(ubyte*)tmp;
             }
             if (gap > 0)
@@ -1171,7 +1171,7 @@ private Bool _XkbCopyServerMap(XkbDescPtr src, XkbDescPtr dst)
                 tmp = reallocarray(dst.server.acts,
                                    src.server.size_acts, XkbAction.sizeof);
                 if (!tmp)
-                    return FALSE;
+                    return False;
                 dst.server.acts = cast(_XkbAction*)tmp;
             }
             memcpy(dst.server.acts, src.server.acts,
@@ -1189,7 +1189,7 @@ private Bool _XkbCopyServerMap(XkbDescPtr src, XkbDescPtr dst)
                 tmp = reallocarray(dst.server.key_acts,
                                    MAP_LENGTH, ushort.sizeof);
                 if (!tmp)
-                    return FALSE;
+                    return False;
                 dst.server.key_acts = cast(ushort*)tmp;
             }
             if (gap > 0)
@@ -1207,7 +1207,7 @@ private Bool _XkbCopyServerMap(XkbDescPtr src, XkbDescPtr dst)
                 tmp = reallocarray(dst.server.behaviors,
                                    MAP_LENGTH, XkbBehavior.sizeof);
                 if (!tmp)
-                    return FALSE;
+                    return False;
                 dst.server.behaviors = cast(_XkbBehavior*)tmp;
             }
             if (gap > 0)
@@ -1227,7 +1227,7 @@ private Bool _XkbCopyServerMap(XkbDescPtr src, XkbDescPtr dst)
                 tmp = reallocarray(dst.server.vmodmap,
                                    MAP_LENGTH, ushort.sizeof);
                 if (!tmp)
-                    return FALSE;
+                    return False;
                 dst.server.vmodmap = cast(ushort*)tmp;
             }
             if (gap > 0)
@@ -1242,10 +1242,10 @@ private Bool _XkbCopyServerMap(XkbDescPtr src, XkbDescPtr dst)
     }
     else {
         if (dst.server)
-            XkbFreeServerMap(dst, XkbAllServerInfoMask, TRUE);
+            XkbFreeServerMap(dst, XkbAllServerInfoMask, True);
     }
 
-    return TRUE;
+    return True;
 }
 
 private Bool _XkbCopyNames(XkbDescPtr src, XkbDescPtr dst)
@@ -1258,7 +1258,7 @@ private Bool _XkbCopyNames(XkbDescPtr src, XkbDescPtr dst)
         if (!dst.names) {
             dst.names = cast(XkbNamesRec*) calloc(1, XkbNamesRec.sizeof);
             if (!dst.names)
-                return FALSE;
+                return False;
         }
 
         gap = MAP_LENGTH - (src.max_key_code + 1);
@@ -1267,7 +1267,7 @@ private Bool _XkbCopyNames(XkbDescPtr src, XkbDescPtr dst)
                 tmp = reallocarray(dst.names.keys, MAP_LENGTH,
                                    XkbKeyNameRec.sizeof);
                 if (!tmp)
-                    return FALSE;
+                    return False;
                 dst.names.keys = cast(_XkbKeyNameRec*)tmp;
             }
             if (gap > 0)
@@ -1286,7 +1286,7 @@ private Bool _XkbCopyNames(XkbDescPtr src, XkbDescPtr dst)
                                    src.names.num_key_aliases,
                                    XkbKeyAliasRec.sizeof);
                 if (!tmp)
-                    return FALSE;
+                    return False;
                 dst.names.key_aliases = cast(_XkbKeyAliasRec*)tmp;
             }
             memcpy(dst.names.key_aliases, src.names.key_aliases,
@@ -1303,7 +1303,7 @@ private Bool _XkbCopyNames(XkbDescPtr src, XkbDescPtr dst)
                 tmp = reallocarray(dst.names.radio_groups,
                                    src.names.num_rg, Atom.sizeof);
                 if (!tmp)
-                    return FALSE;
+                    return False;
                 dst.names.radio_groups = cast(uint*)tmp;
             }
             memcpy(dst.names.radio_groups, src.names.radio_groups,
@@ -1331,10 +1331,10 @@ private Bool _XkbCopyNames(XkbDescPtr src, XkbDescPtr dst)
     }
     else {
         if (dst.names)
-            XkbFreeNames(dst, XkbAllNamesMask, TRUE);
+            XkbFreeNames(dst, XkbAllNamesMask, True);
     }
 
-    return TRUE;
+    return True;
 }
 
 private Bool _XkbCopyCompat(XkbDescPtr src, XkbDescPtr dst)
@@ -1346,7 +1346,7 @@ private Bool _XkbCopyCompat(XkbDescPtr src, XkbDescPtr dst)
         if (!dst.compat) {
             dst.compat = cast(XkbCompatMapRec*) calloc(1, XkbCompatMapRec.sizeof);
             if (!dst.compat)
-                return FALSE;
+                return False;
         }
 
         if (src.compat.sym_interpret && src.compat.num_si) {
@@ -1355,7 +1355,7 @@ private Bool _XkbCopyCompat(XkbDescPtr src, XkbDescPtr dst)
                                    src.compat.num_si,
                                    XkbSymInterpretRec.sizeof);
                 if (!tmp)
-                    return FALSE;
+                    return False;
                 dst.compat.sym_interpret = cast(_XkbSymInterpretRec*)tmp;
             }
             memcpy(dst.compat.sym_interpret, src.compat.sym_interpret,
@@ -1378,10 +1378,10 @@ private Bool _XkbCopyCompat(XkbDescPtr src, XkbDescPtr dst)
     }
     else {
         if (dst.compat)
-            XkbFreeCompatMap(dst, XkbAllCompatMask, TRUE);
+            XkbFreeCompatMap(dst, XkbAllCompatMask, True);
     }
 
-    return TRUE;
+    return True;
 }
 
 private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
@@ -1401,7 +1401,7 @@ private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
         if (!dst.geom) {
             dst.geom = cast(_XkbGeometry*)calloc(XkbGeometryRec.sizeof, 1);
             if (!dst.geom)
-                return FALSE;
+                return False;
         }
 
         /* properties */
@@ -1423,7 +1423,7 @@ private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
                 (cast(void**) &dst.geom.properties, dst.geom.sz_properties,
                  src.geom.num_properties, XkbPropertyRec.sizeof,
                  XKB_GEOM_CLEAR_EXCESS))
-                return FALSE;
+                return False;
             /* We don't set num_properties as we need it to try and avoid
              * too much reallocing. */
             dst.geom.sz_properties = src.geom.num_properties;
@@ -1436,13 +1436,13 @@ private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
                     if (strlen(sprop.name) != strlen(dprop.name)) {
                         tmp = realloc(dprop.name, strlen(sprop.name) + 1);
                         if (!tmp)
-                            return FALSE;
+                            return False;
                         dprop.name = cast(char*)tmp;
                     }
                     if (strlen(sprop.value) != strlen(dprop.value)) {
                         tmp = realloc(dprop.value, strlen(sprop.value) + 1);
                         if (!tmp)
-                            return FALSE;
+                            return False;
                         dprop.value = cast(char*)tmp;
                     }
                     strcpy(dprop.name, sprop.name);
@@ -1486,7 +1486,7 @@ private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
                 (cast(void**) &dst.geom.colors, dst.geom.sz_colors,
                  src.geom.num_colors, XkbColorRec.sizeof,
                  XKB_GEOM_CLEAR_EXCESS))
-                return FALSE;
+                return False;
             dst.geom.sz_colors = src.geom.num_colors;
 
             for (i = 0,
@@ -1497,7 +1497,7 @@ private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
                     if (strlen(scolor.spec) != strlen(dcolor.spec)) {
                         tmp = realloc(dcolor.spec, strlen(scolor.spec) + 1);
                         if (!tmp)
-                            return FALSE;
+                            return False;
                         dcolor.spec = cast(char*)tmp;
                     }
                     strcpy(dcolor.spec, scolor.spec);
@@ -1551,14 +1551,14 @@ private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
                 (cast(void**) &dst.geom.shapes, dst.geom.sz_shapes,
                  src.geom.num_shapes, XkbShapeRec.sizeof,
                  XKB_GEOM_CLEAR_ALL))
-                return FALSE;
+                return False;
 
             for (i = 0, sshape = src.geom.shapes, dshape = dst.geom.shapes;
                  i < src.geom.num_shapes; i++, sshape++, dshape++) {
                 if (sshape.num_outlines) {
                     tmp = calloc(sshape.num_outlines, XkbOutlineRec.sizeof);
                     if (!tmp)
-                        return FALSE;
+                        return False;
                     dshape.outlines = cast(_XkbOutline*)tmp;
 
                     for (j = 0,
@@ -1570,7 +1570,7 @@ private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
                             tmp = calloc(soutline.num_points,
                                          XkbPointRec.sizeof);
                             if (!tmp)
-                                return FALSE;
+                                return False;
                             doutline.points = cast(_XkbPoint*)tmp;
 
                             memcpy(doutline.points, soutline.points,
@@ -1672,7 +1672,7 @@ private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
                 (cast(void**) &dst.geom.sections, dst.geom.sz_sections,
                  src.geom.num_sections, XkbSectionRec.sizeof,
                  XKB_GEOM_CLEAR_ALL))
-                return FALSE;
+                return False;
             dst.geom.num_sections = src.geom.num_sections;
             dst.geom.sz_sections = src.geom.num_sections;
 
@@ -1684,7 +1684,7 @@ private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
                 if (ssection.num_rows) {
                     tmp = calloc(ssection.num_rows, XkbRowRec.sizeof);
                     if (!tmp)
-                        return FALSE;
+                        return False;
                     dsection.rows = cast(_XkbRow*)tmp;
                 }
                 dsection.num_rows = ssection.num_rows;
@@ -1695,7 +1695,7 @@ private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
                     if (srow.num_keys) {
                         tmp = calloc(srow.num_keys, XkbKeyRec.sizeof);
                         if (!tmp)
-                            return FALSE;
+                            return False;
                         drow.keys = cast(_XkbKey*)tmp;
                         memcpy(drow.keys, srow.keys,
                                srow.num_keys * XkbKeyRec.sizeof);
@@ -1711,7 +1711,7 @@ private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
                 if (ssection.num_doodads) {
                     tmp = calloc(ssection.num_doodads, XkbDoodadRec.sizeof);
                     if (!tmp)
-                        return FALSE;
+                        return False;
                     dsection.doodads = cast(_XkbDoodad*)tmp;
                 }
                 else {
@@ -1777,7 +1777,7 @@ private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
                 (cast(void**) &dst.geom.doodads, dst.geom.sz_doodads,
                  src.geom.num_doodads, XkbDoodadRec.sizeof,
                  XKB_GEOM_CLEAR_ALL))
-                return FALSE;
+                return False;
 
             dst.geom.sz_doodads = src.geom.num_doodads;
 
@@ -1820,7 +1820,7 @@ private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
                 (cast(void**) &dst.geom.key_aliases, dst.geom.sz_key_aliases,
                  src.geom.num_key_aliases, 2 * XkbKeyNameLength,
                  XKB_GEOM_CLEAR_NONE))
-                return FALSE;
+                return False;
 
             dst.geom.sz_key_aliases = src.geom.num_key_aliases;
 
@@ -1841,7 +1841,7 @@ private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
             if (!dst.geom.label_font) {
                 tmp = calloc(1, strlen(src.geom.label_font) + 1);
                 if (!tmp)
-                    return FALSE;
+                    return False;
                 dst.geom.label_font = cast(char*)tmp;
             }
             else if (strlen(src.geom.label_font) !=
@@ -1849,7 +1849,7 @@ private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
                 tmp = realloc(dst.geom.label_font,
                               strlen(src.geom.label_font) + 1);
                 if (!tmp)
-                    return FALSE;
+                    return False;
                 dst.geom.label_font = cast(char*)tmp;
             }
 
@@ -1873,12 +1873,12 @@ private Bool _XkbCopyGeom(XkbDescPtr src, XkbDescPtr dst)
     else {
         if (dst.geom) {
             /* I LOVE THE DIFFERENT CALL SIGNATURE.  REALLY, I DO. */
-            XkbFreeGeometry(dst.geom, XkbGeomAllMask, TRUE);
+            XkbFreeGeometry(dst.geom, XkbGeomAllMask, True);
             dst.geom = null;
         }
     }
 
-    return TRUE;
+    return True;
 }
 
 private Bool _XkbCopyIndicators(XkbDescPtr src, XkbDescPtr dst)
@@ -1888,7 +1888,7 @@ private Bool _XkbCopyIndicators(XkbDescPtr src, XkbDescPtr dst)
         if (!dst.indicators) {
             dst.indicators = cast(XkbIndicatorRec*) calloc(1, XkbIndicatorRec.sizeof);
             if (!dst.indicators)
-                return FALSE;
+                return False;
         }
         memcpy(dst.indicators, src.indicators, XkbIndicatorRec.sizeof);
     }
@@ -1896,7 +1896,7 @@ private Bool _XkbCopyIndicators(XkbDescPtr src, XkbDescPtr dst)
         free(dst.indicators);
         dst.indicators = null;
     }
-    return TRUE;
+    return True;
 }
 
 private Bool _XkbCopyControls(XkbDescPtr src, XkbDescPtr dst)
@@ -1906,7 +1906,7 @@ private Bool _XkbCopyControls(XkbDescPtr src, XkbDescPtr dst)
         if (!dst.ctrls) {
             dst.ctrls = cast(XkbControlsRec*) calloc(1, XkbControlsRec.sizeof);
             if (!dst.ctrls)
-                return FALSE;
+                return False;
         }
         memcpy(dst.ctrls, src.ctrls, XkbControlsRec.sizeof);
     }
@@ -1914,7 +1914,7 @@ private Bool _XkbCopyControls(XkbDescPtr src, XkbDescPtr dst)
         free(dst.ctrls);
         dst.ctrls = null;
     }
-    return TRUE;
+    return True;
 }
 
 /**
@@ -1926,7 +1926,7 @@ private Bool _XkbCopyControls(XkbDescPtr src, XkbDescPtr dst)
  * uninitialised data (e.g. names->radio_grous == NULL, names->num_rg == 19)
  * _will_ cause failures.  You've been warned.
  *
- * Returns TRUE on success, or FALSE on failure.  If this function fails,
+ * Returns True on success, or False on failure.  If this function fails,
  * dst may be in an inconsistent state: all its pointers are guaranteed
  * to remain valid, but part of the map may be from src and part from dst.
  *
@@ -1937,45 +1937,45 @@ Bool XkbCopyKeymap(XkbDescPtr dst, XkbDescPtr src)
 
     if (!src || !dst) {
         DebugF("XkbCopyKeymap: src (%p) or dst (%p) is NULL\n", src, dst);
-        return FALSE;
+        return False;
     }
 
     if (src == dst)
-        return TRUE;
+        return True;
 
     if (!_XkbCopyClientMap(src, dst)) {
         DebugF("XkbCopyKeymap: failed to copy client map\n");
-        return FALSE;
+        return False;
     }
     if (!_XkbCopyServerMap(src, dst)) {
         DebugF("XkbCopyKeymap: failed to copy server map\n");
-        return FALSE;
+        return False;
     }
     if (!_XkbCopyIndicators(src, dst)) {
         DebugF("XkbCopyKeymap: failed to copy indicators\n");
-        return FALSE;
+        return False;
     }
     if (!_XkbCopyControls(src, dst)) {
         DebugF("XkbCopyKeymap: failed to copy controls\n");
-        return FALSE;
+        return False;
     }
     if (!_XkbCopyNames(src, dst)) {
         DebugF("XkbCopyKeymap: failed to copy names\n");
-        return FALSE;
+        return False;
     }
     if (!_XkbCopyCompat(src, dst)) {
         DebugF("XkbCopyKeymap: failed to copy compat map\n");
-        return FALSE;
+        return False;
     }
     if (!_XkbCopyGeom(src, dst)) {
         DebugF("XkbCopyKeymap: failed to copy geometry\n");
-        return FALSE;
+        return False;
     }
 
     dst.min_key_code = src.min_key_code;
     dst.max_key_code = src.max_key_code;
 
-    return TRUE;
+    return True;
 }
 
 Bool XkbDeviceApplyKeymap(DeviceIntPtr dst, XkbDescPtr desc)
@@ -1983,7 +1983,7 @@ Bool XkbDeviceApplyKeymap(DeviceIntPtr dst, XkbDescPtr desc)
     Bool ret = void;
 
     if (!dst.key || !desc)
-        return FALSE;
+        return False;
 
     xkbNewKeyboardNotify nkn = {
         oldMinKeyCode: dst.key.xkbInfo.desc.min_key_code,

@@ -186,19 +186,19 @@ Bool DGAInit(ScreenPtr pScreen, DGAFunctionPtr funcs, DGAModePtr modes, int num)
     int i = void;
 
     if (!funcs || !funcs.SetMode || !funcs.OpenFramebuffer)
-        return FALSE;
+        return False;
 
     if (!modes || num <= 0)
-        return FALSE;
+        return False;
 
     if (!dixRegisterPrivateKey(&DGAScreenKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
 
     pScreenPriv = mixin(DGA_GET_SCREEN_PRIV!(`pScreen`));
 
     if (!pScreenPriv) {
         if (((pScreenPriv = cast(DGAScreenRec*) calloc(1, DGAScreenRec.sizeof)) is null))
-            return FALSE;
+            return False;
         dixSetPrivate(&pScreen.devPrivates, &DGAScreenKeyRec, pScreenPriv);
         dixScreenHookClose(pScreen, &DGACloseScreen);
         pScreenPriv.DestroyColormap = pScreen.DestroyColormap;
@@ -220,8 +220,8 @@ Bool DGAInit(ScreenPtr pScreen, DGAFunctionPtr funcs, DGAModePtr modes, int num)
     pScreenPriv.fakedVisuals = null;
     pScreenPriv.dgaColormap = null;
     pScreenPriv.savedColormap = null;
-    pScreenPriv.grabMouse = FALSE;
-    pScreenPriv.grabKeyboard = FALSE;
+    pScreenPriv.grabMouse = False;
+    pScreenPriv.grabKeyboard = False;
 
     for (i = 0; i < num; i++)
         modes[i].num = i + 1;
@@ -232,7 +232,7 @@ static if(XINERAMA){
             modes[i].flags &= ~DGA_PIXMAP_AVAILABLE;
 } /* XINERAMA */
 
-    return TRUE;
+    return True;
 }
 
 /* DGAReInitModes allows the driver to re-initialize
@@ -246,17 +246,17 @@ Bool DGAReInitModes(ScreenPtr pScreen, DGAModePtr modes, int num)
 
     /* No DGA? Ignore call (but don't make it look like it failed) */
     if (!DGAScreenKeyRegistered)
-        return TRUE;
+        return True;
 
     pScreenPriv = mixin(DGA_GET_SCREEN_PRIV!(`pScreen`));
 
     /* Same as above */
     if (!pScreenPriv)
-        return TRUE;
+        return True;
 
     /* Can't do this while DGA is active */
     if (pScreenPriv.current)
-        return FALSE;
+        return False;
 
     /* Quick sanity check */
     if (!num)
@@ -269,7 +269,7 @@ Bool DGAReInitModes(ScreenPtr pScreen, DGAModePtr modes, int num)
 
     /* This practically disables DGA. So be it. */
     if (!num)
-        return TRUE;
+        return True;
 
     for (i = 0; i < num; i++)
         modes[i].num = i + 1;
@@ -280,7 +280,7 @@ static if(XINERAMA){
             modes[i].flags &= ~DGA_PIXMAP_AVAILABLE;
 } /* XINERAMA */
 
-    return TRUE;
+    return True;
 }
 
 private void FreeMarkedVisuals(ScreenPtr pScreen)
@@ -344,7 +344,7 @@ private void DGADestroyColormap(ColormapPtr pmap)
             if (curr.pVisual == pVisual) {
                 /* We can't get rid of them yet since FreeColormap
                    still needs the pVisual during the cleanup */
-                curr.free = TRUE;
+                curr.free = True;
                 break;
             }
             curr = curr.next;
@@ -418,20 +418,20 @@ int xf86SetDGAMode(ScrnInfoPtr pScrn, int num, DGADevicePtr devRet)
             }
             free(pScreenPriv.current);
             pScreenPriv.current = null;
-            pScrn.vtSema = TRUE;
+            pScrn.vtSema = True;
             (*pScreenPriv.funcs.SetMode) (pScrn, null);
             if (pScreenPriv.savedColormap) {
                 (*pScreen.InstallColormap) (pScreenPriv.savedColormap);
                 pScreenPriv.savedColormap = null;
             }
             pScreenPriv.dgaColormap = null;
-            (*pScrn.EnableDisableFBAccess) (pScrn, TRUE);
+            (*pScrn.EnableDisableFBAccess) (pScrn, True);
 
             FreeMarkedVisuals(pScreen);
         }
 
-        pScreenPriv.grabMouse = FALSE;
-        pScreenPriv.grabKeyboard = FALSE;
+        pScreenPriv.grabMouse = False;
+        pScreenPriv.grabKeyboard = False;
 
         return Success;
     }
@@ -450,8 +450,8 @@ int xf86SetDGAMode(ScrnInfoPtr pScrn, int num, DGADevicePtr devRet)
     if (!pScreenPriv.current) {
         Bool oldVTSema = pScrn.vtSema;
 
-        pScrn.vtSema = FALSE;  /* kludge until we rewrite VT switching */
-        (*pScrn.EnableDisableFBAccess) (pScrn, FALSE);
+        pScrn.vtSema = False;  /* kludge until we rewrite VT switching */
+        (*pScrn.EnableDisableFBAccess) (pScrn, False);
         pScrn.vtSema = oldVTSema;
     }
 
@@ -467,7 +467,7 @@ int xf86SetDGAMode(ScrnInfoPtr pScrn, int num, DGADevicePtr devRet)
            our screen so it doesn't get trapped  */
     }
 
-    pScrn.vtSema = FALSE;
+    pScrn.vtSema = False;
 
     if (pScreenPriv.current) {
         PixmapPtr oldPix = pScreenPriv.current.pPix;
@@ -496,9 +496,9 @@ int xf86SetDGAMode(ScrnInfoPtr pScrn, int num, DGADevicePtr devRet)
     devRet.mode = device.mode = pMode;
     devRet.pPix = device.pPix = pPix;
     pScreenPriv.current = device;
-    pScreenPriv.pixmapMode = FALSE;
-    pScreenPriv.grabMouse = TRUE;
-    pScreenPriv.grabKeyboard = TRUE;
+    pScreenPriv.pixmapMode = False;
+    pScreenPriv.grabMouse = True;
+    pScreenPriv.grabKeyboard = True;
 
     mieqSetHandler(ET_DGAEvent, &DGAHandleEvent);
 
@@ -513,12 +513,12 @@ private Bool DGAChangePixmapMode(int index, int* x, int* y, int mode)
     PixmapPtr pPix = void;
 
     if (!DGAScreenKeyRegistered)
-        return FALSE;
+        return False;
 
     pScreenPriv = mixin(DGA_GET_SCREEN_PRIV!(`screenInfo.screens[index]`));
 
     if (!pScreenPriv || !pScreenPriv.current || !pScreenPriv.current.pPix)
-        return FALSE;
+        return False;
 
     pDev = pScreenPriv.current;
     pPix = pDev.pPix;
@@ -562,17 +562,17 @@ private Bool DGAChangePixmapMode(int index, int* x, int* y, int mode)
     pPix.drawable.serialNumber = NEXT_SERIAL_NUMBER;
     pScreenPriv.pixmapMode = mode;
 
-    return TRUE;
+    return True;
 }
 
 Bool DGAScreenAvailable(ScreenPtr pScreen)
 {
     if (!DGAScreenKeyRegistered)
-        return FALSE;
+        return False;
 
     if (mixin(DGA_GET_SCREEN_PRIV!(`pScreen`)))
-        return TRUE;
-    return FALSE;
+        return True;
+    return False;
 }
 
 private Bool DGAAvailable(int index)
@@ -589,14 +589,14 @@ Bool DGAActive(int index)
     DGAScreenPtr pScreenPriv = void;
 
     if (!DGAScreenKeyRegistered)
-        return FALSE;
+        return False;
 
     pScreenPriv = mixin(DGA_GET_SCREEN_PRIV!(`screenInfo.screens[index]`));
 
     if (pScreenPriv && pScreenPriv.current)
-        return TRUE;
+        return True;
 
-    return FALSE;
+    return False;
 }
 
 /* Called by the extension to initialize a mode */
@@ -723,7 +723,7 @@ private int DGACreateColormap(int index, ClientPtr client, int id, int mode, int
         return BadAlloc;
     }
 
-    fvlp.free = FALSE;
+    fvlp.free = False;
     fvlp.pVisual = pVisual;
     fvlp.next = pScreenPriv.fakedVisuals;
     pScreenPriv.fakedVisuals = fvlp;
@@ -879,11 +879,11 @@ Bool DGAVTSwitch()
         if (DGAScreenKeyRegistered) {
             DGAScreenPtr pScreenPriv = mixin(DGA_GET_SCREEN_PRIV!(`walkScreen`));
             if (pScreenPriv && pScreenPriv.current)
-                return FALSE;
+                return False;
         }
     });
 
-    return TRUE;
+    return True;
 }
 
 Bool DGAStealKeyEvent(DeviceIntPtr dev, int index, int key_code, int is_down)
@@ -892,15 +892,15 @@ Bool DGAStealKeyEvent(DeviceIntPtr dev, int index, int key_code, int is_down)
     DGAEvent event = void;
 
     if (!DGAScreenKeyRegistered)        /* no DGA */
-        return FALSE;
+        return False;
 
     if (key_code < 8 || key_code > 255)
-        return FALSE;
+        return False;
 
     pScreenPriv = mixin(DGA_GET_SCREEN_PRIV!(`screenInfo.screens[index]`));
 
     if (!pScreenPriv || !pScreenPriv.grabKeyboard)     /* no direct mode */
-        return FALSE;
+        return False;
 
     event = DGAEvent (
         header: ET_Internal,
@@ -914,7 +914,7 @@ Bool DGAStealKeyEvent(DeviceIntPtr dev, int index, int key_code, int is_down)
     );
     mieqEnqueue(dev, cast(InternalEvent*) &event);
 
-    return TRUE;
+    return True;
 }
 
 Bool DGAStealMotionEvent(DeviceIntPtr dev, int index, int dx, int dy)
@@ -923,12 +923,12 @@ Bool DGAStealMotionEvent(DeviceIntPtr dev, int index, int dx, int dy)
     DGAEvent event = void;
 
     if (!DGAScreenKeyRegistered)        /* no DGA */
-        return FALSE;
+        return False;
 
     pScreenPriv = mixin(DGA_GET_SCREEN_PRIV!(`screenInfo.screens[index]`));
 
     if (!pScreenPriv || !pScreenPriv.grabMouse)        /* no direct mode */
-        return FALSE;
+        return False;
 
     event = DGAEvent (
         header: ET_Internal,
@@ -941,7 +941,7 @@ Bool DGAStealMotionEvent(DeviceIntPtr dev, int index, int dx, int dy)
         dy: dy
     );
     mieqEnqueue(dev, cast(InternalEvent*) &event);
-    return TRUE;
+    return True;
 }
 
 Bool DGAStealButtonEvent(DeviceIntPtr dev, int index, int button, int is_down)
@@ -950,12 +950,12 @@ Bool DGAStealButtonEvent(DeviceIntPtr dev, int index, int button, int is_down)
     DGAEvent event = void;
 
     if (!DGAScreenKeyRegistered)        /* no DGA */
-        return FALSE;
+        return False;
 
     pScreenPriv = mixin(DGA_GET_SCREEN_PRIV!(`screenInfo.screens[index]`));
 
     if (!pScreenPriv || !pScreenPriv.grabMouse)
-        return FALSE;
+        return False;
 
     event = DGAEvent (
         header: ET_Internal,
@@ -969,7 +969,7 @@ Bool DGAStealButtonEvent(DeviceIntPtr dev, int index, int button, int is_down)
     );
     mieqEnqueue(dev, cast(InternalEvent*) &event);
 
-    return TRUE;
+    return True;
 }
 
 /* We have the power to steal or modify events that are about to get queued */
@@ -1033,7 +1033,7 @@ private void DGAProcessKeyboardEvent(ScreenPtr pScreen, _DGAEvent* event, Device
             ev.root_y = cast(short)event.dy;
             ev.corestate = event.state;
             ev.deviceid = keybd.id;
-            DeliverGrabbedEvent(cast(InternalEvent*) &ev, keybd, FALSE);
+            DeliverGrabbedEvent(cast(InternalEvent*) &ev, keybd, False);
         }
     }
 }
@@ -1090,7 +1090,7 @@ private void DGAProcessPointerEvent(ScreenPtr pScreen, _DGAEvent* event, DeviceI
              * Mask must be set for EventToCore to create motion events. */
             mixin(SetBit!("ev.valuators.mask", "0"));
             mixin(SetBit!("ev.valuators.mask", "1"));
-            DeliverGrabbedEvent(cast(InternalEvent*) &ev, mouse, FALSE);
+            DeliverGrabbedEvent(cast(InternalEvent*) &ev, mouse, False);
         }
     }
 }
@@ -1223,7 +1223,7 @@ private int ProcXDGAOpenFramebuffer(ClientPtr client)
 
     nameSize = deviceName ? cast(int)(strlen(deviceName) + 1) : 0;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)deviceName, nameSize);
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
@@ -1278,7 +1278,7 @@ private int ProcXDGAQueryModes(ClientPtr client)
         number: num
     };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     for (int i = 0; i < num; i++) {
         size_t size = strlen(mode[i].name) + 1;
@@ -1422,7 +1422,7 @@ private int ProcXDGASetMode(ClientPtr client)
     info.reserved1 = mode.reserved1;
     info.reserved2 = mode.reserved2;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_binary_pad(&rpcbuf, &info, info.sizeof);
     x_rpcbuf_write_string_0t_pad(&rpcbuf, mode.name);
 

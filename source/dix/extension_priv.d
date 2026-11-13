@@ -8,7 +8,7 @@ extern(C): __gshared:
  
 public import dix.callback;
 public import dix.extension;
-public import common.misc;
+import dix.dixstruct_priv;
 
 enum EXTENSION_MAJOR_APPLE_WM =            (EXTENSION_BASE + 0);
 enum EXTENSION_MAJOR_APPLE_DRI =           (EXTENSION_BASE + 1);

@@ -27,7 +27,7 @@ xf86Int10InfoPtr xf86ExtendedInitInt10(int entityIndex, int Flags)
 
 Bool MapCurrentInt10(xf86Int10InfoPtr pInt)
 {
-    return FALSE;
+    return False;
 }
 
 void xf86FreeInt10(xf86Int10InfoPtr pInt)
@@ -48,7 +48,7 @@ void xf86Int10FreePages(xf86Int10InfoPtr pInt, void* pbase, int num)
 
 // Bool xf86Int10ExecSetup(xf86Int10InfoPtr pInt)
 // {
-//     return FALSE;
+//     return False;
 // }
 
 void xf86ExecX86int10(xf86Int10InfoPtr pInt)

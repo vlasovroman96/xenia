@@ -66,10 +66,10 @@ private Bool check_signed_number_format_test(c_long number)
     if(strncmp(string.ptr, expected.ptr, 21) != 0) {
         fprintf(stderr, "Failed to convert %jd to decimal string (expected %s but got %s)\n",
                 cast(intmax_t) number, expected.ptr, string.ptr);
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 private Bool check_float_format_test(double number)
@@ -84,10 +84,10 @@ private Bool check_float_format_test(double number)
     if(strncmp(string.ptr, expected.ptr, 21) != 0) {
         fprintf(stderr, "Failed to convert %f to string (%s vs %s)\n",
                 number, expected.ptr, string.ptr);
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 private Bool check_number_format_test(c_ulong number)
@@ -101,7 +101,7 @@ private Bool check_number_format_test(c_ulong number)
     if(strncmp(string.ptr, expected.ptr, 21) != 0) {
         fprintf(stderr, "Failed to convert %ju to decimal string (%s vs %s)\n",
                 cast(intmax_t) number, expected.ptr, string.ptr);
-        return FALSE;
+        return False;
     }
 
     sprintf(expected.ptr, "%lx", number);
@@ -109,10 +109,10 @@ private Bool check_number_format_test(c_ulong number)
     if(strncmp(string.ptr, expected.ptr, 17) != 0) {
         fprintf(stderr, "Failed to convert %ju to hexadecimal string (%s vs %s)\n",
                 cast(intmax_t) number, expected.ptr, string.ptr);
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 /* FIXME: max range stuff */

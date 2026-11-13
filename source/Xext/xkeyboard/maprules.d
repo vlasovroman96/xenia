@@ -128,15 +128,15 @@ private Bool GetInputLine(FILE* file, InputLine* line, Bool checkbang)
     int ch = void;
     Bool endOfFile = void, spacePending = void, slashPending = void, inComment = void;
 
-    endOfFile = FALSE;
+    endOfFile = False;
     while ((!endOfFile) && (line.num_line == 0)) {
-        spacePending = slashPending = inComment = FALSE;
+        spacePending = slashPending = inComment = False;
         while (((ch = getc(file)) != '\n') && (ch != EOF)) {
             if (ch == '\\') {
                 if ((ch = getc(file)) == EOF)
                     break;
                 if (ch == '\n') {
-                    inComment = FALSE;
+                    inComment = False;
                     ch = ' ';
                     line.line_num++;
                 }
@@ -145,21 +145,21 @@ private Bool GetInputLine(FILE* file, InputLine* line, Bool checkbang)
                 continue;
             if (ch == '/') {
                 if (slashPending) {
-                    inComment = TRUE;
-                    slashPending = FALSE;
+                    inComment = True;
+                    slashPending = False;
                 }
                 else {
-                    slashPending = TRUE;
+                    slashPending = True;
                 }
                 continue;
             }
             else if (slashPending) {
                 if (spacePending) {
                     mixin(ADD_CHAR!(`line`, `' '`));
-                    spacePending = FALSE;
+                    spacePending = False;
                 }
                 mixin(ADD_CHAR!(`line`, `'/'`));
-                slashPending = FALSE;
+                slashPending = False;
             }
             if (isspace(ch)) {
                 while (isspace(ch) && (ch != '\n') && (ch != EOF)) {
@@ -168,13 +168,13 @@ private Bool GetInputLine(FILE* file, InputLine* line, Bool checkbang)
                 if (ch == EOF)
                     break;
                 if ((ch != '\n') && (line.num_line > 0))
-                    spacePending = TRUE;
+                    spacePending = True;
                 ungetc(ch, file);
             }
             else {
                 if (spacePending) {
                     mixin(ADD_CHAR!(`line`, `' '`));
-                    spacePending = FALSE;
+                    spacePending = False;
                 }
                 if (checkbang && ch == '!') {
                     if (line.num_line != 0) {
@@ -190,13 +190,13 @@ private Bool GetInputLine(FILE* file, InputLine* line, Bool checkbang)
             }
         }
         if (ch == EOF)
-            endOfFile = TRUE;
+            endOfFile = True;
 /*	else line->num_line++;*/
     }
     if ((line.num_line == 0) && (endOfFile))
-        return FALSE;
+        return False;
     mixin(ADD_CHAR!(`line`, `'\0'`));
-    return TRUE;
+    return True;
 }
 
 /***====================================================================***/
@@ -286,7 +286,7 @@ private void SetUpRemap(InputLine* line, RemapSpec* remap)
     memset(cast(char*) remap, 0, RemapSpec.sizeof);
     remap.number = len;
     while ((tok = _XStrtok(str, " ", &strtok_buf)) !is null) {
-        Bool found = FALSE;
+        Bool found = False;
         str = null;
         if (strcmp(tok, "=") == 0)
             continue;
@@ -310,7 +310,7 @@ private void SetUpRemap(InputLine* line, RemapSpec* remap)
                 else {
                     ndx = 0;
                 }
-                found = TRUE;
+                found = True;
                 if (present & (1 << i)) {
                     if ((i == LAYOUT && l_ndx_present & (1 << ndx)) ||
                         (i == VARIANT && v_ndx_present & (1 << ndx))) {
@@ -377,9 +377,9 @@ private Bool MatchOneOf(const(char)* wanted, const(char)* vals_defined)
             len = cast(int)strlen(str);
         }
         if ((len == want_len) && (strncmp(wanted, str, len) == 0))
-            return TRUE;
+            return True;
     }
-    return FALSE;
+    return False;
 }
 
 /***====================================================================***/
@@ -393,14 +393,14 @@ private Bool CheckLine(InputLine* line, RemapSpec* remap, XkbRF_RulePtr rule, Xk
             char* words = strchr(gname, ' ');
 
             if (!words)
-                return FALSE;
+                return False;
             *words++ = '\0';
             for (; *words; words++) {
                 if (*words != '=' && *words != ' ')
                     break;
             }
             if (*words == '\0')
-                return FALSE;
+                return False;
             group.name = cast(char*)Xstrdup(gname);
             group.words = cast(char*)Xstrdup(words);
 
@@ -412,18 +412,18 @@ private Bool CheckLine(InputLine* line, RemapSpec* remap, XkbRF_RulePtr rule, Xk
                 }
             }
             group.number = i;
-            return TRUE;
+            return True;
         }
         else {
             SetUpRemap(line, remap);
-            return FALSE;
+            return False;
         }
     }
 
     if (remap.num_remap == 0) {
         DebugF("Must have a mapping before first line of data\n");
         DebugF("Illegal line of data ignored\n");
-        return FALSE;
+        return False;
     }
 
     FileSpec tmp = { null };
@@ -433,7 +433,7 @@ private Bool CheckLine(InputLine* line, RemapSpec* remap, XkbRF_RulePtr rule, Xk
     int nread = void;
     _Xstrtokparams strtok_buf = void;
     char* tok = void;
-    Bool append = FALSE;
+    Bool append = False;
 
     for (nread = 0; (tok = _XStrtok(str, " ", &strtok_buf)) !is null; nread++) {
         str = null;
@@ -448,12 +448,12 @@ private Bool CheckLine(InputLine* line, RemapSpec* remap, XkbRF_RulePtr rule, Xk
         }
         tmp.name[remap.remap[nread].word] = tok;
         if (*tok == '+' || *tok == '|')
-            append = TRUE;
+            append = True;
     }
     if (nread < remap.num_remap) {
         DebugF("Too few words on a line: %s\n", line.line);
         DebugF("line ignored\n");
-        return FALSE;
+        return False;
     }
 
     rule.flags = 0;
@@ -484,7 +484,7 @@ private Bool CheckLine(InputLine* line, RemapSpec* remap, XkbRF_RulePtr rule, Xk
                 rule.variant_num = remap.remap[i].index;
         }
     }
-    return TRUE;
+    return True;
 }
 
 private char* _Concat(char* str1, const(char)* str2)
@@ -525,7 +525,7 @@ private Bool MakeMultiDefs(XkbRF_MultiDefsPtr mdefs, XkbRF_VarDefsPtr defs)
         else {
             char* layout = cast(char*)Xstrdup(defs.layout);
             if (layout is null)
-                return FALSE;
+                return False;
             squeeze_spaces(layout);
             mdefs.layout[1] = layout;
             char* p = layout;
@@ -550,7 +550,7 @@ private Bool MakeMultiDefs(XkbRF_MultiDefsPtr mdefs, XkbRF_VarDefsPtr defs)
         else {
             char* variant = cast(char*)Xstrdup(defs.variant);
             if (variant is null)
-                return FALSE;
+                return False;
             squeeze_spaces(variant);
             mdefs.variant[1] = variant;
             char* p = variant;
@@ -567,7 +567,7 @@ private Bool MakeMultiDefs(XkbRF_MultiDefsPtr mdefs, XkbRF_VarDefsPtr defs)
                 *p = '\0';
         }
     }
-    return TRUE;
+    return True;
 }
 
 private void FreeMultiDefs(XkbRF_MultiDefsPtr defs)
@@ -613,24 +613,24 @@ private Bool CheckGroup(XkbRF_RulesPtr rules, const(char)* group_name, const(cha
         }
     }
     if (i == rules.num_groups)
-        return FALSE;
+        return False;
     for (i = 0, p = group.words; i < group.number; i++, p += strlen(p) + 1) {
         if (!strcmp(p, name)) {
-            return TRUE;
+            return True;
         }
     }
-    return FALSE;
+    return False;
 }
 
 private int XkbRF_CheckApplyRule(XkbRF_RulePtr rule, XkbRF_MultiDefsPtr mdefs, XkbComponentNamesPtr names, XkbRF_RulesPtr rules)
 {
-    Bool pending = FALSE;
+    Bool pending = False;
 
     if (rule.model !is null) {
         if (mdefs.model is null)
             return 0;
         if (strcmp(rule.model, "*") == 0) {
-            pending = TRUE;
+            pending = True;
         }
         else {
             if (rule.model[0] == '$') {
@@ -655,7 +655,7 @@ private int XkbRF_CheckApplyRule(XkbRF_RulePtr rule, XkbRF_MultiDefsPtr mdefs, X
             *mdefs.layout[rule.layout_num] == '\0')
             return 0;
         if (strcmp(rule.layout, "*") == 0) {
-            pending = TRUE;
+            pending = True;
         }
         else {
             if (rule.layout[0] == '$') {
@@ -674,7 +674,7 @@ private int XkbRF_CheckApplyRule(XkbRF_RulePtr rule, XkbRF_MultiDefsPtr mdefs, X
             *mdefs.variant[rule.variant_num] == '\0')
             return 0;
         if (strcmp(rule.variant, "*") == 0) {
-            pending = TRUE;
+            pending = True;
         }
         else {
             if (rule.variant[0] == '$') {
@@ -931,11 +931,11 @@ Bool XkbRF_LoadRules(FILE* file, XkbRF_RulesPtr rules)
     XkbRF_GroupRec tgroup = void; XkbRF_GroupRec* group = void;
 
     if (!(rules && file))
-        return FALSE;
+        return False;
     memset(cast(char*) &remap, 0, RemapSpec.sizeof);
     memset(cast(char*) &tgroup, 0, XkbRF_GroupRec.sizeof);
     InitInputLine(&line);
-    while (GetInputLine(file, &line, TRUE)) {
+    while (GetInputLine(file, &line, True)) {
         if (CheckLine(&line, &remap, &trule, &tgroup)) {
             if (tgroup.number) {
                 if ((group = XkbRF_AddGroup(rules)) !is null) {
@@ -953,7 +953,7 @@ Bool XkbRF_LoadRules(FILE* file, XkbRF_RulesPtr rules)
         line.num_line = 0;
     }
     FreeInputLine(&line);
-    return TRUE;
+    return True;
 }
 
 void XkbRF_Free(XkbRF_RulesPtr rules)

@@ -30,6 +30,7 @@ import glamor.glamor_transfer;
 import glamor.glamor;
 import glamor.glamor_pixmap;
 import fb.fb;
+import common.bools;
 
 glamor_program[4] fill_spans_progs;
 

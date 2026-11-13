@@ -166,7 +166,7 @@ private int cache_formats_and_modifiers(ScreenPtr screen)
     if (info.version_ < 2 || !info.get_formats || !info.get_modifiers) {
         ds.formats = null;
         ds.num_formats = 0;
-        ds.formats_cached = TRUE;
+        ds.formats_cached = True;
         return Success;
     }
 
@@ -175,7 +175,7 @@ private int cache_formats_and_modifiers(ScreenPtr screen)
 
     if (!num_formats) {
         ds.num_formats = 0;
-        ds.formats_cached = TRUE;
+        ds.formats_cached = True;
         return Success;
     }
 
@@ -202,7 +202,7 @@ private int cache_formats_and_modifiers(ScreenPtr screen)
     }
 
     ds.num_formats = i;
-    ds.formats_cached = TRUE;
+    ds.formats_cached = True;
 
     free(formats);
     return Success;

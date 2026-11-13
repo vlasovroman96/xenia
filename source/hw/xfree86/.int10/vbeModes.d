@@ -181,7 +181,7 @@ private DisplayModePtr CheckMode(ScrnInfoPtr pScrn, vbeInfoPtr pVbe, VbeInfoBloc
     VbeModeInfoBlock* mode = void;
     DisplayModePtr pMode = void;
     VbeModeInfoData* data = void;
-    Bool modeOK = FALSE;
+    Bool modeOK = False;
 
     major = cast(uint) (vbe.VESAVersion >> 8);
 
@@ -199,7 +199,7 @@ private DisplayModePtr CheckMode(ScrnInfoPtr pScrn, vbeInfoPtr pVbe, VbeInfoBloc
          (mode.BitsPerPixel == 15 && pScrn.depth == 15) ||
          (mode.BitsPerPixel <= 8 &&
           mode.BitsPerPixel == pScrn.bitsPerPixel))) {
-        modeOK = TRUE;
+        modeOK = True;
         xf86ErrorFVerb(DEBUG_VERB, "*");
     }
 

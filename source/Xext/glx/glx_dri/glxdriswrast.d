@@ -61,6 +61,7 @@ import dix.gc;
 import os.log;
 import glx.glxext;
 import dix.dixutils;
+import common.bools;
 
 //!! EDX: Duuuude...
 alias BadLength = x11.X.BadLength;

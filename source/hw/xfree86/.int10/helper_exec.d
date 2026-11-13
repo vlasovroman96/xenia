@@ -82,7 +82,7 @@ version (_PC) {
 //     X86_EFLAGS = X86_IF_MASK | X86_IOPL_MASK;
 // version (_PC) {
 //     if (pInt.Flags & SET_BIOS_SCRATCH)
-//         SetResetBIOSVars(pInt, TRUE);
+//         SetResetBIOSVars(pInt, True);
 // }
 //     OsBlockSignals();
 //     return 0;
@@ -102,7 +102,7 @@ version (_PC) {
 //     pInt.flags = cast(uint) X86_FLAGS;
 // version (_PC) {
 //     if (pInt.Flags & RESTORE_BIOS_SCRATCH)
-//         SetResetBIOSVars(pInt, FALSE);
+//         SetResetBIOSVars(pInt, False);
 // }
 // }
 

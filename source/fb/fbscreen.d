@@ -50,17 +50,17 @@ Bool fbCloseScreen(ScreenPtr pScreen)
     free(pScreen.visuals);
     if (pScreen.devPrivate)
         FreePixmap(cast(PixmapPtr)pScreen.devPrivate);
-    return TRUE;
+    return True;
 }
 
 Bool fbRealizeFont(ScreenPtr pScreen, FontPtr pFont)
 {
-    return TRUE;
+    return True;
 }
 
 Bool fbUnrealizeFont(ScreenPtr pScreen, FontPtr pFont)
 {
-    return TRUE;
+    return True;
 }
 
 void fbQueryBestSize(int class_, ushort* width, ushort* height, ScreenPtr pScreen)
@@ -98,7 +98,7 @@ void _fbSetWindowPixmap(WindowPtr pWindow, PixmapPtr pPixmap)
 Bool fbSetupScreen(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp)
 {                               /* bits per pixel for screen */
     if (!fbAllocatePrivates(pScreen))
-        return FALSE;
+        return False;
     pScreen.defColormap = dixAllocServerXID();
     if (bpp > 1) {
 	/* let CreateDefColormap do whatever it wants for pixels */
@@ -139,7 +139,7 @@ Bool fbSetupScreen(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpi
     pScreen.GetWindowPixmap = &_fbGetWindowPixmap;
     pScreen.SetWindowPixmap = &_fbSetWindowPixmap;
 
-    return TRUE;
+    return True;
 }
 
 
@@ -162,21 +162,21 @@ static if(FB_ACCESS_WRAPPER) {
                 stride / FbStip.sizeof, FB_TAIL_BITS);
         /* fb requires power-of-two bpp */
         if (Ones(bpp) != 1)
-            return FALSE;
+            return False;
         fbGetScreenPrivate(pScreen).setupWrap = setupWrap;
         fbGetScreenPrivate(pScreen).finishWrap = finishWrap;
         rootdepth = 0;
         if (!fbInitVisuals(&visuals, &depths, &nvisuals, &ndepths, &rootdepth,
                         &defaultVisual, (cast(c_ulong) 1 << (bpp - 1)),
                         8))
-            return FALSE;
+            return False;
         if (!miScreenInit(pScreen, pbits, xsize, ysize, dpix, dpiy, width,
                         rootdepth, ndepths, depths,
                         defaultVisual, nvisuals, visuals))
-            return FALSE;
+            return False;
         /* overwrite miCloseScreen with our own */
         pScreen.CloseScreen = fbCloseScreen;
-        return TRUE;
+        return True;
     }
 }
 else {
@@ -189,19 +189,19 @@ else {
         VisualID defaultVisual = void;
         /* fb requires power-of-two bpp */
         if (Ones(bpp) != 1)
-            return FALSE;
+            return False;
         rootdepth = 0;
         if (!fbInitVisuals(&visuals, &depths, &nvisuals, &ndepths, &rootdepth,
                         &defaultVisual, (cast(c_ulong) 1 << (bpp - 1)),
                         8))
-            return FALSE;
+            return False;
         if (!miScreenInit(pScreen, pbits, xsize, ysize, dpix, dpiy, width,
                         rootdepth, ndepths, depths,
                         defaultVisual, nvisuals, visuals))
-            return FALSE;
+            return False;
         /* overwrite miCloseScreen with our own */
         pScreen.CloseScreen = &fbCloseScreen;
-        return TRUE;
+        return True;
     }
 }
 import build.xorg_config;
@@ -211,20 +211,20 @@ static if (FB_ACCESS_WRAPPER) {
     Bool wfbScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp, SetupWrapProcPtr setupWrap, FinishWrapProcPtr finishWrap)
     {
         if (!fbSetupScreen(pScreen, pbits, xsize, ysize, dpix, dpiy, width, bpp))
-            return FALSE;
+            return False;
         if (!wfbFinishScreenInit(pScreen, pbits, xsize, ysize, dpix, dpiy,
                                 width, bpp, setupWrap, finishWrap))
-            return FALSE;
-        return TRUE;
+            return False;
+        return True;
     }
 } else {
     Bool fbScreenInit(ScreenPtr pScreen, void* pbits, int xsize, int ysize, int dpix, int dpiy, int width, int bpp)
     {
         if (!fbSetupScreen(pScreen, pbits, xsize, ysize, dpix, dpiy, width, bpp))
-            return FALSE;
+            return False;
         if (!fbFinishScreenInit(pScreen, pbits, xsize, ysize, dpix, dpiy,
                                 width, bpp))
-            return FALSE;
-        return TRUE;
+            return False;
+        return True;
     }
 }

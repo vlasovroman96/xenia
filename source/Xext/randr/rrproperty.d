@@ -131,9 +131,9 @@ private RRPropertyPtr RRCreateOutputProperty(Atom property)
         return null;
     prop.next = null;
     prop.propertyName = cast(uint)property;
-    prop.is_pending = FALSE;
-    prop.range = FALSE;
-    prop.immutable_ = FALSE;
+    prop.is_pending = False;
+    prop.range = False;
+    prop.immutable_ = False;
     prop.num_valid = 0;
     prop.valid_values = null;
     RRInitOutputPropertyValue(&prop.current);
@@ -183,7 +183,7 @@ int RRChangeOutputProperty(RROutputPtr output, Atom property, Atom type, int for
     c_ulong total_len = void;
     RRPropertyValuePtr prop_value = void;
     RRPropertyValueRec new_value = void;
-    Bool add = FALSE;
+    Bool add = False;
 
     size_in_bytes = format >> 3;
 
@@ -193,7 +193,7 @@ int RRChangeOutputProperty(RROutputPtr output, Atom property, Atom type, int for
         prop = RRCreateOutputProperty(property);
         if (!prop)
             return BadAlloc;
-        add = TRUE;
+        add = True;
         mode = PropModeReplace;
     }
     if (pending && prop.is_pending)
@@ -273,7 +273,7 @@ int RRChangeOutputProperty(RROutputPtr output, Atom property, Atom type, int for
     }
 
     if (pending && prop.is_pending)
-        output.pendingProperties = TRUE;
+        output.pendingProperties = True;
 
     if (!(pending && prop.is_pending))
         RRNoticePropertyChange(output, prop.propertyName, prop_value);
@@ -297,12 +297,12 @@ Bool RRPostPendingProperties(RROutputPtr output)
     RRPropertyValuePtr pending_value = void;
     RRPropertyValuePtr current_value = void;
     RRPropertyPtr property = void;
-    Bool ret = TRUE;
+    Bool ret = True;
 
     if (!output.pendingProperties)
-        return TRUE;
+        return True;
 
-    output.pendingProperties = FALSE;
+    output.pendingProperties = False;
     for (property = output.properties; property; property = property.next) {
         /* Skip non-pending properties */
         if (!property.is_pending)
@@ -325,8 +325,8 @@ Bool RRPostPendingProperties(RROutputPtr output)
         if (RRChangeOutputProperty(output, property.propertyName,
                                    pending_value.type, pending_value.format,
                                    PropModeReplace, pending_value.size,
-                                   pending_value.data, TRUE, FALSE) != Success)
-            ret = FALSE;
+                                   pending_value.data, True, False) != Success)
+            ret = False;
     }
     return ret;
 }
@@ -364,13 +364,13 @@ static if (RANDR_13_INTERFACE) {
 int RRConfigureOutputProperty(RROutputPtr output, Atom property, Bool pending, Bool range, Bool immutable_, int num_values, const(INT32)* values)
 {
     RRPropertyPtr prop = RRQueryOutputProperty(output, property);
-    Bool add = FALSE;
+    Bool add = False;
 
     if (!prop) {
         prop = RRCreateOutputProperty(property);
         if (!prop)
             return BadAlloc;
-        add = TRUE;
+        add = True;
     }
     else if (prop.immutable_ && !immutable_)
         return BadAccess;
@@ -432,7 +432,7 @@ int ProcRRListOutputProperties(ClientPtr client)
     mixin(VERIFY_RR_OUTPUT!("stuff.output", "output", "DixReadAccess"));
 ;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     size_t numProps = 0;
     for (RRPropertyPtr prop = output.properties; prop; prop = prop.next) {
@@ -471,7 +471,7 @@ int ProcRRQueryOutputProperty(ClientPtr client)
     if (!prop)
         return BadName;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)prop.valid_values, prop.num_valid);
 
     xRRQueryOutputPropertyReply reply = {
@@ -506,7 +506,7 @@ int ProcRRConfigureOutputProperty(ClientPtr client)
     num_valid =
         cast(int)(client.req_len - int32ForBytes(xRRConfigureOutputPropertyReq.sizeof));
     return RRConfigureOutputProperty(output, stuff.property, stuff.pending,
-                                     stuff.range, FALSE, num_valid,
+                                     stuff.range, False, num_valid,
                                      cast(INT32*) (stuff + 1));
 }
 
@@ -575,8 +575,8 @@ int ProcRRChangeOutputProperty(ClientPtr client)
 
     err = RRChangeOutputProperty(output, stuff.property,
                                  stuff.type, cast(int) format,
-                                 cast(int) mode, len, cast(void*) &stuff[1], TRUE,
-                                 TRUE);
+                                 cast(int) mode, len, cast(void*) &stuff[1], True,
+                                 True);
     if (err != Success)
         return err;
     else
@@ -663,7 +663,7 @@ int ProcRRGetOutputProperty(ClientPtr client)
         if (prop.propertyName == stuff.property)
             break;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     xRRGetOutputPropertyReply reply = { 0 };
 

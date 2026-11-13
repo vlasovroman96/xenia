@@ -37,7 +37,7 @@ uint _XkbKSCheckCase(KeySym sym);
  * check whether given KeySym is an lower case key
  *
  * @param k the KeySym to check
- * @return TRUE if k is a lower case key
+ * @return True if k is a lower case key
  */
 pragma(inline, true) Bool XkbKSIsLower(KeySym k) { return _XkbKSCheckCase(k)&_XkbKSLower; }
 
@@ -45,7 +45,7 @@ pragma(inline, true) Bool XkbKSIsLower(KeySym k) { return _XkbKSCheckCase(k)&_Xk
  * check whether given KeySym is an upper case key
  *
  * @param k the KeySym to check
- * @return TRUE if k is a upper case key
+ * @return True if k is a upper case key
  */
 pragma(inline, true) Bool XkbKSIsUpper(KeySym k) { return _XkbKSCheckCase(k)&_XkbKSUpper; }
 
@@ -53,7 +53,7 @@ pragma(inline, true) Bool XkbKSIsUpper(KeySym k) { return _XkbKSCheckCase(k)&_Xk
  * check whether given KeySym is an keypad key
  *
  * @param k the KeySym to check
- * @return TRUE if k is a keypad key
+ * @return True if k is a keypad key
  */
 pragma(inline, true) Bool XkbKSIsKeypad(KeySym k) { return (((k)>=XK_KP_Space)&&((k)<=XK_KP_Equal)); }
 
@@ -62,7 +62,7 @@ pragma(inline, true) Bool XkbKSIsKeypad(KeySym k) { return (((k)>=XK_KP_Space)&&
  *
  * @param xkb pointer to xkb descriptor
  * @param name the key name
- * @param use_aliases TRUE if aliases should be resolved
+ * @param use_aliases True if aliases should be resolved
  * @return keycode ID
  */
 int XkbFindKeycodeByName(XkbDescPtr xkb, char* name, Bool use_aliases);
@@ -75,7 +75,7 @@ int XkbFindKeycodeByName(XkbDescPtr xkb, char* name, Bool use_aliases);
  * @param xkb pointer to xkb descriptor
  * @param want bitmask of wanted elements
  * @param need bitmask of needed elements
- * @return TRUE if succeeded
+ * @return True if succeeded
 */
 Bool XkbWriteXKBKeymapForNames(FILE* file, XkbComponentNamesPtr names, XkbDescPtr xkb, uint want, uint need);
 

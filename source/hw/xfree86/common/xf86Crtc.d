@@ -379,7 +379,7 @@ struct _xf86Crtc {
     /**
      * Actual state of this CRTC
      *
-     * Set to TRUE after modesetting, set to FALSE if no outputs are connected
+     * Set to True after modesetting, set to False if no outputs are connected
      * Added in ABI version 3
      */
     Bool active;
@@ -716,7 +716,7 @@ struct _xf86CrtcConfigFuncs {
      *
      * The driver is responsible for updating scrn->virtualX and scrn->virtualY.
      * If the requested size cannot be set, the driver should leave those values
-     * alone and return FALSE.
+     * alone and return False.
      *
      * A naive driver that cannot reallocate the screen may simply change
      * virtual[XY].  A more advanced driver will want to also change the

@@ -95,7 +95,7 @@ pragma(inline, true)bool xf86DriverLoadCursorImage(xf86CursorInfoPtr infoPtr, ub
     if(infoPtr.LoadCursorImageCheck)
         return cast(bool)infoPtr.LoadCursorImageCheck(infoPtr.pScrn, bits);
     infoPtr.LoadCursorImage(infoPtr.pScrn, bits);
-    return TRUE;
+    return True;
 }
 
 pragma(inline, true)bool xf86DriverHasShowCursor(xf86CursorInfoPtr infoPtr)
@@ -108,7 +108,7 @@ pragma(inline, true)bool xf86DriverShowCursor(xf86CursorInfoPtr infoPtr)
     if(infoPtr.ShowCursorCheck)
         return cast(bool)infoPtr.ShowCursorCheck(infoPtr.pScrn);
     infoPtr.ShowCursor(infoPtr.pScrn);
-    return TRUE;
+    return True;
 }
 
 pragma(inline, true)bool xf86DriverHasLoadCursorARGB(xf86CursorInfoPtr infoPtr)
@@ -121,7 +121,7 @@ pragma(inline, true)bool xf86DriverLoadCursorARGB(xf86CursorInfoPtr infoPtr, Cur
     if(infoPtr.LoadCursorARGBCheck)
         return cast(bool)infoPtr.LoadCursorARGBCheck(infoPtr.pScrn, pCursor);
     infoPtr.LoadCursorARGB(infoPtr.pScrn, pCursor);
-    return TRUE;
+    return True;
 }
 
 // void  xf86InitCursor(ScreenPtr pScreen, xf86CursorInfoPtr infoPtr);
@@ -232,7 +232,7 @@ void xf86SetViewport(ScreenPtr pScreen, int x, int y)
 
 private void xf86PointerMoved(ScrnInfoPtr pScr, int x, int y)
 {
-    Bool frameChanged = FALSE;
+    Bool frameChanged = False;
 
     /*
      * check whether (x,y) belongs to the visual part of the screen
@@ -241,25 +241,25 @@ private void xf86PointerMoved(ScrnInfoPtr pScr, int x, int y)
     if (pScr.frameX0 > x) {
         pScr.frameX0 = x;
         pScr.frameX1 = x + pScr.currentMode.HDisplay - 1;
-        frameChanged = TRUE;
+        frameChanged = True;
     }
 
     if (pScr.frameX1 < x) {
         pScr.frameX1 = x + 1;
         pScr.frameX0 = x - pScr.currentMode.HDisplay + 1;
-        frameChanged = TRUE;
+        frameChanged = True;
     }
 
     if (pScr.frameY0 > y) {
         pScr.frameY0 = y;
         pScr.frameY1 = y + pScr.currentMode.VDisplay - 1;
-        frameChanged = TRUE;
+        frameChanged = True;
     }
 
     if (pScr.frameY1 < y) {
         pScr.frameY1 = y;
         pScr.frameY0 = y - pScr.currentMode.VDisplay + 1;
-        frameChanged = TRUE;
+        frameChanged = True;
     }
 
     if (frameChanged && pScr.AdjustFrame !is null)
@@ -292,18 +292,18 @@ Bool xf86SwitchMode(ScreenPtr pScreen, DisplayModePtr mode)
     DeviceIntPtr dev = void, it = void;
 
     if (!pScr.vtSema || !mode || !pScr.SwitchMode)
-        return FALSE;
+        return False;
 
 static if(XFreeXDGA){
     if (DGAActive(pScr.scrnIndex))
-        return FALSE;
+        return False;
 }
 
     if (mode == pScr.currentMode)
-        return TRUE;
+        return True;
 
     if (mode.HDisplay > pScr.virtualX || mode.VDisplay > pScr.virtualY)
-        return FALSE;
+        return False;
 
     /* Let's take an educated guess for which pointer to take here. And about as
        educated as it gets is to take the first pointer we find.
@@ -442,7 +442,7 @@ private Bool xf86CursorOffScreen(ScreenPtr* pScreen, int* x, int* y)
     int tmp = void;
 
     if (!dixGetScreenPtr(cast(uint)1))
-        return FALSE;
+        return False;
 
     if (*x < 0) {
         tmp = *y;
@@ -520,7 +520,7 @@ private Bool xf86CursorOffScreen(ScreenPtr* pScreen, int* x, int* y)
         }
     }
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -654,7 +654,7 @@ void xf86InitOrigins()
     int x1 = void, x2 = void, y1 = void, y2 = void, left = void, right = void, top = void, bottom = void;
     int i = void, j = void, ref_ = void, minX = void, minY = void, min = void, max = void;
     xf86ScreenLayoutPtr pLayout = void;
-    Bool OldStyleConfig = FALSE;
+    Bool OldStyleConfig = False;
 
     memset(xf86ScreenLayout.ptr, 0, MAXSCREENS * xf86ScreenLayoutRec.sizeof);
 
@@ -679,7 +679,7 @@ void xf86InitOrigins()
             pScreen = xf86Screens[i].pScreen;
             switch (screen.where) {
             case PosObsolete:
-                OldStyleConfig = TRUE;
+                OldStyleConfig = True;
                 pLayout = &xf86ScreenLayout[i];
                 /* force edge lists */
                 if (screen.left) {

@@ -93,7 +93,7 @@ enum string VERIFY_REGION_OR_NONE(string pRegion,string  rid,string  client,stri
 
 import common.protocol_versions;
 
-Bool noXFixesExtension = FALSE;
+Bool noXFixesExtension = False;
 
 private ubyte XFixesReqCode;
 int XFixesEventBase;

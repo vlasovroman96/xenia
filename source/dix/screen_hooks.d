@@ -102,14 +102,14 @@ void dixScreenRaisePixmapDestroy(PixmapPtr pPixmap)
 Bool dixScreenRaiseCreateResources(ScreenPtr pScreen)
 {
     if (!pScreen)
-        return FALSE;
+        return False;
 
     if (pScreen.CreateScreenResources) {
         if (!pScreen.CreateScreenResources(pScreen))
-            return FALSE;
+            return False;
     }
 
-    Bool ret = TRUE;
+    Bool ret = True;
     CallCallbacks(&pScreen.hookPostCreateResources, &ret);
     return ret;
 }
@@ -119,7 +119,7 @@ void dixScreenRaiseUnrealizeWindow(WindowPtr pWin)
     if (!pWin)
         return;
 
-    pWin.realized = FALSE;
+    pWin.realized = False;
     if (pWin.drawable.pScreen.UnrealizeWindow)
         pWin.drawable.pScreen.UnrealizeWindow(pWin);
 }
@@ -130,5 +130,5 @@ Bool dixScreenRaiseDisplayCursor(ScreenPtr pScreen, DeviceIntPtr pDev, CursorPtr
        counters and animations here, so we don't need fragile proc wrapping anymore */
     if (pScreen && pScreen.DisplayCursor)
         return pScreen.DisplayCursor(pDev, pScreen, pCursor);
-    return FALSE;
+    return False;
 }

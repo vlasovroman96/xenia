@@ -67,7 +67,6 @@ import xf86tokens;
 import Configint;
 import x11.Xmd;
 import x11.Xdefs;
-import common.misc;
 import hw.xfree86.parser.Flags;
 import scan;
 import core.stdc.string;
@@ -108,7 +107,7 @@ alias CLEANUP = xf86freeVendorSubList;
 
 private XF86ConfVendSubPtr xf86parseVendorSubSection()
 {
-    int has_ident = FALSE;
+    int has_ident = False;
     int token = void;
 
     mixin(parsePrologue!("XF86ConfVendSubPtr", "XF86ConfVendSubRec"));
@@ -123,10 +122,10 @@ private XF86ConfVendSubPtr xf86parseVendorSubSection()
         case IDENTIFIER:
             if (xf86getSubToken(&(ptr.vs_comment)))
                 mixin(ErrorP!(`QUOTE_MSG, "Identifier"`));
-            if (has_ident == TRUE)
+            if (has_ident == True)
                 mixin(ErrorP!(`MULTIPLE_MSG, "Identifier"`));
             ptr.vs_identifier = xf86_lex_val.str;
-            has_ident = TRUE;
+            has_ident = True;
             break;
         case OPTION:
             ptr.vs_option_lst = xf86parseOption(ptr.vs_option_lst);
@@ -160,7 +159,7 @@ alias CLEANUP = xf86freeVendorList;
 
 XF86ConfVendorPtr xf86parseVendorSection()
 {
-    int has_ident = FALSE;
+    int has_ident = False;
     int token = void;
 
     mixin(parsePrologue!("XF86ConfVendorPtr", "XF86ConfVendorRec"));
@@ -175,10 +174,10 @@ XF86ConfVendorPtr xf86parseVendorSection()
         case IDENTIFIER:
             if (xf86getSubToken(&(ptr.vnd_comment)) != XF86_TOKEN_STRING)
                 mixin(ErrorP!(`QUOTE_MSG, "Identifier"`));
-            if (has_ident == TRUE)
+            if (has_ident == True)
                 mixin(ErrorP!(`MULTIPLE_MSG, "Identifier"`));
             ptr.vnd_identifier = xf86_lex_val.str;
-            has_ident = TRUE;
+            has_ident = True;
             break;
         case OPTION:
             ptr.vnd_option_lst = xf86parseOption(ptr.vnd_option_lst);

@@ -103,7 +103,7 @@ void xf86RotateCrtcRedisplay(xf86CrtcPtr crtc, PixmapPtr dst_pixmap, DrawableRec
                          src, null, dst,
                          0, 0, 0, 0, 0, 0,
                          cast(ushort)crtc.mode.HDisplay, cast(ushort)crtc.mode.VDisplay);
-        crtc.shadowClear = FALSE;
+        crtc.shadowClear = False;
     }
     else {
         while (n--) {
@@ -156,7 +156,7 @@ private void xf86CrtcDamageShadow(xf86CrtcPtr crtc)
     DamageDamageRegion(&(*pScreen.GetScreenPixmap) (pScreen).drawable,
                        &damage_region);
     RegionUninit(&damage_region);
-    crtc.shadowClear = TRUE;
+    crtc.shadowClear = True;
 }
 
 private void xf86RotatePrepare(ScreenPtr pScreen)
@@ -179,7 +179,7 @@ private void xf86RotatePrepare(ScreenPtr pScreen)
                 /* Hook damage to screen pixmap */
                 DamageRegister(&pScreen.root.drawable,
                                xf86_config.rotation_damage);
-                xf86_config.rotation_damage_registered = TRUE;
+                xf86_config.rotation_damage_registered = True;
                 EnableLimitedSchedulingLatency();
             }
 
@@ -196,7 +196,7 @@ private Bool xf86RotateRedisplay(ScreenPtr pScreen)
     RegionPtr region = void;
 
     if (!damage || !pScreen.root)
-        return FALSE;
+        return False;
     xf86RotatePrepare(pScreen);
     region = DamageRegion(damage);
     if (RegionNotEmpty(region)) {
@@ -226,7 +226,7 @@ private Bool xf86RotateRedisplay(ScreenPtr pScreen)
                 if (RegionNotEmpty(&crtc_damage))
                     xf86RotateCrtcRedisplay(crtc, crtc.rotatedPixmap,
                                             &pScreen.root.drawable,
-                                            &crtc_damage, TRUE);
+                                            &crtc_damage, True);
 
                 RegionUninit(&crtc_damage);
             }
@@ -234,7 +234,7 @@ private Bool xf86RotateRedisplay(ScreenPtr pScreen)
         pScreen.SourceValidate = SourceValidate;
         DamageEmpty(damage);
     }
-    return TRUE;
+    return True;
 }
 
 private void xf86RotateBlockHandler(ScreenPtr pScreen, void* pTimeout)
@@ -284,7 +284,7 @@ void xf86RotateDestroy(xf86CrtcPtr crtc)
     if (xf86_config.rotation_damage) {
         /* Free damage structure */
         if (xf86_config.rotation_damage_registered) {
-            xf86_config.rotation_damage_registered = FALSE;
+            xf86_config.rotation_damage_registered = False;
             DisableLimitedSchedulingLatency();
         }
         DamageDestroy(xf86_config.rotation_damage);
@@ -336,7 +336,7 @@ private Bool xf86CrtcFitsScreen(xf86CrtcPtr crtc, pixman_f_transform* crtc_to_fb
     }
 
     if (pScrn.virtualX == 0 || pScrn.virtualY == 0)
-        return TRUE;
+        return True;
 
     b.x1 = cast(short)0;
     b.y1 = cast(short)0;
@@ -368,10 +368,10 @@ Bool xf86CrtcRotate(xf86CrtcPtr crtc)
     int new_width = 0;
     int new_height = 0;
     RRTransformPtr transform = null;
-    Bool damage = FALSE;
+    Bool damage = False;
 
     if (pScreen.isGPU)
-        return TRUE;
+        return True;
     if (crtc.transformPresent)
         transform = &crtc.transform;
 
@@ -388,7 +388,7 @@ Bool xf86CrtcRotate(xf86CrtcPtr crtc)
          * disable the shadow buffer
          */
         xf86RotateDestroy(crtc);
-        crtc.transform_in_use = FALSE;
+        crtc.transform_in_use = False;
         free(new_params);
         new_params = null;
         new_nparams = 0;
@@ -428,14 +428,14 @@ Bool xf86CrtcRotate(xf86CrtcPtr crtc)
             }
             else {
                 /* mark shadowed area as damaged so it will be repainted */
-                damage = TRUE;
+                damage = True;
             }
 
             if (!xf86_config.rotation_damage) {
                 /* Create damage structure */
                 xf86_config.rotation_damage = DamageCreate(null, null,
                                                             DamageReportNone,
-                                                            TRUE, pScreen,
+                                                            True, pScreen,
                                                             pScreen);
                 if (!xf86_config.rotation_damage)
                     goto bail2;
@@ -459,7 +459,7 @@ Bool xf86CrtcRotate(xf86CrtcPtr crtc)
                     crtc.rotatedPixmap =
                         crtc.funcs.shadow_create(crtc, null, old_width,
                                                    old_height);
-                return FALSE;
+                return False;
             }
         }
 static if (RANDR_12_INTERFACE) {
@@ -481,7 +481,7 @@ static if (RANDR_12_INTERFACE) {
             }
         }
 }
-        crtc.transform_in_use = TRUE;
+        crtc.transform_in_use = True;
     }
     crtc.crtc_to_framebuffer = crtc_to_fb;
     crtc.f_crtc_to_framebuffer = f_crtc_to_fb;
@@ -505,5 +505,5 @@ static if (RANDR_12_INTERFACE) {
         xf86RotateRedisplay(pScreen);
 
     /* All done */
-    return TRUE;
+    return True;
 }

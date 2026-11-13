@@ -131,8 +131,8 @@ private PointerBarrierDevice* AllocBarrierDevice()
     pbd.deviceid = -1; /* must be set by caller */
     pbd.barrier_event_id = 1;
     pbd.release_event_id = 0;
-    pbd.hit = FALSE;
-    pbd.seen = FALSE;
+    pbd.hit = False;
+    pbd.seen = False;
     pbd.entry.initList();
 
     return pbd;
@@ -198,7 +198,7 @@ int barrier_get_direction(int x1, int y1, int x2, int y2)
  * x1/y1 → x2/y2. This function only tests whether the directions could be
  * blocked, it does not test if the barrier actually blocks the movement.
  *
- * @return TRUE if the barrier blocks the direction of movement or FALSE
+ * @return True if the barrier blocks the direction of movement or False
  * otherwise.
  */
 BOOL barrier_is_blocking_direction(const(PointerBarrier)* barrier, int direction)
@@ -210,7 +210,7 @@ BOOL barrier_is_blocking_direction(const(PointerBarrier)* barrier, int direction
 private BOOL inside_segment(int v, int v1, int v2)
 {
     if (v1 < 0 && v2 < 0) /* line */
-        return TRUE;
+        return True;
     else if (v1 < 0)      /* ray */
         return v <= v2;
     else if (v2 < 0)      /* ray */
@@ -233,7 +233,7 @@ enum string F(string t, string a, string b) = `((` ~ t ~ `) * ((` ~ a ~ `) - (` 
  * @param y2 Y end coordinate of movement vector
  * @param[out] distance The distance between the start point and the
  * intersection with the barrier (if applicable).
- * @return TRUE if the barrier intersects with the given vector
+ * @return True if the barrier intersects with the given vector
  */
 BOOL barrier_is_blocking(const(PointerBarrier)* barrier, int x1, int y1, int x2, int y2, double* distance)
 {
@@ -241,35 +241,35 @@ BOOL barrier_is_blocking(const(PointerBarrier)* barrier, int x1, int y1, int x2,
         float t = void, y = void;
         t = mixin(T!(`barrier.x1`, `x1`, `x2`));
         if (t < 0 || t > 1)
-            return FALSE;
+            return False;
 
         /* Edge case: moving away from barrier. */
         if (x2 > x1 && t == 0)
-            return FALSE;
+            return False;
 
         y = mixin(F!(`t`, `y1`, `y2`));
         if (!inside_segment(cast(int)y, barrier.y1, barrier.y2))
-            return FALSE;
+            return False;
 
         *distance = sqrt((pow(y - y1, 2) + pow(barrier.x1 - x1, 2)));
-        return TRUE;
+        return True;
     }
     else {
         float t = void, x = void;
         t = mixin(T!(`barrier.y1`, `y1`, `y2`));
         if (t < 0 || t > 1)
-            return FALSE;
+            return False;
 
         /* Edge case: moving away from barrier. */
         if (y2 > y1 && t == 0)
-            return FALSE;
+            return False;
 
         x = mixin(F!(`t`, `x1`, `x2`));
         if (!inside_segment(cast(int)x, barrier.x1, barrier.x2))
-            return FALSE;
+            return False;
 
         *distance = sqrt((pow(x - x1, 2) + pow(barrier.y1 - y1, 2)));
-        return TRUE;
+        return True;
     }
 }
 
@@ -309,7 +309,7 @@ private BOOL barrier_blocks_device(PointerBarrierClient* client, DeviceIntPtr de
     /* Clients with no devices are treated as
      * if they specified XIAllDevices. */
     if (client.num_devices == 0)
-        return TRUE;
+        return True;
 
     master_id = GetMaster(dev, POINTER_OR_FLOAT).id;
 
@@ -318,10 +318,10 @@ private BOOL barrier_blocks_device(PointerBarrierClient* client, DeviceIntPtr de
         if (device_id == XIAllDevices ||
             device_id == XIAllMasterDevices ||
             device_id == master_id)
-            return TRUE;
+            return True;
     }
 
-    return FALSE;
+    return False;
 }
 
 /**
@@ -453,8 +453,8 @@ void input_constrain_cursor(DeviceIntPtr dev, ScreenPtr pScreen, int current_x, 
 
         new_sequence = !pbd.hit;
 
-        pbd.seen = TRUE;
-        pbd.hit = TRUE;
+        pbd.seen = True;
+        pbd.hit = True;
 
         if (pbd.barrier_event_id == pbd.release_event_id)
             continue;
@@ -494,14 +494,14 @@ void input_constrain_cursor(DeviceIntPtr dev, ScreenPtr pScreen, int current_x, 
         if (!pbd)
             continue;
 
-        pbd.seen = FALSE;
+        pbd.seen = False;
         if (!pbd.hit)
             continue;
 
         if (barrier_inside_hit_box(&iter.barrier, x, y))
             continue;
 
-        pbd.hit = FALSE;
+        pbd.hit = False;
 
         ev.type = ET_BarrierLeave;
 
@@ -899,13 +899,13 @@ int ProcXIBarrierReleasePointer(ClientPtr client)
 Bool XIBarrierInit()
 {
     if (!dixRegisterPrivateKey(&BarrierScreenPrivateKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
 
     mixin(DIX_FOR_EACH_SCREEN!q{
         BarrierScreenPtr cs = void;
         cs = cast(BarrierScreenPtr) calloc(1, BarrierScreenRec.sizeof);
         if (!cs)
-            return FALSE;
+            return False;
         cs.barriers.initList();
         mixin(SetBarrierScreen!(`walkScreen`, `cs`));
     });

@@ -56,7 +56,7 @@ alias RefreshAreaFuncPtr = void function(ScrnInfoPtr, int, BoxPtr);
  * any operation that modifies the framebuffer.  The newly dirtied rectangles
  * are passed to the callback.
  *
- * Returns FALSE in the event of an error.
+ * Returns False in the event of an error.
  */
 void  ShadowFBInit(ScreenPtr pScreen, RefreshAreaFuncPtr refreshArea);
 
@@ -66,7 +66,7 @@ void  ShadowFBInit(ScreenPtr pScreen, RefreshAreaFuncPtr refreshArea);
  * immediately before an operation that modifies the framebuffer, and another
  * to be called immediately after.
  *
- * Returns FALSE in the event of an error
+ * Returns False in the event of an error
  */
 void  ShadowFBInit2(ScreenPtr pScreen, RefreshAreaFuncPtr preRefreshArea, RefreshAreaFuncPtr postRefreshArea);
 
@@ -233,20 +233,20 @@ Bool shadowSetup(ScreenPtr pScreen)
 {
 
     if (!dixRegisterPrivateKey(&shadowScrPrivateKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
 
     if (!DamageSetup(pScreen))
-        return FALSE;
+        return False;
 
     shadowBufPtr pBuf = cast(shadowBufRec*) calloc(1, shadowBufRec.sizeof);
     if (!pBuf)
-        return FALSE;
+        return False;
     pBuf.pDamage = DamageCreate(cast(DamageReportFunc) null,
                                  cast(DamageDestroyFunc) null,
-                                 DamageReportNone, TRUE, pScreen, pScreen);
+                                 DamageReportNone, True, pScreen, pScreen);
     if (!pBuf.pDamage) {
         free(pBuf);
-        return FALSE;
+        return False;
     }
 
     dixScreenHookClose(pScreen, &shadowCloseScreen);
@@ -260,7 +260,7 @@ Bool shadowSetup(ScreenPtr pScreen)
     pBuf.randr = 0;
 
     dixSetPrivate(&pScreen.devPrivates, shadowScrPrivateKey, pBuf);
-    return TRUE;
+    return True;
 }
 
 Bool shadowAdd(ScreenPtr pScreen, PixmapPtr pPixmap, ShadowUpdateProc update, ShadowWindowProc window, int randr, void* closure)
@@ -291,7 +291,7 @@ Bool shadowAdd(ScreenPtr pScreen, PixmapPtr pPixmap, ShadowUpdateProc update, Sh
     pBuf.closure = closure;
     pBuf.pPixmap = pPixmap;
     DamageRegister(&pPixmap.drawable, pBuf.pDamage);
-    return TRUE;
+    return True;
 }
 
 void shadowRemove(ScreenPtr pScreen, PixmapPtr pPixmap)

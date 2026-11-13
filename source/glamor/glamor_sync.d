@@ -30,6 +30,7 @@ import mi.misyncstr;
 import glamor.glamor;
 import render.mipict;
 import miext.sync.misync;
+import common.bools;
 
 static if (XSYNC) {
 /*

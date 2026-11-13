@@ -104,14 +104,14 @@ Bool xnestRealizeCursor(DeviceIntPtr pDev, ScreenPtr pScreen, CursorPtr pCursor)
     xcb_free_pixmap(xnestUpstreamInfo.conn, source);
     xcb_free_pixmap(xnestUpstreamInfo.conn, mask);
 
-    return TRUE;
+    return True;
 }
 
 Bool xnestUnrealizeCursor(DeviceIntPtr pDev, ScreenPtr pScreen, CursorPtr pCursor)
 {
     xcb_free_cursor(xnestUpstreamInfo.conn, xnestCursor(pCursor, pScreen));
     free(xnestGetCursorPriv(pCursor, pScreen));
-    return TRUE;
+    return True;
 }
 
 void xnestRecolorCursor(ScreenPtr pScreen, CursorPtr pCursor, Bool displayed)

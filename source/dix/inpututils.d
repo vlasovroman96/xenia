@@ -528,36 +528,36 @@ int valuator_mask_get(const(ValuatorMask)* mask, int valuator)
 
 /**
  * Set value to the requested valuator. If the mask bit is set for this
- * valuator, value contains the requested valuator value and TRUE is
+ * valuator, value contains the requested valuator value and True is
  * returned.
  * If the mask bit is not set for this valuator, value is unchanged and
- * FALSE is returned.
+ * False is returned.
  */
 Bool valuator_mask_fetch_double(const(ValuatorMask)* mask, int valuator, double* value)
 {
     if (valuator_mask_isset(mask, valuator)) {
         *value = valuator_mask_get_double(mask, valuator);
-        return TRUE;
+        return True;
     }
     else
-        return FALSE;
+        return False;
 }
 
 /**
  * Set value to the requested valuator. If the mask bit is set for this
- * valuator, value contains the requested valuator value and TRUE is
+ * valuator, value contains the requested valuator value and True is
  * returned.
  * If the mask bit is not set for this valuator, value is unchanged and
- * FALSE is returned.
+ * False is returned.
  */
 Bool valuator_mask_fetch(const(ValuatorMask)* mask, int valuator, int* value)
 {
     if (valuator_mask_isset(mask, valuator)) {
         *value = valuator_mask_get(mask, valuator);
-        return TRUE;
+        return True;
     }
     else
-        return FALSE;
+        return False;
 }
 
 /**
@@ -578,7 +578,7 @@ void valuator_mask_unset(ValuatorMask* mask, int valuator)
         mask.last_bit = cast(byte)lastbit;
 
         if (mask.last_bit == -1)
-            mask.has_unaccelerated = FALSE;
+            mask.has_unaccelerated = False;
     }
 }
 
@@ -598,7 +598,7 @@ Bool valuator_mask_has_unaccelerated(const(ValuatorMask)* mask)
 void valuator_mask_drop_unaccelerated(ValuatorMask* mask)
 {
     memset(mask.unaccelerated.ptr, 0, typeof(mask.unaccelerated).sizeof);
-    mask.has_unaccelerated = FALSE;
+    mask.has_unaccelerated = False;
 }
 
 void valuator_mask_set_absolute_unaccelerated(ValuatorMask* mask, int valuator, int absolute, double unaccel)
@@ -606,7 +606,7 @@ void valuator_mask_set_absolute_unaccelerated(ValuatorMask* mask, int valuator, 
     mixin(BUG_WARN_MSG!("mask.last_bit != -1 && !mask.has_unaccelerated",
                  "Do not mix valuator types, zero mask first\n"));
     _valuator_mask_set_double(mask, valuator, absolute);
-    mask.has_unaccelerated = TRUE;
+    mask.has_unaccelerated = True;
     mask.unaccelerated[valuator] = unaccel;
 }
 
@@ -618,7 +618,7 @@ void valuator_mask_set_unaccelerated(ValuatorMask* mask, int valuator, double ac
     mixin(BUG_WARN_MSG!("mask.last_bit != -1 && !mask.has_unaccelerated",
                  "Do not mix valuator types, zero mask first\n"));
     _valuator_mask_set_double(mask, valuator, accel);
-    mask.has_unaccelerated = TRUE;
+    mask.has_unaccelerated = True;
     mask.unaccelerated[valuator] = unaccel;
 }
 
@@ -639,10 +639,10 @@ Bool valuator_mask_fetch_unaccelerated(const(ValuatorMask)* mask, int valuator, 
             *accel = valuator_mask_get_accelerated(mask, valuator);
         if (unaccel)
             *unaccel = valuator_mask_get_unaccelerated(mask, valuator);
-        return TRUE;
+        return True;
     }
     else
-        return FALSE;
+        return False;
 }
 
 /**
@@ -1034,7 +1034,7 @@ void xi2mask_free(XI2Mask** mask)
 /**
  * Test if the bit for event type is set for this device only.
  *
- * @return TRUE if the bit is set, FALSE otherwise
+ * @return True if the bit is set, False otherwise
  */
 Bool xi2mask_isset_for_device(XI2Mask* mask, const(DeviceIntPtr) dev, int event_type)
 {
@@ -1049,7 +1049,7 @@ Bool xi2mask_isset_for_device(XI2Mask* mask, const(DeviceIntPtr) dev, int event_
  * Test if the bit for event type is set for this device, or the
  * XIAllDevices/XIAllMasterDevices (if applicable) is set.
  *
- * @return TRUE if the bit is set, FALSE otherwise
+ * @return True if the bit is set, False otherwise
  */
 Bool xi2mask_isset(XI2Mask* mask, DeviceIntPtr dev, int event_type)
 {
@@ -1146,7 +1146,7 @@ const(ubyte)* xi2mask_get_one_mask(const(XI2Mask)* mask, int deviceid)
 /**
  * Copies a sprite data from src to dst sprites.
  *
- * Returns FALSE on error.
+ * Returns False on error.
  */
 Bool CopySprite(SpritePtr src, SpritePtr dst)
 {
@@ -1156,7 +1156,7 @@ Bool CopySprite(SpritePtr src, SpritePtr dst)
                              src.spriteTraceSize, typeof(*trace).sizeof);
         if (!trace) {
             dst.spriteTraceGood = 0;
-            return FALSE;
+            return False;
         }
         dst.spriteTrace = trace;
         dst.spriteTraceSize = src.spriteTraceGood;
@@ -1164,5 +1164,5 @@ Bool CopySprite(SpritePtr src, SpritePtr dst)
     memcpy(dst.spriteTrace, src.spriteTrace,
            src.spriteTraceGood * typeof(*trace).sizeof);
     dst.spriteTraceGood = src.spriteTraceGood;
-    return TRUE;
+    return True;
 }

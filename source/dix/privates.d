@@ -76,7 +76,6 @@ import dix.pixmap;
 // //public import x11.Xosdefs;
 // //public import x11.Xfuncproto;
 public import core.stdc.assert_;
-public import common.misc;
 
 /*****************************************************************
  * STUFF FOR PRIVATES
@@ -195,7 +194,7 @@ enum HAS_DIXREGISTERPRIVATEKEY =	1;
  * @param key   pointer to key (will be written to)
  * @param type  the object type the key is used for
  * @param size  size of the storage reserved for that key (zero => void*)
- * @return      FALSE if it fails to allocate memory during its operation.
+ * @return      False if it fails to allocate memory during its operation.
  */
  Bool dixRegisterPrivateKey(DevPrivateKey key, DevPrivateType type, uint size);
 
@@ -416,19 +415,19 @@ enum string DEVPRIV_AT(string ptr, string offset) = `(cast(PrivatePtr*)(cast(cha
 private DevPrivateSetRec[PRIVATE_LAST] global_keys;
 
 private const(Bool)[PRIVATE_LAST] xselinux_private = [
-    PRIVATE_SCREEN: TRUE,
-    PRIVATE_CLIENT: TRUE,
-    PRIVATE_WINDOW: TRUE,
-    PRIVATE_PIXMAP: TRUE,
-    PRIVATE_GC: TRUE,
-    PRIVATE_CURSOR: TRUE,
-    PRIVATE_COLORMAP: TRUE,
-    PRIVATE_DEVICE: TRUE,
-    PRIVATE_EXTENSION: TRUE,
-    PRIVATE_SELECTION: TRUE,
-    PRIVATE_PROPERTY: TRUE,
-    PRIVATE_PICTURE: TRUE,
-    PRIVATE_GLYPHSET: TRUE,
+    PRIVATE_SCREEN: True,
+    PRIVATE_CLIENT: True,
+    PRIVATE_WINDOW: True,
+    PRIVATE_PIXMAP: True,
+    PRIVATE_GC: True,
+    PRIVATE_CURSOR: True,
+    PRIVATE_COLORMAP: True,
+    PRIVATE_DEVICE: True,
+    PRIVATE_EXTENSION: True,
+    PRIVATE_SELECTION: True,
+    PRIVATE_PROPERTY: True,
+    PRIVATE_PICTURE: True,
+    PRIVATE_GLYPHSET: True,
 ];
 
 private const(char)*[PRIVATE_LAST] key_names = [
@@ -461,19 +460,19 @@ private const(char)*[PRIVATE_LAST] key_names = [
 ];
 
 private const(Bool)[PRIVATE_LAST] screen_specific_private = [
-    PRIVATE_SCREEN: FALSE,
-    PRIVATE_CLIENT: FALSE,
-    PRIVATE_WINDOW: TRUE,
-    PRIVATE_PIXMAP: TRUE,
-    PRIVATE_GC: TRUE,
-    PRIVATE_CURSOR: FALSE,
-    PRIVATE_COLORMAP: FALSE,
-    PRIVATE_DEVICE: FALSE,
-    PRIVATE_EXTENSION: FALSE,
-    PRIVATE_SELECTION: FALSE,
-    PRIVATE_PROPERTY: FALSE,
-    PRIVATE_PICTURE: TRUE,
-    PRIVATE_GLYPHSET: FALSE,
+    PRIVATE_SCREEN: False,
+    PRIVATE_CLIENT: False,
+    PRIVATE_WINDOW: True,
+    PRIVATE_PIXMAP: True,
+    PRIVATE_GC: True,
+    PRIVATE_CURSOR: False,
+    PRIVATE_COLORMAP: False,
+    PRIVATE_DEVICE: False,
+    PRIVATE_EXTENSION: False,
+    PRIVATE_SELECTION: False,
+    PRIVATE_PROPERTY: False,
+    PRIVATE_PICTURE: True,
+    PRIVATE_GLYPHSET: False,
 ];
 
 alias FixupFunc = Bool function(PrivatePtr* privates, int offset, uint bytes);
@@ -489,17 +488,17 @@ private Bool dixReallocPrivates(PrivatePtr* privates, int old_offset, uint bytes
 
     new_privates = realloc(*privates, old_offset + bytes);
     if (!new_privates)
-        return FALSE;
+        return False;
     memset(cast(char*) new_privates + old_offset, '\0', bytes);
     *privates = cast(_Private*)new_privates;
-    return TRUE;
+    return True;
 }
 
 private Bool dixMovePrivates(PrivatePtr* privates, int new_offset, uint bytes)
 {
     memmove(cast(char*) *privates + bytes, *privates, new_offset - bytes);
     memset(*privates, '\0', bytes);
-    return TRUE;
+    return True;
 }
 
 private Bool fixupOneScreen(ScreenPtr pScreen, FixupFunc fixup, uint bytes)
@@ -511,7 +510,7 @@ private Bool fixupOneScreen(ScreenPtr pScreen, FixupFunc fixup, uint bytes)
     old = cast(uintptr_t) pScreen.devPrivates;
     size = global_keys[PRIVATE_SCREEN].offset;
     if (!fixup (&pScreen.devPrivates, size, bytes))
-        return FALSE;
+        return False;
 
     /* Screen privates can contain screen-specific private keys
      * for other types. When they move, the linked list we use to
@@ -554,20 +553,20 @@ private Bool fixupOneScreen(ScreenPtr pScreen, FixupFunc fixup, uint bytes)
                 }
             }
     }
-    return TRUE;
+    return True;
 }
 
 private Bool fixupScreens(FixupFunc fixup, uint bytes)
 {
     mixin(DIX_FOR_EACH_SCREEN!q{
         if (!fixupOneScreen (walkScreen, fixup, bytes))
-            return FALSE;
+            return False;
     });
     mixin(DIX_FOR_EACH_GPU_SCREEN!("{
         if (!fixupOneScreen (walkScreen, fixup, bytes))
-            return FALSE;
+            return False;
     }"));
-    return TRUE;
+    return True;
 }
 
 private Bool fixupServerClient(FixupFunc fixup, uint bytes)
@@ -575,7 +574,7 @@ private Bool fixupServerClient(FixupFunc fixup, uint bytes)
     if (serverClient)
         return fixup(&serverClient.devPrivates, global_keys[PRIVATE_CLIENT].offset,
                      bytes);
-    return TRUE;
+    return True;
 }
 
 private Bool fixupExtensions(FixupFunc fixup, uint bytes)
@@ -586,8 +585,8 @@ private Bool fixupExtensions(FixupFunc fixup, uint bytes)
          major++)
         if (!fixup
             (&extension.devPrivates, global_keys[PRIVATE_EXTENSION].offset, bytes))
-            return FALSE;
-    return TRUE;
+            return False;
+    return True;
 }
 
 private Bool fixupDefaultColormaps(FixupFunc fixup, uint bytes)
@@ -599,19 +598,19 @@ private Bool fixupDefaultColormaps(FixupFunc fixup, uint bytes)
                                 serverClient, DixCreateAccess);
         if (cmap &&
             !fixup(&cmap.devPrivates, walkScreen.screenSpecificPrivates[PRIVATE_COLORMAP].offset, bytes))
-            return FALSE;
+            return False;
     }"));
-    return TRUE;
+    return True;
 }
 
 private Bool fixupDeviceList(DeviceIntPtr device, FixupFunc fixup, uint bytes)
 {
     while (device) {
         if (!fixup(&device.devPrivates, global_keys[PRIVATE_DEVICE].offset, bytes))
-            return FALSE;
+            return False;
         device = device.next;
     }
-    return TRUE;
+    return True;
 }
 
 private Bool fixupDevices(FixupFunc fixup, uint bytes)
@@ -653,7 +652,7 @@ Bool dixRegisterPrivateKey(DevPrivateKey key, DevPrivateType type, uint size)
 
     if (key.initialized) {
         assert(size == key.size);
-        return TRUE;
+        return True;
     }
 
     /* Compute required space */
@@ -677,7 +676,7 @@ Bool dixRegisterPrivateKey(DevPrivateKey key, DevPrivateType type, uint size)
                 if (!allocated_early[t])
                     assert(!global_keys[t].created);
                 else if (!allocated_early[t] (&dixReallocPrivates, bytes))
-                    return FALSE;
+                    return False;
             }
 
         /* Move all existing keys up in the privates space to make
@@ -700,7 +699,7 @@ Bool dixRegisterPrivateKey(DevPrivateKey key, DevPrivateType type, uint size)
         if (!allocated_early[type])
             assert(!global_keys[type].created);
         else if (!allocated_early[type] (&dixReallocPrivates, bytes))
-            return FALSE;
+            return False;
         offset = global_keys[type].offset;
         global_keys[type].offset += bytes;
         grow_screen_specific_set(type, bytes);
@@ -709,13 +708,13 @@ Bool dixRegisterPrivateKey(DevPrivateKey key, DevPrivateType type, uint size)
     /* Setup this key */
     key.offset = offset;
     key.size = size;
-    key.initialized = TRUE;
+    key.initialized = True;
     key.type = type;
-    key.allocated = FALSE;
+    key.allocated = False;
     key.next = global_keys[type].key;
     global_keys[type].key = key;
 
-    return TRUE;
+    return True;
 }
 
 Bool dixRegisterScreenPrivateKey(DevScreenPrivateKeyPtr screenKey, ScreenPtr pScreen, DevPrivateType type, uint size)
@@ -723,23 +722,23 @@ Bool dixRegisterScreenPrivateKey(DevScreenPrivateKeyPtr screenKey, ScreenPtr pSc
     DevPrivateKey key = void;
 
     if (!dixRegisterPrivateKey(&screenKey.screenKey, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
     key = cast(_DevPrivateKeyRec*)dixGetPrivate(&pScreen.devPrivates, &screenKey.screenKey);
     if (key !is null) {
         assert(key.size == size);
         assert(key.type == type);
-        return TRUE;
+        return True;
     }
     key = cast(DevPrivateKeyRec*) calloc(1, DevPrivateKeyRec.sizeof);
     if (!key)
-        return FALSE;
+        return False;
     if (!dixRegisterPrivateKey(key, type, size)) {
         free(key);
-        return FALSE;
+        return False;
     }
-    key.allocated = TRUE;
+    key.allocated = True;
     dixSetPrivate(&pScreen.devPrivates, &screenKey.screenKey, key);
-    return TRUE;
+    return True;
 }
 
 DevPrivateKey _dixGetScreenPrivateKey(const(DevScreenPrivateKeyPtr) key, ScreenPtr pScreen)
@@ -825,13 +824,13 @@ Bool dixAllocatePrivates(PrivatePtr* privates, DevPrivateType type)
     }
     else {
         if (((p = cast(_Private*)calloc(1, size)) is null))
-            return FALSE;
+            return False;
     }
 
     _dixInitPrivates(privates, p, type);
     ++global_keys[type].allocated;
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -919,7 +918,7 @@ Bool dixRegisterScreenSpecificPrivateKey(ScreenPtr pScreen, DevPrivateKey key, D
 
     if (key.initialized) {
         assert(size == key.size);
-        return TRUE;
+        return True;
     }
 
     /* Compute required space */
@@ -938,13 +937,13 @@ Bool dixRegisterScreenSpecificPrivateKey(ScreenPtr pScreen, DevPrivateKey key, D
     /* Setup this key */
     key.offset = offset;
     key.size = size;
-    key.initialized = TRUE;
+    key.initialized = True;
     key.type = type;
-    key.allocated = FALSE;
+    key.allocated = False;
     key.next = pScreen.screenSpecificPrivates[type].key;
     pScreen.screenSpecificPrivates[type].key = key;
 
-    return TRUE;
+    return True;
 }
 
 /* Clean up screen-specific privates before CloseScreen */
@@ -952,7 +951,7 @@ void dixFreeScreenSpecificPrivates(ScreenPtr pScreen)
 {
     for (DevPrivateType t = PRIVATE_XSELINUX; t < PRIVATE_LAST; t++) {
         for (DevPrivateKey key = pScreen.screenSpecificPrivates[t].key; key; key = key.next) {
-            key.initialized = FALSE;
+            key.initialized = False;
         }
     }
 }
@@ -1054,7 +1053,7 @@ void dixResetPrivates()
         for (DevPrivateKey key = global_keys[t].key, next = void; key; key = next) {
             next = key.next;
             key.offset = 0;
-            key.initialized = FALSE;
+            key.initialized = False;
             key.size = 0;
             key.type = cast(DevPrivateType)0;
             if (key.allocated)
@@ -1075,7 +1074,7 @@ void dixResetPrivates()
 Bool dixPrivatesCreated(DevPrivateType type)
 {
     if (global_keys[type].created)
-        return TRUE;
+        return True;
     else
-        return FALSE;
+        return False;
 }

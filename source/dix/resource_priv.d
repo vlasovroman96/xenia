@@ -113,7 +113,7 @@ pragma(inline, true) ClientPtr dixClientForXID(XID xid) {
  * @brief check whether resource is owned by server
  *
  * @param XID the ID of the resource to check
- * @return TRUE if resource is server owned
+ * @return True if resource is server owned
  */
 pragma(inline, true) Bool dixResouceIsServerOwned(XID xid) {
     return (dixClientForXID(xid) == serverClient);
@@ -147,7 +147,7 @@ pragma(inline, true) Bool dixResouceIsServerOwned(XID xid) {
  * @brief retrieve a range of free XIDs for given client
  *
  * @param client the client to scan
- * @param server TRUE if scanning for free server XIDs
+ * @param server True if scanning for free server XIDs
  * @param minp pointer to result buffer: minimum XID of found range
  * @param maxp pointer to result buffer: maximum XID of found range
  */

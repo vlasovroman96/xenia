@@ -184,11 +184,11 @@ version (linux) {
     utsname buffer = void;
 
     if ((uname(&buffer) >= 0) && !strcmp(buffer.machine, "sun4u"))
-        promP1275 = TRUE;
+        promP1275 = True;
     else
-        promP1275 = FALSE;
+        promP1275 = False;
 } else version (__FreeBSD__) {
-    promP1275 = TRUE;
+    promP1275 = True;
 } else {
 static assert(0, "Missing promIsP1275() function for this OS");
 }

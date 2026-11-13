@@ -34,7 +34,7 @@ bool xnest_upstream_setup(const(char)* displayName)
 {
     xnestUpstreamInfo.conn = xcb_connect(displayName, &xnestUpstreamInfo.screenId);
     if (!xnestUpstreamInfo.conn)
-        return FALSE;
+        return False;
 
     /* retrieve setup data for our screen */
     xnestUpstreamInfo.setup = xcb_get_setup(xnestUpstreamInfo.conn);
@@ -46,7 +46,7 @@ bool xnest_upstream_setup(const(char)* displayName)
 
     xorg_list_init(&xnestUpstreamInfo.eventQueue.entry);
 
-    return TRUE;
+    return True;
 }
 
 /* retrieve upstream GC XID for our xserver GC */

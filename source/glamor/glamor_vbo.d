@@ -33,6 +33,7 @@ import build.dix_config;
 
 import glamor.glamor_priv;
 import glamor.glamor;
+import common.bools;
 
 /** Default size of the VBO, in bytes.
  *

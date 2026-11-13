@@ -99,19 +99,19 @@ Bool XFixesShouldDisconnectClient(ClientPtr client)
     ClientDisconnectPtr pDisconnect = mixin(GetClientDisconnect!(`client`));
 
     if (!pDisconnect)
-        return FALSE;
+        return False;
 
     if (dispatchExceptionAtReset & DE_TERMINATE)
         return cast(int)(pDisconnect.disconnect_mode & XFixesClientDisconnectFlagTerminate);
 
-    return FALSE;
+    return False;
 }
 
 Bool XFixesClientDisconnectInit()
 {
     if (!dixRegisterPrivateKey(&ClientDisconnectPrivateKeyRec,
                                PRIVATE_CLIENT, ClientDisconnectRec.sizeof))
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }

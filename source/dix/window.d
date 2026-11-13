@@ -432,7 +432,7 @@ int SaveScreens(int on, int mode);
  *    ChangeWindowDeviceCursor
  ******/
 
-Bool bgNoneRoot = FALSE;
+Bool bgNoneRoot = False;
 
 private const(ubyte)[4] _back_lsb = [ 0x88, 0x22, 0x44, 0X11 ];
 private const(ubyte)[4] _back_msb = [ 0X11, 0x44, 0x22, 0x88 ];
@@ -737,8 +737,8 @@ int WalkTree(ScreenPtr pScreen, VisitWindowProcPtr func, void* data)
 }
 
 /* hack to force no backing store */
-// Bool disableBackingStore = FALSE;
-// Bool enableBackingStore = FALSE;
+// Bool disableBackingStore = False;
+// Bool enableBackingStore = False;
 
 void SetWindowToDefaults(WindowPtr pWin)
 {
@@ -748,16 +748,16 @@ void SetWindowToDefaults(WindowPtr pWin)
 
     pWin.valdata = null;
     pWin.optional = null;
-    pWin.cursorIsNone = TRUE;
+    pWin.cursorIsNone = True;
 
     pWin.backingStore = NotUseful;
 
-    pWin.mapped = FALSE;       /* off */
-    pWin.realized = FALSE;     /* off */
-    pWin.viewable = FALSE;
+    pWin.mapped = False;       /* off */
+    pWin.realized = False;     /* off */
+    pWin.viewable = False;
     pWin.visibility = VisibilityNotViewable;
-    pWin.overrideRedirect = FALSE;
-    pWin.saveUnder = FALSE;
+    pWin.overrideRedirect = False;
+    pWin.saveUnder = False;
 
     pWin.bitGravity = ForgetGravity;
     pWin.winGravity = NorthWestGravity;
@@ -766,10 +766,10 @@ void SetWindowToDefaults(WindowPtr pWin)
     pWin.deliverableEvents = 0;
     pWin.dontPropagate = 0;
     pWin.redirectDraw = RedirectDrawNone;
-    pWin.forcedBG = FALSE;
-    pWin.unhittable = FALSE;
+    pWin.forcedBG = False;
+    pWin.unhittable = False;
 
-    pWin.damagedDescendants = FALSE;
+    pWin.damagedDescendants = False;
 }
 
 private void MakeRootTile(WindowPtr pWin)
@@ -827,7 +827,7 @@ Bool CreateRootWindow(ScreenPtr pScreen)
 
     pWin = cast(_Window*)mixin(dixAllocateScreenObjectWithPrivates!("pScreen", "WindowRec", "PRIVATE_WINDOW"));
     if (!pWin)
-        return FALSE;
+        return False;
 
     pScreen.screensaver.pWindow = null;
     pScreen.screensaver.wid = dixAllocServerXID();
@@ -851,7 +851,7 @@ Bool CreateRootWindow(ScreenPtr pScreen)
 
     pWin.optional = cast(WindowOptRec*) calloc(1, WindowOptRec.sizeof);
     if (!pWin.optional)
-        return FALSE;
+        return False;
 
     pWin.optional.dontPropagateMask = 0;
     pWin.optional.otherEventMasks = 0;
@@ -891,7 +891,7 @@ Bool CreateRootWindow(ScreenPtr pScreen)
     pWin.backgroundState = BackgroundPixel;
     pWin.background.pixel = pScreen.whitePixel;
 
-    pWin.borderIsPixel = TRUE;
+    pWin.borderIsPixel = True;
     pWin.border.pixel = pScreen.blackPixel;
     pWin.borderWidth = 0;
 
@@ -899,10 +899,10 @@ Bool CreateRootWindow(ScreenPtr pScreen)
      */
     if (XaceHookResourceAccess(serverClient, pWin.drawable.id,
                  X11_RESTYPE_WINDOW, pWin, X11_RESTYPE_NONE, null, DixCreateAccess))
-        return FALSE;
+        return False;
 
     if (!AddResource(cast(uint)pWin.drawable.id, X11_RESTYPE_WINDOW, cast(void*) pWin))
-        return FALSE;
+        return False;
 
     if (disableBackingStore)
         pScreen.backingStoreSupport = NotUseful;
@@ -913,7 +913,7 @@ Bool CreateRootWindow(ScreenPtr pScreen)
 
     pScreen.saveUnderSupport = NotUseful;
 
-    return TRUE;
+    return True;
 }
 
 void InitRootWindow(WindowPtr pWin)
@@ -926,7 +926,7 @@ void InitRootWindow(WindowPtr pWin)
 
     dixScreenRaiseWindowPosition(pWin, 0, 0);
 
-    pWin.cursorIsNone = FALSE;
+    pWin.cursorIsNone = False;
     pWin.optional.cursor = RefCursor(rootCursor);
 
     if (party_like_its_1989) {
@@ -1045,19 +1045,19 @@ WindowPtr dixCreateWindow(Window wid, WindowPtr pParent, int x, int y, uint w, u
 
     // /* Find out if the depth and visual are acceptable for this Screen */
     if ((visual != ancwopt.visual) || (depth != pParent.drawable.depth)) {
-        fOK = FALSE;
+        fOK = False;
         for (int idepth = 0; idepth < pScreen.numDepths; idepth++) {
             pDepth = cast(DepthPtr) &pScreen.allowedDepths[idepth];
             if ((depth == pDepth.depth) || (depth == 0)) {
                 for (int ivisual = 0; ivisual < pDepth.numVids; ivisual++) {
                     if (visual == pDepth.vids[ivisual]) {
-                        fOK = TRUE;
+                        fOK = True;
                         break;
                     }
                 }
             }
         }
-        if (fOK == FALSE) {
+        if (fOK == False) {
             *error = BadMatch;
             return NullWindow;
         }
@@ -1120,7 +1120,7 @@ WindowPtr dixCreateWindow(Window wid, WindowPtr pParent, int x, int y, uint w, u
 
     pWin.borderIsPixel = pParent.borderIsPixel;
     pWin.border = pParent.border;
-    if (pWin.borderIsPixel == FALSE)
+    if (pWin.borderIsPixel == False)
         pWin.border.pixmap.refcnt++;
 
     pWin.origin.x = cast(short)(x + cast(int) bw);
@@ -1211,10 +1211,10 @@ private void DisposeWindowOptional(WindowPtr pWin)
      */
     if (pWin.optional.cursor) {
         FreeCursor(pWin.optional.cursor, cast(Cursor) 0);
-        pWin.cursorIsNone = FALSE;
+        pWin.cursorIsNone = False;
     }
     else
-        pWin.cursorIsNone = TRUE;
+        pWin.cursorIsNone = True;
 
     if (pWin.optional.deviceCursors) {
         DevCursorList pList = void;
@@ -1238,7 +1238,7 @@ private void FreeWindowResources(WindowPtr pWin)
 {
     DeleteWindowFromAnySaveSet(pWin);
     DeleteWindowFromAnySelections(pWin);
-    DeleteWindowFromAnyEvents(pWin, TRUE);
+    DeleteWindowFromAnyEvents(pWin, True);
     RegionUninit(&pWin.clipList);
     RegionUninit(&pWin.winSize);
     RegionUninit(&pWin.borderClip);
@@ -1249,7 +1249,7 @@ private void FreeWindowResources(WindowPtr pWin)
         RegionDestroy(mixin(wClipShape!("pWin")));
     if (mixin(wInputShape!("pWin")))
         RegionDestroy(mixin(wInputShape!("pWin")));
-    if (pWin.borderIsPixel == FALSE)
+    if (pWin.borderIsPixel == False)
         dixDestroyPixmap(pWin.border.pixmap, 0);
     if (pWin.backgroundState == BackgroundPixmap)
         dixDestroyPixmap(pWin.background.pixmap, 0);
@@ -1283,7 +1283,7 @@ private void CrushTree(WindowPtr pWin)
             }
             FreeResource(cast(uint)pChild.drawable.id, X11_RESTYPE_WINDOW);
             pSib = pChild.nextSib;
-            pChild.viewable = FALSE;
+            pChild.viewable = False;
             if (pChild.realized) {
                 dixScreenRaiseUnrealizeWindow(pChild);
             }
@@ -1311,7 +1311,7 @@ int DeleteWindow(void* value, XID wid)
     WindowPtr pParent = void;
     WindowPtr pWin = cast(WindowPtr) value;
 
-    UnmapWindow(pWin, FALSE);
+    UnmapWindow(pWin, False);
 
     CrushTree(pWin);
 
@@ -1405,7 +1405,7 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
     ScreenPtr pScreen = void;
     Mask index2 = void, tmask = void, vmaskCopy = 0;
     uint val = void;
-    Bool checkOptional = FALSE, borderRelative = FALSE;
+    Bool checkOptional = False, borderRelative = False;
 
     if ((pWin.drawable.class_ == InputOnly) &&
         (vmask & (~INPUTONLY_LEGAL_MASK)))
@@ -1423,7 +1423,7 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
             pixID = cast(Pixmap) * pVlist;
             pVlist++;
             if (pWin.backgroundState == ParentRelative)
-                borderRelative = TRUE;
+                borderRelative = True;
             if (pixID == None) {
                 if (pWin.backgroundState == BackgroundPixmap)
                     dixDestroyPixmap(pWin.background.pixmap, 0);
@@ -1446,7 +1446,7 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
                     SetRootWindowBackground(pWin, pScreen, &index2);
                 else
                     pWin.backgroundState = ParentRelative;
-                borderRelative = TRUE;
+                borderRelative = True;
                 /* Note that the parent's backgroundTile's refcnt is NOT
                  * incremented. */
             }
@@ -1474,7 +1474,7 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
             break;
         case CWBackPixel:
             if (pWin.backgroundState == ParentRelative)
-                borderRelative = TRUE;
+                borderRelative = True;
             if (pWin.backgroundState == BackgroundPixmap)
                 dixDestroyPixmap(pWin.background.pixmap, 0);
             pWin.backgroundState = BackgroundPixel;
@@ -1493,11 +1493,11 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
                     error = BadMatch;
                     goto PatchUp;
                 }
-                if (pWin.parent.borderIsPixel == TRUE) {
-                    if (pWin.borderIsPixel == FALSE)
+                if (pWin.parent.borderIsPixel == True) {
+                    if (pWin.borderIsPixel == False)
                         dixDestroyPixmap(pWin.border.pixmap, 0);
                     pWin.border = pWin.parent.border;
-                    pWin.borderIsPixel = TRUE;
+                    pWin.borderIsPixel = True;
                     index2 = CWBorderPixel;
                     break;
                 }
@@ -1513,9 +1513,9 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
                     error = BadMatch;
                     goto PatchUp;
                 }
-                if (pWin.borderIsPixel == FALSE)
+                if (pWin.borderIsPixel == False)
                     dixDestroyPixmap(pWin.border.pixmap, 0);
-                pWin.borderIsPixel = FALSE;
+                pWin.borderIsPixel = False;
                 pWin.border.pixmap = pPixmap;
                 pPixmap.refcnt++;
             }
@@ -1526,9 +1526,9 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
             }
             break;
         case CWBorderPixel:
-            if (pWin.borderIsPixel == FALSE)
+            if (pWin.borderIsPixel == False)
                 dixDestroyPixmap(pWin.border.pixmap, 0);
-            pWin.borderIsPixel = TRUE;
+            pWin.borderIsPixel = True;
             pWin.border.pixel = cast(CARD32) *pVlist;
             /* border pixel overrides border pixmap,
                so don't let the ddx layer see both bits */
@@ -1579,7 +1579,7 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
                 }
                 pWin.optional.backingBitPlanes = cast(CARD32) *pVlist;
                 if (cast(CARD32) *pVlist == cast(CARD32) ~0L)
-                    checkOptional = TRUE;
+                    checkOptional = True;
             }
             pVlist++;
             break;
@@ -1591,7 +1591,7 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
                 }
                 pWin.optional.backingPixel = cast(CARD32) *pVlist;
                 if (!*pVlist)
-                    checkOptional = TRUE;
+                    checkOptional = True;
             }
             pVlist++;
             break;
@@ -1677,7 +1677,7 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
                     }
                 }
                 else if (pWin.parent && cmap == mixin(wColormap!("pWin.parent")))
-                    checkOptional = TRUE;
+                    checkOptional = True;
 
                 /*
                  * propagate the original colormap to any children
@@ -1752,11 +1752,11 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
 
                 pOldCursor = null;
                 if (pCursor == cast(CursorPtr) None) {
-                    pWin.cursorIsNone = TRUE;
+                    pWin.cursorIsNone = True;
                     if (pWin.optional) {
                         pOldCursor = pWin.optional.cursor;
                         pWin.optional.cursor = cast(CursorPtr) None;
-                        checkOptional = TRUE;
+                        checkOptional = True;
                     }
                 }
                 else {
@@ -1767,10 +1767,10 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
                         }
                     }
                     else if (pWin.parent && pCursor == mixin(wCursor!("pWin.parent")))
-                        checkOptional = TRUE;
+                        checkOptional = True;
                     pOldCursor = pWin.optional.cursor;
                     pWin.optional.cursor = RefCursor(pCursor);
-                    pWin.cursorIsNone = FALSE;
+                    pWin.cursorIsNone = False;
                     /*
                      * check on any children now matching the new cursor
                      */
@@ -1783,7 +1783,7 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
                     }
                 }
 
-                CursorVisible = TRUE;
+                CursorVisible = True;
 
                 if (pWin.realized)
                     WindowHasNewCursor(pWin);
@@ -2207,7 +2207,7 @@ private Bool ShapeOverlap(WindowPtr pWin, BoxPtr pWinBox, WindowPtr pSib, BoxPtr
     Bool ret = void;
 
     if (!mixin(IS_SHAPED!(`pWin`)) && !mixin(IS_SHAPED!(`pSib`)))
-        return TRUE;
+        return True;
     pWinRgn = MakeBoundingRegion(pWin, pWinBox);
     pSibRgn = MakeBoundingRegion(pSib, pSibBox);
     RegionIntersect(pWinRgn, pWinRgn, pSibRgn);
@@ -2227,10 +2227,10 @@ private Bool AnyWindowOverlapsMe(WindowPtr pWin, WindowPtr pHead, BoxPtr box)
             sbox = WindowExtents(pSib, &sboxrec);
             if (mixin(BOXES_OVERLAP!(`sbox`, `box`))
                 && ShapeOverlap(pWin, box, pSib, sbox))
-                return TRUE;
+                return True;
         }
     }
-    return FALSE;
+    return False;
 }
 
 private Bool IOverlapAnyWindow(WindowPtr pWin, BoxPtr box)
@@ -2243,10 +2243,10 @@ private Bool IOverlapAnyWindow(WindowPtr pWin, BoxPtr box)
             sbox = WindowExtents(pSib, &sboxrec);
             if (mixin(BOXES_OVERLAP!(`sbox`, `box`))
                 && ShapeOverlap(pWin, box, pSib, sbox))
-                return TRUE;
+                return True;
         }
     }
-    return FALSE;
+    return False;
 }
 
 /*
@@ -2546,7 +2546,7 @@ static if(XINERAMA){
                 /* if event is delivered, leave the actual size alone. */
                 w = pWin.drawable.width;
                 h = pWin.drawable.height;
-                size_change = FALSE;
+                size_change = False;
             }
         }
         if (!size_change) {
@@ -2752,7 +2752,7 @@ int ReparentWindow(WindowPtr pWin, WindowPtr pParent, int x, int y, ClientPtr cl
         return BadAlloc;
 
     if (WasMapped)
-        UnmapWindow(pWin, FALSE);
+        UnmapWindow(pWin, False);
 
         event.u.reparent.window = cast(uint)pWin.drawable.id,
         event.u.reparent.parent = cast(uint)pParent.drawable.id,
@@ -2837,7 +2837,7 @@ private void RealizeTree(WindowPtr pWin)
     pChild = pWin;
     while (1) {
         if (pChild.mapped) {
-            pChild.realized = TRUE;
+            pChild.realized = True;
             pChild.viewable = (pChild.drawable.class_ == InputOutput);
             (*Realize) (pChild);
             if (pChild.firstChild) {
@@ -2907,7 +2907,7 @@ int MapWindow(WindowPtr pWin, ClientPtr client)
             if (MaybeDeliverMapRequest(pWin, pParent, client))
                 return Success;
 
-        pWin.mapped = TRUE;
+        pWin.mapped = True;
         if (mixin(SubStrSend!(`pWin`, `pParent`)))
             DeliverMapNotify(pWin);
 
@@ -2930,8 +2930,8 @@ int MapWindow(WindowPtr pWin, ClientPtr client)
     else {
         RegionRec temp = void;
 
-        pWin.mapped = TRUE;
-        pWin.realized = TRUE;  /* for roots */
+        pWin.mapped = True;
+        pWin.realized = True;  /* for roots */
         pWin.viewable = pWin.drawable.class_ == InputOutput;
         /* We SHOULD check for an error value here XXX */
         (*pScreen.RealizeWindow) (pWin);
@@ -2966,14 +2966,14 @@ void MapSubwindows(WindowPtr pParent, ClientPtr client)
     pScreen = pParent.drawable.pScreen;
     parentRedirect = mixin(RedirectSend!(`pParent`));
     parentNotify = mixin(SubSend!(`pParent`));
-    anyMarked = FALSE;
+    anyMarked = False;
     for (WindowPtr pWin = pParent.firstChild; pWin; pWin = pWin.nextSib) {
         if (!pWin.mapped) {
             if (parentRedirect && !pWin.overrideRedirect)
                 if (MaybeDeliverMapRequest(pWin, pParent, client))
                     continue;
 
-            pWin.mapped = TRUE;
+            pWin.mapped = True;
             if (parentNotify || mixin(StrSend!(`pWin`)))
                 DeliverMapNotify(pWin);
 
@@ -3030,9 +3030,9 @@ static if(XINERAMA){
             }
 } /* XINERAMA */
             dixScreenRaiseUnrealizeWindow(pChild);
-            DeleteWindowFromAnyEvents(pChild, FALSE);
+            DeleteWindowFromAnyEvents(pChild, False);
             if (pChild.viewable) {
-                pChild.viewable = FALSE;
+                pChild.viewable = False;
                 (*MarkUnrealizedWindow) (pChild, pWin, fromConfigure);
                 pChild.drawable.serialNumber = NEXT_SERIAL_NUMBER;
             }
@@ -3083,7 +3083,7 @@ int UnmapWindow(WindowPtr pWin, Bool fromConfigure)
         (*pScreen.MarkOverlappedWindows) (pWin, pWin.nextSib, &pLayerWin);
         (*pScreen.MarkWindow) (pLayerWin.parent);
     }
-    pWin.mapped = FALSE;
+    pWin.mapped = False;
     if (wasRealized)
         UnrealizeTree(pWin, fromConfigure);
     if (wasViewable && !fromConfigure) {
@@ -3110,7 +3110,7 @@ void UnmapSubwindows(WindowPtr pWin)
     WindowPtr pHead = void;
     Bool wasRealized = cast(Bool) pWin.realized;
     Bool wasViewable = cast(Bool) pWin.viewable;
-    Bool anyMarked = FALSE;
+    Bool anyMarked = False;
     Mask parentNotify = void;
     WindowPtr pLayerWin = null;
     ScreenPtr pScreen = pWin.drawable.pScreen;
@@ -3129,11 +3129,11 @@ void UnmapSubwindows(WindowPtr pWin)
                 DeliverUnmapNotify(pChild, xFalse);
             if (pChild.viewable) {
                 pChild.valdata = UnmapValData;
-                anyMarked = TRUE;
+                anyMarked = True;
             }
-            pChild.mapped = FALSE;
+            pChild.mapped = False;
             if (pChild.realized)
-                UnrealizeTree(pChild, FALSE);
+                UnrealizeTree(pChild, False);
         }
     }
     if (wasViewable && anyMarked && pLayerWin) {
@@ -3183,14 +3183,14 @@ void HandleSaveSet(ClientPtr client)
             if (pParent != pWin.parent) {
                 /* unmap first so that ReparentWindow doesn't remap */
                 if (!mixin(SaveSetShouldMap!("client.saveSet[j]")))
-                    UnmapWindow(pWin, FALSE);
+                    UnmapWindow(pWin, False);
                 ReparentWindow(pWin, pParent,
                                pWin.drawable.x - mixin(wBorderWidth!"pWin")-
                                pParent.drawable.x,
                                pWin.drawable.y - mixin(wBorderWidth!"pWin")-
                                pParent.drawable.y, client);
                 if (!pWin.realized && pWin.mapped)
-                    pWin.mapped = FALSE;
+                    pWin.mapped = False;
             }
             if (mixin(SaveSetShouldMap!("client.saveSet[j]")))
                 MapWindow(pWin, client);
@@ -3210,14 +3210,14 @@ Bool PointInWindowIsVisible(WindowPtr pWin, int x, int y)
     BoxRec box = void;
 
     if (!pWin.realized)
-        return FALSE;
+        return False;
     if (RegionContainsPoint(&pWin.borderClip, x, y, &box)
         && (!mixin(wInputShape!("pWin")) ||
             RegionContainsPoint(mixin(wInputShape!("pWin")),
                                 x - pWin.drawable.x,
                                 y - pWin.drawable.y, &box)))
-        return TRUE;
-    return FALSE;
+        return True;
+    return False;
 }
 
 RegionPtr NotClippedByChildren(WindowPtr pWin)
@@ -3506,18 +3506,18 @@ private Bool TileScreenSaver(ScreenPtr pScreen, int kind)
         FreeResource(cast(uint)cursorID, X11_RESTYPE_NONE);
 
     if (!pWin)
-        return FALSE;
+        return False;
 
     if (!AddResource(cast(uint)pWin.drawable.id, X11_RESTYPE_WINDOW,
                      cast(void*) pScreen.screensaver.pWindow))
-        return FALSE;
+        return False;
 
     if (mask & CWBackPixmap) {
         MakeRootTile(pWin);
         (*pWin.drawable.pScreen.ChangeWindowAttributes) (pWin, CWBackPixmap);
     }
     MapWindow(pWin, serverClient);
-    return TRUE;
+    return True;
 }
 
 /*
@@ -3605,11 +3605,11 @@ Bool MakeWindowOptional(WindowPtr pWin)
     WindowOptPtr parentOptional = void;
 
     if (pWin.optional)
-        return TRUE;
+        return True;
 
     WindowOptPtr optional = cast(WindowOptRec*) calloc(1, WindowOptRec.sizeof);
     if (!optional)
-        return FALSE;
+        return False;
     optional.dontPropagateMask = DontPropagateMasks[pWin.dontPropagate];
     optional.otherEventMasks = 0;
     optional.otherClients = null;
@@ -3632,7 +3632,7 @@ Bool MakeWindowOptional(WindowPtr pWin)
     }
     optional.colormap = parentOptional.colormap;
     pWin.optional = optional;
-    return TRUE;
+    return True;
 }
 
 /*
@@ -3729,7 +3729,7 @@ int ChangeWindowDeviceCursor(WindowPtr pWin, DeviceIntPtr pDev, CursorPtr pCurso
     }
 
  out_:
-    CursorVisible = TRUE;
+    CursorVisible = True;
 
     if (pWin.realized)
         WindowHasNewCursor(pWin);
@@ -3775,14 +3775,14 @@ private Bool WindowSeekDeviceCursor(WindowPtr pWin, DeviceIntPtr pDev, DevCursNo
     DevCursorList pList = void;
 
     if (!pWin.optional)
-        return FALSE;
+        return False;
 
     pList = pWin.optional.deviceCursors;
 
     if (pList && pList.dev == pDev) {
         *pNode = pList;
         *pPrev = null;
-        return TRUE;
+        return True;
     }
 
     while (pList) {
@@ -3790,12 +3790,12 @@ private Bool WindowSeekDeviceCursor(WindowPtr pWin, DeviceIntPtr pDev, DevCursNo
             if (pList.next.dev == pDev) {
                 *pNode = pList.next;
                 *pPrev = pList;
-                return TRUE;
+                return True;
             }
         }
         pList = pList.next;
     }
-    return FALSE;
+    return False;
 }
 
 /* Return True if a parent has the same device cursor set or False if
@@ -3813,15 +3813,15 @@ private Bool WindowParentHasDeviceCursor(WindowPtr pWin, DeviceIntPtr pDev, Curs
             if (!pParentNode.cursor)   /* inherited. */
                 pParent = pParent.parent;
             else if (pParentNode.cursor == pCursor)    /* inherit */
-                return TRUE;
+                return True;
             else                /* different cursor */
-                return FALSE;
+                return False;
         }
         else
             /* parent does not have a device cursor for our device */
-            return FALSE;
+            return False;
     }
-    return FALSE;
+    return False;
 }
 
 /*
@@ -3834,7 +3834,7 @@ void SetRootClip(ScreenPtr pScreen, int enable)
 {
     WindowPtr pWin = pScreen.root;
     Bool WasViewable = void;
-    Bool anyMarked = FALSE;
+    Bool anyMarked = False;
     WindowPtr pLayerWin = void;
     BoxRec box = void;
     RootClipMode mode = cast(RootClipMode)enable;
@@ -3848,7 +3848,7 @@ void SetRootClip(ScreenPtr pScreen, int enable)
                                                       pChild, &pLayerWin);
         }
         (*pScreen.MarkWindow) (pWin);
-        anyMarked = TRUE;
+        anyMarked = True;
         if (pWin.valdata) {
             if (mixin(HasBorder!("pWin"))) {
                 RegionPtr borderVisible = void;
@@ -3858,7 +3858,7 @@ void SetRootClip(ScreenPtr pScreen, int enable)
                                &pWin.borderClip, &pWin.winSize);
                 pWin.valdata.before.borderVisible = borderVisible;
             }
-            pWin.valdata.before.resized = TRUE;
+            pWin.valdata.before.resized = True;
         }
     }
 
@@ -3904,7 +3904,7 @@ void SetRootClip(ScreenPtr pScreen, int enable)
         }
         else {
             (*pScreen.MarkWindow) (pWin);
-            anyMarked = TRUE;
+            anyMarked = True;
         }
 
         if (anyMarked) {
@@ -3945,6 +3945,6 @@ Bool dixWindowIsRoot(Window window)
     WindowPtr pWin = void;
     int rc = dixLookupWindow(&pWin, window, serverClient, DixGetAttrAccess);
     if (rc != Success)
-        return FALSE;
+        return False;
     return (pWin == pWin.drawable.pScreen.root);
 }

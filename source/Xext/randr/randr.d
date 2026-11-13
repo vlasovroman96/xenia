@@ -602,7 +602,7 @@ enum PRIME_SYNC_PROP =         "PRIME Synchronization";
 // RESTYPE  RROutputType;    /* X resource type: Randr OUTPUT */
 
 /*
- * Set non-desktop property on given output. This flag should be TRUE on
+ * Set non-desktop property on given output. This flag should be True on
  * outputs where usual desktops shouldn't expand onto (eg. head displays,
  * additional display bars in various handhelds, etc)
  */
@@ -656,7 +656,7 @@ void  RROutputSetNonDesktop(RROutputPtr output, Bool non_desktop);
  * to know about refresh rates. This has influence on reply packet formats
  *
  * @param pClient the client to check
- * @return TRUE if client using recent enough protocol version
+ * @return True if client using recent enough protocol version
  */
 // void  RRClientKnowsRates(ClientPtr pClient);
 
@@ -669,7 +669,7 @@ void  RROutputSetNonDesktop(RROutputPtr output, Bool non_desktop);
  * Set whether transforms are allowed on a CRTC
  *
  * @param crtc the CRTC to set the flag on
- * @param transforms TRUE if transforms are allowed
+ * @param transforms True if transforms are allowed
  */
 // void  RRCrtcSetTransformSupport(RRCrtcPtr crtc, Bool transforms);
 
@@ -770,7 +770,7 @@ Set state
 // enum SubPixelUnknown = 0;
 
 
-Bool noRRExtension = FALSE;
+Bool noRRExtension = False;
 
 version = RR_VALIDATE;
 private int RRNScreens;
@@ -990,24 +990,24 @@ Bool RRInit()
 {
     /* prevent double init attempts */
     if (initialized)
-        return TRUE;
+        return True;
 
     if (!RRModeInit())
-        return FALSE;
+        return False;
     if (!RRCrtcInit())
-        return FALSE;
+        return False;
     if (!RROutputInit())
-        return FALSE;
+        return False;
     if (!RRProviderInit())
-        return FALSE;
+        return False;
     if (!RRLeaseInit())
-        return FALSE;
+        return False;
 
     if (!dixRegisterPrivateKey(&rrPrivKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
 
     initialized = true;
-    return TRUE;
+    return True;
 }
 
 Bool RRScreenInit(ScreenPtr pScreen)
@@ -1015,11 +1015,11 @@ Bool RRScreenInit(ScreenPtr pScreen)
     rrScrPrivPtr pScrPriv = void;
 
     if (!RRInit())
-        return FALSE;
+        return False;
 
     pScrPriv = cast(rrScrPrivPtr) cast(rrScrPrivRec*) calloc(1, rrScrPrivRec.sizeof);
     if (!pScrPriv)
-        return FALSE;
+        return False;
 
     mixin(SetRRScreen!("pScreen", "pScrPriv"));
 
@@ -1056,7 +1056,7 @@ Bool RRScreenInit(ScreenPtr pScreen)
     RRMonitorInit(pScreen);
 
     RRNScreens += 1;            /* keep count of screens that implement randr */
-    return TRUE;
+    return True;
 }
 
  /*ARGSUSED*/ private int RRFreeClient(void* data, XID id)
@@ -1142,7 +1142,7 @@ static if(XINERAMA){
 void RRResourcesChanged(ScreenPtr pScreen)
 {
     mixin(rrScrPriv!("pScreen"));
-    pScrPriv.resourcesChanged = TRUE;
+    pScrPriv.resourcesChanged = True;
 
     RRSetChanged(pScreen);
 }
@@ -1271,7 +1271,7 @@ void RRSetChanged(ScreenPtr pScreen)
         primarysp = pScrPriv;
     }
 
-    primarysp.changed = TRUE;
+    primarysp.changed = True;
 }
 
 /*
@@ -1316,33 +1316,33 @@ void RRTellChanged(ScreenPtr pScreen)
         UpdateCurrentTimeIf();
         if (primarysp.configChanged) {
             primarysp.lastConfigTime = currentTime;
-            primarysp.configChanged = FALSE;
+            primarysp.configChanged = False;
         }
-        pScrPriv.changed = FALSE;
-        primarysp.changed = FALSE;
+        pScrPriv.changed = False;
+        primarysp.changed = False;
 
         WalkTree(primary, &TellChanged, cast(void*) primary);
 
-        primarysp.resourcesChanged = FALSE;
+        primarysp.resourcesChanged = False;
 
         for (i = 0; i < pScrPriv.numOutputs; i++)
-            pScrPriv.outputs[i].changed = FALSE;
+            pScrPriv.outputs[i].changed = False;
         for (i = 0; i < pScrPriv.numCrtcs; i++)
-            pScrPriv.crtcs[i].changed = FALSE;
+            pScrPriv.crtcs[i].changed = False;
 
         foreach(iter; primary.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
             pSecondaryScrPriv = mixin(rrGetScrPriv!("iter"));
-            pSecondaryScrPriv.provider.changed = FALSE;
+            pSecondaryScrPriv.provider.changed = False;
             if (iter.is_output_secondary) {
                 for (i = 0; i < pSecondaryScrPriv.numOutputs; i++)
-                    pSecondaryScrPriv.outputs[i].changed = FALSE;
+                    pSecondaryScrPriv.outputs[i].changed = False;
                 for (i = 0; i < pSecondaryScrPriv.numCrtcs; i++)
-                    pSecondaryScrPriv.crtcs[i].changed = FALSE;
+                    pSecondaryScrPriv.crtcs[i].changed = False;
             }
         }
 
         if (primarysp.layoutChanged) {
-            pScrPriv.layoutChanged = FALSE;
+            pScrPriv.layoutChanged = False;
             RRPointerScreenConfigured(primary);
             RRSendConfigNotify(primary);
         }

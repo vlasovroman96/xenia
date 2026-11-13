@@ -186,11 +186,11 @@ Bool WaitForSomething(Bool are_ready)
     timer_is_running = were_ready;
 
     if (were_ready && !are_ready) {
-        timer_is_running = FALSE;
+        timer_is_running = False;
         SmartScheduleStopTimer();
     }
 
-    were_ready = FALSE;
+    were_ready = False;
 
     busfault_check();
 
@@ -218,7 +218,7 @@ Bool WaitForSomething(Bool are_ready)
         WakeupHandler(i);
         if (i <= 0) {           /* An error or timeout occurred */
             if (dispatchException)
-                return FALSE;
+                return False;
             if (i < 0) {
                 if (pollerr != EINTR && ossock_wouldblock(pollerr)) {
                     ErrorF("WaitForSomething(): poll: %s\n",
@@ -229,13 +229,13 @@ Bool WaitForSomething(Bool are_ready)
             are_ready = clients_are_ready();
 
         if (InputCheckPending())
-            return FALSE;
+            return False;
 
         if (are_ready) {
-            were_ready = TRUE;
+            were_ready = True;
             if (!timer_is_running)
                 SmartScheduleStartTimer();
-            return TRUE;
+            return True;
         }
     }
 }
@@ -380,7 +380,7 @@ void TimerInit()
     static Bool been_here;
 
     if (!been_here) {
-        been_here = TRUE;
+        been_here = True;
         timers.initList();
     }
 

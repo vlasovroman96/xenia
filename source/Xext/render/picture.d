@@ -420,7 +420,7 @@ private Bool PictureInitIndexedFormat(ScreenPtr pScreen, PictFormatPtr format)
     PictureScreenPtr ps = mixin(GetPictureScreenIfSet!("pScreen"));
 
     if (format.type != PictTypeIndexed || format.index.pColormap)
-        return TRUE;
+        return True;
 
     if (format.index.vid == pScreen.rootVisual) {
         dixLookupResourceByType(cast(void**) &format.index.pColormap,
@@ -431,16 +431,16 @@ private Bool PictureInitIndexedFormat(ScreenPtr pScreen, PictFormatPtr format)
         VisualPtr pVisual = PictureFindVisual(pScreen, format.index.vid);
 
         if (pVisual is null)
-            return FALSE;
+            return False;
 
         if (dixCreateColormap(dixAllocServerXID(), pScreen, pVisual,
                               &format.index.pColormap, AllocNone, null)
             != Success)
-            return FALSE;
+            return False;
     }
     if (!ps.InitIndexed(pScreen, format))
-        return FALSE;
-    return TRUE;
+        return False;
+    return True;
 }
 
 private Bool PictureInitIndexedFormats(ScreenPtr pScreen)
@@ -450,13 +450,13 @@ private Bool PictureInitIndexedFormats(ScreenPtr pScreen)
     int nformat = void;
 
     if (!ps)
-        return FALSE;
+        return False;
     format = ps.formats;
     nformat = ps.nformats;
     while (nformat--)
         if (!PictureInitIndexedFormat(pScreen, format++))
-            return FALSE;
-    return TRUE;
+            return False;
+    return True;
 }
 
 Bool PictureFinishInit()
@@ -464,11 +464,11 @@ Bool PictureFinishInit()
     for (uint walkScreenIdx = 0; walkScreenIdx < screenInfo.numScreens; walkScreenIdx++) {
         ScreenPtr walkScreen = screenInfo.screens[walkScreenIdx];
         if (!PictureInitIndexedFormats(walkScreen))
-            return FALSE;
+            return False;
         cast(void) AnimCurInit(walkScreen);
     }
 
-    return TRUE;
+    return True;
 }
 
 Bool PictureSetSubpixelOrder(ScreenPtr pScreen, int subpixel)
@@ -476,9 +476,9 @@ Bool PictureSetSubpixelOrder(ScreenPtr pScreen, int subpixel)
     PictureScreenPtr ps = mixin(GetPictureScreenIfSet!("pScreen"));
 
     if (!ps)
-        return FALSE;
+        return False;
     ps.subpixel = subpixel;
-    return TRUE;
+    return True;
 
 }
 
@@ -610,26 +610,26 @@ Bool PictureInit(ScreenPtr pScreen, PictFormatPtr formats, int nformats)
     {
         PictureType = CreateNewResourceType(&FreePicture, "PICTURE");
         if (!PictureType)
-            return FALSE;
+            return False;
         SetResourceTypeSizeFunc(PictureType, &GetPictureBytes);
         PictFormatType = CreateNewResourceType(&FreePictFormat, "PICTFORMAT");
         if (!PictFormatType)
-            return FALSE;
+            return False;
         GlyphSetType = CreateNewResourceType(&FreeGlyphSet, "GLYPHSET");
         if (!GlyphSetType)
-            return FALSE;
+            return False;
         picture_resources_initialized = true;
     }
     if (!dixRegisterPrivateKey(&PictureScreenPrivateKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
 
     if (!dixRegisterPrivateKey(&PictureWindowPrivateKeyRec, PRIVATE_WINDOW, 0))
-        return FALSE;
+        return False;
 
     if (!formats) {
         formats = PictureCreateDefaultFormats(pScreen, &nformats);
         if (!formats)
-            return FALSE;
+            return False;
     }
     for (n = 0; n < nformats; n++) {
         if (!AddResource
@@ -638,7 +638,7 @@ Bool PictureInit(ScreenPtr pScreen, PictFormatPtr formats, int nformats)
             for (i = 0; i < n; i++)
                 FreeResource(cast(uint)formats[i].id, X11_RESTYPE_NONE);
             free(formats);
-            return FALSE;
+            return False;
         }
         if (formats[n].type == PictTypeIndexed) {
             VisualPtr pVisual = PictureFindVisual(pScreen, formats[n].index.vid);
@@ -668,7 +668,7 @@ Bool PictureInit(ScreenPtr pScreen, PictFormatPtr formats, int nformats)
     PictureScreenPtr ps = cast(PictureScreenRec*) calloc(1, PictureScreenRec.sizeof);
     if (!ps) {
         free(formats);
-        return FALSE;
+        return False;
     }
     mixin(SetPictureScreen!("pScreen", "ps"));
 
@@ -694,22 +694,22 @@ Bool PictureInit(ScreenPtr pScreen, PictFormatPtr formats, int nformats)
         mixin(SetPictureScreen!("pScreen", "null"));
         free(formats);
         free(ps);
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 private void SetPictureToDefaults(PicturePtr pPicture)
 {
     pPicture.refcnt = 1;
     pPicture.repeat = 0;
-    pPicture.graphicsExposures = FALSE;
+    pPicture.graphicsExposures = False;
     pPicture.subWindowMode = ClipByChildren;
     pPicture.polyEdge = PolyEdgeSharp;
     pPicture.polyMode = PolyModePrecise;
-    pPicture.freeCompClip = FALSE;
-    pPicture.componentAlpha = FALSE;
+    pPicture.freeCompClip = False;
+    pPicture.componentAlpha = False;
     pPicture.repeatType = RepeatNone;
 
     pPicture.alphaMap = null;
@@ -722,7 +722,7 @@ private void SetPictureToDefaults(PicturePtr pPicture)
 
     pPicture.transform = null;
 
-    pPicture.filter = PictureGetFilterId(FilterNearest, -1, TRUE);
+    pPicture.filter = PictureGetFilterId(FilterNearest, -1, True);
     pPicture.filter_params = null;
     pPicture.filter_nparams = 0;
 

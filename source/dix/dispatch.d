@@ -252,7 +252,7 @@ ClientPtr GetCurrentClient()
 
         if (!warned) {
             ErrorF("[dix] Error GetCurrentClient called from input-thread\n");
-            warned = TRUE;
+            warned = True;
         }
 
         return null;
@@ -296,7 +296,7 @@ enum SMART_SCHEDULE_DEFAULT_INTERVAL =	5;
 enum SMART_SCHEDULE_MAX_SLICE =	15;
 
 static if (HAVE_SETITIMER) {
-Bool SmartScheduleSignalEnable = TRUE;
+Bool SmartScheduleSignalEnable = True;
 }
 
 c_long SmartScheduleSlice = SMART_SCHEDULE_DEFAULT_INTERVAL;
@@ -475,12 +475,12 @@ private Bool ShouldDisconnectRemainingClients()
     for (int i = 1; i < currentMaxClients; i++) {
         if (clients[i]) {
             if (!XFixesShouldDisconnectClient(clients[i]))
-                return FALSE;
+                return False;
         }
     }
 
     /* All remaining clients can be safely ignored */
-    return TRUE;
+    return True;
 }
 
 void EnableLimitedSchedulingLatency()
@@ -523,7 +523,7 @@ void Dispatch()
         if (!dispatchException && clients_are_ready()) {
             ClientPtr client = SmartScheduleClient();
 
-            isItTimeToYield = FALSE;
+            isItTimeToYield = False;
 
             c_long start_tick = SmartScheduleTime;
             while (!isItTimeToYield) {
@@ -658,7 +658,7 @@ Bool CreateConnectionBlock()
         cast(uint)(setup.numRoots * xWindowRoot.sizeof));
     ConnectionInfo = cast(char*)calloc(1, lenofblock);
     if (!ConnectionInfo)
-        return FALSE;
+        return False;
 
     memcpy(ConnectionInfo, &setup, xConnSetup.sizeof);
     sizesofar = xConnSetup.sizeof;
@@ -703,7 +703,7 @@ Bool CreateConnectionBlock()
         root.maxInstalledMaps = walkScreen.maxInstalledCmaps;
         root.rootVisualID = cast(uint)walkScreen.rootVisual;
         root.backingStore = walkScreen.backingStoreSupport;
-        root.saveUnders = FALSE;
+        root.saveUnders = False;
         root.rootDepth = cast(ubyte)walkScreen.rootDepth;
         root.nDepths = cast(ubyte)walkScreen.numDepths;
         memcpy(pBuf, &root, xWindowRoot.sizeof);
@@ -717,7 +717,7 @@ Bool CreateConnectionBlock()
             pBuf = cast(char*) realloc(ConnectionInfo, lenofblock);
             if (!pBuf) {
                 free(ConnectionInfo);
-                return FALSE;
+                return False;
             }
             ConnectionInfo = pBuf;
             pBuf += sizesofar;
@@ -747,7 +747,7 @@ Bool CreateConnectionBlock()
     connSetupPrefix.length = cast(ushort)(lenofblock / 4);
     connSetupPrefix.majorVersion = X_PROTOCOL;
     connSetupPrefix.minorVersion = X_PROTOCOL_REVISION;
-    return TRUE;
+    return True;
 }
 
 int DoCreateWindowReq(ClientPtr client, xCreateWindowReq* stuff, XID* xids)
@@ -870,7 +870,7 @@ int ProcChangeSaveSet(ClientPtr client)
     if (client.clientAsMask == (CLIENT_BITS(pWin.drawable.id)))
         return BadMatch;
     if ((stuff.mode == SetModeInsert) || (stuff.mode == SetModeDelete))
-        return AlterSaveSetForClient(client, pWin, stuff.mode, FALSE, TRUE);
+        return AlterSaveSetForClient(client, pWin, stuff.mode, False, True);
     client.errorValue = cast(uint)stuff.mode;
     return BadValue;
 }
@@ -950,7 +950,7 @@ int ProcUnmapWindow(ClientPtr client)
     rc = dixLookupWindow(&pWin, stuff.id, client, DixHideAccess);
     if (rc != Success)
         return rc;
-    UnmapWindow(pWin, FALSE);
+    UnmapWindow(pWin, False);
     /* update cache to say it is mapped */
     return Success;
 }
@@ -1074,7 +1074,7 @@ int ProcQueryTree(ClientPtr client)
 
     pHead = RealChildHead(pWin);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     CARD32 numChildren = 0;
     for (WindowPtr pChild = pWin.lastChild; pChild != pHead; pChild = pChild.prevSib) {
@@ -1145,7 +1145,7 @@ int ProcGetAtomName(ClientPtr client)
 
     const(int) len = cast(int)strlen(str);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)str, len);
 
     xGetAtomNameReply reply = {
@@ -1378,7 +1378,7 @@ int ProcQueryFont(ClientPtr client)
         QueryFont(pFont, reply, nprotoxcistructs);
 
         if (client.swapped) {
-            SwapFont(reply, TRUE);
+            SwapFont(reply, True);
         }
 
         WriteToClient(client, rlength, reply);
@@ -1469,7 +1469,7 @@ int dixDestroyPixmap(void* value, XID pid)
         dixScreenRaisePixmapDestroy(pPixmap);
     if (pPixmap && pPixmap.drawable.pScreen && pPixmap.drawable.pScreen.DestroyPixmap)
         return pPixmap.drawable.pScreen.DestroyPixmap(pPixmap);
-    return TRUE;
+    return True;
 }
 
 int ProcCreatePixmap(ClientPtr client)
@@ -2303,7 +2303,7 @@ private int DoGetImage(ClientPtr client, int format, Drawable drawable, int x, i
                                        IncludeInferiors);
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (linesPerBuf == 0) {
         /* nothing to do */
@@ -2623,7 +2623,7 @@ int ProcListInstalledColormaps(ClientPtr client)
     ScreenPtr pScreen = pWin.drawable.pScreen;
     const(int) nummaps = pScreen.ListInstalledColormaps(pScreen, cm);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD32s(&rpcbuf, cm, nummaps); /* Colormap is an XID, thus CARD32  */
     free(cm);
 
@@ -2767,7 +2767,7 @@ int ProcAllocColorCells(ClientPtr client)
         nmasks = stuff.planes;
         length = (cast(c_long) npixels + cast(c_long) nmasks) * Pixel.sizeof;
 
-        x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+        x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
         Pixel* ppixels = cast(uint*)x_rpcbuf_reserve(&rpcbuf, length);
         if (!ppixels)
@@ -2847,7 +2847,7 @@ int ProcAllocColorPlanes(ClientPtr client)
         };
         length = cast(c_long) npixels *Pixel.sizeof;
 
-        x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+        x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
         Pixel* ppixels = cast(uint*)x_rpcbuf_reserve(&rpcbuf, length);
         if (!ppixels)
             return BadAlloc;
@@ -2987,7 +2987,7 @@ int ProcQueryColors(ClientPtr client)
         count =
             cast(int)int32ForBytes(((client.req_len << 2)) - xQueryColorsReq.sizeof);
 
-        x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+        x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
         xrgb* prgbs = cast(xrgb*)x_rpcbuf_reserve(&rpcbuf, count * xrgb.sizeof);
         if (!prgbs && count)
             return BadAlloc;
@@ -3398,7 +3398,7 @@ int ProcListHosts(ClientPtr client)
         nHosts: cast(ushort)nHosts
     };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (client.swapped) {
         char* bufT = cast(char*) pdata;
@@ -3474,7 +3474,7 @@ int ProcKillClient(ClientPtr client)
             /* force yield and return Success, so that Dispatch()
              * doesn't try to touch client
              */
-            isItTimeToYield = TRUE;
+            isItTimeToYield = True;
         }
         return Success;
     }
@@ -3517,7 +3517,7 @@ int ProcGetFontPath(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     xGetFontPathReply reply = {
         nPaths: cast(ushort)FillFontPath(&rpcbuf)
@@ -3609,7 +3609,7 @@ void CloseDownClient(ClientPtr client)
              *  better not to traverse all the client's resources
              *  twice (once here, once a few lines down in
              *  FreeClientResources) in the common case of
-             *  really_close_down == TRUE.
+             *  really_close_down == True.
              */
             FreeClientNeverRetainResources(client);
             client.clientState = ClientStateRetained;
@@ -3622,7 +3622,7 @@ void CloseDownClient(ClientPtr client)
                 CallCallbacks((&ClientStateCallback), cast(void*) &clientinfo);
             }
         }
-        client.clientGone = TRUE;      /* so events aren't sent to client */
+        client.clientGone = True;      /* so events aren't sent to client */
         if (ClientIsAsleep(client))
             dixClientSignal(client);
         ProcessWorkQueueZombies();
@@ -3767,7 +3767,7 @@ int ProcInitialConnection(ClientPtr client)
         return client.noClientException = -1;
     if (((*cast(char*) &whichbyte) && (order == 'B' || order == 'R')) ||
         (!(*cast(char*) &whichbyte) && (order == 'l' || order == 'r'))) {
-        client.swapped = TRUE;
+        client.swapped = True;
         SwapConnClientPrefix(prefix);
     }
     stuff.reqType = 2;
@@ -3777,7 +3777,7 @@ int ProcInitialConnection(ClientPtr client)
         swaps(&stuff.length);
     }
     if (order == 'r' || order == 'R') {
-        client.local = FALSE;
+        client.local = False;
     }
     ResetCurrentRequest(client);
     return Success;
@@ -4016,7 +4016,7 @@ private int init_screen(ScreenPtr pScreen, int i, Bool gpu)
     pScreen.myNum = i;
     if (gpu) {
         pScreen.myNum += GPU_SCREEN_OFFSET;
-        pScreen.isGPU = TRUE;
+        pScreen.isGPU = True;
     }
     pScreen.totalPixmapSize = 0;       /* computed in CreateScratchPixmapForScreen */
     pScreen.ClipNotify = null;    /* for R4 ddx compatibility */
@@ -4073,7 +4073,7 @@ int AddScreen(Bool function(ScreenPtr, int, char**) @nogc nothrow pfnInit, int a
     if (!pScreen)
         return -1;
 
-    ret = init_screen(pScreen, i, FALSE);
+    ret = init_screen(pScreen, i, False);
     if (ret != 0) {
         free(pScreen);
         return ret;
@@ -4115,7 +4115,7 @@ int AddGPUScreen(Bool function(ScreenPtr, int, char**) @nogc nothrow pfnInit, in
     if (!pScreen)
         return -1;
 
-    ret = init_screen(pScreen, i, TRUE);
+    ret = init_screen(pScreen, i, True);
     if (ret != 0) {
         free(pScreen);
         return ret;
@@ -4186,7 +4186,7 @@ void AttachOutputGPU(ScreenPtr pScreen, ScreenPtr new_)
     assert(new_.isGPU);
     assert(!new_.is_output_secondary);
     assert(new_.current_primary == pScreen);
-    new_.is_output_secondary = TRUE;
+    new_.is_output_secondary = True;
     new_.current_primary.output_secondarys++;
 }
 
@@ -4195,7 +4195,7 @@ void DetachOutputGPU(ScreenPtr secondary)
     assert(secondary.isGPU);
     assert(secondary.is_output_secondary);
     secondary.current_primary.output_secondarys--;
-    secondary.is_output_secondary = FALSE;
+    secondary.is_output_secondary = False;
 }
 
 void AttachOffloadGPU(ScreenPtr pScreen, ScreenPtr new_)
@@ -4203,13 +4203,13 @@ void AttachOffloadGPU(ScreenPtr pScreen, ScreenPtr new_)
     assert(new_.isGPU);
     assert(!new_.is_offload_secondary);
     assert(new_.current_primary == pScreen);
-    new_.is_offload_secondary = TRUE;
+    new_.is_offload_secondary = True;
 }
 
 void DetachOffloadGPU(ScreenPtr secondary)
 {
     assert(secondary.isGPU);
     assert(secondary.is_offload_secondary);
-    secondary.is_offload_secondary = FALSE;
+    secondary.is_offload_secondary = False;
 }
 

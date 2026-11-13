@@ -58,6 +58,7 @@ import xf86Extensions;
 import xf86cmap;
 import hw.xfree86.common.xf86Helper;
 import xf86Cursor;
+// import common.bools;
 
 
 private vidMonitorValue xf86VidModeGetMonitorValue(ScreenPtr pScreen, int valtyp, int indx)
@@ -108,9 +109,9 @@ private Bool xf86VidModeGetCurrentModeline(ScreenPtr pScreen, DisplayModePtr* mo
         *mode = pScrn.currentMode;
         *dotClock = pScrn.currentMode.Clock;
 
-        return TRUE;
+        return True;
     }
-    return FALSE;
+    return False;
 }
 
 private int xf86VidModeGetDotClock(ScreenPtr pScreen, int Clock)
@@ -130,11 +131,11 @@ private int xf86VidModeGetNumOfClocks(ScreenPtr pScreen, Bool* progClock)
 
     pScrn = xf86ScreenToScrn(pScreen);
     if (pScrn.progClock) {
-        *progClock = TRUE;
+        *progClock = True;
         return 0;
     }
     else {
-        *progClock = FALSE;
+        *progClock = False;
         return pScrn.numClocks;
     }
 }
@@ -147,12 +148,12 @@ private Bool xf86VidModeGetClocks(ScreenPtr pScreen, int* Clocks)
     pScrn = xf86ScreenToScrn(pScreen);
 
     if (pScrn.progClock)
-        return FALSE;
+        return False;
 
     for (i = 0; i < pScrn.numClocks; i++)
         *Clocks++ = pScrn.clock[i];
 
-    return TRUE;
+    return True;
 }
 
 private Bool xf86VidModeGetNextModeline(ScreenPtr pScreen, DisplayModePtr* mode, int* dotClock)
@@ -167,11 +168,11 @@ private Bool xf86VidModeGetNextModeline(ScreenPtr pScreen, DisplayModePtr* mode,
             pVidMode.Next = p.next;
             *mode = p;
             *dotClock = xf86VidModeGetDotClock(pScreen, p.Clock);
-            return TRUE;
+            return True;
         }
     }
 
-    return FALSE;
+    return False;
 }
 
 private Bool xf86VidModeGetFirstModeline(ScreenPtr pScreen, DisplayModePtr* mode, int* dotClock)
@@ -181,7 +182,7 @@ private Bool xf86VidModeGetFirstModeline(ScreenPtr pScreen, DisplayModePtr* mode
 
     pScrn = xf86ScreenToScrn(pScreen);
     if (pScrn.modes is null)
-        return FALSE;
+        return False;
 
     pVidMode = VidModeGetPtr(pScreen);
     pVidMode.First = pScrn.modes;
@@ -190,7 +191,7 @@ private Bool xf86VidModeGetFirstModeline(ScreenPtr pScreen, DisplayModePtr* mode
     if (pVidMode.First.status == MODE_OK) {
         *mode = pVidMode.First;
         *dotClock = xf86VidModeGetDotClock(pScreen, pVidMode.First.Clock);
-        return TRUE;
+        return True;
     }
 
     return xf86VidModeGetNextModeline(pScreen, mode, dotClock);
@@ -201,17 +202,17 @@ private Bool xf86VidModeDeleteModeline(ScreenPtr pScreen, DisplayModePtr mode)
     ScrnInfoPtr pScrn = void;
 
     if (mode is null)
-        return FALSE;
+        return False;
 
     pScrn = xf86ScreenToScrn(pScreen);
     xf86DeleteMode(&(pScrn.modes), mode);
-    return TRUE;
+    return True;
 }
 
 private Bool xf86VidModeZoomViewport(ScreenPtr pScreen, int zoom)
 {
     xf86ZoomViewport(pScreen, zoom);
-    return TRUE;
+    return True;
 }
 
 private Bool xf86VidModeSetViewPort(ScreenPtr pScreen, int x, int y)
@@ -228,7 +229,7 @@ private Bool xf86VidModeSetViewPort(ScreenPtr pScreen, int x, int y)
     if (pScrn.AdjustFrame !is null)
         (pScrn.AdjustFrame) (pScrn, pScrn.frameX0, pScrn.frameY0);
 
-    return TRUE;
+    return True;
 }
 
 private Bool xf86VidModeGetViewPort(ScreenPtr pScreen, int* x, int* y)
@@ -238,7 +239,7 @@ private Bool xf86VidModeGetViewPort(ScreenPtr pScreen, int* x, int* y)
     pScrn = xf86ScreenToScrn(pScreen);
     *x = pScrn.frameX0;
     *y = pScrn.frameY0;
-    return TRUE;
+    return True;
 }
 
 private Bool xf86VidModeSwitchMode(ScreenPtr pScreen, DisplayModePtr mode)
@@ -254,7 +255,7 @@ private Bool xf86VidModeSwitchMode(ScreenPtr pScreen, DisplayModePtr mode)
     pScrn.currentMode = null;
     retval = xf86SwitchMode(pScrn.pScreen, mode);
     /* we failed: restore it */
-    if (retval == FALSE)
+    if (retval == False)
         pScrn.currentMode = pTmpMode;
     return retval;
 }
@@ -262,10 +263,10 @@ private Bool xf86VidModeSwitchMode(ScreenPtr pScreen, DisplayModePtr mode)
 private Bool xf86VidModeLockZoom(ScreenPtr pScreen, Bool lock)
 {
     if (xf86Info.dontZoom)
-        return FALSE;
+        return False;
 
     xf86LockZoom(pScreen, lock);
-    return TRUE;
+    return True;
 }
 
 private ModeStatus xf86VidModeCheckModeForMonitor(ScreenPtr pScreen, DisplayModePtr mode)
@@ -315,7 +316,7 @@ private Bool xf86VidModeAddModeline(ScreenPtr pScreen, DisplayModePtr mode)
     ScrnInfoPtr pScrn = void;
 
     if (mode is null)
-        return FALSE;
+        return False;
 
     pScrn = xf86ScreenToScrn(pScreen);
 
@@ -327,7 +328,7 @@ private Bool xf86VidModeAddModeline(ScreenPtr pScreen, DisplayModePtr mode)
     if (mode.next !is null)
         mode.next.prev = mode;
 
-    return TRUE;
+    return True;
 }
 
 private int xf86VidModeGetNumOfModes(ScreenPtr pScreen)
@@ -342,7 +343,7 @@ private int xf86VidModeGetNumOfModes(ScreenPtr pScreen)
         nummodes++;
         if (!xf86VidModeGetNextModeline(pScreen, &mode, &dotClock))
             return nummodes;
-    } while (TRUE);
+    } while (True);
 }
 
 private Bool xf86VidModeSetGamma(ScreenPtr pScreen, float red, float green, float blue)
@@ -353,9 +354,9 @@ private Bool xf86VidModeSetGamma(ScreenPtr pScreen, float red, float green, floa
     gamma.green = green;
     gamma.blue = blue;
     if (xf86ChangeGamma(pScreen, gamma) != Success)
-        return FALSE;
+        return False;
     else
-        return TRUE;
+        return True;
 }
 
 private Bool xf86VidModeGetGamma(ScreenPtr pScreen, float* red, float* green, float* blue)
@@ -366,19 +367,19 @@ private Bool xf86VidModeGetGamma(ScreenPtr pScreen, float* red, float* green, fl
     *red = pScrn.gamma.red;
     *green = pScrn.gamma.green;
     *blue = pScrn.gamma.blue;
-    return TRUE;
+    return True;
 }
 
 private Bool xf86VidModeSetGammaRamp(ScreenPtr pScreen, int size, CARD16* r, CARD16* g, CARD16* b)
 {
     xf86ChangeGammaRamp(pScreen, size, r, g, b);
-    return TRUE;
+    return True;
 }
 
 private Bool xf86VidModeGetGammaRamp(ScreenPtr pScreen, int size, CARD16* r, CARD16* g, CARD16* b)
 {
     xf86GetGammaRamp(pScreen, size, r, g, b);
-    return TRUE;
+    return True;
 }
 
 private Bool xf86VidModeInit(ScreenPtr pScreen)
@@ -387,12 +388,12 @@ private Bool xf86VidModeInit(ScreenPtr pScreen)
 
     if (!xf86Info.vidModeEnabled) {
         DebugF("!xf86GetVidModeEnabled()\n");
-        return FALSE;
+        return False;
     }
 
     pVidMode = VidModeInit(pScreen);
     if (!pVidMode)
-        return FALSE;
+        return False;
 
     pVidMode.Flags = 0;
     pVidMode.Next = null;
@@ -421,12 +422,12 @@ private Bool xf86VidModeInit(ScreenPtr pScreen)
     pVidMode.GetGammaRamp = &xf86VidModeGetGammaRamp;
     pVidMode.GetGammaRampSize = &xf86GetGammaRampSize; /* use xf86cmap API directly */
 
-    return TRUE;
+    return True;
 }
 
 void XFree86VidModeExtensionInit()
 {
-    Bool enabled = FALSE;
+    Bool enabled = False;
 
     DebugF("XFree86VidModeExtensionInit");
 
@@ -436,7 +437,7 @@ void XFree86VidModeExtensionInit()
 
     mixin(DIX_FOR_EACH_SCREEN!q{
         if (xf86VidModeInit(walkScreen))
-            enabled = TRUE;
+            enabled = True;
     });
 
     /* This means that the DDX doesn't want the vidmode extension enabled */

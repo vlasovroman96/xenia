@@ -864,7 +864,7 @@ Bool dixLookupBuiltinColor(char* name, uint len, ushort* pred, ushort* pgreen, u
                 *pred = c.red * 0x101;
                 *pgreen = c.green * 0x101;
                 *pblue = c.blue * 0x101;
-                return TRUE;
+                return True;
             } else if (len > currentLen) {
                 low = mid + 1;
             } else {
@@ -876,5 +876,5 @@ Bool dixLookupBuiltinColor(char* name, uint len, ushort* pred, ushort* pgreen, u
             low = mid + 1;
         }
     }
-    return FALSE;
+    return False;
 }

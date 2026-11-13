@@ -317,13 +317,13 @@ Bool KdTuneMode(KdScreenInfo* screen, Bool function(KdScreenInfo*) usable, Bool 
         else {
             t = kdFindPrevSize(KdFindMode(screen, supported));
             if (!t)
-                return FALSE;
+                return False;
             screen.width = t.horizontal;
             screen.height = t.vertical;
             screen.rate = t.rate;
         }
     }
-    return TRUE;
+    return True;
 }
 
 static if(RANDR){
@@ -343,16 +343,16 @@ Bool KdRandRGetInfo(ScreenPtr pScreen, int randr, Bool function(ScreenPtr pScree
                                    t.vertical,
                                    screen.width_mm, screen.height_mm);
             if (!pSize)
-                return FALSE;
+                return False;
             if (!RRRegisterRate(pScreen, pSize, t.rate))
-                return FALSE;
+                return False;
             if (t.horizontal == screen.width &&
                 t.vertical == screen.height && t.rate == screen.rate)
                 RRSetCurrentConfig(pScreen, randr, t.rate, pSize);
         }
     }
 
-    return TRUE;
+    return True;
 }
 
 const(KdMonitorTiming)* KdRandRGetTiming(ScreenPtr pScreen, Bool function(ScreenPtr pScreen, const(KdMonitorTiming)*) supported, int rate, RRScreenSizePtr pSize)

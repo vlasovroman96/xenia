@@ -144,7 +144,7 @@ private void TslibDisable(KdPointerInfo* pi)
     TslibPrivate* private_ = pi.driverPrivate;
 
     if (private_.fd)
-        KdUnregisterFd(pi, private_.fd, TRUE);
+        KdUnregisterFd(pi, private_.fd, True);
 
     if (private_.tsDev)
         ts_close(private_.tsDev);

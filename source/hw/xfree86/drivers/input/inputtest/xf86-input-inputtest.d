@@ -158,7 +158,7 @@ private Bool notify_sync_finished(ClientPtr ptr, void* closure)
                        strerror(errno));
     }
     input_unlock();
-    return TRUE;
+    return True;
 }
 
 private void input_drain_callback(CallbackListPtr* callback, void* data, void* call_data)
@@ -236,7 +236,7 @@ private int device_on(DeviceIntPtr dev)
     xf86IDrvMsg(pInfo, X_DEBUG, "Device turned on\n");
 
     xf86AddEnabledDevice(pInfo);
-    dev.public_.on = TRUE;
+    dev.public_.on = True;
     driver_data.buffer.valid_length = 0;
 
     try_accept_connection(-1, 0, dev);
@@ -270,7 +270,7 @@ private int device_off(DeviceIntPtr dev)
         teardown_client_connection(pInfo);
         xf86RemoveEnabledDevice(pInfo);
     }
-    dev.public_.on = FALSE;
+    dev.public_.on = False;
     return Success;
 }
 
@@ -432,8 +432,8 @@ private void init_keyboard(InputInfoPtr pInfo)
     rmlvo.options = xf86SetStrOption(pInfo.options, "xkb_options", defaults.options);
 
     InitKeyboardDeviceStruct(dev, &rmlvo, null, null);
-    XkbFreeRMLVOSet(&rmlvo, FALSE);
-    XkbFreeRMLVOSet(&defaults, FALSE);
+    XkbFreeRMLVOSet(&rmlvo, False);
+    XkbFreeRMLVOSet(&defaults, False);
 }
 
 private void init_touch(InputInfoPtr pInfo)
@@ -500,7 +500,7 @@ private void device_init(DeviceIntPtr dev)
     InputInfoPtr pInfo = cast(InputInfoPtr)dev.public_.devicePrivate;
     xf86ITDevicePtr driver_data = cast(_Xf86ITDevice*)pInfo.private_;
 
-    dev.public_.on = FALSE;
+    dev.public_.on = False;
 
     switch (driver_data.device_type) {
         case DEVICE_KEYBOARD:

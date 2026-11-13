@@ -50,6 +50,7 @@ import common.bytes;
  import core.stdc.stdint;
  import os.io;
 import common.swap;
+import common.bools;
 
  alias SIZE_MAX = core.stdc.stdint.SIZE_MAX;
 

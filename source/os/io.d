@@ -202,7 +202,7 @@ enum BUFWATERMARK = 32768;
 
 private void YieldControl()
 {
-    isItTimeToYield = TRUE;
+    isItTimeToYield = True;
     timesThisConnection = 0;
 }
 
@@ -281,8 +281,8 @@ static if (XTRANS_SEND_FDS) {
 
     oci.bufptr += oci.lenLastReq;
 
-    need_header = FALSE;
-    move_header = FALSE;
+    need_header = False;
+    move_header = False;
     gotnow = cast(uint)(oci.bufcnt + oci.buffer - oci.bufptr);
 
     if (oci.ignoreBytes > 0) {
@@ -296,7 +296,7 @@ static if (XTRANS_SEND_FDS) {
          * the request will be until we get the whole xReq.
          */
         needed = xReq.sizeof;
-        need_header = TRUE;
+        need_header = True;
     }
     else {
         /* We have a whole xReq.  We can tell how big the whole
@@ -306,11 +306,11 @@ static if (XTRANS_SEND_FDS) {
         needed = mixin(get_req_len!(`request`, `client`));
         if (!needed && client.big_requests) {
             /* It's a Big Request. */
-            move_header = TRUE;
+            move_header = True;
             if (gotnow < xBigReq.sizeof) {
                 /* Still need more data to tell just how big. */
                 needed = cast(uint)int32ForBytes(xBigReq.sizeof);       /* needed is in CARD32s now */
-                need_header = TRUE;
+                need_header = True;
             }
             else
                 needed = cast(uint)mixin(get_big_req_len!(`request`, `client`));
@@ -324,9 +324,9 @@ static if (XTRANS_SEND_FDS) {
     }
     if (gotnow < needed) {
         /* Need to read more data, either so that we can get a
-         * complete xReq (if need_header is TRUE), a complete
-         * xBigReq (if move_header is TRUE), or the rest of the
-         * request (if need_header and move_header are both FALSE).
+         * complete xReq (if need_header is True), a complete
+         * xBigReq (if move_header is True), or the rest of the
+         * request (if need_header and move_header are both False).
          */
 
         oci.lenLastReq = 0;
@@ -403,7 +403,7 @@ static if (XTRANS_SEND_FDS) {
             request = cast(xReq*) oci.bufptr;
             needed = mixin(get_req_len!(`request`, `client`));
             if (!needed && client.big_requests) {
-                move_header = TRUE;
+                move_header = True;
                 if (gotnow < xBigReq.sizeof)
                     needed = cast(uint)int32ForBytes(xBigReq.sizeof);
                 else
@@ -531,7 +531,7 @@ Bool InsertFakeRequest(ClientPtr client, char* data, int count)
         if ((oci = FreeInputs) !is null)
             FreeInputs = oci.next;
         else if (((oci = AllocateInputBuffer()) is null))
-            return FALSE;
+            return False;
         oc.input = oci;
     }
     oci.bufptr += oci.lenLastReq;
@@ -542,7 +542,7 @@ Bool InsertFakeRequest(ClientPtr client, char* data, int count)
 
         ibuf = cast(char*) realloc(oci.buffer, gotnow + count);
         if (!ibuf)
-            return FALSE;
+            return False;
         oci.size = gotnow + count;
         oci.buffer = ibuf;
         oci.bufptr = ibuf + oci.bufcnt - gotnow;
@@ -562,7 +562,7 @@ Bool InsertFakeRequest(ClientPtr client, char* data, int count)
         mark_client_ready(client);
     else
         YieldControlNoInput(client);
-    return TRUE;
+    return True;
 }
 
 /*****************************************************************
@@ -634,8 +634,8 @@ void FlushAllOutput()
      * but he is not yet ready to receive it anyway, so we will
      * simply wait for the select to tell us when he's ready to receive.
      */
-    CriticalOutputPending = FALSE;
-    NewOutputPending = FALSE;
+    CriticalOutputPending = False;
+    NewOutputPending = False;
 
     foreach(client; output_pending_clients.byEntriesSafe!(ClientPtr, "output_pending")) {
         if (client.clientGone)
@@ -644,7 +644,7 @@ void FlushAllOutput()
             oc = cast(OsCommPtr) client.osPrivate;
             FlushClient(client, oc);
         } else
-            NewOutputPending = TRUE;
+            NewOutputPending = True;
     }
 }
 
@@ -656,7 +656,7 @@ void FlushIfCriticalOutputPending()
 
 void SetCriticalOutputPending()
 {
-    CriticalOutputPending = TRUE;
+    CriticalOutputPending = True;
 }
 
 /*****************
@@ -784,7 +784,7 @@ int WriteToClient(ClientPtr who, int count, const(void)* __buf)
     // return 0;
 
 version (DEBUG_COMMUNICATION) {
-    Bool multicount = FALSE;
+    Bool multicount = False;
 }
     if (!count || !who || who == serverClient || who.clientGone)
         return 0;
@@ -804,7 +804,7 @@ version (DEBUG_COMMUNICATION) {
                     snprintf(info.ptr, 127, "Xreply: type: 0x%x data: 0x%x "
                              ~ "len: %i seq#: 0x%x", rep.type, rep.data1,
                              rep.length, rep.sequenceNumber);
-                    multicount = TRUE;
+                    multicount = True;
                 }
                 break;
             case X_Error:
@@ -826,7 +826,7 @@ version (DEBUG_COMMUNICATION) {
             ErrorF("REPLY: ClientIDX: %i %s\n", who.index, info.ptr);
         }
         else
-            multicount = TRUE;
+            multicount = True;
     }
 }
 
@@ -841,7 +841,7 @@ version (DEBUG_COMMUNICATION) {
         replyinfo.padBytes = padBytes;
         if (who.replyBytesRemaining) { /* still sending data of an earlier reply */
             who.replyBytesRemaining -= count + padBytes;
-            replyinfo.startOfReply = FALSE;
+            replyinfo.startOfReply = False;
             replyinfo.bytesRemaining = who.replyBytesRemaining;
             CallCallbacks((&ReplyCallback), cast(void*) &replyinfo);
         }
@@ -853,7 +853,7 @@ version (DEBUG_COMMUNICATION) {
             if (who.swapped)
                 swapl(&replylen);
             bytesleft = (replylen * 4) + xReply.sizeof - count - padBytes;
-            replyinfo.startOfReply = TRUE;
+            replyinfo.startOfReply = True;
             replyinfo.bytesRemaining = who.replyBytesRemaining = cast(int)bytesleft;
             CallCallbacks((&ReplyCallback), cast(void*) &replyinfo);
         }
@@ -881,13 +881,13 @@ version (DEBUG_COMMUNICATION) {
     if ((oco.count == 0 && who.local) || oco.count + count + padBytes > oco.size) {
         output_pending_clear(who);
         if (!any_output_pending()) {
-            CriticalOutputPending = FALSE;
-            NewOutputPending = FALSE;
+            CriticalOutputPending = False;
+            NewOutputPending = False;
         }
         return OutputBufferMakeRoomAndFlush(who, oc, buf, count);
     }
 
-    NewOutputPending = TRUE;
+    NewOutputPending = True;
     output_pending_mark(who);
     memmove(cast(char*) oco.buf + oco.count, buf, count);
     oco.count += count;

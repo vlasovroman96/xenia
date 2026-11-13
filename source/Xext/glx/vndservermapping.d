@@ -38,6 +38,7 @@ import dix.pixmap;
 import glx.vndservervendor;
 import dix.dixutils;
 import dix.resource;
+import common.bools;
 
 
 private ClientPtr requestClient = null;

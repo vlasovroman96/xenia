@@ -107,9 +107,9 @@ void present_fence_set_triggered(present_fence* present_fence)
 Bool present_fence_check_triggered(present_fence* present_fence)
 {
     if (!present_fence)
-        return TRUE;
+        return True;
     if (!present_fence.fence)
-        return TRUE;
+        return True;
     return (*present_fence.fence.funcs.CheckTriggered)(present_fence.fence);
 }
 

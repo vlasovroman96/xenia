@@ -128,12 +128,12 @@ Bool dri3_screen_init(ScreenPtr screen, const(dri3_screen_info_rec)* info)
     dri3_screen_generation = serverGeneration;
 
     if (!dixRegisterPrivateKey(&dri3_screen_private_key, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
 
     if (!dri3_screen_priv(screen)) {
         dri3_screen_priv_ptr screen_priv = cast(dri3_screen_priv_rec*) calloc(1, dri3_screen_priv_rec.sizeof);
         if (!screen_priv)
-            return FALSE;
+            return False;
 
         dixScreenHookClose(screen, &dri3_screen_close);
 
@@ -143,7 +143,7 @@ Bool dri3_screen_init(ScreenPtr screen, const(dri3_screen_info_rec)* info)
     if (info)
         dri3_screen_priv(screen).info = info;
 
-    return TRUE;
+    return True;
 }
 
 // RESTYPE dri3_syncobj_type;

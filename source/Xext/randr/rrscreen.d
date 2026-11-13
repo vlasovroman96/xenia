@@ -183,7 +183,7 @@ void RRScreenSizeNotify(ScreenPtr pScreen)
     pScrPriv.mmWidth = pScreen.mmWidth;
     pScrPriv.mmHeight = pScreen.mmHeight;
     RRSetChanged(pScreen);
-/*    pScrPriv->sizeChanged = TRUE; */
+/*    pScrPriv->sizeChanged = True; */
 
     RRTellChanged(pScreen);
     RRSendConfigNotify(pScreen);
@@ -210,9 +210,9 @@ static if (RANDR_12_INTERFACE) {
     }
 }
     if (pScrPriv.rrSetConfig) {
-        return TRUE;            /* can't set size separately */
+        return True;            /* can't set size separately */
     }
-    return FALSE;
+    return False;
 }
 
 /*
@@ -240,7 +240,7 @@ int ProcRRGetScreenSizeRange(ClientPtr client)
     xRRGetScreenSizeRangeReply reply = { 0 };
 
     if (pScrPriv) {
-        if (!RRGetInfo(pScreen, FALSE))
+        if (!RRGetInfo(pScreen, False))
             return BadAlloc;
         reply.minWidth = pScrPriv.minWidth;
         reply.minHeight = pScrPriv.minHeight;
@@ -447,7 +447,7 @@ private int rrGetMultiScreenResources(ClientPtr client, Bool query, ScreenPtr pS
                   total_modes * int32ForBytes((xRRModeInfo).sizeof) +
                   int32ForBytes(total_name_len));
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     extraLen = reply.length << 2;
     if (extraLen) {
@@ -532,7 +532,7 @@ private int rrGetScreenResources(ClientPtr client, Bool query)
     if (pScreen.output_secondarys)
         return rrGetMultiScreenResources(client, query, pScreen);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (!pScrPriv) {
         reply = xRRGetScreenResourcesReply (
@@ -649,12 +649,12 @@ finish:
 
 int ProcRRGetScreenResources(ClientPtr client)
 {
-    return rrGetScreenResources(client, TRUE);
+    return rrGetScreenResources(client, True);
 }
 
 int ProcRRGetScreenResourcesCurrent(ClientPtr client)
 {
-    return rrGetScreenResources(client, FALSE);
+    return rrGetScreenResources(client, False);
 }
 
 struct _RR10Data {
@@ -734,7 +734,7 @@ private RR10DataPtr RR10GetData(ScreenPtr pScreen, RROutputPtr output)
             if (mode.mode.width == size[l].width &&
                 mode.mode.height == size[l].height) {
                 vRefresh = RRVerticalRefresh(&mode.mode);
-                used[os] = TRUE;
+                used[os] = True;
 
                 for (r = 0; r < size[l].nRates; r++)
                     if (vRefresh == size[l].pRates[r].rate)
@@ -779,12 +779,12 @@ int ProcRRGetScreenInfo(ClientPtr client)
     pScrPriv = mixin(rrGetScrPriv!("pScreen"));
 
     if (pScrPriv)
-        if (!RRGetInfo(pScreen, TRUE))
+        if (!RRGetInfo(pScreen, True))
             return BadAlloc;
 
     output = RRFirstOutput(pScreen);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (!pScrPriv || !output) {
         reply = xRRGetScreenInfoReply (
@@ -943,7 +943,7 @@ int ProcRRSetScreenConfig(ClientPtr client)
         status = RRSetConfigFailed;
         goto sendReply;
     }
-    if (!RRGetInfo(pScreen, FALSE))
+    if (!RRGetInfo(pScreen, False))
         return BadAlloc;
 
     output = RRFirstOutput(pScreen);

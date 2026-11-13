@@ -557,7 +557,7 @@ xf86MonPtr xf86PrintEDID(xf86MonPtr m)
     print_std_timings(m.scrnIndex, m.timings2.ptr);
     p.m = m;
     p.index = 0;
-    p.quirks = xf86DDCDetectQuirks(m.scrnIndex, m, FALSE);
+    p.quirks = xf86DDCDetectQuirks(m.scrnIndex, m, False);
     xf86ForEachDetailedBlock(m, &handle_detailed_print, &p);
     print_number_sections(m.scrnIndex, m.no_sections);
 

@@ -28,7 +28,7 @@ Bool xf86IsScreenPrimary(ScrnInfoPtr pScrn)
 
     for (i = 0; i < pScrn.numEntities; i++) {
         if (xf86IsEntityPrimary(i))
-            return TRUE;
+            return True;
     }
-    return FALSE;
+    return False;
 }

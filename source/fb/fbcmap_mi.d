@@ -93,12 +93,12 @@ Bool mfbCreateColormap(ColormapPtr pmap)
     /* this will be pixel 0 */
     pix = 0;
     if (AllocColor(pmap, &red0, &green0, &blue0, &pix, 0) != Success)
-	return FALSE;
+	return False;
 
     /* this will be pixel 1 */
     if (AllocColor(pmap, &red1, &green1, &blue1, &pix, 0) != Success)
-	return FALSE;
-    return TRUE;
+	return False;
+    return True;
 }
 
 int fbExpandDirectColors(ColormapPtr pmap, int ndef, xColorItem* indefs, xColorItem* outdefs)

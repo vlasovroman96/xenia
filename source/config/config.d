@@ -123,15 +123,15 @@ BOOL device_is_duplicate(const(char)* config_info)
 
     for (dev = inputInfo.devices; dev; dev = dev.next) {
         if (dev.config_info && (strcmp(dev.config_info, config_info) == 0))
-            return TRUE;
+            return True;
     }
 
     for (dev = inputInfo.off_devices; dev; dev = dev.next) {
         if (dev.config_info && (strcmp(dev.config_info, config_info) == 0))
-            return TRUE;
+            return True;
     }
 
-    return FALSE;
+    return False;
 }
 
 OdevAttributes* config_odev_allocate_attributes()

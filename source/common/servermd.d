@@ -85,7 +85,7 @@ struct PaddingInfo {
     int padPixelsLog2;          /* log 2 (pixels per pad unit) */
     int padBytesLog2;           /* log 2 (bytes per pad unit) */
     int notPower2;              /* bitsPerPixel not a power of 2 */
-    int bytesPerPixel;          /* only set when notPower2 is TRUE */
+    int bytesPerPixel;          /* only set when notPower2 is True */
     int bitsPerPixel;           /* bits per pixel */
 }
 // PaddingInfo [1] PixmapWidthPaddingInfo;

@@ -88,10 +88,10 @@ private void RRLeaseChangeState(RRLeasePtr lease, RRLeaseState old, RRLeaseState
     rrScrPrivPtr scr_priv = mixin(rrGetScrPriv!("screen"));
 
     lease.state = old;
-    scr_priv.leasesChanged = TRUE;
+    scr_priv.leasesChanged = True;
     RRSetChanged(lease.screen);
     RRTellChanged(lease.screen);
-    scr_priv.leasesChanged = FALSE;
+    scr_priv.leasesChanged = False;
     lease.state = new_;
 }
 
@@ -130,9 +130,9 @@ Bool RRCrtcIsLeased(RRCrtcPtr crtc)
     foreach(lease; scr_priv.leases.byEntries!RRLeasePtr) {
         for (c = 0; c < lease.numCrtcs; c++)
             if (lease.crtcs[c] == crtc)
-                return TRUE;
+                return True;
     }
-    return FALSE;
+    return False;
 }
 
 /*
@@ -147,9 +147,9 @@ Bool RROutputIsLeased(RROutputPtr output)
     foreach(lease; scr_priv.leases.byEntries!RRLeasePtr) {
         for (o = 0; o < lease.numOutputs; o++)
             if (lease.outputs[o] == output)
-                return TRUE;
+                return True;
     }
-    return FALSE;
+    return False;
 }
 
 /*
@@ -214,8 +214,8 @@ Bool RRLeaseInit()
 {
     RRLeaseType = CreateNewResourceType(&RRLeaseDestroyResource, "LEASE");
     if (!RRLeaseType)
-        return FALSE;
-    return TRUE;
+        return False;
+    return True;
 }
 
 int ProcRRCreateLease(ClientPtr client)
@@ -345,7 +345,7 @@ leaseReturned:
         return BadAlloc;
     }
 
-    if (WriteFdToClient(client, fd, TRUE) < 0) {
+    if (WriteFdToClient(client, fd, True) < 0) {
         RRTerminateLease(lease);
         close(fd);
         return BadAlloc;

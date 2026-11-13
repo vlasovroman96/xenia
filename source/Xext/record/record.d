@@ -299,7 +299,7 @@ private void RecordAProtocolElement(RecordContextPtr pContext, ClientPtr pClient
     int numElemHeaders = 0;
     Bool recordingClientSwapped = pContext.pRecordingClient.swapped;
     CARD32 serverTime = 0;
-    Bool gotServerTime = FALSE;
+    Bool gotServerTime = False;
     int replylen = void;
 
     if (futurelen >= 0) {       /* start of new protocol element */
@@ -315,7 +315,7 @@ private void RecordAProtocolElement(RecordContextPtr pContext, ClientPtr pClient
 
         if (!pContext.numBufBytes) {
             serverTime = GetTimeInMillis();
-            gotServerTime = TRUE;
+            gotServerTime = True;
             pRep.type = X_Reply;
             pRep.category = cast(ubyte)category;
             pRep.sequenceNumber = cast(ushort)pContext.pRecordingClient.sequence;
@@ -949,7 +949,7 @@ private void RecordUninstallHooks(RecordClientsAndProtocolPtr pRCAP, XID oneclie
             if (pRCAP.pRequestMajorOpSet) {
                 ClientPtr pClient = dixClientForXID(client);
                 int c = void;
-                Bool otherRCAPwantsProcVector = FALSE;
+                Bool otherRCAPwantsProcVector = False;
                 RecordClientPrivatePtr pClientPriv = null;
 
                 assert(pClient);
@@ -970,7 +970,7 @@ private void RecordUninstallHooks(RecordClientsAndProtocolPtr pRCAP, XID oneclie
                         RecordSetIteratePtr pIter = null;
                         RecordSetInterval interval = void;
 
-                        otherRCAPwantsProcVector = TRUE;
+                        otherRCAPwantsProcVector = True;
                         while ((pIter =
                                 mixin(RecordIterateSet!("pOtherRCAP.pRequestMajorOpSet",
                                                  "pIter", "&interval"))) !is null) {
@@ -1629,9 +1629,9 @@ private int RecordRegisterClients(RecordContextPtr pContext, ClientPtr client, x
 
     for (i = 0; i < stuff.nRanges; i++) {
         if (pRanges[i].clientStarted)
-            clientStarted = TRUE;
+            clientStarted = True;
         if (pRanges[i].clientDied)
-            clientDied = TRUE;
+            clientDied = True;
     }
 
     /*  We now have all the information collected to create all the sets,
@@ -1991,7 +1991,7 @@ enum SZINCR = 8;
  *	pri is where the result should be stored.
  *	byteoffset is the offset from the start of an xRecordRange of the
  *	  two vales (first, last) we are interested in.
- *	card8 is TRUE if the vales are one byte each and FALSE if two bytes
+ *	card8 is True if the vales are one byte each and False if two bytes
  *	  each.
  *	imax is the largest set value to store in pri->pRanges.
  *	pStartIndex, if non-NULL, is the index of the first range in
@@ -2082,7 +2082,7 @@ private int RecordConvertMinorOpInfoToRanges(RecordMinorOpPtr pMinOpInfo, GetCon
 
         s = start;
         err = RecordConvertSetToRanges(pMinOpInfo[i].major.pMinOpSet, pri,
-                                       byteoffset + 2, FALSE, 65535, &start);
+                                       byteoffset + 2, False, 65535, &start);
         if (err != Success)
             return err;
         for (j = s; j < start; j++) {
@@ -2163,31 +2163,31 @@ private int ProcRecordGetContext(ClientPtr client)
         xRecordRange rr = void;
 
         err = RecordConvertSetToRanges(pRCAP.pRequestMajorOpSet, pri,
-                                       cast(int)mixin(offset_of!(`rr`, `coreRequestsFirst`)), TRUE,
+                                       cast(int)mixin(offset_of!(`rr`, `coreRequestsFirst`)), True,
                                        127, null);
         if (err != Success)
             goto bailout;
 
         err = RecordConvertSetToRanges(pRCAP.pReplyMajorOpSet, pri,
-                                       cast(int)mixin(offset_of!(`rr`, `coreRepliesFirst`)), TRUE,
+                                       cast(int)mixin(offset_of!(`rr`, `coreRepliesFirst`)), True,
                                        127, null);
         if (err != Success)
             goto bailout;
 
         err = RecordConvertSetToRanges(pRCAP.pDeliveredEventSet, pri,
                                        cast(int)mixin(offset_of!(`rr`, `deliveredEventsFirst`)),
-                                       TRUE, 255, null);
+                                       True, 255, null);
         if (err != Success)
             goto bailout;
 
         err = RecordConvertSetToRanges(pRCAP.pDeviceEventSet, pri,
-                                       cast(int)mixin(offset_of!(`rr`, `deviceEventsFirst`)), TRUE,
+                                       cast(int)mixin(offset_of!(`rr`, `deviceEventsFirst`)), True,
                                        255, null);
         if (err != Success)
             goto bailout;
 
         err = RecordConvertSetToRanges(pRCAP.pErrorSet, pri,
-                                       cast(int)mixin(offset_of!(`rr`, `errorsFirst`)), TRUE, 255,
+                                       cast(int)mixin(offset_of!(`rr`, `errorsFirst`)), True, 255,
                                        null);
         if (err != Success)
             goto bailout;

@@ -560,9 +560,9 @@ char* XkbStringText(char* str, uint format)
     }
     else if (format == XkbXKMFile)
         return str;
-    for (ok = TRUE, len = 0, in_ = str; *in_ != '\0'; in_++, len++) {
+    for (ok = True, len = 0, in_ = str; *in_ != '\0'; in_++, len++) {
         if (!isprint(cast(ubyte)*in_)) {
-            ok = FALSE;
+            ok = False;
             switch (*in_) {
             case '\n':
             case '\t':
@@ -726,16 +726,16 @@ private int TryCopyStr(char* to, const(char)* from, int* pLeft)
         if (len < ((*pLeft) - 3)) {
             strcat(to, from);
             *pLeft -= len;
-            return TRUE;
+            return True;
         }
     }
     *pLeft = -1;
-    return FALSE;
+    return False;
 }
 
  /*ARGSUSED*/ private Bool CopyNoActionArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* sz)
 {
-    return TRUE;
+    return True;
 }
 
 private Bool CopyModActionArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* sz)
@@ -755,12 +755,12 @@ private Bool CopyModActionArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int
     else
         TryCopyStr(buf, "none", sz);
     if (act.type == XkbSA_LockMods)
-        return TRUE;
+        return True;
     if (act.flags & XkbSA_ClearLocks)
         TryCopyStr(buf, ",clearLocks", sz);
     if (act.flags & XkbSA_LatchToLock)
         TryCopyStr(buf, ",latchToLock", sz);
-    return TRUE;
+    return True;
 }
 
  /*ARGSUSED*/ private Bool CopyGroupActionArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* sz)
@@ -778,12 +778,12 @@ private Bool CopyModActionArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int
         snprintf(tbuf.ptr, tbuf.sizeof, "+%d", mixin(XkbSAGroup!("act")));
     TryCopyStr(buf, tbuf.ptr, sz);
     if (act.type == XkbSA_LockGroup)
-        return TRUE;
+        return True;
     if (act.flags & XkbSA_ClearLocks)
         TryCopyStr(buf, ",clearLocks", sz);
     if (act.flags & XkbSA_LatchToLock)
         TryCopyStr(buf, ",latchToLock", sz);
-    return TRUE;
+    return True;
 }
 
  /*ARGSUSED*/ private Bool CopyMovePtrArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* sz)
@@ -808,7 +808,7 @@ private Bool CopyModActionArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int
     TryCopyStr(buf, tbuf.ptr, sz);
     if (act.flags & XkbSA_NoAcceleration)
         TryCopyStr(buf, ",!accel", sz);
-    return TRUE;
+    return True;
 }
 
  /*ARGSUSED*/ private Bool CopyPtrBtnArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* sz)
@@ -844,7 +844,7 @@ private Bool CopyModActionArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int
             break;
         }
     }
-    return TRUE;
+    return True;
 }
 
  /*ARGSUSED*/ private Bool CopySetPtrDfltArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* sz)
@@ -862,7 +862,7 @@ private Bool CopyModActionArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int
             snprintf(tbuf.ptr, tbuf.sizeof, "+%d", mixin(XkbSAPtrDfltValue!("act")));
         TryCopyStr(buf, tbuf.ptr, sz);
     }
-    return TRUE;
+    return True;
 }
 
 private Bool CopyISOLockArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* sz)
@@ -926,7 +926,7 @@ private Bool CopyISOLockArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* 
             nOut++;
         }
     }
-    return TRUE;
+    return True;
 }
 
  /*ARGSUSED*/ private Bool CopySwitchScreenArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* sz)
@@ -944,7 +944,7 @@ private Bool CopyISOLockArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* 
         TryCopyStr(buf, ",!same", sz);
     else
         TryCopyStr(buf, ",same", sz);
-    return TRUE;
+    return True;
 }
 
  /*ARGSUSED*/ private Bool CopySetLockControlsArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* sz)
@@ -1034,7 +1034,7 @@ private Bool CopyISOLockArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* 
             nOut++;
         }
     }
-    return TRUE;
+    return True;
 }
 
  /*ARGSUSED*/ private Bool CopyActionMessageArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* sz)
@@ -1066,7 +1066,7 @@ private Bool CopyISOLockArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* 
     TryCopyStr(buf, tbuf.ptr, sz);
     snprintf(tbuf.ptr, tbuf.sizeof, ",data[5]=0x%02x", act.message[5]);
     TryCopyStr(buf, tbuf.ptr, sz);
-    return TRUE;
+    return True;
 }
 
 private Bool CopyRedirectKeyArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* sz)
@@ -1092,7 +1092,7 @@ private Bool CopyRedirectKeyArgs(XkbDescPtr xkb, XkbAction* action, char* buf, i
         snprintf(tbuf.ptr, tbuf.sizeof, "key=%d", kc);
     TryCopyStr(buf, tbuf.ptr, sz);
     if ((act.mods_mask == 0) && (vmods_mask == 0))
-        return TRUE;
+        return True;
     if ((act.mods_mask == XkbAllModifiersMask) &&
         (vmods_mask == XkbAllVirtualModsMask)) {
         tmp = XkbVModMaskText(xkb, act.mods, vmods, XkbXKBFile);
@@ -1113,7 +1113,7 @@ private Bool CopyRedirectKeyArgs(XkbDescPtr xkb, XkbAction* action, char* buf, i
             TryCopyStr(buf, tmp, sz);
         }
     }
-    return TRUE;
+    return True;
 }
 
  /*ARGSUSED*/ private Bool CopyDeviceBtnArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* sz)
@@ -1147,7 +1147,7 @@ private Bool CopyRedirectKeyArgs(XkbDescPtr xkb, XkbAction* action, char* buf, i
             break;
         }
     }
-    return TRUE;
+    return True;
 }
 
  /*ARGSUSED*/ private Bool CopyOtherArgs(XkbDescPtr xkb, XkbAction* action, char* buf, int* sz)
@@ -1172,7 +1172,7 @@ private Bool CopyRedirectKeyArgs(XkbDescPtr xkb, XkbAction* action, char* buf, i
     TryCopyStr(buf, tbuf.ptr, sz);
     snprintf(tbuf.ptr, tbuf.sizeof, ",data[6]=0x%02x", act.data[6]);
     TryCopyStr(buf, tbuf.ptr, sz);
-    return TRUE;
+    return True;
 }
 
 alias actionCopy = Bool function(XkbDescPtr, XkbAction*, char*, int*);

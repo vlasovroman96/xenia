@@ -31,6 +31,7 @@ import os.bug_priv;
 import glamor.glamor_priv;
 import glamor.glamor_transfer;
 import glamor.glamor;
+import common.bools;
 
 /*
  * Write a region of bits into a drawable's backing pixmap

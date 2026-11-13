@@ -543,7 +543,7 @@ private Bool RootlessMarkOverlappedWindows(WindowPtr pWin, WindowPtr pFirst, Win
     if (IsRoot(pWin)) {
         // root - mark nothing
         RL_DEBUG_MSG("is root not marking ");
-        result = FALSE;
+        result = False;
     }
     else if (!IsTopLevel(pWin)) {
         // not top-level window - mark normally
@@ -554,7 +554,7 @@ private Bool RootlessMarkOverlappedWindows(WindowPtr pWin, WindowPtr pFirst, Win
         // This code copied from miMarkOverlappedWindows()
 
         WindowPtr pChild = void;
-        bool anyMarked = FALSE;
+        bool anyMarked = False;
         MarkWindowProcPtr MarkWindow = pScreen.MarkWindow;
 
         RL_DEBUG_MSG("is top level! ");
@@ -586,7 +586,7 @@ private Bool RootlessMarkOverlappedWindows(WindowPtr pWin, WindowPtr pFirst, Win
                     break;
                 pChild = pChild.nextSib;
             }
-            anyMarked = TRUE;
+            anyMarked = True;
         }
         if (anyMarked)
             (*MarkWindow) (pWin.parent);
@@ -640,7 +640,7 @@ private void RootlessInstallColormap(ColormapPtr pMap)
 
     if (s.colormap != pMap) {
         s.colormap = pMap;
-        s.colormap_changed = TRUE;
+        s.colormap_changed = True;
         RootlessQueueRedisplay(pScreen);
     }
 
@@ -672,7 +672,7 @@ private void RootlessStoreColors(ColormapPtr pMap, int ndef, xColorItem* pdef)
     SCREEN_UNWRAP(pScreen, StoreColors);
 
     if (s.colormap == pMap && ndef > 0) {
-        s.colormap_changed = TRUE;
+        s.colormap_changed = True;
         RootlessQueueRedisplay(pScreen);
     }
 
@@ -688,14 +688,14 @@ private CARD32 RootlessRedisplayCallback(OsTimerPtr timer, CARD32 time, void* ar
     if (!screenRec.redisplay_queued) {
         /* No update needed. Stop the timer. */
 
-        screenRec.redisplay_timer_set = FALSE;
+        screenRec.redisplay_timer_set = False;
         return 0;
     }
 
-    screenRec.redisplay_queued = FALSE;
+    screenRec.redisplay_queued = False;
 
     /* Mark that we should redisplay before waiting for I/O next time */
-    screenRec.redisplay_expired = TRUE;
+    screenRec.redisplay_expired = True;
 
     /* Reinstall the timer immediately, so we get as close to our
        redisplay interval as possible. */
@@ -712,7 +712,7 @@ void RootlessQueueRedisplay(ScreenPtr pScreen)
 {
     RootlessScreenRec* screenRec = SCREENREC(pScreen);
 
-    screenRec.redisplay_queued = TRUE;
+    screenRec.redisplay_queued = True;
 
     if (screenRec.redisplay_timer_set)
         return;
@@ -720,7 +720,7 @@ void RootlessQueueRedisplay(ScreenPtr pScreen)
     screenRec.redisplay_timer = TimerSet(screenRec.redisplay_timer,
                                           0, ROOTLESS_REDISPLAY_DELAY,
                                           &RootlessRedisplayCallback, screenRec);
-    screenRec.redisplay_timer_set = TRUE;
+    screenRec.redisplay_timer_set = True;
 }
 
 /*
@@ -734,7 +734,7 @@ private void RootlessBlockHandler(void* pbdata, void* ptimeout)
     RootlessScreenRec* screenRec = SCREENREC(pScreen);
 
     if (screenRec.redisplay_expired) {
-        screenRec.redisplay_expired = FALSE;
+        screenRec.redisplay_expired = False;
 
         RootlessRedisplayScreen(pScreen);
     }
@@ -749,21 +749,21 @@ private Bool RootlessAllocatePrivates(ScreenPtr pScreen)
 {
     if (!dixRegisterPrivateKey
         (&rootlessGCPrivateKeyRec, PRIVATE_GC, RootlessGCRec.sizeof))
-        return FALSE;
+        return False;
     if (!dixRegisterPrivateKey(&rootlessScreenPrivateKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
     if (!dixRegisterPrivateKey(&rootlessWindowPrivateKeyRec, PRIVATE_WINDOW, 0))
-        return FALSE;
+        return False;
     if (!dixRegisterPrivateKey
         (&rootlessWindowOldPixmapPrivateKeyRec, PRIVATE_WINDOW, 0))
-        return FALSE;
+        return False;
 
     RootlessScreenRec* s = cast(RootlessScreenRec*) calloc(1, RootlessScreenRec.sizeof);
     if (!s)
-        return FALSE;
+        return False;
     SETSCREENREC(pScreen, s);
 
-    return TRUE;
+    return True;
 }
 
 private void RootlessWrap(ScreenPtr pScreen)
@@ -836,23 +836,23 @@ Bool RootlessInit(ScreenPtr pScreen, RootlessFrameProcsPtr procs)
     RootlessScreenRec* s = void;
 
     if (!RootlessAllocatePrivates(pScreen))
-        return FALSE;
+        return False;
 
     s = SCREENREC(pScreen);
 
     s.imp = procs;
     s.colormap = null;
-    s.redisplay_expired = FALSE;
+    s.redisplay_expired = False;
 
     RootlessWrap(pScreen);
 
     if (!RegisterBlockAndWakeupHandlers(&RootlessBlockHandler,
                                         &RootlessWakeupHandler,
                                         cast(void*) pScreen)) {
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 void RootlessUpdateRooted(Bool state)

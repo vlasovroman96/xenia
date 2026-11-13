@@ -61,7 +61,7 @@ pragma(inline, true) int seatd_libseat_open_graphics(const(char)* path) {cast(vo
 pragma(inline, true) void seatd_libseat_open_device(void* p, int* fd, Bool* paus) { cast(void)p;cast(void)fd;cast(void)paus; }
 pragma(inline, true) void seatd_libseat_close_device(void* p) { cast(void)p;}
 pragma(inline, true) int seatd_libseat_switch_session(int session) { return -1; }
-pragma(inline, true) Bool seatd_libseat_controls_session() { return FALSE; }
+pragma(inline, true) Bool seatd_libseat_controls_session() { return False; }
 
 }
 

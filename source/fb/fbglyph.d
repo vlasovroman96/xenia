@@ -53,13 +53,13 @@ private Bool fbGlyphIn(RegionPtr pRegion, int x, int y, int width, int height)
      * Check extents by hand to avoid 16 bit overflows
      */
     if (x < cast(int) pExtents.x1)
-        return FALSE;
+        return False;
     if (cast(int) pExtents.x2 < x + width)
-        return FALSE;
+        return False;
     if (y < cast(int) pExtents.y1)
-        return FALSE;
+        return False;
     if (cast(int) pExtents.y2 < y + height)
-        return FALSE;
+        return False;
     box.x1 = cast(ushort)(x);
     box.x2 = cast(ushort)(x + width);
     box.y1 = cast(ushort)(y);
@@ -165,7 +165,7 @@ void fbImageGlyphBlt(DrawablePtr pDrawable, GCPtr pGC, int x, int y, uint nglyph
 
     if (mixin(TERMINALFONT!("pGC.font"))
         && !glyph) {
-        opaque = TRUE;
+        opaque = True;
     }
     else {
         int xBack = void, widthBack = void;
@@ -192,7 +192,7 @@ void fbImageGlyphBlt(DrawablePtr pDrawable, GCPtr pGC, int x, int y, uint nglyph
                           yBack + heightBack,
                           mixin(fbAnd!("GXcopy", "pPriv.bg", "pPriv.pm")),
                           mixin(fbXor!("GXcopy", "pPriv.bg", "pPriv.pm")));
-        opaque = FALSE;
+        opaque = False;
     }
 
     ppci = ppciInit;

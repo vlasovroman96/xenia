@@ -77,17 +77,17 @@ private Bool present_check_flip(RRCrtcPtr crtc, WindowPtr window, PixmapPtr pixm
         *reason = PRESENT_FLIP_REASON_UNKNOWN;
 
     if (!screen_priv)
-        return FALSE;
+        return False;
 
     if (!screen_priv.info)
-        return FALSE;
+        return False;
 
     if (!crtc)
-        return FALSE;
+        return False;
 
     /* Check to see if the driver supports flips at all */
     if (!screen_priv.info.flip)
-        return FALSE;
+        return False;
 
     /* Ask the driver for permission. Do this now to see if there's TearFree. */
     if (screen_priv.info.version_ >= 1 && screen_priv.info.check_flip2) {
@@ -100,13 +100,13 @@ private Bool present_check_flip(RRCrtcPtr crtc, WindowPtr window, PixmapPtr pixm
             if (!reason || tmp_reason != PRESENT_FLIP_REASON_BUFFER_FORMAT) {
                 if (reason)
                     *reason = tmp_reason;
-                return FALSE;
+                return False;
             }
         }
     } else if (screen_priv.info.check_flip) {
         if (!(*screen_priv.info.check_flip) (crtc, window, pixmap, sync_flip)) {
             // DebugPresent(("\td %08" ~PRIx32 ~ " -> %08" ~PRIx32 ~ "\n", window.drawable.id, pixmap ? pixmap.drawable.id : 0));
-            return FALSE;
+            return False;
         }
     }
 
@@ -115,21 +115,21 @@ private Bool present_check_flip(RRCrtcPtr crtc, WindowPtr window, PixmapPtr pixm
     if (window_pixmap != screen.GetScreenPixmap(screen) &&
         window_pixmap != screen_priv.flip_pixmap &&
         window_pixmap != present_flip_pending_pixmap(screen))
-        return FALSE;
+        return False;
 
     /* Check for full-screen window */
     if (!RegionEqual(&window.clipList, &root.winSize)) {
-        return FALSE;
+        return False;
     }
 
     /* Source pixmap must align with window exactly */
     if (x_off || y_off) {
-        return FALSE;
+        return False;
     }
 
     /* Make sure the area marked as valid fills the screen */
     if (valid && !RegionEqual(valid, &root.winSize)) {
-        return FALSE;
+        return False;
     }
 
     /* Does the window match the pixmap exactly? */
@@ -137,16 +137,16 @@ private Bool present_check_flip(RRCrtcPtr crtc, WindowPtr window, PixmapPtr pixm
         window.drawable.x != pixmap.screen_x || window.drawable.y != pixmap.screen_y ||
         window.drawable.width != pixmap.drawable.width ||
         window.drawable.height != pixmap.drawable.height) {
-        return FALSE;
+        return False;
     }
 
     if (tmp_reason == PRESENT_FLIP_REASON_BUFFER_FORMAT) {
         if (reason)
             *reason = tmp_reason;
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 private Bool present_flip(RRCrtcPtr crtc, ulong event_id, ulong target_msc, PixmapPtr pixmap, Bool sync_flip)
@@ -301,7 +301,7 @@ void present_set_abort_flip(ScreenPtr screen)
 
     if (!screen_priv.flip_pending.abort_flip) {
         present_restore_screen_pixmap(screen);
-        screen_priv.flip_pending.abort_flip = TRUE;
+        screen_priv.flip_pending.abort_flip = True;
     }
 }
 
@@ -435,7 +435,7 @@ private void present_check_flip_window(WindowPtr window)
     /* Now check any queued vblanks */
     foreach(vblank; window_priv.vblank.byEntries!(present_vblank_ptr, "window_list")) {
         if (vblank.queued && vblank.flip && !present_check_flip(vblank.crtc, window, vblank.pixmap, vblank.sync_flip, null, 0, 0, &reason)) {
-            vblank.flip = FALSE;
+            vblank.flip = False;
             
             if (reason < PRESENT_FLIP_REASON_DRIVER_TEARFREE)
                 vblank.reason = reason;
@@ -453,33 +453,33 @@ private Bool present_scmd_can_window_flip(WindowPtr window)
     present_screen_priv_ptr screen_priv = present_screen_priv(screen);
 
     if (!screen_priv)
-        return FALSE;
+        return False;
 
     if (!screen_priv.info)
-        return FALSE;
+        return False;
 
     /* Check to see if the driver supports flips at all */
     if (!screen_priv.info.flip)
-        return FALSE;
+        return False;
 
     /* Make sure the window hasn't been redirected with Composite */
     window_pixmap = screen.GetWindowPixmap(window);
     if (window_pixmap != screen.GetScreenPixmap(screen) &&
         window_pixmap != screen_priv.flip_pixmap &&
         window_pixmap != present_flip_pending_pixmap(screen))
-        return FALSE;
+        return False;
 
     /* Check for full-screen window */
     if (!RegionEqual(&window.clipList, &root.winSize)) {
-        return FALSE;
+        return False;
     }
 
     /* Does the window match the pixmap exactly? */
     if (window.drawable.x != 0 || window.drawable.y != 0) {
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -530,14 +530,14 @@ private void present_execute(present_vblank_ptr vblank, ulong ust, ulong crtc_ms
             //               screen_priv.flip_pending, screen_priv.unflip_event_id));
             vblank.event_queue.removeFromList();
             present_flip_queue.appendList(&vblank.event_queue);
-            vblank.flip_ready = TRUE;
+            vblank.flip_ready = True;
             return;
         }
     }
 
     vblank.event_queue.removeFromList();
     vblank.window_list.removeFromList();
-    vblank.queued = FALSE;
+    vblank.queued = False;
 
     if (vblank.pixmap && vblank.window &&
         (vblank.reason < PRESENT_FLIP_REASON_DRIVER_TEARFREE ||
@@ -587,7 +587,7 @@ private void present_execute(present_vblank_ptr vblank, ulong ust, ulong crtc_ms
             /* Oops, flip failed. Clear the flip_pending field
               */
             screen_priv.flip_pending = null;
-            vblank.flip = FALSE;
+            vblank.flip = False;
             vblank.exec_msc = vblank.target_msc;
         }
         // DebugPresent(("\tc %p %" ~PRIu64 ~ ": %08" ~PRIx32 ~ " -> %08" ~PRIx32 ~ "\n",
@@ -641,7 +641,7 @@ private void present_execute(present_vblank_ptr vblank, ulong ust, ulong crtc_ms
                     completion_msc++;
 
             /* Try the fake flip first and then fall back to a vblank event */
-            if (present_flip(vblank.crtc, vblank.event_id, 0, null, TRUE) ||
+            if (present_flip(vblank.crtc, vblank.event_id, 0, null, True) ||
                 Success == screen_priv.queue_vblank(screen,
                                                      window,
                                                      vblank.crtc,
@@ -649,13 +649,13 @@ private void present_execute(present_vblank_ptr vblank, ulong ust, ulong crtc_ms
                                                      completion_msc)) {
                 /* Ensure present_execute_post() runs at the next execution */
                 vblank.exec_msc = vblank.target_msc;
-                vblank.queued = TRUE;
+                vblank.queued = True;
             }
         }
 
         if (vblank.queued) {
             present_exec_queue.addListNext(&vblank.event_queue);
-            present_get_window_priv(window, TRUE).vblank.appendList(&vblank.window_list);
+            present_get_window_priv(window, True).vblank.appendList(&vblank.window_list);
             return;
         }
     }
@@ -665,7 +665,7 @@ private void present_execute(present_vblank_ptr vblank, ulong ust, ulong crtc_ms
 
 private void present_scmd_update_window_crtc(WindowPtr window, RRCrtcPtr crtc, ulong new_msc)
 {
-    present_window_priv_ptr window_priv = present_get_window_priv(window, TRUE);
+    present_window_priv_ptr window_priv = present_get_window_priv(window, True);
     ulong old_ust = void, old_msc = void;
 
     /* Crtc unchanged, no offset. */
@@ -703,7 +703,7 @@ present_notify_ptr notifies, int num_notifies)
     ulong crtc_msc = 0;
     int ret = void;
     ScreenPtr screen = window.drawable.pScreen;
-    present_window_priv_ptr window_priv = present_get_window_priv(window, TRUE);
+    present_window_priv_ptr window_priv = present_get_window_priv(window, True);
     present_screen_priv_ptr screen_priv = present_screen_priv(screen);
 
     if (acquire_syncobj || release_syncobj)
@@ -805,7 +805,7 @@ present_notify_ptr notifies, int num_notifies)
         vblank.exec_msc--;
 
     present_exec_queue.appendList(&vblank.event_queue);
-    vblank.queued = TRUE;
+    vblank.queued = True;
     if (msc_is_after(vblank.exec_msc, crtc_msc)) {
         ret = present_queue_vblank(screen, window, target_crtc, vblank.event_id, vblank.exec_msc);
         if (ret == Success)
@@ -835,7 +835,7 @@ present_notify_ptr notifies, int num_notifies)
     int ret = void;
     present_vblank_ptr vblank = void, tmp = void;
     ScreenPtr screen = window.drawable.pScreen;
-    present_window_priv_ptr window_priv = present_get_window_priv(window, TRUE);
+    present_window_priv_ptr window_priv = present_get_window_priv(window, True);
     present_screen_priv_ptr screen_priv = present_screen_priv(screen);
 
     if (!window_priv)
@@ -931,7 +931,7 @@ present_notify_ptr notifies, int num_notifies)
         vblank.exec_msc--;
 
     present_exec_queue.appendList(&vblank.event_queue);
-    vblank.queued = TRUE;
+    vblank.queued = True;
     if (msc_is_after(vblank.exec_msc, crtc_msc)) {
         ret = present_queue_vblank(screen, window, target_crtc, vblank.event_id, vblank.exec_msc);
         if (ret == Success)
@@ -961,14 +961,14 @@ private void present_scmd_abort_vblank(ScreenPtr screen, WindowPtr window, RRCrt
         long match = event_id - vblank.event_id;
         if (match == 0) {
             vblank.event_queue.removeFromList();
-            vblank.queued = FALSE;
+            vblank.queued = False;
             return;
         }
     }
     foreach(vblank; present_flip_queue.byEntries!(present_vblank_ptr, "event_queue")) {
         if (vblank.event_id == event_id) {
             vblank.event_queue.removeFromList();
-            vblank.queued = FALSE;
+            vblank.queued = False;
             return;
         }
     }
@@ -1011,5 +1011,5 @@ Bool present_init()
     present_exec_queue.initList();
     present_flip_queue.initList();
     present_fake_queue_init();
-    return TRUE;
+    return True;
 }

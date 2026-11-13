@@ -67,7 +67,7 @@ private void exaMemcpyBox(PixmapPtr pPixmap, BoxPtr pbox, CARD8* src, int src_pi
 }
 
 /**
- * Returns TRUE if the pixmap is dirty (has been modified in its current
+ * Returns True if the pixmap is dirty (has been modified in its current
  * location compared to the other), or lacks a private for tracking
  * dirtiness.
  */
@@ -76,17 +76,17 @@ private Bool exaPixmapIsDirty(PixmapPtr pPix)
     mixin(ExaPixmapPriv!("pPix"));
 
     if (pExaPixmap is null)
-        // EXA_FatalErrorDebugWithRet(("EXA bug: exaPixmapIsDirty was called on a non-exa pixmap.\n"), TRUE);
+        // EXA_FatalErrorDebugWithRet(("EXA bug: exaPixmapIsDirty was called on a non-exa pixmap.\n"), True);
 
     if (!pExaPixmap.pDamage)
-        return FALSE;
+        return False;
 
     return RegionNotEmpty(DamageRegion(pExaPixmap.pDamage)) ||
         !RegionEqual(&pExaPixmap.validSys, &pExaPixmap.validFB);
 }
 
 /**
- * Returns TRUE if the pixmap is either pinned in FB, or has a sufficient score
+ * Returns True if the pixmap is either pinned in FB, or has a sufficient score
  * to be considered "should be in framebuffer".  That's just anything that has
  * had more acceleration than fallbacks, or has no score yet.
  *
@@ -97,7 +97,7 @@ private Bool exaPixmapShouldBeInFB(PixmapPtr pPix)
     mixin(ExaPixmapPriv!("pPix"));
 
     if (exaPixmapIsPinned(pPix))
-        return TRUE;
+        return True;
 
     return pExaPixmap.score >= 0;
 }
@@ -117,8 +117,8 @@ private void exaCopyDirty(ExaMigrationPtr migrate, RegionPtr pValidDst, RegionPt
     int save_pitch = void;
     BoxPtr pBox = void;
     int nbox = void;
-    Bool access_prepared = FALSE;
-    Bool need_sync = FALSE;
+    Bool access_prepared = False;
+    Bool need_sync = False;
 
     /* Damaged bits are valid in current copy but invalid in other one */
     if (pExaPixmap.use_gpu_copy) {
@@ -150,11 +150,11 @@ private void exaCopyDirty(ExaMigrationPtr migrate, RegionPtr pValidDst, RegionPt
 
 static if (DEBUG_MIGRATE) {
             if (RegionNil(pending_damage)) {
-                static Bool firsttime = TRUE;
+                static Bool firsttime = True;
 
                 if (firsttime) {
                     ErrorF("%s: Pending damage region empty!\n", __FUNCTION__.ptr);
-                    firsttime = FALSE;
+                    firsttime = False;
                 }
             }
 }
@@ -203,7 +203,7 @@ static if (DEBUG_MIGRATE) {
 
     save_use_gpu_copy = pExaPixmap.use_gpu_copy;
     save_pitch = pPixmap.devKind;
-    pExaPixmap.use_gpu_copy = TRUE;
+    pExaPixmap.use_gpu_copy = True;
     pPixmap.devKind = pExaPixmap.fb_pitch;
 
     while (nbox--) {
@@ -227,7 +227,7 @@ static if (DEBUG_MIGRATE) {
                                              8), pExaPixmap.sys_pitch)) {
             if (!access_prepared) {
                 ExaDoPrepareAccess(pPixmap, fallback_index);
-                access_prepared = TRUE;
+                access_prepared = True;
             }
             if (fallback_index == EXA_PREPARE_DEST) {
                 exaMemcpyBox(pPixmap, pBox,
@@ -241,7 +241,7 @@ static if (DEBUG_MIGRATE) {
             }
         }
         else
-            need_sync = TRUE;
+            need_sync = True;
 
         pBox++;
     }
@@ -305,7 +305,7 @@ void exaCopyDirtyToFb(ExaMigrationPtr migrate)
  * any necessary pixmap data into the framebuffer copy and points the pixmap at
  * it.
  *
- * Note that when first allocated, a pixmap will have FALSE dirty flag.
+ * Note that when first allocated, a pixmap will have False dirty flag.
  * This is intentional because pixmap data starts out undefined.  So if we move
  * it in due to the first operation against it being accelerated, it will have
  * undefined framebuffer contents that we didn't have to upload.  If we do
@@ -344,7 +344,7 @@ private void exaDoMoveInPixmap(ExaMigrationPtr migrate)
     if (pExaPixmap.area is null) {
         pExaPixmap.area =
             exaOffscreenAlloc(pScreen, pExaPixmap.fb_size,
-                              pExaScr.info.pixmapOffsetAlign, FALSE,
+                              pExaScr.info.pixmapOffsetAlign, False,
                               &exaPixmapSave, cast(void*) pPixmap);
         if (pExaPixmap.area is null)
             return;
@@ -365,7 +365,7 @@ private void exaDoMoveInPixmap(ExaMigrationPtr migrate)
     //              pPixmap.drawable.height,
     //              exaPixmapIsDirty(pPixmap) ? 'd' : 'c'));
 
-    pExaPixmap.use_gpu_copy = TRUE;
+    pExaPixmap.use_gpu_copy = True;
 
     pPixmap.devKind = pExaPixmap.fb_pitch;
     pPixmap.drawable.serialNumber = NEXT_SERIAL_NUMBER;
@@ -373,7 +373,7 @@ private void exaDoMoveInPixmap(ExaMigrationPtr migrate)
 
 void exaMoveInPixmap_classic(PixmapPtr pPixmap)
 {
-    static ExaMigrationRec migrate = {as_dst: FALSE,as_src: TRUE,
+    static ExaMigrationRec migrate = {as_dst: False,as_src: True,
         pReg: null
     };
 
@@ -405,7 +405,7 @@ private void exaDoMoveOutPixmap(ExaMigrationPtr migrate)
         //              pPixmap.drawable.height,
         //              exaPixmapIsDirty(pPixmap) ? 'd' : 'c'));
 
-        pExaPixmap.use_gpu_copy = FALSE;
+        pExaPixmap.use_gpu_copy = False;
 
         pPixmap.devKind = pExaPixmap.sys_pitch;
         pPixmap.drawable.serialNumber = NEXT_SERIAL_NUMBER;
@@ -414,7 +414,7 @@ private void exaDoMoveOutPixmap(ExaMigrationPtr migrate)
 
 void exaMoveOutPixmap_classic(PixmapPtr pPixmap)
 {
-    static ExaMigrationRec migrate = {as_dst: FALSE,as_src: TRUE,
+    static ExaMigrationRec migrate = {as_dst: False,as_src: True,
         pReg: null
     };
 
@@ -527,7 +527,7 @@ private Bool exaAssertNotDirty(PixmapPtr pPixmap)
     RegionRec ValidReg = void;
     int dst_pitch = void, src_pitch = void, cpp = void, y = void, nbox = void, save_pitch = void;
     BoxPtr pBox = void;
-    Bool ret = TRUE, save_use_gpu_copy = void;
+    Bool ret = True, save_use_gpu_copy = void;
 
     if (exaPixmapIsPinned(pPixmap) || pExaPixmap.area is null)
         return ret;
@@ -547,7 +547,7 @@ private Bool exaAssertNotDirty(PixmapPtr pPixmap)
 
     save_use_gpu_copy = pExaPixmap.use_gpu_copy;
     save_pitch = pPixmap.devKind;
-    pExaPixmap.use_gpu_copy = TRUE;
+    pExaPixmap.use_gpu_copy = True;
     pPixmap.devKind = pExaPixmap.fb_pitch;
 
     if (!ExaDoPrepareAccess(pPixmap, EXA_PREPARE_SRC))
@@ -573,7 +573,7 @@ private Bool exaAssertNotDirty(PixmapPtr pPixmap)
         for (y = pBox.y1; y < pBox.y2;
              y++, src += src_pitch, dst += dst_pitch) {
             if (memcmp(dst, src, rowbytes) != 0) {
-                ret = FALSE;
+                ret = False;
                 exaPixmapDirty(pPixmap, pBox.x1, pBox.y1, pBox.x2, pBox.y2);
                 break;
             }
@@ -627,7 +627,7 @@ void exaDoMigration_classic(ExaMigrationPtr pixmaps, int npixmaps, Bool can_acce
             // EXA_FALLBACK(("Pixmap %p (%dx%d) pinned in sys\n", pixmaps[i].pPix,
             //               pixmaps[i].pPix.drawable.width,
             //               pixmaps[i].pPix.drawable.height));
-            can_accel = FALSE;
+            can_accel = False;
             break;
         }
     }
@@ -731,17 +731,17 @@ void exaPrepareAccessReg_classic(PixmapPtr pPixmap, int index, RegionPtr pReg)
     ExaMigrationRec[1] pixmaps = void;
 
     if (index == EXA_PREPARE_DEST || index == EXA_PREPARE_AUX_DEST) {
-        pixmaps[0].as_dst = TRUE;
-        pixmaps[0].as_src = FALSE;
+        pixmaps[0].as_dst = True;
+        pixmaps[0].as_src = False;
     }
     else {
-        pixmaps[0].as_dst = FALSE;
-        pixmaps[0].as_src = TRUE;
+        pixmaps[0].as_dst = False;
+        pixmaps[0].as_src = True;
     }
     pixmaps[0].pPix = pPixmap;
     pixmaps[0].pReg = pReg;
 
-    exaDoMigration(pixmaps.ptr, 1, FALSE);
+    exaDoMigration(pixmaps.ptr, 1, False);
 
     cast(void) ExaDoPrepareAccess(pPixmap, index);
 }

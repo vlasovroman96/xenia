@@ -160,13 +160,13 @@ private int ChangeKbdFeedback(ClientPtr client, DeviceIntPtr dev, c_ulong mask, 
         t = cast(CARD8) f.auto_repeat_mode;
         if (t == AutoRepeatModeOff) {
             if (key == DO_ALL)
-                kctrl.autoRepeat = FALSE;
+                kctrl.autoRepeat = False;
             else
                 kctrl.autoRepeats[inx] &= ~kmask;
         }
         else if (t == AutoRepeatModeOn) {
             if (key == DO_ALL)
-                kctrl.autoRepeat = TRUE;
+                kctrl.autoRepeat = True;
             else
                 kctrl.autoRepeats[inx] |= kmask;
         }

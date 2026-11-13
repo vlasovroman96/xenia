@@ -134,7 +134,7 @@ private void load_extension_config()
             const(char)* key = input_option_get_key(opt);
             if (strncasecmp(key, "omit", 4) != 0 || strlen(key) < 5)
                 continue;
-            if (EnableDisableExtension(key + 4, FALSE))
+            if (EnableDisableExtension(key + 4, False))
                 xf86MarkOptionUsed(opt);
         }
 
@@ -165,5 +165,5 @@ void xf86ExtensionInit()
 
     initializeExtensionModules();
 
-    LoadExtensionList(cast(ExtensionModule*)extensionModules.ptr, extensionModules.length, TRUE);
+    LoadExtensionList(cast(ExtensionModule*)extensionModules.ptr, extensionModules.length, True);
 }

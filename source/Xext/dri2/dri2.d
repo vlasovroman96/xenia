@@ -157,13 +157,13 @@ enum string Wake(string c, string t) = `cast(void*)(cast(uintptr_t)(` ~ c ~ `) |
 private Bool dri2WakeClient(ClientPtr client, void* closure)
 {
     ClientWakeup(client);
-    return TRUE;
+    return True;
 }
 
 private Bool dri2WakeAll(ClientPtr client, DRI2DrawablePtr pPriv, DRI2WakeType t)
 {
     if (!pPriv.blocked[t])
-        return FALSE;
+        return False;
 
     int count = ClientSignalAll(client, &dri2WakeClient, mixin(Wake!(`pPriv`, `t`)));
     pPriv.blocked[t] -= count;
@@ -174,9 +174,9 @@ private Bool dri2Sleep(ClientPtr client, DRI2DrawablePtr pPriv, DRI2WakeType t)
 {
     if (ClientSleep(client, &dri2WakeClient, mixin(Wake!(`pPriv`, `t`)))) {
         pPriv.blocked[t]++;
-        return TRUE;
+        return True;
     }
-    return FALSE;
+    return False;
 }
 
 private DRI2ScreenPtr DRI2GetScreen(ScreenPtr pScreen)
@@ -256,7 +256,7 @@ private DRI2DrawablePtr DRI2AllocateDrawable(DrawablePtr pDraw)
     pPriv.last_swap_msc = 0;
     pPriv.last_swap_ust = 0;
     pPriv.reference_list.initList();
-    pPriv.needInvalidate = FALSE;
+    pPriv.needInvalidate = False;
     pPriv.redirectpixmap = null;
     pPriv.prime_secondary_pixmap = null;
     if (pDraw.type == DRAWABLE_WINDOW) {
@@ -276,21 +276,21 @@ Bool DRI2SwapLimit(DrawablePtr pDraw, int swap_limit)
     DRI2DrawablePtr pPriv = DRI2GetDrawable(pDraw);
 
     if (!pPriv)
-        return FALSE;
+        return False;
 
     DRI2ScreenPtr ds = pPriv.dri2_screen;
 
     if (!ds.SwapLimitValidate || !ds.SwapLimitValidate(pDraw, swap_limit))
-        return FALSE;
+        return False;
 
     pPriv.swap_limit = swap_limit;
 
     /* Check throttling */
     if (pPriv.swapsPending >= pPriv.swap_limit)
-        return TRUE;
+        return True;
 
     dri2WakeAll(cast(ClientPtr)CLIENT_SIGNAL_ANY, pPriv, WAKE_SWAP);
-    return TRUE;
+    return True;
 }
 
 struct DRI2DrawableRefRec {
@@ -324,7 +324,7 @@ private int DRI2AddDrawableRef(DRI2DrawablePtr pPriv, XID id, XID dri2_id, DRI2I
     }
     if (!DRI2LookupDrawableRef(pPriv, id))
         if (!AddResource(cast(uint)id, dri2DrawableRes, pPriv)) {
-            FreeResourceByType(dri2_id, dri2DrawableRes, TRUE);
+            FreeResourceByType(dri2_id, dri2DrawableRes, True);
             free(ref_);
             return BadAlloc;
         }
@@ -379,14 +379,14 @@ private int DRI2DrawableGone(void* p, XID id)
             /* If this was the last ref under this X drawable XID,
              * unregister the X drawable resource. */
             if (!DRI2LookupDrawableRef(pPriv, ref_.id))
-                FreeResourceByType(ref_.id, dri2DrawableRes, TRUE);
+                FreeResourceByType(ref_.id, dri2DrawableRes, True);
             free(ref_);
             break;
         }
 
         if (ref_.id == id) {
             ref_.link.removeFromList();
-            FreeResourceByType(ref_.dri2_id, dri2DrawableRes, TRUE);
+            FreeResourceByType(ref_.dri2_id, dri2DrawableRes, True);
             free(ref_);
         }
     }
@@ -416,7 +416,7 @@ private int DRI2DrawableGone(void* p, XID id)
     }
 
     if (pPriv.redirectpixmap) {
-        (*pDraw.pScreen.ReplaceScanoutPixmap)(pDraw, pPriv.redirectpixmap, FALSE);
+        (*pDraw.pScreen.ReplaceScanoutPixmap)(pDraw, pPriv.redirectpixmap, False);
         dixDestroyPixmap(pPriv.redirectpixmap, 0);
     }
 
@@ -473,7 +473,7 @@ private Bool allocate_or_reuse_buffer(DrawablePtr pDraw, DRI2ScreenPtr ds, DRI2D
         || attachment == DRI2BufferFrontLeft
         || !dimensions_match || (pPriv.buffers[old_buf].format != format)) {
         *buffer = create_buffer(ds, pDraw, attachment, format);
-        return TRUE;
+        return True;
 
     }
     else {
@@ -483,7 +483,7 @@ private Bool allocate_or_reuse_buffer(DrawablePtr pDraw, DRI2ScreenPtr ds, DRI2D
             (*ds.ReuseBufferNotify) (pDraw, *buffer);
 
         pPriv.buffers[old_buf] = null;
-        return FALSE;
+        return False;
     }
 }
 
@@ -618,7 +618,7 @@ private DRI2BufferPtr* do_get_buffers(DrawablePtr pDraw, int* width, int* height
                        DRI2BufferFrontLeft);
     }
 
-    pPriv.needInvalidate = TRUE;
+    pPriv.needInvalidate = True;
 
     return pPriv.buffers;
 
@@ -645,13 +645,13 @@ private DRI2BufferPtr* do_get_buffers(DrawablePtr pDraw, int* width, int* height
 DRI2BufferPtr* DRI2GetBuffers(DrawablePtr pDraw, int* width, int* height, uint* attachments, int count, int* out_count)
 {
     return do_get_buffers(pDraw, width, height, attachments, count,
-                          out_count, FALSE);
+                          out_count, False);
 }
 
 DRI2BufferPtr* DRI2GetBuffersWithFormat(DrawablePtr pDraw, int* width, int* height, uint* attachments, int count, int* out_count)
 {
     return do_get_buffers(pDraw, width, height, attachments, count,
-                          out_count, TRUE);
+                          out_count, True);
 }
 
 private void DRI2InvalidateDrawable(DrawablePtr pDraw)
@@ -661,7 +661,7 @@ private void DRI2InvalidateDrawable(DrawablePtr pDraw)
     if (!pPriv || !pPriv.needInvalidate)
         return;
 
-    pPriv.needInvalidate = FALSE;
+    pPriv.needInvalidate = False;
 
     foreach(ref_; pPriv.reference_list.byEntries!(DRI2DrawableRefPtr, "link")) {
         ref_.invalidate(pDraw, ref_.priv, ref_.id);
@@ -679,18 +679,18 @@ Bool DRI2ThrottleClient(ClientPtr client, DrawablePtr pDraw)
 {
     DRI2DrawablePtr pPriv = DRI2GetDrawable(pDraw);
     if (pPriv is null)
-        return FALSE;
+        return False;
 
     /* Throttle to swap limit */
     if (pPriv.swapsPending >= pPriv.swap_limit) {
         if (dri2Sleep(client, pPriv, WAKE_SWAP)) {
             ResetCurrentRequest(client);
             client.sequence--;
-            return TRUE;
+            return True;
         }
     }
 
-    return FALSE;
+    return False;
 }
 
 void DRI2BlockClient(ClientPtr client, DrawablePtr pDraw)
@@ -771,7 +771,7 @@ DrawablePtr DRI2UpdatePrime(DrawablePtr pDraw, DRI2BufferPtr pDest)
                     if (!mpix)
                         return null;
 
-                    if (!(primary.ReplaceScanoutPixmap(pDraw, mpix, TRUE))) {
+                    if (!(primary.ReplaceScanoutPixmap(pDraw, mpix, True))) {
                         dixDestroyPixmap(mpix, 0);
                         return null;
                     }
@@ -780,7 +780,7 @@ DrawablePtr DRI2UpdatePrime(DrawablePtr pDraw, DRI2BufferPtr pDest)
                     return null;
             }
         } else if (pPriv.redirectpixmap) {
-            (*primary.ReplaceScanoutPixmap)(pDraw, pPriv.redirectpixmap, FALSE);
+            (*primary.ReplaceScanoutPixmap)(pDraw, pPriv.redirectpixmap, False);
             dixDestroyPixmap(pPriv.redirectpixmap, 0);
             pPriv.redirectpixmap = null;
         }
@@ -866,7 +866,7 @@ Bool DRI2CanFlip(DrawablePtr pDraw)
     ScreenPtr pScreen = pDraw.pScreen;
 
     if (pDraw.type == DRAWABLE_PIXMAP)
-        return TRUE;
+        return True;
 
     WindowPtr pRoot = pScreen.root;
     PixmapPtr pRootPixmap = pScreen.GetWindowPixmap(pRoot);
@@ -874,24 +874,24 @@ Bool DRI2CanFlip(DrawablePtr pDraw)
     WindowPtr pWin = cast(WindowPtr) pDraw;
     PixmapPtr pWinPixmap = pScreen.GetWindowPixmap(pWin);
     if (pRootPixmap != pWinPixmap)
-        return FALSE;
+        return False;
     if (!RegionEqual(&pWin.clipList, &pRoot.winSize))
-        return FALSE;
+        return False;
 
     /* Does the window match the pixmap exactly? */
     if (pDraw.x != 0 || pDraw.y != 0 ||
         pDraw.x != pWinPixmap.screen_x || pDraw.y != pWinPixmap.screen_y ||
         pDraw.width != pWinPixmap.drawable.width ||
         pDraw.height != pWinPixmap.drawable.height)
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 /* Can we do a pixmap exchange instead of a blit? */
 Bool DRI2CanExchange(DrawablePtr pDraw)
 {
-    return FALSE;
+    return False;
 }
 
 void DRI2WaitMSCComplete(ClientPtr client, DrawablePtr pDraw, int frame, uint tv_sec, uint tv_usec)
@@ -975,11 +975,11 @@ Bool DRI2WaitSwap(ClientPtr client, DrawablePtr pDrawable)
         if (dri2Sleep(client, pPriv, WAKE_SWAP)) {
             ResetCurrentRequest(client);
             client.sequence--;
-            return TRUE;
+            return True;
         }
     }
 
-    return FALSE;
+    return False;
 }
 
 int DRI2SwapBuffers(ClientPtr client, DrawablePtr pDraw, CARD64 target_msc, CARD64 divisor, CARD64 remainder, CARD64* swap_target, DRI2SwapEventPtr func, void* data)
@@ -1184,15 +1184,15 @@ Bool DRI2Connect(ClientPtr client, ScreenPtr pScreen, uint driverType, int* fd, 
     uint driver_id = driverType & 0xffff;
 
     if (!dixPrivateKeyRegistered(&dri2ScreenPrivateKeyRec))
-        return FALSE;
+        return False;
 
     DRI2ScreenPtr ds = DRI2GetScreenPrime(pScreen, prime_id);
     if (ds is null)
-        return FALSE;
+        return False;
 
     if (driver_id >= ds.numDrivers ||
         !ds.driverNames[driver_id])
-        return FALSE;
+        return False;
 
     *driverName = ds.driverNames[driver_id];
     *deviceName = ds.deviceName;
@@ -1204,7 +1204,7 @@ Bool DRI2Connect(ClientPtr client, ScreenPtr pScreen, uint driverType, int* fd, 
         dri2_client.prime_id = prime_id;
     }
 
-    return TRUE;
+    return True;
 }
 
 private int DRI2AuthMagic(ScreenPtr pScreen, uint magic)
@@ -1219,18 +1219,18 @@ private int DRI2AuthMagic(ScreenPtr pScreen, uint magic)
 Bool DRI2Authenticate(ClientPtr client, ScreenPtr pScreen, uint magic)
 {
     if (!dixPrivateKeyRegistered(&dri2ScreenPrivateKeyRec))
-        return FALSE;
+        return False;
 
     DRI2ClientPtr dri2_client = dri2ClientPrivate(client);
 
     DRI2ScreenPtr ds = DRI2GetScreenPrime(pScreen, dri2_client.prime_id);
     if (ds is null)
-        return FALSE;
+        return False;
 
     ScreenPtr primescreen = GetScreenPrime(pScreen, dri2_client.prime_id);
     if ((*ds.AuthMagic)(primescreen, magic))
-        return FALSE;
-    return TRUE;
+        return False;
+    return True;
 }
 
 private int DRI2ConfigNotify(WindowPtr pWin, int x, int y, int w, int h, int bw, WindowPtr pSib)
@@ -1351,24 +1351,24 @@ Bool DRI2ScreenInit(ScreenPtr pScreen, DRI2InfoPtr info)
     ];
 
     if (info.version_ < 3)
-        return FALSE;
+        return False;
 
     if (!dixRegisterPrivateKey(&dri2ScreenPrivateKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
 
     if (!dixRegisterPrivateKey(&dri2WindowPrivateKeyRec, PRIVATE_WINDOW, 0))
-        return FALSE;
+        return False;
 
     if (!dixRegisterPrivateKey(&dri2PixmapPrivateKeyRec, PRIVATE_PIXMAP, 0))
-        return FALSE;
+        return False;
 
     if (!dixRegisterPrivateKey(&dri2ClientPrivateKeyRec, PRIVATE_CLIENT, DRI2ClientRec.sizeof))
-        return FALSE;
+        return False;
 
     DRI2ScreenPtr ds;
     ds = cast(DRI2ScreenPtr)calloc(1, (*ds).sizeof);
     if (!ds)
-        return FALSE;
+        return False;
 
     ds.pScreen = pScreen;
     ds.fd = info.fd;
@@ -1411,7 +1411,7 @@ Bool DRI2ScreenInit(ScreenPtr pScreen, DRI2InfoPtr info)
             ds.prime_id = get_prime_id();
             if (ds.prime_id == -1) {
                 free(ds);
-                return FALSE;
+                return False;
             }
         }
         ds.DestroyBuffer2 = info.DestroyBuffer2;
@@ -1456,7 +1456,7 @@ static if (WITH_LIBDRM) {
              * currently this gets leaked */
             ds.driverNames[0] = ds.driverNames[1] = dri2_probe_driver_name(pScreen, info);
             if (!ds.driverNames[0])
-                return FALSE;
+                return False;
 
             /* There is no VDPAU driver for i965, fallback to the generic
              * OpenGL/VAAPI va_gl backend to emulate VDPAU on i965. */
@@ -1489,14 +1489,14 @@ static if (WITH_LIBDRM) {
         }
     }
 
-    return TRUE;
+    return True;
 
  err_out:
     LogMessage(X_WARNING,
                "[DRI2] Initialization failed for info version %d.\n",
                info.version_);
     free(ds);
-    return FALSE;
+    return False;
 }
 
 void DRI2CloseScreen(ScreenPtr pScreen)
@@ -1518,9 +1518,9 @@ Bool DRI2ModuleSetup()
 {
     dri2DrawableRes = CreateNewResourceType(&DRI2DrawableGone, "DRI2Drawable");
     if (!dri2DrawableRes)
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 void DRI2Version(int* major, int* minor)
@@ -1558,6 +1558,6 @@ int DRI2GetParam(ClientPtr client, DrawablePtr drawable, CARD64 param, BOOL* is_
     }
 
 not_recognized:
-    *is_param_recognized = FALSE;
+    *is_param_recognized = False;
     return Success;
 }

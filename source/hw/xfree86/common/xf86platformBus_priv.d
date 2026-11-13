@@ -46,7 +46,7 @@ pragma(inline, true) OdevAttributes* xf86_platform_device_odev_attributes(xf86_p
 
 // } else { /* XSERVER_PLATFORM_BUS */
 
-// pragma(inline, true) int xf86platformAddGPUDevices(DriverPtr drvp) { return FALSE; }
+// pragma(inline, true) int xf86platformAddGPUDevices(DriverPtr drvp) { return False; }
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 // pragma(inline, true) void xf86MergeOutputClassOptions(int index, void** options) {}
 

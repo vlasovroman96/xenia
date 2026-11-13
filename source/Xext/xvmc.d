@@ -19,7 +19,6 @@ import hw.xfree86.common.xvmcext;
 import miext.extinit_priv;
 import Xext.xvdix_priv;
 
-//import common.misc;
 import os.os;
 import dix.dixstruct_priv;
 import dix.resource;
@@ -148,7 +147,7 @@ private int ProcXvMCListSurfaceTypes(ClientPtr client)
         }
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     int num_surfaces = (adaptor) ? adaptor.num_surfaces : 0;
     for (int i = 0; i < num_surfaces; i++) {
@@ -252,7 +251,7 @@ private int ProcXvMCCreateContext(ClientPtr client)
         return BadAlloc;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD32s(&rpcbuf, data, dwords);
     free(data);
 
@@ -327,7 +326,7 @@ private int ProcXvMCCreateSurface(ClientPtr client)
         return BadAlloc;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD32s(&rpcbuf, data, dwords);
     free(data);
 
@@ -364,7 +363,7 @@ private int ProcXvMCCreateSubpicture(ClientPtr client)
     mixin(X_REQUEST_FIELD_CARD16!"width");
     mixin(X_REQUEST_FIELD_CARD16!"height");
 
-    Bool image_supported = FALSE;
+    Bool image_supported = False;
     CARD32* data = null;
     int result = void, dwords = 0;
     XvMCContextPtr pContext = void;
@@ -400,7 +399,7 @@ private int ProcXvMCCreateSubpicture(ClientPtr client)
     for (int i = 0; i < surface.compatible_subpictures.num_xvimages; i++) {
         if (surface.compatible_subpictures.xvimage_ids[i] ==
             stuff.xvimage_id) {
-            image_supported = TRUE;
+            image_supported = True;
             break;
         }
     }
@@ -441,7 +440,7 @@ private int ProcXvMCCreateSubpicture(ClientPtr client)
         return BadAlloc;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD32s(&rpcbuf, data, dwords);
     free(data);
 
@@ -528,7 +527,7 @@ private int ProcXvMCListSubpictureTypes(ClientPtr client)
     int num = (surface.compatible_subpictures ?
                surface.compatible_subpictures.num_xvimages : 0);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (num) {
         for (int i = 0; i < num; i++) {
@@ -608,7 +607,7 @@ private int ProcXvMCGetDRInfo(ClientPtr client)
     int nameLen = cast(int)strlen(pScreenPriv.clientDriverName.ptr) + 1;
     int busIDLen = cast(int)strlen(pScreenPriv.busID.ptr) + 1;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)pScreenPriv.clientDriverName, nameLen);
     x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)pScreenPriv.busID, busIDLen);
 
@@ -734,7 +733,7 @@ int XvMCScreenInit(ScreenPtr pScreen, int num, XvMCAdaptorPtr pAdapt)
     pScreenPriv.minor = 0;
     pScreenPriv.patchLevel = 0;
 
-    XvMCInUse = TRUE;
+    XvMCInUse = True;
 
     return Success;
 }

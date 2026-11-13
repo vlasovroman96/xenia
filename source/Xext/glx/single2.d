@@ -51,6 +51,7 @@ import glx.glxcmds;
 import os.io;
 import externs.gnu;;
 import common.swap;
+import common.bools;
 
 
 

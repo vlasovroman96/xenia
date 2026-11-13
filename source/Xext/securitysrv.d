@@ -59,7 +59,7 @@ alias SecurityAuthorizationPtr = SecurityAuthorizationRec*;
 
 struct SecurityValidateGroupInfoRec {
     XID group;                  /* the group that was sent in GenerateAuthorization */
-    Bool valid;                 /* did anyone recognize it? if so, set to TRUE */
+    Bool valid;                 /* did anyone recognize it? if so, set to True */
 }
 
 /* Give this value or higher to the -audit option to get security messages */

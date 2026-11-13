@@ -65,7 +65,6 @@ import xf86tokens;
 import Configint;
 import x11.Xmd;
 import x11.Xdefs;
-import common.misc;
 import scan;
 import core.stdc.string;
 import externs.gnu;
@@ -109,7 +108,7 @@ XF86ConfFilesPtr xf86parseFilesSection(XF86ConfFilesPtr ptr)
         case FONTPATH:
             if (xf86getSubToken(&(ptr.file_comment)) != XF86_TOKEN_STRING)
                 mixin(ErrorP!(`QUOTE_MSG, "FontPath"`));
-            j = FALSE;
+            j = False;
             str = xf86_lex_val.str;
             if (ptr.file_fontpath is null) {
                 ptr.file_fontpath = cast(char*)calloc(1, 1);
@@ -119,7 +118,7 @@ XF86ConfFilesPtr xf86parseFilesSection(XF86ConfFilesPtr ptr)
                 i = cast(int)(strlen(ptr.file_fontpath) + strlen(str) + 1);
                 if (ptr.file_fontpath[strlen(ptr.file_fontpath) - 1] != ',') {
                     i++;
-                    j = TRUE;
+                    j = True;
                 }
             }
             ptr.file_fontpath = cast(char*)realloc(ptr.file_fontpath, i);
@@ -132,7 +131,7 @@ XF86ConfFilesPtr xf86parseFilesSection(XF86ConfFilesPtr ptr)
         case MODULEPATH:
             if (xf86getSubToken(&(ptr.file_comment)) != XF86_TOKEN_STRING)
                 mixin(ErrorP!(`QUOTE_MSG, "ModulePath"`));
-            l = FALSE;
+            l = False;
             str = xf86_lex_val.str;
             if (ptr.file_modulepath is null) {
                 ptr.file_modulepath = cast(char*)calloc(1, 1);
@@ -145,7 +144,7 @@ XF86ConfFilesPtr xf86parseFilesSection(XF86ConfFilesPtr ptr)
                 if (ptr.file_modulepath[strlen(ptr.file_modulepath) - 1] !=
                     ',') {
                     k++;
-                    l = TRUE;
+                    l = True;
                 }
             }
             ptr.file_modulepath = cast(char*)realloc(ptr.file_modulepath, k);

@@ -320,7 +320,7 @@ private void LinuxKeyboardDisable(KdKeyboardInfo* ki)
 
     fd = cast(int) cast(intptr_t) ki.driverPrivate;
 
-    KdUnregisterFd(ki, fd, FALSE);
+    KdUnregisterFd(ki, fd, False);
     ioctl(fd, KDSKBMODE, LinuxKbdTrans);
     tcsetattr(fd, TCSANOW, &LinuxTermios);
 }

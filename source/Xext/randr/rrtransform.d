@@ -62,18 +62,18 @@ Bool RRTransformEqual(RRTransformPtr a, RRTransformPtr b)
     if (b && assumeNoGC(&pixman_transform_is_identity)(&b.transform))
         b = null;
     if (a is null && b is null)
-        return TRUE;
+        return True;
     if (a is null || b is null)
-        return FALSE;
+        return False;
     if (memcmp(&a.transform, &b.transform, typeof(a.transform).sizeof) != 0)
-        return FALSE;
+        return False;
     if (a.filter != b.filter)
-        return FALSE;
+        return False;
     if (a.nparams != b.nparams)
-        return FALSE;
+        return False;
     if (memcmp(a.params, b.params, a.nparams * XFixed.sizeof) != 0)
-        return FALSE;
-    return TRUE;
+        return False;
+    return True;
 }
 
 Bool RRTransformSetFilter(RRTransformPtr dst, PictFilterPtr filter, XFixed* params, int nparams, int width, int height)
@@ -83,7 +83,7 @@ Bool RRTransformSetFilter(RRTransformPtr dst, PictFilterPtr filter, XFixed* para
     if (nparams) {
         new_params = cast(XFixed*) calloc(nparams, XFixed.sizeof);
         if (!new_params)
-            return FALSE;
+            return False;
         memcpy(new_params, params, nparams * XFixed.sizeof);
     }
     else
@@ -94,7 +94,7 @@ Bool RRTransformSetFilter(RRTransformPtr dst, PictFilterPtr filter, XFixed* para
     dst.nparams = nparams;
     dst.width = width;
     dst.height = height;
-    return TRUE;
+    return True;
 }
 
 Bool RRTransformCopy(RRTransformPtr dst, RRTransformPtr src)
@@ -106,19 +106,19 @@ Bool RRTransformCopy(RRTransformPtr dst, RRTransformPtr src)
         if (!RRTransformSetFilter(dst, src.filter,
                                   src.params, src.nparams, src.width,
                                   src.height))
-            return FALSE;
+            return False;
         dst.transform = src.transform;
         dst.f_transform = src.f_transform;
         dst.f_inverse = src.f_inverse;
     }
     else {
         if (!RRTransformSetFilter(dst, null, null, 0, 0, 0))
-            return FALSE;
+            return False;
         assumeNoGC(&pixman_transform_init_identity)(&dst.transform);
         assumeNoGC(&pixman_f_transform_init_identity)(&dst.f_transform);
         assumeNoGC(&pixman_f_transform_init_identity)(&dst.f_inverse);
     }
-    return TRUE;
+    return True;
 }
 
 enum string F(string x) = IntToxFixed!(x);
@@ -143,13 +143,13 @@ private void RRTransformRescale(pixman_f_transform* f_transform, double limit)
  * client-specified transform, rotation/reflection values and the crtc
  * offset.
  *
- * Return TRUE if the resulting transform is not a simple translation.
+ * Return True if the resulting transform is not a simple translation.
  */
 Bool RRTransformCompute(int x, int y, int width, int height, Rotation rotation, RRTransformPtr rr_transform, PictTransformPtr transform, pixman_f_transform* f_transform, pixman_f_transform* f_inverse)
 {
     PictTransform t_transform = void, inverse = void;
     pixman_f_transform tf_transform = void, tf_inverse = void;
-    Bool overflow = FALSE;
+    Bool overflow = False;
 
     if (!transform)
         transform = &t_transform;
@@ -264,7 +264,7 @@ static if (RANDR_12_INTERFACE) {
     if (rr_transform) {
         if (!pixman_transform_multiply
             (transform, &rr_transform.transform, transform))
-            overflow = TRUE;
+            overflow = True;
         assumeNoGC(&pixman_f_transform_multiply)(f_transform, &rr_transform.f_transform,
                                     f_transform);
         assumeNoGC(&pixman_f_transform_multiply)(f_inverse, f_inverse,
@@ -279,12 +279,12 @@ static if (RANDR_12_INTERFACE) {
 
         assumeNoGC(&pixman_f_transform_init_translate)(f_transform, x, y);
         assumeNoGC(&pixman_f_transform_init_translate)(f_inverse, -x, -y);
-        return FALSE;
+        return False;
     }
     else {
         assumeNoGC(&pixman_f_transform_translate)(f_transform, f_inverse, x, y);
         if (!assumeNoGC(&pixman_transform_translate)(transform, &inverse, mixin(F!(`x`)), mixin(F!(`y`))))
-            overflow = TRUE;
+            overflow = True;
         if (overflow) {
             pixman_f_transform f_scaled = void;
 
@@ -292,6 +292,6 @@ static if (RANDR_12_INTERFACE) {
             RRTransformRescale(&f_scaled, 16384.0);
             assumeNoGC(&pixman_transform_from_pixman_f_transform)(transform, &f_scaled);
         }
-        return TRUE;
+        return True;
     }
 }

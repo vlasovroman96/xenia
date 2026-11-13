@@ -73,14 +73,11 @@ import os.xhostname;
 
 import xf86Parser_priv;
 
-/* For PATH_MAX */
-import common.misc;
-
 import Configint;
 import xf86tokens;
 import os.log;
 import externs.gnu;
-
+import os.os;
 // #define PATHS_H
 enum string DATADIR =          "/usr/share";
 enum string SYSCONFDIR =       "/etc";
@@ -756,8 +753,8 @@ private int ConfigFilter(const(dirent)* de)
 private Bool AddConfigDirFiles(const(char)* dirpath, dirent** list, int num)
 {
     int i = void;
-    Bool openedFile = FALSE;
-    Bool warnOnce = FALSE;
+    Bool openedFile = False;
+    Bool warnOnce = False;
 
     for (i = 0; i < num; i++) {
         FILE* file = void;
@@ -765,7 +762,7 @@ private Bool AddConfigDirFiles(const(char)* dirpath, dirent** list, int num)
         if (numFiles >= CONFIG_MAX_FILES) {
             if (!warnOnce) {
                 ErrorF("Maximum number of configuration " ~ "files opened\n");
-                warnOnce = TRUE;
+                warnOnce = True;
             }
             continue;
         }
@@ -777,7 +774,7 @@ private Bool AddConfigDirFiles(const(char)* dirpath, dirent** list, int num)
             free(path);
             continue;
         }
-        openedFile = TRUE;
+        openedFile = True;
 
         configFilesList[numFiles].file = file;
         configFilesList[numFiles].path = path;
@@ -795,7 +792,7 @@ private char* OpenConfigDir(const(char)* path, const(char)* cmdline, const(char)
 {
     char* dirpath = null, pathcopy = void;
     const(char)* template_ = void;
-    Bool found = FALSE;
+    Bool found = False;
     int cmdlineUsed = 0;
 
     pathcopy = strdup(path);
@@ -1087,29 +1084,29 @@ char* xf86addComment(char* cur, const(char)* add)
 Bool xf86getBoolValue(Bool* val, const(char)* str)
 {
     if (!val || !str)
-        return FALSE;
+        return False;
     if (*str == '\0') {
-        *val = TRUE;
+        *val = True;
     }
     else {
         if (xf86nameCompare(str, "1") == 0)
-            *val = TRUE;
+            *val = True;
         else if (xf86nameCompare(str, "on") == 0)
-            *val = TRUE;
+            *val = True;
         else if (xf86nameCompare(str, "true") == 0)
-            *val = TRUE;
+            *val = True;
         else if (xf86nameCompare(str, "yes") == 0)
-            *val = TRUE;
+            *val = True;
         else if (xf86nameCompare(str, "0") == 0)
-            *val = FALSE;
+            *val = False;
         else if (xf86nameCompare(str, "off") == 0)
-            *val = FALSE;
+            *val = False;
         else if (xf86nameCompare(str, "false") == 0)
-            *val = FALSE;
+            *val = False;
         else if (xf86nameCompare(str, "no") == 0)
-            *val = FALSE;
+            *val = False;
         else
-            return FALSE;
+            return False;
     }
-    return TRUE;
+    return True;
 }

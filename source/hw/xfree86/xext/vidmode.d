@@ -480,7 +480,7 @@ private int ProcVidModeGetAllModeLines(ClientPtr client)
     if (!pVidMode.GetFirstModeline(pScreen, &mode, &dotClock))
         return BadValue;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     do {
         if (ver < 2)
@@ -647,13 +647,13 @@ private int VidModeAddModeLine(ClientPtr client, xXF86VidModeAddModeLineReq* stu
         return BadImplementation;
 
     if (stuff.after_htotal != 0 || stuff.after_vtotal != 0) {
-        Bool found = FALSE;
+        Bool found = False;
 
         if (pVidMode.GetFirstModeline(pScreen, &mode, &dotClock)) {
             do {
                 if ((pVidMode.GetDotClock(pScreen, cast(int)stuff.dotclock)
                      == dotClock) && mixin(MODEMATCH!(`mode`, `stuff`))) {
-                    found = TRUE;
+                    found = True;
                     break;
                 }
             } while (pVidMode.GetNextModeline(pScreen, &mode, &dotClock));
@@ -1389,7 +1389,7 @@ private int ProcVidModeGetMonitor(ClientPtr client)
     const(char)* vendorStr = cast(const(char)*)pVidMode.GetMonitorValue(pScreen, VIDMODE_MON_VENDOR, 0).ptr;
     const(char)* modelStr = cast(const(char)*)pVidMode.GetMonitorValue(pScreen, VIDMODE_MON_MODEL, 0).ptr;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     for (int i = 0; i < nHsync; i++) {
         x_rpcbuf_write_CARD32(
@@ -1499,7 +1499,7 @@ private int ProcVidModeGetDotClocks(ClientPtr client)
 
     numClocks = pVidMode.GetNumOfClocks(pScreen, &ClockProg);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (!ClockProg) {
         int* Clocks = cast(int*) calloc(numClocks, int.sizeof);
@@ -1656,7 +1656,7 @@ private int ProcVidModeGetGammaRamp(ClientPtr client)
 
     const(int) length = (stuff.size + 1) & ~1;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (stuff.size) {
         size_t ramplen = length * 3 * CARD16.sizeof;

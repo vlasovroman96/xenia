@@ -74,8 +74,6 @@ enum AGPIOC_DEALLOCATE = 0x40104107;
 enum AGPIOC_BIND = 0x40104108;
 enum AGPIOC_UNBIND = 0x40084109;
 
-alias TRUE = common.misc.TRUE;
-
 enum AGP_DEVICE =		"/dev/agpgart";
 
 /* AGP page size is independent of the host page size. */
@@ -84,11 +82,9 @@ enum AGP_PAGE_SIZE =		4096;
 enum AGPGART_MAJOR_VERSION =	0;
 enum AGPGART_MINOR_VERSION =	99;
 
-alias FALSE = common.misc.FALSE;
-
 private int gartFd = -1;
 private int acquiredScreen = -1;
-private Bool initDone = FALSE;
+private Bool initDone = False;
 
 /*
  * Close /dev/agpgart.  This frees all associated memory allocated during
@@ -101,9 +97,9 @@ Bool xf86GARTCloseScreen(int screenNum)
         close(gartFd);
         acquiredScreen = -1;
         gartFd = -1;
-        initDone = FALSE;
+        initDone = False;
     }
-    return TRUE;
+    return True;
 }
 
 /*
@@ -117,18 +113,18 @@ GARTInit(int screenNum)
     if (initDone)
         return gartFd != -1;
 
-    initDone = TRUE;
+    initDone = True;
 
     if (gartFd == -1)
         gartFd = open(AGP_DEVICE, O_RDWR, 0);
     else
-        return FALSE;
+        return False;
 
     if (gartFd == -1) {
         xf86DrvMsg(screenNum, X_ERROR,
                    "GARTInit: Unable to open " ~ AGP_DEVICE ~ " (%s)\n",
                    strerror(errno));
-        return FALSE;
+        return False;
     }
 
     xf86AcquireGART(-1);
@@ -138,7 +134,7 @@ GARTInit(int screenNum)
                    "GARTInit: AGPIOC_INFO failed (%s)\n", strerror(errno));
         close(gartFd);
         gartFd = -1;
-        return FALSE;
+        return False;
     }
     xf86ReleaseGART(-1);
 
@@ -160,11 +156,11 @@ static if(HasVersion!"linux") {
                    AGPGART_MAJOR_VERSION, AGPGART_MINOR_VERSION);
         close(gartFd);
         gartFd = -1;
-        return FALSE;
+        return False;
     }
 }
 
-    return TRUE;
+    return True;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -221,25 +217,25 @@ AgpInfoPtr xf86GetAGPInfo(int screenNum)
 Bool xf86AcquireGART(int screenNum)
 {
     if (screenNum != -1 && !GARTInit(screenNum))
-        return FALSE;
+        return False;
 
     if (screenNum == -1 || acquiredScreen != screenNum) {
         if (ioctl(gartFd, AGPIOC_ACQUIRE, 0) != 0) {
             xf86DrvMsg(screenNum, X_WARNING,
                        "xf86AcquireGART: AGPIOC_ACQUIRE failed (%s)\n",
                        strerror(errno));
-            return FALSE;
+            return False;
         }
         acquiredScreen = screenNum;
     }
-    return TRUE;
+    return True;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 Bool xf86ReleaseGART(int screenNum)
 {
     if (screenNum != -1 && !GARTInit(screenNum))
-        return FALSE;
+        return False;
 
     if (acquiredScreen == screenNum) {
         /*
@@ -255,11 +251,11 @@ static if (!HasVersion!"linux") {
                 xf86DrvMsg(screenNum, X_WARNING,
                            "xf86ReleaseGART: AGPIOC_RELEASE failed (%s)\n",
                            strerror(errno));
-                return FALSE;
+                return False;
             }
             acquiredScreen = -1;
         }
-        return TRUE;
+        return True;
 }
 else
         {
@@ -267,13 +263,13 @@ else
                 xf86DrvMsg(screenNum, X_WARNING,
                            "xf86ReleaseGART: AGPIOC_RELEASE failed (%s)\n",
                            strerror(errno));
-                return FALSE;
+                return False;
             }
             acquiredScreen = -1;
         }
-        return TRUE;
+        return True;
     }
-    return FALSE;
+    return False;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -317,12 +313,12 @@ int xf86AllocateGARTMemory(int screenNum, c_ulong size, int type, c_ulong* physi
 Bool xf86DeallocateGARTMemory(int screenNum, int key)
 {
     if (!GARTInit(screenNum) || acquiredScreen != screenNum)
-        return FALSE;
+        return False;
 
     if (acquiredScreen != screenNum) {
         xf86DrvMsg(screenNum, X_ERROR,
                    "xf86UnbindGARTMemory: AGP not acquired by this screen\n");
-        return FALSE;
+        return False;
     }
 
 version (linux) {
@@ -333,10 +329,10 @@ version (linux) {
         xf86DrvMsg(screenNum, X_WARNING, "xf86DeAllocateGARTMemory: "~
                    "deallocation gart memory with key %d failed\n\t(%s)\n",
                    key, strerror(errno));
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
     }
     assert(0);
 }
@@ -348,19 +344,19 @@ Bool xf86BindGARTMemory(int screenNum, int key, c_ulong offset)
     int pageOffset = void;
 
     if (!GARTInit(screenNum) || acquiredScreen != screenNum)
-        return FALSE;
+        return False;
 
     if (acquiredScreen != screenNum) {
         xf86DrvMsg(screenNum, X_ERROR,
                    "xf86BindGARTMemory: AGP not acquired by this screen\n");
-        return FALSE;
+        return False;
     }
 
     if (offset % AGP_PAGE_SIZE != 0) {
         xf86DrvMsg(screenNum, X_WARNING, "xf86BindGARTMemory: "
                    ~ "offset (0x%lx) is not page-aligned (%d)\n",
                    offset, AGP_PAGE_SIZE);
-        return FALSE;
+        return False;
     }
     pageOffset = cast(int)(offset / AGP_PAGE_SIZE);
 
@@ -376,10 +372,10 @@ Bool xf86BindGARTMemory(int screenNum, int key, c_ulong offset)
                    ~ "binding of gart memory with key %d\n"
                    ~ "\tat offset 0x%lx failed (%s)\n",
                    key, offset, strerror(errno));
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 /* Unbind GART memory with "key" */
@@ -388,12 +384,12 @@ Bool xf86UnbindGARTMemory(int screenNum, int key)
     _agp_unbind unbind = void;
 
     if (!GARTInit(screenNum) || acquiredScreen != screenNum)
-        return FALSE;
+        return False;
 
     if (acquiredScreen != screenNum) {
         xf86DrvMsg(screenNum, X_ERROR,
                    "xf86UnbindGARTMemory: AGP not acquired by this screen\n");
-        return FALSE;
+        return False;
     }
 
     unbind.priority = 0;
@@ -403,12 +399,12 @@ Bool xf86UnbindGARTMemory(int screenNum, int key)
         xf86DrvMsg(screenNum, X_WARNING, "xf86UnbindGARTMemory: "
                    ~ "unbinding of gart memory with key %d "
                    ~ "failed (%s)\n", key, strerror(errno));
-        return FALSE;
+        return False;
     }
 
     xf86DrvMsgVerb(screenNum, X_INFO, 3,
                    "xf86UnbindGARTMemory: unbind key %d\n", key);
 
-    return TRUE;
+    return True;
 }
 }

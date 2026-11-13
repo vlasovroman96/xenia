@@ -133,15 +133,15 @@ private void enable_seat(libseat* seat, void* userdata)
     InputInfoPtr pInfo = void;
     cast(void) userdata;
     LogMessage(X_INFO, "seatd_libseat enable\n");
-    seat_info.active = TRUE;
-    seat_info.vt_active = TRUE;
+    seat_info.active = True;
+    seat_info.vt_active = True;
 
     xf86VTEnter();
     /* Reactivate all input devices */
     for (pInfo = xf86InputDevs; pInfo; pInfo = pInfo.next)
         if (pInfo.flags & XI86_SERVER_FD){
             if (xf86CheckIntOption(pInfo.options, "libseat_id", -1) >= 0){
-                int fd = -1, paused = FALSE;
+                int fd = -1, paused = False;
                 seatd_libseat_open_device(pInfo, &fd, &paused);
                 xf86EnableInputDeviceForVTSwitch(pInfo);
             }
@@ -165,7 +165,7 @@ private void disable_seat(libseat* seat, void* userdata)
     cast(void) userdata;
     LogMessage(X_INFO, "seatd_libseat disable\n");
     xf86VTLeave();
-    seat_info.vt_active = FALSE;
+    seat_info.vt_active = False;
     if (assumeNoGC(&libseat_disable_seat)(seat)) {
         LogMessage(X_ERROR, "seatd_libseat disable failed: %d\n", errno);
     }
@@ -186,13 +186,13 @@ private Bool libseat_active()
 {
     if (!seat_info.client) {
         LogMessageVerb(X_DEBUG, 5, "seatd_libseat not initialised!\n");
-        return FALSE;
+        return False;
     }
     if (!seat_info.active) {
         LogMessage(X_DEBUG, "seatd_libseat not active\n");
-        return FALSE;
+        return False;
     }
-    return TRUE;
+    return True;
 }
 
 /*
@@ -304,7 +304,7 @@ void seatd_libseat_fini()
         assumeNoGC(&libseat_close_seat)(seat_info.client);
     }
     seat_info.graphics_id = -1;
-    seat_info.active = FALSE;
+    seat_info.active = False;
     seat_info.client = null;
 }
 
@@ -373,7 +373,7 @@ void seatd_libseat_open_device(InputInfoPtr p, int* pfd, Bool* paused)
     }
     if (!seat_info.vt_active) {
         *pfd = -2; /* Invalid, but not -1. See xf86NewInputDevice() */
-        *paused = TRUE;
+        *paused = True;
         LogMessage(X_INFO, "seatd_libseat paused %s\n", path);
         return;
     }

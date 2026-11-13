@@ -67,7 +67,6 @@ import xf86tokens;
 import Configint;
 import x11.Xmd;
 import x11.Xdefs;
-import common.misc;
 import hw.xfree86.parser.Flags;
 import scan;
 import core.stdc.string;
@@ -263,8 +262,8 @@ private const(xf86ConfigSymTabRec)[18] ScreenTab = [
 alias CLEANUP = xf86freeScreenList;
 XF86ConfScreenPtr xf86parseScreenSection()
 {
-    int has_ident = FALSE;
-    int has_driver = FALSE;
+    int has_ident = False;
+    int has_driver = False;
     int token = void;
 
     mixin(parsePrologue!("XF86ConfScreenPtr", "XF86ConfScreenRec"));
@@ -282,7 +281,7 @@ XF86ConfScreenPtr xf86parseScreenSection()
             ptr.scrn_identifier = xf86_lex_val.str;
             if (has_ident || has_driver)
                 mixin(ErrorP!(`ONLY_ONE_MSG, "Identifier or Driver"`));
-            has_ident = TRUE;
+            has_ident = True;
             break;
         case MATCHSEAT:
             if (xf86getSubToken(&(ptr.scrn_comment)) != XF86_TOKEN_STRING)
@@ -295,7 +294,7 @@ XF86ConfScreenPtr xf86parseScreenSection()
             ptr.scrn_obso_driver = xf86_lex_val.str;
             if (has_ident || has_driver)
                 mixin(ErrorP!(`ONLY_ONE_MSG, "Identifier or Driver"`));
-            has_driver = TRUE;
+            has_driver = True;
             break;
         case DEFAULTDEPTH:
             if (xf86getSubToken(&(ptr.scrn_comment)) != NUMBER)
@@ -526,7 +525,7 @@ int xf86validateScreen(XF86ConfigPtr p)
             if (monitor) {
                 screen.scrn_monitor = monitor;
                 if (!xf86validateMonitor(p, screen))
-                    return FALSE;
+                    return False;
             }
         }
 
@@ -546,13 +545,13 @@ int xf86validateScreen(XF86ConfigPtr p)
                 xf86validationError(UNDEFINED_ADAPTOR_MSG,
                                     adaptor.al_adaptor_str,
                                     screen.scrn_identifier);
-                return FALSE;
+                return False;
             }
             else if (adaptor.al_adaptor.va_fwdref) {
                 xf86validationError(ADAPTOR_REF_TWICE_MSG,
                                     adaptor.al_adaptor_str,
                                     adaptor.al_adaptor.va_fwdref);
-                return FALSE;
+                return False;
             }
 
             adaptor.al_adaptor.va_fwdref = strdup(screen.scrn_identifier);
@@ -562,7 +561,7 @@ int xf86validateScreen(XF86ConfigPtr p)
         screen = cast(_XF86ConfScreenRec*)screen.list.next;
     }
 
-    return TRUE;
+    return True;
 }
 
 XF86ConfScreenPtr xf86findScreen(const(char)* ident, XF86ConfScreenPtr p)

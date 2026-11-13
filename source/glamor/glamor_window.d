@@ -27,6 +27,7 @@ import core.stdc.config: c_long, c_ulong;
 import build.dix_config;
 
 import glamor.glamor_priv;
+import common.bools;
 
 /** @file glamor_window.c
  *

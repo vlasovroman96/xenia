@@ -42,7 +42,7 @@ import dix.extension;
 import registry;
 import common.swap;
 
-Bool noResExtension = FALSE;
+Bool noResExtension = False;
 
 /** @brief Holds fragments of responses for ConstructClientIds.
  *
@@ -147,9 +147,9 @@ private Bool InitConstructResourceBytesCtx(ConstructResourceBytesCtx* ctx, Clien
                                       null);
 
     if (!ctx.visitedResources) {
-        return FALSE;
+        return False;
     } else {
-        return TRUE;
+        return True;
     }
 }
 
@@ -178,7 +178,7 @@ private int ProcXResQueryClients(ClientPtr client)
 {
     mixin(X_REQUEST_HEAD_STRUCT!xXResQueryClientsReq);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     int num_clients = 0;
     for (int i = 0; i < currentMaxClients; i++) {
@@ -243,7 +243,7 @@ private int ProcXResQueryClientResources(ClientPtr client)
 
     FindAllClientResources(resClient, &ResFindAllRes, counts);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     int num_types = 0;
     for (int i = 0; i <= lastResourceType; i++) {
@@ -325,17 +325,17 @@ private int ProcXResQueryClientPixmapBytes(ClientPtr client)
                     have been already handled
     @param sendMask Which id type are we now considering. One of X_XRes*Mask.
 
-    @return Returns TRUE if the client information needs to be on the
-            response, otherwise FALSE.
+    @return Returns True if the client information needs to be on the
+            response, otherwise False.
 */
 private Bool WillConstructMask(ClientPtr client, CARD32 mask, ConstructClientIdCtx* ctx, int sendMask)
 {
     if ((!mask || (mask & sendMask))
         && !(ctx.sentClientMasks[client.index] & sendMask)) {
         ctx.sentClientMasks[client.index] |= sendMask;
-        return TRUE;
+        return True;
     } else {
-        return FALSE;
+        return False;
     }
 }
 
@@ -351,7 +351,7 @@ private Bool WillConstructMask(ClientPtr client, CARD32 mask, ConstructClientIdC
                       and information on which clients and masks have been
                       already handled.
 
-    @return Return TRUE if everything went OK, otherwise FALSE which indicates
+    @return Return True if everything went OK, otherwise False which indicates
             a memory allocation problem.
 */
 private Bool ConstructClientIdValue(ClientPtr sendClient, ClientPtr client, CARD32 mask, ConstructClientIdCtx* ctx)
@@ -376,7 +376,7 @@ private Bool ConstructClientIdValue(ClientPtr sendClient, ClientPtr client, CARD
         pid_t pid = GetClientPid(client);
 
         if (pid == -1) {
-            return TRUE;
+            return True;
         }
 
         xXResClientIdValue reply;
@@ -397,8 +397,8 @@ private Bool ConstructClientIdValue(ClientPtr sendClient, ClientPtr client, CARD
         ++ctx.numIds;
     }
 
-    /* memory allocation errors earlier may return with FALSE */
-    return TRUE;
+    /* memory allocation errors earlier may return with False */
+    return True;
 }
 
 /** @brief Constructs a response about all clients, based on a client id specs
@@ -466,7 +466,7 @@ private int ProcXResQueryClientIds(ClientPtr client)
     ConstructClientIdCtx ctx;
 
     ctx.rpcbuf.swapped = client.swapped;
-    ctx.rpcbuf.swapped = TRUE;
+    ctx.rpcbuf.swapped = True;
 
     int rc = ConstructClientIds(client, cast(int)stuff.numSpecs, specs, &ctx);
     if (rc == Success) {
@@ -544,14 +544,14 @@ private void AddSubResourceSizeSpec(void* value, XID id, RESTYPE type, void* cda
     if (ctx.status == Success) {
         xXResResourceSizeSpec** prevCrossRef = cast(xXResResourceSizeSpec**)ht_find(ctx.visitedSubResources, &value);
         if (!prevCrossRef) {
-            Bool ok = TRUE;
+            Bool ok = True;
             xXResResourceSizeSpec* crossRef = cast(xXResResourceSizeSpec*)AddFragment(&ctx.response, xXResResourceSizeSpec.sizeof);
             ok = ok && crossRef !is null;
             if (ok) {
                 xXResResourceSizeSpec** p = void;
                 p = cast(xXResResourceSizeSpec**)ht_add(ctx.visitedSubResources, &value);
                 if (!p) {
-                    ok = FALSE;
+                    ok = False;
                 } else {
                     *p = crossRef;
                 }
@@ -601,7 +601,7 @@ private void AddResourceSizeValue(void* ptr, XID id, RESTYPE type, void* cdata)
     ConstructResourceBytesCtx* ctx = cast(ConstructResourceBytesCtx*)cdata;
     if (ctx.status == Success &&
         !ht_find(ctx.visitedResources, &id)) {
-        Bool ok = TRUE;
+        Bool ok = True;
         HashTable ht = void;
         HtGenericHashSetupRec htSetup = {
             keySize: (void*).sizeof
@@ -615,7 +615,7 @@ private void AddResourceSizeValue(void* ptr, XID id, RESTYPE type, void* cdata)
 
         xXResResourceSizeValue* value = cast(xXResResourceSizeValue*)AddFragment(&ctx.response, xXResResourceSizeValue.sizeof);
         if (!value) {
-            ok = FALSE;
+            ok = False;
         }
         ok = ok && ht_add(ctx.visitedResources, &id);
         if (ok) {
@@ -812,7 +812,7 @@ private int ProcXResQueryResourceBytes(ClientPtr client)
         return BadAlloc;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     int rc = ConstructResourceBytes(stuff.client, &ctx);
 

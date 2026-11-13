@@ -264,9 +264,9 @@ void ephyr_glamor_set_texture(ephyr_glamor* glamor, uint tex)
 private void ephyr_glamor_set_vertices(ephyr_glamor* glamor)
 {
     glVertexAttribPointer(glamor.texture_shader_position_loc,
-                          2, GL_FLOAT, FALSE, 0, cast(void*) 0);
+                          2, GL_FLOAT, False, 0, cast(void*) 0);
     glVertexAttribPointer(glamor.texture_shader_texcoord_loc,
-                          2, GL_FLOAT, FALSE, 0, cast(void*) (float.sizeof * 8));
+                          2, GL_FLOAT, False, 0, cast(void*) (float.sizeof * 8));
 
     glEnableVertexAttribArray(glamor.texture_shader_position_loc);
     glEnableVertexAttribArray(glamor.texture_shader_texcoord_loc);

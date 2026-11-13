@@ -39,6 +39,7 @@ import mi.micopy;
 import mi.miexpose;
 import fb.fb;
 import common.math;
+import common.bools;
 
 struct copy_args {
     DrawablePtr src_drawable;

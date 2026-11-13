@@ -73,7 +73,7 @@ private void xkb_get_rules_test()
     assert(strcmp(rmlvo.variant, XKB_DFLT_VARIANT) == 0);
     assert(strcmp(rmlvo.options, XKB_DFLT_OPTIONS) == 0);
 
-    XkbFreeRMLVOSet(&rmlvo, FALSE);
+    XkbFreeRMLVOSet(&rmlvo, False);
 }
 
 /**
@@ -111,8 +111,8 @@ private void xkb_set_rules_test()
     assert(strcmp(rmlvo.variant, rmlvo_new.variant) == 0);
     assert(strcmp(rmlvo.options, rmlvo_new.options) == 0);
 
-    XkbFreeRMLVOSet(&rmlvo, FALSE);
-    XkbFreeRMLVOSet(&rmlvo_new, FALSE);
+    XkbFreeRMLVOSet(&rmlvo, False);
+    XkbFreeRMLVOSet(&rmlvo_new, False);
 }
 
 /**
@@ -137,7 +137,7 @@ private void xkb_set_get_rules_test()
 
     /* pass 1 */
     XkbSetRulesDflts(&rmlvo);
-    XkbFreeRMLVOSet(&rmlvo, FALSE);
+    XkbFreeRMLVOSet(&rmlvo, False);
     XkbGetRulesDflts(&rmlvo);
 
     /* Make a backup copy */
@@ -169,7 +169,7 @@ private void xkb_set_get_rules_test()
     assert(strcmp(rmlvo.variant, rmlvo_backup.variant) == 0);
     assert(strcmp(rmlvo.options, rmlvo_backup.options) == 0);
 
-    XkbFreeRMLVOSet(&rmlvo, FALSE);
+    XkbFreeRMLVOSet(&rmlvo, False);
     XkbGetRulesDflts(&rmlvo);
     assert(strcmp(rmlvo.rules, rmlvo_backup.rules) == 0);
     assert(strcmp(rmlvo.model, rmlvo_backup.model) == 0);
@@ -177,8 +177,8 @@ private void xkb_set_get_rules_test()
     assert(strcmp(rmlvo.variant, rmlvo_backup.variant) == 0);
     assert(strcmp(rmlvo.options, rmlvo_backup.options) == 0);
 
-    XkbFreeRMLVOSet(&rmlvo, FALSE);
-    XkbFreeRMLVOSet(&rmlvo_backup, FALSE);
+    XkbFreeRMLVOSet(&rmlvo, False);
+    XkbFreeRMLVOSet(&rmlvo_backup, False);
 }
 
 const(testfunc_t)* xkb_test()

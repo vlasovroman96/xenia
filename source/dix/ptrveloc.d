@@ -172,7 +172,7 @@ private void InitVelocityData(DeviceVelocityPtr vel)
     vel.max_rel_diff = 0.2;
     vel.max_diff = 1.0;
     vel.initial_range = 2;
-    vel.average_accel = TRUE;
+    vel.average_accel = True;
     SetAccelerationProfile(vel, AccelProfileClassic);
     InitTrackers(vel, 16);
 }
@@ -201,7 +201,7 @@ Bool InitPredictableAccelerationScheme(DeviceIntPtr dev, ValuatorAccelerationPtr
     if (!vel || !schemeData) {
         free(vel);
         free(schemeData);
-        return FALSE;
+        return False;
     }
     InitVelocityData(vel);
     schemeData.vel = vel;
@@ -210,11 +210,11 @@ Bool InitPredictableAccelerationScheme(DeviceIntPtr dev, ValuatorAccelerationPtr
         FreeVelocityData(vel);
         free(vel);
         free(schemeData);
-        return FALSE;
+        return False;
     }
     /* all fine, assign scheme to device */
     dev.valuator.accelScheme = scheme;
-    return TRUE;
+    return True;
 }
 
 /**
@@ -284,8 +284,8 @@ private c_long AccelInitProfileProperty(DeviceIntPtr dev, DeviceVelocityPtr vel)
     Atom prop_profile_number = XIGetKnownProperty(ACCEL_PROP_PROFILE_NUMBER);
 
     XIChangeDeviceProperty(dev, prop_profile_number, XA_INTEGER, 32,
-                           PropModeReplace, 1, &profile, FALSE);
-    XISetDevicePropertyDeletable(dev, prop_profile_number, FALSE);
+                           PropModeReplace, 1, &profile, False);
+    XISetDevicePropertyDeletable(dev, prop_profile_number, False);
     return XIRegisterPropertyHandler(dev, &AccelSetProfileProperty, null, null);
 }
 
@@ -324,8 +324,8 @@ private c_long AccelInitDecelProperty(DeviceIntPtr dev, DeviceVelocityPtr vel)
     Atom prop_const_decel = XIGetKnownProperty(ACCEL_PROP_CONSTANT_DECELERATION);
     XIChangeDeviceProperty(dev, prop_const_decel,
                            XIGetKnownProperty(XATOM_FLOAT), 32, PropModeReplace,
-                           1, &fval, FALSE);
-    XISetDevicePropertyDeletable(dev, prop_const_decel, FALSE);
+                           1, &fval, False);
+    XISetDevicePropertyDeletable(dev, prop_const_decel, False);
     return XIRegisterPropertyHandler(dev, &AccelSetDecelProperty, null, null);
 }
 
@@ -366,8 +366,8 @@ private c_long AccelInitAdaptDecelProperty(DeviceIntPtr dev, DeviceVelocityPtr v
 
     XIChangeDeviceProperty(dev, prop_adapt_decel,
                            XIGetKnownProperty(XATOM_FLOAT), 32, PropModeReplace,
-                           1, &fval, FALSE);
-    XISetDevicePropertyDeletable(dev, prop_adapt_decel, FALSE);
+                           1, &fval, False);
+    XISetDevicePropertyDeletable(dev, prop_adapt_decel, False);
     return XIRegisterPropertyHandler(dev, &AccelSetAdaptDecelProperty, null,
                                      null);
 }
@@ -410,8 +410,8 @@ private c_long AccelInitScaleProperty(DeviceIntPtr dev, DeviceVelocityPtr vel)
 
     XIChangeDeviceProperty(dev, prop_velo_scale,
                            XIGetKnownProperty(XATOM_FLOAT), 32, PropModeReplace,
-                           1, &fval, FALSE);
-    XISetDevicePropertyDeletable(dev, prop_velo_scale, FALSE);
+                           1, &fval, False);
+    XISetDevicePropertyDeletable(dev, prop_velo_scale, False);
     return XIRegisterPropertyHandler(dev, &AccelSetScaleProperty, null, null);
 }
 
@@ -420,18 +420,18 @@ private BOOL InitializePredictableAccelerationProperties(DeviceIntPtr dev, Devic
     int num_handlers = 4;
 
     if (!vel)
-        return FALSE;
+        return False;
 
     schemeData.prop_handlers = cast(long*)calloc(num_handlers, c_long.sizeof);
     if (!schemeData.prop_handlers)
-        return FALSE;
+        return False;
     schemeData.num_prop_handlers = num_handlers;
     schemeData.prop_handlers[0] = AccelInitProfileProperty(dev, vel);
     schemeData.prop_handlers[1] = AccelInitDecelProperty(dev, vel);
     schemeData.prop_handlers[2] = AccelInitAdaptDecelProperty(dev, vel);
     schemeData.prop_handlers[3] = AccelInitScaleProperty(dev, vel);
 
-    return TRUE;
+    return True;
 }
 
 BOOL DeletePredictableAccelerationProperties(DeviceIntPtr dev, PredictableAccelSchemePtr scheme)
@@ -440,13 +440,13 @@ BOOL DeletePredictableAccelerationProperties(DeviceIntPtr dev, PredictableAccelS
     Atom prop = void;
 
     prop = XIGetKnownProperty(ACCEL_PROP_VELOCITY_SCALING);
-    XIDeleteDeviceProperty(dev, prop, FALSE);
+    XIDeleteDeviceProperty(dev, prop, False);
     prop = XIGetKnownProperty(ACCEL_PROP_ADAPTIVE_DECELERATION);
-    XIDeleteDeviceProperty(dev, prop, FALSE);
+    XIDeleteDeviceProperty(dev, prop, False);
     prop = XIGetKnownProperty(ACCEL_PROP_CONSTANT_DECELERATION);
-    XIDeleteDeviceProperty(dev, prop, FALSE);
+    XIDeleteDeviceProperty(dev, prop, False);
     prop = XIGetKnownProperty(ACCEL_PROP_PROFILE_NUMBER);
-    XIDeleteDeviceProperty(dev, prop, FALSE);
+    XIDeleteDeviceProperty(dev, prop, False);
 
     vel = GetDevicePredictableAccelData(dev);
     if (vel) {
@@ -458,7 +458,7 @@ BOOL DeletePredictableAccelerationProperties(DeviceIntPtr dev, PredictableAccelS
     free(scheme.prop_handlers);
     scheme.prop_handlers = null;
     scheme.num_prop_handlers = 0;
-    return TRUE;
+    return True;
 }
 
 /*********************
@@ -1016,7 +1016,7 @@ private PointerAccelerationProfileFunc GetAccelerationProfile(DeviceVelocityPtr 
  * would be a good place, since FreeVelocityData() also calls this with
  * PROFILE_UNINITIALIZE.
  *
- * returns FALSE if profile number is unavailable, TRUE otherwise.
+ * returns False if profile number is unavailable, True otherwise.
  */
 private int SetAccelerationProfile(DeviceVelocityPtr vel, int profile_num)
 {
@@ -1025,7 +1025,7 @@ private int SetAccelerationProfile(DeviceVelocityPtr vel, int profile_num)
     profile = GetAccelerationProfile(vel, profile_num);
 
     if (profile is null && profile_num != PROFILE_UNINITIALIZE)
-        return FALSE;
+        return False;
 
     /* Here one could free old profile-private data */
     free(vel.profile_private);
@@ -1033,7 +1033,7 @@ private int SetAccelerationProfile(DeviceVelocityPtr vel, int profile_num)
     /* Here one could init profile-private data */
     vel.Profile = profile;
     vel.statistics.profile_number = profile_num;
-    return TRUE;
+    return True;
 }
 
 /**********************************************
@@ -1087,7 +1087,7 @@ void acceleratePointerPredictable(DeviceIntPtr dev, ValuatorMask* val, CARD32 ev
 {
     double dx = 0, dy = 0;
     DeviceVelocityPtr velocitydata = GetDevicePredictableAccelData(dev);
-    Bool soften = TRUE;
+    Bool soften = True;
 
     if (valuator_mask_num_valuators(val) == 0 || !velocitydata)
         return;
@@ -1108,7 +1108,7 @@ void acceleratePointerPredictable(DeviceIntPtr dev, ValuatorMask* val, CARD32 ev
     if (dx != 0.0 || dy != 0.0) {
         /* reset non-visible state? */
         if (ProcessVelocityData2D(velocitydata, dx, dy, cast(int)evtime)) {
-            soften = FALSE;
+            soften = False;
         }
 
         if (dev.ptrfeed && dev.ptrfeed.ctrl.num) {

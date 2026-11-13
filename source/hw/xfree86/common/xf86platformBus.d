@@ -174,7 +174,7 @@ int xf86_remove_platform_device(int dev_index)
 Bool xf86_get_platform_device_unowned(int index)
 {
     return (xf86_platform_devices[index].flags & XF86_PDEV_UNOWNED) ?
-        TRUE : FALSE;
+        True : False;
 }
 
 xf86_platform_device* xf86_find_platform_device_by_devnum(uint major, uint minor)
@@ -189,7 +189,7 @@ xf86_platform_device* xf86_find_platform_device_by_devnum(uint major, uint minor
 }
 
 /*
- * xf86IsPrimaryPlatform() -- return TRUE if primary device
+ * xf86IsPrimaryPlatform() -- return True if primary device
  * is a platform device and it matches this one.
  */
 
@@ -197,7 +197,7 @@ private Bool xf86IsPrimaryPlatform(xf86_platform_device* plat)
 {
     /* Add max. 1 screen for the IgnorePrimary fallback path */
     if (xf86ProbeIgnorePrimary && xf86NumScreens == 0)
-        return TRUE;
+        return True;
 
     if (primaryBus.type == BUS_PLATFORM)
         return plat == primaryBus.id.plat;
@@ -205,9 +205,9 @@ static if(XSERVER_LIBPCIACCESS){
     if (primaryBus.type == BUS_PCI)
         if (plat.pdev)
             if (mixin(MATCH_PCI_DEVICES!("primaryBus.id.pci", "plat.pdev")))
-                return TRUE;
+                return True;
 }
-    return FALSE;
+    return False;
 }
 
 private void platform_find_pci_info(xf86_platform_device* pd, char* busid)
@@ -236,7 +236,7 @@ private Bool OutputClassMatches(XF86ConfOutputClassPtr oclass, xf86_platform_dev
     const(char)* layout = void;
 
     if (!MatchAttrToken(driver, &oclass.match_driver))
-        return FALSE;
+        return False;
 
     /* MatchLayout string
      *
@@ -248,9 +248,9 @@ private Bool OutputClassMatches(XF86ConfOutputClassPtr oclass, xf86_platform_dev
     else
         layout = "";
     if (!MatchAttrToken(layout, &oclass.match_layout))
-            return FALSE;
+            return False;
 
-    return TRUE;
+    return True;
 }
 
 private void xf86OutputClassDriverList(int index, XF86MatchedDrivers* md)
@@ -324,7 +324,7 @@ void xf86PlatformScanPciDev()
 int xf86platformProbe()
 {
     int i = void;
-    Bool pci = TRUE;
+    Bool pci = True;
     XF86ConfOutputClassPtr cl = void, cl_head = (xf86configptr) ?
             xf86configptr.conf_outputclass_lst : null;
     char* driver_path = void, path = null;
@@ -333,7 +333,7 @@ int xf86platformProbe()
     config_odev_probe(&xf86PlatformDeviceProbe);
 
     if (!xf86scanpci()) {
-        pci = FALSE;
+        pci = False;
     }
 
     for (i = 0; i < xf86_num_platform_devices; i++) {
@@ -438,7 +438,7 @@ int xf86platformProbe()
             if (!OutputClassMatches(cl, dev))
                 continue;
 
-            if (xf86CheckBoolOption(cl.option_lst, "PrimaryGPU", FALSE)) {
+            if (xf86CheckBoolOption(cl.option_lst, "PrimaryGPU", False)) {
                 LogMessageVerb(X_CONFIG, 1, "OutputClass \"%s\" setting %s as PrimaryGPU\n",
                                cl.identifier, dev.attribs.path);
                 primaryBus.type = BUS_PLATFORM;
@@ -523,7 +523,7 @@ private int xf86ClaimPlatformSlot(xf86_platform_device* d, DriverPtr drvp, int c
         p.bus.type = BUS_PLATFORM;
         p.bus.id.plat = d;
         p.active = active;
-        p.inUse = FALSE;
+        p.inUse = False;
         if (dev)
             xf86AddDevToEntity(num, dev);
 
@@ -556,7 +556,7 @@ enum string END_OF_MATCHES(string m) = `
 
 private Bool doPlatformProbe(xf86_platform_device* dev, DriverPtr drvp, GDevPtr gdev, int flags, intptr_t match_data)
 {
-    Bool foundScreen = FALSE;
+    Bool foundScreen = False;
     int entity = void;
 
     entity = xf86ClaimPlatformSlot(dev, drvp, 0,
@@ -564,7 +564,7 @@ private Bool doPlatformProbe(xf86_platform_device* dev, DriverPtr drvp, GDevPtr 
 
     if ((entity == -1) && gdev) {
         if (gdev.screen == 0)
-            return FALSE;
+            return False;
         else { /* gdev->screen > 0 */
             uint nent = void;
 
@@ -591,7 +591,7 @@ private Bool doPlatformProbe(xf86_platform_device* dev, DriverPtr drvp, GDevPtr 
         }
 
         if (drvp.platformProbe(drvp, entity, flags, dev, match_data))
-            foundScreen = TRUE;
+            foundScreen = True;
         else
             xf86UnclaimPlatformSlot(dev, gdev);
     }
@@ -601,7 +601,7 @@ private Bool doPlatformProbe(xf86_platform_device* dev, DriverPtr drvp, GDevPtr 
 private Bool probeSingleDevice(xf86_platform_device* dev, DriverPtr drvp, GDevPtr gdev, int flags)
 {
     int k = void;
-    Bool foundScreen = FALSE;
+    Bool foundScreen = False;
     pci_device* pPci = void;
     const(pci_id_match*) devices = drvp.supported_devices;
 
@@ -620,7 +620,7 @@ private Bool probeSingleDevice(xf86_platform_device* dev, DriverPtr drvp, GDevPt
         }
     }
     else if (dev.pdev && !devices)
-        return FALSE;
+        return False;
     else
         foundScreen = doPlatformProbe(dev, drvp, gdev, flags, 0);
     return foundScreen;
@@ -632,15 +632,15 @@ private Bool isGPUDevice(GDevPtr gdev)
 
     for (i = 0; i < gdev.myScreenSection.num_gpu_devices; i++) {
         if (gdev == gdev.myScreenSection.gpu_devices[i])
-            return TRUE;
+            return True;
     }
 
-    return FALSE;
+    return False;
 }
 
 int xf86platformProbeDev(DriverPtr drvp)
 {
-    Bool foundScreen = FALSE;
+    Bool foundScreen = False;
     GDevPtr* devList = void;
     const(uint) numDevs = xf86MatchDevice(drvp.driverName, &devList);
     int i = void, j = void;
@@ -708,12 +708,12 @@ int xf86platformProbeDev(DriverPtr drvp)
 
 int xf86platformAddGPUDevices(DriverPtr drvp)
 {
-    Bool foundScreen = FALSE;
+    Bool foundScreen = False;
     GDevPtr* devList = void;
     int j = void;
 
     if (!drvp.platformProbe || !xf86Info.autoAddGPU)
-        return FALSE;
+        return False;
 
     xf86MatchDevice(drvp.driverName, &devList);
 
@@ -723,7 +723,7 @@ int xf86platformAddGPUDevices(DriverPtr drvp)
         if (probeSingleDevice(&xf86_platform_devices[j], drvp,
                               devList ?  devList[0] : null,
                               PLATFORM_PROBE_GPU_SCREEN))
-            foundScreen = TRUE;
+            foundScreen = True;
     }
 
     free(devList);
@@ -797,7 +797,7 @@ int xf86platformAddDevice(const(char)* driver_name, int index)
 
     if (xf86GPUScreens[i].PreInit &&
         xf86GPUScreens[i].PreInit(xf86GPUScreens[i], 0))
-        xf86GPUScreens[i].configured = TRUE;
+        xf86GPUScreens[i].configured = True;
 
     if (!xf86GPUScreens[i].configured) {
         ErrorF("hotplugged device %d didn't configure\n", i);
@@ -852,11 +852,11 @@ void xf86platformRemoveDevice(int index)
     if (ent_num == xf86NumEntities)
         goto out_;
 
-    found = FALSE;
+    found = False;
     for (i = 0; i < xf86NumGPUScreens; i++) {
         for (j = 0; j < xf86GPUScreens[i].numEntities; j++)
             if (xf86GPUScreens[i].entityList[j] == ent_num) {
-                found = TRUE;
+                found = True;
                 break;
             }
         if (found)
@@ -925,7 +925,7 @@ char* _xf86_get_platform_device_attrib(xf86_platform_device* device, int attrib,
     case ODEV_ATTRIB_DRIVER:
         return xf86_platform_device_odev_attributes(device).driver;
     default:
-        assert(FALSE);
+        assert(False);
         return null;
     }
 }
@@ -940,7 +940,7 @@ int _xf86_get_platform_device_int_attrib(xf86_platform_device* device, int attri
     case ODEV_ATTRIB_MINOR:
         return xf86_platform_device_odev_attributes(device).minor;
     default:
-        assert(FALSE);
+        assert(False);
         return 0;
     }
 }

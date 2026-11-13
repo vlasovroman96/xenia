@@ -153,7 +153,7 @@ private Bool miInsertEdgeInET(EdgeTable* ET, EdgeTableEntry* ETE, int scanline, 
         if (*iSLLBlock > SLLSPERBLOCK - 1) {
             tmpSLLBlock = cast(ScanLineListBlock*) cast(ScanLineListBlock*) calloc(1, ScanLineListBlock.sizeof);
             if (!tmpSLLBlock)
-                return FALSE;
+                return False;
             (*SLLBlock).next = tmpSLLBlock;
             tmpSLLBlock.next = null;
             *SLLBlock = tmpSLLBlock;
@@ -182,7 +182,7 @@ private Bool miInsertEdgeInET(EdgeTable* ET, EdgeTableEntry* ETE, int scanline, 
         prev.next = ETE;
     else
         pSLL.edgelist = ETE;
-    return TRUE;
+    return True;
 }
 
 private void miFreeStorage(ScanLineListBlock* pSLLBlock)
@@ -227,7 +227,7 @@ private Bool miCreateETandAET(int count, xPoint* pts, EdgeTable* ET, EdgeTableEn
     int dy = void;
 
     if (count < 2)
-        return TRUE;
+        return True;
 
     /*
      *  initialize the Active Edge Table
@@ -281,7 +281,7 @@ private Bool miCreateETandAET(int count, xPoint* pts, EdgeTable* ET, EdgeTableEn
 
             if (!miInsertEdgeInET(ET, pETEs, top.y, &pSLLBlock, &iSLLBlock)) {
                 miFreeStorage(pSLLBlock.next);
-                return FALSE;
+                return False;
             }
 
             ET.ymax = max(ET.ymax, PrevPt.y);
@@ -291,7 +291,7 @@ private Bool miCreateETandAET(int count, xPoint* pts, EdgeTable* ET, EdgeTableEn
 
         PrevPt = CurrPt;
     }
-    return TRUE;
+    return True;
 }
 
 /*
@@ -464,13 +464,13 @@ private Bool miFillConvexPoly(DrawablePtr dst, GCPtr pgc, int count, xPoint* pts
 
     dy = ymax - ymin + 1;
     if ((count < 3) || (dy < 0))
-        return TRUE;
+        return True;
     ptsOut = FirstPoint = cast(xPoint*)calloc(dy, xPoint.sizeof);
     width = FirstWidth = cast(int*) calloc(dy, int.sizeof);
     if (!FirstPoint || !FirstWidth) {
         free(FirstWidth);
         free(FirstPoint);
-        return FALSE;
+        return False;
     }
 
     nextleft = nextright = imin;
@@ -535,7 +535,7 @@ private Bool miFillConvexPoly(DrawablePtr dst, GCPtr pgc, int count, xPoint* pts
         if (i < 0) {
             free(FirstWidth);
             free(FirstPoint);
-            return TRUE;
+            return True;
         }
         while (i-- > 0) {
             ptsOut.y = cast(short)y;
@@ -566,7 +566,7 @@ private Bool miFillConvexPoly(DrawablePtr dst, GCPtr pgc, int count, xPoint* pts
                             cast(int)(ptsOut - FirstPoint), FirstPoint, FirstWidth, 1);
     free(FirstWidth);
     free(FirstPoint);
-    return TRUE;
+    return True;
 }
 
 /*
@@ -594,15 +594,15 @@ private Bool miFillGeneralPoly(DrawablePtr dst, GCPtr pgc, int count, xPoint* pt
     int fixWAET = 0;
 
     if (count < 3)
-        return TRUE;
+        return True;
 
     if (((pETEs = cast(EdgeTableEntry*) calloc(count, EdgeTableEntry.sizeof)) is null))
-        return FALSE;
+        return False;
     ptsOut = FirstPoint.ptr;
     width = FirstWidth.ptr;
     if (!miCreateETandAET(count, ptsIn, &ET, &AET, pETEs, &SLLBlock)) {
         free(pETEs);
-        return FALSE;
+        return False;
     }
     pSLL = ET.scanlines.next;
 
@@ -719,7 +719,7 @@ private Bool miFillGeneralPoly(DrawablePtr dst, GCPtr pgc, int count, xPoint* pt
     (*pgc.ops.FillSpans) (dst, pgc, nPts, FirstPoint.ptr, FirstWidth.ptr, 1);
     free(pETEs);
     miFreeStorage(SLLBlock.next);
-    return TRUE;
+    return True;
 }
 
 /*

@@ -84,7 +84,7 @@ ubyte* RealizeCursorInterleave64(xf86CursorInfoPtr, CursorPtr);
 Bool xf86InitHardwareCursor(ScreenPtr pScreen, xf86CursorInfoPtr infoPtr)
 {
     if ((infoPtr.MaxWidth <= 0) || (infoPtr.MaxHeight <= 0))
-        return FALSE;
+        return False;
 
     /* These are required for now */
     if (!infoPtr.SetCursorPosition ||
@@ -92,7 +92,7 @@ Bool xf86InitHardwareCursor(ScreenPtr pScreen, xf86CursorInfoPtr infoPtr)
         !infoPtr.HideCursor ||
         !xf86DriverHasShowCursor(infoPtr) ||
         !infoPtr.SetCursorColors)
-        return FALSE;
+        return False;
 
     if (infoPtr.RealizeCursor) {
         /* Don't overwrite a driver provided Realize Cursor function */
@@ -118,7 +118,7 @@ Bool xf86InitHardwareCursor(ScreenPtr pScreen, xf86CursorInfoPtr infoPtr)
 
     infoPtr.pScrn = xf86ScreenToScrn(pScreen);
 
-    return TRUE;
+    return True;
 }
 
 Bool xf86ScreenCheckHWCursor(ScreenPtr pScreen, CursorPtr cursor, xf86CursorInfoPtr infoPtr)
@@ -134,12 +134,12 @@ Bool xf86ScreenCheckHWCursor(ScreenPtr pScreen, CursorPtr cursor, xf86CursorInfo
 
 Bool xf86CheckHWCursor(ScreenPtr pScreen, CursorPtr cursor, xf86CursorInfoPtr infoPtr)
 {
-    Bool use_hw_cursor = TRUE;
+    Bool use_hw_cursor = True;
 
     input_lock();
 
     if (!xf86ScreenCheckHWCursor(pScreen, cursor, infoPtr)) {
-        use_hw_cursor = FALSE;
+        use_hw_cursor = False;
 	goto unlock;
     }
 
@@ -152,13 +152,13 @@ Bool xf86CheckHWCursor(ScreenPtr pScreen, CursorPtr cursor, xf86CursorInfoPtr in
 
         sPriv = cast(_Xf86CursorScreenRec*)dixLookupPrivate(&pSlave.devPrivates, &xf86CursorScreenKeyRec);
         if (!sPriv) { /* NULL if Option "SWCursor", possibly other conditions */
-            use_hw_cursor = FALSE;
+            use_hw_cursor = False;
 	        break;
 	    }
 
-        /* FALSE if HWCursor not supported by secondary */
+        /* False if HWCursor not supported by secondary */
         if (!xf86ScreenCheckHWCursor(pSlave, cursor, sPriv.CursorInfoPtr)) {
-            use_hw_cursor = FALSE;
+            use_hw_cursor = False;
 	        break;
 	    }   
     }
@@ -185,7 +185,7 @@ Bool xf86ScreenSetCursor(ScreenPtr pScreen, CursorPtr pCurs, int x, int y)
 
     if (pCurs == NullCursor) {
         (*infoPtr.HideCursor) (infoPtr.pScrn);
-        return TRUE;
+        return True;
     }
 
     /*
@@ -194,7 +194,7 @@ Bool xf86ScreenSetCursor(ScreenPtr pScreen, CursorPtr pCurs, int x, int y)
      * PRIVATE_CURSOR. Also see the related comment in AddGPUScreen().
      */
     if (!_dixGetScreenPrivateKey(&xf86ScreenCursorBitsKeyRec, pScreen))
-        return FALSE;
+        return False;
 
     bits = cast(ubyte*)dixLookupScreenPrivate(&pCurs.devPrivates,
                                   &xf86ScreenCursorBitsKeyRec, pScreen);
@@ -214,11 +214,11 @@ Bool xf86ScreenSetCursor(ScreenPtr pScreen, CursorPtr pCurs, int x, int y)
 
     if (pCurs.bits.argb && xf86DriverHasLoadCursorARGB(infoPtr)) {
         if (!xf86DriverLoadCursorARGB (infoPtr, pCurs))
-            return FALSE;
+            return False;
     } else
     if (bits)
         if (!xf86DriverLoadCursorImage (infoPtr, bits))
-            return FALSE;
+            return False;
 
     xf86RecolorCursor_locked (ScreenPriv, pCurs);
 
@@ -231,7 +231,7 @@ Bool xf86SetCursor(ScreenPtr pScreen, CursorPtr pCurs, int x, int y)
 {
     xf86CursorScreenPtr ScreenPriv = cast(xf86CursorScreenPtr) dixLookupPrivate(&pScreen.devPrivates,
                                                &xf86CursorScreenKeyRec);
-    Bool ret = FALSE;
+    Bool ret = False;
 
     input_lock();
 
@@ -255,7 +255,7 @@ Bool xf86SetCursor(ScreenPtr pScreen, CursorPtr pCurs, int x, int y)
             goto out_;
         }
     }
-    ret = TRUE;
+    ret = True;
 
  out_:
     input_unlock();

@@ -299,8 +299,8 @@ void DeleteWindowFromAnySaveSet(WindowPtr pWin)
     for (int i = 0; i < currentMaxClients; i++) {
         client = clients[i];
         if (client && client.numSaved)
-            cast(void) AlterSaveSetForClient(client, pWin, SetModeDelete, FALSE,
-                                         TRUE);
+            cast(void) AlterSaveSetForClient(client, pWin, SetModeDelete, False,
+                                         True);
     }
 }
 
@@ -357,7 +357,7 @@ void BlockHandler(void* pTimeout)
             }
             else
                 i++;
-        handlerDeleted = FALSE;
+        handlerDeleted = False;
     }
     --inHandler;
 }
@@ -393,7 +393,7 @@ void WakeupHandler(int result)
             }
             else
                 i++;
-        handlerDeleted = FALSE;
+        handlerDeleted = False;
     }
     --inHandler;
 }
@@ -410,16 +410,16 @@ Bool RegisterBlockAndWakeupHandlers(ServerBlockHandlerProcPtr blockHandler, Serv
         new_ = cast(BlockHandlerPtr) realloc(handlers, (numHandlers + 1) *
                                         BlockHandlerRec.sizeof);
         if (!new_)
-            return FALSE;
+            return False;
         handlers = new_;
         sizeHandlers = numHandlers + 1;
     }
     handlers[numHandlers].BlockHandler = blockHandler;
     handlers[numHandlers].WakeupHandler = wakeupHandler;
     handlers[numHandlers].blockData = blockData;
-    handlers[numHandlers].deleted = FALSE;
+    handlers[numHandlers].deleted = False;
     numHandlers = numHandlers + 1;
-    return TRUE;
+    return True;
 }
 
 void RemoveBlockAndWakeupHandlers(ServerBlockHandlerProcPtr blockHandler, ServerWakeupHandlerProcPtr wakeupHandler, void* blockData)
@@ -429,8 +429,8 @@ void RemoveBlockAndWakeupHandlers(ServerBlockHandlerProcPtr blockHandler, Server
             handlers[i].WakeupHandler == wakeupHandler &&
             handlers[i].blockData == blockData) {
             if (inHandler) {
-                handlerDeleted = TRUE;
-                handlers[i].deleted = TRUE;
+                handlerDeleted = True;
+                handlers[i].deleted = True;
             }
             else {
                 for (; i < numHandlers - 1; i++)
@@ -487,7 +487,7 @@ void ProcessWorkQueue()
     p = &workQueue;
     /*
      * Scan the work queue once, calling each function.  Those
-     * which return TRUE are removed from the queue, otherwise
+     * which return True are removed from the queue, otherwise
      * they will be called again.  This must be reentrant with
      * QueueWorkProc.
      */
@@ -527,14 +527,14 @@ Bool QueueWorkProc(Bool function(ClientPtr pClient, void* closure) function_, Cl
 {
     WorkQueuePtr q = cast(WorkQueuePtr) calloc(1, _WorkQueue.sizeof);
     if (!q)
-        return FALSE;
+        return False;
     q.function_ = function_;
     q.client = client;
     q.closure = closure;
     q.next = null;
     *workQueueLast = q;
     workQueueLast = &q.next;
-    return TRUE;
+    return True;
 }
 
 /*
@@ -559,7 +559,7 @@ Bool ClientSleep(ClientPtr client, ClientSleepProcPtr function_, void* closure)
 {
     SleepQueuePtr q = cast(SleepQueuePtr) calloc(1, _SleepQueue.sizeof);
     if (!q)
-        return FALSE;
+        return False;
 
     IgnoreClient(client);
     q.next = sleepQueue;
@@ -567,7 +567,7 @@ Bool ClientSleep(ClientPtr client, ClientSleepProcPtr function_, void* closure)
     q.function_ = function_;
     q.closure = closure;
     sleepQueue = q;
-    return TRUE;
+    return True;
 }
 
 Bool dixClientSignal(ClientPtr client)
@@ -576,7 +576,7 @@ Bool dixClientSignal(ClientPtr client)
         if (q.client == client) {
             return QueueWorkProc(q.function_, q.client, q.closure);
         }
-    return FALSE;
+    return False;
 }
 
 int ClientSignalAll(ClientPtr client, ClientSleepProcPtr function_, void* closure)
@@ -619,8 +619,8 @@ Bool ClientIsAsleep(ClientPtr client)
 {
     for (SleepQueuePtr q = sleepQueue; q; q = q.next)
         if (q.client == client)
-            return TRUE;
-    return FALSE;
+            return True;
+    return False;
 }
 
 

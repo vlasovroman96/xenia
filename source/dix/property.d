@@ -346,7 +346,7 @@ int ProcChangeProperty(ClientPtr client)
         mode: mode,
         len: len,
         value: &stuff[1],
-        sendevent: TRUE,
+        sendevent: True,
         access_mode: DixWriteAccess,
     };
 
@@ -647,7 +647,7 @@ int ProcGetProperty(ClientPtr client)
 
     const(char)* dataptr = (cast(char*)pProp.data) + ind;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     switch (pProp.format) {
         case 32:
             x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)dataptr, len / 4);
@@ -706,7 +706,7 @@ int ProcListProperties(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     size_t numProps = 0;
     for (PropertyPtr realProp = void, pProp = pWin.properties; pProp; pProp = pProp.next) {

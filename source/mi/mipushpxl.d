@@ -133,7 +133,7 @@ static if (1) {
         pw = pwLineStart;
         /* Process all words which are fully in the pixmap */
 
-        fInBox = FALSE;
+        fInBox = False;
         pwEnd = pwLineStart + dxDivPPW;
         while (pw < pwEnd) {
             w = cast(int)*pw;
@@ -148,7 +148,7 @@ static if (1) {
                         pt[ipt].x = cast(short)(((pw - pwLineStart) << PWSH) + ib + xOrg);
                         pt[ipt].y = cast(short)(h + yOrg);
                         /* start new box */
-                        fInBox = TRUE;
+                        fInBox = True;
                     }
                 }
                 else {
@@ -157,11 +157,11 @@ static if (1) {
                             ib + xOrg - pt[ipt].x);
                         if (++ipt >= NPT) {
                             (*pGC.ops.FillSpans) (pDrawable, pGC,
-                                                    NPT, pt.ptr, width.ptr, TRUE);
+                                                    NPT, pt.ptr, width.ptr, True);
                             ipt = 0;
                         }
                         /* end box */
-                        fInBox = FALSE;
+                        fInBox = False;
                     }
                 }
 static if (1) {
@@ -199,7 +199,7 @@ static if (1) {
                         /* start new box */
                         pt[ipt].x = cast(short)(((pw - pwLineStart) << PWSH) + ib + xOrg);
                         pt[ipt].y = cast(short)(h + yOrg);
-                        fInBox = TRUE;
+                        fInBox = True;
                     }
                 }
                 else {
@@ -209,10 +209,10 @@ static if (1) {
                             ib + xOrg - pt[ipt].x);
                         if (++ipt >= NPT) {
                             (*pGC.ops.FillSpans) (pDrawable,
-                                                    pGC, NPT, pt.ptr, width.ptr, TRUE);
+                                                    pGC, NPT, pt.ptr, width.ptr, True);
                             ipt = 0;
                         }
-                        fInBox = FALSE;
+                        fInBox = False;
                     }
                 }
 static if (1) {
@@ -238,7 +238,7 @@ static if (1) {
         if (fInBox) {
             width[ipt] = dx + xOrg - pt[ipt].x;
             if (++ipt >= NPT) {
-                (*pGC.ops.FillSpans) (pDrawable, pGC, NPT, pt.ptr, width.ptr, TRUE);
+                (*pGC.ops.FillSpans) (pDrawable, pGC, NPT, pt.ptr, width.ptr, True);
                 ipt = 0;
             }
         }
@@ -246,6 +246,6 @@ static if (1) {
     free(pwLineStart);
     /* Flush any remaining spans */
     if (ipt) {
-        (*pGC.ops.FillSpans) (pDrawable, pGC, ipt, pt.ptr, width.ptr, TRUE);
+        (*pGC.ops.FillSpans) (pDrawable, pGC, ipt, pt.ptr, width.ptr, True);
     }
 }

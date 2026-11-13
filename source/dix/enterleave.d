@@ -92,7 +92,7 @@ private WindowPtr[MAXDEVICES] PointerWindows;
 private WindowPtr[MAXDEVICES] FocusWindows;
 
 /**
- * Return TRUE if 'win' has a pointer within its boundaries, excluding child
+ * Return True if 'win' has a pointer within its boundaries, excluding child
  * window.
  */
 private BOOL HasPointer(DeviceIntPtr dev, WindowPtr win)
@@ -104,26 +104,26 @@ private BOOL HasPointer(DeviceIntPtr dev, WindowPtr win)
      * There isn't enough beer in my fridge to fix this properly.
      */
     if (dev.deviceGrab.grab)
-        return FALSE;
+        return False;
 
     for (int i = 0; i < MAXDEVICES; i++)
         if (PointerWindows[i] == win)
-            return TRUE;
+            return True;
 
-    return FALSE;
+    return False;
 }
 
 /**
- * Return TRUE if at least one keyboard focus is set to 'win' (excluding
+ * Return True if at least one keyboard focus is set to 'win' (excluding
  * descendants of win).
  */
 private BOOL HasFocus(WindowPtr win)
 {
     for (int i = 0; i < MAXDEVICES; i++)
         if (FocusWindows[i] == win)
-            return TRUE;
+            return True;
 
-    return FALSE;
+    return False;
 }
 
 /**
@@ -785,7 +785,7 @@ void DeviceFocusEvent(DeviceIntPtr dev, int type, int mode, int detail, WindowPt
     }
 
     FixUpEventFromWindow(dev.spriteInfo.sprite, cast(xEvent*) xi2event, pWin,
-                         None, FALSE, XI2);
+                         None, False, XI2);
 
     DeliverEventsToWindow(dev, pWin, cast(xEvent*) xi2event, 1,
                           GetEventFilter(dev, cast(xEvent*) xi2event), NullGrab);
@@ -956,7 +956,7 @@ private void CoreFocusInRecurse(DeviceIntPtr dev, WindowPtr win, WindowPtr stopA
  * @param pwin The pointer window.
  * @param exclude If the pointer window is a child of 'exclude', no events are
  *                sent.
- * @param inclusive If TRUE, pwin_parent will receive the event too.
+ * @param inclusive If True, pwin_parent will receive the event too.
  */
 private void CoreFocusInNotifyPointerEvents(DeviceIntPtr dev, WindowPtr pwin_parent, WindowPtr exclude, int mode, int inclusive)
 {
@@ -1005,12 +1005,12 @@ private void CoreFocusNonLinear(DeviceIntPtr dev, WindowPtr A, WindowPtr B, int 
 
         if (child) {
             /* NotifyPointer P-A unless P is child or below */
-            CoreFocusOutNotifyPointerEvents(dev, A, child, mode, FALSE);
+            CoreFocusOutNotifyPointerEvents(dev, A, child, mode, False);
             CoreFocusEvent(dev, FocusOut, mode, NotifyInferior, A);
         }
         else {
             /* NotifyPointer P-A */
-            CoreFocusOutNotifyPointerEvents(dev, A, null, mode, FALSE);
+            CoreFocusOutNotifyPointerEvents(dev, A, null, mode, False);
             CoreFocusEvent(dev, FocusOut, mode, NotifyNonlinear, A);
         }
     }
@@ -1053,12 +1053,12 @@ private void CoreFocusNonLinear(DeviceIntPtr dev, WindowPtr A, WindowPtr B, int 
         if (child) {
             CoreFocusEvent(dev, FocusIn, mode, NotifyInferior, B);
             /* NotifyPointer B-P unless P is child or below. */
-            CoreFocusInNotifyPointerEvents(dev, B, child, mode, FALSE);
+            CoreFocusInNotifyPointerEvents(dev, B, child, mode, False);
         }
         else {
             CoreFocusEvent(dev, FocusIn, mode, NotifyNonlinear, B);
             /* NotifyPointer B-P unless P is child or below. */
-            CoreFocusInNotifyPointerEvents(dev, B, null, mode, FALSE);
+            CoreFocusInNotifyPointerEvents(dev, B, null, mode, False);
         }
     }
 }
@@ -1091,7 +1091,7 @@ private void CoreFocusToAncestor(DeviceIntPtr dev, WindowPtr A, WindowPtr B, int
 
         if (child) {
             /* NotifyPointer P-A unless P is child or below */
-            CoreFocusOutNotifyPointerEvents(dev, A, child, mode, FALSE);
+            CoreFocusOutNotifyPointerEvents(dev, A, child, mode, False);
             CoreFocusEvent(dev, FocusOut, mode, NotifyInferior, A);
         }
         else
@@ -1115,7 +1115,7 @@ private void CoreFocusToAncestor(DeviceIntPtr dev, WindowPtr A, WindowPtr B, int
     if (!HasFocus(B)) {
         CoreFocusEvent(dev, FocusIn, mode, NotifyInferior, B);
         /* NotifyPointer B-P unless P is A or below. */
-        CoreFocusInNotifyPointerEvents(dev, B, A, mode, FALSE);
+        CoreFocusInNotifyPointerEvents(dev, B, A, mode, False);
     }
 }
 
@@ -1138,7 +1138,7 @@ private void CoreFocusToDescendant(DeviceIntPtr dev, WindowPtr A, WindowPtr B, i
 
     if (!HasFocus(A)) {
         /* NotifyPointer P-A unless P is B or below */
-        CoreFocusOutNotifyPointerEvents(dev, A, B, mode, FALSE);
+        CoreFocusOutNotifyPointerEvents(dev, A, B, mode, False);
         CoreFocusEvent(dev, FocusOut, mode, NotifyInferior, A);
     }
 
@@ -1167,7 +1167,7 @@ private void CoreFocusToDescendant(DeviceIntPtr dev, WindowPtr A, WindowPtr B, i
         if (child) {
             CoreFocusEvent(dev, FocusIn, mode, NotifyInferior, B);
             /* NotifyPointer B-P unless P is child or below. */
-            CoreFocusInNotifyPointerEvents(dev, B, child, mode, FALSE);
+            CoreFocusInNotifyPointerEvents(dev, B, child, mode, False);
         }
         else
             CoreFocusEvent(dev, FocusIn, mode, NotifyAncestor, B);
@@ -1178,9 +1178,9 @@ private BOOL HasOtherPointer(WindowPtr win, DeviceIntPtr exclude)
 {
     for (int i = 0; i < MAXDEVICES; i++)
         if (i != exclude.id && PointerWindows[i] == win)
-            return TRUE;
+            return True;
 
-    return FALSE;
+    return False;
 }
 
 /**
@@ -1202,14 +1202,14 @@ private void CoreFocusPointerRootNoneSwitchScr(ScreenPtr pScreen, DeviceIntPtr d
         B != PointerRootWin) {
         WindowPtr ptrwin = PointerWin(GetMaster(dev, POINTER_OR_FLOAT));
             if (ptrwin && WindowIsParent(root, ptrwin))
-            CoreFocusOutNotifyPointerEvents(dev, root, null, mode, TRUE);
+            CoreFocusOutNotifyPointerEvents(dev, root, null, mode, True);
     }
     CoreFocusEvent(dev, FocusOut, mode,
                    A ? NotifyPointerRoot : NotifyDetailNone, root);
     CoreFocusEvent(dev, FocusIn, mode,
                    B ? NotifyPointerRoot : NotifyDetailNone, root);
     if (B == PointerRootWin)
-        CoreFocusInNotifyPointerEvents(dev, root, null, mode, TRUE);
+        CoreFocusInNotifyPointerEvents(dev, root, null, mode, True);
 }
 
 /**
@@ -1237,7 +1237,7 @@ private void CoreFocusToPointerRootOrNoneScr(ScreenPtr pScreen, DeviceIntPtr dev
     CoreFocusEvent(dev, FocusIn, mode,
                    B ? NotifyPointerRoot : NotifyDetailNone, root);
     if (B == PointerRootWin)
-        CoreFocusInNotifyPointerEvents(dev, root, null, mode, TRUE);
+        CoreFocusInNotifyPointerEvents(dev, root, null, mode, True);
 }
 
 /**
@@ -1251,12 +1251,12 @@ private void CoreFocusToPointerRootOrNone(DeviceIntPtr dev, WindowPtr A, WindowP
 
         if (child) {
             /* NotifyPointer P-A unless P is B or below */
-            CoreFocusOutNotifyPointerEvents(dev, A, B, mode, FALSE);
+            CoreFocusOutNotifyPointerEvents(dev, A, B, mode, False);
             CoreFocusEvent(dev, FocusOut, mode, NotifyInferior, A);
         }
         else {
             /* NotifyPointer P-A */
-            CoreFocusOutNotifyPointerEvents(dev, A, null, mode, FALSE);
+            CoreFocusOutNotifyPointerEvents(dev, A, null, mode, False);
             CoreFocusEvent(dev, FocusOut, mode, NotifyNonlinear, A);
         }
     }
@@ -1287,7 +1287,7 @@ private void CoreFocusFromPointerRootOrNoneScr(ScreenPtr pScreen, DeviceIntPtr d
         B != PointerRootWin) {
         WindowPtr ptrwin = PointerWin(GetMaster(dev, POINTER_OR_FLOAT));
         if (ptrwin)
-            CoreFocusOutNotifyPointerEvents(dev, root, null, mode, TRUE);
+            CoreFocusOutNotifyPointerEvents(dev, root, null, mode, True);
     }
     CoreFocusEvent(dev, FocusOut, mode,
                    A ? NotifyPointerRoot : NotifyDetailNone, root);
@@ -1318,12 +1318,12 @@ private void CoreFocusFromPointerRootOrNone(DeviceIntPtr dev, WindowPtr A, Windo
         if (child) {
             CoreFocusEvent(dev, FocusIn, mode, NotifyInferior, B);
             /* NotifyPointer B-P unless P is child or below. */
-            CoreFocusInNotifyPointerEvents(dev, B, child, mode, FALSE);
+            CoreFocusInNotifyPointerEvents(dev, B, child, mode, False);
         }
         else {
             CoreFocusEvent(dev, FocusIn, mode, NotifyNonlinear, B);
             /* NotifyPointer B-P unless P is child or below. */
-            CoreFocusInNotifyPointerEvents(dev, B, null, mode, FALSE);
+            CoreFocusInNotifyPointerEvents(dev, B, null, mode, False);
         }
     }
 

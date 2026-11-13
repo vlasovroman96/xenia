@@ -68,11 +68,11 @@ private Bool xf86_dga_get_modes(ScreenPtr pScreen)
     }
 
     if (!num)
-        return FALSE;
+        return False;
 
     modes = cast(_DGAModeRec*)calloc(num, DGAModeRec.sizeof);
     if (!modes)
-        return FALSE;
+        return False;
 
     num = 0;
     display_mode = scrn.modes;
@@ -114,7 +114,7 @@ private Bool xf86_dga_get_modes(ScreenPtr pScreen)
     free(xf86_config.dga_modes);
     xf86_config.dga_nmode = num;
     xf86_config.dga_modes = modes;
-    return TRUE;
+    return True;
 }
 
 private Bool xf86_dga_set_mode(ScrnInfoPtr scrn, DGAModePtr display_mode)
@@ -134,7 +134,7 @@ private Bool xf86_dga_set_mode(ScrnInfoPtr scrn, DGAModePtr display_mode)
             xf86SwitchMode(pScreen, display_mode.mode);
         }
     }
-    return TRUE;
+    return True;
 }
 
 private int xf86_dga_get_viewport(ScrnInfoPtr scrn)
@@ -149,7 +149,7 @@ private void xf86_dga_set_viewport(ScrnInfoPtr scrn, int x, int y, int flags)
 
 private Bool xf86_dga_open_framebuffer(ScrnInfoPtr scrn, char** name, ubyte** mem, int* size, int* offset, int* flags)
 {
-    return FALSE;
+    return False;
 }
 
 private void xf86_dga_close_framebuffer(ScrnInfoPtr scrn)
@@ -170,7 +170,7 @@ private DGAFunctionRec xf86_dga_funcs = {
 
 Bool xf86DiDGAReInit(ScreenPtr pScreen)
 {
-    return TRUE;
+    return True;
 }
 
 Bool _xf86_di_dga_reinit_internal(ScreenPtr pScreen)
@@ -179,10 +179,10 @@ Bool _xf86_di_dga_reinit_internal(ScreenPtr pScreen)
     xf86CrtcConfigPtr xf86_config = mixin(XF86_CRTC_CONFIG_PTR!("scrn"));
 
     if (!DGAScreenAvailable(pScreen))
-        return TRUE;
+        return True;
 
     if (!xf86_dga_get_modes(pScreen))
-        return FALSE;
+        return False;
 
     return DGAReInitModes(pScreen, xf86_config.dga_modes,
                           xf86_config.dga_nmode);
@@ -190,7 +190,7 @@ Bool _xf86_di_dga_reinit_internal(ScreenPtr pScreen)
 
 Bool xf86DiDGAInit(ScreenPtr pScreen, c_ulong dga_address)
 {
-    return TRUE;
+    return True;
 }
 
 Bool _xf86_di_dga_init_internal(ScreenPtr pScreen)
@@ -205,7 +205,7 @@ Bool _xf86_di_dga_init_internal(ScreenPtr pScreen)
     xf86_config.dga_stride = 0;
 
     if (!xf86_dga_get_modes(pScreen))
-        return FALSE;
+        return False;
 
     return DGAInit(pScreen, &xf86_dga_funcs, xf86_config.dga_modes,
                    xf86_config.dga_nmode);

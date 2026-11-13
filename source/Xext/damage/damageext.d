@@ -107,7 +107,7 @@ DevPrivateKeyRec DamageClientPrivateKeyRec;
 
 enum DamageClientPrivateKey = (&DamageClientPrivateKeyRec);
 
-Bool noDamageExtension = FALSE;
+Bool noDamageExtension = False;
 
 private void DamageNoteCritical(ClientPtr pClient)
 {
@@ -256,7 +256,7 @@ private int ProcDamageQueryVersion(ClientPtr client)
 
 private void DamageExtRegister(DrawablePtr pDrawable, DamagePtr pDamage, Bool report)
 {
-    DamageSetReportAfterOp(pDamage, TRUE);
+    DamageSetReportAfterOp(pDamage, True);
     DamageRegister(pDrawable, pDamage);
 
     if (report) {
@@ -279,7 +279,7 @@ private DamageExtPtr DamageExtCreate(DrawablePtr pDrawable, DamageReportLevel le
     pDamageExt.level = level;
     pDamageExt.pClient = client;
     pDamageExt.pDamage = DamageCreate(&DamageExtReport, &DamageExtDestroy, level,
-                                       FALSE, pDrawable.pScreen, pDamageExt);
+                                       False, pDrawable.pScreen, pDamageExt);
     if (!pDamageExt.pDamage) {
         free(pDamageExt);
         return null;
@@ -604,7 +604,7 @@ private int PanoramiXDamageCreate(ClientPtr client, xDamageCreateReq* stuff)
             DamagePtr pDamage = DamageCreate(&PanoramiXDamageReport,
                                              &PanoramiXDamageExtDestroy,
                                              DamageReportRawRegion,
-                                             FALSE,
+                                             False,
                                              walkScreen,
                                              damage);
             if (!pDamage) {

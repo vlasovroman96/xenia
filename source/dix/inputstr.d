@@ -379,7 +379,7 @@ struct _GestureInfo {
     int sourceid;               /* Source device's ID for this gesture */
     Bool active;                /* whether or not the gesture is active */
     ubyte type;               /* Gesture type: either ET_GesturePinchBegin or
-                                   ET_GestureSwipeBegin. Valid if active == TRUE */
+                                   ET_GestureSwipeBegin. Valid if active == True */
     int num_touches;            /* The number of touches in the gesture */
     SpriteRec sprite;           /* window trace for delivery */
     GestureListener listener;   /* the listener that will receive events */
@@ -556,7 +556,7 @@ struct _SpriteInfoRec {
     SpritePtr sprite;           /* sprite information */
     Bool spriteOwner;           /* True if device owns the sprite */
     DeviceIntPtr paired;        /* The paired device. Keyboard if
-                                   spriteOwner is TRUE, otherwise the
+                                   spriteOwner is True, otherwise the
                                    pointer that owns the sprite. */
 
     /* keep states for animated cursor */
@@ -585,9 +585,9 @@ struct DeviceIntRec {
     DeviceProc deviceProc;      /* proc(DevicePtr, DEVICE_xx). It is
                                    used to initialize, turn on, or
                                    turn off the device */
-    Bool inited;                /* TRUE if INIT returns Success */
-    Bool enabled;               /* TRUE if ON returns Success */
-    Bool coreEvents;            /* TRUE if device also sends core */
+    Bool inited;                /* True if INIT returns Success */
+    Bool enabled;               /* True if ON returns Success */
+    Bool coreEvents;            /* True if device also sends core */
     GrabInfoRec deviceGrab;     /* grab on the device */
     int type;                   /* MASTER_POINTER, MASTER_KEYBOARD, SLAVE */
     Atom xinput_type;
@@ -652,7 +652,7 @@ struct DeviceIntRec {
 
     _SyncCounter* idle_counter;
 
-    Bool ignoreXkbActionsBehaviors; /* TRUE if keys don't trigger behaviors and actions */
+    Bool ignoreXkbActionsBehaviors; /* True if keys don't trigger behaviors and actions */
 }
 
 struct InputInfo {

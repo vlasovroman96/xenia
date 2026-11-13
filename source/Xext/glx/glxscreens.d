@@ -56,6 +56,7 @@ import dix.screen_hooks;
 import Xext.glx.fix;
 import composite.compext;
 import common.math;
+import common.bools;
 
 
 DevPrivateKeyRec xeniaGlxScreenPrivateKeyRec;

@@ -111,7 +111,7 @@ void XISendDeviceHierarchyEvent(int* flags)
     for (i = 0; i < MAXDEVICES; i++) {
         if (flags[i] & (XIMasterRemoved | XISlaveRemoved)) {
             info.deviceid = cast(ushort)i;
-            info.enabled = FALSE;
+            info.enabled = False;
             info.flags = flags[i];
             info.use = 0;
             ev.flags |= info.flags;
@@ -151,12 +151,12 @@ private int add_master(ClientPtr client, xXIAddMasterInfo* c, int* flags)
     strncpy(name, cast(char*) &c[1], c.name_len);
 
     rc = AllocDevicePair(client, name, &ptr, &keybd,
-                         &CorePointerProc, &CoreKeyboardProc, TRUE);
+                         &CorePointerProc, &CoreKeyboardProc, True);
     if (rc != Success)
         goto unwind;
 
     if (!c.send_core)
-        ptr.coreEvents = keybd.coreEvents = FALSE;
+        ptr.coreEvents = keybd.coreEvents = False;
 
     /* Allocate virtual slave devices for xtest events */
     rc = AllocXTestDevice(client, name, &XTestptr, &XTestkeybd, ptr, keybd);
@@ -166,24 +166,24 @@ private int add_master(ClientPtr client, xXIAddMasterInfo* c, int* flags)
         goto unwind;
     }
 
-    ActivateDevice(ptr, FALSE);
-    ActivateDevice(keybd, FALSE);
+    ActivateDevice(ptr, False);
+    ActivateDevice(keybd, False);
     flags[ptr.id] |= XIMasterAdded;
     flags[keybd.id] |= XIMasterAdded;
 
-    ActivateDevice(XTestptr, FALSE);
-    ActivateDevice(XTestkeybd, FALSE);
+    ActivateDevice(XTestptr, False);
+    ActivateDevice(XTestkeybd, False);
     flags[XTestptr.id] |= XISlaveAdded;
     flags[XTestkeybd.id] |= XISlaveAdded;
 
     if (c.enable) {
-        EnableDevice(ptr, FALSE);
-        EnableDevice(keybd, FALSE);
+        EnableDevice(ptr, False);
+        EnableDevice(keybd, False);
         flags[ptr.id] |= XIDeviceEnabled;
         flags[keybd.id] |= XIDeviceEnabled;
 
-        EnableDevice(XTestptr, FALSE);
-        EnableDevice(XTestkeybd, FALSE);
+        EnableDevice(XTestptr, False);
+        EnableDevice(XTestkeybd, False);
         flags[XTestptr.id] |= XIDeviceEnabled;
         flags[XTestkeybd.id] |= XIDeviceEnabled;
     }
@@ -326,10 +326,10 @@ private int remove_master(ClientPtr client, xXIRemoveMasterInfo* r, int* flags)
 
     /* disable the remove the devices, XTest devices must be done first
        else the sprites they rely on will be destroyed  */
-    DisableDevice(XTestptr, FALSE);
-    DisableDevice(XTestkeybd, FALSE);
-    DisableDevice(keybd, FALSE);
-    DisableDevice(ptr, FALSE);
+    DisableDevice(XTestptr, False);
+    DisableDevice(XTestkeybd, False);
+    DisableDevice(keybd, False);
+    DisableDevice(ptr, False);
     flags[XTestptr.id] |= XIDeviceDisabled | XISlaveDetached;
     flags[XTestkeybd.id] |= XIDeviceDisabled | XISlaveDetached;
     flags[keybd.id] |= XIDeviceDisabled;
@@ -340,10 +340,10 @@ private int remove_master(ClientPtr client, xXIRemoveMasterInfo* r, int* flags)
     flags[keybd.id] |= XIMasterRemoved;
     flags[ptr.id] |= XIMasterRemoved;
 
-    RemoveDevice(XTestptr, FALSE);
-    RemoveDevice(XTestkeybd, FALSE);
-    RemoveDevice(keybd, FALSE);
-    RemoveDevice(ptr, FALSE);
+    RemoveDevice(XTestptr, False);
+    RemoveDevice(XTestkeybd, False);
+    RemoveDevice(keybd, False);
+    RemoveDevice(ptr, False);
 
  unwind:
     return rc;

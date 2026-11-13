@@ -135,7 +135,7 @@ void miMarkWindow(WindowPtr pWin)
     val.before.oldAbsCorner.x = pWin.drawable.x;
     val.before.oldAbsCorner.y = pWin.drawable.y;
     val.before.borderVisible = NullRegion;
-    val.before.resized = FALSE;
+    val.before.resized = False;
     pWin.valdata = val;
 }
 
@@ -143,7 +143,7 @@ Bool miMarkOverlappedWindows(WindowPtr pWin, WindowPtr pFirst, WindowPtr* ppLaye
 {
     BoxPtr box = void;
     WindowPtr pChild = void, pLast = void;
-    Bool anyMarked = FALSE;
+    Bool anyMarked = False;
     MarkWindowProcPtr MarkWindow = pWin.drawable.pScreen.MarkWindow;
 
     /* single layered systems are easy */
@@ -174,7 +174,7 @@ Bool miMarkOverlappedWindows(WindowPtr pWin, WindowPtr pFirst, WindowPtr* ppLaye
                 break;
             pChild = pChild.nextSib;
         }
-        anyMarked = TRUE;
+        anyMarked = True;
         pFirst = pFirst.nextSib;
     }
     if ((pChild = pFirst) !is null) {
@@ -188,7 +188,7 @@ Bool miMarkOverlappedWindows(WindowPtr pWin, WindowPtr pFirst, WindowPtr* ppLaye
                     SetBorderSize(pChild);
                 if (RegionContainsRect(&pChild.borderSize, box)) {
                     (*MarkWindow) (pChild);
-                    anyMarked = TRUE;
+                    anyMarked = True;
                     if (pChild.firstChild) {
                         pChild = pChild.firstChild;
                         continue;
@@ -252,7 +252,7 @@ void miMoveWindow(WindowPtr pWin, int x, int y, WindowPtr pNextSib, VTKind kind)
     short bw = void;
     RegionPtr oldRegion = null;
     xPoint oldpt = void;
-    Bool anyMarked = FALSE;
+    Bool anyMarked = False;
     ScreenPtr pScreen = void;
     WindowPtr windowToValidate = void;
     WindowPtr pLayerWin = void;
@@ -349,7 +349,7 @@ void miResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h, WindowPtr pSib
     short dw = void, dh = void;
     xPoint oldpt = void;
     RegionPtr oldRegion = null;
-    Bool anyMarked = FALSE;
+    Bool anyMarked = False;
     ScreenPtr pScreen = void;
     WindowPtr pFirstChange = void;
     WindowPtr pChild = void;
@@ -361,8 +361,8 @@ void miResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h, WindowPtr pSib
     RegionPtr destClip = void;         /* portions of destination already written */
     RegionPtr oldWinClip = null;        /* old clip list for window */
     RegionPtr borderVisible = NullRegion;       /* visible area of the border */
-    Bool shrunk = FALSE;        /* shrunk in an inner dimension */
-    Bool moved = FALSE;         /* window position changed */
+    Bool shrunk = False;        /* shrunk in an inner dimension */
+    Bool moved = False;         /* window position changed */
     WindowPtr pLayerWin = void;
 
     /* if this is a root window, can't be resized */
@@ -373,7 +373,7 @@ void miResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h, WindowPtr pSib
     newx = pParent.drawable.x + x + bw;
     newy = pParent.drawable.y + y + bw;
     if (WasViewable) {
-        anyMarked = FALSE;
+        anyMarked = False;
         /*
          * save the visible region of the window
          */
@@ -393,8 +393,8 @@ void miResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h, WindowPtr pSib
                 RegionUnion(gravitate[g], gravitate[g], &pChild.borderClip);
             }
             else {
-                UnmapWindow(pChild, TRUE);
-                anyMarked = TRUE;
+                UnmapWindow(pChild, True);
+                anyMarked = True;
             }
         }
         anyMarked |= (*pScreen.MarkOverlappedWindows) (pWin, pWin, &pLayerWin);
@@ -409,10 +409,10 @@ void miResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h, WindowPtr pSib
          * can't be computed correctly without some help.
          */
         if (pWin.drawable.height > h || pWin.drawable.width > w)
-            shrunk = TRUE;
+            shrunk = True;
 
         if (newx != oldx || newy != oldy)
-            moved = TRUE;
+            moved = True;
 
         if ((pWin.drawable.height != h || pWin.drawable.width != w) &&
             mixin(HasBorder!("pWin"))) {
@@ -458,7 +458,7 @@ void miResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h, WindowPtr pSib
                                                             null);
 
         if (pWin.valdata) {
-            pWin.valdata.before.resized = TRUE;
+            pWin.valdata.before.resized = True;
             pWin.valdata.before.borderVisible = borderVisible;
         }
 
@@ -631,7 +631,7 @@ void miSetShape(WindowPtr pWin, int kind)
 {
     Bool WasViewable = cast(Bool) (pWin.viewable);
     ScreenPtr pScreen = pWin.drawable.pScreen;
-    Bool anyMarked = FALSE;
+    Bool anyMarked = False;
     WindowPtr pLayerWin = void;
 
     if (kind != ShapeInput) {
@@ -647,7 +647,7 @@ void miSetShape(WindowPtr pWin, int kind)
                                    &pWin.borderClip, &pWin.winSize);
                     pWin.valdata.before.borderVisible = borderVisible;
                 }
-                pWin.valdata.before.resized = TRUE;
+                pWin.valdata.before.resized = True;
             }
         }
 
@@ -679,7 +679,7 @@ void miSetShape(WindowPtr pWin, int kind)
 void miChangeBorderWidth(WindowPtr pWin, uint width)
 {
     int oldwidth = void;
-    Bool anyMarked = FALSE;
+    Bool anyMarked = False;
     ScreenPtr pScreen = void;
     Bool WasViewable = cast(Bool) (pWin.viewable);
     Bool HadBorder = void;

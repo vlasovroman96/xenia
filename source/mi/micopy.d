@@ -59,7 +59,7 @@ void miCopyRegion(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC,
     pboxNew1 = null;
     pboxNew2 = null;
     if (careful && dy < 0) {
-        upsidedown = TRUE;
+        upsidedown = True;
 
         if (nbox > 1) {
             /* keep ordering in each band, reverse order of bands */
@@ -82,15 +82,15 @@ void miCopyRegion(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC,
     }
     else {
         /* walk source top to bottom */
-        upsidedown = FALSE;
+        upsidedown = False;
     }
 
     if (careful && dx < 0) {
         /* walk source right to left */
         if (dy <= 0)
-            reverse = TRUE;
+            reverse = True;
         else
-            reverse = FALSE;
+            reverse = False;
 
         if (nbox > 1) {
             /* reverse order of rects in each band */
@@ -116,7 +116,7 @@ void miCopyRegion(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC,
     }
     else {
         /* walk source left to right */
-        reverse = FALSE;
+        reverse = False;
     }
 
     (*copyProc) (pSrcDrawable,
@@ -131,7 +131,7 @@ void miCopyRegion(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC,
 RegionPtr miDoCopy(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC, int xIn, int yIn, int widthSrc, int heightSrc, int xOut, int yOut, miCopyProc copyProc, Pixel bitPlane, void* closure)
 {
     RegionPtr prgnSrcClip = null;       /* may be a new region, or just a copy */
-    Bool freeSrcClip = FALSE;
+    Bool freeSrcClip = False;
     RegionPtr prgnExposed = null;
     RegionRec rgnDst = void;
     int dx = void;
@@ -141,9 +141,9 @@ RegionPtr miDoCopy(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC
     int box_y1 = void;
     int box_x2 = void;
     int box_y2 = void;
-    Bool fastSrc = FALSE;       /* for fast clipping with pixmap source */
-    Bool fastDst = FALSE;       /* for fast clipping with one rect dest */
-    Bool fastExpose = FALSE;    /* for fast exposures with pixmap source */
+    Bool fastSrc = False;       /* for fast clipping with pixmap source */
+    Bool fastDst = False;       /* for fast clipping with one rect dest */
+    Bool fastExpose = False;    /* for fast exposures with pixmap source */
 
     /* Short cut for unmapped windows */
 
@@ -161,7 +161,7 @@ RegionPtr miDoCopy(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC
         if ((pSrcDrawable == pDstDrawable) && (!pGC.clientClip))
             prgnSrcClip = mixin(miGetCompositeClip!("pGC"));
         else
-            fastSrc = TRUE;
+            fastSrc = True;
     }
     else {
         if (pGC.subWindowMode == IncludeInferiors) {
@@ -175,14 +175,14 @@ RegionPtr miDoCopy(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC
                  * special case bitblt from root window in
                  * IncludeInferiors mode; just like from a pixmap
                  */
-                fastSrc = TRUE;
+                fastSrc = True;
             }
             else if ((pSrcDrawable == pDstDrawable) && (!pGC.clientClip)) {
                 prgnSrcClip = mixin(miGetCompositeClip!("pGC"));
             }
             else {
                 prgnSrcClip = NotClippedByChildren(cast(WindowPtr) pSrcDrawable);
-                freeSrcClip = TRUE;
+                freeSrcClip = True;
             }
         }
         else {
@@ -208,26 +208,26 @@ RegionPtr miDoCopy(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC
     if (fastSrc) {
         RegionPtr cclip = void;
 
-        fastExpose = TRUE;
+        fastExpose = True;
         /*
          * clip the source; if regions extend beyond the source size,
          * make sure exposure events get sent
          */
         if (box_x1 < pSrcDrawable.x) {
             box_x1 = pSrcDrawable.x;
-            fastExpose = FALSE;
+            fastExpose = False;
         }
         if (box_y1 < pSrcDrawable.y) {
             box_y1 = pSrcDrawable.y;
-            fastExpose = FALSE;
+            fastExpose = False;
         }
         if (box_x2 > pSrcDrawable.x + cast(int) pSrcDrawable.width) {
             box_x2 = pSrcDrawable.x + cast(int) pSrcDrawable.width;
-            fastExpose = FALSE;
+            fastExpose = False;
         }
         if (box_y2 > pSrcDrawable.y + cast(int) pSrcDrawable.height) {
             box_y2 = pSrcDrawable.y + cast(int) pSrcDrawable.height;
-            fastExpose = FALSE;
+            fastExpose = False;
         }
 
         /* Translate and clip the dst to the destination composite clip */
@@ -252,7 +252,7 @@ RegionPtr miDoCopy(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr pGC
                 box_y1 = pBox.y1;
             if (box_y2 > pBox.y2)
                 box_y2 = pBox.y2;
-            fastDst = TRUE;
+            fastDst = True;
         }
     }
 

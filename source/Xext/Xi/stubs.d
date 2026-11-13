@@ -140,7 +140,7 @@ import dix.devices;
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 // void DeleteInputDeviceRequest(DeviceIntPtr dev)
 // {
-//     RemoveDevice(dev, TRUE);
+//     RemoveDevice(dev, True);
 // }
 
 /****************************************************************************

@@ -327,7 +327,7 @@ int ChangeGC(ClientPtr client, GCPtr pGC, BITS32 mask, ChangeGCValPtr pUnion)
              * this is for CreateGC
              */
             if (!pGC.tileIsPixel && !pGC.tile.pixmap) {
-                pGC.tileIsPixel = TRUE;
+                pGC.tileIsPixel = True;
                 pGC.tile.pixel = pGC.fgPixel;
             }
             break;
@@ -420,7 +420,7 @@ int ChangeGC(ClientPtr client, GCPtr pGC, BITS32 mask, ChangeGCValPtr pUnion)
                 pPixmap.refcnt++;
                 if (!pGC.tileIsPixel)
                     dixDestroyPixmap(pGC.tile.pixmap, 0);
-                pGC.tileIsPixel = FALSE;
+                pGC.tileIsPixel = False;
                 pGC.tile.pixmap = pPixmap;
             }
             break;
@@ -649,11 +649,11 @@ private GCPtr NewGCObject(ScreenPtr pScreen, int depth)
     pGC.tile.pixel = 0;
     pGC.tile.pixmap = NullPixmap;
 
-    pGC.tileIsPixel = TRUE;
+    pGC.tileIsPixel = True;
     pGC.patOrg.x = 0;
     pGC.patOrg.y = 0;
     pGC.subWindowMode = ClipByChildren;
-    pGC.graphicsExposures = TRUE;
+    pGC.graphicsExposures = True;
     pGC.clipOrg.x = 0;
     pGC.clipOrg.y = 0;
     pGC.clientClip = null;
@@ -670,7 +670,7 @@ private GCPtr NewGCObject(ScreenPtr pScreen, int depth)
         pGC.stipple.refcnt++;
 
     /* this is not a scratch GC */
-    pGC.scratch_inuse = FALSE;
+    pGC.scratch_inuse = False;
     return pGC;
 }
 
@@ -699,10 +699,10 @@ GCPtr CreateGC(DrawablePtr pDrawable, BITS32 mask, XID* pval, int* pStatus, XID 
          * magic special case -- ChangeGC checks for this condition
          * and snags the Foreground value to create a pseudo default-tile
          */
-        pGC.tileIsPixel = FALSE;
+        pGC.tileIsPixel = False;
     }
     else {
-        pGC.tileIsPixel = TRUE;
+        pGC.tileIsPixel = True;
     }
 
     /* security creation/labeling check */
@@ -722,7 +722,7 @@ GCPtr CreateGC(DrawablePtr pDrawable, BITS32 mask, XID* pval, int* pStatus, XID 
  out_:
     if (*pStatus != Success) {
         if (!pGC.tileIsPixel && !pGC.tile.pixmap)
-            pGC.tileIsPixel = TRUE;    /* undo special case */
+            pGC.tileIsPixel = True;    /* undo special case */
         FreeGC(pGC, cast(XID) 0);
         pGC = cast(GCPtr) null;
     }
@@ -748,7 +748,7 @@ private Bool CreateDefaultTile(GCPtr pGC)
         dixDestroyPixmap(pTile, 0);
         if (pgcScratch)
             FreeScratchGC(pgcScratch);
-        return FALSE;
+        return False;
     }
     tmpval[0].val = cast(uint)GXcopy;
     tmpval[1].val = cast(uint)pGC.tile.pixel;
@@ -765,9 +765,9 @@ private Bool CreateDefaultTile(GCPtr pGC)
     /* Always remember to free the scratch graphics context after use. */
     FreeScratchGC(pgcScratch);
 
-    pGC.tileIsPixel = FALSE;
+    pGC.tileIsPixel = False;
     pGC.tile.pixmap = pTile;
-    return TRUE;
+    return True;
 }
 
 int CopyGC(GCPtr pgcSrc, GCPtr pgcDst, BITS32 mask)
@@ -967,7 +967,7 @@ private GCPtr CreateScratchGC(ScreenPtr pScreen, uint depth)
         pGC = cast(GCPtr) null;
     }
     else
-        pGC.graphicsExposures = FALSE;
+        pGC.graphicsExposures = False;
     return pGC;
 }
 
@@ -994,20 +994,20 @@ Bool CreateGCperDepth(ScreenPtr pScreen)
     ppGC = cast(GCPtr*)&pScreen.GCperDepth;
     /* do depth 1 separately because it's not included in list */
     if (((ppGC[0] = CreateScratchGC(pScreen, 1)) is null))
-        return FALSE;
+        return False;
     /* Make sure we don't overflow GCperDepth[] */
     if (pScreen.numDepths > MAXFORMATS)
-        return FALSE;
+        return False;
 
     pDepth = pScreen.allowedDepths;
     for (int i = 0; i < pScreen.numDepths; i++, pDepth++) {
         if (((ppGC[i + 1] = CreateScratchGC(pScreen, pDepth.depth)) is null)) {
             for (; i >= 0; i--)
                 cast(void) FreeGC(ppGC[i], cast(XID) 0);
-            return FALSE;
+            return False;
         }
     }
-    return TRUE;
+    return True;
 }
 
 Bool CreateDefaultStipple(ScreenPtr pScreen)
@@ -1021,7 +1021,7 @@ Bool CreateDefaultStipple(ScreenPtr pScreen)
     h = 16;
     (*pScreen.QueryBestSize) (StippleShape, &w, &h, pScreen);
     if (((pScreen.defaultStipple = pScreen.CreatePixmap(pScreen, w, h, 1, 0)) is null))
-        return FALSE;
+        return False;
     /* fill stipple with 1 */
     tmpval[0].val = GXcopy;
     tmpval[1].val = 1;
@@ -1029,7 +1029,7 @@ Bool CreateDefaultStipple(ScreenPtr pScreen)
     pgcScratch = GetScratchGC(1, pScreen);
     if (!pgcScratch) {
         dixDestroyPixmap(pScreen.defaultStipple, 0);
-        return FALSE;
+        return False;
     }
     cast(void) ChangeGC(null, pgcScratch,
                     cast(uint)(GCFunction | GCForeground | GCFillStyle), tmpval.ptr);
@@ -1041,7 +1041,7 @@ Bool CreateDefaultStipple(ScreenPtr pScreen)
     (*pgcScratch.ops.PolyFillRect) (cast(DrawablePtr) pScreen.defaultStipple,
                                       pgcScratch, 1, &rect);
     FreeScratchGC(pgcScratch);
-    return TRUE;
+    return True;
 }
 
 int SetDashes(GCPtr pGC, uint offset, uint ndash, ubyte* pdash)
@@ -1177,7 +1177,7 @@ GCPtr GetScratchGC(uint depth, ScreenPtr pScreen)
     for (int i = 0; i <= pScreen.numDepths; i++) {
         pGC = pScreen.GCperDepth[i];
         if (pGC && pGC.depth == depth && !pGC.scratch_inuse) {
-            pGC.scratch_inuse = TRUE;
+            pGC.scratch_inuse = True;
 
             pGC.alu = GXcopy;
             pGC.planemask = ~0;
@@ -1194,7 +1194,7 @@ GCPtr GetScratchGC(uint depth, ScreenPtr pScreen)
             pGC.patOrg.x = 0;
             pGC.patOrg.y = 0;
             pGC.subWindowMode = ClipByChildren;
-            pGC.graphicsExposures = FALSE;
+            pGC.graphicsExposures = False;
             pGC.clipOrg.x = 0;
             pGC.clipOrg.y = 0;
             if (pGC.clientClip)
@@ -1215,7 +1215,7 @@ mark it as available.
 void FreeScratchGC(GCPtr pGC)
 {
     if (pGC.scratch_inuse)
-        pGC.scratch_inuse = FALSE;
+        pGC.scratch_inuse = False;
     else
         FreeGC(pGC, cast(GContext) 0);
 }

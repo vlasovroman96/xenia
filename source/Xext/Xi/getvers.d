@@ -90,7 +90,7 @@ int ProcXGetExtensionVersion(ClientPtr client)
         RepType: X_GetExtensionVersion,
         major_version: XIVersion.major_version,
         minor_version: XIVersion.minor_version,
-        present: TRUE
+        present: True
     };
 
     mixin(X_REPLY_FIELD_CARD16!"major_version");

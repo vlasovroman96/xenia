@@ -60,7 +60,7 @@ Bool GestureInitGestureInfo(GestureInfoPtr gi)
 
     gi.sprite.spriteTrace = cast(_Window**)calloc(32, typeof(*gi.sprite.spriteTrace).sizeof);
     if (!gi.sprite.spriteTrace) {
-        return FALSE;
+        return False;
     }
     ScreenPtr masterScreen = dixGetMasterScreen();
 
@@ -69,7 +69,7 @@ Bool GestureInitGestureInfo(GestureInfoPtr gi)
     gi.sprite.hot.pScreen = masterScreen;
     gi.sprite.hotPhys.pScreen = masterScreen;
 
-    return TRUE;
+    return True;
 }
 
 void GestureFreeGestureInfo(GestureInfoPtr gi)
@@ -110,10 +110,10 @@ GestureInfoPtr GestureBeginGesture(DeviceIntPtr dev, InternalEvent* ev)
     if (!GestureBuildSprite(dev, &g.gesture))
         return null;
 
-    g.gesture.active = TRUE;
+    g.gesture.active = True;
     g.gesture.num_touches = ev.gesture_event.num_touches;
     g.gesture.sourceid = ev.gesture_event.sourceid;
-    g.gesture.has_listener = FALSE;
+    g.gesture.has_listener = False;
     return &g.gesture;
 }
 
@@ -127,10 +127,10 @@ void GestureEndGesture(GestureInfoPtr gi)
         FreeGrab(gi.listener.grab);
         gi.listener.grab = null;
         gi.listener.listener = 0;
-        gi.has_listener = FALSE;
+        gi.has_listener = False;
     }
 
-    gi.active = FALSE;
+    gi.active = False;
     gi.num_touches = 0;
     gi.sprite.spriteTraceGood = 0;
 }
@@ -144,19 +144,19 @@ Bool GestureBuildSprite(DeviceIntPtr sourcedev, GestureInfoPtr gi)
     SpritePtr sprite = &gi.sprite;
 
     if (!sourcedev.spriteInfo.sprite)
-        return FALSE;
+        return False;
 
     if (!CopySprite(sourcedev.spriteInfo.sprite, sprite))
-        return FALSE;
+        return False;
 
     if (sprite.spriteTraceGood <= 0)
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 /**
- * @returns TRUE if the specified grab or selection is the current owner of
+ * @returns True if the specified grab or selection is the current owner of
  * the gesture sequence.
  */
 Bool GestureResourceIsOwner(GestureInfoPtr gi, XID resource)
@@ -180,7 +180,7 @@ void GestureAddListener(GestureInfoPtr gi, XID resource, int resource_type, Gest
     gi.listener.type = type;
     gi.listener.window = window;
     gi.listener.grab = g;
-    gi.has_listener = TRUE;
+    gi.has_listener = True;
 }
 
 private void GestureAddGrabListener(DeviceIntPtr dev, GestureInfoPtr gi, GrabPtr grab)
@@ -212,8 +212,8 @@ private void GestureAddGrabListener(DeviceIntPtr dev, GestureInfoPtr gi, GrabPtr
  */
 private void GestureAddPassiveGrabListener(DeviceIntPtr dev, GestureInfoPtr gi, WindowPtr win, InternalEvent* ev)
 {
-    Bool activate = FALSE;
-    Bool check_core = FALSE;
+    Bool activate = False;
+    Bool check_core = False;
 
     GrabPtr grab = CheckPassiveGrabsOnWindow(win, dev, ev, cast(ubyte)check_core,
                                              cast(ubyte)activate);

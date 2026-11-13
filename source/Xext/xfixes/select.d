@@ -38,7 +38,7 @@ import dix.events;
 import common.swap;
 
 private RESTYPE SelectionClientType, SelectionWindowType;
-private Bool SelectionCallbackRegistered = FALSE;
+private Bool SelectionCallbackRegistered = False;
 
 /*
  * There is a global list of windows selecting for selection events
@@ -121,17 +121,17 @@ private Bool CheckSelectionCallback()
     if (selectionEvents) {
         if (!SelectionCallbackRegistered) {
             if (!AddCallback(&SelectionCallback, &XFixesSelectionCallback, null))
-                return FALSE;
-            SelectionCallbackRegistered = TRUE;
+                return False;
+            SelectionCallbackRegistered = True;
         }
     }
     else {
         if (SelectionCallbackRegistered) {
             DeleteCallback(&SelectionCallback, &XFixesSelectionCallback, null);
-            SelectionCallbackRegistered = FALSE;
+            SelectionCallbackRegistered = False;
         }
     }
-    return TRUE;
+    return True;
 }
 
 enum SelectionAllEvents = (XFixesSetSelectionOwnerNotifyMask |

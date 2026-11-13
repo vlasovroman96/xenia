@@ -44,8 +44,8 @@ void xnestChangePointerControl(DeviceIntPtr pDev, PtrCtrl* ctrl)
                                ctrl.num,
                                ctrl.den,
                                ctrl.threshold,
-                               TRUE,
-                               TRUE);
+                               True,
+                               True);
 }
 
 int xnestPointerProc(DeviceIntPtr pDev, int onoff)

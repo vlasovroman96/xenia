@@ -40,6 +40,7 @@ import externs.gnu;
 import glamor.glamor;
 import dix.dispatch;
 import dix.picture;
+import common.bools;
 
 enum DEFAULT_ATLAS_DIM =       1024;
 

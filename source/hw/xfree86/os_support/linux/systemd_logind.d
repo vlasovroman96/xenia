@@ -80,11 +80,6 @@ import hw.xfree86.common.xf86Xinput;
 import xf86Init;
 import xf86platformBus_priv;
 import lnx_init;
-
-
-alias FALSE = common.misc.FALSE;
-alias TRUE = common.misc.TRUE;
-
 import externs.attrs;;
 import xf86platformBus;
 import build.dix_config;
@@ -154,7 +149,7 @@ int systemd_logind_take_fd(int _major, int _minor, const(char)* path, Bool* paus
     if (pInfo) {
         LogMessage(X_INFO, "systemd-logind: returning pre-existing fd for %s %u:%u\n",
                path, major, minor);
-        *paused_ret = FALSE;
+        *paused_ret = False;
         return pInfo.fd;
     }
 
@@ -295,7 +290,7 @@ void systemd_logind_vtenter()
         return; /* Some drm nodes are still paused wait for resume */
 
     xf86VTEnter();
-    info.vt_active = TRUE;
+    info.vt_active = True;
 
     /* Activate any input devices which were resumed before the drm nodes */
     for (pInfo = xf86InputDevs; pInfo; pInfo = pInfo.next)
@@ -352,7 +347,7 @@ void systemd_logind_drop_master()
     systemd_logind_info* info = &logind_info;
     int i = void;
     /* Our VT_PROCESS usage guarantees we've already given up the vt */
-    info.active = info.vt_active = FALSE;
+    info.active = info.vt_active = False;
     for (i = 0; i < xf86_num_platform_devices; i++) {
         if (xf86_platform_devices[i].flags & XF86_PDEV_SERVER_FD) {
             dbus_int32_t major = void, minor = void;
@@ -371,10 +366,10 @@ private Bool are_platform_devices_resumed() {
     int i = void;
     for (i = 0; i < xf86_num_platform_devices; i++) {
         if (xf86_platform_devices[i].flags & XF86_PDEV_PAUSED) {
-            return FALSE;
+            return False;
         }
     }
-    return TRUE;
+    return True;
 }
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -458,20 +453,20 @@ private DBusHandlerResult message_filter(DBusConnection* connection, DBusMessage
 
     if (pause) {
         /* Our VT_PROCESS usage guarantees we've already given up the vt */
-        info.active = info.vt_active = FALSE;
+        info.active = info.vt_active = False;
         /* Note the actual vtleave has already been handled by xf86Events.c */
         if (pdev)
             pdev.flags |= XF86_PDEV_PAUSED;
         else {
             close(pInfo.fd);
-            systemd_logind_set_input_fd_for_all_devs(major, minor, -1, FALSE);
+            systemd_logind_set_input_fd_for_all_devs(major, minor, -1, False);
         }
         if (ack)
             systemd_logind_ack_pause(info, major, minor);
     }
     else {
         /* info->vt_active gets set by systemd_logind_vtenter() */
-        info.active = TRUE;
+        info.active = True;
 
         if (pdev) {
             close(fd);
@@ -546,7 +541,7 @@ private void connect_hook(DBusConnection* connection, void* data)
         goto cleanup;
     }
 
-    arg = FALSE; /* Don't forcibly take over over the session */
+    arg = False; /* Don't forcibly take over over the session */
     if (!assumeNoGC(&dbus_message_append_args)(msg, DBUS_TYPE_BOOLEAN, &arg,
                                   DBUS_TYPE_INVALID)) {
         LogMessage(X_ERROR, "systemd-logind: out of memory\n");
@@ -633,7 +628,7 @@ version (none) {
                session);
     info.conn = connection;
     info.session = session;
-    info.vt_active = info.active = TRUE; /* The server owns the vt during init */
+    info.vt_active = info.active = True; /* The server owns the vt during init */
     session = null;
 
 cleanup:
@@ -694,7 +689,7 @@ private dbus_core_hook core_hook = {
 
 int systemd_logind_init()
 {
-    if (!mixin(ServerIsNotSeat0!()) && xf86HasTTYs() && linux_parse_vt_settings(TRUE) && !xf86VTKeepTtyIsSet()) {
+    if (!mixin(ServerIsNotSeat0!()) && xf86HasTTYs() && linux_parse_vt_settings(True) && !xf86VTKeepTtyIsSet()) {
         LogMessage(X_INFO,
             "systemd-logind: logind integration requires -keeptty and "
             ~ "-keeptty was not provided, disabling logind integration\n");

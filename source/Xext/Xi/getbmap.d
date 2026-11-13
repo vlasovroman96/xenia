@@ -90,7 +90,7 @@ int ProcXGetDeviceButtonMapping(ClientPtr client)
     if (b is null)
         return BadMatch;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD8s(&rpcbuf, &b.map[1], b.numButtons);
 
     xGetDeviceButtonMappingReply reply = {

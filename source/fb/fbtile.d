@@ -119,7 +119,7 @@ void fbOddTile(FbBits* dst, FbStride dstStride, int dstX, int width, int height,
                   tileStride,
                   tileX,
                   dst + y * dstStride,
-                  dstStride, x, w, h, alu, pm, bpp, FALSE, FALSE);
+                  dstStride, x, w, h, alu, pm, bpp, False, False);
             x += w;
             tileX = 0;
         }

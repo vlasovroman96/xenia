@@ -150,15 +150,15 @@ Bool KdXVScreenInit(ScreenPtr pScreen, KdVideoAdaptorPtr adaptors, int num)
 /*   fprintf(stderr,"KdXVScreenInit initializing %d adaptors\n",num); */
 
     if (noXvExtension)
-        return FALSE;
+        return False;
 
     if (!dixRegisterPrivateKey(&KdXVWindowKeyRec, PRIVATE_WINDOW, 0))
-        return FALSE;
+        return False;
     if (!dixRegisterPrivateKey(&KdXVScreenPrivateKey, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
 
     if (Success != XvScreenInit(pScreen))
-        return FALSE;
+        return False;
 
     KdXvScreenKey = XvGetScreenKey();
     PortResource = XvGetRTPort();
@@ -167,7 +167,7 @@ Bool KdXVScreenInit(ScreenPtr pScreen, KdVideoAdaptorPtr adaptors, int num)
     dixSetPrivate(&pScreen.devPrivates, &KdXVScreenPrivateKey, ScreenPriv);
 
     if (!ScreenPriv)
-        return FALSE;
+        return False;
 
     dixScreenHookWindowDestroy(pScreen, KdXVWindowDestroy);
 
@@ -182,9 +182,9 @@ Bool KdXVScreenInit(ScreenPtr pScreen, KdVideoAdaptorPtr adaptors, int num)
     pScreen.CloseScreen = KdXVCloseScreen;
 
     if (!KdXVInitAdaptors(pScreen, adaptors, num))
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 private void KdXVFreeAdaptor(XvAdaptorPtr pAdaptor)
@@ -236,7 +236,7 @@ private Bool KdXVInitAdaptors(ScreenPtr pScreen, KdVideoAdaptorPtr infoPtr, int 
     pxvs.pAdaptors = null;
 
     if (((pAdaptor = calloc(number, XvAdaptorRec.sizeof)) == 0))
-        return FALSE;
+        return False;
 
     for (pa = pAdaptor, na = 0, numAdaptor = 0; na < number; na++, adaptorPtr++) {
         adaptorPtr = &infoPtr[na];
@@ -437,10 +437,10 @@ private Bool KdXVInitAdaptors(ScreenPtr pScreen, KdVideoAdaptorPtr infoPtr, int 
     }
     else {
         free(pAdaptor);
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 /* Video should be clipped to the intersection of the window cliplist
@@ -463,7 +463,7 @@ private void KdXVUpdateCompositeClip(XvPortRecPrivatePtr portPriv)
 {
     RegionPtr pregWin = void, pCompositeClip = void;
     WindowPtr pWin = void;
-    Bool freeCompClip = FALSE;
+    Bool freeCompClip = False;
 
     if (portPriv.pCompositeClip)
         return;
@@ -473,7 +473,7 @@ private void KdXVUpdateCompositeClip(XvPortRecPrivatePtr portPriv)
     /* get window clip list */
     if (portPriv.subWindowMode == IncludeInferiors) {
         pregWin = NotClippedByChildren(pWin);
-        freeCompClip = TRUE;
+        freeCompClip = True;
     }
     else
         pregWin = &pWin.clipList;
@@ -492,7 +492,7 @@ private void KdXVUpdateCompositeClip(XvPortRecPrivatePtr portPriv)
     RegionIntersect(pCompositeClip, pregWin, pCompositeClip);
 
     portPriv.pCompositeClip = pCompositeClip;
-    portPriv.FreeCompositeClip = TRUE;
+    portPriv.FreeCompositeClip = True;
 
     if (freeCompClip) {
         RegionDestroy(pregWin);
@@ -523,7 +523,7 @@ private void KdXVCopyClip(XvPortRecPrivatePtr portPriv, GCPtr pGC)
 
     portPriv.clipOrg = pGC.clipOrg;
     portPriv.pCompositeClip = pGC.pCompositeClip;
-    portPriv.FreeCompositeClip = FALSE;
+    portPriv.FreeCompositeClip = False;
     portPriv.subWindowMode = pGC.subWindowMode;
 }
 
@@ -533,7 +533,7 @@ private int KdXVRegetVideo(XvPortRecPrivatePtr portPriv)
     RegionRec ClipRegion = void;
     BoxRec WinBox = void;
     int ret = Success;
-    Bool clippedAway = FALSE;
+    Bool clippedAway = False;
 
     KdXVUpdateCompositeClip(portPriv);
 
@@ -550,7 +550,7 @@ private int KdXVRegetVideo(XvPortRecPrivatePtr portPriv)
 
     /* that's all if it's totally obscured */
     if (!RegionNotEmpty(&ClipRegion)) {
-        clippedAway = TRUE;
+        clippedAway = True;
         goto CLIP_VIDEO_BAILOUT;
     }
 
@@ -569,7 +569,7 @@ private int KdXVRegetVideo(XvPortRecPrivatePtr portPriv)
 
     if ((clippedAway || (ret != Success)) && portPriv.isOn == XV_ON) {
         (*portPriv.AdaptorRec.StopVideo) (portPriv.screen,
-                                            portPriv.DevPriv.ptr, FALSE);
+                                            portPriv.DevPriv.ptr, False);
         portPriv.isOn = XV_PENDING;
     }
 
@@ -593,7 +593,7 @@ private int KdXVReputVideo(XvPortRecPrivatePtr portPriv)
     mixin(KdScreenPriv!("pScreen"));
     KdScreenInfo* screen = pScreenPriv.screen;
     int ret = Success;
-    Bool clippedAway = FALSE;
+    Bool clippedAway = False;
 
     KdXVUpdateCompositeClip(portPriv);
 
@@ -625,7 +625,7 @@ private int KdXVReputVideo(XvPortRecPrivatePtr portPriv)
 
     /* that's all if it's totally obscured */
     if (!RegionNotEmpty(&ClipRegion)) {
-        clippedAway = TRUE;
+        clippedAway = True;
         goto CLIP_VIDEO_BAILOUT;
     }
 
@@ -644,7 +644,7 @@ private int KdXVReputVideo(XvPortRecPrivatePtr portPriv)
 
     if ((clippedAway || (ret != Success)) && (portPriv.isOn == XV_ON)) {
         (*portPriv.AdaptorRec.StopVideo) (portPriv.screen,
-                                            portPriv.DevPriv.ptr, FALSE);
+                                            portPriv.DevPriv.ptr, False);
         portPriv.isOn = XV_PENDING;
     }
 
@@ -668,7 +668,7 @@ private int KdXVReputImage(XvPortRecPrivatePtr portPriv)
     mixin(KdScreenPriv!("pScreen"));
     KdScreenInfo* screen = pScreenPriv.screen;
     int ret = Success;
-    Bool clippedAway = FALSE;
+    Bool clippedAway = False;
 
     KdXVUpdateCompositeClip(portPriv);
 
@@ -700,7 +700,7 @@ private int KdXVReputImage(XvPortRecPrivatePtr portPriv)
 
     /* that's all if it's totally obscured */
     if (!RegionNotEmpty(&ClipRegion)) {
-        clippedAway = TRUE;
+        clippedAway = True;
         goto CLIP_VIDEO_BAILOUT;
     }
 
@@ -715,7 +715,7 @@ private int KdXVReputImage(XvPortRecPrivatePtr portPriv)
 
     if ((clippedAway || (ret != Success)) && (portPriv.isOn == XV_ON)) {
         (*portPriv.AdaptorRec.StopVideo) (portPriv.screen,
-                                            portPriv.DevPriv.ptr, FALSE);
+                                            portPriv.DevPriv.ptr, False);
         portPriv.isOn = XV_PENDING;
     }
 
@@ -785,7 +785,7 @@ private void KdXVWindowDestroy(CallbackListPtr* pcbl, ScreenPtr pScreen, WindowP
 
         if (pPriv.isOn > XV_OFF) {
             (*pPriv.AdaptorRec.StopVideo) (pPriv.screen, pPriv.DevPriv.ptr,
-                                             TRUE);
+                                             True);
             pPriv.isOn = XV_OFF;
         }
 
@@ -839,7 +839,7 @@ private void KdXVWindowExposures(WindowPtr pWin, RegionPtr reg1)
 
                 if (pPriv.isOn == XV_ON) {
                     (*pPriv.AdaptorRec.StopVideo) (pPriv.screen,
-                                                     pPriv.DevPriv.ptr, FALSE);
+                                                     pPriv.DevPriv.ptr, False);
                     pPriv.isOn = XV_PENDING;
                 }
                 pPriv.pDraw = null;
@@ -885,7 +885,7 @@ private void KdXVClipNotify(WindowPtr pWin, int dx, int dy)
         if (pPriv.type || !visible) {
             if (pPriv.isOn == XV_ON) {
                 (*pPriv.AdaptorRec.StopVideo) (pPriv.screen,
-                                                 pPriv.DevPriv.ptr, FALSE);
+                                                 pPriv.DevPriv.ptr, False);
                 pPriv.isOn = XV_PENDING;
             }
 
@@ -925,7 +925,7 @@ private Bool KdXVCloseScreen(ScreenPtr pScreen)
     int c = void;
 
     if (!ScreenPriv)
-        return TRUE;
+        return True;
 
     pScreen.WindowExposures = ScreenPriv.WindowExposures;
     pScreen.ClipNotify = ScreenPriv.ClipNotify;
@@ -1000,7 +1000,7 @@ private int KdXVPutStill(DrawablePtr pDraw, XvPortPtr pPort, GCPtr pGC, INT16 vi
     RegionRec ClipRegion = void;
     BoxRec WinBox = void;
     int ret = Success;
-    Bool clippedAway = FALSE;
+    Bool clippedAway = False;
 
     if (pDraw.type != DRAWABLE_WINDOW)
         return BadAlloc;
@@ -1036,7 +1036,7 @@ private int KdXVPutStill(DrawablePtr pDraw, XvPortPtr pPort, GCPtr pGC, INT16 vi
     }
 
     if (!RegionNotEmpty(&ClipRegion)) {
-        clippedAway = TRUE;
+        clippedAway = True;
         goto PUT_STILL_BAILOUT;
     }
 
@@ -1065,7 +1065,7 @@ private int KdXVPutStill(DrawablePtr pDraw, XvPortPtr pPort, GCPtr pGC, INT16 vi
 
     if ((clippedAway || (ret != Success)) && (portPriv.isOn == XV_ON)) {
         (*portPriv.AdaptorRec.StopVideo) (portPriv.screen,
-                                            portPriv.DevPriv.ptr, FALSE);
+                                            portPriv.DevPriv.ptr, False);
         portPriv.isOn = XV_PENDING;
     }
 
@@ -1132,7 +1132,7 @@ private int KdXVGetStill(DrawablePtr pDraw, XvPortPtr pPort, GCPtr pGC, INT16 vi
     RegionRec ClipRegion = void;
     BoxRec WinBox = void;
     int ret = Success;
-    Bool clippedAway = FALSE;
+    Bool clippedAway = False;
 
     if (pDraw.type != DRAWABLE_WINDOW)
         return BadAlloc;
@@ -1154,7 +1154,7 @@ private int KdXVGetStill(DrawablePtr pDraw, XvPortPtr pPort, GCPtr pGC, INT16 vi
     }
 
     if (!RegionNotEmpty(&ClipRegion)) {
-        clippedAway = TRUE;
+        clippedAway = True;
         goto GET_STILL_BAILOUT;
     }
 
@@ -1168,7 +1168,7 @@ private int KdXVGetStill(DrawablePtr pDraw, XvPortPtr pPort, GCPtr pGC, INT16 vi
 
     if ((clippedAway || (ret != Success)) && (portPriv.isOn == XV_ON)) {
         (*portPriv.AdaptorRec.StopVideo) (portPriv.screen,
-                                            portPriv.DevPriv.ptr, FALSE);
+                                            portPriv.DevPriv.ptr, False);
         portPriv.isOn = XV_PENDING;
     }
 
@@ -1196,7 +1196,7 @@ private int KdXVStopVideo(XvPortPtr pPort, DrawablePtr pDraw)
 
     if (portPriv.isOn > XV_OFF) {
         (*portPriv.AdaptorRec.StopVideo) (portPriv.screen,
-                                            portPriv.DevPriv.ptr, TRUE);
+                                            portPriv.DevPriv.ptr, True);
         portPriv.isOn = XV_OFF;
     }
 
@@ -1244,7 +1244,7 @@ private int KdXVPutImage(DrawablePtr pDraw, XvPortPtr pPort, GCPtr pGC, INT16 sr
     RegionRec ClipRegion = void;
     BoxRec WinBox = void;
     int ret = Success;
-    Bool clippedAway = FALSE;
+    Bool clippedAway = False;
 
     if (pDraw.type != DRAWABLE_WINDOW)
         return BadAlloc;
@@ -1280,7 +1280,7 @@ private int KdXVPutImage(DrawablePtr pDraw, XvPortPtr pPort, GCPtr pGC, INT16 sr
     }
 
     if (!RegionNotEmpty(&ClipRegion)) {
-        clippedAway = TRUE;
+        clippedAway = True;
         goto PUT_IMAGE_BAILOUT;
     }
 
@@ -1310,7 +1310,7 @@ private int KdXVPutImage(DrawablePtr pDraw, XvPortPtr pPort, GCPtr pGC, INT16 sr
 
     if ((clippedAway || (ret != Success)) && (portPriv.isOn == XV_ON)) {
         (*portPriv.AdaptorRec.StopVideo) (portPriv.screen,
-                                            portPriv.DevPriv.ptr, FALSE);
+                                            portPriv.DevPriv.ptr, False);
         portPriv.isOn = XV_PENDING;
     }
 

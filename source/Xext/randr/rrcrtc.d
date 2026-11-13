@@ -69,7 +69,7 @@ private void RRCrtcChanged(RRCrtcPtr crtc, Bool layoutChanged)
 {
     ScreenPtr pScreen = crtc.pScreen;
 
-    crtc.changed = TRUE;
+    crtc.changed = True;
     if (pScreen) {
         mixin(rrScrPriv!("pScreen"));
 
@@ -78,7 +78,7 @@ private void RRCrtcChanged(RRCrtcPtr crtc, Bool layoutChanged)
          * Send ConfigureNotify on any layout change
          */
         if (layoutChanged)
-            pScrPriv.layoutChanged = TRUE;
+            pScrPriv.layoutChanged = True;
     }
 }
 
@@ -163,8 +163,8 @@ Bool RRCrtcNotify(RRCrtcPtr crtc, RRModePtr mode, int x, int y, Rotation rotatio
                 break;
         if (j == crtc.numOutputs) {
             outputs[i].crtc = crtc;
-            RROutputChanged(outputs[i], FALSE);
-            RRCrtcChanged(crtc, FALSE);
+            RROutputChanged(outputs[i], False);
+            RRCrtcChanged(crtc, False);
         }
     }
     /*
@@ -178,8 +178,8 @@ Bool RRCrtcNotify(RRCrtcPtr crtc, RRModePtr mode, int x, int y, Rotation rotatio
         if (i == numOutputs) {
             if (crtc.outputs[j].crtc == crtc)
                 crtc.outputs[j].crtc = null;
-            RROutputChanged(crtc.outputs[j], FALSE);
-            RRCrtcChanged(crtc, FALSE);
+            RROutputChanged(crtc.outputs[j], False);
+            RRCrtcChanged(crtc, False);
         }
     }
     /*
@@ -195,7 +195,7 @@ Bool RRCrtcNotify(RRCrtcPtr crtc, RRModePtr mode, int x, int y, Rotation rotatio
             else
                 newoutputs = cast(RROutputPtr*) calloc(numOutputs, RROutputPtr.sizeof);
             if (!newoutputs)
-                return FALSE;
+                return False;
         }
         else {
             free(crtc.outputs);
@@ -208,7 +208,7 @@ Bool RRCrtcNotify(RRCrtcPtr crtc, RRModePtr mode, int x, int y, Rotation rotatio
     /*
      * Copy the new list of outputs into the crtc
      */
-    // mixin(BUG_RETURN_VAL!("numOutputs != 0 && outputs is null", "FALSE"));
+    // mixin(BUG_RETURN_VAL!("numOutputs != 0 && outputs is null", "False"));
     if (numOutputs > 0)
         memcpy(crtc.outputs, outputs, numOutputs * RROutputPtr.sizeof);
 
@@ -221,23 +221,23 @@ Bool RRCrtcNotify(RRCrtcPtr crtc, RRModePtr mode, int x, int y, Rotation rotatio
         crtc.mode = mode;
         if (mode !is null)
             mode.refcnt++;
-        RRCrtcChanged(crtc, TRUE);
+        RRCrtcChanged(crtc, True);
     }
     if (x != crtc.x) {
         crtc.x = x;
-        RRCrtcChanged(crtc, TRUE);
+        RRCrtcChanged(crtc, True);
     }
     if (y != crtc.y) {
         crtc.y = y;
-        RRCrtcChanged(crtc, TRUE);
+        RRCrtcChanged(crtc, True);
     }
     if (rotation != crtc.rotation) {
         crtc.rotation = rotation;
-        RRCrtcChanged(crtc, TRUE);
+        RRCrtcChanged(crtc, True);
     }
     if (!RRTransformEqual(transform, &crtc.client_current_transform)) {
         RRTransformCopy(&crtc.client_current_transform, transform);
-        RRCrtcChanged(crtc, TRUE);
+        RRCrtcChanged(crtc, True);
     }
     if (crtc.changed && mode) {
         RRTransformCompute(x, y,
@@ -247,7 +247,7 @@ Bool RRCrtcNotify(RRCrtcPtr crtc, RRModePtr mode, int x, int y, Rotation rotatio
                            &crtc.transform, &crtc.f_transform,
                            &crtc.f_inverse);
     }
-    return TRUE;
+    return True;
 }
 
 void RRDeliverCrtcEvent(ClientPtr client, WindowPtr pWin, RRCrtcPtr crtc)
@@ -284,9 +284,9 @@ private Bool RRCrtcPendingProperties(RRCrtcPtr crtc)
         RROutputPtr output = pScrPriv.outputs[o];
 
         if (output.crtc == crtc && output.pendingProperties)
-            return TRUE;
+            return True;
     }
-    return FALSE;
+    return False;
 }
 
 private Bool cursor_bounds(RRCrtcPtr crtc, int* left, int* right, int* top, int* bottom)
@@ -295,7 +295,7 @@ private Bool cursor_bounds(RRCrtcPtr crtc, int* left, int* right, int* top, int*
     BoxRec bounds = void;
 
     if (crtc.mode is null)
-	return FALSE;
+	return False;
 
     memset(&bounds, 0, bounds.sizeof);
     if (pScrPriv.rrGetPanning)
@@ -315,7 +315,7 @@ private Bool cursor_bounds(RRCrtcPtr crtc, int* left, int* right, int* top, int*
     *top = bounds.y1;
     *bottom = bounds.y2;
 
-    return TRUE;
+    return True;
 }
 
 /* overlapping counts as adjacent */
@@ -327,9 +327,9 @@ private Bool crtcs_adjacent(RRCrtcPtr a, RRCrtcPtr b)
     int cl = void, cr = void, ct = void, cb = void;         /* the overlap, if any */
 
     if (!cursor_bounds(a, &al, &ar, &at, &ab))
-	    return FALSE;
+	    return False;
     if (!cursor_bounds(b, &bl, &br, &bt, &bb))
-	    return FALSE;
+	    return False;
 
     cl = max(al, bl);
     cr = min(ar, br);
@@ -344,7 +344,7 @@ private void mark_crtcs(rrScrPrivPtr pScrPriv, int* reachable, int cur)
 {
     int i = void;
 
-    reachable[cur] = TRUE;
+    reachable[cur] = True;
     for (i = 0; i < pScrPriv.numCrtcs; ++i) {
         if (reachable[i])
             continue;
@@ -356,7 +356,7 @@ private void mark_crtcs(rrScrPrivPtr pScrPriv, int* reachable, int cur)
 private void RRComputeContiguity(ScreenPtr pScreen)
 {
     mixin(rrScrPriv!("pScreen"));
-    Bool discontiguous = TRUE;
+    Bool discontiguous = True;
     int i = void, n = pScrPriv.numCrtcs;
 
     int* reachable = cast(int*) calloc(n, int.sizeof);
@@ -377,7 +377,7 @@ private void RRComputeContiguity(ScreenPtr pScreen)
         if (pScrPriv.crtcs[i].mode && !reachable[i])
             goto out_;
 
-    discontiguous = FALSE;
+    discontiguous = False;
 
  out_:
     free(reachable);
@@ -434,7 +434,7 @@ void RRCrtcDetachScanoutPixmap(RRCrtcPtr crtc)
         crtc.scanout_pixmap = null;
     }
 
-    RRCrtcChanged(crtc, TRUE);
+    RRCrtcChanged(crtc, True);
 }
 
 private PixmapPtr rrCreateSharedPixmap(RRCrtcPtr crtc, ScreenPtr primary, int width, int height, int depth, int x, int y, Rotation rotation)
@@ -462,21 +462,21 @@ private Bool rrGetPixmapSharingSyncProp(int numOutputs, RROutputPtr* outputs)
     const(char)* syncStr = PRIME_SYNC_PROP;
     Atom syncProp = dixGetAtomID(syncStr);
     if (syncProp == None)
-        return TRUE;
+        return True;
 
     /* If one output doesn't want sync, no sync */
     for (o = 0; o < numOutputs; o++) {
         RRPropertyValuePtr val = void;
 
-        if ((val = RRGetOutputProperty(outputs[o], syncProp, TRUE) )!is null &&
+        if ((val = RRGetOutputProperty(outputs[o], syncProp, True) )!is null &&
             val.data) {
             if (!(*cast(char*) val.data))
-                return FALSE;
+                return False;
             continue;
         }
     }
 
-    return TRUE;
+    return True;
 }
 
 private void rrSetPixmapSharingSyncProp(char val, int numOutputs, RROutputPtr* outputs)
@@ -491,7 +491,7 @@ private void rrSetPixmapSharingSyncProp(char val, int numOutputs, RROutputPtr* o
         RRPropertyPtr prop = RRQueryOutputProperty(outputs[o], syncProp);
         if (prop)
             RRChangeOutputProperty(outputs[o], syncProp, XA_INTEGER,
-                                   8, PropModeReplace, 1, &val, FALSE, TRUE);
+                                   8, PropModeReplace, 1, &val, False, True);
     }
 }
 
@@ -507,13 +507,13 @@ private Bool rrSetupPixmapSharing(RRCrtcPtr crtc, int width, int height, int x, 
     /* Create a pixmap on the primary screen, then get a shared handle for it.
        Create a shared pixmap on the secondary screen using the handle.
 
-       If sync == FALSE --
+       If sync == False --
        Set secondary screen to scanout shared linear pixmap.
        Set the primary screen to do dirty updates to the shared pixmap
        from the screen pixmap on its own accord.
 
-       If sync == TRUE --
-       If any of the below steps fail, clean up and fall back to sync == FALSE.
+       If sync == True --
+       If any of the below steps fail, clean up and fall back to sync == False.
        Create another shared pixmap on the secondary screen using the handle.
        Set secondary screen to prepare for scanout and flipping between shared
        linear pixmaps.
@@ -527,7 +527,7 @@ private Bool rrSetupPixmapSharing(RRCrtcPtr crtc, int width, int height, int x, 
         RRCrtcDetachScanoutPixmap(crtc);
 
     if (width == 0 && height == 0) {
-        return TRUE;
+        return True;
     }
 
     spix_front = rrCreateSharedPixmap(crtc, primary,
@@ -535,7 +535,7 @@ private Bool rrSetupPixmapSharing(RRCrtcPtr crtc, int width, int height, int x, 
                                       x, y, rotation);
     if (spix_front is null) {
         ErrorF("randr: failed to create shared pixmap\n");
-        return FALSE;
+        return False;
     }
 
     /* Both source and sink must support required ABI funcs for flipping */
@@ -571,7 +571,7 @@ private Bool rrSetupPixmapSharing(RRCrtcPtr crtc, int width, int height, int x, 
 
         primary.PresentSharedPixmap(spix_front);
 
-        return TRUE;
+        return True;
 
 fail: /* If flipping funcs fail, just fall back to unsynchronized */
         if (spix_back)
@@ -591,13 +591,13 @@ fail: /* If flipping funcs fail, just fall back to unsynchronized */
     if (!pSecondaryScrPriv.rrCrtcSetScanoutPixmap(crtc, spix_front)) {
         rrDestroySharedPixmap(crtc, spix_front);
         ErrorF("randr: failed to set shadow secondary pixmap\n");
-        return FALSE;
+        return False;
     }
     crtc.scanout_pixmap = spix_front;
 
     primary.StartPixmapTracking(mrootdraw, spix_front, x, y, 0, 0, rotation);
 
-    return TRUE;
+    return True;
 }
 
 private void crtc_to_box(BoxPtr box, RRCrtcPtr crtc)
@@ -705,7 +705,7 @@ private Bool rrCheckPixmapBounding(ScreenPtr pScreen, RRCrtcPtr rr_crtc, Rotatio
     }
 
     /* set shatters TODO */
-    return TRUE;
+    return True;
 }
 
 enum XRANDR_EMULATION_PROP = "RANDR Emulation";
@@ -716,13 +716,13 @@ private Bool rrCheckEmulated(RROutputPtr output)
 
     Atom emulProp = dixGetAtomID(emulStr);
     if (emulProp == None)
-        return FALSE;
+        return False;
 
-    val = RRGetOutputProperty(output, emulProp, TRUE);
+    val = RRGetOutputProperty(output, emulProp, True);
     if (val && val.data)
         return !!val.data;
 
-    return FALSE;
+    return False;
 }
 
 
@@ -741,20 +741,20 @@ pragma(inline, true) private Bool RRCrtcPendingTransform(RRCrtcPtr crtc)
 Bool RRCrtcSet(RRCrtcPtr crtc, RRModePtr mode, int x, int y, Rotation rotation, int numOutputs, RROutputPtr* outputs)
 {
     ScreenPtr pScreen = crtc.pScreen;
-    Bool ret = FALSE;
-    Bool recompute = TRUE;
+    Bool ret = False;
+    Bool recompute = True;
     Bool crtcChanged = void;
     int o = void;
 
-    mixin(BUG_RETURN_VAL!("numOutputs != 0 && outputs is null", "FALSE"));
+    mixin(BUG_RETURN_VAL!("numOutputs != 0 && outputs is null", "False"));
 
     mixin(rrScrPriv!("pScreen"));
 
-    crtcChanged = FALSE;
+    crtcChanged = False;
     for (o = 0; o < numOutputs; o++) {
         if (outputs[o]) {
             if (rrCheckEmulated(outputs[o]) || (outputs[o].crtc != crtc)) {
-                crtcChanged = TRUE;
+                crtcChanged = True;
                 break;
             }
         }
@@ -769,8 +769,8 @@ Bool RRCrtcSet(RRCrtcPtr crtc, RRModePtr mode, int x, int y, Rotation rotation, 
         !memcmp(crtc.outputs, outputs, numOutputs * RROutputPtr.sizeof) &&
         !RRCrtcPendingProperties(crtc) && !RRCrtcPendingTransform(crtc) &&
         !crtcChanged) {
-        recompute = FALSE;
-        ret = TRUE;
+        recompute = False;
+        ret = True;
     }
     else {
         if (pScreen.isGPU) {
@@ -784,7 +784,7 @@ Bool RRCrtcSet(RRCrtcPtr crtc, RRModePtr mode, int x, int y, Rotation rotation, 
             ret = rrCheckPixmapBounding(primary, crtc,
                                         rotation, x, y, width, height);
             if (!ret)
-                return FALSE;
+                return False;
 
             if (pScreen.current_primary) {
                 Bool sync = rrGetPixmapSharingSyncProp(numOutputs, outputs);
@@ -805,7 +805,7 @@ static if (RANDR_12_INTERFACE) {
 
                 if (!mode) {
                     RRCrtcNotify(crtc, null, x, y, rotation, null, 0, null);
-                    ret = TRUE;
+                    ret = True;
                 }
                 else {
                     size.width = mode.mode.width;
@@ -844,7 +844,7 @@ else
 
                 if (!mode) {
                     RRCrtcNotify(crtc, null, x, y, rotation, null, 0, null);
-                    ret = TRUE;
+                    ret = True;
                 }
                 else {
                     size.width = mode.mode.width;
@@ -956,7 +956,7 @@ private int RRCrtcDestroyResource(void* value, XID pid)
 
 Bool RRCrtcGammaSet(RRCrtcPtr crtc, CARD16* red, CARD16* green, CARD16* blue)
 {
-    Bool ret = TRUE;
+    Bool ret = True;
 
 static if (RANDR_12_INTERFACE) {
     ScreenPtr pScreen = crtc.pScreen;
@@ -981,7 +981,7 @@ static if (RANDR_12_INTERFACE) {
  */
 private Bool RRCrtcGammaGet(RRCrtcPtr crtc)
 {
-    Bool ret = TRUE;
+    Bool ret = True;
 
 static if (RANDR_12_INTERFACE) {
     ScreenPtr pScreen = crtc.pScreen;
@@ -1003,36 +1003,36 @@ private Bool RRCrtcInScreen(ScreenPtr pScreen, RRCrtcPtr findCrtc)
     int c = void;
 
     if (pScreen is null)
-        return FALSE;
+        return False;
 
     if (findCrtc is null)
-        return FALSE;
+        return False;
 
     if (!dixPrivateKeyRegistered(rrPrivKey))
-        return FALSE;
+        return False;
 
     pScrPriv = mixin(rrGetScrPriv!("pScreen"));
     for (c = 0; c < pScrPriv.numCrtcs; c++) {
         if (pScrPriv.crtcs[c] == findCrtc)
-            return TRUE;
+            return True;
     }
 
-    return FALSE;
+    return False;
 }
 
 Bool RRCrtcExists(ScreenPtr pScreen, RRCrtcPtr findCrtc)
 {
     if (RRCrtcInScreen(pScreen, findCrtc))
-        return TRUE;
+        return True;
 
     foreach(secondary; pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
         if (!secondary.is_output_secondary)
             continue;
         if (RRCrtcInScreen(secondary, findCrtc))
-            return TRUE;
+            return True;
     }
 
-    return FALSE;
+    return False;
 }
 
 void RRModeGetScanoutSize(RRModePtr mode, PictTransformPtr transform, int* width, int* height)
@@ -1070,11 +1070,11 @@ Bool RRCrtcGammaSetSize(RRCrtcPtr crtc, int size)
     CARD16* gamma = void;
 
     if (size == crtc.gammaSize)
-        return TRUE;
+        return True;
     if (size) {
         gamma = cast(CARD16*) calloc(size, 3 * CARD16.sizeof);
         if (!gamma)
-            return FALSE;
+            return False;
     }
     else
         gamma = null;
@@ -1083,7 +1083,7 @@ Bool RRCrtcGammaSetSize(RRCrtcPtr crtc, int size)
     crtc.gammaGreen = gamma + size;
     crtc.gammaBlue = gamma + size * 2;
     crtc.gammaSize = size;
-    return TRUE;
+    return True;
 }
 
 /*
@@ -1133,9 +1133,9 @@ Bool RRCrtcInit()
 {
     RRCrtcType = CreateNewResourceType(&RRCrtcDestroyResource, "CRTC");
     if (!RRCrtcType)
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -1176,7 +1176,7 @@ int ProcRRGetCrtcInfo(ClientPtr client)
         rotations: crtc.rotations,
     };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (leased) {
         reply.rotation = RR_Rotate_0;
@@ -1651,7 +1651,7 @@ int ProcRRGetCrtcGamma(ClientPtr client)
     if (!RRCrtcGammaGet(crtc))
         return RRErrorBase + BadRRCrtc;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     x_rpcbuf_write_CARD16s(&rpcbuf, crtc.gammaRed, crtc.gammaSize);
     x_rpcbuf_write_CARD16s(&rpcbuf, crtc.gammaGreen, crtc.gammaSize);
@@ -1770,7 +1770,7 @@ int ProcRRGetCrtcTransform(ClientPtr client)
     pending = &crtc.client_pending_transform;
     current = &crtc.client_current_transform;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     xRRGetCrtcTransformReply reply = {
         hasTransforms: cast(ubyte)crtc.transforms,
@@ -1818,9 +1818,9 @@ private Bool check_all_screen_crtcs(ScreenPtr pScreen, int* x, int* y)
 	    continue;
 
         if ((*x >= left) && (*x < right) && (*y >= top) && (*y < bottom))
-            return TRUE;
+            return True;
     }
-    return FALSE;
+    return False;
 }
 
 private Bool constrain_all_screen_crtcs(DeviceIntPtr pDev, ScreenPtr pScreen, int* x, int* y)
@@ -1849,10 +1849,10 @@ private Bool constrain_all_screen_crtcs(DeviceIntPtr pDev, ScreenPtr pScreen, in
             if (*y >= bottom)
                 *y = bottom - 1;
 
-            return TRUE;
+            return True;
         }
     }
-    return FALSE;
+    return False;
 }
 
 void RRConstrainCursorHarder(DeviceIntPtr pDev, ScreenPtr pScreen, int mode, int* x, int* y)
@@ -1866,7 +1866,7 @@ void RRConstrainCursorHarder(DeviceIntPtr pDev, ScreenPtr pScreen, int mode, int
 
     /* if we're moving inside a crtc, we're fine */
     ret = check_all_screen_crtcs(pScreen, x, y);
-    if (ret == TRUE)
+    if (ret == True)
         return;
 
     foreach(secondary; pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
@@ -1874,13 +1874,13 @@ void RRConstrainCursorHarder(DeviceIntPtr pDev, ScreenPtr pScreen, int mode, int
             continue;
 
         ret = check_all_screen_crtcs(secondary, x, y);
-        if (ret == TRUE)
+        if (ret == True)
             return;
     }
 
     /* if we're trying to escape, clamp to the CRTC we're coming from */
     ret = constrain_all_screen_crtcs(pDev, pScreen, x, y);
-    if (ret == TRUE)
+    if (ret == True)
         return;
 
     foreach(secondary; pScreen.secondary_list.byEntries!(ScreenPtr, "secondary_head")) {
@@ -1888,7 +1888,7 @@ void RRConstrainCursorHarder(DeviceIntPtr pDev, ScreenPtr pScreen, int mode, int
             continue;
 
         ret = constrain_all_screen_crtcs(pDev, secondary, x, y);
-        if (ret == TRUE)
+        if (ret == True)
             return;
     }
 }
@@ -1896,13 +1896,13 @@ void RRConstrainCursorHarder(DeviceIntPtr pDev, ScreenPtr pScreen, int mode, int
 Bool RRReplaceScanoutPixmap(DrawablePtr pDrawable, PixmapPtr pPixmap, Bool enable)
 {
     mixin(rrScrPriv!("pDrawable.pScreen"));
-    Bool ret = TRUE;
+    Bool ret = True;
     PixmapPtr* saved_scanout_pixmap = void;
     int i = void;
 
     saved_scanout_pixmap = cast(PixmapPtr*) calloc(pScrPriv.numCrtcs, PixmapPtr.sizeof);
     if (saved_scanout_pixmap is null)
-        return FALSE;
+        return False;
 
     for (i = 0; i < pScrPriv.numCrtcs; i++) {
         RRCrtcPtr crtc = pScrPriv.crtcs[i];
@@ -1917,7 +1917,7 @@ Bool RRReplaceScanoutPixmap(DrawablePtr pDrawable, PixmapPtr pPixmap, Bool enabl
 
         /* not supported with double buffering, needs ABI change for 2 ppix */
         if (crtc.scanout_pixmap_back) {
-            ret = FALSE;
+            ret = False;
             continue;
         }
 
@@ -1930,7 +1930,7 @@ Bool RRReplaceScanoutPixmap(DrawablePtr pDrawable, PixmapPtr pPixmap, Bool enabl
         /* is the pixmap already set? */
         if (crtc.scanout_pixmap == pPixmap) {
             /* if its a disable then don't care about size */
-            if (enable == FALSE) {
+            if (enable == False) {
                 /* set scanout to NULL */
                 crtc.scanout_pixmap = null;
             }
@@ -1942,7 +1942,7 @@ Bool RRReplaceScanoutPixmap(DrawablePtr pDrawable, PixmapPtr pPixmap, Bool enabl
                 (*pScrPriv.rrCrtcSet) (pDrawable.pScreen, crtc, crtc.mode, crtc.x, crtc.y,
                                         crtc.rotation, crtc.numOutputs, crtc.outputs);
                 saved_scanout_pixmap[i] = crtc.scanout_pixmap;
-                ret = FALSE;
+                ret = False;
             }
             else {
                 /* if the size fits then we are already setup */
@@ -1950,12 +1950,12 @@ Bool RRReplaceScanoutPixmap(DrawablePtr pDrawable, PixmapPtr pPixmap, Bool enabl
         }
         else {
             if (!size_fits)
-                ret = FALSE;
+                ret = False;
             else if (enable)
                 crtc.scanout_pixmap = pPixmap;
             else
                 /* reject an attempt to disable someone else's scanout_pixmap */
-                ret = FALSE;
+                ret = False;
         }
     }
 
@@ -1986,19 +1986,19 @@ Bool RRHasScanoutPixmap(ScreenPtr pScreen)
 
     /* Bail out if RandR wasn't initialized. */
     if (!dixPrivateKeyRegistered(rrPrivKey))
-        return FALSE;
+        return False;
 
     pScrPriv = mixin(rrGetScrPriv!("pScreen"));
 
     if (!pScreen.is_output_secondary)
-        return FALSE;
+        return False;
 
     for (i = 0; i < pScrPriv.numCrtcs; i++) {
         RRCrtcPtr crtc = pScrPriv.crtcs[i];
 
         if (crtc.scanout_pixmap)
-            return TRUE;
+            return True;
     }
     
-    return FALSE;
+    return False;
 }

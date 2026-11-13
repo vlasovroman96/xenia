@@ -263,7 +263,7 @@ Bool miZeroArcSetup(xArc* arc, miZeroArcRec* info, Bool ok360)
             info.endAngle = 0;
             info.start = oob;
             info.end = oob;
-            return FALSE;
+            return False;
         }
         info.x = 0;
         info.y = 1;
@@ -307,7 +307,7 @@ Bool miZeroArcSetup(xArc* arc, miZeroArcRec* info, Bool ok360)
         info.initialMask = 0xf;
         info.start = oob;
         info.end = oob;
-        return TRUE;
+        return True;
     }
     startseg = startAngle / OCTANT;
     if (!arc.height || (((startseg + 1) & 2) && arc.width)) {
@@ -447,7 +447,7 @@ Bool miZeroArcSetup(xArc* arc, miZeroArcRec* info, Bool ok360)
         info.end.x = 0;
         info.end.mask = 0;
     }
-    return FALSE;
+    return False;
 }
 
 enum string Pixelate(string xval,string yval) = `
@@ -468,7 +468,7 @@ private xPoint* miZeroArcPts(xArc* arc, xPoint* pts)
     int k1 = void, k3 = void, dx = void, dy = void;
     Bool do360 = void;
 
-    do360 = miZeroArcSetup(arc, &info, TRUE);
+    do360 = miZeroArcSetup(arc, &info, True);
     mixin(MIARCSETUP);
     mask = info.initialMask;
     if (!(arc.width & 1)) {
@@ -564,7 +564,7 @@ private void miZeroArcDashPts(GCPtr pGC, xArc* arc, DashInfo* dinfo, xPoint* poi
 
     for (i = 0; i < 4; i++)
         arcPts[i] = points + (i * maxPts);
-    cast(void) miZeroArcSetup(arc, &info, FALSE);
+    cast(void) miZeroArcSetup(arc, &info, False);
     mixin(MIARCSETUP);
     mask = info.initialMask;
     startseg = info.startAngle / QUADRANT;
@@ -677,14 +677,14 @@ private void miZeroArcDashPts(GCPtr pGC, xArc* arc, DashInfo* dinfo, xPoint* poi
     }
     if (!dinfo.skipStart && (info.startAngle != info.endAngle)) {
         dinfo.startPt = *pt;
-        dinfo.haveStart = TRUE;
+        dinfo.haveStart = True;
     }
     else if (!dinfo.skipLast && dinfo.haveStart &&
              (lastPt.x == dinfo.startPt.x) &&
              (lastPt.y == dinfo.startPt.y) && (lastPt != startPts[i]))
         endPts[j] = lastPt;
     if (info.startAngle != info.endAngle) {
-        dinfo.haveLast = TRUE;
+        dinfo.haveLast = True;
         dinfo.endPt = *lastPt;
     }
     dashRemaining = pGC.dash[dinfo.dashIndex] - dinfo.dashOffset;
@@ -758,9 +758,9 @@ void miZeroPolyArc(DrawablePtr pDraw, GCPtr pGC, int narcs, xArc* parcs)
     }
     if (pGC.lineStyle != LineSolid) {
         numPts <<= 1;
-        dinfo.haveStart = FALSE;
-        dinfo.skipStart = FALSE;
-        dinfo.haveLast = FALSE;
+        dinfo.haveStart = False;
+        dinfo.skipStart = False;
+        dinfo.haveLast = False;
         dinfo.dashIndexInit = 0;
         dinfo.dashOffsetInit = 0;
         miStepDash(cast(int) pGC.dashOffset, &dinfo.dashIndexInit,
@@ -784,7 +784,7 @@ void miZeroPolyArc(DrawablePtr pDraw, GCPtr pGC, int narcs, xArc* parcs)
                 dinfo.skipLast = i;
                 miZeroArcDashPts(pGC, arc, &dinfo,
                                  oddPts + 1, maxPts, &pts, &oddPts);
-                dinfo.skipStart = TRUE;
+                dinfo.skipStart = True;
             }
             n = cast(int)(pts - points);
             if (!dospans)
@@ -800,7 +800,7 @@ void miZeroPolyArc(DrawablePtr pDraw, GCPtr pGC, int narcs, xArc* parcs)
                         pt.y += pDraw.y;
                     }
                 }
-                (*pGC.ops.FillSpans) (pDraw, pGC, n, points, widths, FALSE);
+                (*pGC.ops.FillSpans) (pDraw, pGC, n, points, widths, False);
             }
             if (pGC.lineStyle != LineDoubleDash)
                 continue;
@@ -828,7 +828,7 @@ void miZeroPolyArc(DrawablePtr pDraw, GCPtr pGC, int narcs, xArc* parcs)
                         pt.y += pDraw.y;
                     }
                 }
-                (*pGC.ops.FillSpans) (pDraw, pGC, n, oddPts, widths, FALSE);
+                (*pGC.ops.FillSpans) (pDraw, pGC, n, oddPts, widths, False);
             }
             if ((pGC.fillStyle == FillSolid) ||
                 (pGC.fillStyle == FillStippled)) {

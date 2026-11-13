@@ -91,7 +91,7 @@ PixmapPtr exaCreatePixmap_classic(ScreenPtr pScreen, int w, int h, int depth, ui
     pExaPixmap.sys_pitch = pPixmap.devKind;
 
     pPixmap.devPrivate.ptr = null;
-    pExaPixmap.use_gpu_copy = FALSE;
+    pExaPixmap.use_gpu_copy = False;
 
     pExaPixmap.fb_ptr = null;
     exaSetFbPitch(pExaScr, pExaPixmap, w, h, bpp);
@@ -106,7 +106,7 @@ PixmapPtr exaCreatePixmap_classic(ScreenPtr pScreen, int w, int h, int depth, ui
 
     /* Set up damage tracking */
     pExaPixmap.pDamage = DamageCreate(null, null,
-                                       DamageReportNone, TRUE,
+                                       DamageReportNone, True,
                                        pScreen, pPixmap);
 
     if (pExaPixmap.pDamage is null) {
@@ -119,7 +119,7 @@ PixmapPtr exaCreatePixmap_classic(ScreenPtr pScreen, int w, int h, int depth, ui
     DamageRegister(&pPixmap.drawable, pExaPixmap.pDamage);
     /* This ensures that pending damage reflects the current operation. */
     /* This is used by exa to optimize migration. */
-    DamageSetReportAfterOp(pExaPixmap.pDamage, TRUE);
+    DamageSetReportAfterOp(pExaPixmap.pDamage, True);
 
     pExaPixmap.area = null;
 
@@ -152,7 +152,7 @@ Bool exaModifyPixmapHeader_classic(PixmapPtr pPixmap, int width, int height, int
     Bool ret = void;
 
     if (!pPixmap)
-        return FALSE;
+        return False;
 
     pScreen = pPixmap.drawable.pScreen;
     pExaScr = mixin(ExaGetScreenPriv!("pScreen"));
@@ -175,7 +175,7 @@ Bool exaModifyPixmapHeader_classic(PixmapPtr pPixmap, int width, int height, int
                 pExaScr.info.memorySize) {
                 pExaPixmap.fb_ptr = cast(ubyte*)pPixData;
                 pExaPixmap.fb_pitch = devKind;
-                pExaPixmap.use_gpu_copy = TRUE;
+                pExaPixmap.use_gpu_copy = True;
             }
         }
 

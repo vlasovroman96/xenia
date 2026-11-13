@@ -93,7 +93,7 @@ int ProcXSetDeviceFocus(ClientPtr client)
         return BadDevice;
 
     ret = SetInputFocus(client, dev, stuff.focus, stuff.revertTo,
-                        stuff.time, TRUE);
+                        stuff.time, True);
 
     return ret;
 }

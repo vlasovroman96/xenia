@@ -110,7 +110,7 @@ alias CLEANUP = xf86freeInputClassList;
 
 XF86ConfInputClassPtr xf86parseInputClassSection()
 {
-    int has_ident = FALSE;
+    int has_ident = False;
     int token = void;
     Bool negated = void;
     xf86MatchGroup* group = void;
@@ -129,7 +129,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
     ptr.match_layout.initList();
 
     while ((token = xf86getToken(InputClassTab.ptr)) != ENDSECTION) {
-        negated = FALSE;
+        negated = False;
 
         switch (token) {
         case COMMENT:
@@ -140,10 +140,10 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
         case IDENTIFIER:
             if (xf86getSubToken(&(ptr.comment)) != XF86_TOKEN_STRING)
                 mixin(ErrorP!(`QUOTE_MSG, "Identifier"`));
-            if (has_ident == TRUE)
+            if (has_ident == True)
                 mixin(ErrorP!(`MULTIPLE_MSG, "Identifier"`));
             ptr.identifier = xf86_lex_val.str;
-            has_ident = TRUE;
+            has_ident = True;
             break;
         case DRIVER:
             if (xf86getSubToken(&(ptr.comment)) != XF86_TOKEN_STRING)
@@ -159,7 +159,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             ptr.option_lst = xf86parseOption(ptr.option_lst);
             break;
         case NOMATCH_PRODUCT:
-            negated = TRUE;
+            negated = True;
             goto case;
             /* fallthrough */
         case MATCH_PRODUCT:
@@ -173,7 +173,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             }
             break;
         case NOMATCH_VENDOR:
-            negated = TRUE;
+            negated = True;
             /* fallthrough */
             goto case;
         case MATCH_VENDOR:
@@ -187,7 +187,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             }
             break;
         case NOMATCH_DEVICE_PATH:
-            negated = TRUE;
+            negated = True;
             /* fallthrough */
             goto case;
         case MATCH_DEVICE_PATH:
@@ -201,7 +201,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             }
             break;
         case NOMATCH_OS:
-            negated = TRUE;
+            negated = True;
             /* fallthrough */
             goto case;
         case MATCH_OS:
@@ -215,7 +215,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             }
             break;
         case NOMATCH_PNPID:
-            negated = TRUE;
+            negated = True;
             /* fallthrough */
             goto case;
         case MATCH_PNPID:
@@ -229,7 +229,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             }
             break;
         case NOMATCH_USBID:
-            negated = TRUE;
+            negated = True;
             /* fallthrough */
             goto case;
         case MATCH_USBID:
@@ -243,7 +243,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             }
             break;
         case NOMATCH_DRIVER:
-            negated = TRUE;
+            negated = True;
             /* fallthrough */
             goto case;
         case MATCH_DRIVER:
@@ -257,7 +257,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             }
             break;
         case NOMATCH_TAG:
-            negated = TRUE;
+            negated = True;
             /* fallthrough */
             goto case;
         case MATCH_TAG:
@@ -271,7 +271,7 @@ XF86ConfInputClassPtr xf86parseInputClassSection()
             }
             break;
         case NOMATCH_LAYOUT:
-            negated = TRUE;
+            negated = True;
             /* fallthrough */
             goto case;
         case MATCH_LAYOUT:
@@ -380,90 +380,90 @@ void xf86printInputClassSection(FILE* cf, XF86ConfInputClassPtr ptr)
         foreach(group; ptr.match_product.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchProduct  \"");
             else                   fprintf(cf, "\tMatchProduct    \"");
-            not_first = FALSE;
+            not_first = False;
             foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
-                not_first = TRUE;
+                not_first = True;
             }
             fprintf(cf, "\"\n");
         }
         foreach(group; ptr.match_vendor.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchVendor   \"");
             else                   fprintf(cf, "\tMatchVendor     \"");
-            not_first = FALSE;
+            not_first = False;
             foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
-                not_first = TRUE;
+                not_first = True;
             }
             fprintf(cf, "\"\n");
         }
         foreach(group; ptr.match_device.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchDevicePath \"");
             else                   fprintf(cf, "\tMatchDevicePath   \"");
-            not_first = FALSE;
+            not_first = False;
             foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
-                not_first = TRUE;
+                not_first = True;
             }
             fprintf(cf, "\"\n");
         }
         foreach(group; ptr.match_os.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchOS       \"");
             else                   fprintf(cf, "\tMatchOS         \"");
-            not_first = FALSE;
+            not_first = False;
             foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
-                not_first = TRUE;
+                not_first = True;
             }
             fprintf(cf, "\"\n");
         }
         foreach(group; ptr.match_pnpid.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchPnPID    \"");
             else                   fprintf(cf, "\tMatchPnPID      \"");
-            not_first = FALSE;
+            not_first = False;
             foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
-                not_first = TRUE;
+                not_first = True;
             }
             fprintf(cf, "\"\n");
         }
         foreach(group; ptr.match_usbid.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchUSBID    \"");
             else                   fprintf(cf, "\tMatchUSBID      \"");
-            not_first = FALSE;
+            not_first = False;
             foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
-                not_first = TRUE;
+                not_first = True;
             }
             fprintf(cf, "\"\n");
         }
         foreach(group; ptr.match_driver.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchDriver   \"");
             else                   fprintf(cf, "\tMatchDriver     \"");
-            not_first = FALSE;
+            not_first = False;
             foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
-                not_first = TRUE;
+                not_first = True;
             }
             fprintf(cf, "\"\n");
         }
         foreach(group; ptr.match_tag.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchTAG      \"");
             else                   fprintf(cf, "\tMatchTAG        \"");
-            not_first = FALSE;
+            not_first = False;
             foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
-                not_first = TRUE;
+                not_first = True;
             }
             fprintf(cf, "\"\n");
         }
         foreach(group; ptr.match_layout.byEntries!(xf86MatchGroup, "entry")) {
             if (group.is_negated) fprintf(cf, "\tNoMatchLayout   \"");
             else                   fprintf(cf, "\tMatchLayout     \"");
-            not_first = FALSE;
+            not_first = False;
             foreach(pattern; group.patterns.byEntries!(xf86MatchPattern, "entry")) {
                 xf86printMatchPattern(cf, pattern, not_first);
-                not_first = TRUE;
+                not_first = True;
             }
             fprintf(cf, "\"\n");
         }

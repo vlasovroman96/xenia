@@ -67,7 +67,6 @@ import xf86tokens;
 import Configint;
 import x11.Xmd;
 import x11.Xdefs;
-import common.misc;
 import hw.xfree86.parser.Flags;
 import scan;
 import core.stdc.string;
@@ -106,7 +105,7 @@ private void xf86freeVideoPortList(XF86ConfVideoPortPtr ptr)
 
 private XF86ConfVideoPortPtr xf86parseVideoPortSubSection()
 {
-    int has_ident = FALSE;
+    int has_ident = False;
     int token = void;
 
     mixin(parsePrologue!("XF86ConfVideoPortPtr", "XF86ConfVideoPortRec"));
@@ -121,10 +120,10 @@ private XF86ConfVideoPortPtr xf86parseVideoPortSubSection()
         case IDENTIFIER:
             if (xf86getSubToken(&(ptr.vp_comment)) != XF86_TOKEN_STRING)
                 mixin(ErrorP!(`QUOTE_MSG, "Identifier"`));
-            if (has_ident == TRUE)
+            if (has_ident == True)
                 mixin(ErrorP!(`MULTIPLE_MSG, "Identifier"`));
             ptr.vp_identifier = xf86_lex_val.str;
-            has_ident = TRUE;
+            has_ident = True;
             break;
         case OPTION:
             ptr.vp_option_lst = xf86parseOption(ptr.vp_option_lst);
@@ -162,7 +161,7 @@ alias CLEANUP = xf86freeVideoAdaptorList;
 
 XF86ConfVideoAdaptorPtr xf86parseVideoAdaptorSection()
 {
-    int has_ident = FALSE;
+    int has_ident = False;
     int token = void;
 
     mixin(parsePrologue!("XF86ConfVideoAdaptorPtr", "XF86ConfVideoAdaptorRec"));
@@ -178,9 +177,9 @@ XF86ConfVideoAdaptorPtr xf86parseVideoAdaptorSection()
             if (xf86getSubToken(&(ptr.va_comment)) != XF86_TOKEN_STRING)
                 mixin(ErrorP!(`QUOTE_MSG, "Identifier"`));
             ptr.va_identifier = xf86_lex_val.str;
-            if (has_ident == TRUE)
+            if (has_ident == True)
                 mixin(ErrorP!(`MULTIPLE_MSG, "Identifier"`));
-            has_ident = TRUE;
+            has_ident = True;
             break;
         case VENDOR:
             if (xf86getSubToken(&(ptr.va_comment)) != XF86_TOKEN_STRING)

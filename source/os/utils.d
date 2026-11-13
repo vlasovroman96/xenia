@@ -170,13 +170,13 @@ alias fopen = core.stdc.stdio.fopen;
 
 // Bool CoreDump;
 
-Bool enableIndirectGLX = FALSE;
+Bool enableIndirectGLX = False;
 
 static if(XINERAMA){
-Bool PanoramiXExtensionDisabledHack = FALSE;
+Bool PanoramiXExtensionDisabledHack = False;
 } /* XINERAMA */
 
-sig_atomic_t inSignalContext = FALSE;
+sig_atomic_t inSignalContext = False;
 
 version (MONOTONIC_CLOCK) {
 private clockid_t clockid;
@@ -207,7 +207,7 @@ void GiveUp(int sig)
     int olderrno = errno;
 
     dispatchException |= DE_TERMINATE;
-    isItTimeToYield = TRUE;
+    isItTimeToYield = True;
     errno = olderrno;
 }
 
@@ -371,7 +371,7 @@ static if(build.dix_config.XDMCP){
 private int VerifyDisplayName(const(char)* d)
 {
     uint i = void;
-    int period_found = FALSE;
+    int period_found = False;
     int after_period = 0;
 
     if (d == cast(char*) 0)
@@ -392,7 +392,7 @@ private int VerifyDisplayName(const(char)* d)
         if (!isdigit(cast(ubyte)d[i])) {
             if (d[i] != '.' || period_found)
                 return 0;
-            period_found = TRUE;
+            period_found = True;
         } else if (period_found)
             after_period++;
 
@@ -433,9 +433,9 @@ void ProcessCommandLine(int argc, char** argv)
     int i = void, skip = void;
     int verbosity = 0;
 
-    defaultKeyboardControl.autoRepeat = TRUE;
+    defaultKeyboardControl.autoRepeat = True;
 
-    PartialNetwork = TRUE;
+    PartialNetwork = True;
 
     for (i = 0; defaultNoListenList[i] !is null; i++) {
         if (_XSERVTransNoListen(defaultNoListenList[i]))
@@ -458,7 +458,7 @@ version (CONFIG_SYSLOG) {
         else if (argv[i][0] == ':') {
             /* initialize display */
             display = argv[i];
-            explicit_display = TRUE;
+            explicit_display = True;
             display++;
             if (!VerifyDisplayName(display)) {
                 ErrorF("Bad display name: %s\n", display);
@@ -473,7 +473,7 @@ version (CONFIG_SYSLOG) {
                 UseMsg();
         }
         else if (strcmp(argv[i], "-ac") == 0) {
-            defeatAccessControl = TRUE;
+            defeatAccessControl = True;
         }
         else if (strcmp(argv[i], "-audit") == 0) {
             if (++i < argc)
@@ -488,15 +488,15 @@ version (CONFIG_SYSLOG) {
                 UseMsg();
         }
         else if (strcmp(argv[i], "-byteswappedclients") == 0) {
-            dixSettingAllowByteSwappedClients = FALSE;
+            dixSettingAllowByteSwappedClients = False;
         } else if (strcmp(argv[i], "+byteswappedclients") == 0) {
-            dixSettingAllowByteSwappedClients = TRUE;
+            dixSettingAllowByteSwappedClients = True;
         }
         else if (strcmp(argv[i], "-br") == 0){}  /* default */
         else if (strcmp(argv[i], "+bs") == 0)
-            enableBackingStore = TRUE;
+            enableBackingStore = True;
         else if (strcmp(argv[i], "-bs") == 0)
-            disableBackingStore = TRUE;
+            disableBackingStore = True;
         else if (strcmp(argv[i], "c") == 0) {
             if (++i < argc)
                 defaultKeyboardControl.click = atoi(argv[i]);
@@ -520,10 +520,10 @@ static if (!HasVersion!"Windows" || !HasVersion!"Windows") {
             core_limit.rlim_cur = core_limit.rlim_max;
             setrlimit(RLIMIT_CORE, &core_limit);
 }
-            CoreDump = TRUE;
+            CoreDump = True;
         }
         else if (strcmp(argv[i], "-nocursor") == 0) {
-            EnableCursor = FALSE;
+            EnableCursor = False;
         }
         else if (strcmp(argv[i], "-dpi") == 0) {
             if (++i < argc)
@@ -543,7 +543,7 @@ static if (!HasVersion!"Windows" || !HasVersion!"Windows") {
 //         if(strcmp(argv[i], "dpms") == 0) {}
 
 //         else if (strcmp(argv[i], "dpms") == 0)
-//             DPMSDisabledSwitch = TRUE;
+//             DPMSDisabledSwitch = True;
 // }
         else if (strcmp(argv[i], "-deferglyphs") == 0) {
             if (++i >= argc || !assumeNoGC(&xfont2_parse_glyph_caching_mode)(argv[i]))
@@ -576,9 +576,9 @@ static if (!HasVersion!"Windows" || !HasVersion!"Windows") {
             exit(0);
         }
         else if (strcmp(argv[i], "+iglx") == 0)
-            enableIndirectGLX = TRUE;
+            enableIndirectGLX = True;
         else if (strcmp(argv[i], "-iglx") == 0)
-            enableIndirectGLX = FALSE;
+            enableIndirectGLX = False;
         else if ((skip = XkbProcessArguments(argc, argv, i)) != 0) {
             if (skip > 0)
                 i += skip - 1;
@@ -645,15 +645,15 @@ static if (!HasVersion!"Windows" || !HasVersion!"Windows") {
             dispatchException = DE_TERMINATE;
         }
         else if (strcmp(argv[i], "-pn") == 0)
-            PartialNetwork = TRUE;
+            PartialNetwork = True;
         else if (strcmp(argv[i], "-nopn") == 0)
-            PartialNetwork = FALSE;
+            PartialNetwork = False;
         else if (strcmp(argv[i], "r") == 0)
-            defaultKeyboardControl.autoRepeat = TRUE;
+            defaultKeyboardControl.autoRepeat = True;
         else if (strcmp(argv[i], "-r") == 0)
-            defaultKeyboardControl.autoRepeat = FALSE;
+            defaultKeyboardControl.autoRepeat = False;
         else if (strcmp(argv[i], "-retro") == 0)
-            party_like_its_1989 = TRUE;
+            party_like_its_1989 = True;
         else if (strcmp(argv[i], "-s") == 0) {
             if (++i < argc)
                 defaultScreenSaverTime = (cast(CARD32) atoi(argv[i])) *
@@ -681,7 +681,7 @@ static if (!HasVersion!"Windows" || !HasVersion!"Windows") {
             terminateDelay = max(0, terminateDelay);
         }
         else if (strcmp(argv[i], "-tst") == 0) {
-            noTestExtensions = TRUE;
+            noTestExtensions = True;
         }
         else if (strcmp(argv[i], "v") == 0)
             defaultScreenSaverBlanking = PreferBlanking;
@@ -703,11 +703,11 @@ static if (!HasVersion!"Windows" || !HasVersion!"Windows") {
             xorgLogVerbosity = verbosity;
         }
         else if (strcmp(argv[i], "-wr") == 0)
-            whiteRoot = TRUE;
+            whiteRoot = True;
         else if (strcmp(argv[i], "-background") == 0) {
             if (++i < argc) {
                 if (!strcmp(argv[i], "none"))
-                    bgNoneRoot = TRUE;
+                    bgNoneRoot = True;
                 else
                     UseMsg();
             }
@@ -732,7 +732,7 @@ static if (!HasVersion!"Windows" || !HasVersion!"Windows") {
 //         if (strcmp(argv[i], "-namespace") == 0) {
 //             if (++i < argc) {
 //                 namespaceConfigFile = argv[i];
-//                 noNamespaceExtension = FALSE;
+//                 noNamespaceExtension = False;
 //             }
 //             else
 //                 UseMsg();
@@ -740,13 +740,13 @@ static if (!HasVersion!"Windows" || !HasVersion!"Windows") {
 // }
 // static if(XINERAMA){
 //         if (strcmp(argv[i], "+xinerama") == 0) {
-//             noPanoramiXExtension = FALSE;
+//             noPanoramiXExtension = False;
 //         }
 //         else if (strcmp (argv[i], "-xinerama") == 0) {
-//             noPanoramiXExtension = TRUE;
+//             noPanoramiXExtension = True;
 //         }
 //         else if (strcmp(argv[i], "-disablexineramaextension") == 0) {
-//             PanoramiXExtensionDisabledHack = TRUE;
+//             PanoramiXExtensionDisabledHack = True;
 //         }
 // }// #endif /* XINERAMA */
         else if (strcmp(argv[i], "-I") == 0) {
@@ -762,9 +762,9 @@ static if (!HasVersion!"Windows" || !HasVersion!"Windows") {
 //         }
 // }
         else if (strcmp(argv[i], "-dumbSched") == 0) {
-            InputThreadEnable = FALSE;
+            InputThreadEnable = False;
 // version(HAVE_SETITIMER) {
-//             SmartScheduleSignalEnable = FALSE;
+//             SmartScheduleSignalEnable = False;
 // }
 
         }
@@ -797,16 +797,16 @@ static if (!HasVersion!"Windows" || !HasVersion!"Windows") {
         }
         else if (strcmp(argv[i], "+extension") == 0) {
             if (++i < argc) {
-                if (!EnableDisableExtension(argv[i], TRUE))
-                    EnableDisableExtensionError(argv[i], TRUE);
+                if (!EnableDisableExtension(argv[i], True))
+                    EnableDisableExtensionError(argv[i], True);
             }
             else
                 UseMsg();
         }
         else if (strcmp(argv[i], "-extension") == 0) {
             if (++i < argc) {
-                if (!EnableDisableExtension(argv[i], FALSE))
-                    EnableDisableExtensionError(argv[i], FALSE);
+                if (!EnableDisableExtension(argv[i], False))
+                    EnableDisableExtensionError(argv[i], False);
             }
             else
                 UseMsg();
@@ -978,7 +978,7 @@ void SmartScheduleInit()
 version (HAVE_SETITIMER) {
     if (SmartScheduleEnable() < 0) {
         perror("sigaction for smart scheduler");
-        SmartScheduleSignalEnable = FALSE;
+        SmartScheduleSignalEnable = False;
     }
 }
 }
@@ -1251,15 +1251,15 @@ const(char)* Win32TempDir()
 
 Bool PrivsElevated()
 {
-    static Bool privsTested = FALSE;
-    static Bool privsElevated = TRUE;
+    static Bool privsTested = False;
+    static Bool privsElevated = True;
 
     if (!privsTested) {
 version (Windows) {
-        privsElevated = FALSE;
+        privsElevated = False;
 } else {
         if ((getuid() != geteuid()) || (getgid() != getegid())) {
-            privsElevated = TRUE;
+            privsElevated = True;
         }
         else {
 // static if (HAVE_ISSETUGID) {
@@ -1275,13 +1275,13 @@ version (Windows) {
 //             else {
 //                 printf("Failed getresuid or getresgid");
 //                 /* Something went wrong, make defensive assumption */
-//                 privsElevated = TRUE;
+//                 privsElevated = True;
 //             }
 // } else 
 {
             if (getuid() == 0) {
                 /* running as root: uid==euid==0 */
-                privsElevated = FALSE;
+                privsElevated = False;
             }
             else {
                 /*
@@ -1295,19 +1295,19 @@ version (Windows) {
                 oldeuid = geteuid();
 
                 if (seteuid(0) != 0) {
-                    privsElevated = FALSE;
+                    privsElevated = False;
                 }
                 else {
                     if (seteuid(oldeuid) != 0) {
                         FatalError("Failed to drop privileges.  Exiting\n");
                     }
-                    privsElevated = TRUE;
+                    privsElevated = True;
                 }
             }
 }
         }
 }
-        privsTested = TRUE;
+        privsTested = True;
     }
     return privsElevated;
 }

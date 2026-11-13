@@ -76,8 +76,8 @@ struct PropertyFilterParam {
     size_t nPositions;
 
     // caller notification
-    Bool skip;                 // TRUE if the call shouldn't be executed
-    int status;                // the status code to return when skip = TRUE
+    Bool skip;                 // True if the call shouldn't be executed
+    int status;                // the status code to return when skip = True
     Mask access_mode;
 
     int format;

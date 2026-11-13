@@ -8,6 +8,6 @@ import hw.xfree86.os_support.xf86_OSlib;
 
 void xf86OSInitVidMem(VidMemInfoPtr pVidMem)
 {
-    pVidMem.initialised = TRUE;
+    pVidMem.initialised = True;
     return;
 }

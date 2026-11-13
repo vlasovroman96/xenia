@@ -129,7 +129,7 @@ alias XvVideoNotifyPtr = _XvVideoNotifyRec*;
 
 private DevPrivateKeyRec XvScreenKeyRec;
 
-Bool noXvExtension = FALSE;
+Bool noXvExtension = False;
 
 private x_server_generation_t XvExtensionGeneration = 0;
 private x_server_generation_t XvScreenGeneration = 0;
@@ -219,31 +219,31 @@ private Bool CreateResourceTypes()
 {
 
     if (XvResourceGeneration == serverGeneration)
-        return TRUE;
+        return True;
 
     XvResourceGeneration = serverGeneration;
 
     if (((XvRTPort = CreateNewResourceType(&XvdiDestroyPort, "XvRTPort")) == 0)) {
         ErrorF("CreateResourceTypes: failed to allocate port resource.\n");
-        return FALSE;
+        return False;
     }
 
     if (((XvRTGrab = CreateNewResourceType(&XvdiDestroyGrab, "XvRTGrab")) == 0)) {
         ErrorF("CreateResourceTypes: failed to allocate grab resource.\n");
-        return FALSE;
+        return False;
     }
 
     if (((XvRTEncoding = CreateNewResourceType(&XvdiDestroyEncoding,
                                                "XvRTEncoding")) == 0)) {
         ErrorF("CreateResourceTypes: failed to allocate encoding resource.\n");
-        return FALSE;
+        return False;
     }
 
     if (((XvRTVideoNotify = CreateNewResourceType(&XvdiDestroyVideoNotify,
                                                   "XvRTVideoNotify")) == 0)) {
         ErrorF
             ("CreateResourceTypes: failed to allocate video notify resource.\n");
-        return FALSE;
+        return False;
     }
 
     if (
@@ -252,17 +252,17 @@ private Bool CreateResourceTypes()
                                "XvRTVideoNotifyList")) == 0)) {
         ErrorF
             ("CreateResourceTypes: failed to allocate video notify list resource.\n");
-        return FALSE;
+        return False;
     }
 
     if (((XvRTPortNotify = CreateNewResourceType(&XvdiDestroyPortNotify,
                                                  "XvRTPortNotify")) == 0)) {
         ErrorF
             ("CreateResourceTypes: failed to allocate port notify resource.\n");
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 
 }
 

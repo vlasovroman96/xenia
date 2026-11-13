@@ -115,7 +115,7 @@ int ProcXOpenDevice(ClientPtr client)
     if (status != Success)
         return status;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (dev.key !is null) {
         mixin(WRITE_ICI!(`KeyClass`));

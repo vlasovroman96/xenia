@@ -117,7 +117,7 @@ private Bool ephyrPrepareSolid(PixmapPtr pPix, int alu, Pixel pm, Pixel fg)
 
     // mixin(TRACE_DRAW!());
 
-    return TRUE;
+    return True;
 }
 
 /**
@@ -181,7 +181,7 @@ private Bool ephyrPrepareCopy(PixmapPtr pSrc, PixmapPtr pDst, int dx, int dy, in
 
     // mixin(TRACE_DRAW!());
 
-    return TRUE;
+    return True;
 }
 
 /**
@@ -229,9 +229,9 @@ private Bool ephyrCheckComposite(int op, PicturePtr pSrcPicture, PicturePtr pMas
      * driver
      */
     if (pMaskPicture && pMaskPicture.componentAlpha && op == PictOpOver)
-        return FALSE;
+        return False;
 
-    return TRUE;
+    return True;
 }
 
 /**
@@ -260,7 +260,7 @@ private Bool ephyrPrepareComposite(int op, PicturePtr pSrcPicture, PicturePtr pM
 
     // mixin(TRACE_DRAW!());
 
-    return TRUE;
+    return True;
 }
 
 /**
@@ -305,7 +305,7 @@ private Bool ephyrDownloadFromScreen(PixmapPtr pSrc, int x, int y, int w, int h,
     int src_pitch = void, cpp = void;
 
     if (pSrc.drawable.bitsPerPixel < 8)
-        return FALSE;
+        return False;
 
     ephyrPreparePipelinedAccess(pSrc, EXA_PREPARE_SRC);
 
@@ -324,7 +324,7 @@ private Bool ephyrDownloadFromScreen(PixmapPtr pSrc, int x, int y, int w, int h,
 
     ephyrFinishPipelinedAccess(pSrc, EXA_PREPARE_SRC);
 
-    return TRUE;
+    return True;
 }
 
 /**
@@ -340,7 +340,7 @@ private Bool ephyrUploadToScreen(PixmapPtr pDst, int x, int y, int w, int h, cha
     int dst_pitch = void, cpp = void;
 
     if (pDst.drawable.bitsPerPixel < 8)
-        return FALSE;
+        return False;
 
     ephyrPreparePipelinedAccess(pDst, EXA_PREPARE_DEST);
 
@@ -359,7 +359,7 @@ private Bool ephyrUploadToScreen(PixmapPtr pDst, int x, int y, int w, int h, cha
 
     ephyrFinishPipelinedAccess(pDst, EXA_PREPARE_DEST);
 
-    return TRUE;
+    return True;
 }
 
 private Bool ephyrPrepareAccess(PixmapPtr pPix, int index)
@@ -369,7 +369,7 @@ private Bool ephyrPrepareAccess(PixmapPtr pPix, int index)
      */
     assert(pPix.devPrivate.ptr !is null);
 
-    return TRUE;
+    return True;
 }
 
 /**
@@ -384,7 +384,7 @@ private int ephyrMarkSync(ScreenPtr pScreen)
     EphyrScrPriv* scrpriv = cast(EphyrScrPriv*)screen.driver;
     EphyrFakexaPriv* fakexa = scrpriv.fakexa;
 
-    fakexa.is_synced = FALSE;
+    fakexa.is_synced = False;
 
     return 0;
 }
@@ -403,7 +403,7 @@ private void ephyrWaitMarker(ScreenPtr pScreen, int marker)
     EphyrScrPriv* scrpriv = cast(EphyrScrPriv*)screen.driver;
     EphyrFakexaPriv* fakexa = scrpriv.fakexa;
 
-    fakexa.is_synced = TRUE;
+    fakexa.is_synced = True;
 }
 
 /**
@@ -422,12 +422,12 @@ Bool ephyrDrawInit(ScreenPtr pScreen)
 
     fakexa = cast(EphyrFakexaPriv*) calloc(1, typeof(*fakexa).sizeof);
     if (fakexa is null)
-        return FALSE;
+        return False;
 
     fakexa.exa = exaDriverAlloc();
     if (fakexa.exa is null) {
         free(fakexa);
-        return FALSE;
+        return False;
     }
 
     fakexa.exa.memoryBase = cast(CARD8*) (priv.base);
@@ -505,5 +505,5 @@ void exaDDXDriverInit(ScreenPtr pScreen)
     mixin(ExaScreenPriv!("pScreen"));
 
     pExaScr.migration = ExaMigrationSmart;
-    pExaScr.checkDirtyCorrectness = TRUE;
+    pExaScr.checkDirtyCorrectness = True;
 }

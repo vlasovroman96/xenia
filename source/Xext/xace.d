@@ -137,7 +137,7 @@ void XaceCensorImage(ClientPtr client, RegionPtr pVisibleRegion, c_long widthByt
     if (nRects > 0) {           /* we have something to censor */
         GCPtr pScratchGC = null;
         PixmapPtr pPix = null;
-        Bool failed = FALSE;
+        Bool failed = False;
         int depth = 1;
         int bitsPerPixel = 1;
         int i = void;
@@ -147,7 +147,7 @@ void XaceCensorImage(ClientPtr client, RegionPtr pVisibleRegion, c_long widthByt
 
         xRectangle* pRects = cast(xRectangle*) calloc(1, nRects * xRectangle.sizeof);
         if (!pRects) {
-            failed = TRUE;
+            failed = True;
             goto failSafe;
         }
         for (pBox = RegionRects(&censorRegion), i = 0; i < nRects; i++, pBox++) {
@@ -168,13 +168,13 @@ void XaceCensorImage(ClientPtr client, RegionPtr pVisibleRegion, c_long widthByt
                                       depth, bitsPerPixel,
                                       cast(int)widthBytesLine, cast(void*) pBuf);
         if (!pPix) {
-            failed = TRUE;
+            failed = True;
             goto failSafe;
         }
 
         pScratchGC = GetScratchGC(depth, pPix.drawable.pScreen);
         if (!pScratchGC) {
-            failed = TRUE;
+            failed = True;
             goto failSafe;
         }
 

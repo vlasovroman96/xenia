@@ -83,7 +83,7 @@ alias CLEANUP = xf86freeInputList;
 
 XF86ConfInputPtr xf86parseInputSection()
 {
-    int has_ident = FALSE;
+    int has_ident = False;
     int token = void;
 
     mixin(parsePrologue!("XF86ConfInputPtr", "XF86ConfInputRec"));
@@ -98,10 +98,10 @@ XF86ConfInputPtr xf86parseInputSection()
         case IDENTIFIER:
             if (xf86getSubToken(&(ptr.inp_comment)) != XF86_TOKEN_STRING)
                 mixin(ErrorP!(`QUOTE_MSG, "Identifier"`));
-            if (has_ident == TRUE)
+            if (has_ident == True)
                 mixin(ErrorP!(`MULTIPLE_MSG, "Identifier"`));
             ptr.inp_identifier = xf86_lex_val.str;
-            has_ident = TRUE;
+            has_ident = True;
             break;
         case DRIVER:
             if (xf86getSubToken(&(ptr.inp_comment)) != XF86_TOKEN_STRING)
@@ -175,11 +175,11 @@ int xf86validateInput(XF86ConfigPtr p)
         if (!input.inp_driver) {
             xf86validationError(UNDEFINED_INPUTDRIVER_MSG,
                                 input.inp_identifier);
-            return FALSE;
+            return False;
         }
         input = cast(_XF86ConfInputRec*)input.list.next;
     }
-    return TRUE;
+    return True;
 }
 
 XF86ConfInputPtr xf86findInput(const(char)* ident, XF86ConfInputPtr p)

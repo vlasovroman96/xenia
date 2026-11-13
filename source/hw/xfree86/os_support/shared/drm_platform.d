@@ -61,22 +61,19 @@ import externs.pciaccess;
 import xf86pciBus;
 import externs.gnu;
 
-alias FALSE = common.misc.FALSE;
-
-alias TRUE = common.misc.TRUE;
 private Bool get_drm_info(OdevAttributes* attribs, char* path, int delayed_index)
 {
     drmVersionPtr v = void;
     int fd = -1;
     int err = 0;
-    Bool paused = FALSE, server_fd = FALSE;
+    Bool paused = False, server_fd = False;
 
     LogMessage(X_INFO, "Platform probe for %s\n", attribs.syspath);
 
     fd = seatd_libseat_open_graphics(path);
     if (fd >= 0) {
         attribs.fd = fd;
-        server_fd = TRUE;
+        server_fd = True;
     } else {
        fd = systemd_logind_take_fd(attribs.major, attribs.minor, path, &paused);
        if (fd != -1) {
@@ -84,10 +81,10 @@ private Bool get_drm_info(OdevAttributes* attribs, char* path, int delayed_index
                 LogMessage(X_ERROR,
                         "Error systemd-logind returned paused fd for drm node\n");
                 systemd_logind_release_fd(attribs.major, attribs.minor, -1);
-                return FALSE;
+                return False;
             }
             attribs.fd = fd;
-            server_fd = TRUE;
+            server_fd = True;
         }
     }
 
@@ -96,13 +93,13 @@ private Bool get_drm_info(OdevAttributes* attribs, char* path, int delayed_index
         fd = open(path, O_RDWR | O_CLOEXEC, 0);
         if (fd == -1) {
             // xf86Msg(X_ERROR, "cannot open %s\n", path);
-            return FALSE;
+            return False;
         }
     }
 
     /* for a delayed probe we've already added the device */
     if (delayed_index == -1) {
-            xf86_add_platform_device(attribs, FALSE);
+            xf86_add_platform_device(attribs, False);
             delayed_index = xf86_num_platform_devices - 1;
     }
 
@@ -131,19 +128,19 @@ Bool xf86PlatformDeviceCheckBusID(xf86_platform_device* device, const(char)* bus
     const(char)* id = void;
 
     if (!syspath)
-        return FALSE;
+        return False;
 
     bustype = StringToBusType(busid, &id);
     if (bustype == BUS_PCI) {
         pci_device* pPci = device.pdev;
         if (!pPci)
-            return FALSE;
+            return False;
 
         if (xf86ComparePciBusString(busid,
                                     ((pPci.domain << 8)
                                      | pPci.bus),
                                     pPci.dev, pPci.func)) {
-            return TRUE;
+            return True;
         }
     }
     else if (bustype == BUS_PLATFORM) {
@@ -154,15 +151,15 @@ Bool xf86PlatformDeviceCheckBusID(xf86_platform_device* device, const(char)* bus
             len = cast(int)strlen(syspath);
 
         if (strncmp(id, syspath, len))
-            return FALSE;
-        return TRUE;
+            return False;
+        return True;
     }
     else if (bustype == BUS_USB) {
         if (strcasecmp(busid, device.attribs.busid))
-            return FALSE;
-        return TRUE;
+            return False;
+        return True;
     }
-    return FALSE;
+    return False;
 }
 
 void xf86PlatformReprobeDevice(int index, OdevAttributes* attribs)
@@ -171,7 +168,7 @@ void xf86PlatformReprobeDevice(int index, OdevAttributes* attribs)
     char* dpath = attribs.path;
 
     ret = get_drm_info(attribs, dpath, index);
-    if (ret == FALSE) {
+    if (ret == False) {
         xf86_remove_platform_device(index);
         return;
     }
@@ -204,12 +201,12 @@ void xf86PlatformDeviceProbe(OdevAttributes* attribs)
     if (!xf86VTOwner()) {
             /* if we don't currently own the VT then don't probe the device,
                just mark it as unowned for later use */
-            xf86_add_platform_device(attribs, TRUE);
+            xf86_add_platform_device(attribs, True);
             return;
     }
 
     ret = get_drm_info(attribs, path, -1);
-    if (ret == FALSE)
+    if (ret == False)
         goto out_free;
 
     return;
@@ -229,7 +226,7 @@ void NewGPUDeviceRequest(OdevAttributes* attribs)
     if (old_num == xf86_num_platform_devices)
         return;
 
-    if (xf86_get_platform_device_unowned(xf86_num_platform_devices - 1) == TRUE)
+    if (xf86_get_platform_device_unowned(xf86_num_platform_devices - 1) == True)
         return;
 
     /* Scan and update PCI devices before adding new platform device */
@@ -263,7 +260,7 @@ void DeleteGPUDeviceRequest(OdevAttributes* attribs)
 
     ErrorF("xf86: remove device %d %s\n", index, syspath);
 
-    if (xf86_get_platform_device_unowned(index) == TRUE)
+    if (xf86_get_platform_device_unowned(index) == True)
             xf86_remove_platform_device(index);
     else
             xf86platformRemoveDevice(index);

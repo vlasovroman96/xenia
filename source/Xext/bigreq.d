@@ -49,7 +49,7 @@ private int ProcBigReqDispatch(ClientPtr client)
         return BadRequest;
     }
 
-    client.big_requests = TRUE;
+    client.big_requests = True;
 
     xBigReqEnableReply reply = {
         max_request_size: cast(uint)maxBigRequestSize

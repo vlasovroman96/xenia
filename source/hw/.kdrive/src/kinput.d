@@ -136,7 +136,7 @@ void KdResetInputMachine()
 
     for (pi = kdPointers; pi; pi = pi.next) {
         pi.mouseState = start;
-        pi.eventHeld = FALSE;
+        pi.eventHeld = False;
     }
 }
 
@@ -181,7 +181,7 @@ void KdRemoveFd(int fd)
 Bool KdRegisterFd(int fd, void function(int fd, void* closure) read, void* closure)
 {
     if (kdNumInputFds == KD_MAX_INPUT_FDS)
-        return FALSE;
+        return False;
     kdInputFds[kdNumInputFds].fd = fd;
     kdInputFds[kdNumInputFds].read = read;
     kdInputFds[kdNumInputFds].enable = 0;
@@ -190,7 +190,7 @@ Bool KdRegisterFd(int fd, void function(int fd, void* closure) read, void* closu
     if (kdInputEnabled)
         KdAddFd(fd, kdNumInputFds);
     kdNumInputFds++;
-    return TRUE;
+    return True;
 }
 
 void KdUnregisterFd(void* closure, int fd, Bool do_close)
@@ -294,11 +294,11 @@ void KdDisableInput()
 
             ErrorF("    fd %d not claimed by any active device!\n",
                    kdInputFds[i].fd);
-            KdUnregisterFd(kdInputFds[i].closure, kdInputFds[i].fd, TRUE);
+            KdUnregisterFd(kdInputFds[i].closure, kdInputFds[i].fd, True);
         }
     }
 
-    kdInputEnabled = FALSE;
+    kdInputEnabled = False;
 }
 
 void KdEnableInput()
@@ -307,7 +307,7 @@ void KdEnableInput()
     KdKeyboardInfo* ki = void;
     KdPointerInfo* pi = void;
 
-    kdInputEnabled = TRUE;
+    kdInputEnabled = True;
 
     ev.any.time = GetTimeInMillis();
 
@@ -468,7 +468,7 @@ version (DEBUG) {
         return Success;
 
     case DEVICE_ON:
-        if (pDev.on == TRUE)
+        if (pDev.on == True)
             return Success;
 
         if (!pi.driver.Enable) {
@@ -477,7 +477,7 @@ version (DEBUG) {
         }
 
         if ((*pi.driver.Enable) (pi) == Success) {
-            pDev.on = TRUE;
+            pDev.on = True;
             return Success;
         }
         else {
@@ -487,7 +487,7 @@ version (DEBUG) {
         return Success;
 
     case DEVICE_OFF:
-        if (pDev.on == FALSE) {
+        if (pDev.on == False) {
             return Success;
         }
 
@@ -496,7 +496,7 @@ version (DEBUG) {
         }
         else {
             (*pi.driver.Disable) (pi);
-            pDev.on = FALSE;
+            pDev.on = False;
             return Success;
         }
 
@@ -508,7 +508,7 @@ version (DEBUG) {
                 return BadImplementation;
             }
             (*pi.driver.Disable) (pi);
-            pDev.on = FALSE;
+            pDev.on = False;
         }
 
         if (!pi.driver.Fini)
@@ -743,7 +743,7 @@ version (DEBUG) {
         return Success;
 
     case DEVICE_ON:
-        if (pDev.on == TRUE)
+        if (pDev.on == True)
             return Success;
 
         if (!ki.driver.Enable)
@@ -753,18 +753,18 @@ version (DEBUG) {
             return BadMatch;
         }
 
-        pDev.on = TRUE;
+        pDev.on = True;
         return Success;
 
     case DEVICE_OFF:
-        if (pDev.on == FALSE)
+        if (pDev.on == False)
             return Success;
 
         if (!ki.driver.Disable)
             return BadImplementation;
 
         (*ki.driver.Disable) (ki);
-        pDev.on = FALSE;
+        pDev.on = False;
 
         return Success;
 
@@ -776,7 +776,7 @@ version (DEBUG) {
                 return BadImplementation;
 
             (*ki.driver.Disable) (ki);
-            pDev.on = FALSE;
+            pDev.on = False;
         }
 
         if (!ki.driver.Fini)
@@ -905,7 +905,7 @@ int KdAddKeyboard(KdKeyboardInfo* ki)
     if (!ki)
         return !Success;
 
-    ki.dixdev = AddInputDevice(serverClient, &KdKeyboardProc, TRUE);
+    ki.dixdev = AddInputDevice(serverClient, &KdKeyboardProc, True);
     if (!ki.dixdev) {
         ErrorF("Couldn't register keyboard device %s\n",
                ki.name ? ki.name : "(unnamed)");
@@ -967,9 +967,9 @@ int KdAddPointer(KdPointerInfo* pi)
         return Success;
 
     pi.mouseState = start;
-    pi.eventHeld = FALSE;
+    pi.eventHeld = False;
 
-    pi.dixdev = AddInputDevice(serverClient, &KdPointerProc, TRUE);
+    pi.dixdev = AddInputDevice(serverClient, &KdPointerProc, True);
     if (!pi.dixdev) {
         ErrorF("Couldn't add pointer device %s\n",
                pi.name ? pi.name : "(unnamed)");
@@ -1183,13 +1183,13 @@ void KdParsePointerOptions(KdPointerInfo* pi)
         const(char)* value = input_option_get_value(option);
 
         if (!strcasecmp(key, "emulatemiddle"))
-            pi.emulateMiddleButton = TRUE;
+            pi.emulateMiddleButton = True;
         else if (!strcasecmp(key, "noemulatemiddle"))
-            pi.emulateMiddleButton = FALSE;
+            pi.emulateMiddleButton = False;
         else if (!strcasecmp(key, "transformcoord"))
-            pi.transformCoordinates = TRUE;
+            pi.transformCoordinates = True;
         else if (!strcasecmp(key, "rawcoord"))
-            pi.transformCoordinates = FALSE;
+            pi.transformCoordinates = False;
         else if (!strcasecmp(key, "device")) {
             if (pi.path !is null)
                 free(pi.path);
@@ -1352,7 +1352,7 @@ void KdInitInput()
     if (kdConfigPointers || kdConfigKeyboards)
         InputThreadPreInit();
 
-    kdInputEnabled = TRUE;
+    kdInputEnabled = True;
 
     for (dev = kdConfigPointers; dev; dev = dev.next) {
         pi = KdParsePointer(dev.line);
@@ -1773,7 +1773,7 @@ Bool KdRunMouseMachine(KdPointerInfo* pi, KdInputClass c, int type, int x, int y
         case noop:
             break;
         case hold:
-            pi.eventHeld = TRUE;
+            pi.eventHeld = True;
             pi.emulationDx = 0;
             pi.emulationDy = 0;
             pi.heldEvent.type = type;
@@ -1782,43 +1782,43 @@ Bool KdRunMouseMachine(KdPointerInfo* pi, KdInputClass c, int type, int x, int y
             pi.heldEvent.z = z;
             pi.heldEvent.flags = b;
             pi.heldEvent.absrel = absrel;
-            return TRUE;
+            return True;
             break;
         case setto:
             pi.emulationTimeout = GetTimeInMillis() + EMULATION_TIMEOUT;
-            pi.timeoutPending = TRUE;
+            pi.timeoutPending = True;
             break;
         case deliver:
             _KdEnqueuePointerEvent(pi, pi.heldEvent.type, pi.heldEvent.x,
                                    pi.heldEvent.y, pi.heldEvent.z,
                                    pi.heldEvent.flags, pi.heldEvent.absrel,
-                                   TRUE);
+                                   True);
             break;
         case release:
-            pi.eventHeld = FALSE;
-            pi.timeoutPending = FALSE;
+            pi.eventHeld = False;
+            pi.timeoutPending = False;
             _KdEnqueuePointerEvent(pi, pi.heldEvent.type, pi.heldEvent.x,
                                    pi.heldEvent.y, pi.heldEvent.z,
                                    pi.heldEvent.flags, pi.heldEvent.absrel,
-                                   TRUE);
-            return TRUE;
+                                   True);
+            return True;
             break;
         case clearto:
-            pi.timeoutPending = FALSE;
+            pi.timeoutPending = False;
             break;
         case gen_down_2:
-            _KdEnqueuePointerEvent(pi, ButtonPress, x, y, z, 2, absrel, TRUE);
-            pi.eventHeld = FALSE;
-            return TRUE;
+            _KdEnqueuePointerEvent(pi, ButtonPress, x, y, z, 2, absrel, True);
+            pi.eventHeld = False;
+            return True;
             break;
         case gen_up_2:
-            _KdEnqueuePointerEvent(pi, ButtonRelease, x, y, z, 2, absrel, TRUE);
-            return TRUE;
+            _KdEnqueuePointerEvent(pi, ButtonRelease, x, y, z, 2, absrel, True);
+            return True;
             break;
         default: break;}
     }
     pi.mouseState = t.nextState;
-    return FALSE;
+    return False;
 }
 
 int KdHandlePointerEvent(KdPointerInfo* pi, int type, int x, int y, int z, int b, int absrel)
@@ -1826,7 +1826,7 @@ int KdHandlePointerEvent(KdPointerInfo* pi, int type, int x, int y, int z, int b
     if (pi.emulateMiddleButton)
         return KdRunMouseMachine(pi, KdClassifyInput(pi, type, x, y, z, b),
                                  type, x, y, z, b, absrel);
-    return FALSE;
+    return False;
 }
 
 void _KdEnqueuePointerEvent(KdPointerInfo* pi, int type, int x, int y, int z, int b, int absrel, Bool force)
@@ -1834,7 +1834,7 @@ void _KdEnqueuePointerEvent(KdPointerInfo* pi, int type, int x, int y, int z, in
     int[3] valuators = [ x, y, z ];
     ValuatorMask mask = void;
 
-    /* TRUE from KdHandlePointerEvent, means 'we swallowed the event'. */
+    /* True from KdHandlePointerEvent, means 'we swallowed the event'. */
     if (!force && KdHandlePointerEvent(pi, type, x, y, z, b, absrel))
         return;
 
@@ -1872,7 +1872,7 @@ version (none) {
 void KdCheckLock()
 {
     KeyClassPtr keyc = null;
-    Bool isSet = FALSE, shouldBeSet = FALSE;
+    Bool isSet = False, shouldBeSet = False;
     KdKeyboardInfo* tmp = null;
 
     for (tmp = kdKeyboards; tmp; tmp = tmp.next) {
@@ -1956,8 +1956,8 @@ version (none) { /* Doesn't work from my testing */
 }
 
 /**
- * Returns FALSE if we should treat this like a regular keyboard event
- * Returns TRUE if we should fixup the event
+ * Returns False if we should treat this like a regular keyboard event
+ * Returns True if we should fixup the event
  */
 Bool KdCheckSpecialKeys(KdKeyboardInfo* ki, int type, ubyte key_code)
 {
@@ -1968,7 +1968,7 @@ Bool KdCheckSpecialKeys(KdKeyboardInfo* ki, int type, ubyte key_code)
      */
 
     if (type == KeyRelease) {
-        return FALSE;
+        return False;
     }
 
     /*
@@ -1976,12 +1976,12 @@ Bool KdCheckSpecialKeys(KdKeyboardInfo* ki, int type, ubyte key_code)
      */
     if ((XkbStateFieldFromRec(&ki.dixdev.key.xkbInfo.state) & (ControlMask | Mod1Mask)) !=
         (ControlMask | Mod1Mask)) {
-        return FALSE;
+        return False;
     }
 
     sym = KdKeyCodeToKeySym(ki, type, key_code);
     if (sym == XK_VoidSymbol) {
-        return FALSE;
+        return False;
     }
 
     /*
@@ -1990,7 +1990,7 @@ Bool KdCheckSpecialKeys(KdKeyboardInfo* ki, int type, ubyte key_code)
 
     if (kdOsFuncs.SpecialKey)
         if ((*kdOsFuncs.SpecialKey) (sym))
-            return TRUE;
+            return True;
 
     /*
      * Now check for backspace or delete; these signal the
@@ -2009,7 +2009,7 @@ Bool KdCheckSpecialKeys(KdKeyboardInfo* ki, int type, ubyte key_code)
         break;
     default: break;}
 
-    return FALSE;
+    return False;
 }
 
 void KdEnqueueKeyboardEvent(KdKeyboardInfo* ki, ubyte scan_code, ubyte is_up)
@@ -2142,7 +2142,7 @@ void KdEnqueuePointerEvent(KdPointerInfo* pi, c_ulong flags, int rx, int ry, int
         if (x || y || z) {
             dixflags = POINTER_RELATIVE | POINTER_ACCELERATE;
             _KdEnqueuePointerEvent(pi, MotionNotify, x, y, z, 0, dixflags,
-                                   FALSE);
+                                   False);
         }
     }
     else {
@@ -2152,7 +2152,7 @@ void KdEnqueuePointerEvent(KdPointerInfo* pi, c_ulong flags, int rx, int ry, int
         if (x != pi.dixdev.last.valuators[0] ||
             y != pi.dixdev.last.valuators[1])
             _KdEnqueuePointerEvent(pi, MotionNotify, x, y, z, 0, dixflags,
-                                   FALSE);
+                                   False);
     }
 
     buttons = flags;
@@ -2161,14 +2161,14 @@ void KdEnqueuePointerEvent(KdPointerInfo* pi, c_ulong flags, int rx, int ry, int
         if (((pi.buttonState & button) ^ (buttons & button)) &&
             !(buttons & button)) {
             _KdEnqueuePointerEvent(pi, ButtonRelease, x, y, z, n,
-                                   dixflags, FALSE);
+                                   dixflags, False);
         }
     }
     for (button = KD_BUTTON_1, n = 1; n <= pi.nButtons; button <<= 1, n++) {
         if (((pi.buttonState & button) ^ (buttons & button)) &&
             (buttons & button)) {
             _KdEnqueuePointerEvent(pi, ButtonPress, x, y, z, n,
-                                   dixflags, FALSE);
+                                   dixflags, False);
         }
     }
 
@@ -2207,7 +2207,7 @@ void KdWakeupHandler(ScreenPtr pScreen, int result)
     for (pi = kdPointers; pi; pi = pi.next) {
         if (pi.timeoutPending) {
             if (cast(c_long) (GetTimeInMillis() - pi.emulationTimeout) >= 0) {
-                pi.timeoutPending = FALSE;
+                pi.timeoutPending = False;
                 input_lock();
                 KdReceiveTimeout(pi);
                 input_unlock();
@@ -2228,15 +2228,15 @@ Bool KdCursorOffScreen(ScreenPtr* ppScreen, int* x, int* y)
     CARD32 ms = void;
 
     if (kdDisableZaphod || (!dixScreenExists(1)))
-        return FALSE;
+        return False;
 
     if (0 <= *x && *x < pScreen.width && 0 <= *y && *y < pScreen.height)
-        return FALSE;
+        return False;
 
     ms = GetTimeInMillis();
     if (kdOffScreen && cast(int) (ms - kdOffScreenTime) < 1000)
-        return FALSE;
-    kdOffScreen = TRUE;
+        return False;
+    kdOffScreen = True;
     kdOffScreenTime = ms;
     n_best_x = -1;
     best_x = 32767;
@@ -2277,7 +2277,7 @@ Bool KdCursorOffScreen(ScreenPtr* ppScreen, int* x, int* y)
     if (best_y < best_x)
         n_best_x = n_best_y;
     if (n_best_x == -1)
-        return FALSE;
+        return False;
 
     ScreenPtr pNewScreen = dixGetScreenPtr(cast(uint)n_best_x);
 
@@ -2292,7 +2292,7 @@ Bool KdCursorOffScreen(ScreenPtr* ppScreen, int* x, int* y)
         *y -= pScreen.height;
 
     *ppScreen = pNewScreen;
-    return TRUE;
+    return True;
 }
 
 void KdCrossScreen(ScreenPtr pScreen, Bool entering)
@@ -2458,8 +2458,8 @@ version(CONFIG_UDEV) {
         }
 
         if (KdAddPointer(pi) != Success ||
-            ActivateDevice(pi.dixdev, TRUE) != Success ||
-            EnableDevice(pi.dixdev, TRUE) != TRUE) {
+            ActivateDevice(pi.dixdev, True) != Success ||
+            EnableDevice(pi.dixdev, True) != True) {
             ErrorF("couldn't add or enable pointer \"%s\" (%s)\n",
                    pi.name ? pi.name : "(unnamed)", pi.path);
             KdFreePointer(pi);
@@ -2480,8 +2480,8 @@ version(CONFIG_UDEV) {
         }
 
         if (KdAddKeyboard(ki) != Success ||
-            ActivateDevice(ki.dixdev, TRUE) != Success ||
-            EnableDevice(ki.dixdev, TRUE) != TRUE) {
+            ActivateDevice(ki.dixdev, True) != Success ||
+            EnableDevice(ki.dixdev, True) != True) {
             ErrorF("couldn't add or enable keyboard \"%s\" (%s)\n",
                    ki.name ? ki.name : "(unnamed)", ki.path);
             KdFreeKeyboard(ki);
@@ -2504,7 +2504,7 @@ version(CONFIG_UDEV) {
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 void DeleteInputDeviceRequest(DeviceIntPtr pDev)
 {
-    RemoveDevice(pDev, TRUE);
+    RemoveDevice(pDev, True);
 }
 
 // //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))

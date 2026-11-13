@@ -51,18 +51,18 @@ private Bool present_want_async_flip(uint options, uint capabilities)
 {
 	if (options & PresentOptionAsync &&
 	    capabilities & PresentCapabilityAsync)
-		return TRUE;
+		return True;
 
 	if (options & PresentOptionAsyncMayTear &&
 	    capabilities & PresentCapabilityAsyncMayTear)
-		return TRUE;
+		return True;
 
-	return FALSE;
+	return False;
 }
 
 /* The memory vblank points to must be 0-initialized before calling this function.
  *
- * If this function returns FALSE, present_vblank_destroy must be called to clean
+ * If this function returns False, present_vblank_destroy must be called to clean
  * up.
  */
 static if(DRI3) {
@@ -77,7 +77,7 @@ uint options, const(uint) capabilities, present_notify_ptr notifies,
 int num_notifies, ulong target_msc, ulong crtc_msc)
 {
     ScreenPtr screen = window.drawable.pScreen;
-    present_window_priv_ptr window_priv = present_get_window_priv(window, TRUE);
+    present_window_priv_ptr window_priv = present_get_window_priv(window, True);
     present_screen_priv_ptr screen_priv = present_screen_priv(screen);
     PresentFlipReason reason = PRESENT_FLIP_REASON_UNKNOWN;
 
@@ -130,7 +130,7 @@ int num_notifies, ulong target_msc, ulong crtc_msc)
         if (screen_priv.check_flip (target_crtc, window, pixmap,
                                      sync_flip, valid, x_off, y_off, &reason))
         {
-            vblank.flip = TRUE;
+            vblank.flip = True;
             vblank.sync_flip = sync_flip;
         }
     }
@@ -169,11 +169,11 @@ static if(DRI3){
         //               vblank.event_id, vblank, target_msc,
         //               vblank.pixmap.drawable.id, vblank.window.drawable.id,
         //               target_crtc, vblank.flip, vblank.sync_flip, vblank.serial));
-    return TRUE;
+    return True;
 
 no_mem:
     vblank.notifies = null;
-    return FALSE;
+    return False;
 }
 }
 else {
@@ -186,7 +186,7 @@ SyncFence* idle_fence, uint options, const(uint) capabilities,
 present_notify_ptr notifies, int num_notifies, ulong target_msc, ulong crtc_msc)
 {
     ScreenPtr screen = window.drawable.pScreen;
-    present_window_priv_ptr window_priv = present_get_window_priv(window, TRUE);
+    present_window_priv_ptr window_priv = present_get_window_priv(window, True);
     present_screen_priv_ptr screen_priv = present_screen_priv(screen);
     PresentFlipReason reason = PRESENT_FLIP_REASON_UNKNOWN;
 
@@ -239,7 +239,7 @@ present_notify_ptr notifies, int num_notifies, ulong target_msc, ulong crtc_msc)
         if (screen_priv.check_flip (target_crtc, window, pixmap,
                                      sync_flip, valid, x_off, y_off, &reason))
         {
-            vblank.flip = TRUE;
+            vblank.flip = True;
             vblank.sync_flip = sync_flip;
         }
     }
@@ -262,11 +262,11 @@ present_notify_ptr notifies, int num_notifies, ulong target_msc, ulong crtc_msc)
         //               vblank.event_id, vblank, target_msc,
         //               vblank.pixmap.drawable.id, vblank.window.drawable.id,
         //               target_crtc, vblank.flip, vblank.sync_flip, vblank.serial));
-    return TRUE;
+    return True;
 
 no_mem:
     vblank.notifies = null;
-    return FALSE;
+    return False;
 }
 }
 
@@ -351,7 +351,7 @@ else
 
     vblank.pixmap = null;
     vblank.idle_fence = null;
-    vblank.flip = FALSE;
+    vblank.flip = False;
 }
 
 void present_vblank_destroy(present_vblank_ptr vblank)

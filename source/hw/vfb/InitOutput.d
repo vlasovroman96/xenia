@@ -162,9 +162,9 @@ alias MMAPPED_FILE_FB = fbMemType.MMAPPED_FILE_FB;
 
  fbMemType fbmemtype = NORMAL_MEMORY_FB;
  char needswap = 0;
- Bool Render = TRUE;
+ Bool Render = True;
 static if (GLAMOR) {
- Bool use_glamor = FALSE;
+ Bool use_glamor = False;
  char* render_node = null;
 }
 
@@ -214,9 +214,9 @@ enum string swapcopy32(string _dst, string _src) = `
 {
     int i = void;
 
-    vfbPixmapDepths[1] = TRUE;  /* always need bitmaps */
+    vfbPixmapDepths[1] = True;  /* always need bitmaps */
     for (i = 2; i <= 32; i++)
-        vfbPixmapDepths[i] = FALSE;
+        vfbPixmapDepths[i] = False;
 }
 
  int vfbBitsPerPixel(int depth)
@@ -323,13 +323,13 @@ static if (GLAMOR) {
 
 int ddxProcessArgument(int argc, char** argv, int i)
 {
-    static Bool firstTime = TRUE;
+    static Bool firstTime = True;
     static int lastScreen = -1;
     vfbScreenInfo* currentScreen = void;
 
     if (firstTime) {
         vfbInitializePixmapDepths();
-        firstTime = FALSE;
+        firstTime = False;
     }
 
     if (lastScreen == -1)
@@ -385,20 +385,20 @@ int ddxProcessArgument(int argc, char** argv, int i)
                 FatalError("Invalid pixmap depth %d passed to -pixdepths\n",
                            depth);
             }
-            vfbPixmapDepths[depth] = TRUE;
+            vfbPixmapDepths[depth] = True;
             ret++;
         }
         return ret;
     }
 
     if (strcmp(argv[i], "+render") == 0) {      /* +render */
-        Render = TRUE;
+        Render = True;
         return 1;
     }
 
     if (strcmp(argv[i], "-render") == 0) {      /* -render */
-        Render = FALSE;
-        noCompositeExtension = TRUE;
+        Render = False;
+        noCompositeExtension = True;
         return 1;
     }
 
@@ -438,7 +438,7 @@ static if(CONFIG_MITSHM){
 
 static if (GLAMOR) {
     if (strcmp(argv[i], "-glamor") == 0) {
-        use_glamor = TRUE;
+        use_glamor = True;
         return 1;
     }
 
@@ -788,7 +788,7 @@ version (INTERNAL_VS_EXTERNAL_PADDING) {} else {
 
  Bool vfbCursorOffScreen(ScreenPtr* ppScreen, int* x, int* y)
 {
-    return FALSE;
+    return False;
 }
 
  void vfbCrossScreen(ScreenPtr pScreen, Bool entering)
@@ -831,7 +831,7 @@ static if (GLAMOR) {
     vfbScreenInfoPtr pvfb = &vfbScreens[pScreen.myNum];
 
     if (!use_glamor && !render_node) {
-        return FALSE;
+        return False;
     }
 
     pvfb.dri_fd = render_node ? open(render_node, O_RDWR | O_CLOEXEC) : -1;
@@ -839,13 +839,13 @@ static if (GLAMOR) {
     glamor_egl_conf_t glamor_egl_conf = {
                                          screen: pScreen,
                                          fd: pvfb.dri_fd,
-                                         llvmpipe_allowed: TRUE,
-                                         force_glamor: TRUE,
+                                         llvmpipe_allowed: True,
+                                         force_glamor: True,
                                         };
 
     if (!glamor_egl_init_internal(&glamor_egl_conf, null)) {
         close(pvfb.dri_fd);
-        return FALSE;
+        return False;
     }
 
     const(char)* renderer = cast(const(char)*)glGetString(GL_RENDERER);
@@ -863,10 +863,10 @@ static if (GLAMOR) {
 
     if (!glamor_init(pScreen, flags)) {
         close(pvfb.dri_fd);
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 }
 
@@ -878,9 +878,9 @@ static if (GLAMOR) {
         pScrPriv.maxWidth >= mode.mode.width &&
         pScrPriv.minHeight <= mode.mode.height &&
         pScrPriv.maxHeight >= mode.mode.height)
-        return TRUE;
+        return True;
     else
-        return FALSE;
+        return False;
 }
 
  Bool vfbRRScreenSetSize(ScreenPtr pScreen, CARD16 width, CARD16 height, CARD32 mmWidth, CARD32 mmHeight)
@@ -926,7 +926,7 @@ static if (GLAMOR) {
     /* Don't support rotations */
     *rotations = RR_Rotate_0;
 
-    return TRUE;
+    return True;
 }
 
  Bool vfbRandRInit(ScreenPtr pScreen)
@@ -945,7 +945,7 @@ static if (RANDR_12_INTERFACE) {
     int mmWidth = void, mmHeight = void;
 
     if (!RRScreenInit(pScreen))
-        return FALSE;
+        return False;
     pScrPriv = mixin(rrGetScrPriv!("pScreen"));
     pScrPriv.rrGetInfo = vfbRRGetInfo;
 static if (RANDR_12_INTERFACE) {
@@ -968,7 +968,7 @@ static if (RANDR_13_INTERFACE) {
 
         crtc = RRCrtcCreate(pScreen, pvci);
         if (!crtc)
-            return FALSE;
+            return False;
 
         /* Set gamma to avoid xrandr complaints */
         RRCrtcGammaSetSize(crtc, 256);
@@ -977,15 +977,15 @@ static if (RANDR_13_INTERFACE) {
         snprintf(name.ptr, name.sizeof, i == 0 ? "screen" : "screen_%d", i);
         output = RROutputCreate(pScreen, name.ptr, strlen(name.ptr), null);
         if (!output)
-            return FALSE;
+            return False;
         if (!RROutputSetClones(output, null, 0))
-            return FALSE;
+            return False;
         if (!RROutputSetCrtcs(output, &crtc, 1))
-            return FALSE;
+            return False;
         if (!RROutputSetConnection(output, RR_Connected))
-            return FALSE;
+            return False;
         if (!RROutputSetPhysicalSize(output, mmWidth, mmHeight))
-            return FALSE;
+            return False;
 
         /* Setup a Mode and notify only for CRTCs with Outputs */
         if (pvci.numOutputs > 0) {
@@ -997,16 +997,16 @@ static if (RANDR_13_INTERFACE) {
 
             mode = RRModeGet(&modeInfo, name.ptr);
             if (!mode)
-                return FALSE;
+                return False;
             if (!RROutputSetModes(output, &mode, 1, 0))
-                return FALSE;
+                return False;
             if (!RRCrtcNotify(crtc, mode, pvci.x, pvci.y, RR_Rotate_0, null,
                               1, &output))
-                return FALSE;
+                return False;
         }
     }
 }
-    return TRUE;
+    return True;
 }
 
  Bool vfbScreenInit(ScreenPtr pScreen, int argc, char** argv)
@@ -1030,7 +1030,7 @@ static if (RANDR_13_INTERFACE) {
         pvfb.paddedWidth = pvfb.paddedBytesWidth * 8;
     pbits = vfbAllocateFramebufferMemory(pvfb);
     if (!pbits)
-        return FALSE;
+        return False;
 
     switch (pvfb.depth) {
     case 8:
@@ -1068,7 +1068,7 @@ static if (RANDR_13_INTERFACE) {
                                  0x000003ff);
         break;
     default:
-        return FALSE;
+        return False;
     }
 
     miSetPixmapDepths();
@@ -1077,7 +1077,7 @@ static if (RANDR_13_INTERFACE) {
                        dpix, dpiy, pvfb.paddedWidth, pvfb.bitsPerPixel);
 
     if (!ret)
-        return FALSE;
+        return False;
 
     if (Render) {
         fbPictureInit(pScreen, 0, 0);
@@ -1087,7 +1087,7 @@ static if (GLAMOR) {
     }
 
     if (!vfbRandRInit(pScreen))
-       return FALSE;
+       return False;
 
     pScreen.InstallColormap = vfbInstallColormap;
     pScreen.StoreColors = vfbStoreColors;
@@ -1122,24 +1122,24 @@ void InitOutput(int argc, char** argv)
 
     /* must have a pixmap depth to match every screen depth */
     for (i = 0; i < vfbNumScreens; i++) {
-        vfbPixmapDepths[vfbScreens[i].depth] = TRUE;
+        vfbPixmapDepths[vfbScreens[i].depth] = True;
     }
 
     /* RENDER needs a good set of pixmaps. */
     if (Render) {
-        vfbPixmapDepths[1] = TRUE;
-        vfbPixmapDepths[4] = TRUE;
-        vfbPixmapDepths[8] = TRUE;
+        vfbPixmapDepths[1] = True;
+        vfbPixmapDepths[4] = True;
+        vfbPixmapDepths[8] = True;
 version (none) {
-        vfbPixmapDepths[12] = TRUE;
+        vfbPixmapDepths[12] = True;
 }
-/*	vfbPixmapDepths[15] = TRUE; */
-        vfbPixmapDepths[16] = TRUE;
-        vfbPixmapDepths[24] = TRUE;
+/*	vfbPixmapDepths[15] = True; */
+        vfbPixmapDepths[16] = True;
+        vfbPixmapDepths[24] = True;
 version (none) {
-        vfbPixmapDepths[30] = TRUE;
+        vfbPixmapDepths[30] = True;
 }
-        vfbPixmapDepths[32] = TRUE;
+        vfbPixmapDepths[32] = True;
     }
 
     xeniaGlxCreateVendor();

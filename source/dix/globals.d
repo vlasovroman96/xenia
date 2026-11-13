@@ -111,20 +111,20 @@ int defaultScreenSaverBlanking = PreferBlanking;
 int defaultScreenSaverAllowExposures = AllowExposures;
 
 static if(SCREENSAVER){
-Bool screenSaverSuspended = FALSE;
+Bool screenSaverSuspended = False;
 }
 
 const(char)* defaultFontPath = build.xlibre_server.COMPILEDDEFAULTFONTPATH;
 // FontPtr defaultFont;            /* not declared in dix.h to avoid including font.h in
                                 //    every compilation of dix code */
 CursorPtr rootCursor;
-Bool party_like_its_1989 = FALSE;
-Bool whiteRoot = FALSE;
+Bool party_like_its_1989 = False;
+Bool whiteRoot = False;
 
 TimeStamp currentTime;
 
 int defaultColorVisualClass = -1;
 int monitorResolution = 0;
 
-Bool explicit_display = FALSE;
+Bool explicit_display = False;
 char* ConnectionInfo;

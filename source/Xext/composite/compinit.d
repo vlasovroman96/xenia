@@ -67,7 +67,7 @@ import dix.picture;
 import common.math;
 
 
-Bool noCompositeExtension = FALSE;
+Bool noCompositeExtension = False;
 
 DevPrivateKeyRec CompScreenPrivateKeyRec;
 DevPrivateKeyRec CompWindowPrivateKeyRec;
@@ -200,14 +200,14 @@ private Bool compRegisterAlternateVisuals(CompScreenPtr cs, VisualID* vids, int 
     p = cast(VisualID*)reallocarray(cs.alternateVisuals,
                      cs.numAlternateVisuals + nVisuals, VisualID.sizeof);
     if (p is null)
-        return FALSE;
+        return False;
 
     memcpy(&p[cs.numAlternateVisuals], vids, ((VisualID).sizeof * nVisuals));
 
     cs.alternateVisuals = p;
     cs.numAlternateVisuals += nVisuals;
 
-    return TRUE;
+    return True;
 }
 
 Bool CompositeRegisterAlternateVisuals(ScreenPtr pScreen, VisualID* vids, int nVisuals)
@@ -248,19 +248,19 @@ private Bool compAddAlternateVisual(ScreenPtr pScreen, CompScreenPtr cs, CompAlt
      * There's no deep reason for this.
      */
     if (alt.depth >= pScreen.rootDepth && alt.depth != 32)
-        return FALSE;
+        return False;
 
     depth = compFindVisuallessDepth(pScreen, alt.depth);
     if (!depth)
         /* alt->depth doesn't exist or already has alternate visuals. */
-        return TRUE;
+        return True;
 
     pPictFormat = PictureMatchFormat(pScreen, alt.depth, alt.format);
     if (!pPictFormat)
-        return FALSE;
+        return False;
 
-    if (ResizeVisualArray(pScreen, 1, depth) == FALSE) {
-        return FALSE;
+    if (ResizeVisualArray(pScreen, 1, depth) == False) {
+        return False;
     }
 
     visual = pScreen.visuals + (pScreen.numVisuals - 1);      /* the new one */
@@ -300,7 +300,7 @@ private Bool compAddAlternateVisual(ScreenPtr pScreen, CompScreenPtr cs, CompAlt
     /* remember the visual ID to detect auto-update windows */
     compRegisterAlternateVisuals(cs, &visual.vid, 1);
 
-    return TRUE;
+    return True;
 }
 
 private Bool compAddAlternateVisuals(ScreenPtr pScreen, CompScreenPtr cs)
@@ -316,23 +316,23 @@ private Bool compAddAlternateVisuals(ScreenPtr pScreen, CompScreenPtr cs)
 Bool compScreenInit(ScreenPtr pScreen)
 {
     if (!dixRegisterPrivateKey(&CompScreenPrivateKeyRec, PRIVATE_SCREEN, 0))
-        return FALSE;
+        return False;
     if (!dixRegisterPrivateKey(&CompWindowPrivateKeyRec, PRIVATE_WINDOW, 0))
-        return FALSE;
+        return False;
     if (!dixRegisterPrivateKey(&CompSubwindowsPrivateKeyRec, PRIVATE_WINDOW, 0))
-        return FALSE;
+        return False;
 
     if (mixin(GetCompScreen!("pScreen")))
-        return TRUE;
+        return True;
     CompScreenPtr cs = cast(CompScreenRec*) calloc(1, CompScreenRec.sizeof);
     if (!cs)
-        return FALSE;
+        return False;
 
     cs.overlayWid = dixAllocServerXID();
     cs.pOverlayWin = null;
     cs.pOverlayClients = null;
 
-    cs.pendingScreenUpdate = FALSE;
+    cs.pendingScreenUpdate = False;
 
     cs.numAlternateVisuals = 0;
     cs.alternateVisuals = null;
@@ -341,7 +341,7 @@ Bool compScreenInit(ScreenPtr pScreen)
 
     if (!compAddAlternateVisuals(pScreen, cs)) {
         free(cs);
-        return FALSE;
+        return False;
     }
 
     if (!disableBackingStore)
@@ -394,5 +394,5 @@ Bool compScreenInit(ScreenPtr pScreen)
 
     RegisterRealChildHeadProc(&CompositeRealChildHead);
 
-    return TRUE;
+    return True;
 }

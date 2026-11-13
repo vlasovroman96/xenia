@@ -56,7 +56,6 @@ import   mi.mipointer_priv;
 import   os.bug_priv;
 import   os.screensaver;
 
-import   common.misc;
 import   dix.pixmap;
 import   dix.cursor;
 import   mi.mipointer;
@@ -130,16 +129,16 @@ private Bool mieqGrowQueue(EventQueuePtr eventQueue, size_t new_nevents)
 
     if (!eventQueue) {
         ErrorF("[mi] mieqGrowQueue called with a NULL eventQueue\n");
-        return FALSE;
+        return False;
     }
 
     if (new_nevents <= eventQueue.nevents)
-        return FALSE;
+        return False;
 
     new_events = cast(EventRec*) calloc(new_nevents, EventRec.sizeof);
     if (new_events is null) {
         ErrorF("[mi] mieqGrowQueue memory allocation error.\n");
-        return FALSE;
+        return False;
     }
 
     n_enqueued = mieqNumEnqueued(eventQueue);
@@ -164,7 +163,7 @@ private Bool mieqGrowQueue(EventQueuePtr eventQueue, size_t new_nevents)
             for (j = 0; j < i; j++)
                 FreeEventList(new_events[j].events, 1);
             free(new_events);
-            return FALSE;
+            return False;
         }
         new_events[i].events = evlist;
     }
@@ -176,7 +175,7 @@ private Bool mieqGrowQueue(EventQueuePtr eventQueue, size_t new_nevents)
     free(eventQueue.events);
     eventQueue.events = new_events;
 
-    return TRUE;
+    return True;
 }
 
 Bool mieqInit()
@@ -190,7 +189,7 @@ Bool mieqInit()
     input_unlock();
 
     SetInputCheck(&miEventQueue.head, &miEventQueue.tail);
-    return TRUE;
+    return True;
 }
 
 void mieqFini()
@@ -294,7 +293,7 @@ void mieqEnqueue(DeviceIntPtr pDev, InternalEvent* e)
  *
  * @param pDev The device that triggered a screen change.
  * @param pScreen The new screen events are being enqueued for.
- * @param set_dequeue_screen If TRUE, pScreen is set as both enqueue screen
+ * @param set_dequeue_screen If True, pScreen is set as both enqueue screen
  * and dequeue screen.
  */
 void mieqSwitchScreen(DeviceIntPtr pDev, ScreenPtr pScreen, Bool set_dequeue_screen)
@@ -525,7 +524,7 @@ void mieqProcessInputEvents()
     ScreenPtr screen = void;
     InternalEvent event = void;
     DeviceIntPtr dev = null, master = null;
-    static Bool inProcessInputEvents = FALSE;
+    static Bool inProcessInputEvents = False;
 
     input_lock();
 
@@ -535,7 +534,7 @@ void mieqProcessInputEvents()
      * call chain calls UpdateCurrentTime() instead of UpdateCurrentTimeIf()
      */
     mixin(BUG_WARN_MSG!("inProcessInputEvents", "[mi] mieqProcessInputEvents() called recursively.\n"));
-    inProcessInputEvents = TRUE;
+    inProcessInputEvents = True;
 
     if (miEventQueue.dropped) {
         ErrorF("[mi] EQ processing has resumed after %lu dropped events.\n",
@@ -587,7 +586,7 @@ else {
         input_lock();
     }
 
-    inProcessInputEvents = FALSE;
+    inProcessInputEvents = False;
 
     CallCallbacks(&miCallbacksWhenDrained, null);
 

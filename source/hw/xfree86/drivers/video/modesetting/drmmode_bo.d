@@ -130,7 +130,7 @@ void* gbm_bo_get_map(gbm_bo* bo)
 Bool gbm_bo_get_used_modifiers(gbm_bo* bo)
 {
     bo_priv_t* data = cast(bo_priv_t*)gbm_bo_get_user_data(bo);
-    return data ? data.used_modifiers : FALSE;
+    return data ? data.used_modifiers : False;
 }
 
 pragma(inline, true) private Bool gbm_bo_map_all(gbm_bo* bo, bo_priv_t* data)
@@ -138,11 +138,11 @@ pragma(inline, true) private Bool gbm_bo_map_all(gbm_bo* bo, bo_priv_t* data)
     uint stride = 0;
 
     if (!bo || !data) {
-        return FALSE;
+        return False;
     }
 
     if (data.map_addr) {
-        return TRUE;
+        return True;
     }
 
     uint width = gbm_bo_get_width(bo);
@@ -162,13 +162,13 @@ pragma(inline, true) private Bool gbm_bo_map_all(gbm_bo* bo, bo_priv_t* data)
 pragma(inline, true) private Bool gbm_bo_map_or_free(gbm_bo* bo, bo_priv_t* data)
 {
     if (gbm_bo_map_all(bo, data)) {
-        return TRUE;
+        return True;
     }
 
     if (bo) {
         gbm_bo_destroy(bo);
     }
-    return FALSE;
+    return False;
 }
 
 pragma(inline, true) private gbm_bo* gbm_bo_create_and_map(gbm_device* gbm, bo_priv_t* data, Bool do_map, uint width, uint height, uint format, const(ulong)* modifiers, const(uint) count, uint flags)
@@ -179,7 +179,7 @@ pragma(inline, true) private gbm_bo* gbm_bo_create_and_map(gbm_device* gbm, bo_p
 
 static if (GBM_BO_WITH_MODIFIERS) {
     if (count && modifiers) {
-        data.used_modifiers = TRUE;
+        data.used_modifiers = True;
 static if (GBM_BO_WITH_MODIFIERS2) {
         mixin(TRY_CREATE!(`gbm_bo_create_with_modifiers2`, `data`, `do_map`,
                    [`gbm`, `width`, `height`, `format`, `modifiers`, `count`, `flags`]));
@@ -189,7 +189,7 @@ static if (GBM_BO_WITH_MODIFIERS2) {
     }
 }
 
-    data.used_modifiers = FALSE;
+    data.used_modifiers = False;
     mixin(TRY_CREATE!(`gbm_bo_create`, `data`, `do_map`,
     [`gbm`, `width`, `height`, `format`, `flags`]));
     return null;
@@ -232,7 +232,7 @@ pragma(inline, true) private gbm_bo* gbm_create_front_bo(drmmode_ptr drmmode, Bo
 
 static if (GBM_BO_WITH_MODIFIERS) {
     num_modifiers = get_modifiers_set(drmmode.scrn, format, &modifiers,
-                                      FALSE, TRUE, TRUE);
+                                      False, True, True);
 }
 
     ret = gbm_bo_create_and_map_with_flag_list(drmmode.gbm,
@@ -336,7 +336,7 @@ gbm_bo* gbm_back_bo_from_fd(drmmode_ptr drmmode, Bool do_map, int fd_handle, uin
         return null;
     }
 
-    data.used_modifiers = FALSE;
+    data.used_modifiers = False;
 
     mixin(TRY_CREATE!(`gbm_bo_import`, `data`, `do_map`,
                [`drmmode.gbm`, `GBM_BO_IMPORT_FD`, `&import_data`,

@@ -142,17 +142,17 @@ Bool CursorMetricsFromGlyph(FontPtr pfont, uint ch, CursorMetricPtr cm)
     encoding = (mixin(FONTLASTROW!("pfont")) == 0) ? Linear16Bit : TwoD16Bit;
     if (encoding == Linear16Bit) {
         if (ch < pfont.info.firstCol || pfont.info.lastCol < ch)
-            return FALSE;
+            return False;
     }
     else {
         if (chs[0] < pfont.info.firstRow || pfont.info.lastRow < chs[0])
-            return FALSE;
+            return False;
         if (chs[1] < pfont.info.firstCol || pfont.info.lastCol < chs[1])
-            return FALSE;
+            return False;
     }
     assumeNoGC(pfont.get_glyphs) (pfont, 1, chs.ptr, encoding, &nglyphs, &pci);
     if (nglyphs == 0)
-        return FALSE;
+        return False;
     cm.width = cast(ushort)(pci.metrics.rightSideBearing - pci.metrics.leftSideBearing);
     cm.height = cast(ushort)(pci.metrics.descent + pci.metrics.ascent);
     if (pci.metrics.leftSideBearing > 0) {
@@ -173,5 +173,5 @@ Bool CursorMetricsFromGlyph(FontPtr pfont, uint ch, CursorMetricPtr cm)
         if (pci.metrics.descent < 0)
             cm.height -= pci.metrics.descent;
     }
-    return TRUE;
+    return True;
 }

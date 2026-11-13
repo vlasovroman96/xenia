@@ -80,12 +80,12 @@ union DevUnion {
 
 // int xf86platformAddGPUDevices(DriverPtr drvp)
 // {
-//     Bool foundScreen = FALSE;
+//     Bool foundScreen = False;
 //     GDevPtr* devList = void;
 //     int j = void;
 
 //     if (!drvp.platformProbe || !xf86Info.autoAddGPU)
-//         return FALSE;
+//         return False;
 
 //     xf86MatchDevice(drvp.driverName, &devList);
 
@@ -95,7 +95,7 @@ union DevUnion {
 //         if (probeSingleDevice(&xf86_platform_devices[j], drvp,
 //                               devList ?  devList[0] : null,
 //                               PLATFORM_PROBE_GPU_SCREEN))
-//             foundScreen = TRUE;
+//             foundScreen = True;
 //     }
 
 //     free(devList);
@@ -139,12 +139,12 @@ BusRec primaryBus = { BUS_NONE, {null} };
  * \param drv   Driver to probe
  *
  * \return
- * If a device can be successfully probed by the driver, \c TRUE is
- * returned.  Otherwise, \c FALSE is returned.
+ * If a device can be successfully probed by the driver, \c True is
+ * returned.  Otherwise, \c False is returned.
  */
 Bool xf86CallDriverProbe(DriverPtr drv, Bool detect_only)
 {
-    Bool foundScreen = FALSE;
+    Bool foundScreen = False;
 
 static if(XSERVER_PLATFORM_BUS){
     /* xf86platformBus.c does not support Xorg -configure */
@@ -205,10 +205,10 @@ private screenLayoutPtr xf86BusConfigMatch(ScrnInfoPtr scrnInfo, Bool is_gpu) {
 }
 
 /**
- * @return TRUE if all buses are configured and set up correctly and FALSE
+ * @return True if all buses are configured and set up correctly and False
  * otherwise.
  *
- * If singleDriver is TRUE, then only the first successfully probed driver adds screens to xf86Screens,
+ * If singleDriver is True, then only the first successfully probed driver adds screens to xf86Screens,
  * others may add GPU secondary screens only
  */
 Bool xf86BusConfig(Bool singleDriver)
@@ -226,23 +226,23 @@ Bool xf86BusConfig(Bool singleDriver)
      */
     for (i = 0; i < xf86NumDrivers; i++) {
         /* The order of the && operands below is essential! */
-        if (xf86CallDriverProbe((xf86DriverList[i]), FALSE) && singleDriver)
+        if (xf86CallDriverProbe((xf86DriverList[i]), False) && singleDriver)
             break;
     }
 
     /*
      * 2. If no Screens were found, call each drivers probe function with
-     *    ignorePrimary = TRUE, to ensure that we do actually get a
+     *    ignorePrimary = True, to ensure that we do actually get a
      *    Screen if there is at least one supported video card.
      */
     if (xf86NumScreens == 0) {
-        xf86ProbeIgnorePrimary = TRUE;
+        xf86ProbeIgnorePrimary = True;
         for (i = 0; i < xf86NumDrivers && xf86NumScreens == 0; i++) {
             /* The order of the && operands below is essential! */
-            if (xf86CallDriverProbe((xf86DriverList[i]), FALSE) && singleDriver)
+            if (xf86CallDriverProbe((xf86DriverList[i]), False) && singleDriver)
                 break;
         }
-        xf86ProbeIgnorePrimary = FALSE;
+        xf86ProbeIgnorePrimary = False;
     }
 
     /*
@@ -256,7 +256,7 @@ Bool xf86BusConfig(Bool singleDriver)
     /* If nothing was detected, return now */
     if (xf86NumScreens == 0) {
         LogMessageVerb(X_ERROR, 1, "No devices detected.\n");
-        return FALSE;
+        return False;
     }
 
     xf86VGAarbiterInit();
@@ -274,7 +274,7 @@ Bool xf86BusConfig(Bool singleDriver)
      *
      */
     for (i = 0; i < xf86NumScreens; i++) {
-        layout = xf86BusConfigMatch(xf86Screens[i], FALSE);
+        layout = xf86BusConfigMatch(xf86Screens[i], False);
         if (layout && layout.screen)
             xf86Screens[i].confScreen = layout.screen;
         else {
@@ -288,7 +288,7 @@ Bool xf86BusConfig(Bool singleDriver)
 
     /* bind GPU conf screen to the configured protocol screen, or 0 if not configured */
     for (i = 0; i < xf86NumGPUScreens; i++) {
-        layout = xf86BusConfigMatch(xf86GPUScreens[i], TRUE);
+        layout = xf86BusConfigMatch(xf86GPUScreens[i], True);
         int scrnum = (layout && layout.screen) ? layout.screen.screennum : 0;
         xf86GPUScreens[i].confScreen = xf86Screens[scrnum].confScreen;
     }
@@ -297,10 +297,10 @@ Bool xf86BusConfig(Bool singleDriver)
     if (xf86NumScreens == 0) {
         LogMessageVerb(X_ERROR, 1,
                        "Device(s) detected, but none match those in the config file.\n");
-        return FALSE;
+        return False;
     }
 
-    return TRUE;
+    return True;
 }
 
 /*
@@ -392,7 +392,7 @@ static if(XSERVER_LIBPCIACCESS){
 }
 
     if (primaryBus.type != pEnt.bus.type)
-        return FALSE;
+        return False;
 
     switch (pEnt.bus.type) {
     case BUS_PCI:
@@ -402,7 +402,7 @@ static if(XSERVER_LIBPCIACCESS){
     case BUS_PLATFORM:
         return pEnt.bus.id.plat == primaryBus.id.plat;
     default:
-        return FALSE;
+        return False;
     }
 }
 
@@ -412,9 +412,9 @@ Bool xf86DriverHasEntities(DriverPtr drvp)
 
     for (i = 0; i < xf86NumEntities; i++) {
         if (xf86Entities[i].driver == drvp)
-            return TRUE;
+            return True;
     }
-    return FALSE;
+    return False;
 }
 
 void xf86AddEntityToScreen(ScrnInfoPtr pScrn, int entityIndex)
@@ -431,7 +431,7 @@ void xf86AddEntityToScreen(ScrnInfoPtr pScrn, int entityIndex)
     pScrn.entityList = cast(int*)XNFreallocarray(pScrn.entityList,
                                         pScrn.numEntities, int.sizeof);
     pScrn.entityList[pScrn.numEntities - 1] = entityIndex;
-    xf86Entities[entityIndex].inUse = TRUE;
+    xf86Entities[entityIndex].inUse = True;
     pScrn.entityInstanceList = cast(int*)XNFreallocarray(pScrn.entityInstanceList,
                                                 pScrn.numEntities,
                                                 int.sizeof);
@@ -484,7 +484,7 @@ void xf86RemoveEntityFromScreen(ScrnInfoPtr pScrn, int entityIndex)
             for (i++; i < pScrn.numEntities; i++)
                 pScrn.entityList[i - 1] = pScrn.entityList[i];
             pScrn.numEntities--;
-            xf86Entities[entityIndex].inUse = FALSE;
+            xf86Entities[entityIndex].inUse = False;
             break;
         }
     }
@@ -503,7 +503,7 @@ void xf86ClearEntityListForScreen(ScrnInfoPtr pScrn)
 
     for (i = 0; i < pScrn.numEntities; i++) {
         entityIndex = pScrn.entityList[i];
-        xf86Entities[entityIndex].inUse = FALSE;
+        xf86Entities[entityIndex].inUse = False;
         /* disable resource: call the disable function */
     }
     free(pScrn.entityList);
@@ -528,7 +528,7 @@ void xf86AddDevToEntity(int entityIndex, GDevPtr dev)
     pEnt.devices = cast(_GDevRec**)XNFreallocarray(pEnt.devices,
                                     pEnt.numInstances, GDevPtr.sizeof);
     pEnt.devices[pEnt.numInstances - 1] = dev;
-    dev.claimed = TRUE;
+    dev.claimed = True;
 }
 
 
@@ -548,7 +548,7 @@ void xf86RemoveDevFromEntity(int entityIndex, GDevPtr dev)
         }
     }
     pEnt.numInstances--;
-    dev.claimed = FALSE;
+    dev.claimed = False;
 }
 /*
  * xf86GetEntityInfo() -- This function hands information from the
@@ -616,10 +616,10 @@ Bool xf86IsEntityShared(int entityIndex)
 {
     if (entityIndex < xf86NumEntities) {
         if (xf86Entities[entityIndex].entityProp & IS_SHARED_ACCEL) {
-            return TRUE;
+            return True;
         }
     }
-    return FALSE;
+    return False;
 }
 
 void xf86SetEntityShared(int entityIndex)
@@ -633,10 +633,10 @@ Bool xf86IsEntitySharable(int entityIndex)
 {
     if (entityIndex < xf86NumEntities) {
         if (xf86Entities[entityIndex].entityProp & ACCEL_IS_SHARABLE) {
-            return TRUE;
+            return True;
         }
     }
-    return FALSE;
+    return False;
 }
 
 void xf86SetEntitySharable(int entityIndex)
@@ -650,10 +650,10 @@ Bool xf86IsPrimInitDone(int entityIndex)
 {
     if (entityIndex < xf86NumEntities) {
         if (xf86Entities[entityIndex].entityProp & SA_PRIM_INIT_DONE) {
-            return TRUE;
+            return True;
         }
     }
-    return FALSE;
+    return False;
 }
 
 void xf86SetPrimInitDone(int entityIndex)
@@ -701,7 +701,7 @@ DevUnion* xf86GetEntityPrivate(int entityIndex, int privIndex)
 }
 
 /*
- * Check if the slot requested is free.  If it is already in use, return FALSE.
+ * Check if the slot requested is free.  If it is already in use, return False.
  */
 
 Bool xf86CheckSlot(const(void)* ptr, BusType type)
@@ -724,7 +724,7 @@ static if(XSERVER_PLATFORM_BUS){
     const(char)* fbPath = null;
 
     if (ptr is null) {
-        return FALSE;
+        return False;
     }
 
 static if(XSERVER_PLATFORM_BUS){
@@ -789,7 +789,7 @@ static if(XSERVER_LIBPCIACCESS){
             LogMessageVerb(X_INFO, 1,
                 "\"%s\" must be the only device, but \"%s\" is present.\n",
                 fb_ptr.identifier, pent.devices[0].identifier);
-            return FALSE;
+            return False;
         }
 
 static if(XSERVER_LIBPCIACCESS){ 
@@ -811,7 +811,7 @@ static if(XSERVER_LIBPCIACCESS){
                     "  PCI bus id %u@%u:%u:%u has already been claimed by \"%s\".\n",
                     pci_ptr.domain, pci_ptr.bus, pci_ptr.dev, pci_ptr.func, 
                     pent.devices[0].identifier);
-                return FALSE;
+                return False;
             }
             else
             /* This is another device, skip */
@@ -831,7 +831,7 @@ static if(XSERVER_LIBPCIACCESS){
                     LogMessageVerb(X_INFO, 1,
                         " Only fbdev without PCI bus id can be claimed after \"%s\".\n",
                         pent.devices[0].identifier);
-                    return FALSE;
+                    return False;
                 }
                 /* Examine the first device only */
                 fbOther = xf86FindOptionValue(cast(_InputOption*)pent.devices[0].options, "fbdev".ptr);
@@ -840,7 +840,7 @@ static if(XSERVER_LIBPCIACCESS){
                     LogMessageVerb(X_INFO, 1,
                         " Can\'t claim anything after \"%s\".\n",
                         pent.devices[0].identifier);
-                    return FALSE;
+                    return False;
                 }
                 if (strcmp(fbPath, fbOther)) {
                     /* No conflict */
@@ -851,7 +851,7 @@ static if(XSERVER_LIBPCIACCESS){
                     LogMessageVerb(X_INFO, 1,
                         " Framebuffer device \"%s\" has already been claimed by \"%s\".\n",
                         fbPath, pent.devices[0].identifier);
-                    return FALSE;
+                    return False;
                 }
             }
         }
@@ -883,7 +883,7 @@ else {
                     LogMessageVerb(X_INFO, 1,
                         " DRI device \"%s\" has already been claimed by \"%s\".\n",
                         msPath, pent.devices[0].identifier);
-            return FALSE;
+            return False;
         }
     }
 
@@ -922,5 +922,5 @@ static if(XSERVER_LIBPCIACCESS){
                  fb_ptr.identifier);
     }
 
-    return TRUE;
+    return True;
 }

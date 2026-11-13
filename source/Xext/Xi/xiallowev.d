@@ -60,7 +60,7 @@ import common.swap;
 
 int ProcXIAllowEvents(ClientPtr client)
 {
-    Bool have_xi22 = FALSE;
+    Bool have_xi22 = False;
     CARD32 clientTime = void;
     int deviceId = void;
     int mode = void;
@@ -80,7 +80,7 @@ int ProcXIAllowEvents(ClientPtr client)
         mixin(X_REQUEST_FIELD_CARD32!"touchid");
         mixin(X_REQUEST_FIELD_CARD32!"grab_window");
 
-        have_xi22 = TRUE;
+        have_xi22 = True;
         clientTime = stuff.time;
         deviceId = stuff.deviceid;
         mode = stuff.mode;

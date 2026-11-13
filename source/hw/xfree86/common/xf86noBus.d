@@ -55,7 +55,7 @@ int xf86ClaimNoSlot(DriverPtr drvp, int chipset, GDevPtr dev, Bool active)
     p.chipset = 0;
     p.bus.type = BUS_NONE;
     p.active = active;
-    p.inUse = FALSE;
+    p.inUse = False;
     xf86AddDevToEntity(num, dev);
 
     return num;

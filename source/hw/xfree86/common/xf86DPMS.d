@@ -67,16 +67,16 @@ static if(DPMSExtension) {
     ScrnInfoPtr pScrn = xf86ScreenToScrn(pScreen);
     void* DPMSOpt = void;
     MessageType enabled_from = X_DEFAULT;
-    Bool enabled = TRUE;
+    Bool enabled = True;
 
     DPMSOpt = xf86FindOption(cast(_InputOption*)pScrn.options, "dpms");
     if (DPMSDisabledSwitch) {
         enabled_from = X_CMDLINE;
-        enabled = FALSE;
+        enabled = False;
     }
     else if (DPMSOpt !is null) {
         enabled_from = X_CONFIG;
-        enabled = xf86CheckBoolOption(cast(_InputOption*)pScrn.options, "dpms", FALSE);
+        enabled = xf86CheckBoolOption(cast(_InputOption*)pScrn.options, "dpms", False);
         xf86MarkOptionUsed(cast(_InputOption*)DPMSOpt);
     }
     if (enabled) {
@@ -84,8 +84,8 @@ static if(DPMSExtension) {
         pScrn.DPMSSet = set;
         pScreen.DPMS = &xf86DPMS;
     }
-    return TRUE;
+    return True;
 } else {
-    return FALSE;
+    return False;
 }
 }

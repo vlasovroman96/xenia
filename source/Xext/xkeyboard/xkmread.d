@@ -196,7 +196,7 @@ private int ReadXkmVirtualMods(FILE* file, XkbDescPtr xkb, XkbChangesPtr changes
 
         if (named & bit) {
             if ((nRead += XkmGetCountedString(file, name.ptr, 100)) != 0) {
-                xkb.names.vmods[i] = XkbInternAtom(name.ptr, FALSE);
+                xkb.names.vmods[i] = XkbInternAtom(name.ptr, False);
                 if (changes)
                     changes.names.changed_vmods |= bit;
             }
@@ -240,7 +240,7 @@ enum WANTED = (XkbKeycodesNameMask|XkbKeyNamesMask|XkbKeyAliasesMask);
         return -1;
     }
     if (name[0] != '\0') {
-        xkb.names.keycodes = XkbInternAtom(name.ptr, FALSE);
+        xkb.names.keycodes = XkbInternAtom(name.ptr, False);
     }
 
     for (pN = &xkb.names.keys[minKC], i = minKC; i <= cast(int) maxKC; i++, pN++) {
@@ -295,7 +295,7 @@ private int ReadXkmKeyTypes(FILE* file, XkbDescPtr xkb, XkbChangesPtr changes)
             //_XkbLibError(_XkbErrBadAlloc, "ReadXkmKeyTypes", 0);
             return -1;
         }
-        xkb.names.types = XkbInternAtom(buf.ptr, FALSE);
+        xkb.names.types = XkbInternAtom(buf.ptr, False);
     }
     num_types = XkmGetCARD16(file, &nRead);
     nRead += XkmSkipPadding(file, 2);
@@ -351,7 +351,7 @@ private int ReadXkmKeyTypes(FILE* file, XkbDescPtr xkb, XkbChangesPtr changes)
             return -1;
         }
         if (buf[0] != '\0') {
-            type.name = XkbInternAtom(buf.ptr, FALSE);
+            type.name = XkbInternAtom(buf.ptr, False);
         }
         else
             type.name = None;
@@ -436,7 +436,7 @@ private int ReadXkmCompatMap(FILE* file, XkbDescPtr xkb, XkbChangesPtr changes)
             //_XkbLibError(_XkbErrBadAlloc, "ReadXkmCompatMap", 0);
             return -1;
         }
-        xkb.names.compat = XkbInternAtom(name.ptr, FALSE);
+        xkb.names.compat = XkbInternAtom(name.ptr, False);
     }
     num_si = XkmGetCARD16(file, &nRead);
     groups = XkmGetCARD8(file, &nRead);
@@ -636,7 +636,7 @@ private int ReadXkmIndicators(FILE* file, XkbDescPtr xkb, XkbChangesPtr changes)
         }
         nRead += tmp;
         if (buf[0] != '\0')
-            name = XkbInternAtom(buf.ptr, FALSE);
+            name = XkbInternAtom(buf.ptr, False);
         else
             name = None;
         if ((tmp = cast(int)fread(&wire, xkmIndicatorMapDesc.sizeof, 1, file)) < 1) {
@@ -867,7 +867,7 @@ private int ReadXkmGeomDoodad(FILE* file, XkbGeometryPtr geom, XkbSectionPtr sec
     nRead += XkmGetCountedString(file, buf.ptr, 100);
     tmp = cast(uint)fread(&doodadWire, xkmDoodadDesc.sizeof, 1, file);
     nRead += xkmDoodadDesc.sizeof * tmp;
-    doodad = XkbAddGeomDoodad(geom, section, XkbInternAtom(buf.ptr, FALSE));
+    doodad = XkbAddGeomDoodad(geom, section, XkbInternAtom(buf.ptr, False));
     if (!doodad)
         return nRead;
     doodad.any.type = doodadWire.any.type;
@@ -924,7 +924,7 @@ private int ReadXkmGeomOverlay(FILE* file, XkbGeometryPtr geom, XkbSectionPtr se
     nRead += XkmGetCountedString(file, buf.ptr, 100);
     tmp = cast(uint)fread(&olWire, xkmOverlayDesc.sizeof, 1, file);
     nRead += tmp * xkmOverlayDesc.sizeof;
-    ol = XkbAddGeomOverlay(section, XkbInternAtom(buf.ptr, FALSE), olWire.num_rows);
+    ol = XkbAddGeomOverlay(section, XkbInternAtom(buf.ptr, False), olWire.num_rows);
     if (!ol)
         return nRead;
     for (r = 0; r < olWire.num_rows; r++) {
@@ -960,7 +960,7 @@ private int ReadXkmGeomSection(FILE* file, XkbGeometryPtr geom)
     Atom nameAtom = void;
 
     nRead += XkmGetCountedString(file, buf.ptr, 100);
-    nameAtom = XkbInternAtom(buf.ptr, FALSE);
+    nameAtom = XkbInternAtom(buf.ptr, False);
     tmp = cast(uint)fread(&sectionWire, xkmSectionDesc.sizeof, 1, file);
     nRead += xkmSectionDesc.sizeof * tmp;
     section = XkbAddGeomSection(geom, nameAtom, sectionWire.num_rows,
@@ -1053,7 +1053,7 @@ private int ReadXkmGeometry(FILE* file, XkbDescPtr xkb)
         return nRead;
     }
     geom = xkb.geom;
-    geom.name = XkbInternAtom(buf.ptr, FALSE);
+    geom.name = XkbInternAtom(buf.ptr, False);
     geom.width_mm = wireGeom.width_mm;
     geom.height_mm = wireGeom.height_mm;
     nRead += XkmGetCountedString(file, buf.ptr, 100);
@@ -1092,7 +1092,7 @@ private int ReadXkmGeometry(FILE* file, XkbDescPtr xkb)
             xkmOutlineDesc olWire = void;
 
             nRead += XkmGetCountedString(file, buf.ptr, 100);
-            nameAtom = XkbInternAtom(buf.ptr, FALSE);
+            nameAtom = XkbInternAtom(buf.ptr, False);
             tmp = cast(uint)fread(&shapeWire, xkmShapeDesc.sizeof, 1, file);
             nRead += tmp * xkmShapeDesc.sizeof;
             shape = XkbAddGeomShape(geom, nameAtom, shapeWire.num_outlines);

@@ -100,7 +100,7 @@ void miPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* pp
     pwidth = pwidthInit;
     for (i = 0; i < npt; i++)
         *pwidth++ = 1;
-    (*pGC.ops.FillSpans) (pDrawable, pGC, npt, pptInit, pwidthInit, FALSE);
+    (*pGC.ops.FillSpans) (pDrawable, pGC, npt, pptInit, pwidthInit, False);
 
     if (fsOld.val != FillSolid) {
         ChangeGC(null, pGC, cast(int)GCFillStyle, &fsOld);

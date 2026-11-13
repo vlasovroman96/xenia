@@ -52,7 +52,7 @@ import core.sys.posix.sys.mman;
 import core.sys.posix.unistd;
 import externs.gnu;
 
-private Bool ExtendedEnabled = FALSE;
+private Bool ExtendedEnabled = False;
 
 version (__IA64__) {
 
@@ -85,7 +85,7 @@ int iopl(int __level);
 
 void xf86OSInitVidMem(VidMemInfoPtr pVidMem)
 {
-    pVidMem.initialised = TRUE;
+    pVidMem.initialised = True;
 }
 
 /***************************************************************************/
@@ -142,7 +142,7 @@ private Bool hwEnableIO()
             if (ioperm(0, 1024, 1)) {
                 ErrorF("xf86EnableIO: failed to enable I/O ports 0000-03ff (%s)\n",
                    strerror(errno));
-                return FALSE;
+                return False;
             }
         }
     }
@@ -169,7 +169,7 @@ static if (!HasVersion!"Alpha") {
     fclose(fp);
 }
 
-    return TRUE;
+    return True;
 }
 
 private void hwDisableIO()
@@ -190,7 +190,7 @@ enum string hwDisableIO() = ``;
 Bool xf86EnableIO()
 {
     if (ExtendedEnabled)
-        return TRUE;
+        return True;
 
     ExtendedEnabled = hwEnableIO();
 
@@ -205,5 +205,5 @@ void xf86DisableIO()
 
     hwDisableIO();
 
-    ExtendedEnabled = FALSE;
+    ExtendedEnabled = False;
 }

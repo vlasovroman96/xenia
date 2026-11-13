@@ -75,13 +75,13 @@ private int SELinuxArraySet(SELinuxArrayRec* rec, uint key, void* val)
         /* Need to increase size of array */
         rec.array = cast(void**) reallocarray(rec.array, key + 1, val.sizeof);        
         if (!rec.array)
-            return FALSE;
+            return False;
         memset(rec.array + rec.size, 0, (key - rec.size + 1) * val.sizeof);
         rec.size = key + 1;
     }
 
     rec.array[key] = val;
-    return TRUE;
+    return True;
 }
 
 private void SELinuxArrayFree(SELinuxArrayRec* rec, int free_elements)

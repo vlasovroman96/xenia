@@ -298,7 +298,7 @@ int ProcXGetFeedbackControl(ClientPtr client)
     if (total_length == 0)
         return BadMatch;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     char* buf = cast(char*)x_rpcbuf_reserve(&rpcbuf, total_length);
 
     for (k = dev.kbdfeed; k; k = k.next)

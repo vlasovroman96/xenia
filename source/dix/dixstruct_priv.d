@@ -112,7 +112,7 @@ c_long SmartScheduleTime;
 static if (HAVE_SETITIMER) {
 // Bool SmartScheduleSignalEnable;
 } else {
-enum SmartScheduleSignalEnable = FALSE;
+enum SmartScheduleSignalEnable = False;
 }
 // void SmartScheduleStartTimer();
 // void SmartScheduleStopTimer();

@@ -72,12 +72,12 @@ int ClientSleepUntil(ClientPtr client, TimeStamp* revive, void function(ClientPt
     SertafiedResType = CreateNewResourceType(&SertafiedDelete,
                                              "ClientSleep");
     if (!SertafiedResType)
-        return FALSE;
-    BlockHandlerRegistered = FALSE;
+        return False;
+    BlockHandlerRegistered = False;
 
     SertafiedPtr pRequest = cast(SertafiedPtr)cast(SertafiedRec*) calloc(1, SertafiedRec.sizeof);
     if (!pRequest)
-        return FALSE;
+        return False;
     pRequest.pClient = client;
     pRequest.revive = *revive;
     pRequest.id = FakeClientID(client.index);
@@ -87,13 +87,13 @@ int ClientSleepUntil(ClientPtr client, TimeStamp* revive, void function(ClientPt
                                             &SertafiedWakeupHandler,
                                             cast(void*) 0)) {
             free(pRequest);
-            return FALSE;
+            return False;
         }
-        BlockHandlerRegistered = TRUE;
+        BlockHandlerRegistered = True;
     }
     pRequest.notifyFunc = null;
     if (!AddResource(cast(uint)pRequest.id, SertafiedResType, cast(void*) pRequest))
-        return FALSE;
+        return False;
     if (!notifyFunc)
         notifyFunc = &ClientAwaken;
     pRequest.notifyFunc = notifyFunc;
@@ -111,7 +111,7 @@ int ClientSleepUntil(ClientPtr client, TimeStamp* revive, void function(ClientPt
         pending = pRequest;
     pRequest.next = walk;
     IgnoreClient(client);
-    return TRUE;
+    return True;
 }
 
 private void ClientAwaken(ClientPtr client, void* closure)
@@ -135,7 +135,7 @@ private int SertafiedDelete(void* value, XID id)
     if (pRequest.notifyFunc)
         (*pRequest.notifyFunc) (pRequest.pClient, pRequest.closure);
     free(pRequest);
-    return TRUE;
+    return True;
 }
 
 private void SertafiedBlockHandler(void* data, void* wt)
@@ -189,6 +189,6 @@ private void SertafiedWakeupHandler(void* data, int i)
     if (!pending) {
         RemoveBlockAndWakeupHandlers(&SertafiedBlockHandler,
                                      &SertafiedWakeupHandler, cast(void*) 0);
-        BlockHandlerRegistered = FALSE;
+        BlockHandlerRegistered = False;
     }
 }

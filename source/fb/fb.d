@@ -346,7 +346,7 @@ enum string fbWindowEnabled(string pWin) = `
 
 enum string fbDrawableEnabled(string pDrawable) = `
     ((` ~ pDrawable ~ `).type == DRAWABLE_PIXMAP ? 
-     TRUE : ` ~ fbWindowEnabled!(`cast(WindowPtr) ` ~ pDrawable ~ ``) ~ `)`;
+     True : ` ~ fbWindowEnabled!(`cast(WindowPtr) ` ~ pDrawable ~ ``) ~ `)`;
 
 enum string FbPowerOfTwo(string w) = `(((` ~ w ~ `) & ((` ~ w ~ `) - 1)) == 0)`;
 /*
