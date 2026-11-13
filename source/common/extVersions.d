@@ -1,4 +1,4 @@
-module common.protocol_versions;
+module common.extVersions;
 @nogc nothrow:
 extern(C): __gshared:
 /*
@@ -29,7 +29,7 @@ extern(C): __gshared:
  * This file specifies the server-supported protocol versions.
  */
 
- import build.xlibre_server;
+import build.xlibre_server;
  
 /* Apple DRI */
 enum SERVER_APPLEDRI_MAJOR_VERSION =		1;
