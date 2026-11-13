@@ -49,7 +49,6 @@ import dix.window;
 import externs.X11.extensions.XKBproto;
 // import externs.X11.extensions.XKBstr;
 import xkb.xkbstr;
-import common.misc;
 import dix.inputstr;
 import Xi.exevents;
 import dix.events;

@@ -76,7 +76,6 @@ import os.client_priv;
 import os.ossock;
 import os.screensaver;
 
-import common.misc;
 import os.osdep;
 import dix.dixstruct_priv;
 // import os.utils;

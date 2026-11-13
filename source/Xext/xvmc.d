@@ -19,7 +19,7 @@ import hw.xfree86.common.xvmcext;
 import miext.extinit_priv;
 import Xext.xvdix_priv;
 
-import common.misc;
+//import common.misc;
 import os.os;
 import dix.dixstruct_priv;
 import dix.resource;

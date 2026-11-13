@@ -39,7 +39,6 @@ import dix.screen_hooks_priv;
 import os.log_priv;
 import region;
 
-import common.misc;
 import dix.scrnintstr;
 import xf86DGA;
 import hw.xfree86.common.xf86Helper;

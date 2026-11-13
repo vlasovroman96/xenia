@@ -65,7 +65,6 @@ public import core.stdc.time;
 
 public import common.xlibre_ptrtypes;
 public import dix.callback;
-public import common.misc;
 public import externs.gnu;
 
 import os.connection;

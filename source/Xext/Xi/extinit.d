@@ -161,7 +161,7 @@ import Xi.xichangehierarchy;
 import Xi.xisetclientpointer;
 import dix.events;
 import tables;
-import common.misc;
+import common.bytes;
 import os.log;
 import std.conv;
 import dix.extension;
@@ -557,7 +557,7 @@ private void SDeviceChangedEvent(xXIDeviceChangedEvent* from, xXIDeviceChangedEv
         {
             xXIButtonInfo* bi = cast(xXIButtonInfo*) any;
             Atom* labels = cast(Atom*) (cast(char*) bi + ((xXIButtonInfo).sizeof +
-                                     pad_to_int32(bits_to_bytes
+                                     padForInt32(bytesForBits
                                                   (bi.num_buttons))));
             for (j = 0; j < bi.num_buttons; j++)
                 swapl(&labels[j]);

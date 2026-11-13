@@ -40,7 +40,6 @@ import Xext.shm;
 import mi.mi_priv;
 
 import common.servermd;
-import common.misc;
 import dix.scrnintstr;
 import dix.pixmap;
 import mi.miline;

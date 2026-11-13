@@ -70,6 +70,7 @@ import externs.X11.extensions.XIproto;
 import externs.X11.extensions.XI;
 import dix.devices;
 import dix.inpututils;
+import common.bytes;
 
 /***********************************************************************
  *
@@ -84,7 +85,7 @@ int ProcXSetDeviceModifierMapping(ClientPtr client)
 
     mixin(X_REQUEST_HEAD_AT_LEAST!xSetDeviceModifierMappingReq);
 
-    if (client.req_len != bytes_to_int32(xSetDeviceModifierMappingReq.sizeof) +
+    if (client.req_len != int32ForBytes(xSetDeviceModifierMappingReq.sizeof) +
         (stuff.numKeyPerModifier << 1))
         return BadLength;
 

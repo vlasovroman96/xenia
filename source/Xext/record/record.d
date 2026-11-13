@@ -73,6 +73,7 @@ import os.osinit;
 import dix.extension;
 import build.xlibre_server;
 import common.math;
+import common.bytes;
 
 private RESTYPE RTContext;       /* internal resource type for Record contexts */
 
@@ -372,8 +373,8 @@ private void RecordAProtocolElement(RecordContextPtr pContext, ClientPtr pClient
         replylen = cast(int)pRep.length;
         if (recordingClientSwapped)
             swapl(&replylen);
-        replylen += numElemHeaders + bytes_to_int32(datalen) +
-            bytes_to_int32(futurelen);
+        replylen += numElemHeaders + int32ForBytes(datalen) +
+            int32ForBytes(futurelen);
         if (recordingClientSwapped)
             swapl(&replylen);
         pRep.length = replylen;
@@ -474,7 +475,7 @@ private void RecordABigRequest(RecordContextPtr pContext, ClientPtr client, xReq
                            cast(void*) stuff, xReq.sizeof, 0, bytesLeft);
 
     /* reinsert the extended length field that was squished out */
-    bigLength = client.req_len + bytes_to_int32(bigLength.sizeof);
+    bigLength = client.req_len + int32ForBytes(bigLength.sizeof);
     if (client.swapped)
         swapl(&bigLength);
     RecordAProtocolElement(pContext, client, XRecordFromClient,
@@ -2218,8 +2219,8 @@ private int ProcRecordGetContext(ClientPtr client)
          pRCAP; pRCAP = pRCAP.pNextRCAP, pri++) {
         nClients += pRCAP.numClients;
         length += pRCAP.numClients *
-            (bytes_to_int32(xRecordClientInfo.sizeof) +
-             pri.nRanges * bytes_to_int32(xRecordRange.sizeof));
+            (int32ForBytes(xRecordClientInfo.sizeof) +
+             pri.nRanges * int32ForBytes(xRecordRange.sizeof));
     }
 
     /* write the reply header */
@@ -2492,14 +2493,14 @@ private int SwapCreateRegister(ClientPtr client, xRecordRegisterClientsReq* stuf
     swapl(&stuff.nRanges);
     pClientID = cast(XID*) &stuff[1];
     if (stuff.nClients >
-        client.req_len - bytes_to_int32(sz_xRecordRegisterClientsReq))
+        client.req_len - int32ForBytes(sz_xRecordRegisterClientsReq))
         return BadLength;
     for (i = 0; i < stuff.nClients; i++, pClientID++) {
         swapl(pClientID);
     }
     if (stuff.nRanges >
-        (client.req_len - bytes_to_int32(sz_xRecordRegisterClientsReq)
-        - stuff.nClients) / bytes_to_int32(sz_xRecordRange))
+        (client.req_len - int32ForBytes(sz_xRecordRegisterClientsReq)
+        - stuff.nClients) / int32ForBytes(sz_xRecordRange))
         return BadLength;
     RecordSwapRanges(cast(xRecordRange*) pClientID, cast(int)stuff.nRanges);
     return Success;

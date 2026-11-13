@@ -95,7 +95,6 @@ import dix.dix_priv;
 import dix.resource_priv;
 import dix.screenint_priv;
 
-import common.misc;
 import dix.window;
 import dix.dixstruct_priv;
 import dix.pixmap;

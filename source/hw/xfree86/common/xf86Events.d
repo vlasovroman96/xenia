@@ -70,7 +70,6 @@ import mi.mi_priv;
 import os.log_priv;
 import os.inputthread;
 
-import common.misc;
 import xf86_priv;
 import hw.xfree86.common.xf86Priv;
 import hw.xfree86.os_support.xf86_os_support;

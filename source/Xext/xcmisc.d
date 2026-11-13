@@ -42,7 +42,6 @@ import dix.resource_priv;
 import dix.rpcbuf_priv;
 import miext.extinit_priv;
 
-import common.misc;
 import os.os;
 import dix.dixstruct_priv;
 import dix.swaprep;

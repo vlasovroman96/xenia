@@ -66,7 +66,6 @@ import dix.window_priv;
 import os.auth;
 import os.client_priv;
 
-import common.misc;
 import dix.inputstr;
 import dix.cursor;
 import Xi.exglobals;

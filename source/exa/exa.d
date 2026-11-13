@@ -49,6 +49,7 @@ import os.WaitFor;
 import render.picture;
 import dix.screen_hooks;
 import common.math;
+import common.bytes;
 
 
 
@@ -168,7 +169,7 @@ void exaSetAccelBlock(ExaScreenPrivPtr pExaScr, ExaPixmapPrivPtr pExaPixmap, int
     pExaPixmap.accel_blocked = 0;
 
     if (pExaScr.info.maxPitchPixels) {
-        int max_pitch = pExaScr.info.maxPitchPixels * bits_to_bytes(bpp);
+        int max_pitch = pExaScr.info.maxPitchPixels * bytesForBits(bpp);
 
         if (pExaPixmap.fb_pitch > max_pitch)
             pExaPixmap.accel_blocked |= EXA_RANGE_PITCH;
@@ -188,9 +189,9 @@ void exaSetAccelBlock(ExaScreenPrivPtr pExaScr, ExaPixmapPrivPtr pExaPixmap, int
 void exaSetFbPitch(ExaScreenPrivPtr pExaScr, ExaPixmapPrivPtr pExaPixmap, int w, int h, int bpp)
 {
     if (pExaScr.info.flags & EXA_OFFSCREEN_ALIGN_POT && w != 1)
-        pExaPixmap.fb_pitch = bits_to_bytes((1 << (exaLog2(w - 1) + 1)) * bpp);
+        pExaPixmap.fb_pitch = bytesForBits((1 << (exaLog2(w - 1) + 1)) * bpp);
     else
-        pExaPixmap.fb_pitch = bits_to_bytes(w * bpp);
+        pExaPixmap.fb_pitch = bytesForBits(w * bpp);
 
     pExaPixmap.fb_pitch = mixin(EXA_ALIGN!("pExaPixmap.fb_pitch",
                                      "pExaScr.info.pixmapPitchAlign"));

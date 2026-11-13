@@ -147,7 +147,7 @@ import Xext.panoramiXsrv;
 import xkb.xkbsrv_priv;
 import dix.timestamp;
 
-import common.misc;
+import common.bytes;
 import dix.resource;
 import dix.inputstr;
 import dix.scrnintstr;
@@ -5021,8 +5021,8 @@ void DeviceEnterLeaveEvent(DeviceIntPtr mouse, int sourceid, int type, int mode,
         (mode == XINotifyPassiveUngrab && type == XI_Enter))
         return;
 
-    btlen = (mouse.button) ? bits_to_bytes(mouse.button.numButtons) : 0;
-    btlen = cast(int)bytes_to_int32(btlen);
+    btlen = (mouse.button) ? bytesForBits(mouse.button.numButtons) : 0;
+    btlen = cast(int)int32ForBytes(btlen);
     len = cast(int)((xXIEnterEvent).sizeof + btlen * 4);
 
     xXIEnterEvent* event = cast(xXIEnterEvent*) calloc(1, len);

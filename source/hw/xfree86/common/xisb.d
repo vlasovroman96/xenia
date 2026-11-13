@@ -34,7 +34,6 @@ extern(C): __gshared:
 */
 import build.xorg_config;
 
-import common.misc;
 import hw.xfree86.os_support.xf86_OSproc;;
 import hw.xfree86.os_support.xf86_OSlib;
 // import hw.xfree86.common.xf86sbusBus_priv;;

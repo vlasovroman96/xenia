@@ -78,7 +78,7 @@ import dix.scrnintstr;
 import dix.resource;
 import dix.dixstruct_priv;
 import dix.cursor;
-import common.misc;
+import common.bytes;
 import dix.dixfonts;
 import Xext.xace;
 import os.utils;
@@ -1057,7 +1057,7 @@ private int doListFontsWithInfo(ClientPtr client, list_fonts_with_info_closure* 
             _reply.type = X_Reply;
             _reply.length =
                 mixin(X_REPLY_HEADER_UNITS!("xListFontsWithInfoReply"))
-                + bytes_to_int32(pFontInfo.nprops*(xFontProp).sizeof+namelen);
+                + int32ForBytes(pFontInfo.nprops*(xFontProp).sizeof+namelen);
             _reply.sequenceNumber = cast(ushort)client.sequence;
             _reply.nameLength = cast(ubyte)namelen;
             _reply.minBounds = pFontInfo.ink_minbounds;

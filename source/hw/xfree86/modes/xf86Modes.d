@@ -44,6 +44,7 @@ import os.log;
 import xf86Globals;
 import hw.xfree86.modes.displaymode;
 import common.math;
+import common.bytes;
 
 /**
  * Calculates the horizontal sync rate of a mode.
@@ -113,7 +114,7 @@ int xf86ModeHeight(const(DisplayModeRec)* mode, Rotation rotation)
 uint xf86ModeBandwidth(DisplayModePtr mode, int depth)
 {
     float a_active = void, a_total = void, active_percent = void, pixels_per_second = void;
-    int bytes_per_pixel = bits_to_bytes(depth);
+    int bytes_per_pixel = bytesForBits(depth);
 
     if (!mode.HTotal || !mode.VTotal || !mode.Clock)
         return 0;

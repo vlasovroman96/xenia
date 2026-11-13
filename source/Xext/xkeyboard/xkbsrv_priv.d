@@ -14,7 +14,6 @@ import core.stdc.config: c_long, c_ulong;
 public import xkb.xkbrules_priv;
 
 public import dix.input;
-public import common.misc;
 public import dix.privates;
 public import xkb.xkbsrv_priv;
 public import xkb.xkbsrv_priv;

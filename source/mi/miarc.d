@@ -59,7 +59,6 @@ import core.stdc.math;
 
 import mi.mi_priv;
 
-import common.misc;
 import dix.scrnintstr;
 import dix.pixmap;
 import dix.window;

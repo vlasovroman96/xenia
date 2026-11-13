@@ -54,7 +54,7 @@ import dix.timestamp;
 import externs.attrs;
 import dix.picture;
 import common.math;
- 
+import common.bytes;
 
 /* XFixed is just `int`, so better check whether it's really 32bit */
 static assert(XFixed.sizeof, CARD32.sizeof);
@@ -1270,7 +1270,7 @@ int ProcRRSetCrtcConfig(ClientPtr client)
     int ret = void, i = void, j = void;
     CARD8 status = void;
 
-    numOutputs = cast(uint)(client.req_len - bytes_to_int32(xRRSetCrtcConfigReq.sizeof));
+    numOutputs = cast(uint)(client.req_len - int32ForBytes(xRRSetCrtcConfigReq.sizeof));
 
     mixin(VERIFY_RR_CRTC!("stuff.crtc", "crtc", "DixSetAttrAccess"));
 
@@ -1687,7 +1687,7 @@ int ProcRRSetCrtcGamma(ClientPtr client)
     if (RRCrtcIsLeased(crtc))
         return BadAccess;
 
-    len = cast(int)(client.req_len - bytes_to_int32(xRRSetCrtcGammaReq.sizeof));
+    len = cast(int)(client.req_len - int32ForBytes(xRRSetCrtcGammaReq.sizeof));
     if (len < (stuff.size * 3 + 1) >> 1)
         return BadLength;
 
@@ -1713,10 +1713,10 @@ int ProcRRSetCrtcTransform(ClientPtr client)
     if (client.swapped) {
         swapl(&stuff.crtc);
         SwapLongs(cast(CARD32*) &stuff.transform,
-                  bytes_to_int32(xRenderTransform.sizeof));
+                  int32ForBytes(xRenderTransform.sizeof));
         swaps(&stuff.nbytesFilter);
         char* filter = cast(char*) (stuff + 1);
-        CARD32* params = cast(CARD32*) (filter + pad_to_int32(stuff.nbytesFilter));
+        CARD32* params = cast(CARD32*) (filter + padForInt32(stuff.nbytesFilter));
         int nparams = cast(int)((cast(CARD32*)stuff + client.req_len) - params);
         if (nparams < 0)
             return BadLength;
@@ -1744,7 +1744,7 @@ int ProcRRSetCrtcTransform(ClientPtr client)
 
     filter = cast(char*) (stuff + 1);
     nbytes = stuff.nbytesFilter;
-    params = cast(XFixed*) (filter + pad_to_int32(nbytes));
+    params = cast(XFixed*) (filter + padForInt32(nbytes));
     nparams =  cast(int)((cast(XFixed*)stuff + client.req_len) - params);
     if (nparams < 0)
         return BadLength;
@@ -1793,8 +1793,8 @@ int ProcRRGetCrtcTransform(ClientPtr client)
     }
 
     if (client.swapped) {
-        SwapLongs(cast(CARD32*) &reply.pendingTransform, bytes_to_int32(xRenderTransform.sizeof));
-        SwapLongs(cast(CARD32*) &reply.currentTransform, bytes_to_int32(xRenderTransform.sizeof));
+        SwapLongs(cast(CARD32*) &reply.pendingTransform, int32ForBytes(xRenderTransform.sizeof));
+        SwapLongs(cast(CARD32*) &reply.currentTransform, int32ForBytes(xRenderTransform.sizeof));
         swaps(&reply.pendingNbytesFilter);
         swaps(&reply.currentNbytesFilter);
         swaps(&reply.pendingNparamsFilter);

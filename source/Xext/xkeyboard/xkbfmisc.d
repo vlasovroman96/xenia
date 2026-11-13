@@ -42,7 +42,6 @@ import dix.atom;
 import xkb.xkbfmisc_priv;
 import xkb.xkbout_priv;
 
-import common.misc;
 import dix.inputstr;
 import xkb.xkbsrv_priv;
 import xkb.xkbsrv_priv;

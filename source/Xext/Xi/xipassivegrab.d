@@ -49,7 +49,6 @@ import dix.inputstr;           /* DeviceIntPtr      */
 import dix.window;          /* window structure  */
 import dix.swaprep;
 import Xi.exglobals;          /* BadDevice */
-import common.misc;
 import dix.dixutils;
 import dix.devices;
 import dix.events;

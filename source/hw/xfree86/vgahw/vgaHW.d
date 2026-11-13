@@ -21,7 +21,6 @@ import core.sys.posix.unistd;
 
 import os.log_priv;
 
-import common.misc;
 import xf86_priv;
 import hw.xfree86.os_support.xf86_OSproc;;
 import xf86Opt_priv;
@@ -38,7 +37,7 @@ import hw.xfree86.parser.Flags;
 import dix.events;
 import hw.xfree86.modes.displaymode;
 
-public import common.misc;
+//public import common.misc;
 public import dix.input;
 public import dix.scrnintstr;
 

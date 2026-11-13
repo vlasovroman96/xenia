@@ -32,7 +32,6 @@ import dix.colormap_priv;
 import dix.screen_hooks_priv;
 import os.osdep;
 import os.log;
-import common.misc;
 import dix.scrnintstr;
 import os.os;
 import dix.validate;

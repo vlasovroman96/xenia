@@ -59,7 +59,6 @@ import dix.dixfonts;
 import dix.gc_priv;
 import os.osdep;
 
-import common.misc;
 import dix.gc;
 import dix.pixmap;
 import dix.scrnintstr;

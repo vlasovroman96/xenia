@@ -109,7 +109,6 @@ import os.serverlock;
 import Xext.panoramiXsrv;
 
 import dix.scrnintstr;
-import common.misc;
 import os.os;
 import dix.resource;
 import dix.dixstruct_priv;

@@ -12,11 +12,11 @@ import core.stdc.stddef;
 import dix.dix_priv;
 import dix.rpcbuf_priv;
 import dix.swapreq;
-
+import common.bytes;
 
 pragma(inline, true) Bool __x_rpcbuf_write_bin_pad(x_rpcbuf_t* rpcbuf, const(char)* val, size_t len)
 {
-    const(size_t) blen = pad_to_int32(cast(int)len);
+    const(size_t) blen = padForInt32(cast(int)len);
 
     char* reserved = cast(char*)x_rpcbuf_reserve(rpcbuf, blen);
     if (!reserved)

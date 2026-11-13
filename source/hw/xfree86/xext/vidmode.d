@@ -51,7 +51,7 @@ import dix.screenint_priv;
 import os.log_priv;
 import os.osdep;
 
-import common.misc;
+import common.bytes;
 import dix.dixstruct_priv;
 import dix.scrnintstr;
 import common.servermd;
@@ -524,7 +524,7 @@ private int ProcVidModeAddModeLine(ClientPtr client)
         mixin(X_REQUEST_HEAD_AT_LEAST!xXF86OldVidModeAddModeLineReq);
         len =
             cast(int)(client.req_len -
-            bytes_to_int32(xXF86OldVidModeAddModeLineReq.sizeof));
+            int32ForBytes(xXF86OldVidModeAddModeLineReq.sizeof));
 
         mixin(X_REQUEST_FIELD_CARD32!"screen");
         mixin(X_REQUEST_FIELD_CARD16!"hdisplay");
@@ -575,7 +575,7 @@ private int ProcVidModeAddModeLine(ClientPtr client)
         mixin(X_REQUEST_HEAD_AT_LEAST!xXF86VidModeAddModeLineReq);
         len =
             cast(int)(client.req_len -
-            bytes_to_int32(xXF86VidModeAddModeLineReq.sizeof));
+            int32ForBytes(xXF86VidModeAddModeLineReq.sizeof));
 
         mixin(X_REQUEST_FIELD_CARD32!"screen");
         mixin(X_REQUEST_FIELD_CARD16!"hdisplay");
@@ -741,7 +741,7 @@ private int ProcVidModeDeleteModeLine(ClientPtr client)
 
         len =
             cast(int)(client.req_len -
-            bytes_to_int32(xXF86OldVidModeDeleteModeLineReq.sizeof));
+            int32ForBytes(xXF86OldVidModeDeleteModeLineReq.sizeof));
         if (len != stuff.privsize) {
             DebugF("req_len = %ld, sizeof(Req) = %d, privsize = %ld, "
                    ~ "len = %d, length = %d\n",
@@ -788,7 +788,7 @@ private int ProcVidModeDeleteModeLine(ClientPtr client)
 
         len =
             cast(int)(client.req_len -
-            bytes_to_int32(xXF86VidModeDeleteModeLineReq.sizeof));
+            int32ForBytes(xXF86VidModeDeleteModeLineReq.sizeof));
         if (len != stuff.privsize) {
             DebugF("req_len = %ld, sizeof(Req) = %d, privsize = %ld, "
                    ~ "len = %d, length = %d\n",
@@ -901,7 +901,7 @@ private int ProcVidModeModModeLine(ClientPtr client)
         mixin(X_REQUEST_REST_CARD32!());
 
         int len = cast(int)(client.req_len -
-            bytes_to_int32(xXF86OldVidModeModModeLineReq.sizeof));
+            int32ForBytes(xXF86OldVidModeModModeLineReq.sizeof));
         if (len != stuff.privsize)
             return BadLength;
 
@@ -940,7 +940,7 @@ private int ProcVidModeModModeLine(ClientPtr client)
         mixin(X_REQUEST_REST_CARD32!());
 
         int len = cast(int)(client.req_len -
-            bytes_to_int32(xXF86VidModeModModeLineReq.sizeof));
+            int32ForBytes(xXF86VidModeModModeLineReq.sizeof));
         if (len != stuff.privsize)
             return BadLength;
         return VidModeModModeLine(client, stuff);
@@ -1064,7 +1064,7 @@ private int ProcVidModeValidateModeLine(ClientPtr client)
         mixin(X_REQUEST_REST_CARD32!());
 
         len = cast(int)(client.req_len -
-            bytes_to_int32(xXF86OldVidModeValidateModeLineReq.sizeof));
+            int32ForBytes(xXF86OldVidModeValidateModeLineReq.sizeof));
         if (len != stuff.privsize)
             return BadLength;
 
@@ -1104,7 +1104,7 @@ private int ProcVidModeValidateModeLine(ClientPtr client)
 
         len =
             cast(int)(client.req_len -
-            bytes_to_int32(xXF86VidModeValidateModeLineReq.sizeof));
+            int32ForBytes(xXF86VidModeValidateModeLineReq.sizeof));
         if (len != stuff.privsize)
             return BadLength;
         return VidModeValidateModeLine(client, stuff);
@@ -1235,7 +1235,7 @@ private int ProcVidModeSwitchToMode(ClientPtr client)
 
         len =
             cast(int)(client.req_len -
-            bytes_to_int32(xXF86OldVidModeSwitchToModeReq.sizeof));
+            int32ForBytes(xXF86OldVidModeSwitchToModeReq.sizeof));
         if (len != stuff.privsize)
             return BadLength;
 
@@ -1263,7 +1263,7 @@ private int ProcVidModeSwitchToMode(ClientPtr client)
 
         len =
             cast(int)(client.req_len -
-            bytes_to_int32(xXF86VidModeSwitchToModeReq.sizeof));
+            int32ForBytes(xXF86VidModeSwitchToModeReq.sizeof));
         if (len != stuff.privsize)
             return BadLength;
         return VidModeSwitchToMode(client, stuff);

@@ -33,7 +33,6 @@ import core.stdc.stdio;
 import core.stdc.string;
 //import x11.X;
 //import x11.Xproto;
-import common.misc;
 import dix.inputstr;
 import xkb.xkbsrv_priv;
 import xkb.xkbgeom_priv;

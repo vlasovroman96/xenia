@@ -70,6 +70,7 @@ import Xi.XIstubs;
 import Xi.exglobals;
 import externs.X11.extensions.XI;
 import dix.devices;
+import common.bytes;
 
 
 
@@ -91,7 +92,7 @@ int ProcXChangeDeviceControl(ClientPtr client)
         swaps(&ctl.length);
     }
 
-    uint len = cast(uint)(client.req_len - bytes_to_int32(xChangeDeviceControlReq.sizeof));
+    uint len = cast(uint)(client.req_len - int32ForBytes(xChangeDeviceControlReq.sizeof));
 
     xChangeDeviceControlReply reply = {
         RepType: X_ChangeDeviceControl,
@@ -113,9 +114,9 @@ int ProcXChangeDeviceControl(ClientPtr client)
     case DEVICE_RESOLUTION:
     {
         xDeviceResolutionCtl* r = cast(xDeviceResolutionCtl*) &stuff[1];
-        if ((len < bytes_to_int32(xDeviceResolutionCtl.sizeof)) ||
+        if ((len < int32ForBytes(xDeviceResolutionCtl.sizeof)) ||
             (len !=
-             bytes_to_int32(xDeviceResolutionCtl.sizeof) + r.num_valuators)) {
+             int32ForBytes(xDeviceResolutionCtl.sizeof) + r.num_valuators)) {
             ret = BadLength;
             goto out_;
         }
@@ -172,7 +173,7 @@ int ProcXChangeDeviceControl(ClientPtr client)
     case DEVICE_ENABLE:
     {
         xDeviceEnableCtl* e = cast(xDeviceEnableCtl*) &stuff[1];
-        if ((len != bytes_to_int32(xDeviceEnableCtl.sizeof))) {
+        if ((len != int32ForBytes(xDeviceEnableCtl.sizeof))) {
             ret = BadLength;
             goto out_;
         }

@@ -52,6 +52,7 @@ import randr.rrmode;
 import randr.rrinfo;
 
 import dix.swaprep;
+import common.bytes;
 
 // RESTYPE RRProviderType = 0;
 
@@ -169,7 +170,7 @@ int ProcRRGetProviderInfo(ClientPtr client)
     }
 
     reply.length = (pScrPriv.numCrtcs + pScrPriv.numOutputs +
-                   (reply.nAssociatedProviders * 2) + bytes_to_int32(reply.nameLength));
+                   (reply.nAssociatedProviders * 2) + int32ForBytes(reply.nameLength));
 
     x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
 

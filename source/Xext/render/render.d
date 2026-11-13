@@ -45,7 +45,7 @@ import os.osdep;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
-import common.misc;
+import common.bytes;
 import os.os;
 import dix.dixstruct_priv;
 import dix.resource;
@@ -438,7 +438,7 @@ int SingleRenderCreatePicture(ClientPtr client, xRenderCreatePictureReq* stuff)
 
     if (pFormat.depth != pDrawable.depth)
         return BadMatch;
-    len = cast(int)(client.req_len - bytes_to_int32(xRenderCreatePictureReq.sizeof));
+    len = cast(int)(client.req_len - int32ForBytes(xRenderCreatePictureReq.sizeof));
     if (Ones(stuff.mask) != len)
         return BadLength;
 
@@ -461,7 +461,7 @@ int SingleRenderChangePicture(ClientPtr client, xRenderChangePictureReq* stuff, 
 
     mixin(VERIFY_PICTURE!("pPicture", "pictID", "client", "DixSetAttrAccess"));
 
-    len = cast(int)(client.req_len - bytes_to_int32(xRenderChangePictureReq.sizeof));
+    len = cast(int)(client.req_len - int32ForBytes(xRenderChangePictureReq.sizeof));
     if (Ones(stuff.mask) != len)
         return BadLength;
 
@@ -1056,7 +1056,7 @@ int ProcRenderFreeGlyphs(ClientPtr client)
         return rc;
     }
     nglyph =
-        cast(int)bytes_to_int32((client.req_len << 2) - xRenderFreeGlyphsReq.sizeof);
+        cast(int)int32ForBytes((client.req_len << 2) - xRenderFreeGlyphsReq.sizeof);
     gids = cast(CARD32*) (stuff + 1);
     while (nglyph-- > 0) {
         glyph = *gids++;
@@ -1523,7 +1523,7 @@ int ProcRenderQueryFilters(ClientPtr client)
             nbytesName += 1 + strlen(ps.filterAliases[i].alias_);
         nnames = ps.nfilters + ps.nfilterAliases;
     }
-    len = cast(int)(((nnames + 1) >> 1) + bytes_to_int32(nbytesName));
+    len = cast(int)(((nnames + 1) >> 1) + int32ForBytes(nbytesName));
     total_bytes = (len << 2);
 
     x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
@@ -1599,7 +1599,7 @@ int SingleRenderSetPictureFilter(ClientPtr client, xRenderSetPictureFilterReq* s
 
     mixin(VERIFY_PICTURE!("pPicture", "stuff.picture", "client", "DixSetAttrAccess"));
     name = cast(char*) (stuff + 1);
-    params = cast(XFixed*) (name + pad_to_int32(stuff.nbytes));
+    params = cast(XFixed*) (name + padForInt32(stuff.nbytes));
     nparams = cast(int)((cast(XFixed*) stuff + client.req_len) - params);
     if (nparams < 0)
 	return BadLength;
@@ -1629,7 +1629,7 @@ int ProcRenderCreateAnimCursor(ClientPtr client)
         return BadLength;
 
     int ncursor = cast(int)(client.req_len -
-         (bytes_to_int32(xRenderCreateAnimCursorReq.sizeof))) >> 1;
+         (int32ForBytes(xRenderCreateAnimCursorReq.sizeof))) >> 1;
     if (ncursor <= 0)
         return BadValue;
 
@@ -2838,7 +2838,7 @@ int ProcRenderSetPictureFilter(ClientPtr client)
     mixin(X_REQUEST_FIELD_CARD32!("picture"));
     mixin(X_REQUEST_FIELD_CARD16!("nbytes"));
         
-    const size_t namelen = pad_to_int32(stuff.nbytes);
+    const size_t namelen = padForInt32(stuff.nbytes);
     mixin(REQUEST_AT_LEAST_EXTRA_SIZE!("xRenderSetPictureFilterReq", "namelen"));
 
     const size_t packet_len = stuff.length * 4;

@@ -48,7 +48,7 @@ import Xext.damage.damageext_priv;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
-import common.misc;
+import common.bytes;
 import dix.cursor;
 import dix.cursor;
 import dix.dixstruct_priv;
@@ -725,7 +725,7 @@ Bool PanoramiXCreateConnectionBlock()
         length += (depth.nVisuals * xVisualType.sizeof);
     }
 
-    connSetupPrefix.length = cast(ushort)bytes_to_int32(length);
+    connSetupPrefix.length = cast(ushort)int32ForBytes(length);
 
     for (uint walkScreenIdx = 0; walkScreenIdx < PanoramiXNumDepths; walkScreenIdx++)
         free(PanoramiXDepths[walkScreenIdx].vids);

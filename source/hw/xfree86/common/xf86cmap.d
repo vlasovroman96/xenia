@@ -33,8 +33,6 @@ import core.stdc.math;
 //import x11.X;
 //import x11.Xproto;
 
-import common.misc;
-
 import dix.colormap_priv;
 import dix.screen_hooks_priv;
 import mi.mi_priv;

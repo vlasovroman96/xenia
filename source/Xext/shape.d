@@ -49,7 +49,6 @@ import Xext.panoramiX;
 import Xext.panoramiXsrv;
 import dix.dispatch;
 
-import common.misc;
 import os.os;
 import dix.scrnintstr;
 import dix.pixmap;

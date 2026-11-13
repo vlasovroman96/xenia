@@ -94,7 +94,6 @@ import glx.vndext;
 
 import miext.extinit_priv;
 
-import common.misc;
 import xf86Extensions;
 import mi.micmap;
 import os.os;

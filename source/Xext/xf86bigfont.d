@@ -76,7 +76,6 @@ import dix.request_priv;
 import miext.extinit_priv;
 import os.osdep;
 
-import common.misc;
 import os.os;
 import os.osdep;
 import dix.dixstruct_priv;

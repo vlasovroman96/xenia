@@ -68,6 +68,7 @@ import dix.inputstr;           /* DeviceIntPtr      */
 import Xi.XIstubs;
 import externs.X11.extensions.XI;
 import dix.devices;
+import common.bytes;
 
 /***********************************************************************
  *
@@ -87,7 +88,7 @@ int ProcXSetDeviceValuators(ClientPtr client)
         status: Success
     };
 
-    if (client.req_len != bytes_to_int32(xSetDeviceValuatorsReq.sizeof) +
+    if (client.req_len != int32ForBytes(xSetDeviceValuatorsReq.sizeof) +
         stuff.num_valuators)
         return BadLength;
 

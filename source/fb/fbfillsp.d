@@ -30,7 +30,6 @@ import fb.fbfill;
 import dix.pixmap;
 import dix.gc;
 import x11.Xprotostr;
-import common.misc;
 
 void fbFillSpans(DrawablePtr pDrawable, GCPtr pGC, int n, DDXPointPtr ppt, int* pwidth, int fSorted)
 {

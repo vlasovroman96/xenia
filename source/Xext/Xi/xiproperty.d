@@ -56,6 +56,7 @@ import dix.devices;
 import dix.events;
 import os.inputthread;
 import common.math;
+import common.bytes;
 
 
 /**
@@ -862,7 +863,7 @@ int ProcXChangeDeviceProperty(ClientPtr client)
         return rc;
 
     len = stuff.nUnits;
-    if (len > (bytes_to_int32(0xffffffff - xChangeDevicePropertyReq.sizeof)))
+    if (len > (int32ForBytes(0xffffffff - xChangeDevicePropertyReq.sizeof)))
         return BadLength;
 
     totalSize = len * (stuff.format / 8);
@@ -1020,7 +1021,7 @@ int ProcXIChangeProperty(ClientPtr client)
         return rc;
 
     len = stuff.num_items;
-    if (len > bytes_to_int32(0xffffffff - xXIChangePropertyReq.sizeof))
+    if (len > int32ForBytes(0xffffffff - xXIChangePropertyReq.sizeof))
         return BadLength;
 
     totalSize = len * (stuff.format / 8);

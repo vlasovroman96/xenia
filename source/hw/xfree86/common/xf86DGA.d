@@ -66,7 +66,6 @@ import mi.micmap;
 import xkb.xkbsrv_priv;
 import dix.events;
 import xf86Extensions;
-import common.misc;
 import dix.dixstruct_priv;
 import dix.cursor;
 import dix.scrnintstr;

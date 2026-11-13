@@ -63,6 +63,7 @@ import dix.dixutils;
 import dix.events;
 import dix.inpututils;
 import xkb.xkbstr;
+import common.bytes;
 
 /***********************************************************************
  *
@@ -144,8 +145,8 @@ int ProcXIQueryPointer(ClientPtr client)
     if (pDev.button) {
         int i = void;
 
-        const(int) buttons_size = bits_to_bytes(256); /* button map up to 255 */
-        reply.buttons_len = cast(ushort)bytes_to_int32(buttons_size);
+        const(int) buttons_size = bytesForBits(256); /* button map up to 255 */
+        reply.buttons_len = cast(ushort)int32ForBytes(buttons_size);
         char* buttons = cast(char*)x_rpcbuf_reserve0(&rpcbuf, buttons_size);
         if (!buttons)
             return BadAlloc;

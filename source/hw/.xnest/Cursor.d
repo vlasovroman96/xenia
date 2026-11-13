@@ -27,7 +27,6 @@ import externs.xcb.xcb_aux;
 
 import dix.scrintstr;
 import dix.input;
-import common.misc;
 import dix.cursor;
 import dix.scrnintstr;
 import common.servermd;

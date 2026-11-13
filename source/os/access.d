@@ -97,7 +97,7 @@ import os.Xtrans;
 // import externs.X11.Xauth;
 //import x11.X;
 //import x11.Xproto;
-import common.misc;
+import common.bytes;
 import core.stdc.errno;
 import core.sys.posix.sys.types;
 import x11.Xosdefs;
@@ -1419,7 +1419,7 @@ int GetHosts(void** data, int* pnHosts, int* pLen, BOOL* pEnabled)
     *pEnabled = AccessEnabled ? EnableAccess : DisableAccess;
     for (host = validhosts; host; host = host.next) {
         nHosts++;
-        n += pad_to_int32(host.len) + xHostEntry.sizeof;
+        n += padForInt32(host.len) + xHostEntry.sizeof;
         /* Could check for INT_MAX, but in reality having more than 1mb of
            hostnames in the access list is ridiculous */
         if (n >= 1048576)
@@ -1438,7 +1438,7 @@ int GetHosts(void** data, int* pnHosts, int* pLen, BOOL* pEnabled)
             (cast(xHostEntry*) ptr).length = cast(ushort)len;
             ptr += xHostEntry.sizeof;
             memcpy(ptr, host.addr, len);
-            ptr += pad_to_int32(len);
+            ptr += padForInt32(len);
         }
     }
     else {

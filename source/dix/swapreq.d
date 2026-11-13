@@ -57,7 +57,6 @@ import build.dix_config;
 import dix.dix_priv;
 import dix.reqhandlers_priv;
 
-import common.misc;
 import dix.dixstruct_priv;
 import dix.extension;         /* for SendEvent */
 import std.conv;

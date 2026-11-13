@@ -55,7 +55,7 @@ import Xext.panoramiX;
 import Xext.panoramiXsrv;
 import os.WaitFor;
 
-import common.misc;
+import common.bytes;
 import os.os;
 import dix.scrnintstr;
 import dix.pixmap;
@@ -753,7 +753,7 @@ private int ScreenSaverSetAttributes(ClientPtr client, xScreenSaverSetAttributes
         return ret;
     }
 
-    len = cast(int)(client.req_len - bytes_to_int32(xScreenSaverSetAttributesReq.sizeof));
+    len = cast(int)(client.req_len - int32ForBytes(xScreenSaverSetAttributesReq.sizeof));
     if (Ones(stuff.mask) != len) {
         return BadLength;
     }
@@ -1137,7 +1137,7 @@ static if(XINERAMA){
 
         len =
             cast(int)(client.req_len -
-            bytes_to_int32(xScreenSaverSetAttributesReq.sizeof));
+            int32ForBytes(xScreenSaverSetAttributesReq.sizeof));
         if (Ones(stuff.mask) != len) {
             return BadLength;
         }

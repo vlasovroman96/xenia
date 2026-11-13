@@ -46,7 +46,6 @@ import dix.inpututils_priv;
 import mi.mi_priv;
 import os.fmt;
 
-import common.misc;
 import dix.resource;
 import dix.window;
 import dix.inputstr;
@@ -950,48 +949,48 @@ private void test_bits_to_byte(int i)
 
     expected_bytes = (i + 7) / 8;
 
-    assert(bits_to_bytes(i) >= i / 8);
-    assert((bits_to_bytes(i) * 8) - i <= 7);
-    assert(expected_bytes == bits_to_bytes(i));
+    assert(bytesForBits(i) >= i / 8);
+    assert((bytesForBits(i) * 8) - i <= 7);
+    assert(expected_bytes == bytesForBits(i));
 }
 
-private void test_bytes_to_int32(int i)
+private void test_int32ForBytes(int i)
 {
     int expected_4byte = void;
 
     expected_4byte = (i + 3) / 4;
 
-    assert(bytes_to_int32(i) <= i);
-    assert((bytes_to_int32(i) * 4) - i <= 3);
-    assert(expected_4byte == bytes_to_int32(i));
+    assert(int32ForBytes(i) <= i);
+    assert((int32ForBytes(i) * 4) - i <= 3);
+    assert(expected_4byte == int32ForBytes(i));
 }
 
-private void test_pad_to_int32(int i)
+private void test_padForInt32(int i)
 {
     int expected_bytes = void;
 
     expected_bytes = ((i + 3) / 4) * 4;
 
-    assert(pad_to_int32(i) >= i);
-    assert(pad_to_int32(i) - i <= 3);
-    assert(expected_bytes == pad_to_int32(i));
+    assert(padForInt32(i) >= i);
+    assert(padForInt32(i) - i <= 3);
+    assert(expected_bytes == padForInt32(i));
 }
 
-private void test_padding_for_int32(int i)
+private void test_paddingForInt32(int i)
 {
     static const(int)[4] padlength = [ 0, 3, 2, 1 ];
     int expected_bytes = (((i + 3) / 4) * 4) - i;
 
-    assert(padding_for_int32(i) >= 0);
-    assert(padding_for_int32(i) <= 3);
-    assert(padding_for_int32(i) == expected_bytes);
-    assert(padding_for_int32(i) == padlength[i & 3]);
-    assert((padding_for_int32(i) + i) == pad_to_int32(i));
+    assert(paddingForInt32(i) >= 0);
+    assert(paddingForInt32(i) <= 3);
+    assert(paddingForInt32(i) == expected_bytes);
+    assert(paddingForInt32(i) == padlength[i & 3]);
+    assert((paddingForInt32(i) + i) == padForInt32(i));
 }
 
 private void include_byte_padding_macros()
 {
-    dbg("Testing bits_to_bytes()\n");
+    dbg("Testing bytesForBits()\n");
 
     /* the macros don't provide overflow protection */
     test_bits_to_byte(0);
@@ -1004,55 +1003,55 @@ private void include_byte_padding_macros()
     test_bits_to_byte(INT_MAX - 9);
     test_bits_to_byte(INT_MAX - 8);
 
-    dbg("Testing bytes_to_int32()\n");
+    dbg("Testing int32ForBytes()\n");
 
-    test_bytes_to_int32(0);
-    test_bytes_to_int32(1);
-    test_bytes_to_int32(2);
-    test_bytes_to_int32(7);
-    test_bytes_to_int32(8);
-    test_bytes_to_int32(0xFF);
-    test_bytes_to_int32(0x100);
-    test_bytes_to_int32(0xFFFF);
-    test_bytes_to_int32(0x10000);
-    test_bytes_to_int32(0xFFFFFF);
-    test_bytes_to_int32(0x1000000);
-    test_bytes_to_int32(INT_MAX - 4);
-    test_bytes_to_int32(INT_MAX - 3);
+    test_int32ForBytes(0);
+    test_int32ForBytes(1);
+    test_int32ForBytes(2);
+    test_int32ForBytes(7);
+    test_int32ForBytes(8);
+    test_int32ForBytes(0xFF);
+    test_int32ForBytes(0x100);
+    test_int32ForBytes(0xFFFF);
+    test_int32ForBytes(0x10000);
+    test_int32ForBytes(0xFFFFFF);
+    test_int32ForBytes(0x1000000);
+    test_int32ForBytes(INT_MAX - 4);
+    test_int32ForBytes(INT_MAX - 3);
 
-    dbg("Testing pad_to_int32()\n");
+    dbg("Testing padForInt32()\n");
 
-    test_pad_to_int32(0);
-    test_pad_to_int32(1);
-    test_pad_to_int32(2);
-    test_pad_to_int32(3);
-    test_pad_to_int32(7);
-    test_pad_to_int32(8);
-    test_pad_to_int32(0xFF);
-    test_pad_to_int32(0x100);
-    test_pad_to_int32(0xFFFF);
-    test_pad_to_int32(0x10000);
-    test_pad_to_int32(0xFFFFFF);
-    test_pad_to_int32(0x1000000);
-    test_pad_to_int32(INT_MAX - 4);
-    test_pad_to_int32(INT_MAX - 3);
+    test_padForInt32(0);
+    test_padForInt32(1);
+    test_padForInt32(2);
+    test_padForInt32(3);
+    test_padForInt32(7);
+    test_padForInt32(8);
+    test_padForInt32(0xFF);
+    test_padForInt32(0x100);
+    test_padForInt32(0xFFFF);
+    test_padForInt32(0x10000);
+    test_padForInt32(0xFFFFFF);
+    test_padForInt32(0x1000000);
+    test_padForInt32(INT_MAX - 4);
+    test_padForInt32(INT_MAX - 3);
 
-    dbg("Testing padding_for_int32()\n");
+    dbg("Testing paddingForInt32()\n");
 
-    test_padding_for_int32(0);
-    test_padding_for_int32(1);
-    test_padding_for_int32(2);
-    test_padding_for_int32(3);
-    test_padding_for_int32(7);
-    test_padding_for_int32(8);
-    test_padding_for_int32(0xFF);
-    test_padding_for_int32(0x100);
-    test_padding_for_int32(0xFFFF);
-    test_padding_for_int32(0x10000);
-    test_padding_for_int32(0xFFFFFF);
-    test_padding_for_int32(0x1000000);
-    test_padding_for_int32(INT_MAX - 4);
-    test_padding_for_int32(INT_MAX - 3);
+    test_paddingForInt32(0);
+    test_paddingForInt32(1);
+    test_paddingForInt32(2);
+    test_paddingForInt32(3);
+    test_paddingForInt32(7);
+    test_paddingForInt32(8);
+    test_paddingForInt32(0xFF);
+    test_paddingForInt32(0x100);
+    test_paddingForInt32(0xFFFF);
+    test_paddingForInt32(0x10000);
+    test_paddingForInt32(0xFFFFFF);
+    test_paddingForInt32(0x1000000);
+    test_paddingForInt32(INT_MAX - 4);
+    test_paddingForInt32(INT_MAX - 3);
 }
 
 private void xi_unregister_handlers()

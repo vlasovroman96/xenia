@@ -37,7 +37,6 @@ import core.stdc.stdio;
 import os.log_priv;
 import xkb.xkbsrv_priv;
 
-import common.misc;
 import dix.inputstr;
 import xkb.xkbstr;
 import externs.X11.extensions.XKB;

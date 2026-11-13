@@ -33,7 +33,6 @@ import os.osdep;
 
 import dix.scrintstr;
 import dix.inputstr;
-import common.misc;
 import dix.scrnintstr;
 import common.servermd;
 

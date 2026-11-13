@@ -8,7 +8,6 @@ extern(C): __gshared:
  
 public import core.stdc.stddef;
 
-public import common.misc;
 public import os.os;
 
 /*

@@ -42,6 +42,7 @@ import randr.rrproperty;
 import render.filter;
 import dix.swapreq;
 import randr.rrmode;
+import common.bytes;
 
 RESTYPE RRModeType;
 
@@ -329,10 +330,10 @@ int ProcRRCreateMode(ClientPtr client)
 
     modeInfo = &stuff.modeInfo;
     name = cast(char*) (stuff + 1);
-    units_after = (client.req_len - bytes_to_int32(xRRCreateModeReq.sizeof));
+    units_after = (client.req_len - int32ForBytes(xRRCreateModeReq.sizeof));
 
     /* check to make sure requested name fits within the data provided */
-    if (bytes_to_int32(modeInfo.nameLength) > units_after)
+    if (int32ForBytes(modeInfo.nameLength) > units_after)
         return BadLength;
 
     mode = RRModeCreateUser(pScreen, modeInfo, name, &error);

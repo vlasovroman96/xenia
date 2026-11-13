@@ -32,7 +32,6 @@ import os.osdep;
 
 import dix.scrintstr;
 import dix.input;
-import common.misc;
 import dix.scrnintstr;
 import dix.window;
 import common.servermd;

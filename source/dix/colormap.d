@@ -68,7 +68,6 @@ import dix.window_priv;
 import os.osdep;
 import os.bug_priv;
 
-import common.misc;
 import dix.dixstruct_priv;
 import os.os;
 import dix.scrnintstr;

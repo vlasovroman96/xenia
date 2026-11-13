@@ -55,7 +55,6 @@ import os.osdep;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
-import common.misc;
 import os.os;
 import dix.dixstruct_priv;
 import dix.inputstr;

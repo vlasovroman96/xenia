@@ -26,7 +26,6 @@ import mi.mi_priv;
 
 import dix.scrintstr;
 import dix.input;
-import common.misc;
 import dix.scrnintstr;
 import dix.window;
 import common.servermd;

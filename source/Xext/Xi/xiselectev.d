@@ -44,6 +44,7 @@ import dix.devices;
 import dix.dixutils;
 import dix.events;
 import dix.inpututils;
+import common.bytes;
 
 /**
  * Ruleset:
@@ -125,12 +126,12 @@ int ProcXISelectEvents(ClientPtr client)
     mixin(X_REQUEST_FIELD_CARD16!"num_masks");
 
     if (client.swapped) {
-        int len = cast(int)(client.req_len - bytes_to_int32(xXISelectEventsReq.sizeof));
+        int len = cast(int)(client.req_len - int32ForBytes(xXISelectEventsReq.sizeof));
         xXIEventMask* evmask = cast(xXIEventMask*) &stuff[1];
         for (int i = 0; i < stuff.num_masks; i++) {
-            if (len < bytes_to_int32(xXIEventMask.sizeof))
+            if (len < int32ForBytes(xXIEventMask.sizeof))
                 return BadLength;
-            len -= bytes_to_int32(xXIEventMask.sizeof);
+            len -= int32ForBytes(xXIEventMask.sizeof);
             swaps(&evmask.deviceid);
             swaps(&evmask.mask_len);
             if (len < evmask.mask_len)
@@ -162,7 +163,7 @@ int ProcXISelectEvents(ClientPtr client)
     while (num_masks--) {
         len += (xXIEventMask).sizeof + evmask.mask_len * 4;
 
-        if (bytes_to_int32(len) > client.req_len)
+        if (int32ForBytes(len) > client.req_len)
             return BadLength;
 
         DeviceIntPtr dev = void;
@@ -290,7 +291,7 @@ int ProcXISelectEvents(ClientPtr client)
         evmask++;
     }
 
-    if (bytes_to_int32(len) != client.req_len)
+    if (int32ForBytes(len) != client.req_len)
         return BadLength;
 
     /* Set masks on window */

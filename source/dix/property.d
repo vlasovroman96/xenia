@@ -72,7 +72,7 @@ import dix.atom;
 import dix.window;
  import common.math;
 
-public import common.misc;
+import common.bytes;
 public import dix.privates;
 /*
  *   PROPERTY -- property element
@@ -321,7 +321,7 @@ int ProcChangeProperty(ClientPtr client)
         return BadValue;
     }
     len = stuff.nUnits;
-    if (len > bytes_to_int32(0xffffffff - xChangePropertyReq.sizeof))
+    if (len > int32ForBytes(0xffffffff - xChangePropertyReq.sizeof))
         return BadLength;
     sizeInBytes = format >> 3;
     totalSize = len * sizeInBytes;

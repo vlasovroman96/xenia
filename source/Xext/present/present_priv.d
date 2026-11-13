@@ -31,7 +31,6 @@ import build.xlibre_server;
 public import Xext.sync;
 
 public import dix.scrnintstr;
-public import common.misc;
 public import dix.window;
 public import dix.dixstruct_priv;
 public import Xext.syncsrv;

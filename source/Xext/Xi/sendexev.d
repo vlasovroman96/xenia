@@ -73,6 +73,7 @@ import externs.X11.extensions.XI;
 import dix.devices;
 import dix.events;
 import tables;
+import common.bytes;
 
 // int lastEvent;           /* Defined in extension.c */
 
@@ -90,8 +91,8 @@ int ProcXSendExtensionEvent(ClientPtr client)
     mixin(X_REQUEST_FIELD_CARD16!"count");
 
     if (client.req_len !=
-        bytes_to_int32(xSendExtensionEventReq.sizeof) + stuff.count +
-        (stuff.num_events * bytes_to_int32(xEvent.sizeof)))
+        int32ForBytes(xSendExtensionEventReq.sizeof) + stuff.count +
+        (stuff.num_events * int32ForBytes(xEvent.sizeof)))
         return BadLength;
 
     if (client.swapped) {

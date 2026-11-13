@@ -60,7 +60,6 @@ SOFTWARE.
 import common.xlibre_ptrtypes;
 import dix.scrintstr;
 import dix.pixmap;
-import common.misc;
 import dix.input;
 import dix.cursor;
 import dix.colormap_priv;

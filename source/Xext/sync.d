@@ -92,6 +92,7 @@ import miext.sync.misync;
 public import mi.misync;
 import x11.Xdefs;
 import dix.dixstruct_priv;
+import common.bytes;
 
 // void  SyncVerifyFence(SyncFence** ppFence, XID fid, ClientPtr client, Mask mode);
 
@@ -1666,7 +1667,7 @@ private int ProcSyncCreateAlarm(ClientPtr client)
     mixin(LEGAL_NEW_RESOURCE!("stuff.id", "client"));
 
     vmask = stuff.valueMask;
-    len = cast(int)(client.req_len - bytes_to_int32(xSyncCreateAlarmReq.sizeof));
+    len = cast(int)(client.req_len - int32ForBytes(xSyncCreateAlarmReq.sizeof));
     /* the "extra" call to Ones accounts for the presence of 64 bit values */
     if (len != (Ones(vmask) + Ones(vmask & (XSyncCAValue | XSyncCADelta))))
         return BadLength;
@@ -1753,7 +1754,7 @@ private int ProcSyncChangeAlarm(ClientPtr client)
         return status;
 
     vmask = stuff.valueMask;
-    len = cast(int)(client.req_len - bytes_to_int32(xSyncChangeAlarmReq.sizeof));
+    len = cast(int)(client.req_len - int32ForBytes(xSyncChangeAlarmReq.sizeof));
     /* the "extra" call to Ones accounts for the presence of 64 bit values */
     if (len != (Ones(vmask) + Ones(vmask & (XSyncCAValue | XSyncCADelta))))
         return BadLength;

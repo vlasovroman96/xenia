@@ -70,6 +70,7 @@ import externs.X11.extensions.XI;
 import dix.dixutils;
 import dix.devices;
 import dix.timestamp;
+import common.bytes;
 
 
 /****************************************************************************
@@ -117,7 +118,7 @@ int ProcXGetDeviceMotionEvents(ClientPtr client)
             reply.nEvents = GetMotionHistory(dev, cast(xTimecoord**) &coords,   /* XXX */
                                            start.milliseconds, stop.milliseconds,
                                            cast(ScreenPtr) null, FALSE);
-            x_rpcbuf_write_INT32s(&rpcbuf, coords, bytes_to_int32(reply.nEvents * size));
+            x_rpcbuf_write_INT32s(&rpcbuf, coords, int32ForBytes(reply.nEvents * size));
             free(coords);
         }
     }

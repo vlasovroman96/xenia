@@ -94,7 +94,6 @@ import Xext.panoramiX;
 import Xext.panoramiXsrv;
 import Xext.xvdix_priv;
 
-import common.misc;
 import os.os;
 import dix.scrnintstr;
 import dix.window;

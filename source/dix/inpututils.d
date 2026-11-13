@@ -36,7 +36,7 @@ import dix.screenint_priv;
 import os.bug_priv;
 
 import Xi.exglobals;
-import common.misc;
+import common.bytes;
 import dix.inputstr;
 import xkb.xkbsrv_priv;
 import xkb.xkbsrv_priv;
@@ -1040,7 +1040,7 @@ Bool xi2mask_isset_for_device(XI2Mask* mask, const(DeviceIntPtr) dev, int event_
 {
     mixin(BUG_WARN!("dev.id < 0"));
     mixin(BUG_WARN!("dev.id >= mask.nmasks"));
-    mixin(BUG_WARN!("bits_to_bytes(event_type + 1) > mask.mask_size"));
+    mixin(BUG_WARN!("bytesForBits(event_type + 1) > mask.mask_size"));
 
     return mixin(BitIsOn!("mask.masks[dev.id]", "event_type"));
 }
@@ -1072,7 +1072,7 @@ void xi2mask_set(XI2Mask* mask, int deviceid, int event_type)
 {
     mixin(BUG_WARN!("deviceid < 0"));
     mixin(BUG_WARN!("deviceid >= mask.nmasks"));
-    mixin(BUG_WARN!("bits_to_bytes(event_type + 1) > mask.mask_size"));
+    mixin(BUG_WARN!("bytesForBits(event_type + 1) > mask.mask_size"));
 
     mixin(SetBit!("mask.masks[deviceid]", "event_type"));
 }

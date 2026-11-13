@@ -49,7 +49,7 @@ import os.osdep;
 import xkb.xkbfmisc_priv;
 public import xkb.xkbsrv_priv;
 import dix.atom;
-import common.misc;
+import common.bytes;
 import dix.inputstr;
 import xkb.xkb_procs;
 import common.protocol_versions;
@@ -4367,7 +4367,7 @@ private char* XkbWriteCountedString(char* wire, const(char)* str, Bool swap)
     if (swap) {
         swaps(pLen);
     }
-    paddedLen = cast(ushort)(pad_to_int32(((len) + len).sizeof) - len.sizeof);
+    paddedLen = cast(ushort)(padForInt32(((len) + len).sizeof) - len.sizeof);
     strncpy(&wire[len.sizeof], str, paddedLen);
     wire += ((len) + paddedLen).sizeof;
     return wire;
@@ -4809,7 +4809,7 @@ private Status _GetCountedString(char** wire_inout, ClientPtr client, char** str
     wire = *wire_inout;
 
     if (client.req_len <
-        bytes_to_int32(wire + 2 - cast(char*) client.requestBuffer))
+        int32ForBytes(wire + 2 - cast(char*) client.requestBuffer))
         return BadValue;
 
     len = *cast(CARD16*) wire;
@@ -4819,7 +4819,7 @@ private Status _GetCountedString(char** wire_inout, ClientPtr client, char** str
     next = wire + mixin(XkbPaddedSize!("len + 2"));
     /* Check we're still within the size of the request */
     if (client.req_len <
-        bytes_to_int32(next - cast(char*) client.requestBuffer))
+        int32ForBytes(next - cast(char*) client.requestBuffer))
         return BadValue;
     *str = cast(char*)calloc(1, len + 1);
     if (!*str)
@@ -6213,7 +6213,7 @@ int ProcXkbGetDeviceInfo(ClientPtr client)
 
     xkbGetDeviceInfoReply reply = {
         deviceID: cast(ubyte)dev.id,
-        length: bytes_to_int32(nameLen),
+        length: int32ForBytes(nameLen),
         present: cast(ushort)wanted,
         supported: cast(ubyte)XkbXI_AllDeviceFeaturesMask,
         totalBtns: dev.button ? dev.button.numButtons : 0,
@@ -6272,7 +6272,7 @@ int ProcXkbGetDeviceInfo(ClientPtr client)
         if (status != Success)
             return status;
         reply.nDeviceLedFBs = cast(ushort)nDeviceLedFBs;
-        reply.length += bytes_to_int32(led_len);
+        reply.length += int32ForBytes(led_len);
     }
 
     length = cast(uint)reply.length * 4;

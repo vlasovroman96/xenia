@@ -28,7 +28,6 @@ extern(C): __gshared:
  */
 import build.xorg_config;
 
-import common.misc;
 import hw.xfree86.os_support.xf86_OSproc;;
 import xf86DDC_priv;
 import edid_priv;

@@ -58,7 +58,6 @@ import dix.dix_priv;
 import dix.server_priv;
 import dix.settings_priv;
 
-import common.misc;
 import dix.window;
 import dix.scrnintstr;
 import dix.input;

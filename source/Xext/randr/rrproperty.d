@@ -51,6 +51,7 @@ import randr.rrmode;
 import randr.rrinfo;
 import dix.window;
 import common.math;
+import common.bytes;
 
 private int DeliverPropertyEvent(WindowPtr pWin, void* value)
 {
@@ -502,7 +503,7 @@ int ProcRRConfigureOutputProperty(ClientPtr client)
         return BadAccess;
 
     num_valid =
-        cast(int)(client.req_len - bytes_to_int32(xRRConfigureOutputPropertyReq.sizeof));
+        cast(int)(client.req_len - int32ForBytes(xRRConfigureOutputPropertyReq.sizeof));
     return RRConfigureOutputProperty(output, stuff.property, stuff.pending,
                                      stuff.range, FALSE, num_valid,
                                      cast(INT32*) (stuff + 1));
@@ -553,7 +554,7 @@ int ProcRRChangeOutputProperty(ClientPtr client)
         return BadValue;
     }
     len = stuff.nUnits;
-    if (len > bytes_to_int32((0xffffffff - xChangePropertyReq.sizeof)))
+    if (len > int32ForBytes((0xffffffff - xChangePropertyReq.sizeof)))
         return BadLength;
     sizeInBytes = format >> 3;
     totalSize = len * sizeInBytes;

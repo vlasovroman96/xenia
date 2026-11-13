@@ -4,7 +4,6 @@ extern(C): __gshared:
 import core.stdc.config: c_long, c_ulong;
 import build.dix_config;
 
-import common.misc;
 import core.stdc.stdlib;
 import core.stdc.stdio;
 import Xext.hashtable;

@@ -141,7 +141,6 @@ import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
 import dix.dixutils;
-import common.misc;
 import os.os;
 import dix.dixstruct_priv;
 import dix.window;
@@ -159,7 +158,6 @@ import registry;
 public import common.xlibre_ptrtypes;
 
 public import dix.callback;
-public import common.misc;
 public import dix.dixaccess;
 import dix.dixstruct_priv;
 public import x11.Xprotostr;

@@ -51,6 +51,7 @@ import externs.attrs;
 import os.log;
 import randr.rrdispatch;
 import dix.timestamp;
+import common.bytes;
 
 
 /*
@@ -74,7 +75,7 @@ private void RREditConnectionInfo(ScreenPtr pScreen)
     connSetup = cast(xConnSetup*) ConnectionInfo;
     vendor = cast(char*) connSetup + xConnSetup.sizeof;
     formats = cast(xPixmapFormat*) (cast(char*) vendor +
-                                 pad_to_int32(connSetup.nbytesVendor));
+                                 padForInt32(connSetup.nbytesVendor));
     root = cast(xWindowRoot*) (cast(char*) formats +
                             ((xPixmapFormat).sizeof *
                             screenInfo.numPixmapFormats));
@@ -442,8 +443,8 @@ private int rrGetMultiScreenResources(ClientPtr client, Bool query, ScreenPtr pS
     };
 
     reply.length = (total_crtcs + total_outputs +
-                  total_modes * bytes_to_int32((xRRModeInfo).sizeof) +
-                  bytes_to_int32(total_name_len));
+                  total_modes * int32ForBytes((xRRModeInfo).sizeof) +
+                  int32ForBytes(total_name_len));
 
     x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
 
@@ -486,7 +487,7 @@ private int rrGetMultiScreenResources(ClientPtr client, Bool query, ScreenPtr pS
         mixin(update_arrays!(`iter`, `pScrPriv`, `primary_crtc`, `has_primary`));
     }
 
-    assert(bytes_to_int32(cast(char*) names - cast(char*) extra) == reply.length);
+    assert(int32ForBytes(cast(char*) names - cast(char*) extra) == reply.length);
 
     if (client.swapped) {
         swapl(&reply.timestamp);
@@ -559,8 +560,8 @@ private int rrGetScreenResources(ClientPtr client, Bool query)
 
         reply.length = pScrPriv.numCrtcs +
                       pScrPriv.numOutputs +
-                      num_modes * bytes_to_int32((xRRModeInfo).sizeof) +
-                      bytes_to_int32(reply.nbytesNames);
+                      num_modes * int32ForBytes((xRRModeInfo).sizeof) +
+                      int32ForBytes(reply.nbytesNames);
 
         RRCrtc* crtcs;
         RROutput* outputs;
@@ -629,7 +630,7 @@ private int rrGetScreenResources(ClientPtr client, Bool query)
             memcpy(names, mode.name, mode.mode.nameLength);
             names += mode.mode.nameLength;
         }
-        assert(bytes_to_int32(cast(char*) names - cast(char*) extra) == reply.length);
+        assert(int32ForBytes(cast(char*) names - cast(char*) extra) == reply.length);
 finish:
         free(modes);
     }

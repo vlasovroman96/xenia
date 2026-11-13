@@ -65,6 +65,7 @@ import dix.events;
 import os.WaitFor;
 import registry;
 import dix.dispatch;
+import common.bytes;
 
 
 enum XSecurityAllEventMasks = 1<<0;
@@ -420,9 +421,9 @@ private int ProcSecurityGenerateAuthorization(ClientPtr client)
 
     /* check request length */
 
-    len = cast(int)(bytes_to_int32(xSecurityGenerateAuthorizationReq.sizeof));
-    len += bytes_to_int32(stuff.nbytesAuthProto);
-    len += bytes_to_int32(stuff.nbytesAuthData);
+    len = cast(int)(int32ForBytes(xSecurityGenerateAuthorizationReq.sizeof));
+    len += int32ForBytes(stuff.nbytesAuthProto);
+    len += int32ForBytes(stuff.nbytesAuthData);
     values = (cast(CARD32*) stuff) + len;
     len += Ones(stuff.valueMask);
     if (client.req_len != len)
@@ -487,7 +488,7 @@ private int ProcSecurityGenerateAuthorization(ClientPtr client)
     }
 
     protoname = cast(char*) &stuff[1];
-    protodata = protoname + bytes_to_int32(stuff.nbytesAuthProto);
+    protodata = protoname + int32ForBytes(stuff.nbytesAuthProto);
 
     /* call os layer to generate the authorization */
 

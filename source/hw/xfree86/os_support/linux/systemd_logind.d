@@ -61,7 +61,6 @@ import xf86Globals;
 // import os.utils;
 import hw.xfree86.common.xf86Option;
 // import config.libhal;
-import common.misc;
 import externs.libdbus;
 import core.sys.posix.sys.select;
 import config.hotplug_priv;

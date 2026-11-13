@@ -90,7 +90,6 @@ import mi.mi_priv;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
-import common.misc;
 import dix.scrnintstr;
 import dix.pixmap;
 import dix.input;

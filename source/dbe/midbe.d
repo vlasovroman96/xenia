@@ -37,7 +37,6 @@ import build.dix_config;
 
 //import x11.X;
 //import x11.Xproto;
-import common.misc;
 import os.os;
 import dix.scrnintstr;
 import dix.pixmap;

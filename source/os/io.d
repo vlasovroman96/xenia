@@ -89,7 +89,7 @@ import os.ossock;
 import dix.dispatch;
 
 import os.os;
-import common.misc;
+import common.bytes;
 import externs.X11.extensions.bigreqsproto;
 import core.stdc.stdio;
 import core.stdc.errno;
@@ -308,7 +308,7 @@ static if (XTRANS_SEND_FDS) {
             move_header = TRUE;
             if (gotnow < xBigReq.sizeof) {
                 /* Still need more data to tell just how big. */
-                needed = cast(uint)bytes_to_int32(xBigReq.sizeof);       /* needed is in CARD32s now */
+                needed = cast(uint)int32ForBytes(xBigReq.sizeof);       /* needed is in CARD32s now */
                 need_header = TRUE;
             }
             else
@@ -404,7 +404,7 @@ static if (XTRANS_SEND_FDS) {
             if (!needed && client.big_requests) {
                 move_header = TRUE;
                 if (gotnow < xBigReq.sizeof)
-                    needed = cast(uint)bytes_to_int32(xBigReq.sizeof);
+                    needed = cast(uint)int32ForBytes(xBigReq.sizeof);
                 else
                     needed = cast(int)mixin(get_big_req_len!(`request`, `client`));
             }
@@ -461,7 +461,7 @@ static if (XTRANS_SEND_FDS) {
     if (!gotnow && !oci.ignoreBytes)
         AvailableInput = oc;
     if (move_header) {
-        if (client.req_len < bytes_to_int32(((xBigReq).sizeof - xReq.sizeof))) {
+        if (client.req_len < int32ForBytes(((xBigReq).sizeof - xReq.sizeof))) {
             YieldControlDeath();
             return -1;
         }
@@ -470,7 +470,7 @@ static if (XTRANS_SEND_FDS) {
         oci.bufptr += (((xBigReq).sizeof - xReq.sizeof));
         *cast(xReq*) oci.bufptr = *request;
         oci.lenLastReq -= (((xBigReq).sizeof - xReq.sizeof));
-        client.req_len -= bytes_to_int32(((xBigReq).sizeof - xReq.sizeof));
+        client.req_len -= int32ForBytes(((xBigReq).sizeof - xReq.sizeof));
     }
     client.requestBuffer = cast(void*) oci.bufptr;
 version (DEBUG_COMMUNICATION) {
@@ -716,7 +716,7 @@ pragma(inline, true) private int memcpy_and_flush(ClientPtr who, OsCommPtr oc, c
  */
 private int OutputBufferMakeRoomAndFlush(ClientPtr who, OsCommPtr oc, const(void)* extra_buf, size_t extra_size)
 {
-    const(size_t) padsize = padding_for_int32(cast(int)extra_size);
+    const(size_t) padsize = paddingForInt32(cast(int)extra_size);
     const(size_t) needed = extra_size + padsize;
 
     if (oc.output) {
@@ -829,7 +829,7 @@ version (DEBUG_COMMUNICATION) {
     }
 }
 
-    padBytes = padding_for_int32(count);
+    padBytes = paddingForInt32(count);
 
     if (ReplyCallback) {
         ReplyInfoRec replyinfo = void;

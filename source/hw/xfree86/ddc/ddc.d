@@ -17,7 +17,6 @@ import build.xorg_config;
 import ddc;
 import os.osdep;
 
-import common.misc;
 import hw.xfree86.os_support.xf86_OSproc;;
 import core.stdc.string;
 import edid_priv;

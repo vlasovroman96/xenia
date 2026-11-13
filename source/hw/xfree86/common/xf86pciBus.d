@@ -73,7 +73,6 @@ import core.stdc.stdio;
 import core.stdc.stdlib;
 import externs.gnu;
 
-public import common.misc;
 public import externs.pciaccess;
 
 /*

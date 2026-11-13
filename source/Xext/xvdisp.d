@@ -45,7 +45,6 @@ import Xext.panoramiX;
 import Xext.panoramiXsrv;
 import Xext.shm_priv;
 import Xext.xvdix_priv;
-import common.misc;
 import dix.scrnintstr;
 import dix.window;
 import dix.pixmap;
@@ -62,6 +61,8 @@ import Xext.xvmain;
 import dix.screen_hooks;
 import dix.atom;
 import dix.dispatch;
+import common.bytes;
+
 
 static if(XINERAMA){
 c_ulong XvXRTPort;
@@ -583,11 +584,11 @@ private int ProcXvQueryPortAttributes(ClientPtr client)
     size_t textSize = 0;
     for (i = 0, pAtt = pPort.pAdaptor.pAttributes;
          i < pPort.pAdaptor.nAttributes; i++, pAtt++) {
-        textSize += pad_to_int32(cast(int)strlen(pAtt.name) + 1);
+        textSize += padForInt32(cast(int)strlen(pAtt.name) + 1);
         x_rpcbuf_write_CARD32(&rpcbuf, pAtt.flags);
         x_rpcbuf_write_CARD32(&rpcbuf, pAtt.min_value);
         x_rpcbuf_write_CARD32(&rpcbuf, pAtt.max_value);
-        x_rpcbuf_write_CARD32(&rpcbuf, pad_to_int32(cast(uint)strlen(pAtt.name)+1)); /* pass the NULL */
+        x_rpcbuf_write_CARD32(&rpcbuf, padForInt32(cast(uint)strlen(pAtt.name)+1)); /* pass the NULL */
         x_rpcbuf_write_string_0t_pad(&rpcbuf, pAtt.name);
     }
 
@@ -642,7 +643,7 @@ private int SingleXvPutImage(ClientPtr client)
     size = (*pPort.pAdaptor.ddQueryImageAttributes) (pPort, pImage, &width,
                                                        &height, null, null);
     size += xvPutImageReq.sizeof;
-    size = cast(int)bytes_to_int32(size);
+    size = cast(int)int32ForBytes(size);
 
     if ((width < stuff.width) || (height < stuff.height))
         return BadValue;

@@ -45,7 +45,7 @@ import glx.singlesize;
 import glx.glxext;
 import glx.indirect_table;
 import glx.indirect_util;
-import common.misc;
+import common.bytes;
  import Xext.glx.fix;
  import core.stdc.stdint;
  import os.io;
@@ -129,7 +129,7 @@ void __glXSendReply(ClientPtr client, const(void)* data, size_t elements, size_t
         elements = 0;
     }
     else if ((elements > 1) || always_array) {
-        reply_ints = bytes_to_int32(elements * element_size);
+        reply_ints = int32ForBytes(elements * element_size);
     }
 
     x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
@@ -172,7 +172,7 @@ void __glXSendReplySwap(ClientPtr client, const(void)* data, size_t elements, si
         elements = 0;
     }
     else if ((elements > 1) || always_array) {
-        reply_ints = bytes_to_int32(elements * element_size);
+        reply_ints = int32ForBytes(elements * element_size);
     }
 
     xGLXSingleReply reply = {

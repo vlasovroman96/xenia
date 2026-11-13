@@ -49,7 +49,6 @@ import dix.request_priv;
 
 import glx.glxserver;
 import glx.glxext;
-import common.misc;
 import glx.singlesize;
 import glx.unpack;
 import glx.indirect_size_get;

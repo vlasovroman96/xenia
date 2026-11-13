@@ -25,7 +25,6 @@ import os.client_priv;
 import miext.extinit_priv;
 import Xext.xace;
 
-import common.misc;
 import os.os;
 import dix.dixstruct_priv;
 import dix.swaprep;

@@ -219,9 +219,6 @@ version = CLEARDTR_SUPPORT;
 /* Generic                                                                */
 /**************************************************************************/
 
-/* For PATH_MAX */
-public import common.misc;
-
 /*
  * Hack originally for ISC 2.2 POSIX headers, but may apply elsewhere,
  * and it's safe, so just do it.

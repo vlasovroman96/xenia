@@ -76,7 +76,7 @@ import os.log_priv;
 import os.osdep;
 import xkb.xkbsrv_priv;
 
-import common.misc;
+import common.bytes;
 import dix.resource;
 import dix.window;
 import dix.inputstr;
@@ -1666,7 +1666,7 @@ int ProcSetModifierMapping(ClientPtr client)
     mixin(REQUEST_AT_LEAST_SIZE!xSetModifierMappingReq);
 
     if (client.req_len != ((stuff.numKeyPerModifier << 1) +
-                            bytes_to_int32(xSetModifierMappingReq.sizeof)))
+                            int32ForBytes(xSetModifierMappingReq.sizeof)))
         return BadLength;
 
 
@@ -1710,7 +1710,7 @@ int ProcChangeKeyboardMapping(ClientPtr client)
     mixin(REQUEST!xChangeKeyboardMappingReq);
     mixin(REQUEST_AT_LEAST_SIZE!xChangeKeyboardMappingReq);
 
-    uint len = cast(int)(client.req_len - bytes_to_int32(xChangeKeyboardMappingReq.sizeof));
+    uint len = cast(int)(client.req_len - int32ForBytes(xChangeKeyboardMappingReq.sizeof));
     if (len != (stuff.keyCodes * stuff.keySymsPerKeyCode))
         return BadLength;
 
@@ -1766,7 +1766,7 @@ int ProcSetPointerMapping(ClientPtr client)
     mixin(REQUEST_AT_LEAST_SIZE!xSetPointerMappingReq);
 
     if (client.req_len !=
-        bytes_to_int32(((xSetPointerMappingReq).sizeof + stuff.nElts)))
+        int32ForBytes(((xSetPointerMappingReq).sizeof + stuff.nElts)))
         return BadLength;
 
     BYTE* map = cast(BYTE*) &stuff[1];

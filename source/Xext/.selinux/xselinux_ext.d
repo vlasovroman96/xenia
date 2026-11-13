@@ -336,8 +336,8 @@ private int SELinuxPopulateItem(SELinuxListItemRec* i, PrivateRec** privPtr, CAR
     }
 
     i.id = id;
-    i.octx_len = bytes_to_int32(strlen(i.octx) + 1);
-    i.dctx_len = bytes_to_int32(strlen(i.dctx) + 1);
+    i.octx_len = int32ForBytes(strlen(i.octx) + 1);
+    i.dctx_len = int32ForBytes(strlen(i.dctx) + 1);
 
     *size += i.octx_len + i.dctx_len + 3;
     return Success;

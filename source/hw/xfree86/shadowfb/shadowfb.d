@@ -17,7 +17,6 @@ import build.xorg_config;
 
 import dix.screen_hooks_priv;
 
-import common.misc;
 import dix.pixmap;
 import dix.input;
 import dix.scrnintstr;

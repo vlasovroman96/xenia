@@ -60,7 +60,6 @@ import hw.xfree86.dri.dristruct;
 import hw.xfree86.dri.sarea;
 
 import externs.libdrm;
-import common.misc;
 import dix.dixstruct_priv;
 import dix.extension;
 import dix.cursor;

@@ -16,7 +16,6 @@ import core.stdc.string;
 
 import os.osdep;
 
-import common.misc;
 import hw.xfree86.os_support.xf86_OSproc;;
 
 //import x11.X;

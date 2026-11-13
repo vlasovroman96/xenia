@@ -53,7 +53,6 @@ import dix.dix_priv;
 import os.auth;
 import os.ossock;
 
-import common.misc;
 import os.osdep;
 import os.xdmcp;
 import os.xdmauth;

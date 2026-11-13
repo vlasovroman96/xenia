@@ -10,7 +10,7 @@ extern(C): __gshared:
 
 public import dix.rpcbuf_priv; /* x_rpcbuf_t */
 public import dix.dixstruct_priv;
-public import common.misc;    /* bytes_to_int32 */
+import common.bytes;
 public import os.os;      /* WriteToClient */
 import dix.request_priv;
 import os.io;
@@ -60,7 +60,7 @@ int __write_reply_hdr_simple(ClientPtr pClient, void* hdrData, size_t hdrLen)
 {
     xGenericReply* reply = cast(xGenericReply*)hdrData;
     reply.type = X_Reply;
-    reply.length = (bytes_to_int32(hdrLen - xGenericReply.sizeof));
+    reply.length = (int32ForBytes(hdrLen - xGenericReply.sizeof));
     reply.sequenceNumber = cast(CARD16)pClient.sequence; /* shouldn't go above 64k */
 
     if (pClient.swapped) {
@@ -79,7 +79,7 @@ int __write_reply_hdr_simple(ClientPtr pClient, void* hdrData, size_t hdrLen)
  *
  */
 enum string X_REPLY_HEADER_UNITS(string hdrtype) = `
-    (bytes_to_int32((((` ~ hdrtype ~ `).sizeof - xGenericReply.sizeof))))`;
+    (int32ForBytes((((` ~ hdrtype ~ `).sizeof - xGenericReply.sizeof))))`;
 
 pragma(inline, true) int __write_reply_hdr_and_rpcbuf(ClientPtr pClient, void* hdrData, size_t hdrLen, x_rpcbuf_t* rpcbuf)
 {
@@ -88,7 +88,7 @@ pragma(inline, true) int __write_reply_hdr_and_rpcbuf(ClientPtr pClient, void* h
 
     xGenericReply* reply = cast(xGenericReply*)hdrData;
     reply.type = X_Reply;
-    reply.length = (bytes_to_int32(hdrLen - xGenericReply.sizeof))
+    reply.length = (int32ForBytes(hdrLen - xGenericReply.sizeof))
                   + x_rpcbuf_wsize_units(rpcbuf);
     reply.sequenceNumber = cast(CARD16)pClient.sequence; /* shouldn't go above 64k */
 
@@ -107,7 +107,7 @@ pragma(inline, true) int __write_reply_hdr_and_rpcbuf(ClientPtr pClient, void* h
 // {
 //     xGenericReply* reply = hdrData;
 //     reply.type = X_Reply;
-//     reply.length = (bytes_to_int32(hdrLen - xGenericReply.sizeof));
+//     reply.length = (int32ForBytes(hdrLen - xGenericReply.sizeof));
 //     reply.sequenceNumber = cast(CARD16)pClient.sequence; /* shouldn't go above 64k */
 
 //     if (pClient.swapped) {

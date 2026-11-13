@@ -50,7 +50,7 @@ import dix.scrnintstr;
 import dix.window;
 import dix.inputstr;
 import migc;
-import common.misc;
+import common.bytes;
 import dix.dixstruct_priv;
 import dix.resource;
 import panoramiXh;
@@ -77,7 +77,7 @@ int PanoramiXCreateWindow(ClientPtr client)
 
     mixin(REQUEST_AT_LEAST_SIZE!xCreateWindowReq);
 
-    len = cast(int)(client.req_len - bytes_to_int32(xCreateWindowReq.sizeof));
+    len = cast(int)(client.req_len - int32ForBytes(xCreateWindowReq.sizeof));
     if (Ones(stuff.mask) != len)
         return BadLength;
 
@@ -186,7 +186,7 @@ int PanoramiXChangeWindowAttributes(ClientPtr client)
 
     mixin(REQUEST_AT_LEAST_SIZE!xChangeWindowAttributesReq);
 
-    len = cast(int)(client.req_len - bytes_to_int32(xChangeWindowAttributesReq.sizeof));
+    len = cast(int)(client.req_len - int32ForBytes(xChangeWindowAttributesReq.sizeof));
     if (Ones(stuff.valueMask) != len)
         return BadLength;
 
@@ -475,7 +475,7 @@ int PanoramiXConfigureWindow(ClientPtr client)
 
     mixin(REQUEST_AT_LEAST_SIZE!xConfigureWindowReq);
 
-    len = cast(int)(client.req_len - bytes_to_int32(xConfigureWindowReq.sizeof));
+    len = cast(int)(client.req_len - int32ForBytes(xConfigureWindowReq.sizeof));
     if (Ones(stuff.mask) != len)
         return BadLength;
 
@@ -776,7 +776,7 @@ int PanoramiXCreateGC(ClientPtr client)
     mixin(REQUEST_AT_LEAST_SIZE!xCreateGCReq);
 
     client.errorValue = cast(uint)stuff.gc;
-    len = cast(int)(client.req_len - bytes_to_int32(xCreateGCReq.sizeof));
+    len = cast(int)(client.req_len - int32ForBytes(xCreateGCReq.sizeof));
     if (Ones(stuff.mask) != len)
         return BadLength;
 
@@ -855,7 +855,7 @@ int PanoramiXChangeGC(ClientPtr client)
 
     mixin(REQUEST_AT_LEAST_SIZE!xChangeGCReq);
 
-    len = cast(int)(client.req_len - bytes_to_int32(xChangeGCReq.sizeof));
+    len = cast(int)(client.req_len - int32ForBytes(xChangeGCReq.sizeof));
     if (Ones(stuff.mask) != len)
         return BadLength;
 
@@ -1397,7 +1397,7 @@ int PanoramiXPolyPoint(ClientPtr client)
         return result;
 
     isRoot = (draw.type == XRT_WINDOW) && draw.u.win.root;
-    npoint = cast(int)bytes_to_int32((client.req_len << 2) - xPolyPointReq.sizeof);
+    npoint = cast(int)int32ForBytes((client.req_len << 2) - xPolyPointReq.sizeof);
     if (npoint > 0) {
         xPoint* origPts = cast(xPoint*) calloc(npoint, xPoint.sizeof);
         if (!origPts)
@@ -1463,7 +1463,7 @@ int PanoramiXPolyLine(ClientPtr client)
         return result;
 
     isRoot = mixin(IS_ROOT_DRAWABLE!"draw");
-    npoint = cast(int)bytes_to_int32((client.req_len << 2) - xPolyLineReq.sizeof);
+    npoint = cast(int)int32ForBytes((client.req_len << 2) - xPolyLineReq.sizeof);
     if (npoint > 0) {
         xPoint* origPts = cast(xPoint*) calloc(npoint, xPoint.sizeof);
         if (!origPts)
@@ -1732,7 +1732,7 @@ int PanoramiXFillPoly(ClientPtr client)
 
     isRoot = mixin(IS_ROOT_DRAWABLE!"draw");
 
-    count = cast(int)bytes_to_int32((client.req_len << 2) - xFillPolyReq.sizeof);
+    count = cast(int)int32ForBytes((client.req_len << 2) - xFillPolyReq.sizeof);
     if (count > 0) {
         DDXPointPtr locPts = cast(DDXPointPtr)calloc(count, xPoint.sizeof);
         if (!locPts)

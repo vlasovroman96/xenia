@@ -34,7 +34,6 @@ import build.dix_config;
 import glx.glxserver;
 import glx.indirect_size;
 import glx.indirect_reqsize;
-import common.misc;
  import Xext.glx.fix;
  import glx.indirect_size_get;
 

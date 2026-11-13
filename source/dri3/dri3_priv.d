@@ -26,7 +26,6 @@ extern(C): __gshared:
  
 //public import x11.X;
 public import dix.scrnintstr;
-public import common.misc;
 public import common.list;
 public import dix.window;
 public import dix.dixstruct_priv;

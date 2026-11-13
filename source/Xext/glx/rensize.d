@@ -43,6 +43,7 @@ import glx.indirect_reqsize;
 
  import Xext.glx.fix;
 import glx.indirect_size_get;
+import common.bytes;
 
 
 enum string SWAPL(string a) = `
@@ -203,7 +204,7 @@ int __glXImageSize(GLenum format, GLenum type, GLenum target, GLsizei w, GLsizei
         else {
             groupsPerRow = w;
         }
-        rowSize = bits_to_bytes(groupsPerRow);
+        rowSize = bytesForBits(groupsPerRow);
         if (rowSize < 0)
             return -1;
         padding = (rowSize % alignment);

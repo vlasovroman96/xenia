@@ -7,7 +7,6 @@ import core.stdc.stdlib;
 
 import dix.resource_priv;
 
-import common.misc;
 import Xext.hashtable;
 import common.list;
 

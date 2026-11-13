@@ -66,6 +66,7 @@ import Xi.handlers;
 import externs.X11.extensions.XI;
 import dix.globals;
 import dix.devices;
+import common.bytes;
 
 
 
@@ -412,14 +413,14 @@ int ProcXChangeFeedbackControl(ClientPtr client)
     LedFeedbackPtr l = void;
     int rc = void;
 
-    len = cast(int)(cast(uint)(client.req_len - bytes_to_int32(xChangeFeedbackControlReq.sizeof)));
+    len = cast(int)(cast(uint)(client.req_len - int32ForBytes(xChangeFeedbackControlReq.sizeof)));
     rc = dixLookupDevice(&dev, stuff.deviceid, client, DixManageAccess);
     if (rc != Success)
         return rc;
 
     switch (stuff.feedbackid) {
     case KbdFeedbackClass:
-        if (len != bytes_to_int32(xKbdFeedbackCtl.sizeof))
+        if (len != int32ForBytes(xKbdFeedbackCtl.sizeof))
             return BadLength;
 
         for (k = dev.kbdfeed; k; k = k.next)
@@ -428,7 +429,7 @@ int ProcXChangeFeedbackControl(ClientPtr client)
                                          cast(xKbdFeedbackCtl*) &stuff[1]);
         break;
     case PtrFeedbackClass:
-        if (len != bytes_to_int32(xPtrFeedbackCtl.sizeof))
+        if (len != int32ForBytes(xPtrFeedbackCtl.sizeof))
             return BadLength;
 
         for (p = dev.ptrfeed; p; p = p.next)
@@ -444,12 +445,12 @@ int ProcXChangeFeedbackControl(ClientPtr client)
                                     "xStringFeedbackCtl.sizeof"));
         f = (cast(xStringFeedbackCtl*) &stuff[1]);
         if (client.swapped) {
-            if (len < bytes_to_int32(xStringFeedbackCtl.sizeof))
+            if (len < int32ForBytes(xStringFeedbackCtl.sizeof))
                 return BadLength;
             swaps(&f.num_keysyms);
         }
         if (len !=
-            (bytes_to_int32(xStringFeedbackCtl.sizeof) + f.num_keysyms))
+            (int32ForBytes(xStringFeedbackCtl.sizeof) + f.num_keysyms))
             return BadLength;
 
         for (s = dev.stringfeed; s; s = s.next)
@@ -459,7 +460,7 @@ int ProcXChangeFeedbackControl(ClientPtr client)
         break;
     }
     case IntegerFeedbackClass:
-        if (len != bytes_to_int32(xIntegerFeedbackCtl.sizeof))
+        if (len != int32ForBytes(xIntegerFeedbackCtl.sizeof))
             return BadLength;
 
         for (i = dev.intfeed; i; i = i.next)
@@ -469,7 +470,7 @@ int ProcXChangeFeedbackControl(ClientPtr client)
                                              stuff[1]);
         break;
     case LedFeedbackClass:
-        if (len != bytes_to_int32(xLedFeedbackCtl.sizeof))
+        if (len != int32ForBytes(xLedFeedbackCtl.sizeof))
             return BadLength;
 
         for (l = dev.leds; l; l = l.next)
@@ -478,7 +479,7 @@ int ProcXChangeFeedbackControl(ClientPtr client)
                                          cast(xLedFeedbackCtl*) &stuff[1]);
         break;
     case BellFeedbackClass:
-        if (len != bytes_to_int32(xBellFeedbackCtl.sizeof))
+        if (len != int32ForBytes(xBellFeedbackCtl.sizeof))
             return BadLength;
 
         for (b = dev.bell; b; b = b.next)

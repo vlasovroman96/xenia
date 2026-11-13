@@ -38,7 +38,6 @@ import build.dix_config;
 import mi.mi_priv;
 
 import dix.scrnintstr;
-import common.misc;
 import os.os;
 import dix.window;
 import dix.resource;
@@ -52,7 +51,6 @@ import render.picture;
 import externs.attrs;
 import dix.picture;
 
-public import common.misc;
 public import dix.scrintstr;
 public import region;
 // //public import externs.X11.extensions._randr;

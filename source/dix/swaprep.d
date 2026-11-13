@@ -56,7 +56,7 @@ import build.dix_config;
 
 import dix.dix_priv;
 
-import common.misc;
+import common.bytes;
 import dix.dixstruct_priv;
 import dix.scrnintstr;
 import dix.swaprep;
@@ -520,7 +520,7 @@ void SwapConnSetupInfo(char* pInfo, char* pInfoT)
     pInfoT += xConnSetup.sizeof;
 
     /* Copy the vendor string */
-    nbytesVendor = pad_to_int32(pConnSetup.nbytesVendor);
+    nbytesVendor = padForInt32(pConnSetup.nbytesVendor);
     memcpy(pInfoT, pInfo, nbytesVendor);
     pInfo += nbytesVendor;
     pInfoT += nbytesVendor;

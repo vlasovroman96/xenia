@@ -48,6 +48,7 @@ import dix.swapreq;
 import randr.rrmode;
 
 import dix.swaprep;
+import common.bytes;
 
 // RESTYPE RRLeaseType;
 
@@ -246,7 +247,7 @@ int ProcRRCreateLease(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    len = cast(int)(client.req_len - bytes_to_int32(xRRCreateLeaseReq.sizeof));
+    len = cast(int)(client.req_len - int32ForBytes(xRRCreateLeaseReq.sizeof));
 
     if (len != stuff.nCrtcs + stuff.nOutputs)
         return BadLength;

@@ -65,6 +65,7 @@ import Xi.handlers;
 import dix.inputstr;           /* DeviceIntPtr      */
 import Xi.exglobals;
 public import Xi.extinit;
+import common.bytes;
 
 
 // XExtensionVersion XIVersion;
@@ -80,7 +81,7 @@ int ProcXGetExtensionVersion(ClientPtr client)
     mixin(X_REQUEST_HEAD_AT_LEAST!xGetExtensionVersionReq);
     mixin(X_REQUEST_FIELD_CARD16!"nbytes");
 
-    if (client.req_len != bytes_to_int32(xGetExtensionVersionReq.sizeof +
+    if (client.req_len != int32ForBytes(xGetExtensionVersionReq.sizeof +
                                         stuff.nbytes))
         return BadLength;
 

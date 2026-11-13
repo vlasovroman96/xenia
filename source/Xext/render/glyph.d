@@ -33,7 +33,6 @@ import mi.mipict;
 import os.bug_priv;
 import os.xsha1;
 
-import common.misc;
 import dix.scrnintstr;
 import os.os;
 import region;

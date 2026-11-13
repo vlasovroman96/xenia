@@ -42,7 +42,6 @@ import region;
 import dix.screen_hooks_priv;
 import Xext.xvdix_priv;
 
-import common.misc;
 import hw.xfree86.os_support.xf86_OSproc;;
 import dix.scrnintstr;
 import dix.pixmap;

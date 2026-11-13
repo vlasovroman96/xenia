@@ -126,7 +126,6 @@ import os.screensaver;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
 
-import common.misc;
 import dix.scrnintstr;
 import os.os;
 import dix.validate;
@@ -156,7 +155,6 @@ import dix.inpututils;
 public import x11.Xproto;
 
 public import common.xlibre_ptrtypes;
-public import common.misc;
 // public import region;
 public import dix.scrintstr;
 import dix.property;

@@ -9,7 +9,6 @@ import core.stdc.string;
 import dix.colormap_priv;
 import randr.randrstr_priv;
 
-import common.misc;
 import hw.xfree86.os_support.xf86_OSproc;;
 import dix.scrnintstr;
 import dix.pixmap;

@@ -54,7 +54,7 @@ import dix.window;          /* window structure  */
 import dix.scrnintstr;         /* screen structure  */
 import dix.extension;
 import Xi.exglobals;
-import common.misc;
+import common.bytes;
 import Xext.xace;
 import Xi.xiquerydevice;      /* for GetDeviceUse */
 import xkb.xkbsrv_priv;
@@ -119,7 +119,7 @@ void XISendDeviceHierarchyEvent(int* flags)
         }
     }
 
-    ev.length = cast(uint)bytes_to_int32(ev.num_info * xXIHierarchyInfo.sizeof);
+    ev.length = cast(uint)int32ForBytes(ev.num_info * xXIHierarchyInfo.sizeof);
 
     memset(&dummyDev, 0, dummyDev.sizeof);
     dummyDev.id = XIAllDevices;

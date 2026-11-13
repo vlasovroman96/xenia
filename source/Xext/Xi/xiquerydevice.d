@@ -61,6 +61,7 @@ import os.log;
 import dix.events;
 import dix.inpututils;
 import xkb.xkbstr;
+import common.bytes;
 
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
@@ -183,7 +184,7 @@ private int SizeDeviceInfo(DeviceIntPtr dev)
     int len = xXIDeviceInfo.sizeof;
 
     /* 4-padded name */
-    len += pad_to_int32(cast(int)strlen(dev.name));
+    len += padForInt32(cast(int)strlen(dev.name));
 
     return len + SizeDeviceClasses(dev);
 
@@ -199,7 +200,7 @@ int SizeDeviceClasses(DeviceIntPtr dev)
     if (dev.button) {
         len += xXIButtonInfo.sizeof;
         len += dev.button.numButtons * Atom.sizeof;
-        len += pad_to_int32(bits_to_bytes(dev.button.numButtons));
+        len += padForInt32(bytesForBits(dev.button.numButtons));
     }
 
     if (dev.key) {
@@ -234,7 +235,7 @@ int SizeDeviceClasses(DeviceIntPtr dev)
  */
 private void ButtonInfoData(xXIButtonInfo* info, int* mask_words, ubyte** mask, Atom** atoms)
 {
-    *mask_words = cast(int)bytes_to_int32(bits_to_bytes(info.num_buttons));
+    *mask_words = cast(int)int32ForBytes(bytesForBits(info.num_buttons));
     *mask = cast(ubyte*) &info[1];
     *atoms = cast(Atom*) ((*mask) + (*mask_words) * 4);
 }
@@ -256,7 +257,7 @@ int ListButtonInfo(DeviceIntPtr dev, xXIButtonInfo* info, Bool reportState)
     info.type = ButtonClass;
     info.num_buttons = dev.button.numButtons;
     ButtonInfoData(info, &mask_len, &bits, &labels);
-    info.length = cast(ushort)(bytes_to_int32(xXIButtonInfo.sizeof) +
+    info.length = cast(ushort)(int32ForBytes(xXIButtonInfo.sizeof) +
         info.num_buttons + cast(ushort)mask_len);
     info.sourceid = cast(ushort)dev.button.sourceid;
 
@@ -522,7 +523,7 @@ private int ListDeviceInfo(ClientPtr client, DeviceIntPtr dev, xXIDeviceInfo* in
     info.enabled = cast(ubyte)dev.enabled;
     total_len = xXIDeviceInfo.sizeof;
 
-    len = pad_to_int32(info.name_len);
+    len = padForInt32(info.name_len);
     memset(any, 0, len);
     strncpy(any, dev.name, info.name_len);
     any += len;
@@ -597,7 +598,7 @@ private void SwapDeviceInfo(DeviceIntPtr dev, xXIDeviceInfo* info)
     int i = void;
 
     /* Skip over name */
-    any += pad_to_int32(info.name_len);
+    any += padForInt32(info.name_len);
 
     for (i = 0; i < info.num_classes; i++) {
         int len = (cast(xXIAnyInfo*) any).length;

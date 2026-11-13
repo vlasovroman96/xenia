@@ -50,7 +50,6 @@ import dix.timestamp;
 import dix.window;
 
 public import common.xlibre_ptrtypes;
-public import common.misc;
 public import os.os;
 public import dix.dixstruct_priv;
 public import dix.scrnintstr;

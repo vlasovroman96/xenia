@@ -21,7 +21,6 @@ import build.xorg_config;
 import dix.scrintstr;
 import dix.inputstr;
 import dix.input;
-import common.misc;
 import dix.scrnintstr;
 import common.servermd;
 import mi.mipointer;

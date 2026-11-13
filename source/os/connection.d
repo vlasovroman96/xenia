@@ -120,7 +120,6 @@ import os.log_priv;
 import os.osdep;
 import os.probes_priv;
 
-import common.misc;               /* for typedef of pointer */
 import dix.dixstruct_priv;
 import Xext.xace;
 

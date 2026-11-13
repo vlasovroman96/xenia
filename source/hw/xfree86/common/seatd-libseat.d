@@ -30,7 +30,6 @@ extern(C): __gshared:
  
 public import x11.Xdefs;
 import x11.Xmd;
-import common.misc;
 
 version = SEATD_LIBSEAT;
 version (SEATD_LIBSEAT) {

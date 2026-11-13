@@ -40,7 +40,6 @@ import externs.attrs;
 import os.log;
 import config.libhal;
 import os.connection;
-import common.misc;
 import externs.libdbus;
 import core.sys.posix.sys.select;
 

@@ -50,7 +50,6 @@ import build.dix_config;
 
 //import x11.X;
 
-import common.misc;
 import dix.scrnintstr;
 import dix.gc;
 import dix.window;
