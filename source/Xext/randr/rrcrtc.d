@@ -1675,7 +1675,7 @@ int ProcRRSetCrtcGamma(ClientPtr client)
     if (client.swapped) {
         swapl(&stuff.crtc);
         swaps(&stuff.size);
-        mixin(SwapRestS!("stuff"));
+        SwapRestS(client);
     }
 
     RRCrtcPtr crtc = void;

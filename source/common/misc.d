@@ -98,12 +98,6 @@ public import os.os;                 /* for ALLOCATE_LOCAL and DEALLOCATE_LOCAL 
 /* some macros to help swap requests, replies, and events */
 
 
-enum string LengthRestS(string stuff) = `
-    (client.req_len << 1) - ((*` ~ stuff ~ `).sizeof >> 1)`;
-
-enum string SwapRestS(string stuff) = `
-    SwapShorts(cast(short*)(` ~ stuff ~ ` + 1), ` ~ LengthRestS!(stuff) ~ `);`;
-
 static if (HasVersion!"__GNUC__" && ((__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 3))) {
 
 } else {

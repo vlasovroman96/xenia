@@ -2559,7 +2559,7 @@ int ProcRenderSetPictureClipRectangles(ClientPtr client)
         swapl(&stuff.picture);
         swaps(&stuff.xOrigin);
         swaps(&stuff.yOrigin);
-        mixin(SwapRestS!("stuff"));
+        SwapRestS(client);
     }
 
 static if(XINERAMA){
@@ -2795,7 +2795,7 @@ int ProcRenderFillRectangles(ClientPtr client)
         swaps(&stuff.color.green);
         swaps(&stuff.color.blue);
         swaps(&stuff.color.alpha);
-        mixin(SwapRestS!("stuff"));
+        SwapRestS(client);
     }
 
 static if(XINERAMA){

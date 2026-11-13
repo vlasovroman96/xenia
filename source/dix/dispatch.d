@@ -1862,7 +1862,7 @@ int ProcPolyPoint(ClientPtr client)
     if (client.swapped) {
         swapl(&stuff.drawable);
         swapl(&stuff.gc);
-        mixin(SwapRestS!("stuff"));
+        SwapRestS(client);
     }
 
     int npoint = void;
@@ -1890,7 +1890,7 @@ int ProcPolyLine(ClientPtr client)
     if (client.swapped) {
         swapl(&stuff.drawable);
         swapl(&stuff.gc);
-        mixin(SwapRestS!("stuff"));
+        SwapRestS(client);
     }
 
     int npoint = void;
@@ -1918,7 +1918,7 @@ int ProcPolySegment(ClientPtr client)
     if (client.swapped) {
         swapl(&stuff.drawable);
         swapl(&stuff.gc);
-        mixin(SwapRestS!("stuff"));
+        SwapRestS(client);
     }
 
     int nsegs = void;
@@ -1943,7 +1943,7 @@ int ProcPolyRectangle(ClientPtr client)
     if (client.swapped) {
         swapl(&stuff.drawable);
         swapl(&stuff.gc);
-        mixin(SwapRestS!("stuff"));
+        SwapRestS(client);
     }
 
     int nrects = void;
@@ -1969,7 +1969,7 @@ int ProcPolyArc(ClientPtr client)
     if (client.swapped) {
         swapl(&stuff.drawable);
         swapl(&stuff.gc);
-        mixin(SwapRestS!("stuff"));
+        SwapRestS(client);
     }
 
     int narcs = void;
@@ -2023,7 +2023,7 @@ int ProcPolyFillRectangle(ClientPtr client)
     if (client.swapped) {
         swapl(&stuff.drawable);
         swapl(&stuff.gc);
-        mixin(SwapRestS!("stuff"));
+        SwapRestS(client);
     }
 
     int things = void;
@@ -2050,7 +2050,7 @@ int ProcPolyFillArc(ClientPtr client)
     if (client.swapped) {
         swapl(&stuff.drawable);
         swapl(&stuff.gc);
-        mixin(SwapRestS!("stuff"));
+        SwapRestS(client);
     }
 
     int narcs = void;

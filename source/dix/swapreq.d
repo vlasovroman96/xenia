@@ -67,6 +67,14 @@ import dix.request_priv;
 
 /* Thanks to Jack Palevich for testing and subsequently rewriting all this */
 
+pure
+c_ulong getRestReqLengthS(StuffType)(ClientPtr client) 
+    => (client.req_len << 1) - (StuffType.sizeof >> 1);
+
+void SwapRestS(string stuff = "stuff")(ClientPtr client) {
+    SwapShorts(cast(short*)(mixin(stuff).ptr + 1), getRestReqLengthS!(typeof(mixin(stuff)))(client));
+}
+
 /* Byte swap a list of shorts */
 void SwapShorts(short* list, c_ulong count)
 {
@@ -373,7 +381,7 @@ int SProcSetClipRectangles(ClientPtr client)
     swapl(&stuff.gc);
     swaps(&stuff.xOrigin);
     swaps(&stuff.yOrigin);
-    mixin(SwapRestS!("stuff"));
+    SwapRestS(client);
     return ((*ProcVector[X_SetClipRectangles]) (client));
 }
 
@@ -431,7 +439,7 @@ int SProcFillPoly(ClientPtr client)
     mixin(REQUEST_AT_LEAST_SIZE!xFillPolyReq);
     swapl(&stuff.drawable);
     swapl(&stuff.gc);
-    mixin(SwapRestS!("stuff"));
+    SwapRestS(client);
     return ((*ProcVector[X_FillPoly]) (client));
 }
 

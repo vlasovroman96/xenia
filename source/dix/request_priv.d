@@ -183,7 +183,7 @@ enum string X_REQUEST_FIELD_CARD64(string field) = `
 
 /* swap CARD16 rest of request (after the struct) */
 enum string X_REQUEST_REST_CARD16() = `
-    if (client.swapped) mixin(SwapRestS!("stuff"));`;
+    if (client.swapped) SwapRestS(client);`;
 
 /* swap CARD32 rest of request (after the struct) */
 enum string X_REQUEST_REST_CARD32() = `

@@ -523,7 +523,7 @@ int ProcRRChangeOutputProperty(ClientPtr client)
             case 8:
                 break;
             case 16:
-                mixin(SwapRestS!("stuff"));
+                SwapRestS(client);
                 break;
             case 32:
                 mixin(SwapRestL!("stuff"));
