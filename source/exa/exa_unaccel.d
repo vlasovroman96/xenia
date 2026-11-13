@@ -76,7 +76,7 @@ char exaDrawableLocation(DrawablePtr pDrawable)
 }
 }                          /* DEBUG_TRACE_FALL */
 
-void ExaCheckFillSpans(DrawablePtr pDrawable, GCPtr pGC, int nspans, DDXPointPtr ppt, int* pwidth, int fSorted)
+void ExaCheckFillSpans(DrawablePtr pDrawable, GCPtr pGC, int nspans, xPoint* ppt, int* pwidth, int fSorted)
 {
     mixin(EXA_PRE_FALLBACK_GC!("pGC"));
     // mixin(EXA_FALLBACK!(("to %p (%c)\n", pDrawable, exaDrawableLocation(pDrawable))));
@@ -88,7 +88,7 @@ void ExaCheckFillSpans(DrawablePtr pDrawable, GCPtr pGC, int nspans, DDXPointPtr
     mixin(EXA_POST_FALLBACK_GC!("pGC"));
 }
 
-void ExaCheckSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* psrc, DDXPointPtr ppt, int* pwidth, int nspans, int fSorted)
+void ExaCheckSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* psrc, xPoint* ppt, int* pwidth, int nspans, int fSorted)
 {
     mixin(EXA_PRE_FALLBACK_GC!("pGC"));
     // mixin(EXA_FALLBACK!(("to %p (%c)\n", pDrawable, exaDrawableLocation(pDrawable))));
@@ -230,7 +230,7 @@ RegionPtr ExaCheckCopyPlane(DrawablePtr pSrc, DrawablePtr pDst, GCPtr pGC, int s
     return ret;
 }
 
-void ExaCheckPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr pptInit)
+void ExaCheckPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* pptInit)
 {
     mixin(EXA_PRE_FALLBACK_GC!("pGC"));
     // mixin(EXA_FALLBACK!(("to %p (%c)\n", pDrawable, exaDrawableLocation(pDrawable))));
@@ -240,7 +240,7 @@ void ExaCheckPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXP
     mixin(EXA_POST_FALLBACK_GC!("pGC"));
 }
 
-void ExaCheckPolylines(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ppt)
+void ExaCheckPolylines(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* ppt)
 {
     mixin(EXA_PRE_FALLBACK_GC!("pGC"));
     // mixin(EXA_FALLBACK!(("to %p (%c), width %d, mode %d, coun)t %d\n",
@@ -380,7 +380,7 @@ void ExaCheckGetImage(DrawablePtr pDrawable, int x, int y, int w, int h, uint fo
     mixin(EXA_POST_FALLBACK!("pScreen"));
 }
 
-void ExaCheckGetSpans(DrawablePtr pDrawable, int wMax, DDXPointPtr ppt, int* pwidth, int nspans, char* pdstStart)
+void ExaCheckGetSpans(DrawablePtr pDrawable, int wMax, xPoint* ppt, int* pwidth, int nspans, char* pdstStart)
 {
     ScreenPtr pScreen = pDrawable.pScreen;
 

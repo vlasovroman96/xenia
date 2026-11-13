@@ -47,7 +47,7 @@ import mi.micopy;
 import fb.fb;
 import common.math;
 
-private void exaFillSpans(DrawablePtr pDrawable, GCPtr pGC, int n, DDXPointPtr ppt, int* pwidth, int fSorted)
+private void exaFillSpans(DrawablePtr pDrawable, GCPtr pGC, int n, xPoint* ppt, int* pwidth, int fSorted)
 {
     ScreenPtr pScreen = pDrawable.pScreen;
 
@@ -597,7 +597,7 @@ RegionPtr exaCopyArea(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCPtr 
                     dstx, dsty, &exaCopyNtoN, 0, null);
 }
 
-private void exaPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ppt)
+private void exaPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* ppt)
 {
     mixin(ExaScreenPriv!("pDrawable.pScreen"));
     int i = void;
@@ -632,7 +632,7 @@ private void exaPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, D
  * horizontal or vertical lines (rectangles), and uses existing rectangle fill
  * acceleration if so.
  */
-private void exaPolylines(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ppt)
+private void exaPolylines(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* ppt)
 {
     mixin(ExaScreenPriv!("pDrawable.pScreen"));
     int x1 = void, x2 = void, y1 = void, y2 = void;
@@ -1049,7 +1049,7 @@ private Bool exaFillRegionSolid(DrawablePtr pDrawable, RegionPtr pRegion, Pixel 
 /* Try to do an accelerated tile of the pTile into pRegion of pDrawable.
  * Based on fbFillRegionTiled(), fbTile().
  */
-Bool exaFillRegionTiled(DrawablePtr pDrawable, RegionPtr pRegion, PixmapPtr pTile, DDXPointPtr pPatOrg, CARD32 planemask, CARD32 alu, Bool hasClientClip)
+Bool exaFillRegionTiled(DrawablePtr pDrawable, RegionPtr pRegion, PixmapPtr pTile, xPoint* pPatOrg, CARD32 planemask, CARD32 alu, Bool hasClientClip)
 {
     mixin(ExaScreenPriv!("pDrawable.pScreen"));
     PixmapPtr pPixmap = void;

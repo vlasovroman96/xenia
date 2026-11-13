@@ -604,13 +604,13 @@ private void damageAddTraps(PicturePtr pPicture, INT16 x_off, INT16 y_off, int n
 
 /**********************************************************/
 
-private void damageFillSpans(DrawablePtr pDrawable, GCPtr pGC, int npt, DDXPointPtr ppt, int* pwidth, int fSorted)
+private void damageFillSpans(DrawablePtr pDrawable, GCPtr pGC, int npt, xPoint* ppt, int* pwidth, int fSorted)
 {
     mixin(DAMAGE_GC_OP_PROLOGUE!(`pGC`, `pDrawable`));
 
     if (npt && mixin(checkGCDamage!(`pDrawable`, `pGC`))) {
         int nptTmp = npt;
-        DDXPointPtr pptTmp = ppt;
+        xPoint* pptTmp = ppt;
         int* pwidthTmp = pwidth;
         BoxRec box = void;
 
@@ -648,12 +648,12 @@ private void damageFillSpans(DrawablePtr pDrawable, GCPtr pGC, int npt, DDXPoint
     mixin(DAMAGE_GC_OP_EPILOGUE!(`pGC`, `pDrawable`));
 }
 
-private void damageSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* pcharsrc, DDXPointPtr ppt, int* pwidth, int npt, int fSorted)
+private void damageSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* pcharsrc, xPoint* ppt, int* pwidth, int npt, int fSorted)
 {
     mixin(DAMAGE_GC_OP_PROLOGUE!(`pGC`, `pDrawable`));
 
     if (npt && mixin(checkGCDamage!(`pDrawable`, `pGC`))) {
-        DDXPointPtr pptTmp = ppt;
+        xPoint* pptTmp = ppt;
         int* pwidthTmp = pwidth;
         int nptTmp = npt;
         BoxRec box = void;
@@ -822,13 +822,13 @@ private void damagePolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt
     mixin(DAMAGE_GC_OP_EPILOGUE!(`pGC`, `pDrawable`));
 }
 
-private void damagePolylines(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ppt)
+private void damagePolylines(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* ppt)
 {
     mixin(DAMAGE_GC_OP_PROLOGUE!(`pGC`, `pDrawable`));
 
     if (npt && mixin(checkGCDamage!(`pDrawable`, `pGC`))) {
         int nptTmp = npt;
-        DDXPointPtr pptTmp = ppt;
+        xPoint* pptTmp = ppt;
         BoxRec box = void;
         int extra = pGC.lineWidth >> 1;
 
@@ -1074,12 +1074,12 @@ private void damagePolyArc(DrawablePtr pDrawable, GCPtr pGC, int nArcs, xArc* pA
     mixin(DAMAGE_GC_OP_EPILOGUE!(`pGC`, `pDrawable`));
 }
 
-private void damageFillPolygon(DrawablePtr pDrawable, GCPtr pGC, int shape, int mode, int npt, DDXPointPtr ppt)
+private void damageFillPolygon(DrawablePtr pDrawable, GCPtr pGC, int shape, int mode, int npt, xPoint* ppt)
 {
     mixin(DAMAGE_GC_OP_PROLOGUE!(`pGC`, `pDrawable`));
 
     if (npt > 2 && mixin(checkGCDamage!(`pDrawable`, `pGC`))) {
-        DDXPointPtr pptTmp = ppt;
+        xPoint* pptTmp = ppt;
         int nptTmp = npt;
         BoxRec box = void;
 

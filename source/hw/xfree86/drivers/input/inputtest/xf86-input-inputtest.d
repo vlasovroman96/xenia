@@ -60,6 +60,7 @@ import xkb.xkbInit;
 import hw.xfree86.drivers.input.inputtest.xf86_input_inputtest_protocol;
 import xf86Events;
 import common.math;
+import core.sys.posix.pthread;
 
 
 enum MAX_POINTER_NUM_AXES = 5 /* x, y, hscroll, vscroll, [pressure] */;

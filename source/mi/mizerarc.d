@@ -461,7 +461,7 @@ enum string DoPix(string idx,string xval,string yval) = `
     if (mask & (1 << ` ~ idx ~ `)) `
         ~ Pixelate!(xval, yval);
 
-private DDXPointPtr miZeroArcPts(xArc* arc, DDXPointPtr pts)
+private xPoint* miZeroArcPts(xArc* arc, xPoint* pts)
 {
     miZeroArcRec info = void;
     int x = void, y = void, a = void, b = void, d = void, mask = void;
@@ -550,16 +550,16 @@ enum string DoPix2(string idx,string xval,string yval) = `
 	arcPts[` ~ idx ~ `]++; 
     }`;
 
-private void miZeroArcDashPts(GCPtr pGC, xArc* arc, DashInfo* dinfo, DDXPointPtr points, int maxPts, DDXPointPtr* evenPts, DDXPointPtr* oddPts)
+private void miZeroArcDashPts(GCPtr pGC, xArc* arc, DashInfo* dinfo, xPoint* points, int maxPts, xPoint** evenPts, xPoint** oddPts)
 {
     miZeroArcRec info = void;
     int x = void, y = void, a = void, b = void, d = void, mask = void;
     int k1 = void, k3 = void, dx = void, dy = void;
     int dashRemaining = void;
-    DDXPointPtr[4] arcPts = void;
-    DDXPointPtr[5] startPts = void, endPts = void;
+    xPoint*[4] arcPts = void;
+    xPoint*[5] startPts = void, endPts = void;
     int[5] deltas = void;
-    DDXPointPtr startPt = void, pt = void, lastPt = void, pts = void;
+    xPoint* startPt = void, pt = void, lastPt = void, pts = void;
     int i = void, j = void, delta = void, ptsdelta = void, seg = void, startseg = void;
 
     for (i = 0; i < 4; i++)
@@ -635,7 +635,7 @@ private void miZeroArcDashPts(GCPtr pGC, xArc* arc, DashInfo* dinfo, DDXPointPtr
         deltas[4] = -1;
     }
     if (arc.angle2 < 0) {
-        DDXPointPtr tmps = void, tmpe = void;
+        xPoint* tmps = void, tmpe = void;
         int tmpd = void;
 
         tmpd = deltas[0];
@@ -726,8 +726,8 @@ void miZeroPolyArc(DrawablePtr pDraw, GCPtr pGC, int narcs, xArc* parcs)
     int n = void, maxw = 0;
     xArc* arc = void;
     int i = void;
-    DDXPointPtr points = void, pts = void, oddPts = null;
-    DDXPointPtr pt = void;
+    xPoint* points = void, pts = void, oddPts = null;
+    xPoint* pt = void;
     int numPts = void;
     Bool dospans = void;
     int* widths = null;

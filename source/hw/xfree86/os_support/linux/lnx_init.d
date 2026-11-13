@@ -71,6 +71,7 @@ import xf86Events;
 import xf86Globals;
 import externs.sys.sysmacros;;
 import os.utils;
+import core.sys.posix.pthread;
 
 
 

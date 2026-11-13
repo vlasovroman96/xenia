@@ -69,14 +69,14 @@ int XaceHookResourceAccess(ClientPtr client, XID id, RESTYPE rtype, void* res, R
     return rec.status;
 }
 
-int XaceHookSendAccess(ClientPtr client, DeviceIntPtr dev, WindowPtr win, xEventPtr ev, int count)
+int XaceHookSendAccess(ClientPtr client, DeviceIntPtr dev, WindowPtr win, _xEvent* ev, int count)
 {
     XaceSendAccessRec rec = { client, dev, win, ev, count, Success };
     CallCallbacks(&XaceHooks[XACE_SEND_ACCESS], &rec);
     return rec.status;
 }
 
-int XaceHookReceiveAccess(ClientPtr client, WindowPtr win, xEventPtr ev, int count)
+int XaceHookReceiveAccess(ClientPtr client, WindowPtr win, _xEvent* ev, int count)
 {
     XaceReceiveAccessRec rec = { client, win, ev, count, Success };
     CallCallbacks(&XaceHooks[XACE_RECEIVE_ACCESS], &rec);

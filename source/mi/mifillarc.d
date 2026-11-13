@@ -571,13 +571,13 @@ enum string ADDSPANS() = `
 
 enum string miFillArcLower(string slw) =` (((y + dy) != 0) && (((`~slw~`) > 1) || (e != xk)))`;
 
-private int miFillEllipseI(DrawablePtr pDraw, GCPtr pGC, xArc* arc, DDXPointPtr points, int* widths)
+private int miFillEllipseI(DrawablePtr pDraw, GCPtr pGC, xArc* arc, xPoint* points, int* widths)
 {
     int x = void, y = void, e = void;
     int yk = void, xk = void, ym = void, xm = void, dx = void, dy = void, xorg = void, yorg = void;
     int slw = void;
     miFillArcRec info = void;
-    DDXPointPtr pts = void;
+    xPoint* pts = void;
     int* wids = void;
 
     miFillArcSetup(arc, &info);
@@ -595,13 +595,13 @@ private int miFillEllipseI(DrawablePtr pDraw, GCPtr pGC, xArc* arc, DDXPointPtr 
     return cast(int)(pts - points);
 }
 
-private int miFillEllipseD(DrawablePtr pDraw, GCPtr pGC, xArc* arc, DDXPointPtr points, int* widths)
+private int miFillEllipseD(DrawablePtr pDraw, GCPtr pGC, xArc* arc, xPoint* points, int* widths)
 {
     int x = void, y = void;
     int xorg = void, yorg = void, dx = void, dy = void, slw = void;
     double e = void, yk = void, xk = void, ym = void, xm = void;
     miFillArcDRec info = void;
-    DDXPointPtr pts = void;
+    xPoint* pts = void;
     int* wids = void;
 
     miFillArcDSetup(arc, &info);
@@ -641,14 +641,14 @@ enum string ADDSLICESPANS(string flip) = `
 	` ~ ADDSPAN!(`xl`, `xc`) ~ `; 
     }`;
 
-private int miFillArcSliceI(DrawablePtr pDraw, GCPtr pGC, xArc* arc, DDXPointPtr points, int* widths)
+private int miFillArcSliceI(DrawablePtr pDraw, GCPtr pGC, xArc* arc, xPoint* points, int* widths)
 {
     int yk = void, xk = void, ym = void, xm = void, dx = void, dy = void, xorg = void, yorg = void, slw = void;
     int x = void, y = void, e = void;
     miFillArcRec info = void;
     miArcSliceRec slice = void;
     int ya = void, xl = void, xr = void, xc = void;
-    DDXPointPtr pts = void;
+    xPoint* pts = void;
     int* wids = void;
 
     miFillArcSetup(arc, &info);
@@ -683,7 +683,7 @@ private int miFillArcSliceI(DrawablePtr pDraw, GCPtr pGC, xArc* arc, DDXPointPtr
     return cast(int)(pts - points);
 }
 
-private int miFillArcSliceD(DrawablePtr pDraw, GCPtr pGC, xArc* arc, DDXPointPtr points, int* widths)
+private int miFillArcSliceD(DrawablePtr pDraw, GCPtr pGC, xArc* arc, xPoint* points, int* widths)
 {
     int x = void, y = void;
     int dx = void, dy = void, xorg = void, yorg = void, slw = void;
@@ -691,7 +691,7 @@ private int miFillArcSliceD(DrawablePtr pDraw, GCPtr pGC, xArc* arc, DDXPointPtr
     miFillArcDRec info = void;
     miArcSliceRec slice = void;
     int ya = void, xl = void, xr = void, xc = void;
-    DDXPointPtr pts = void;
+    xPoint* pts = void;
     int* wids = void;
 
     miFillArcDSetup(arc, &info);
@@ -743,7 +743,7 @@ void miPolyFillArc(DrawablePtr pDraw, GCPtr pGC, int narcs_all, xArc* parcs)
         int i = void;
         xArc* arc = void;
         int nspans = 0;
-        DDXPointPtr pts = void, points = void;
+        xPoint* pts = void, points = void;
         int* wids = void, widths = void;
         int n = void;
 

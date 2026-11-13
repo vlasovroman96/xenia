@@ -497,7 +497,7 @@ int ClientSignalAll(ClientPtr pClient, ClientSleepProcPtr func, void* closure);
  * @return 1 if event was delivered, 0 if not or -1 if grab was not set by the
  * client.
  */
-// void  TryClientEvents(ClientPtr pClient, DeviceIntPtr device, xEventPtr pEvents, size_t count, Mask mask, Mask filter, GrabPtr grab);
+// void  TryClientEvents(ClientPtr pClient, DeviceIntPtr device, _xEvent* pEvents, size_t count, Mask mask, Mask filter, GrabPtr grab);
 
 /**
  * @brief deliver event to a window and its immediate parent.
@@ -513,7 +513,7 @@ int ClientSignalAll(ClientPtr pClient, ClientSleepProcPtr func, void* closure);
  * @param count         number of events in xE.
  * @param otherParent   Used for ReparentNotify events.
  */
-// EventDeliveryState DeliverEvents(WindowPtr pWindow, xEventPtr events, size_t nEvents, WindowPtr otherParent);
+// EventDeliveryState DeliverEvents(WindowPtr pWindow, _xEvent* events, size_t nEvents, WindowPtr otherParent);
 
 /**
  * @brief deliver events to a window.
@@ -538,7 +538,7 @@ int ClientSignalAll(ClientPtr pClient, ClientSleepProcPtr func, void* closure);
  * made, 0 if no events were delivered, or a negative number if the event
  * has not been delivered _and_ rejected by at least one client.
  */
-// int DeliverEventsToWindow(DeviceIntPtr pDev, WindowPtr pWindow, xEventPtr pEvents, size_t count, Mask filter, GrabPtr grab);
+// int DeliverEventsToWindow(DeviceIntPtr pDev, WindowPtr pWindow, _xEvent* pEvents, size_t count, Mask filter, GrabPtr grab);
 
 /*
  * @brief callback when root window has is finalized

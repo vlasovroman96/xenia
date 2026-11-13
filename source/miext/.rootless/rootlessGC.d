@@ -378,7 +378,7 @@ enum string GCOP_WRAP(string pGC) = `
     (` ~ pGC ~ `).funcs = saveFuncs; 
     (` ~ pGC ~ `).ops = &rootlessGCOps;`;
 
-private void RootlessFillSpans(DrawablePtr dst, GCPtr pGC, int nInit, DDXPointPtr pptInit, int* pwidthInit, int sorted)
+private void RootlessFillSpans(DrawablePtr dst, GCPtr pGC, int nInit, xPoint* pptInit, int* pwidthInit, int sorted)
 {
     mixin(GC_SAVE!(`pGC`));
     mixin(GCOP_UNWRAP!(`pGC`));
@@ -388,7 +388,7 @@ private void RootlessFillSpans(DrawablePtr dst, GCPtr pGC, int nInit, DDXPointPt
         pGC.ops.FillSpans(dst, pGC, nInit, pptInit, pwidthInit, sorted);
     }
     else {
-        DDXPointPtr ppt = pptInit;
+        xPoint* ppt = pptInit;
         int* pwidth = pwidthInit;
         int i = nInit;
         BoxRec box = void;
@@ -430,7 +430,7 @@ private void RootlessFillSpans(DrawablePtr dst, GCPtr pGC, int nInit, DDXPointPt
     RL_DEBUG_MSG("fill spans end\n");
 }
 
-private void RootlessSetSpans(DrawablePtr dst, GCPtr pGC, char* pSrc, DDXPointPtr pptInit, int* pwidthInit, int nspans, int sorted)
+private void RootlessSetSpans(DrawablePtr dst, GCPtr pGC, char* pSrc, xPoint* pptInit, int* pwidthInit, int nspans, int sorted)
 {
     mixin(GCOP_UNWRAP!(`pGC`));
     RL_DEBUG_MSG("set spans start ");
@@ -439,7 +439,7 @@ private void RootlessSetSpans(DrawablePtr dst, GCPtr pGC, char* pSrc, DDXPointPt
         pGC.ops.SetSpans(dst, pGC, pSrc, pptInit, pwidthInit, nspans, sorted);
     }
     else {
-        DDXPointPtr ppt = pptInit;
+        xPoint* ppt = pptInit;
         int* pwidth = pwidthInit;
         int i = nspans;
         BoxRec box = void;
@@ -576,7 +576,7 @@ enum ROOTLESS_CHANGED_AREA = 1;
 enum string abs(string a) = `((` ~ a ~ `) > 0 ? (` ~ a ~ `) : -(` ~ a ~ `))`;
 
 /* changed area is box around all points */
-private void RootlessPolyPoint(DrawablePtr dst, GCPtr pGC, int mode, int npt, DDXPointPtr pptInit)
+private void RootlessPolyPoint(DrawablePtr dst, GCPtr pGC, int mode, int npt, xPoint* pptInit)
 {
     mixin(GCOP_UNWRAP!(`pGC`));
     RL_DEBUG_MSG("polypoint start ");
@@ -670,7 +670,7 @@ static if (ROOTLESS_CHANGED_AREA==0) {
 }
 
 /* changed area is box around each line */
-private void RootlessPolylines(DrawablePtr dst, GCPtr pGC, int mode, int npt, DDXPointPtr pptInit)
+private void RootlessPolylines(DrawablePtr dst, GCPtr pGC, int mode, int npt, xPoint* pptInit)
 {
     mixin(GCOP_UNWRAP!(`pGC`));
     RL_DEBUG_MSG("poly lines start ");
@@ -936,7 +936,7 @@ private void RootlessPolyArc(DrawablePtr dst, GCPtr pGC, int narcs, xArc* parcs)
 }
 
 /* changed area is box around each poly */
-private void RootlessFillPolygon(DrawablePtr dst, GCPtr pGC, int shape, int mode, int count, DDXPointPtr pptInit)
+private void RootlessFillPolygon(DrawablePtr dst, GCPtr pGC, int shape, int mode, int count, xPoint* pptInit)
 {
     mixin(GC_SAVE!(`pGC`));
     mixin(GCOP_UNWRAP!(`pGC`));
@@ -947,7 +947,7 @@ private void RootlessFillPolygon(DrawablePtr dst, GCPtr pGC, int shape, int mode
         pGC.ops.FillPolygon(dst, pGC, shape, mode, count, pptInit);
     }
     else {
-        DDXPointPtr ppt = pptInit;
+        xPoint* ppt = pptInit;
         int i = count;
         BoxRec box = void;
 

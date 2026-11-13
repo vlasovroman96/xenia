@@ -817,8 +817,8 @@ private miArcSpanData* miComputeWideEllipse(int lw, xArc* parc)
 
 private void miFillWideEllipse(DrawablePtr pDraw, GCPtr pGC, xArc* parc)
 {
-    DDXPointPtr points = void;
-    DDXPointPtr pts = void;
+    xPoint* points = void;
+    xPoint* pts = void;
     int* wids = void;
     miArcSpanData* spdata = void;
     miArcSpan* span = void;
@@ -830,7 +830,7 @@ private void miFillWideEllipse(DrawablePtr pDraw, GCPtr pGC, xArc* parc)
     int* widths = cast(int*) calloc(1, n + (((xPoint).sizeof * 2)) * yorgu);
     if (!widths)
         return;
-    points = cast(DDXPointPtr) (cast(char*) widths + n);
+    points = cast(xPoint*) (cast(char*) widths + n);
     spdata = miComputeWideEllipse(cast(int) pGC.lineWidth, parc);
     if (!spdata) {
         free(widths);
@@ -1206,7 +1206,7 @@ private void miFillSppPoly(DrawablePtr dst, GCPtr pgc, int count, SppPointPtr pt
     double xl = 0.0, xr = 0.0, ml = 0.0, mr = 0.0, dy = void, i = void;                      /* loop counter */
     int y = void, j = void, imin = void, ymin = void, ymax = void; int* width = void, FirstWidth = void, Marked = void;                    /* set if this vertex has been used */
     int left = void, right = void, nextleft = void, nextright = void;       /* indices to second endpoints */
-    DDXPointPtr ptsOut = void, FirstPoint = void;     /* output buffer */
+    xPoint* ptsOut = void, FirstPoint = void;     /* output buffer */
 
     if (pgc.miTranslate) {
         xTrans += dst.x;
@@ -3023,12 +3023,12 @@ private void disposeFinalSpans()
 private void fillSpans(DrawablePtr pDrawable, GCPtr pGC)
 {
     finalSpan* span = void;
-    DDXPointPtr xSpan = void;
+    xPoint* xSpan = void;
     int* xWidth = void;
     int i = void;
     finalSpan** f = void;
     int spany = void;
-    DDXPointPtr xSpans = void;
+    xPoint* xSpans = void;
     int* xWidths = void;
 
     if (nspans == 0)

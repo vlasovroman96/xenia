@@ -44,7 +44,7 @@ private const(glamor_facet) glamor_facet_point = {
                 GLAMOR_POS!("gl_Position", "primitive")),
 };
 
-private Bool glamor_poly_point_gl(DrawablePtr drawable, GCPtr gc, int mode, int npt, DDXPointPtr ppt)
+private Bool glamor_poly_point_gl(DrawablePtr drawable, GCPtr gc, int mode, int npt, xPoint* ppt)
 {
     ScreenPtr screen = drawable.pScreen;
     glamor_screen_private* glamor_priv = glamor_get_screen_private(screen);
@@ -124,7 +124,7 @@ bail:
     return ret;
 }
 
-void glamor_poly_point(DrawablePtr drawable, GCPtr gc, int mode, int npt, DDXPointPtr ppt)
+void glamor_poly_point(DrawablePtr drawable, GCPtr gc, int mode, int npt, xPoint* ppt)
 {
     if (glamor_poly_point_gl(drawable, gc, mode, npt, ppt))
         return;

@@ -93,15 +93,3 @@ public import dix.scrintstr;
 public import externs.libdbus;
 
 public import os.os;                 /* for ALLOCATE_LOCAL and DEALLOCATE_LOCAL */
-
-alias DDXPointPtr = xPoint*;
-alias BoxPtr = pixman_box16*;
-alias xEventPtr = _xEvent*;
-alias xRectanglePtr = xRectangle*;
-// struct _GrabRec;
-alias GrabPtr = GrabRec*;
-
-alias x_server_generation_t = c_ulong;
-
-// static ulong globalSerialNumber = 0;
-// x_server_generation_t serverGeneration;

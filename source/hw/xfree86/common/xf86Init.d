@@ -110,6 +110,7 @@ import xf86Events;
 import build.xlibre_server;
 import hw.xfree86.common.edid;
 import dix.colormap_priv;
+import core.sys.posix.pthread;
 
 
 static if(DPMSExtension) {

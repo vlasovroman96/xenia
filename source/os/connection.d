@@ -122,6 +122,7 @@ import os.osdep;
 import os.probes_priv;
 
 import dix.dixstruct_priv;
+import core.sys.posix.pthread;
 import Xext.xace;
 
 alias sockaddr = core.sys.posix.sys.socket.sockaddr;

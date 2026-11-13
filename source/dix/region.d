@@ -274,7 +274,7 @@ pragma(inline, true) Bool RegionUnion(RegionPtr newReg, RegionPtr reg1, RegionPt
 
 // void RegionValidate(RegionPtr, Bool*);
 
-// RegionPtr RegionFromRects(int, xRectanglePtr, int);
+// RegionPtr RegionFromRects(int, xRectangle*, int);
 
 /*-
  *-----------------------------------------------------------------------

@@ -120,6 +120,7 @@ import Xext.xf86bigfontsrv;
 version (__clang__) {
 // #pragma clang diagnostic ignored "-Wformat-nonliteral"
 }
+import core.sys.posix.pthread;
 
 /* Default logging parameters. */
 enum DEFAULT_LOG_VERBOSITY =		0;

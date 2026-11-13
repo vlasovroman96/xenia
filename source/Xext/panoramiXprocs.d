@@ -1735,7 +1735,7 @@ int PanoramiXFillPoly(ClientPtr client)
 
     count = cast(int)int32ForBytes((client.req_len << 2) - xFillPolyReq.sizeof);
     if (count > 0) {
-        DDXPointPtr locPts = cast(DDXPointPtr)calloc(count, xPoint.sizeof);
+        xPoint* locPts = cast(xPoint*)calloc(count, xPoint.sizeof);
         if (!locPts)
             return BadAlloc;
         memcpy(cast(char*) locPts, cast(char*) &stuff[1],
@@ -1750,7 +1750,7 @@ int PanoramiXFillPoly(ClientPtr client)
                 int y_off = walkScreen.y;
 
                 if (x_off || y_off) {
-                    DDXPointPtr pnts = cast(DDXPointPtr) &stuff[1];
+                    xPoint* pnts = cast(xPoint*) &stuff[1];
                     int i = (stuff.coordMode == CoordModePrevious) ? 1 : count;
 
                     while (i--) {

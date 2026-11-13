@@ -1907,7 +1907,7 @@ int ProcPolyLine(ClientPtr client)
     npoint = cast(int)int32ForBytes(((client.req_len << 2)) - xPolyLineReq.sizeof);
     if (npoint > 1)
         (*pGC.ops.Polylines) (pDraw, pGC, stuff.coordMode, npoint,
-                                cast(DDXPointPtr) &stuff[1]);
+                                cast(xPoint*) &stuff[1]);
     return Success;
 }
 
@@ -2012,7 +2012,7 @@ int ProcFillPoly(ClientPtr client)
     if (things)
         (*pGC.ops.FillPolygon) (pDraw, pGC, stuff.shape,
                                   stuff.coordMode, things,
-                                  cast(DDXPointPtr) &stuff[1]);
+                                  cast(xPoint*) &stuff[1]);
     return Success;
 }
 

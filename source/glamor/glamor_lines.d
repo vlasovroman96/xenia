@@ -40,7 +40,7 @@ private const(glamor_facet) glamor_facet_poly_lines = {
                 ~GLAMOR_POS!("gl_Position", "primitive.xy")),
 };
 
-private Bool glamor_poly_lines_solid_gl(DrawablePtr drawable, GCPtr gc, int mode, int n, DDXPointPtr points)
+private Bool glamor_poly_lines_solid_gl(DrawablePtr drawable, GCPtr gc, int mode, int n, xPoint* points)
 {
     ScreenPtr screen = drawable.pScreen;
     glamor_screen_private* glamor_priv = glamor_get_screen_private(screen);
@@ -48,7 +48,7 @@ private Bool glamor_poly_lines_solid_gl(DrawablePtr drawable, GCPtr gc, int mode
     glamor_pixmap_private* pixmap_priv = void;
     glamor_program* prog = void;
     int off_x = void, off_y = void;
-    DDXPointPtr v = void;
+    xPoint* v = void;
     char* vbo_offset = void;
     int box_index = void;
     int add_last = void;
@@ -135,7 +135,7 @@ bail:
     return ret;
 }
 
-private Bool glamor_poly_lines_gl(DrawablePtr drawable, GCPtr gc, int mode, int n, DDXPointPtr points)
+private Bool glamor_poly_lines_gl(DrawablePtr drawable, GCPtr gc, int mode, int n, xPoint* points)
 {
     if (gc.lineWidth != 0)
         return FALSE;
@@ -155,7 +155,7 @@ private Bool glamor_poly_lines_gl(DrawablePtr drawable, GCPtr gc, int mode, int 
     }
 }
 
-private void glamor_poly_lines_bail(DrawablePtr drawable, GCPtr gc, int mode, int n, DDXPointPtr points)
+private void glamor_poly_lines_bail(DrawablePtr drawable, GCPtr gc, int mode, int n, xPoint* points)
 {
     // glamor_fallback("to %p (%c)\n", drawable,
     //                 glamor_get_drawable_location(drawable));
@@ -163,7 +163,7 @@ private void glamor_poly_lines_bail(DrawablePtr drawable, GCPtr gc, int mode, in
     miPolylines(drawable, gc, mode, n, points);
 }
 
-void glamor_poly_lines(DrawablePtr drawable, GCPtr gc, int mode, int n, DDXPointPtr points)
+void glamor_poly_lines(DrawablePtr drawable, GCPtr gc, int mode, int n, xPoint* points)
 {
     if (glamor_poly_lines_gl(drawable, gc, mode, n, points))
         return;

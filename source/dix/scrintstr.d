@@ -145,7 +145,7 @@ alias GetImageProcPtr = void function(DrawablePtr /*pDrawable */ ,
 
 alias GetSpansProcPtr = void function(DrawablePtr /*pDrawable */ ,
                                  int /*wMax */ ,
-                                 DDXPointPtr /*ppt */ ,
+                                 xPoint* /*ppt */ ,
                                  int * /*pwidth */ ,
                                  int /*nspans */ ,
                                  char * /*pdstStart */ )  @nogc nothrow;

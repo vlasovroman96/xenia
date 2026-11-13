@@ -292,7 +292,7 @@ private void VGAarbiterGetImage(DrawablePtr pDrawable, int sx, int sy, int w, in
     mixin(SCREEN_EPILOG!("GetImage", "VGAarbiterGetImage"));
 }
 
-private void VGAarbiterGetSpans(DrawablePtr pDrawable, int wMax, DDXPointPtr ppt, int* pwidth, int nspans, char* pdstStart)
+private void VGAarbiterGetSpans(DrawablePtr pDrawable, int wMax, xPoint* ppt, int* pwidth, int nspans, char* pdstStart)
 {
     ScreenPtr pScreen = pDrawable.pScreen;
 
@@ -561,7 +561,7 @@ private void VGAarbiterDestroyClip(GCPtr pGC)
 }
 
 /* GC Ops */
-private void VGAarbiterFillSpans(DrawablePtr pDraw, GCPtr pGC, int nInit, DDXPointPtr pptInit, int* pwidthInit, int fSorted)
+private void VGAarbiterFillSpans(DrawablePtr pDraw, GCPtr pGC, int nInit, xPoint* pptInit, int* pwidthInit, int fSorted)
 {
     ScreenPtr pScreen = pGC.pScreen;
 
@@ -572,7 +572,7 @@ private void VGAarbiterFillSpans(DrawablePtr pDraw, GCPtr pGC, int nInit, DDXPoi
     mixin(GC_WRAP!("pGC"));
 }
 
-private void VGAarbiterSetSpans(DrawablePtr pDraw, GCPtr pGC, char* pcharsrc, DDXPointPtr ppt, int* pwidth, int nspans, int fSorted)
+private void VGAarbiterSetSpans(DrawablePtr pDraw, GCPtr pGC, char* pcharsrc, xPoint* ppt, int* pwidth, int nspans, int fSorted)
 {
     ScreenPtr pScreen = pGC.pScreen;
 
@@ -634,7 +634,7 @@ private void VGAarbiterPolyPoint(DrawablePtr pDraw, GCPtr pGC, int mode, int npt
     mixin(GC_WRAP!("pGC"));
 }
 
-private void VGAarbiterPolylines(DrawablePtr pDraw, GCPtr pGC, int mode, int npt, DDXPointPtr pptInit)
+private void VGAarbiterPolylines(DrawablePtr pDraw, GCPtr pGC, int mode, int npt, xPoint* pptInit)
 {
     ScreenPtr pScreen = pGC.pScreen;
 
@@ -678,7 +678,7 @@ private void VGAarbiterPolyArc(DrawablePtr pDraw, GCPtr pGC, int narcs, xArc* pa
     mixin(GC_WRAP!("pGC"));
 }
 
-private void VGAarbiterFillPolygon(DrawablePtr pDraw, GCPtr pGC, int shape, int mode, int count, DDXPointPtr ptsIn)
+private void VGAarbiterFillPolygon(DrawablePtr pDraw, GCPtr pGC, int shape, int mode, int count, xPoint* ptsIn)
 {
     ScreenPtr pScreen = pGC.pScreen;
 

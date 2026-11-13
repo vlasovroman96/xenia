@@ -414,7 +414,7 @@ private int XvdiSendVideoNotify(XvPortPtr pPort, DrawablePtr pDraw, int reason)
             event.u.videoNotify.port = cast(uint)pPort.id;
 
         event.u.u.type = cast(ubyte)(XvEventBase + XvVideoNotify);
-        WriteEventsToClient(pn.client, 1, cast(xEventPtr) &event);
+        WriteEventsToClient(pn.client, 1, cast(_xEvent*) &event);
         pn = pn.next;
     }
 
@@ -436,7 +436,7 @@ private int XvdiSendPortNotify(XvPortPtr pPort, Atom attribute, INT32 value)
             event.u.portNotify.value = value;
 
         event.u.u.type = cast(ubyte)(XvEventBase + XvPortNotify);
-        WriteEventsToClient(pn.client, 1, cast(xEventPtr) &event);
+        WriteEventsToClient(pn.client, 1, cast(_xEvent*) &event);
         pn = pn.next;
     }
 

@@ -220,6 +220,8 @@ struct _GrabRec {
     /* XI2 event masks. One per device, each bit is a mask of (1 << type) */
     _XI2Mask* xi2mask;
 }
+alias GrabPtr = GrabRec*;
+
 
 /**
  * Sprite information for a device.

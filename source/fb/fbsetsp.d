@@ -29,7 +29,7 @@ import build.dix_config;
 import fb.fb_priv;
 import fb.fb;
 
-void fbSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* src, DDXPointPtr ppt, int* pwidth, int nspans, int fSorted)
+void fbSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* src, xPoint* ppt, int* pwidth, int nspans, int fSorted)
 {
     FbGCPrivPtr pPriv = mixin(fbGetGCPrivate!("pGC"));
     RegionPtr pClip = mixin(fbGetCompositeClip!("pGC"));

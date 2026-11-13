@@ -237,7 +237,7 @@ private int glamor_line_length(short x1, short y1, short x2, short y2)
     return max(abs(x2 - x1), abs(y2 - y1));
 }
 
-Bool glamor_poly_lines_dash_gl(DrawablePtr drawable, GCPtr gc, int mode, int n, DDXPointPtr points)
+Bool glamor_poly_lines_dash_gl(DrawablePtr drawable, GCPtr gc, int mode, int n, xPoint* points)
 {
     ScreenPtr screen = drawable.pScreen;
     glamor_program* prog = void;

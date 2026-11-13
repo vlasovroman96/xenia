@@ -32,7 +32,7 @@ import mipolyseg;
 import miglblt;
 import mipushpxl;
 
-private void fbZeroLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ppt)
+private void fbZeroLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* ppt)
 {
     int x1 = void, y1 = void, x2 = void, y2 = void;
     int x = void, y = void;
@@ -76,7 +76,7 @@ private void fbZeroSegment(DrawablePtr pDrawable, GCPtr pGC, int nseg, xSegment*
     }
 }
 
-void fbFixCoordModePrevious(int npt, DDXPointPtr ppt)
+void fbFixCoordModePrevious(int npt, xPoint* ppt)
 {
     int x = void, y = void;
 
@@ -90,9 +90,9 @@ void fbFixCoordModePrevious(int npt, DDXPointPtr ppt)
     }
 }
 
-void fbPolyLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ppt)
+void fbPolyLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* ppt)
 {
-    extern(C) void function(DrawablePtr, GCPtr, int mode, int npt, DDXPointPtr ppt) @nogc nothrow line = void;
+    extern(C) void function(DrawablePtr, GCPtr, int mode, int npt, xPoint* ppt) @nogc nothrow line = void;
 
     if (pGC.lineWidth == 0) {
         line = &fbZeroLine;

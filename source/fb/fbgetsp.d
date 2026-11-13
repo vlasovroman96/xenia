@@ -29,7 +29,7 @@ import build.dix_config;
 import fb.fb;
 import fb.fballpriv;
 
-void fbGetSpans(DrawablePtr pDrawable, int wMax, DDXPointPtr ppt, int* pwidth, int nspans, char* pchardstStart)
+void fbGetSpans(DrawablePtr pDrawable, int wMax, xPoint* ppt, int* pwidth, int nspans, char* pchardstStart)
 {
     FbBits* src = void, dst = void;
     FbStride srcStride = void;

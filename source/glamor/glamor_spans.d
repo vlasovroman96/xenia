@@ -48,7 +48,7 @@ private const(glamor_facet) glamor_facet_fillspans_120 = {
                 ~GLAMOR_POS!("gl_Position", "primitive.xy")),
 };
 
-private Bool glamor_fill_spans_gl(DrawablePtr drawable, GCPtr gc, int n, DDXPointPtr points, int* widths, int sorted)
+private Bool glamor_fill_spans_gl(DrawablePtr drawable, GCPtr gc, int n, xPoint* points, int* widths, int sorted)
 {
     ScreenPtr screen = drawable.pScreen;
     glamor_screen_private* glamor_priv = glamor_get_screen_private(screen);
@@ -157,7 +157,7 @@ bail:
     return ret;
 }
 
-private void glamor_fill_spans_bail(DrawablePtr drawable, GCPtr gc, int n, DDXPointPtr points, int* widths, int sorted)
+private void glamor_fill_spans_bail(DrawablePtr drawable, GCPtr gc, int n, xPoint* points, int* widths, int sorted)
 {
     if (glamor_prepare_access(drawable, GLAMOR_ACCESS_RW) &&
         glamor_prepare_access_gc(gc)) {
@@ -167,14 +167,14 @@ private void glamor_fill_spans_bail(DrawablePtr drawable, GCPtr gc, int n, DDXPo
     glamor_finish_access(drawable);
 }
 
-void glamor_fill_spans(DrawablePtr drawable, GCPtr gc, int n, DDXPointPtr points, int* widths, int sorted)
+void glamor_fill_spans(DrawablePtr drawable, GCPtr gc, int n, xPoint* points, int* widths, int sorted)
 {
     if (glamor_fill_spans_gl(drawable, gc, n, points, widths, sorted))
         return;
     glamor_fill_spans_bail(drawable, gc, n, points, widths, sorted);
 }
 
-private Bool glamor_get_spans_gl(DrawablePtr drawable, int wmax, DDXPointPtr points, int* widths, int count, char* dst)
+private Bool glamor_get_spans_gl(DrawablePtr drawable, int wmax, xPoint* points, int* widths, int count, char* dst)
 {
     ScreenPtr screen = drawable.pScreen;
     glamor_screen_private* glamor_priv = glamor_get_screen_private(screen);
@@ -237,21 +237,21 @@ bail:
     return FALSE;
 }
 
-private void glamor_get_spans_bail(DrawablePtr drawable, int wmax, DDXPointPtr points, int* widths, int count, char* dst)
+private void glamor_get_spans_bail(DrawablePtr drawable, int wmax, xPoint* points, int* widths, int count, char* dst)
 {
     if (glamor_prepare_access(drawable, GLAMOR_ACCESS_RO))
         fbGetSpans(drawable, wmax, points, widths, count, dst);
     glamor_finish_access(drawable);
 }
 
-void glamor_get_spans(DrawablePtr drawable, int wmax, DDXPointPtr points, int* widths, int count, char* dst)
+void glamor_get_spans(DrawablePtr drawable, int wmax, xPoint* points, int* widths, int count, char* dst)
 {
     if (glamor_get_spans_gl(drawable, wmax, points, widths, count, dst))
         return;
     glamor_get_spans_bail(drawable, wmax, points, widths, count, dst);
 }
 
-private Bool glamor_set_spans_gl(DrawablePtr drawable, GCPtr gc, char* src, DDXPointPtr points, int* widths, int numPoints, int sorted)
+private Bool glamor_set_spans_gl(DrawablePtr drawable, GCPtr gc, char* src, xPoint* points, int* widths, int numPoints, int sorted)
 {
     ScreenPtr screen = drawable.pScreen;
     glamor_screen_private* glamor_priv = glamor_get_screen_private(screen);
@@ -347,7 +347,7 @@ bail:
     return FALSE;
 }
 
-private void glamor_set_spans_bail(DrawablePtr drawable, GCPtr gc, char* src, DDXPointPtr points, int* widths, int numPoints, int sorted)
+private void glamor_set_spans_bail(DrawablePtr drawable, GCPtr gc, char* src, xPoint* points, int* widths, int numPoints, int sorted)
 {
     if (glamor_prepare_access(drawable, GLAMOR_ACCESS_RW) && glamor_prepare_access_gc(gc))
         fbSetSpans(drawable, gc, src, points, widths, numPoints, sorted);
@@ -355,7 +355,7 @@ private void glamor_set_spans_bail(DrawablePtr drawable, GCPtr gc, char* src, DD
     glamor_finish_access(drawable);
 }
 
-void glamor_set_spans(DrawablePtr drawable, GCPtr gc, char* src, DDXPointPtr points, int* widths, int numPoints, int sorted)
+void glamor_set_spans(DrawablePtr drawable, GCPtr gc, char* src, xPoint* points, int* widths, int numPoints, int sorted)
 {
     if (glamor_set_spans_gl(drawable, gc, src, points, widths, numPoints, sorted))
         return;

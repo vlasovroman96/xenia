@@ -518,7 +518,7 @@ alias InternalEvent = _InternalEvent;
 
 struct EventInfoRec {
     ClientPtr client;
-    xEventPtr events;
+    _xEvent* events;
     int count;
 }
 

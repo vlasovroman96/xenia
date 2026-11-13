@@ -39,6 +39,7 @@ import core.sys.posix.sys.mman;
 import core.stdc.signal;
 import os.log;
 import externs.attrs;
+import core.sys.posix.pthread;
 
 alias busfault_notify_ptr = void function(void *context);
 

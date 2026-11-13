@@ -145,7 +145,7 @@ alias LineFacePtr = LineFaceRec*;
 
 struct Spans {
     int count;                  /* number of spans                  */
-    DDXPointPtr points;         /* pointer to list of start points  */
+    xPoint* points;         /* pointer to list of start points  */
     int* widths;                /* pointer to list of widths        */
 }
 
@@ -186,7 +186,7 @@ private void miSubtractSpans(SpanGroup* spanGroup, Spans* sub)
     int i = void, subCount = void, spansCount = void;
     int ymin = void, ymax = void, xmin = void, xmax = void;
     Spans* spans = void;
-    DDXPointPtr subPt = void, spansPt = void;
+    xPoint* subPt = void, spansPt = void;
     int* subWid = void, spansWid = void;
     int extra = void;
 
@@ -245,7 +245,7 @@ private void miSubtractSpans(SpanGroup* spanGroup, Spans* sub)
                         }
                         else {
                             if (!extra) {
-                                DDXPointPtr newPt = void;
+                                xPoint* newPt = void;
                                 int* newwid = void;
 
 enum EXTRA = 8;
@@ -327,7 +327,7 @@ private void QuickSortSpansX(xPoint* points, int* widths, int numSpans)
 {
     int x = void;
     int i = void, j = void, m = void;
-    DDXPointPtr r = void;
+    xPoint* r = void;
 
 /* Always called with numSpans > 1 */
 /* Sorts only by x, as all y should be the same */
@@ -482,7 +482,7 @@ private void miFillUniqueSpanGroup(DrawablePtr pDraw, GCPtr pGC, SpanGroup* span
     int ymin = void, ylength = void;
 
     /* Outgoing spans for one big call to FillSpans */
-    DDXPointPtr points = void;
+    xPoint* points = void;
     int* widths = void;
     int count = void;
 
@@ -538,7 +538,7 @@ private void miFillUniqueSpanGroup(DrawablePtr pDraw, GCPtr pGC, SpanGroup* span
                     Spans* newspans = &(yspans[index]);
 
                     if (newspans.count == ysizes[index]) {
-                        DDXPointPtr newpoints = void;
+                        xPoint* newpoints = void;
                         int* newwidths = void;
 
                         ysizes[index] = (ysizes[index] + 8) * 2;
@@ -704,7 +704,7 @@ private void miFillPolyHelper(DrawablePtr pDrawable, GCPtr pGC, c_ulong pixel, S
     int height = 0;
     int left_height = 0, right_height = 0;
 
-    DDXPointPtr ppt = void;
+    xPoint* ppt = void;
     int* pwidth = void;
     int xorg = void;
     Spans spanRec = void;
@@ -781,7 +781,7 @@ private void miFillPolyHelper(DrawablePtr pDrawable, GCPtr pGC, c_ulong pixel, S
 
 private void miFillRectPolyHelper(DrawablePtr pDrawable, GCPtr pGC, c_ulong pixel, SpanDataPtr spanData, int x, int y, int w, int h)
 {
-    DDXPointPtr ppt = void;
+    xPoint* ppt = void;
     int* pwidth = void;
     ChangeGCVal oldPixel = void, tmpPixel = void;
     Spans spanRec = void;
@@ -1132,9 +1132,9 @@ private void miLineJoin(DrawablePtr pDrawable, GCPtr pGC, c_ulong pixel, SpanDat
                      nleft, nright);
 }
 
-private int miLineArcI(DrawablePtr pDraw, GCPtr pGC, int xorg, int yorg, DDXPointPtr points, int* widths)
+private int miLineArcI(DrawablePtr pDraw, GCPtr pGC, int xorg, int yorg, xPoint* points, int* widths)
 {
-    DDXPointPtr tpts = void, bpts = void;
+    xPoint* tpts = void, bpts = void;
     int* twids = void, bwids = void;
     int x = void, y = void, e = void, ex = void, slw = void;
 
@@ -1207,9 +1207,9 @@ enum string CLIPSTEPEDGE(string edgey,string edge,string edgeleft) = `
 	} 
     }`;
 
-private int miLineArcD(DrawablePtr pDraw, GCPtr pGC, double xorg, double yorg, DDXPointPtr points, int* widths, PolyEdgePtr edge1, int edgey1, Bool edgeleft1, PolyEdgePtr edge2, int edgey2, Bool edgeleft2)
+private int miLineArcD(DrawablePtr pDraw, GCPtr pGC, double xorg, double yorg, xPoint* points, int* widths, PolyEdgePtr edge1, int edgey1, Bool edgeleft1, PolyEdgePtr edge2, int edgey2, Bool edgeleft2)
 {
-    DDXPointPtr pts = void;
+    xPoint* pts = void;
     int* wids = void;
     double radius = void, x0 = void, y0 = void, el = void, er = void, yk = void, xlk = void, xrk = void, k = void;
     int xbase = void, ybase = void, y = void, boty = void, xl = void, xr = void, xcl = void, xcr = void;
@@ -1880,7 +1880,7 @@ private void miCleanupSpanData(DrawablePtr pDrawable, GCPtr pGC, SpanDataPtr spa
     miFreeSpanGroup(&spanData.fgGroup);
 }
 
-void miWideLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr pPts)
+void miWideLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* pPts)
 {
     int x1 = void, y1 = void, x2 = void, y2 = void;
     SpanDataRec spanDataRec = void;
@@ -1902,7 +1902,7 @@ void miWideLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr
     if (npt > 1) {
         if (mode == CoordModePrevious) {
             int nptTmp = void;
-            DDXPointPtr pPtsTmp = void;
+            xPoint* pPtsTmp = void;
 
             x1 = x2;
             y1 = y2;
@@ -2306,7 +2306,7 @@ private void miWideDashSegment(DrawablePtr pDrawable, GCPtr pGC, SpanDataPtr spa
     *pDashOffset = pDash[dashIndex] - dashRemain;
 }
 
-void miWideDash(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr pPts)
+void miWideDash(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* pPts)
 {
     int x1 = void, y1 = void, x2 = void, y2 = void;
     c_ulong pixel = void;
@@ -2344,7 +2344,7 @@ version (none) {
     selfJoin = FALSE;
     if (mode == CoordModePrevious) {
         int nptTmp = void;
-        DDXPointPtr pPtsTmp = void;
+        xPoint* pPtsTmp = void;
 
         x1 = x2;
         y1 = y2;
@@ -2464,7 +2464,7 @@ version (none) {
         miCleanupSpanData(pDrawable, pGC, spanData);
 }
 
-void miPolylines(DrawablePtr drawable, GCPtr gc, int mode, int n, DDXPointPtr points)
+void miPolylines(DrawablePtr drawable, GCPtr gc, int mode, int n, xPoint* points)
 {
     if (gc.lineWidth == 0) {
         if (gc.lineStyle == LineSolid)

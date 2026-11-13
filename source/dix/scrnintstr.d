@@ -115,7 +115,7 @@ alias WINDOW_VRR_ENABLED = WindowVRRMode.WINDOW_VRR_ENABLED;
 
 // alias GetImageProcPtr = void function(DrawablePtr, int, int, int, int, uint, c_ulong, char*);
 
-// alias GetSpansProcPtr = void function(DrawablePtr, int, DDXPointPtr, int*, int, char*);
+// alias GetSpansProcPtr = void function(DrawablePtr, int, xPoint*, int*, int, char*);
 
 // alias SourceValidateProcPtr = void function(DrawablePtr, int, int, int, int, uint);
 

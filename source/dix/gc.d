@@ -112,18 +112,18 @@ struct GCFuncs {
  */
 
 struct _GCOps {
-    void function(DrawablePtr, GCPtr, int, DDXPointPtr, int*, int) @nogc nothrow FillSpans;
+    void function(DrawablePtr, GCPtr, int, xPoint*, int*, int) @nogc nothrow FillSpans;
 
-    void function(DrawablePtr, GCPtr, char*, DDXPointPtr, int*, int, int) @nogc nothrow SetSpans;
+    void function(DrawablePtr, GCPtr, char*, xPoint*, int*, int, int) @nogc nothrow SetSpans;
 
     void function(DrawablePtr, GCPtr, int, int, int, int, int, int, int, char*) @nogc nothrow PutImage ;
 
     RegionPtr function(DrawablePtr, DrawablePtr, GCPtr, int, int, int, int, int, int) @nogc nothrow CopyArea;
 
     RegionPtr function(DrawablePtr, DrawablePtr, GCPtr, int, int, int, int, int, int, c_ulong) @nogc nothrow CopyPlane;
-    void function(DrawablePtr, GCPtr, int, int, DDXPointPtr) @nogc nothrow PolyPoint;
+    void function(DrawablePtr, GCPtr, int, int, xPoint*) @nogc nothrow PolyPoint;
 
-    void function(DrawablePtr, GCPtr, int, int, DDXPointPtr) @nogc nothrow Polylines;
+    void function(DrawablePtr, GCPtr, int, int, xPoint*) @nogc nothrow Polylines;
 
     void function(DrawablePtr, GCPtr, int, xSegment*) @nogc nothrow PolySegment;
 
@@ -131,7 +131,7 @@ struct _GCOps {
 
     void function(DrawablePtr, GCPtr, int, xArc*) @nogc nothrow PolyArc;
 
-    void function(DrawablePtr, GCPtr, int, int, int, DDXPointPtr) @nogc nothrow FillPolygon;
+    void function(DrawablePtr, GCPtr, int, int, int, xPoint*) @nogc nothrow FillPolygon;
 
     void function(DrawablePtr, GCPtr, int, xRectangle*) @nogc nothrow PolyFillRect;
 

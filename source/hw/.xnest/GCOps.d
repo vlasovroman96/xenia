@@ -54,7 +54,7 @@ void xnestSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* pSrc, xPoint* pPoints
     ErrorF("xnest warning: function xnestSetSpans not implemented\n");
 }
 
-void xnestGetSpans(DrawablePtr pDrawable, int maxWidth, DDXPointPtr pPoints, int* pWidths, int nSpans, char* pBuffer)
+void xnestGetSpans(DrawablePtr pDrawable, int maxWidth, xPoint* pPoints, int* pWidths, int nSpans, char* pBuffer)
 {
     ErrorF("xnest warning: function xnestGetSpans not implemented\n");
 }
@@ -215,7 +215,7 @@ RegionPtr xnestCopyPlane(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, GCP
     return xnestBitBlitHelper(pGC);
 }
 
-void xnestPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int nPoints, DDXPointPtr pPoints)
+void xnestPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int nPoints, xPoint* pPoints)
 {
     /* xPoint and xcb_segment_t are defined in the same way, both matching
        the protocol layout, so we can directly typecast them */
@@ -227,7 +227,7 @@ void xnestPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int nPoints, DDX
                    cast(xcb_point_t*)pPoints);
 }
 
-void xnestPolylines(DrawablePtr pDrawable, GCPtr pGC, int mode, int nPoints, DDXPointPtr pPoints)
+void xnestPolylines(DrawablePtr pDrawable, GCPtr pGC, int mode, int nPoints, xPoint* pPoints)
 {
     /* xPoint and xcb_segment_t are defined in the same way, both matching
        the protocol layout, so we can directly typecast them */
@@ -272,7 +272,7 @@ void xnestPolyArc(DrawablePtr pDrawable, GCPtr pGC, int nArcs, xArc* pArcs)
                  cast(xcb_arc_t*)pArcs);
 }
 
-void xnestFillPolygon(DrawablePtr pDrawable, GCPtr pGC, int shape, int mode, int nPoints, DDXPointPtr pPoints)
+void xnestFillPolygon(DrawablePtr pDrawable, GCPtr pGC, int shape, int mode, int nPoints, xPoint* pPoints)
 {
     /* xPoint and xcb_segment_t are defined in the same way, both matching
        the protocol layout, so we can directly typecast them */

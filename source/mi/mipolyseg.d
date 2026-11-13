@@ -70,7 +70,7 @@ void miPolySegment(DrawablePtr pDraw, GCPtr pGC, int nseg, xSegment* pSegs)
 
     for (i = 0; i < nseg; i++) {
         (*pGC.ops.Polylines) (pDraw, pGC, CoordModeOrigin, 2,
-                                cast(DDXPointPtr) pSegs);
+                                cast(xPoint*) pSegs);
         pSegs++;
     }
 }

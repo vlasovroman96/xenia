@@ -31,7 +31,7 @@ import dix.pixmap;
 import dix.gc;
 import x11.Xprotostr;
 
-void fbFillSpans(DrawablePtr pDrawable, GCPtr pGC, int n, DDXPointPtr ppt, int* pwidth, int fSorted)
+void fbFillSpans(DrawablePtr pDrawable, GCPtr pGC, int n, xPoint* ppt, int* pwidth, int fSorted)
 {
     RegionPtr pClip = mixin(fbGetCompositeClip!("pGC"));
     BoxPtr pextent = void, pbox = void;

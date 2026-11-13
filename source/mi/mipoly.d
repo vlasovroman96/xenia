@@ -218,10 +218,10 @@ private void miFreeStorage(ScanLineListBlock* pSLLBlock)
  * per scanline at which an edge is initially entered.
  */
 
-private Bool miCreateETandAET(int count, DDXPointPtr pts, EdgeTable* ET, EdgeTableEntry* AET, EdgeTableEntry* pETEs, ScanLineListBlock* pSLLBlock)
+private Bool miCreateETandAET(int count, xPoint* pts, EdgeTable* ET, EdgeTableEntry* AET, EdgeTableEntry* pETEs, ScanLineListBlock* pSLLBlock)
 {
-    DDXPointPtr top = void, bottom = void;
-    DDXPointPtr PrevPt = void, CurrPt = void;
+    xPoint* top = void, bottom = void;
+    xPoint* PrevPt = void, CurrPt = void;
     int iSLLBlock = 0;
 
     int dy = void;
@@ -402,11 +402,11 @@ private int miInsertionSort(EdgeTableEntry* AET)
 }
 
 /* Find the index of the point with the smallest y */
-private int getPolyYBounds(DDXPointPtr pts, int n, int* by, int* ty)
+private int getPolyYBounds(xPoint* pts, int n, int* by, int* ty)
 {
-    DDXPointPtr ptMin = void;
+    xPoint* ptMin = void;
     int ymin = void, ymax = void;
-    DDXPointPtr ptsStart = pts;
+    xPoint* ptsStart = pts;
 
     ptMin = pts;
     ymin = ymax = (pts++).y;
@@ -437,7 +437,7 @@ private int getPolyYBounds(DDXPointPtr pts, int n, int* by, int* ty)
  * Bresenham's line algorithm with y as the major axis.  For a derivation of
  * the algorithm, see the author of this code.
  */
-private Bool miFillConvexPoly(DrawablePtr dst, GCPtr pgc, int count, DDXPointPtr ptsIn)
+private Bool miFillConvexPoly(DrawablePtr dst, GCPtr pgc, int count, xPoint* ptsIn)
 {
     int xl = 0, xr = 0;         /* x vals of left and right edges */
     int dl = 0, dr = 0;         /* decision variables             */
@@ -450,7 +450,7 @@ private Bool miFillConvexPoly(DrawablePtr dst, GCPtr pgc, int count, DDXPointPtr
     int left = void, right = void;            /* indices to first endpoints     */
     int i = void;                      /* loop counter                   */
     int nextleft = void, nextright = void;    /* indices to second endpoints    */
-    DDXPointPtr ptsOut = void, FirstPoint = void;     /* output buffer               */
+    xPoint* ptsOut = void, FirstPoint = void;     /* output buffer               */
     int* width = void, FirstWidth = void;    /* output buffer                  */
     int imin = void;                   /* index of smallest vertex (in y) */
     int ymin = void;                   /* y-extents of polygon            */
@@ -575,14 +575,14 @@ private Bool miFillConvexPoly(DrawablePtr dst, GCPtr pgc, int count, DDXPointPtr
  * Routine to fill a polygon.  Two fill rules are supported: frWINDING and
  * frEVENODD.
  */
-private Bool miFillGeneralPoly(DrawablePtr dst, GCPtr pgc, int count, DDXPointPtr ptsIn)
+private Bool miFillGeneralPoly(DrawablePtr dst, GCPtr pgc, int count, xPoint* ptsIn)
 {
     EdgeTableEntry* pAET = void;       /* the Active Edge Table   */
     int y = void;                      /* the current scanline    */
     int nPts = 0;               /* number of pts in buffer */
     EdgeTableEntry* pWETE = void;      /* Winding Edge Table      */
     ScanLineList* pSLL = void;         /* Current ScanLineList    */
-    DDXPointPtr ptsOut = void;         /* ptr to output buffers   */
+    xPoint* ptsOut = void;         /* ptr to output buffers   */
     int* width = void;
     xPoint[NUMPTSTOBUFFER] FirstPoint = void;     /* the output buffers */
     int[NUMPTSTOBUFFER] FirstWidth = void;
@@ -727,11 +727,11 @@ private Bool miFillGeneralPoly(DrawablePtr dst, GCPtr pgc, int count, DDXPointPt
  *  pGC->miTranslate is non-zero, and calls to the appropriate routine to
  *  actually scan convert the polygon.
  */
-void miFillPolygon(DrawablePtr dst, GCPtr pgc, int shape, int mode, int count, DDXPointPtr pPts)
+void miFillPolygon(DrawablePtr dst, GCPtr pgc, int shape, int mode, int count, xPoint* pPts)
 {
     int i = void;
     int xorg = void, yorg = void;
-    DDXPointPtr ppt = void;
+    xPoint* ppt = void;
 
     if (count == 0)
         return;

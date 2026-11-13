@@ -428,7 +428,7 @@ void fbPolyFillRect(DrawablePtr pDrawable, GCPtr pGC, int nrectInit, xRectangle*
 /*
  * fbfillsp.c
  */
-void fbFillSpans(DrawablePtr pDrawable, GCPtr pGC, int nInit, DDXPointPtr pptInit, int* pwidthInit, int fSorted);
+void fbFillSpans(DrawablePtr pDrawable, GCPtr pGC, int nInit, xPoint* pptInit, int* pwidthInit, int fSorted);
 
 /*
  * fbgc.c
@@ -443,7 +443,7 @@ void fbFillSpans(DrawablePtr pDrawable, GCPtr pGC, int nInit, DDXPointPtr pptIni
 /*
  * fbgetsp.c
  */
-void fbGetSpans(DrawablePtr pDrawable, int wMax, DDXPointPtr ppt, int* pwidth, int nspans, char* pchardstStart);
+void fbGetSpans(DrawablePtr pDrawable, int wMax, xPoint* ppt, int* pwidth, int nspans, char* pchardstStart);
 
 /*
  * fbglyph.c
@@ -468,9 +468,9 @@ void fbGetImage(DrawablePtr pDrawable, int x, int y, int w, int h, uint format, 
  * fbline.c
  */
 
-void fbPolyLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ppt);
+void fbPolyLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* ppt);
 
-void fbFixCoordModePrevious(int npt, DDXPointPtr ppt);
+void fbFixCoordModePrevious(int npt, xPoint* ppt);
 
 void fbPolySegment(DrawablePtr pDrawable, GCPtr pGC, int nseg, xSegment* pseg);
 
@@ -558,7 +558,7 @@ void fbSegment(DrawablePtr pDrawable, GCPtr pGC, int xa, int ya, int xb, int yb,
  * fbsetsp.c
  */
 
-void fbSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* src, DDXPointPtr ppt, int* pwidth, int nspans, int fSorted);
+void fbSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* src, xPoint* ppt, int* pwidth, int nspans, int fSorted);
 
 /*
  * fbsolid.c
@@ -699,12 +699,12 @@ void fbPolyFillRect(DrawablePtr pDrawable, GCPtr pGC, int nrectInit, xRectangle*
 /*
  * fbfillsp.c
  */
-void fbFillSpans(DrawablePtr pDrawable, GCPtr pGC, int nInit, DDXPointPtr pptInit, int* pwidthInit, int fSorted);
+void fbFillSpans(DrawablePtr pDrawable, GCPtr pGC, int nInit, xPoint* pptInit, int* pwidthInit, int fSorted);
 
 /*
  * fbgetsp.c
  */
-void fbGetSpans(DrawablePtr pDrawable, int wMax, DDXPointPtr ppt, int* pwidth, int nspans, char* pchardstStart);
+void fbGetSpans(DrawablePtr pDrawable, int wMax, xPoint* ppt, int* pwidth, int nspans, char* pchardstStart);
 
 /*
  * fbglyph.c
@@ -729,9 +729,9 @@ void fbGetImage(DrawablePtr pDrawable, int x, int y, int w, int h, uint format, 
  * fbline.c
  */
 
-void fbPolyLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ppt);
+void fbPolyLine(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* ppt);
 
-void fbFixCoordModePrevious(int npt, DDXPointPtr ppt);
+void fbFixCoordModePrevious(int npt, xPoint* ppt);
 
 void fbPolySegment(DrawablePtr pDrawable, GCPtr pGC, int nseg, xSegment* pseg);
 
@@ -782,7 +782,7 @@ void fbSegment(DrawablePtr pDrawable, GCPtr pGC, int xa, int ya, int xb, int yb,
  * fbsetsp.c
  */
 
-void fbSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* src, DDXPointPtr ppt, int* pwidth, int nspans, int fSorted);
+void fbSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* src, xPoint* ppt, int* pwidth, int nspans, int fSorted);
 
 /*
  * fbsolid.c

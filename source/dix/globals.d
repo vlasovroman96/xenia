@@ -94,6 +94,8 @@ c_long maxBigRequestSize = MAX_BIG_REQUEST_SIZE;
 static c_ulong globalSerialNumber = 0;
 
 /* this is always 1 now, since there's no internal reset anymore */
+alias x_server_generation_t = c_ulong;
+
 x_server_generation_t serverGeneration = 1;
 
 /* these next four are initialized in main.c */

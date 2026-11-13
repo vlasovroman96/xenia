@@ -641,7 +641,7 @@ void GLYPH(FbBits* dstBits, FbStride dstStride, int dstBpp, FbStip* stipple, FbB
 }
 
 version (POLYLINE) {
-void POLYLINE(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ptsOrig)
+void POLYLINE(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* ptsOrig)
 {
     INT32* pts = cast(INT32*) ptsOrig;
     int xoff = pDrawable.x;

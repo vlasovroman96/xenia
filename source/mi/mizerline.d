@@ -99,11 +99,11 @@ enum string MI_OUTPUT_POINT(string xx, string yy) = `
     }
 }`;
 
-void miZeroLine(DrawablePtr pDraw, GCPtr pGC, int mode, int npt, DDXPointPtr pptInit)
+void miZeroLine(DrawablePtr pDraw, GCPtr pGC, int mode, int npt, xPoint* pptInit)
 {
     int Nspans = void, current_y = 0;
-    DDXPointPtr ppt = void;
-    DDXPointPtr pspanInit = void, spans = void;
+    xPoint* ppt = void;
+    xPoint* pspanInit = void, spans = void;
     int* pwidthInit = void, widths = void; int list_len = void;
     int xleft = void, ytop = void, xright = void, ybottom = void;
     int new_x1 = void, new_y1 = void, new_x2 = void, new_y2 = void;

@@ -55,7 +55,7 @@ struct XaceSendAccessRec {
     ClientPtr client;
     DeviceIntPtr dev;
     WindowPtr pWin;
-    xEventPtr events;
+    _xEvent* events;
     int count;
     int status;
 }
@@ -64,7 +64,7 @@ struct XaceSendAccessRec {
 struct XaceReceiveAccessRec {
     ClientPtr client;
     WindowPtr pWin;
-    xEventPtr events;
+    _xEvent* events;
     int count;
     int status;
 }

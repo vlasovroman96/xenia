@@ -435,9 +435,9 @@ void exaPrepareAccessGC(GCPtr pGC);
 
 void exaFinishAccessGC(GCPtr pGC);
 
-// void ExaCheckFillSpans(DrawablePtr pDrawable, GCPtr pGC, int nspans, DDXPointPtr ppt, int* pwidth, int fSorted);
+// void ExaCheckFillSpans(DrawablePtr pDrawable, GCPtr pGC, int nspans, xPoint* ppt, int* pwidth, int fSorted);
 
-void ExaCheckSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* psrc, DDXPointPtr ppt, int* pwidth, int nspans, int fSorted);
+void ExaCheckSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* psrc, xPoint* ppt, int* pwidth, int nspans, int fSorted);
 
 // void ExaCheckPutImage(DrawablePtr pDrawable, GCPtr pGC, int depth, int x, int y, int w, int h, int leftPad, int format, char* bits);
 
@@ -447,9 +447,9 @@ void ExaCheckSetSpans(DrawablePtr pDrawable, GCPtr pGC, char* psrc, DDXPointPtr 
 
 RegionPtr ExaCheckCopyPlane(DrawablePtr pSrc, DrawablePtr pDst, GCPtr pGC, int srcx, int srcy, int w, int h, int dstx, int dsty, c_ulong bitPlane);
 
-// void ExaCheckPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr pptInit);
+// void ExaCheckPolyPoint(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* pptInit);
 
-// void ExaCheckPolylines(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ppt);
+// void ExaCheckPolylines(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* ppt);
 
 // void ExaCheckPolySegment(DrawablePtr pDrawable, GCPtr pGC, int nsegInit, xSegment* pSegInit);
 
@@ -467,7 +467,7 @@ void ExaCheckPushPixels(GCPtr pGC, PixmapPtr pBitmap, DrawablePtr pDrawable, int
 
 // void ExaCheckGetImage(DrawablePtr pDrawable, int x, int y, int w, int h, uint format, c_ulong planeMask, char* d);
 
-void ExaCheckGetSpans(DrawablePtr pDrawable, int wMax, DDXPointPtr ppt, int* pwidth, int nspans, char* pdstStart);
+void ExaCheckGetSpans(DrawablePtr pDrawable, int wMax, xPoint* ppt, int* pwidth, int nspans, char* pdstStart);
 
 void ExaCheckAddTraps(PicturePtr pPicture, INT16 x_off, INT16 y_off, int ntrap, xTrap* traps);
 
@@ -482,7 +482,7 @@ pragma(inline, true) Bool exaGCReadsDestination(DrawablePtr pDrawable, c_ulong p
 
 void exaCopyWindow(WindowPtr pWin, xPoint ptOldOrg, RegionPtr prgnSrc);
 
-Bool exaFillRegionTiled(DrawablePtr pDrawable, RegionPtr pRegion, PixmapPtr pTile, DDXPointPtr pPatOrg, CARD32 planemask, CARD32 alu, Bool clientClip);
+Bool exaFillRegionTiled(DrawablePtr pDrawable, RegionPtr pRegion, PixmapPtr pTile, xPoint* pPatOrg, CARD32 planemask, CARD32 alu, Bool clientClip);
 
 void exaGetImage(DrawablePtr pDrawable, int x, int y, int w, int h, uint format, c_ulong planeMask, char* d);
 

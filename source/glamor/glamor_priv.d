@@ -758,11 +758,11 @@ void glamor_image_text8(DrawablePtr pDrawable, GCPtr pGC, int x, int y, int coun
 void glamor_image_text16(DrawablePtr pDrawable, GCPtr pGC, int x, int y, int count, ushort* chars);
 
 /* glamor_spans.c */
-void glamor_fill_spans(DrawablePtr drawable, GCPtr gc, int n, DDXPointPtr points, int* widths, int sorted);
+void glamor_fill_spans(DrawablePtr drawable, GCPtr gc, int n, xPoint* points, int* widths, int sorted);
 
-void glamor_get_spans(DrawablePtr drawable, int wmax, DDXPointPtr points, int* widths, int count, char* dst);
+void glamor_get_spans(DrawablePtr drawable, int wmax, xPoint* points, int* widths, int count, char* dst);
 
-void glamor_set_spans(DrawablePtr drawable, GCPtr gc, char* src, DDXPointPtr points, int* widths, int numPoints, int sorted);
+void glamor_set_spans(DrawablePtr drawable, GCPtr gc, char* src, xPoint* points, int* widths, int numPoints, int sorted);
 
 /* glamor_rects.c */
 void glamor_poly_fill_rect(DrawablePtr drawable, GCPtr gc, int nrect, xRectangle* prect);
@@ -773,12 +773,12 @@ void glamor_put_image(DrawablePtr drawable, GCPtr gc, int depth, int x, int y, i
 void glamor_get_image(DrawablePtr pDrawable, int x, int y, int w, int h, uint format, c_ulong planeMask, char* d);
 
 /* glamor_dash.c */
-Bool glamor_poly_lines_dash_gl(DrawablePtr drawable, GCPtr gc, int mode, int n, DDXPointPtr points);
+Bool glamor_poly_lines_dash_gl(DrawablePtr drawable, GCPtr gc, int mode, int n, xPoint* points);
 
 Bool glamor_poly_segment_dash_gl(DrawablePtr drawable, GCPtr gc, int nseg, xSegment* segs);
 
 /* glamor_lines.c */
-void glamor_poly_lines(DrawablePtr drawable, GCPtr gc, int mode, int n, DDXPointPtr points);
+void glamor_poly_lines(DrawablePtr drawable, GCPtr gc, int mode, int n, xPoint* points);
 
 /*  glamor_segs.c */
 void glamor_poly_segment(DrawablePtr drawable, GCPtr gc, int nseg, xSegment* segs);
@@ -797,7 +797,7 @@ void glamor_poly_glyph_blt(DrawablePtr pDrawable, GCPtr pGC, int x, int y, uint 
 
 void glamor_push_pixels(GCPtr pGC, PixmapPtr pBitmap, DrawablePtr pDrawable, int w, int h, int x, int y);
 
-void glamor_poly_point(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, DDXPointPtr ppt);
+void glamor_poly_point(DrawablePtr pDrawable, GCPtr pGC, int mode, int npt, xPoint* ppt);
 
 void glamor_composite_rectangles(CARD8 op, PicturePtr dst, xRenderColor* color, int num_rects, xRectangle* rects);
 

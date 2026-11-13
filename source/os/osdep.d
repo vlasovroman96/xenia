@@ -71,6 +71,8 @@ import dix.resource;
 import os.timingsafe_memcmp;
 import std.conv;
 public import os.utils;
+import core.sys.posix.pthread;
+
 
 //public import x11.X;
 //public import x11.Xmd;
