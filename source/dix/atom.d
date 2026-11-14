@@ -43,19 +43,19 @@ string charsToString(const char* chars) {
 
 enum InitialTableSize = 256;
 
+// Atom-string pair
 struct AtomData {
     Atom id;
     string string_;
 }
 
-struct _Node {
+// Atom-pair binary-tree node for fast searching
+struct AtomBinTreeNode {
     AtomData atom;
-    _Node* left, right;
-    // Atom a;
+    AtomBinTreeNode* left, right;
     uint fingerPrint;
-    // const(char)* string_;
-}alias NodeRec = _Node;
-alias NodePtr = _Node*;
+}
+alias NodePtr = AtomBinTreeNode*;
 
 private Atom lastAtom = 0;
 private NodePtr atomRoot = null;
@@ -91,7 +91,7 @@ MakeAtom(const char *string_, uint len, Bool makeit)
         }
     }
     if (makeit) {
-        NodePtr nd = cast(NodePtr)calloc(1, (NodeRec).sizeof);
+        NodePtr nd = cast(NodePtr)calloc(1, AtomBinTreeNode.sizeof);
         if (!nd)
             return BAD_RESOURCE;
         if (lastAtom < XA_LAST_PREDEFINED) {
