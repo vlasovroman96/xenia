@@ -28,8 +28,6 @@ extern(C): __gshared:
 import build.dix_config;
 
 import core.stdc.stdint;
-
-import dix.atom_priv;
 import dix.input_priv;
 
 import dix.inputstr;// import assert;

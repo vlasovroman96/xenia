@@ -29,8 +29,6 @@ import build.dix_config;
 
 import core.stdc.stdint;
 //import externs.X11.Xatom;
-
-import dix.atom_priv;
 import dix.dix_priv;
 import dix.input_priv;
 import miext.extinit_priv;

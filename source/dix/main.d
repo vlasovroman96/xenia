@@ -88,7 +88,7 @@ import dsl.pixman;
 import externs.X11.fonts.libxfont2;
 
 import config.hotplug_priv;
-import dix.atom_priv;
+import dix.atom;
 import dix.callback;
 import dix.cursor_priv;
 import dix.dix_priv;
