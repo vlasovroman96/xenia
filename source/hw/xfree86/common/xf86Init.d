@@ -152,12 +152,12 @@ private Bool formatsDone = False;
 private void xf86PrintBanner()
 {
     xf86ErrorFVerb(0, "\nXLibre X Server %d.%d.%d",
-                   XORG_VERSION_MAJOR.ptr, XORG_VERSION_MINOR.ptr, XORG_VERSION_PATCH.ptr);
-static if (mixin(XORG_VERSION_SNAP) > 0) {
-    xf86ErrorFVerb(0, ".%d", mixin(XORG_VERSION_SNAP));
+                   ServerVersion.Major, ServerVersion.Minor, ServerVersion.Patch);
+static if (ServerVersion.Snap > 0) {
+    xf86ErrorFVerb(0, ".%d", ServerVersion.Snap);
 }
 
-static if (mixin(XORG_VERSION_SNAP) >= 900) {
+static if (ServerVersion.Snap >= 900) {
     /* When the minor number is 99, that signifies that the we are making
      * a release candidate for a major version.  (X.0.0)
      * When the patch number is 99, that signifies that the we are making
@@ -165,16 +165,16 @@ static if (mixin(XORG_VERSION_SNAP) >= 900) {
      * When the patch number is < 99, then we are making a release
      * candidate for the next point release.  (X.Y.Z)
      */
-static if (XORG_VERSION_MINOR >= 99) {
-    xf86ErrorFVerb(0, " (%d.0.0 RC %d)", XORG_VERSION_MAJOR + 1,
-                   mixin(XORG_VERSION_SNAP) - 900);
-} else static if (XORG_VERSION_PATCH == 99) {
-    xf86ErrorFVerb(0, " (%d.%d.0 RC %d)", XORG_VERSION_MAJOR,
-                   XORG_VERSION_MINOR + 1, mixin(XORG_VERSION_SNAP) - 900);
+static if (ServerVersion.Minor >= 99) {
+    xf86ErrorFVerb(0, " (%d.0.0 RC %d)", ServerVersion.Major + 1,
+                   ServerVersion.Snap - 900);
+} else static if (ServerVersion.Patch == 99) {
+    xf86ErrorFVerb(0, " (%d.%d.0 RC %d)", ServerVersion.Major,
+                   ServerVersion.Minor + 1, ServerVersion.Snap - 900);
 } else {
-    xf86ErrorFVerb(0, " (%d.%d.%d RC %d)", XORG_VERSION_MAJOR,
-                   XORG_VERSION_MINOR, XORG_VERSION_PATCH + 1,
-                   mixin(XORG_VERSION_SNAP) - 900);
+    xf86ErrorFVerb(0, " (%d.%d.%d RC %d)", ServerVersion.Major,
+                   ServerVersion.Minor, ServerVersion.Patch + 1,
+                   ServerVersion.Snap - 900);
 }
 }
 
