@@ -38,6 +38,8 @@ import glamor.glamor;
 import externs.attrs;
 import fb.fbglyph;
 import common.bools;
+import core.stdc.stdlib;
+import core.stdc.string;
 
 private int glamor_font_private_index;
 private int glamor_font_screen_count;

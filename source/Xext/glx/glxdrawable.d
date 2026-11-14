@@ -40,7 +40,8 @@ import dix.pixmap;
 import glx.glxscreens_h;
 import Xext.glx.fix;
 alias XID = x11.X.XID;
-
+import dix.dixstruct_priv;
+import dix.pixmap;
 /* We just need to avoid clashing with DRAWABLE_{WINDOW,PIXMAP} */
 enum {
     GLX_DRAWABLE_WINDOW,

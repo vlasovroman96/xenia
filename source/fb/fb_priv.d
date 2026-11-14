@@ -10,7 +10,7 @@ extern(C): __gshared:
 
 public import dix.scrnintstr;
 public import fb.fballpriv;
-
+import dix.pixmap;
 
 enum string FbBitsStrideToStipStride(string s) = `(((` ~ s ~ `) << (FB_SHIFT - FB_STIP_SHIFT)))`;
 

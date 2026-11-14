@@ -53,6 +53,13 @@ import build.dix_config;
 import region;
 import dix.gc;
 import dix.pixmap;
+import os.string;
+import core.stdc.stdint;
+import core.sys.posix.unistd;
+import   core.stdc.stdio;
+import core.stdc.stdlib;
+import dix.globals;
+import os.os;
 
 void miPolyRectangle(DrawablePtr pDraw, GCPtr pGC, int nrects, xRectangle* pRects)
 {

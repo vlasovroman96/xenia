@@ -40,7 +40,13 @@ import os.log;
 import hw.xfree86.common.edid;
 import hw.xfree86.common.xf86Helper;
 import common.math;
-
+import os.string;
+import core.stdc.stdint;
+import core.sys.posix.unistd;
+import   core.stdc.stdio;
+import core.stdc.stdlib;
+import dix.globals;
+import os.os;
 
 enum EXT_TAG =   0x00;
 enum EXT_REV =   0x01;

@@ -37,6 +37,7 @@ import glamor.glamor_transform;
 import glamor.glamor;
 import mipolypnt;
 import common.bools;
+import core.stdc.string;
 
 private const(glamor_facet) glamor_facet_point = {
     name: "poly_point",

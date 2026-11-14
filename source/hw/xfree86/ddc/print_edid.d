@@ -35,6 +35,13 @@ import hw.xfree86.common.xf86Helper;
 import interpret_edid;
 import xf86EdidModes;
 import hw.xfree86.common.edid;
+import os.string;
+import core.stdc.stdint;
+import core.sys.posix.unistd;
+import   core.stdc.stdio;
+import core.stdc.stdlib;
+import dix.globals;
+import os.os;
 
 /* display type, analog */
 enum DISP_MONO = 0;

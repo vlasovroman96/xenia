@@ -42,6 +42,9 @@ import glamor.glamor_pixmap;
 import dix.picture;
 import common.math;
 import common.bools;
+import os.string;
+import core.stdc.stdlib;
+import dix.globals;
 
 enum LINEAR_SMALL_STOPS = (6 + 2);
 enum LINEAR_LARGE_STOPS = (16 + 2);

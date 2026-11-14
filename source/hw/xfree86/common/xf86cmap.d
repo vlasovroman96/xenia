@@ -61,8 +61,6 @@ import dix.resource;
 import dix.dixutils;
 import hw.xfree86.modes.displaymode;
 
-public import common.xlibre_ptrtypes;
-
 enum CMAP_PALETTED_TRUECOLOR =		0x0000001;
 enum CMAP_RELOAD_ON_MODE_SWITCH =	0x0000002;
 enum CMAP_LOAD_EVEN_IF_OFFSCREEN =	0x0000004;

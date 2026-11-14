@@ -68,7 +68,8 @@ import Xext.xace;
 import dix.dixutils;
 import dix.resource;
 import os.log;
-
+import core.stdc.stdlib;
+import core.stdc.string;
 //public import x11.Xprotostr;
 
 public import dix.gc;

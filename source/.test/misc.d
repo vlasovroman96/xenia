@@ -39,7 +39,6 @@ import test.tests_common;
 // import x11.Xmd;
 // import x11.Xdefs;
 // import x11.X;
-import common.xlibre_ptrtypes;
 import test.tests;
 
 

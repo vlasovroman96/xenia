@@ -52,8 +52,9 @@ import externs.attrs;
 import os.log;
 import config.libhal;
 import os.connection;
-
+import x11.Xmd;
 import os.WaitFor;
+
 DBusErrorFn dbusErrorFunc = cast(DBusErrorFn)&__traits(getOverloads, mixin(__MODULE__), "dbus_error_init")[0];
 DBusErrorFn dbusFreeFunc = cast(DBusErrorFn)&__traits(getOverloads, mixin(__MODULE__), "dbus_error_free")[0];
 

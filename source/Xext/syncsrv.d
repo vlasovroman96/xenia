@@ -55,6 +55,9 @@ PERFORMANCE OF THIS SOFTWARE.
 public import mi.misync;
 public import mi.misyncstr;
 import externs.X11.extensions.syncconst;
+import common.list;
+import dix.dixstruct_priv;
+import dix.input;
 
 /*
  * The System Counter interface

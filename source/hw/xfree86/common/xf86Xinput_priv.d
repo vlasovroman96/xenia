@@ -7,6 +7,9 @@ extern(C): __gshared:
  */
  
 import hw.xfree86.common.xf86Helper;
+import x11.Xmd;
+import dix.dixstruct_priv;
+import dix.input;
 
 // InputInfoPtr xf86InputDevs;
 

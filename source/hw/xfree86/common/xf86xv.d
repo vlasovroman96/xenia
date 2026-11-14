@@ -75,7 +75,6 @@ import dix.screen_hooks;
 import dix.window;
 import dix.resource;
 
-public import common.xlibre_ptrtypes;
 public import hw.xfree86.common.xvdix;
 public import hw.xfree86.common.xf86str;
 import xf86Bus;

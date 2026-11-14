@@ -33,6 +33,8 @@ import glamor.glamor;
 import glamor.glamor_pixmap;
 import dix.picture;
 import common.bools;
+import core.stdc.stdlib;
+import os.os;
 
 /*
  * Make a drawable ready to draw with fb by

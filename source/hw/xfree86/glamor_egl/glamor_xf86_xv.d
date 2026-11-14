@@ -47,7 +47,13 @@ import xf86xv;
 import hw.xfree86.common.fourcc;
 import externs.X11.extensions.Xv;
 import xf86Bus;
-
+import os.string;
+import core.stdc.stdint;
+import core.sys.posix.unistd;
+import   core.stdc.stdio;
+import core.stdc.stdlib;
+import dix.globals;
+import os.os;
 enum NUM_FORMATS = 4;
 
 alias TrueColor = x11.X.TrueColor;

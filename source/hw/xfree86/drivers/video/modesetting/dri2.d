@@ -70,7 +70,6 @@ alias MS_DRI2_QUEUE_SWAP = ms_dri2_frame_event_type.MS_DRI2_QUEUE_SWAP;
 alias MS_DRI2_QUEUE_FLIP = ms_dri2_frame_event_type.MS_DRI2_QUEUE_FLIP;
 alias MS_DRI2_WAIT_MSC = ms_dri2_frame_event_type.MS_DRI2_WAIT_MSC;
 import x11.Xmd;
-import common.xlibre_ptrtypes;
 
 /* Version 2 structure (with format at the end) */
 struct _DRI2Buffer {

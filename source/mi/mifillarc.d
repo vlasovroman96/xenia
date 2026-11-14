@@ -40,6 +40,13 @@ import dix.pixmap;
 import mifillarc;
 import mizerarc;
 import mi.miarc;
+import os.string;
+import core.stdc.stdint;
+import core.sys.posix.unistd;
+import   core.stdc.stdio;
+import core.stdc.stdlib;
+import dix.globals;
+import os.os;
 
 enum QUADRANT = (90 * 64);
 enum HALFCIRCLE = (180 * 64);

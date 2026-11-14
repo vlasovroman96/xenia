@@ -30,6 +30,13 @@ import hw.xfree86.common.edid;
 
 import hw.xfree86.common.edid;
 public import hw.xfree86.common.xf86str;
+import os.string;
+import core.stdc.stdint;
+import core.sys.posix.unistd;
+import   core.stdc.stdio;
+import core.stdc.stdlib;
+import dix.globals;
+import os.os;
 
 /* speed up / slow down */
 enum xf86ddcSpeed {

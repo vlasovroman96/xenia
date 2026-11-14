@@ -154,7 +154,6 @@ import dix.inpututils;
 
 public import x11.Xproto;
 
-public import common.xlibre_ptrtypes;
 // public import region;
 public import dix.scrintstr;
 import dix.property;
@@ -271,7 +270,8 @@ struct _Window {
 
     PropertyPtr properties;     /* default: NULL */
 }
-
+alias WindowPtr = _Window*;
+alias WindowRec = _Window;
 // void [1] DontPropagateMasks;
 
 enum string wBorderWidth(string w) = `(cast(int) (` ~ w ~ `).borderWidth)`;

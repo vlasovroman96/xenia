@@ -49,8 +49,8 @@ import hw.xfree86.common.xf86Xinput;
 // import xf86Config;
 // import include.xf86Xinput;
 import hw.xfree86.common.xf86Priv;
-// import common.xlibre_ptrtypes;
 import x11.Xosdefs;
+import os.os;
 
 
 /* Globals that video drivers may access */

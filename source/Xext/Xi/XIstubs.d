@@ -33,7 +33,9 @@ public import externs.X11.extensions.XIproto;
 
 public import x11.Xdefs;
 public import build.dix_config;
-import common.xlibre_ptrtypes;
+import x11.Xmd;
+import dix.dixstruct_priv;
+import dix.input;
 
 // //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
 int SetDeviceMode(ClientPtr client, DeviceIntPtr dev, int mode);

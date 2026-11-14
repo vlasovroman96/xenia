@@ -68,6 +68,7 @@ import Monitor;
 import Screen;
 import hw.xfree86.modes.displaymode;
 import common.math;
+import dix.globals;
 
 struct _DevToConfig {
     GDevRec GDev;

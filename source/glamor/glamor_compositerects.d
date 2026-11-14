@@ -46,6 +46,7 @@ import mitrap;
 import mitri;
 import dix.picture;
 import common.bools;
+import core.stdc.stdlib;
 
 /** @file glamor_compositerects.
  *

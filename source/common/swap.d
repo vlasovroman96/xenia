@@ -3,9 +3,9 @@ module common.swap;
 import core.bitop;
 
 @nogc nothrow:
-auto bswap_16(T)(T x) => byteswap(cast(ushort)x); 
-auto bswap_32(T)(T x) => bswap(cast(uint)x);
-auto bswap_64(T)(T x) => bswap(cast(ulong)x);
+pure auto bswap_16(T)(T x) => byteswap(cast(ushort)x); 
+pure auto bswap_32(T)(T x) => bswap(cast(uint)x);
+pure auto bswap_64(T)(T x) => bswap(cast(ulong)x);
 
 void swaps(T)(T* x) {
 	*x = bswap_16(*x); 

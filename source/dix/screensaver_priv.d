@@ -14,7 +14,8 @@ public import dix.callback;
 public import dix.scrintstr;
 public import dix.scrnintstr;
 public import dix.globals;
-
+import dix.dixstruct_priv;
+import dix.window;
 // CARD32 defaultScreenSaverTime;
 // CARD32 defaultScreenSaverInterval;
 // CARD32 ScreenSaverTime;

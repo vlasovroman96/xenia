@@ -39,6 +39,13 @@ import externs.sys.sysmacros;
 import externs.attrs;
 import externs.X11.extensions.dpmsproto;
 import hw.xfree86.modes.displaymode;
+import os.string;
+import core.stdc.stdint;
+import core.sys.posix.unistd;
+import   core.stdc.stdio;
+import core.stdc.stdlib;
+import dix.globals;
+import os.os;
 
 enum FBDEVHW_PACKED_PIXELS =		0       /* Packed Pixels        */;
 enum FBDEVHW_INTERLEAVED_PLANES =	2       /* Interleaved planes   */;

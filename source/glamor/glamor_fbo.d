@@ -38,6 +38,7 @@ import os.bug_priv;
 import glamor.glamor;
 import glamor.glamor_pixmap;
 import common.bools;
+import os.os;
 
 void glamor_destroy_fbo(glamor_screen_private* glamor_priv, glamor_pixmap_fbo* fbo)
 {

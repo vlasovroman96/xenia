@@ -20,6 +20,9 @@ public import tables;
 import dix.dispatch;
 public import dix.globals;
 import os.client_priv;
+import common.list;
+import dix.dixstruct_priv;
+import dix.input;
 
 struct NewClientInfoRec {
     ClientPtr client;
@@ -91,6 +94,7 @@ struct _Client {
     _ClientId* clientIds;
     int req_fds;
 }
+alias ClientRec = _Client;
 
 alias ClientPtr = _Client*;
 

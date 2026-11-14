@@ -26,6 +26,7 @@ extern(C): __gshared:
  
 public import dix.scrintstr;
 
+import x11.Xdefs;
 import mi.misyncstr;
 
 alias SyncObject = _SyncObject;

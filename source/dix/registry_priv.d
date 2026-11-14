@@ -8,6 +8,7 @@ extern(C): __gshared:
  
 public import dix.extension;
 public import dix.resource;
+import x11.Xdefs;
 
 /*
  * Result returned from any unsuccessful lookup

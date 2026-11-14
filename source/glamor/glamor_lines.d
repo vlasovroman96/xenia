@@ -33,6 +33,7 @@ import glamor.glamor_prepare;
 import glamor.glamor;
 import miwideline;
 import common.bools;
+import core.stdc.string;
 
 private const(glamor_facet) glamor_facet_poly_lines = {
     name: "poly_lines",

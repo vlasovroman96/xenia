@@ -26,8 +26,6 @@ import build.dix_config;
 
 import x11.Xdefs;
 import externs.X11.extensions.render_;
-
-
 import glamor.glamor_priv;
 import glamor.glamor_transform;
 import glamor.glamor;
@@ -35,7 +33,8 @@ import externs.gnu;
 import dix.picture;
 import glamor.glamor_render;
 import common.bools;
-
+import core.stdc.stdlib;
+import core.stdc.string;
 // import glamor.glamor_program;
 
 alias glamor_program_location = int;

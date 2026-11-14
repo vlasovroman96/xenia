@@ -45,7 +45,13 @@ import xf86Globals;
 import hw.xfree86.modes.displaymode;
 import common.math;
 import common.bytes;
-
+import os.string;
+import core.stdc.stdint;
+import core.sys.posix.unistd;
+import   core.stdc.stdio;
+import core.stdc.stdlib;
+import dix.globals;
+import os.os;
 /**
  * Calculates the horizontal sync rate of a mode.
  */

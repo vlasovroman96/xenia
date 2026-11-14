@@ -52,6 +52,14 @@ import os.access;
 import os.auth;
 import externs.attrs;
 import os.utils;
+import os.string;
+import core.stdc.stdint;
+import core.sys.posix.unistd;
+import   core.stdc.stdio;
+import core.stdc.stdlib;
+import dix.globals;
+import x11.Xproto;
+import os.os;
 
 static if(XDMCP){
 import os.xdmcp;

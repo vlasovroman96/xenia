@@ -154,9 +154,6 @@ import os.log;
 import dix.cursor;
 import dix.gc;
 import registry;
-
-public import common.xlibre_ptrtypes;
-
 public import dix.callback;
 public import dix.dixaccess;
 import dix.dixstruct_priv;

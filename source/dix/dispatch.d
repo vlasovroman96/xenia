@@ -174,6 +174,7 @@ import externs.libdbus;
 import hw.xfree86.common.xf86Helper;
 import common.bytes;
 import common.swap;
+import dix.dixstruct_priv;
 
 alias INT32_MAX = core.stdc.stdint.INT32_MAX;
 

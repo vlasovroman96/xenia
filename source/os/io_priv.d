@@ -8,7 +8,9 @@ extern(C): __gshared:
  
 public import x11.Xdefs;
 // public import x11.Xdefs;
-
+import x11.Xmd;
+import dix.dixstruct_priv;
+import dix.input;
 
 import os.io;
 import os.Xtransint;

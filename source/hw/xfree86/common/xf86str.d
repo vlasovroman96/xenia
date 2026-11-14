@@ -40,7 +40,6 @@ import core.stdc.config: c_long, c_ulong;
  */
 
  
-public import common.xlibre_ptrtypes;
 // public import dix.input;
 public import dix.scrnintstr;
 public import dix.pixmap;
@@ -52,6 +51,7 @@ import externs.pciaccess;
 import hw.xfree86.common.xf86Xinput;
 public import xf86platformBus;
 import xf86Bus;
+import os.os;
 /**
  * Integer type that is of the size of the addressable memory (machine size).
  * On most platforms \c uintptr_t will suffice.  However, on some mixed
@@ -796,6 +796,8 @@ struct _ScrnInfoRec {
     void*[NUM_RESERVED_POINTERS] reservedPtr;
     funcPointer[NUM_RESERVED_FUNCS] reservedFuncs;
 }
+alias ScrnInfoPtr = _ScrnInfoRec*;
+alias ScrnInfoRec = _ScrnInfoRec;
 
 struct _DGAFunctionRec {
     Bool function(ScrnInfoPtr pScrn, char** name, ubyte** mem, int* size, int* offset, int* extra) @nogc nothrow OpenFramebuffer;

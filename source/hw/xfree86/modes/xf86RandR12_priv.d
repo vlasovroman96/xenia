@@ -12,6 +12,8 @@ extern(C): __gshared:
 public import randr.randr;
 public import xf86RandR12;
 import dix.colormap;
+import hw.xfree86.common.xf86str;
+
 
 
 void xf86RandR12LoadPalette(ScrnInfoPtr pScrn, int numColors, int* indices, LOCO* colors, VisualPtr pVisual);

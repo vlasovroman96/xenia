@@ -41,6 +41,7 @@ import Xext.xf86bigfont;
 import miglblt;
 import mipushpxl;
 import common.bools;
+import externs.X11.fonts.fontstruct;
 
 private const(glamor_facet) glamor_facet_poly_glyph_blt = {
     name: "poly_glyph_blt",

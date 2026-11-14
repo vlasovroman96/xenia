@@ -40,6 +40,8 @@ public import Xext.glx.glxvndabi;
 import glx.glxcontext;
 import glx.glxdrawable;
  import Xext.glx.fix;
+import dix.dixstruct_priv;
+import dix.pixmap;
 
 
 struct __GLXconfig {

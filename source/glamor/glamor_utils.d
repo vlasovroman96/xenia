@@ -32,6 +32,8 @@ import dix.dixutils;
 import dix.picture;
 import common.math;
 import common.bools;
+import dix.pixmap;
+import core.stdc.stdlib;
 
 alias UINT16_MAX = core.stdc.stdint.UINT16_MAX;
 

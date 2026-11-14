@@ -30,6 +30,13 @@ import dix.scrnintstr;
 import miext.sync.misync_priv;
 import mi.misyncstr;
 // import miext.sync.misync;
+import os.string;
+import core.stdc.stdint;
+import core.sys.posix.unistd;
+import   core.stdc.stdio;
+import core.stdc.stdlib;
+import x11.Xdefs;
+import dix.globals;
 
 DevPrivateKeyRec miSyncScreenPrivateKey;
 

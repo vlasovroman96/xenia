@@ -35,6 +35,7 @@ import glamor.glamor;
 import dix.gc;
 import common.math;
 import common.bools;
+import core.stdc.stdlib;
 
 enum dash_vs_vars = "in vec3 primitive;\n"
     ~ "out float dash_offset;\n";

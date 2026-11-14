@@ -27,6 +27,7 @@ alias DamagePtr = _damage*;
 public import dix.gc;
 public import dix.privates;
 public import dix.picturestr;
+import dix.pixmap;
 
 struct _damage {
     DamagePtr pNext;

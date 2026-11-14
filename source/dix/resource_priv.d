@@ -11,6 +11,8 @@ extern(C): __gshared:
 public import dix.callback;
 import dix.resource;
 import build.xlibre_server;
+import dix.dixstruct_priv;
+import dix.input;
 
 enum RESOURCE_AND_CLIENT_COUNT = 29;
 

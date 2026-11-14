@@ -39,7 +39,9 @@ import glx.vndservervendor;
 import dix.dixutils;
 import dix.resource;
 import common.bools;
-
+import x11.Xmd;
+import dix.dixstruct_priv;
+import dix.input;
 
 private ClientPtr requestClient = null;
 

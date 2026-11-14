@@ -23,11 +23,11 @@ extern(C): __gshared:
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
+import x11.Xmd;
 import build.dix_config;
 import fb.wfbrename;
 public import mi.miline;
 import dix.timestamp;
-
 
 mixin template Iteration8() {
 	import fb.fbbits_h;

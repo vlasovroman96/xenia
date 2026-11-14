@@ -34,6 +34,9 @@ import build.dix_config;
 import glx.vndservervendor;
 import Xext.glx.glxvndabi;
 import os.log;
+import common.list;
+import core.stdc.stdlib;
+import core.stdc.string;
 
 /**
  * Info related to a single vendor library.

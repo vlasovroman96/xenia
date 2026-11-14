@@ -54,6 +54,13 @@ import dix.scrnintstr;
 import dix.pixmap;
 import region;
 import common.servermd;
+import dix.globals;
+import os.string;
+import core.stdc.stdint;
+import core.sys.posix.unistd;
+import   core.stdc.stdio;
+import core.stdc.stdlib;
+import dix.globals;
 
 enum NPT = 128;
 

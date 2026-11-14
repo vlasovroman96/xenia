@@ -45,19 +45,6 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
 
 ******************************************************************/
-
-// #include "xlibre_ptrtypes.h"
-// #include "screenint.h"
-// #include "regionstr.h"
-// #include "colormap.h"
-// #include "cursor.h"
-// #include "validate.h"
-// #include <X11/Xproto.h>
-// #include "dix.h"
-// #include "privates.h"
-// #include <X11/extensions/randr.h>
-//  
-import common.xlibre_ptrtypes;
 import dix.scrintstr;
 import dix.pixmap;
 import dix.input;

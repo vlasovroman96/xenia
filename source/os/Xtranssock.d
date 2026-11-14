@@ -98,6 +98,16 @@ import os.ossock;
 import os.Xtransutil;
 import common.math;
 public import core.stdc.ctype;
+import common.list;
+import os.string;
+import core.stdc.stdint;
+import core.sys.posix.unistd;
+import   core.stdc.stdio;
+import core.stdc.stdlib;
+import dix.globals;
+import core.stdc.limits;	/* for USHRT_MAX */
+import x11.Xproto;
+
 
 alias listen = core.sys.posix.sys.socket.listen;
 alias socket = core.sys.posix.sys.socket.socket;

@@ -64,6 +64,7 @@ import core.sys.posix.dirent;
 import core.stdc.limits;
 import os.log;
 import externs.gnu;
+import common.list;
 
 enum XORG_MODULE_ABI_TAG = "xlibre-25";
 

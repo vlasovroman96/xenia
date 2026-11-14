@@ -28,7 +28,9 @@ import build.dix_config;
 
 import glamor.glamor_priv;
 import common.bools;
-
+import dix.pixmap;
+import dix.dixstruct_priv;
+import dix.window;
 /** @file glamor_window.c
  *
  * Screen Change Window Attribute implementation.

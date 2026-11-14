@@ -58,7 +58,6 @@ public import build.dix_config;
 
 //public import x11.Xdefs;
 
-import common.xlibre_ptrtypes;
 import x11.Xmd;
 public import core.stdc.limits;
 public import core.stdc.signal;
@@ -72,7 +71,9 @@ import os.timingsafe_memcmp;
 import std.conv;
 public import os.utils;
 import core.sys.posix.pthread;
-
+import x11.Xmd;
+import dix.dixstruct_priv;
+import dix.input;
 
 //public import x11.X;
 //public import x11.Xmd;

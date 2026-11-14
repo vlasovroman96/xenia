@@ -26,10 +26,10 @@ extern(C): __gshared:
  
 public import core.stdc.stdint;
 
-public import common.xlibre_ptrtypes;
 public import mi.misync;
 public import dix.scrnintstr;
 import Xext.syncsrv;
+import dix.dixstruct_priv;
 
 // //public import externs.X11.extensions.syncconst;
 

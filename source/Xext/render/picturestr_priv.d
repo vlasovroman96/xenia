@@ -13,6 +13,9 @@ public import render.glyphstr_priv;
 public import dix.resource;
 public import dix.privates;
 public import render.render;
+import x11.Xmd;
+import dix.dixstruct_priv;
+import dix.input;
 
 enum PICT_GRADIENT_STOPTABLE_SIZE = 1024;
 

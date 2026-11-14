@@ -65,7 +65,6 @@ import dix.screen_hooks;
 import dix.resource;
 import Xext.xvmc;
 
-public import common.xlibre_ptrtypes;
 public import hw.xfree86.common.xvmcext;
 public import xf86xv;
 

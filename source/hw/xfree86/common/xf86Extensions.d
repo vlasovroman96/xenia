@@ -45,6 +45,7 @@ import externs.X11.extensions.xf86vmproto;
 import externs.X11.extensions.xf86dgaproto;
 import build.xlibre_server;
 import build.xlibre_server;
+import os.os;
 
 version (XSELINUX) {
 import xselinux;

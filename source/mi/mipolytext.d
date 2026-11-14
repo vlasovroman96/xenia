@@ -66,6 +66,8 @@ import dix.pixmap;
 import	dix.gc;
 import	dix.dixfonts;
 import Xext.xf86bigfont;
+import externs.X11.fonts.font;
+
 
 int miPolyText8(DrawablePtr pDraw, GCPtr pGC, int x, int y, int count, char* chars)
 {

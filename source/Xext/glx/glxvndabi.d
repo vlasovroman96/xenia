@@ -58,15 +58,13 @@ extern(C): __gshared:
  *   request takes two or more tags, then the vendor must ensure that they all
  *   map to the same vendor.
  */
-
  
-public import common.xlibre_ptrtypes;
-
 public import dix.scrnintstr;
 public import dix.extension;
 public import externs.glxproto;
 import glx.vndservervendor;
-
+import dix.dixstruct_priv;
+import dix.input;
 /*!
  * Current version of the ABI.
  *

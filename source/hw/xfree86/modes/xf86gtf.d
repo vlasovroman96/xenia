@@ -69,7 +69,14 @@ import hw.xfree86.common.xf86Helper;
 import xf86Modes;
 import core.stdc.string;
 import hw.xfree86.modes.displaymode;
-import common.math;
+import os.string;
+import core.stdc.stdint;
+import core.sys.posix.unistd;
+import   core.stdc.stdio;
+import core.stdc.stdlib;
+import dix.globals;
+import os.os;
+import core.stdc.math;
 
 enum MARGIN_PERCENT =    1.8   /* % of active vertical image                */;
 enum CELL_GRAN =         8.0   /* assumed character cell granularity        */;

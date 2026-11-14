@@ -48,8 +48,6 @@ import os.io;
 import dix.events;
 import dix.timestamp;
 import dix.window;
-
-public import common.xlibre_ptrtypes;
 public import os.os;
 public import dix.dixstruct_priv;
 public import dix.scrnintstr;

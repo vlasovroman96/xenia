@@ -41,6 +41,7 @@ private template HasVersion(string versionId) {
  
 public import hw.xfree86.common.xf86str;
 import x11.Xosdefs;
+import os.os;
 
 enum DEFAULT_DPI =		96;
 

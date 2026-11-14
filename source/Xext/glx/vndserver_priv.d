@@ -32,6 +32,9 @@ extern(C): __gshared:
  
 public import Xext.glx.glxvndabi;
 public import glx.vndext;
+import dix.dixstruct_priv;
+import dix.input;
+import x11.Xdefs;
 
 struct GlxScreenPriv {
     GlxServerVendor* vendor;

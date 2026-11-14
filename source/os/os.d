@@ -63,14 +63,15 @@ public import core.stdc.time;
 
 // //public import x11.Xfuncproto;
 
-public import common.xlibre_ptrtypes;
 public import dix.callback;
 public import externs.gnu;
 
 import os.connection;
 import os.WaitFor;
 public import os.string;
-
+import x11.Xmd;
+import dix.dixstruct_priv;
+import dix.input;
 
 /*
  * @brief macro for specifying non-null arguments
@@ -179,7 +180,7 @@ void* XNFrealloc(void*, c_ulong);
  * This function strdup(3)s passed string. The only difference from the library
  * function that it is safe to pass NULL, as NULL will be returned.
  */
-void* Xstrdup(const(char)* s);
+// void* Xstrdup(const(char)* s);
 
 /*
  * This function strdup(3)s passed string, terminating the server if there is

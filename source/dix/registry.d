@@ -38,6 +38,9 @@ import dix.registry_priv;
 import dix.resource;
 import os.log;
 import dix.extension;
+import core.stdc.stdio;
+import os.os;
+import x11.Xdefs;
 
 
 enum BASE_SIZE = 16;

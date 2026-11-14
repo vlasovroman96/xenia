@@ -129,6 +129,7 @@ import mi.miinitext;
 import dix.extension;
 import dix.window;
 import dix.dispatch;
+import dix.dixstruct_priv;
 
 static if(DPMSExtension) {
 //import externs.X11.extensions.dpmsconst;

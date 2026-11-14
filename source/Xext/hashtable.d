@@ -9,8 +9,12 @@ import dix.resource_priv;
 
 import Xext.hashtable;
 import common.list;
-
+import core.stdc.stdlib;
+import core.stdc.string;
+import core.stdc.stdio;
+// import core.stdc.string;
 /* HashResourceID */
+import x11.Xdefs;
 import dix.resource;
 
 enum INITHASHSIZE = 6;

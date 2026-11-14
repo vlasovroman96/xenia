@@ -96,6 +96,9 @@ import sys.sysctl;
 import os.auth;
 import os.log_priv;
 import os.access;
+import x11.Xmd;
+import dix.dixstruct_priv;
+import dix.input;
 
 
 // alias _Client = x11.Xdefs._Client;

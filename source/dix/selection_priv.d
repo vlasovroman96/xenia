@@ -13,6 +13,7 @@ extern(C): __gshared:
 public import dix.dixstruct_priv;
 public import dix.privates;
 import dix.timestamp;
+import dix.window;
 
 struct _Selection {
     Atom selection;

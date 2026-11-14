@@ -12,7 +12,9 @@ import x11.Xproto;
 import dix.scrintstr;
 import dix.pixmap;
 import dix.resource;
-
+import x11.Xmd;
+import dix.dixstruct_priv;
+import dix.input;
 // int PanoramiXNumScreens;
 // int PanoramiXPixWidth;
 // int PanoramiXPixHeight;

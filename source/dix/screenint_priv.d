@@ -15,6 +15,7 @@ public import dix.callback;
 public import dix.scrintstr;
 public import dix.scrnintstr; /* for screenInfo */
 // import dix.scre
+import dix.dixstruct_priv;
 
 alias ScreenInitProcPtr = Bool function(ScreenPtr pScreen, int argc, char** argv);
 

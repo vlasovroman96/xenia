@@ -5,7 +5,9 @@ extern(C): __gshared:
  
 // //public import externs.X11.extensions.Xv;
 public import hw.xfree86.common.xvdix;
-
+import x11.Xmd;
+import dix.dixstruct_priv;
+import dix.input;
 struct XvMCImageIDList {
     int num_xvimages;
     int* xvimage_ids;

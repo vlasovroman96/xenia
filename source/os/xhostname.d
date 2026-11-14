@@ -30,7 +30,14 @@ import core.sys.posix.sys.stat;
 import core.sys.posix.fcntl;
 import core.sys.posix.stdio;
 import core.stdc.stdio;
-
+import common.list;
+import os.string;
+import core.stdc.stdint;
+import core.sys.posix.unistd;
+import   core.stdc.stdio;
+import core.stdc.string;
+import dix.globals;
+import core.stdc.limits;	/* for USHRT_MAX */
 // import core.sys.posix.stdio;
 // import os.connection;
 import core.sys.posix.unistd;

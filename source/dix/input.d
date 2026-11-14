@@ -48,10 +48,7 @@ SOFTWARE.
 
 ********************************************************/
 
- 
-public import common.xlibre_ptrtypes;
-
-public import dix.scrintstr;
+ public import dix.scrintstr;
 //public import x11.Xmd;
 //public import x11.Xproto;
 public import core.stdc.stdint;

@@ -3,6 +3,8 @@ module hw.xfree86.modes.displaymode;
 extern(C): __gshared:
  
 public import dix.scrnintstr;
+import x11.Xmd;
+import x11.Xdefs;
 
 enum MAXCLOCKS =   128;
 

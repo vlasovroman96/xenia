@@ -57,6 +57,8 @@ SOFTWARE.
 import dix.timestamp;
 public import dix.scrnintstr;
 import xf86Bus;
+import dix.dixstruct_priv;
+import dix.input;
 // //public import externs.X11.extensions.Xvproto;
 
 struct _XvRationalRec {
