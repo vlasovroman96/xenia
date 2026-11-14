@@ -65,7 +65,7 @@ import hw.xfree86.modes.displaymode;
 import dix.window;
 import dix.devices;
 import common.math;
-
+import dix.dispatch;
 
 struct _xf86RandR12Info {
     int virtualX;

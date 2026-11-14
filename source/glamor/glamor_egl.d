@@ -58,6 +58,7 @@ import core.sys.linux.sys.s;
 }
 import glamor.glamor;
 import glx.glxext;
+import dix.dispatch;
 
 enum EGL_NO_DISPLAY = cast(EGLDisplay)null;
 version (HAVE_SYS_MKDEV_H) {

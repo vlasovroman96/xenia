@@ -66,6 +66,7 @@ import dix.picture;
 import render.glyph;
 import xf86Bus;
 import common.swap;
+import dix.dispatch;
 
 alias UINT32_MAX = core.stdc.stdint.UINT32_MAX;
 

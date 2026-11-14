@@ -37,6 +37,7 @@ import core.stdc.limits;
 import core.stdc.assert_;
 import core.stdc.stdlib;
 import exa.exa;
+import dix.dispatch;
 
 alias ExaOffscreenArea = _ExaOffscreenArea;
 

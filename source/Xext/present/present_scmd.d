@@ -32,7 +32,7 @@ import mi.misync;
 import mi.misyncstr;
 import externs.X11.extensions.presentproto;
 import present.present_vblank;
-
+import dix.dispatch;
 
 /*
  * Screen flip mode

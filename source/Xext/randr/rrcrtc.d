@@ -56,6 +56,7 @@ import dix.picture;
 import common.math;
 import common.bytes;
 import common.swap;
+import dix.dispatch;
 
 /* XFixed is just `int`, so better check whether it's really 32bit */
 static assert(XFixed.sizeof, CARD32.sizeof);

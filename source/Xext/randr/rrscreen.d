@@ -53,7 +53,7 @@ import randr.rrdispatch;
 import dix.timestamp;
 import common.bytes;
 import common.swap;
-
+import dix.dispatch;
 
 /*
  * Edit connection information block so that new clients

@@ -41,6 +41,7 @@ import fb.fballpriv;
 import fb.fbutil;
 import mi.miscrinit;
 import mi.micopy;
+import dix.dispatch;
 
 private DevPrivateKeyRec fbOverlayScreenPrivateKeyRec;
 

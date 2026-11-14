@@ -43,6 +43,7 @@ import os.io;
 import externs.libdrm;;
 import Xext.sync;
 import common.swap;
+import dix.dispatch;
 
 private Bool dri3_screen_can_one_point_one(ScreenPtr screen)
 {

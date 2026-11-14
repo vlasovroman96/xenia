@@ -65,6 +65,7 @@ public import externs.X11.extensions.randrproto;
 public import dix.picturestr;
 // //public import x11.Xfuncproto;
 import common.swap;
+import dix.dispatch;
 
 /* required for ABI compatibility for now */
 enum RANDR_10_INTERFACE = 1;

@@ -77,6 +77,7 @@ import randr.randr;
  import config.hotplug_priv;
 import externs.pciaccess;
 import build.xlibre_server;
+import dix.dispatch;
 
 struct xf86_platform_device {
     OdevAttributes* attribs;

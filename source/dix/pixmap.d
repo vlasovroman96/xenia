@@ -62,6 +62,52 @@ public import dix.damage;
 // //public import externs.X11.extensions._randr;
 public import dix.picturestr;
 import xf86Bus;
+import dix.dispatch;
+
+enum GLYPHPADBYTES =           4;
+
+enum BITMAP_SCANLINE_PAD =  32;
+enum LOG2_BITMAP_PAD =		5;
+enum LOG2_BYTES_PER_SCANLINE_PAD =	2;
+
+/*
+ *   This returns the number of padding units, for depth d and width w.
+ * For bitmaps this can be calculated with the macros above.
+ * Other depths require either grovelling over the formats field of the
+ * screenInfo or hardwired constants.
+ */
+
+struct PaddingInfo {
+    int padRoundUp;             /* pixels per pad unit - 1 */
+    int padPixelsLog2;          /* log 2 (pixels per pad unit) */
+    int padBytesLog2;           /* log 2 (bytes per pad unit) */
+    int notPower2;              /* bitsPerPixel not a power of 2 */
+    int bytesPerPixel;          /* only set when notPower2 is True */
+    int bitsPerPixel;           /* bits per pixel */
+}
+
+/* The only portable way to get the bpp from the depth is to look it up */
+enum string BitsPerPixel(string d) = `(PixmapWidthPaddingInfo[` ~ d ~ `].bitsPerPixel)`;
+
+enum string PixmapWidthInPadUnits(string w, string d) = `
+    (PixmapWidthPaddingInfo[` ~ d ~ `].notPower2 ? 
+    ((cast(int)(` ~ w ~ `) * PixmapWidthPaddingInfo[` ~ d ~ `].bytesPerPixel +  
+	         PixmapWidthPaddingInfo[` ~ d ~ `].bytesPerPixel) >> 
+	PixmapWidthPaddingInfo[` ~ d ~ `].padBytesLog2) : 
+    (cast(int)((` ~ w ~ `) + PixmapWidthPaddingInfo[` ~ d ~ `].padRoundUp) >> 
+	PixmapWidthPaddingInfo[` ~ d ~ `].padPixelsLog2))`;
+
+/*
+ *	Return the number of bytes to which a scanline of the given
+ * depth and width will be padded.
+ */
+auto PixmapBytePad(T, S) (T w, S d) {
+    return mixin(PixmapWidthInPadUnits!("w", "d")) << PixmapWidthPaddingInfo[d].padBytesLog2;
+}
+
+enum string BitmapBytePad(string w) = `
+    ((cast(int)((` ~ w ~ `) + BITMAP_SCANLINE_PAD - 1) >> LOG2_BITMAP_PAD) << LOG2_BYTES_PER_SCANLINE_PAD)`;
+    
 
 struct _Drawable {
     ubyte type;         /* DRAWABLE_<type> */

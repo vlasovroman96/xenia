@@ -72,7 +72,7 @@ import render.render;
 import tables;
 import os.utils;
 import common.swap;
-
+import dix.dispatch;
 
 struct PanoramiXInfo {
     XID id;

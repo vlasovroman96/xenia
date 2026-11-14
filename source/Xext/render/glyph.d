@@ -47,6 +47,7 @@ import dix.picturestr;
 import render.glyphstr_priv;
 import dix.gc;
 import dix.picture;
+import dix.dispatch;
 
 /*
  * From Knuth -- a good choice for hash/rehash values is p, p-2 where

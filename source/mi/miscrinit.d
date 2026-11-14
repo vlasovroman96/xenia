@@ -45,7 +45,7 @@ import dix.pixmap;
 import mi.miline;
 import dix.dixutils;
 import mi.mivaltree;
-
+import dix.dispatch;
 
 /* We use this structure to propagate some information from miScreenInit to
  * miCreateScreenResources.  miScreenInit allocates the structure, fills it

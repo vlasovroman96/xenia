@@ -62,6 +62,7 @@ import common.servermd;
 import dix.gc;
 import Xext.xf86bigfont;
 import externs.attrs;
+import dix.dispatch;
 
 /*
     get the bits out of the font in a portable way.  to avoid

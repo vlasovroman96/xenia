@@ -67,6 +67,7 @@ import Xext.xtest;
 import render.picture;
 import dix.picture;
 import common.math;
+import dix.dispatch;
 version (Cygwin) {
 import core.stdc.stdlib;
 import core.stdc.signal;

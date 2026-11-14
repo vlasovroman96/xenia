@@ -71,6 +71,7 @@ import os.io;
 import dix.screen_hooks;
 import dix.swapreq;
 import common.swap;
+import dix.dispatch;
 
 private RESTYPE CursorClientType;
 private RESTYPE CursorHideCountType;

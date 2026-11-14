@@ -92,6 +92,7 @@ import hw.xfree86.modes.displaymode;
 import os.log;
 import xf86Globals;
 import common.math;
+import dix.dispatch;
 // import dix.events;
 // import xf86Configure;
 

@@ -32,6 +32,8 @@ import dix.extension;
 import externs.X11.extensions.presenttokens;
 import os.log;
 import os.connection;
+import dix.dispatch;
+
 void present_vblank_notify(present_vblank_ptr vblank, CARD8 kind, CARD8 mode, ulong ust, ulong crtc_msc)
 {
     int n = void;

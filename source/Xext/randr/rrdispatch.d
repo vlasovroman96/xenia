@@ -33,6 +33,7 @@ import randr.randr;
 import common.swap;
 
 import common.extVersions;
+import dix.dispatch;
 
 Bool RRClientKnowsRates(ClientPtr pClient)
 {

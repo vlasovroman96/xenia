@@ -57,6 +57,7 @@ import dix.gc;
 import exa.exa;
 import dix.picture;
 import render.glyph;
+import dix.dispatch;
 
 static if (DEBUG_GLYPH_CACHE) {
 enum string DBG_GLYPH_CACHE(string a) = `ErrorF a = void;`;

@@ -61,6 +61,7 @@ import randr.rrproperty;
 import randr.rrprovider;
 import randr.rrinfo;
 import dix.picture;
+import dix.dispatch;
 
 void xf86RotateCrtcRedisplay(xf86CrtcPtr crtc, PixmapPtr dst_pixmap, DrawableRec* src_drawable, RegionPtr region, Bool transform_src)
 {

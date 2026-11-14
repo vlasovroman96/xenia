@@ -60,6 +60,7 @@ import dix.events;
 import dix.devices;
 import dix.gc;
 import dix.picture;
+import dix.dispatch;
 
 /* per-screen private data */
 private DevPrivateKeyRec miDCScreenKeyRec;

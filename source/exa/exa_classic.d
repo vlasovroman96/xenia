@@ -32,6 +32,7 @@ import core.stdc.string;
 import exa.exa_priv;
 import exa.exa_offscreen;
 import exa.exa;
+import dix.dispatch;
 
 /* This file holds the classic exa specific implementation. */
 

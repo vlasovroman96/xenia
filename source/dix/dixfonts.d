@@ -95,6 +95,7 @@ import Xext.xf86bigfont;
 import externs.X11.fonts.fontstruct;
 import fb.fbglyph;
 import common.swap;
+import dix.dispatch;
 
 // static if (XF86BIGFONT) {
 import Xext.xf86bigfontsrv;

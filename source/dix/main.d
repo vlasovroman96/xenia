@@ -128,6 +128,7 @@ import os.WaitFor;
 import mi.miinitext;
 import dix.extension;
 import dix.window;
+import dix.dispatch;
 
 static if(DPMSExtension) {
 //import externs.X11.extensions.dpmsconst;

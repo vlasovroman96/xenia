@@ -54,6 +54,7 @@ import dix.window;
 import dix.picture;
 import render.glyph;
 import xf86Bus;
+import dix.dispatch;
 
 static if(XINERAMA){
 import Xext.panoramiXsrv;

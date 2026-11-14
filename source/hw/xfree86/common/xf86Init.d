@@ -111,7 +111,7 @@ import build.xlibre_server;
 import hw.xfree86.common.edid;
 import dix.colormap_priv;
 import core.sys.posix.pthread;
-
+import dix.dispatch;
 
 static if(DPMSExtension) {
 //import externs.X11.extensions.dpmsconst;

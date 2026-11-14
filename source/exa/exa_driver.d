@@ -36,6 +36,7 @@ import exa.exa_offscreen;
 import exa.exa;
 import fb.fb;
 import dix.picture;
+import dix.dispatch;
 
 /* This file holds the driver allocated pixmaps specific implementation. */
 

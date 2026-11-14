@@ -50,6 +50,7 @@ import randr.rrmode;
 import dix.swaprep;
 import common.bytes;
 import common.swap;
+import dix.dispatch;
 
 // RESTYPE RRLeaseType;
 

@@ -47,6 +47,8 @@ import mitrap;
 import mitri;
 import fb.fb;
 import dix.picture;
+import dix.pixmap;
+import dix.dispatch;
 
 
 /**

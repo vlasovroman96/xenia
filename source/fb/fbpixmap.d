@@ -31,6 +31,7 @@ import fb.fb_priv;
 import dix.pixmap;
 import region;
 import fb.fb;
+import dix.dispatch;
 
 version (FB_DEBUG) {
 

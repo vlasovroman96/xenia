@@ -38,6 +38,7 @@ import    region;
 import    dix.globals;
 import    dix.gc;
 import dix.screen_hooks;
+import dix.dispatch;
 
 public import dix.picturestr;
 

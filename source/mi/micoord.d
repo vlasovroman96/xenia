@@ -33,6 +33,7 @@ version (_MICOORD_H_) {} else {
 enum _MICOORD_H_ = 1;
 
 public import common.servermd;
+import x11.X;
 
 /* Macros which handle a coordinate in a single register */
 

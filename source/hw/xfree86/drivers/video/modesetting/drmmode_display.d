@@ -93,6 +93,7 @@ import hw.xfree86.modes.displaymode;
 import mi.miexpose;
 import hw.xfree86.common.edid;
 import common.math;
+import dix.dispatch;
 
 enum string msGetPixmapPriv(string drmmode, string p) =`(cast(msPixmapPrivPtr)dixGetPrivateAddr(&(`~p~`).devPrivates, &(`~drmmode~`).pixmapPrivateKeyRec))`;
 alias uint32_t = core.stdc.stdint.uint32_t;

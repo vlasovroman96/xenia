@@ -56,6 +56,7 @@ import hw.xfree86.drivers.video.modesetting.vblank;
 import hw.xfree86.drivers.video.modesetting.drmmode_display;
 import hw.xfree86.modes.xf86Crtc;
 import core.sys.posix.pthread;
+import dix.dispatch;
 
 static if (GLAMOR) {
 import hw.xfree86.drivers.video.modesetting.driver;

@@ -17,8 +17,8 @@ import std.system : Endian;
 public import cFix;
 import externs.linux.vt;
 
-enum X_LITTLE_ENDIAN = (std.system.endian == Endian.littleEndian);
-enum X_BIG_ENDIAN    = (std.system.endian == Endian.bigEndian);
+alias X_LITTLE_ENDIAN = Endian.littleEndian;
+alias X_BIG_ENDIAN    = Endian.bigEndian;
 
 /* Define to 1 if `struct sockaddr_in' has a `sin_len' member */
 enum BUILD_GLX_DRI = 1;

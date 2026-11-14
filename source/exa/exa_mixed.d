@@ -33,6 +33,7 @@ import exa.exa_priv;
 import exa.exa;
 import exa.exa_migration_mixed;
 import fb.fb;
+import dix.dispatch;
 
 /* This file holds the driver allocated pixmaps + better initial placement code.
  */
