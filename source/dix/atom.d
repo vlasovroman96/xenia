@@ -37,13 +37,23 @@ alias strncmp = core.stdc.string.strncmp;
 // enum XA_LAST_PREDEFINED = 68;
 // enum BAD_RESOURCE = 0;
 
+string charsToString(const char* chars) {
+    return cast(immutable(char)[])chars[0..strlen(chars)];
+}
+
 enum InitialTableSize = 256;
 
+struct AtomData {
+    Atom id;
+    string string_;
+}
+
 struct _Node {
+    AtomData atom;
     _Node* left, right;
-    Atom a;
+    // Atom a;
     uint fingerPrint;
-    const(char)* string_;
+    // const(char)* string_;
 }alias NodeRec = _Node;
 alias NodePtr = _Node*;
 
@@ -71,13 +81,13 @@ MakeAtom(const char *string_, uint len, Bool makeit)
         else {                  /* now start testing the string_s */
 //         pragma(msg, "strncmp = ", strncmp.stringof);
 // pragma(msg, "typeof(strncmp) = ", typeof(strncmp).stringof);
-            int comp = strncmp(string_, (*np).string_, len);
-            if ((comp < 0) || ((comp == 0) && (len < strlen((*np).string_))))
+            int comp = strncmp(string_, (*np).atom.string_.ptr, len);
+            if ((comp < 0) || ((comp == 0) && len < (*np).atom.string_.length))
                 np = &((*np).left);
             else if (comp > 0)
                 np = &((*np).right);
             else
-                return (*np).a;
+                return (*np).atom.id;
         }
     }
     if (makeit) {
@@ -85,11 +95,11 @@ MakeAtom(const char *string_, uint len, Bool makeit)
         if (!nd)
             return BAD_RESOURCE;
         if (lastAtom < XA_LAST_PREDEFINED) {
-            nd.string_ = string_;
+            nd.atom.string_ = string_.charsToString;
         }
         else {
-            nd.string_ = cast(const(char)*)strndup(string_, len);
-            if (!nd.string_) {
+            nd.atom.string_ = strndup(string_, len).charsToString;
+            if (!nd.atom.string_) {
                 free(nd);
                 return BAD_RESOURCE;
             }
@@ -99,9 +109,9 @@ MakeAtom(const char *string_, uint len, Bool makeit)
 
             table = cast(NodePtr*)reallocarray(nodeTable, tableLength, 2 * NodePtr.sizeof);
             if (!table) {
-                if (nd.string_ != string_) {
-                    /* nd.string_ has been strdup'ed */
-                    free(cast(void*)nd.string_);
+                if (nd.atom.string_ .ptr != string_) {
+                    /* nd.atom.string_ has been strdup'ed */
+                    free(cast(void*)nd.atom.string_.ptr);
                 }
                 free(nd);
                 return BAD_RESOURCE;
@@ -112,9 +122,9 @@ MakeAtom(const char *string_, uint len, Bool makeit)
         *np = nd;
         nd.left = nd.right = null;
         nd.fingerPrint = fp;
-        nd.a = ++lastAtom;
+        nd.atom.id = ++lastAtom;
         nodeTable[lastAtom] = nd;
-        return nd.a;
+        return nd.atom.id;
     }
     else
         return None;
@@ -135,7 +145,7 @@ const(char)* NameForAtom(Atom atom)
     if (nodeTable[atom] is null)
         return null;
 
-    return nodeTable[atom].string_;
+    return nodeTable[atom].atom.string_.ptr;
 }
 
 private void FreeAtom(NodePtr patom)
@@ -144,12 +154,12 @@ private void FreeAtom(NodePtr patom)
         FreeAtom(patom.left);
     if (patom.right)
         FreeAtom(patom.right);
-    if (patom.a > XA_LAST_PREDEFINED) {
+    if (patom.atom.id > XA_LAST_PREDEFINED) {
         /*
          * All strings above XA_LAST_PREDEFINED are strdup'ed, so it's safe to
          * cast here
          */
-        free(cast(char*) patom.string_);
+        free(cast(char*) patom.atom.string_.ptr);
     }
     free(patom);
 }
