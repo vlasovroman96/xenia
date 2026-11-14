@@ -1,4 +1,9 @@
 module common.bytes;
+/*
+ * Copyright © 2026, Roman Vlasov
+ *
+ * See COPYING for the full license texts.
+ */
 
 /**
  * Calculate the number of bytes needed to hold bits.

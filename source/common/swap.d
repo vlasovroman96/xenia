@@ -1,5 +1,11 @@
 module common.swap;
 
+/*
+ * Copyright © 2026, Roman Vlasov
+ *
+ * See COPYING for the full license texts.
+ */
+
 import core.bitop;
 
 @nogc nothrow:
