@@ -54,7 +54,7 @@ private Atom RRMonitorCrtcName(RRCrtcPtr crtc)
 
     if (crtc.numOutputs) {
         RROutputPtr output = crtc.outputs[0];
-        return MakeAtom(output.name, cast(uint)output.nameLength, True);
+        return atomMgr.makeAtom(output.name, cast(uint)output.nameLength, True);
     }
     sprintf(name.ptr, "Monitor-%08lx", cast(c_ulong)crtc.id);
     return dixAddAtom(name.ptr);
@@ -457,7 +457,7 @@ private Bool RRMonitorMatchesOutputName(ScreenPtr screen, Atom name)
 {
     rrScrPrivPtr pScrPriv = mixin(rrGetScrPriv!("screen"));
     int o = void;
-    const(char)* str = NameForAtom(name);
+    const(char)* str = atomMgr.nameForAtom(name);
     int len = cast(int)strlen(str);
 
     for (o = 0; o < pScrPriv.numOutputs; o++) {
@@ -685,7 +685,7 @@ int ProcRRSetMonitor(ClientPtr client)
         return r;
     screen = window.drawable.pScreen;
 
-    if (!ValidAtom(stuff.monitor.name))
+    if (!atomMgr.validAtom(stuff.monitor.name))
         return BadAtom;
 
     /* Allocate the new monitor */
@@ -733,7 +733,7 @@ int ProcRRDeleteMonitor(ClientPtr client)
         return r;
     screen = window.drawable.pScreen;
 
-    if (!ValidAtom(stuff.name)) {
+    if (!atomMgr.validAtom(stuff.name)) {
         client.errorValue = cast(uint)stuff.name;
         return BadAtom;
     }

@@ -58,7 +58,7 @@ import os.inputthread;
 import common.math;
 import common.bytes;
 import common.swap;
-
+import dix.globals;
 
 /**
  * Properties used or alloced from inside the server.
@@ -234,7 +234,7 @@ private int get_property(ClientPtr client, DeviceIntPtr dev, Atom property, Atom
     XIPropertyPtr prop = void;
     XIPropertyValuePtr prop_value = void;
 
-    if (!ValidAtom(property)) {
+    if (!atomMgr.validAtom(property)) {
         client.errorValue = cast(uint)property;
         return BadAtom;
     }
@@ -243,7 +243,7 @@ private int get_property(ClientPtr client, DeviceIntPtr dev, Atom property, Atom
         return BadValue;
     }
 
-    if ((type != AnyPropertyType) && !ValidAtom(type)) {
+    if ((type != AnyPropertyType) && !atomMgr.validAtom(type)) {
         client.errorValue = cast(uint)type;
         return BadAtom;
     }
@@ -319,11 +319,11 @@ private int check_change_property(ClientPtr client, Atom property, Atom type, in
         return BadValue;
     }
 
-    if (!ValidAtom(property)) {
+    if (!atomMgr.validAtom(property)) {
         client.errorValue = cast(uint)property;
         return BadAtom;
     }
-    if (!ValidAtom(type)) {
+    if (!atomMgr.validAtom(type)) {
         client.errorValue = cast(uint)type;
         return BadAtom;
     }
@@ -888,7 +888,7 @@ int ProcXDeleteDeviceProperty(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    if (!ValidAtom(stuff.property)) {
+    if (!atomMgr.validAtom(stuff.property)) {
         client.errorValue = cast(uint)stuff.property;
         return BadAtom;
     }
@@ -1047,7 +1047,7 @@ int ProcXIDeleteProperty(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    if (!ValidAtom(stuff.property)) {
+    if (!atomMgr.validAtom(stuff.property)) {
         client.errorValue = cast(uint)stuff.property;
         return BadAtom;
     }

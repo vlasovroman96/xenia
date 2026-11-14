@@ -230,7 +230,7 @@ Bool XkbWriteXKBKeyTypes(FILE* file, XkbDescPtr xkb, Bool topLevel, Bool showImp
 private Bool WriteXKBIndicatorMap(FILE* file, XkbDescPtr xkb, Atom name, XkbIndicatorMapPtr led, XkbFileAddOnFunc addOn, void* priv)
 {
 
-    fprintf(file, "    indicator \"%s\" {\n", NameForAtom(name));
+    fprintf(file, "    indicator \"%s\" {\n", atomMgr.nameForAtom(name));
     if (led.flags & XkbIM_NoExplicit)
         fprintf(file, "        !allowExplicit;\n");
     if (led.flags & XkbIM_LEDDrivesKB)

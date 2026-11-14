@@ -628,7 +628,7 @@ pragma(inline, true) private ClientPtr dixLookupXIDOwner(XID xid)
  * @return atom ID
  */
 pragma(inline, true) Atom dixAddAtom(const(char)* name) {
-    return MakeAtom(name, cast(uint)strlen(name), True);
+    return atomMgr.makeAtom(name, cast(uint)strlen(name), True);
 }
 
 /*
@@ -640,7 +640,7 @@ pragma(inline, true) Atom dixAddAtom(const(char)* name) {
  * @return atom ID
  */
 pragma(inline, true) Atom dixGetAtomID(const(char)* name) {
-    return MakeAtom(name, cast(uint)strlen(name), False);
+    return atomMgr.makeAtom(name, cast(uint)strlen(name), False);
 }
 
 /*

@@ -565,11 +565,11 @@ int ProcRRChangeOutputProperty(ClientPtr client)
     mixin(VERIFY_RR_OUTPUT!("stuff.output", "output", "DixReadAccess"));
 ;
 
-    if (!ValidAtom(stuff.property)) {
+    if (!atomMgr.validAtom(stuff.property)) {
         client.errorValue = cast(uint)stuff.property;
         return BadAtom;
     }
-    if (!ValidAtom(stuff.type)) {
+    if (!atomMgr.validAtom(stuff.type)) {
         client.errorValue = cast(uint)stuff.type;
         return BadAtom;
     }
@@ -604,7 +604,7 @@ int ProcRRDeleteOutputProperty(ClientPtr client)
     if (RROutputIsLeased(output))
         return BadAccess;
 
-    if (!ValidAtom(stuff.property)) {
+    if (!atomMgr.validAtom(stuff.property)) {
         client.errorValue = cast(uint)stuff.property;
         return BadAtom;
     }
@@ -647,7 +647,7 @@ int ProcRRGetOutputProperty(ClientPtr client)
     mixin(VERIFY_RR_OUTPUT!("stuff.output", "output",
                      "stuff.delete_ ? DixWriteAccess : DixReadAccess"));
 
-    if (!ValidAtom(stuff.property)) {
+    if (!atomMgr.validAtom(stuff.property)) {
         client.errorValue = cast(uint)stuff.property;
         return BadAtom;
     }
@@ -655,7 +655,7 @@ int ProcRRGetOutputProperty(ClientPtr client)
         client.errorValue = cast(uint)stuff.delete_;
         return BadValue;
     }
-    if ((stuff.type != AnyPropertyType) && !ValidAtom(stuff.type)) {
+    if ((stuff.type != AnyPropertyType) && !atomMgr.validAtom(stuff.type)) {
         client.errorValue = cast(uint)stuff.type;
         return BadAtom;
     }

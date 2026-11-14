@@ -61,7 +61,7 @@ private Atom XkbInternAtom(char* str, Bool only_if_exists)
 {
     if (str is null)
         return None;
-    return MakeAtom(str, cast(uint)strlen(str), !only_if_exists);
+    return atomMgr.makeAtom(str, cast(uint)strlen(str), !only_if_exists);
 }
 
 /***====================================================================***/

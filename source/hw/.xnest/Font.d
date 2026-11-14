@@ -63,7 +63,7 @@ Bool xnestRealizeFont(ScreenPtr pScreen, FontPtr pFont)
     if (!value_atom)
         return False;
 
-    name = NameForAtom(value_atom);
+    name = atomMgr.nameForAtom(value_atom);
 
     if (!name)
         return False;

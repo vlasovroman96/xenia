@@ -1,0 +1,1246 @@
+diff --git a/source/Xext/.selinux/xselinux_hooks.d b/source/Xext/.selinux/xselinux_hooks.d
+index eee077ab..cccb7895 100644
+--- a/source/Xext/.selinux/xselinux_hooks.d
++++ b/source/Xext/.selinux/xselinux_hooks.d
+@@ -300,8 +300,8 @@ private int SELinuxAudit(void* auditdata, security_class_t class_, char* msgbuf,
+         snprintf(idNum.ptr, 16, "%x", audit.id);
+     }
+ 
+-    propertyName = audit.property ? NameForAtom(audit.property) : null;
+-    selectionName = audit.selection ? NameForAtom(audit.selection) : null;
++    propertyName = audit.property ? atomMgr.NameForAtom(audit.property) : null;
++    selectionName = audit.selection ? atomMgr.NameForAtom(audit.selection) : null;
+ 
+     return snprintf(msgbuf, msgbufsize,
+                     "%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s".ptr,
+diff --git a/source/Xext/.selinux/xselinux_label.d b/source/Xext/.selinux/xselinux_label.d
+index 9f530e12..1240d0c7 100644
+--- a/source/Xext/.selinux/xselinux_label.d
++++ b/source/Xext/.selinux/xselinux_label.d
+@@ -104,7 +104,7 @@ private void SELinuxArrayFree(SELinuxArrayRec* rec, int free_elements)
+  */
+ private int SELinuxAtomToSIDLookup(Atom atom, SELinuxObjectRec* obj, int map, int polymap)
+ {
+-    const(char)* name = NameForAtom(atom);
++    const(char)* name = atomMgr.NameForAtom(atom);
+     char* ctx = void;
+     int rc = Success;
+ 
+diff --git a/source/Xext/Xi/xiproperty.d b/source/Xext/Xi/xiproperty.d
+index dfbea0ba..de373afb 100644
+--- a/source/Xext/Xi/xiproperty.d
++++ b/source/Xext/Xi/xiproperty.d
+@@ -234,7 +234,7 @@ private int get_property(ClientPtr client, DeviceIntPtr dev, Atom property, Atom
+     XIPropertyPtr prop = void;
+     XIPropertyValuePtr prop_value = void;
+ 
+-    if (!ValidAtom(property)) {
++    if (!atomMgr.ValidAtom(property)) {
+         client.errorValue = cast(uint)property;
+         return BadAtom;
+     }
+@@ -243,7 +243,7 @@ private int get_property(ClientPtr client, DeviceIntPtr dev, Atom property, Atom
+         return BadValue;
+     }
+ 
+-    if ((type != AnyPropertyType) && !ValidAtom(type)) {
++    if ((type != AnyPropertyType) && !atomMgr.ValidAtom(type)) {
+         client.errorValue = cast(uint)type;
+         return BadAtom;
+     }
+@@ -319,11 +319,11 @@ private int check_change_property(ClientPtr client, Atom property, Atom type, in
+         return BadValue;
+     }
+ 
+-    if (!ValidAtom(property)) {
++    if (!atomMgr.ValidAtom(property)) {
+         client.errorValue = cast(uint)property;
+         return BadAtom;
+     }
+-    if (!ValidAtom(type)) {
++    if (!atomMgr.ValidAtom(type)) {
+         client.errorValue = cast(uint)type;
+         return BadAtom;
+     }
+@@ -888,7 +888,7 @@ int ProcXDeleteDeviceProperty(ClientPtr client)
+     if (rc != Success)
+         return rc;
+ 
+-    if (!ValidAtom(stuff.property)) {
++    if (!atomMgr.ValidAtom(stuff.property)) {
+         client.errorValue = cast(uint)stuff.property;
+         return BadAtom;
+     }
+@@ -1047,7 +1047,7 @@ int ProcXIDeleteProperty(ClientPtr client)
+     if (rc != Success)
+         return rc;
+ 
+-    if (!ValidAtom(stuff.property)) {
++    if (!atomMgr.ValidAtom(stuff.property)) {
+         client.errorValue = cast(uint)stuff.property;
+         return BadAtom;
+     }
+diff --git a/source/Xext/randr/rrmonitor.d b/source/Xext/randr/rrmonitor.d
+index 114b08ec..408cd8e8 100644
+--- a/source/Xext/randr/rrmonitor.d
++++ b/source/Xext/randr/rrmonitor.d
+@@ -54,7 +54,7 @@ private Atom RRMonitorCrtcName(RRCrtcPtr crtc)
+ 
+     if (crtc.numOutputs) {
+         RROutputPtr output = crtc.outputs[0];
+-        return MakeAtom(output.name, cast(uint)output.nameLength, True);
++        return atomMgr.MakeAtom(output.name, cast(uint)output.nameLength, True);
+     }
+     sprintf(name.ptr, "Monitor-%08lx", cast(c_ulong)crtc.id);
+     return dixAddAtom(name.ptr);
+@@ -457,7 +457,7 @@ private Bool RRMonitorMatchesOutputName(ScreenPtr screen, Atom name)
+ {
+     rrScrPrivPtr pScrPriv = mixin(rrGetScrPriv!("screen"));
+     int o = void;
+-    const(char)* str = NameForAtom(name);
++    const(char)* str = atomMgr.NameForAtom(name);
+     int len = cast(int)strlen(str);
+ 
+     for (o = 0; o < pScrPriv.numOutputs; o++) {
+@@ -685,7 +685,7 @@ int ProcRRSetMonitor(ClientPtr client)
+         return r;
+     screen = window.drawable.pScreen;
+ 
+-    if (!ValidAtom(stuff.monitor.name))
++    if (!atomMgr.ValidAtom(stuff.monitor.name))
+         return BadAtom;
+ 
+     /* Allocate the new monitor */
+@@ -733,7 +733,7 @@ int ProcRRDeleteMonitor(ClientPtr client)
+         return r;
+     screen = window.drawable.pScreen;
+ 
+-    if (!ValidAtom(stuff.name)) {
++    if (!atomMgr.ValidAtom(stuff.name)) {
+         client.errorValue = cast(uint)stuff.name;
+         return BadAtom;
+     }
+diff --git a/source/Xext/randr/rrproperty.d b/source/Xext/randr/rrproperty.d
+index a52f53f8..98f5e422 100644
+--- a/source/Xext/randr/rrproperty.d
++++ b/source/Xext/randr/rrproperty.d
+@@ -565,11 +565,11 @@ int ProcRRChangeOutputProperty(ClientPtr client)
+     mixin(VERIFY_RR_OUTPUT!("stuff.output", "output", "DixReadAccess"));
+ ;
+ 
+-    if (!ValidAtom(stuff.property)) {
++    if (!atomMgr.ValidAtom(stuff.property)) {
+         client.errorValue = cast(uint)stuff.property;
+         return BadAtom;
+     }
+-    if (!ValidAtom(stuff.type)) {
++    if (!atomMgr.ValidAtom(stuff.type)) {
+         client.errorValue = cast(uint)stuff.type;
+         return BadAtom;
+     }
+@@ -604,7 +604,7 @@ int ProcRRDeleteOutputProperty(ClientPtr client)
+     if (RROutputIsLeased(output))
+         return BadAccess;
+ 
+-    if (!ValidAtom(stuff.property)) {
++    if (!atomMgr.ValidAtom(stuff.property)) {
+         client.errorValue = cast(uint)stuff.property;
+         return BadAtom;
+     }
+@@ -647,7 +647,7 @@ int ProcRRGetOutputProperty(ClientPtr client)
+     mixin(VERIFY_RR_OUTPUT!("stuff.output", "output",
+                      "stuff.delete_ ? DixWriteAccess : DixReadAccess"));
+ 
+-    if (!ValidAtom(stuff.property)) {
++    if (!atomMgr.ValidAtom(stuff.property)) {
+         client.errorValue = cast(uint)stuff.property;
+         return BadAtom;
+     }
+@@ -655,7 +655,7 @@ int ProcRRGetOutputProperty(ClientPtr client)
+         client.errorValue = cast(uint)stuff.delete_;
+         return BadValue;
+     }
+-    if ((stuff.type != AnyPropertyType) && !ValidAtom(stuff.type)) {
++    if ((stuff.type != AnyPropertyType) && !atomMgr.ValidAtom(stuff.type)) {
+         client.errorValue = cast(uint)stuff.type;
+         return BadAtom;
+     }
+diff --git a/source/Xext/randr/rrproviderproperty.d b/source/Xext/randr/rrproviderproperty.d
+index 223fcce4..b6de3f1d 100644
+--- a/source/Xext/randr/rrproviderproperty.d
++++ b/source/Xext/randr/rrproviderproperty.d
+@@ -484,11 +484,11 @@ int ProcRRChangeProviderProperty(ClientPtr client)
+ 
+     mixin(VERIFY_RR_PROVIDER!("stuff.provider", "provider", "DixReadAccess"));
+ 
+-    if (!ValidAtom(stuff.property)) {
++    if (!atomMgr.ValidAtom(stuff.property)) {
+         client.errorValue = cast(uint)stuff.property;
+         return BadAtom;
+     }
+-    if (!ValidAtom(stuff.type)) {
++    if (!atomMgr.ValidAtom(stuff.type)) {
+         client.errorValue = cast(uint)stuff.type;
+         return BadAtom;
+     }
+@@ -519,7 +519,7 @@ int ProcRRDeleteProviderProperty(ClientPtr client)
+     UpdateCurrentTime();
+     mixin(VERIFY_RR_PROVIDER!("stuff.provider", "provider", "DixReadAccess"));
+ 
+-    if (!ValidAtom(stuff.property)) {
++    if (!atomMgr.ValidAtom(stuff.property)) {
+         client.errorValue = cast(uint)stuff.property;
+         return BadAtom;
+     }
+@@ -562,7 +562,7 @@ int ProcRRGetProviderProperty(ClientPtr client)
+     mixin(VERIFY_RR_PROVIDER!("stuff.provider", "provider",
+                      "stuff.delete_ ? DixWriteAccess : DixReadAccess"));
+ 
+-    if (!ValidAtom(stuff.property)) {
++    if (!atomMgr.ValidAtom(stuff.property)) {
+         client.errorValue = cast(uint)stuff.property;
+         return BadAtom;
+     }
+@@ -570,7 +570,7 @@ int ProcRRGetProviderProperty(ClientPtr client)
+         client.errorValue = cast(uint)stuff.delete_;
+         return BadValue;
+     }
+-    if ((stuff.type != AnyPropertyType) && !ValidAtom(stuff.type)) {
++    if ((stuff.type != AnyPropertyType) && !atomMgr.ValidAtom(stuff.type)) {
+         client.errorValue = cast(uint)stuff.type;
+         return BadAtom;
+     }
+diff --git a/source/Xext/security.d b/source/Xext/security.d
+index 01fbf05d..7e3e2043 100644
+--- a/source/Xext/security.d
++++ b/source/Xext/security.d
+@@ -793,7 +793,7 @@ private void SecurityProperty(CallbackListPtr* pcbl, void* unused, void* calldat
+     if (SecurityDoCheck(subj, obj, requested, allowed) != Success) {
+         SecurityAudit("Security: denied client %d access to property %s "
+                       ~ "(atom 0x%x) window 0x%lx of client %d on request %s\n",
+-                      rec.client.index, NameForAtom(name), name,
++                      rec.client.index, atomMgr.NameForAtom(name), name,
+                       cast(c_ulong)rec.pWin.drawable.id, dixClientForWindow(rec.pWin).index,
+                       SecurityLookupRequestName(rec.client));
+         rec.status = BadAccess;
+diff --git a/source/Xext/xfixes/cursor.d b/source/Xext/xfixes/cursor.d
+index 11cf796e..ca513d26 100644
+--- a/source/Xext/xfixes/cursor.d
++++ b/source/Xext/xfixes/cursor.d
+@@ -409,7 +409,7 @@ int ProcXFixesSetCursorName(ClientPtr client)
+     CursorPtr pCursor = void;
+     mixin(VERIFY_CURSOR!(`pCursor`, `stuff.cursor`, `client`, `DixSetAttrAccess`));
+     char* tchar = cast(char*) &stuff[1];
+-    Atom atom = MakeAtom(tchar, stuff.nbytes, True);
++    Atom atom = atomMgr.MakeAtom(tchar, stuff.nbytes, True);
+     if (atom == BAD_RESOURCE)
+         return BadAlloc;
+ 
+@@ -425,7 +425,7 @@ int ProcXFixesGetCursorName(ClientPtr client)
+     CursorPtr pCursor = void;
+     mixin(VERIFY_CURSOR!(`pCursor`, `stuff.cursor`, `client`, `DixGetAttrAccess`));
+ 
+-    const(char)* str = ((pCursor.name) ? NameForAtom(pCursor.name) : "");
++    const(char)* str = ((pCursor.name) ? atomMgr.NameForAtom(pCursor.name) : "");
+ 
+     x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+     x_rpcbuf_write_string_pad(&rpcbuf, str);
+@@ -459,7 +459,7 @@ int ProcXFixesGetCursorImageAndName(ClientPtr client)
+     int height = pCursor.bits.height;
+     int npixels = width * height;
+ 
+-    const(char)* name = pCursor.name ? NameForAtom(pCursor.name) : "";
++    const(char)* name = pCursor.name ? atomMgr.NameForAtom(pCursor.name) : "";
+ 
+     x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+ 
+@@ -641,7 +641,7 @@ int ProcXFixesChangeCursorByName(ClientPtr client)
+     mixin(VERIFY_CURSOR!(`pSource`, `stuff.source`, `client`,
+                   `DixReadAccess | DixGetAttrAccess`));
+     tchar = cast(char*) &stuff[1];
+-    name = MakeAtom(tchar, stuff.nbytes, False);
++    name = atomMgr.MakeAtom(tchar, stuff.nbytes, False);
+     if (name)
+         ReplaceCursor(pSource, &TestForCursorName, &name);
+     return Success;
+diff --git a/source/Xext/xkeyboard/xkb.d b/source/Xext/xkeyboard/xkb.d
+index 00b60ea8..2a9de3a8 100644
+--- a/source/Xext/xkeyboard/xkb.d
++++ b/source/Xext/xkeyboard/xkb.d
+@@ -108,7 +108,7 @@ enum string	CHK_ANY_DEVICE(string dev, string id, string client, string mode) =
+     ` ~ CHK_DEVICE!(dev, id, client, mode, `_XkbLookupAnyDevice`) ~ ``;
+ 
+ enum string	CHK_ATOM_ONLY2(string a,string ev,string er) = `{
+-	if (((` ~ a ~ `)==None)||(!ValidAtom((` ~ a ~ `)))) {
++	if (((` ~ a ~ `)==None)||(!atomMgr.ValidAtom((` ~ a ~ `)))) {
+ 	    (` ~ ev ~ `)= cast(XID)(` ~ a ~ `);
+ 	    return ` ~ er ~ `;
+ 	}
+@@ -117,14 +117,14 @@ enum string	CHK_ATOM_ONLY(string a) = `
+ 	` ~ CHK_ATOM_ONLY2!(a,`client.errorValue`,`BadAtom`) ~ ``;
+ 
+ enum string	CHK_ATOM_OR_NONE3(string a,string ev,string er,string ret) = `{
+-	if (((` ~ a ~ `)!=None)&&(!ValidAtom((` ~ a ~ `)))) {
++	if (((` ~ a ~ `)!=None)&&(!atomMgr.ValidAtom((` ~ a ~ `)))) {
+ 	    (` ~ ev ~ `)= cast(XID)(` ~ a ~ `);
+ 	    (` ~ er ~ `)= BadAtom;
+ 	    return ` ~ ret ~ `;
+ 	}
+ }`;
+ enum string	CHK_ATOM_OR_NONE2(string a,string ev,string er) = `{
+-	if (((` ~ a ~ `)!=None)&&(!ValidAtom((` ~ a ~ `)))) {
++	if (((` ~ a ~ `)!=None)&&(!atomMgr.ValidAtom((` ~ a ~ `)))) {
+ 	    (` ~ ev ~ `)= cast(XID)(` ~ a ~ `);
+ 	    return ` ~ er ~ `;
+ 	}
+@@ -3837,7 +3837,7 @@ private CARD32* _XkbCheckAtoms(CARD32* wire, int nAtoms, int swapped, Atom* pErr
+         if (swapped) {
+             swapl(wire);
+         }
+-        if (((cast(Atom) (*wire)) != None) && (!ValidAtom(cast(Atom) (*wire)))) {
++        if (((cast(Atom) (*wire)) != None) && (!atomMgr.ValidAtom(cast(Atom) (*wire)))) {
+             *pError = (cast(Atom) (*wire));
+             return null;
+         }
+@@ -3855,7 +3855,7 @@ private CARD32* _XkbCheckMaskedAtoms(CARD32* wire, int nAtoms, CARD32 present, i
+         if (swapped) {
+             swapl(wire);
+         }
+-        if (((cast(Atom) (*wire)) != None) && (!ValidAtom((cast(Atom) (*wire))))) {
++        if (((cast(Atom) (*wire)) != None) && (!atomMgr.ValidAtom((cast(Atom) (*wire))))) {
+             *pError = cast(Atom) (*wire);
+             return null;
+         }
+@@ -3880,7 +3880,7 @@ private Bool _XkbCheckTypeName(Atom name, int typeNdx)
+ {
+     const(char)* str = void;
+ 
+-    str = NameForAtom(name);
++    str = atomMgr.NameForAtom(name);
+     if ((strcmp(str, "ONE_LEVEL") == 0) || (strcmp(str, "TWO_LEVEL") == 0) ||
+         (strcmp(str, "ALPHABETIC") == 0) || (strcmp(str, "KEYPAD") == 0))
+         return False;
+diff --git a/source/Xext/xkeyboard/xkbInit.d b/source/Xext/xkeyboard/xkbInit.d
+index ccb9eaea..cea301f0 100644
+--- a/source/Xext/xkeyboard/xkbInit.d
++++ b/source/Xext/xkeyboard/xkbInit.d
+@@ -181,7 +181,7 @@ private Bool XkbWriteRulesProp()
+     len += 5;                   /* trailing NULs */
+ 
+     name =
+-        MakeAtom(_XKB_RF_NAMES_PROP_ATOM.ptr, cast(uint)strlen(_XKB_RF_NAMES_PROP_ATOM.ptr), 1);
++        atomMgr.MakeAtom(_XKB_RF_NAMES_PROP_ATOM.ptr, cast(uint)strlen(_XKB_RF_NAMES_PROP_ATOM.ptr), 1);
+     if (name == None) {
+         ErrorF("[xkb] Atom error: %s not created\n", _XKB_RF_NAMES_PROP_ATOM.ptr);
+         return True;
+diff --git a/source/Xext/xkeyboard/xkbfmisc.d b/source/Xext/xkeyboard/xkbfmisc.d
+index 7eafc2e9..725b7579 100644
+--- a/source/Xext/xkeyboard/xkbfmisc.d
++++ b/source/Xext/xkeyboard/xkbfmisc.d
+@@ -246,7 +246,7 @@ Bool XkbWriteXKBKeymapForNames(FILE* file, XkbComponentNamesPtr names, XkbDescPt
+     if ((xkb !is null) && (old_names !is null)) {
+         if (wantNames & XkmTypesMask) {
+             if (old_names.types != None) {
+-                tmp = NameForAtom(old_names.types);
++                tmp = atomMgr.NameForAtom(old_names.types);
+                 names.types = cast(char*)Xstrdup(tmp);
+             }
+             else {
+@@ -256,7 +256,7 @@ Bool XkbWriteXKBKeymapForNames(FILE* file, XkbComponentNamesPtr names, XkbDescPt
+         }
+         if (wantNames & XkmCompatMapMask) {
+             if (old_names.compat != None) {
+-                tmp = NameForAtom(old_names.compat);
++                tmp = atomMgr.NameForAtom(old_names.compat);
+                 names.compat = cast(char*)Xstrdup(tmp);
+             }
+             else
+@@ -266,13 +266,13 @@ Bool XkbWriteXKBKeymapForNames(FILE* file, XkbComponentNamesPtr names, XkbDescPt
+         if (wantNames & XkmSymbolsMask) {
+             if (old_names.symbols == None)
+                 return False;
+-            tmp = NameForAtom(old_names.symbols);
++            tmp = atomMgr.NameForAtom(old_names.symbols);
+             names.symbols = cast(char*)Xstrdup(tmp);
+             complete |= XkmSymbolsMask;
+         }
+         if (wantNames & XkmKeyNamesMask) {
+             if (old_names.keycodes != None) {
+-                tmp = NameForAtom(old_names.keycodes);
++                tmp = atomMgr.NameForAtom(old_names.keycodes);
+                 names.keycodes = cast(char*)Xstrdup(tmp);
+             }
+             else
+@@ -282,7 +282,7 @@ Bool XkbWriteXKBKeymapForNames(FILE* file, XkbComponentNamesPtr names, XkbDescPt
+         if (wantNames & XkmGeometryMask) {
+             if (old_names.geometry == None)
+                 return False;
+-            tmp = NameForAtom(old_names.geometry);
++            tmp = atomMgr.NameForAtom(old_names.geometry);
+             names.geometry = cast(char*)Xstrdup(tmp);
+             complete |= XkmGeometryMask;
+             wantNames &= ~XkmGeometryMask;
+diff --git a/source/Xext/xkeyboard/xkbout.d b/source/Xext/xkeyboard/xkbout.d
+index 832745a2..44ae3a8c 100644
+--- a/source/Xext/xkeyboard/xkbout.d
++++ b/source/Xext/xkeyboard/xkbout.d
+@@ -230,7 +230,7 @@ Bool XkbWriteXKBKeyTypes(FILE* file, XkbDescPtr xkb, Bool topLevel, Bool showImp
+ private Bool WriteXKBIndicatorMap(FILE* file, XkbDescPtr xkb, Atom name, XkbIndicatorMapPtr led, XkbFileAddOnFunc addOn, void* priv)
+ {
+ 
+-    fprintf(file, "    indicator \"%s\" {\n", NameForAtom(name));
++    fprintf(file, "    indicator \"%s\" {\n", atomMgr.NameForAtom(name));
+     if (led.flags & XkbIM_NoExplicit)
+         fprintf(file, "        !allowExplicit;\n");
+     if (led.flags & XkbIM_LEDDrivesKB)
+diff --git a/source/Xext/xkeyboard/xkbtext.d b/source/Xext/xkeyboard/xkbtext.d
+index e0974b39..64a0fa6c 100644
+--- a/source/Xext/xkeyboard/xkbtext.d
++++ b/source/Xext/xkeyboard/xkbtext.d
+@@ -93,7 +93,7 @@ char* XkbAtomText(Atom atm, uint format)
+     const(char)* atmstr = void;
+     char* rtrn = void, tmp = void;
+ 
+-    atmstr = NameForAtom(atm);
++    atmstr = atomMgr.NameForAtom(atm);
+     if (atmstr !is null) {
+         rtrn = tbGetBufferString(atmstr);
+     }
+@@ -131,7 +131,7 @@ char* XkbVModIndexText(XkbDescPtr xkb, uint ndx, uint format)
+     if (ndx >= XkbNumVirtualMods)
+         tmp = "illegal";
+     else if (vmodNames && (vmodNames[ndx] != None))
+-        tmp = NameForAtom(vmodNames[ndx]);
++        tmp = atomMgr.NameForAtom(vmodNames[ndx]);
+     if (tmp is null) {
+         snprintf(numBuf.ptr, numBuf.sizeof, "%d", ndx);
+         tmp = numBuf.ptr;
+diff --git a/source/Xext/xkeyboard/xkmread.d b/source/Xext/xkeyboard/xkmread.d
+index 10bb785a..ff6fb218 100644
+--- a/source/Xext/xkeyboard/xkmread.d
++++ b/source/Xext/xkeyboard/xkmread.d
+@@ -61,7 +61,7 @@ private Atom XkbInternAtom(char* str, Bool only_if_exists)
+ {
+     if (str is null)
+         return None;
+-    return MakeAtom(str, cast(uint)strlen(str), !only_if_exists);
++    return atomMgr.MakeAtom(str, cast(uint)strlen(str), !only_if_exists);
+ }
+ 
+ /***====================================================================***/
+diff --git a/source/Xext/xvdisp.d b/source/Xext/xvdisp.d
+index 8dd733d0..6cda1c31 100644
+--- a/source/Xext/xvdisp.d
++++ b/source/Xext/xvdisp.d
+@@ -473,7 +473,7 @@ private int SingleXvSetPortAttribute(ClientPtr client)
+ 
+     mixin(VALIDATE_XV_PORT!("stuff.port", "pPort", "DixSetAttrAccess"));
+ 
+-    if (!ValidAtom(stuff.attribute)) {
++    if (!atomMgr.ValidAtom(stuff.attribute)) {
+         client.errorValue = cast(uint)stuff.attribute;
+         return BadAtom;
+     }
+@@ -519,7 +519,7 @@ private int ProcXvGetPortAttribute(ClientPtr client)
+ 
+     mixin(VALIDATE_XV_PORT!("stuff.port", "pPort", "DixGetAttrAccess"));
+ 
+-    if (!ValidAtom(stuff.attribute)) {
++    if (!atomMgr.ValidAtom(stuff.attribute)) {
+         client.errorValue = cast(uint)stuff.attribute;
+         return BadAtom;
+     }
+diff --git a/source/dix/atom.d b/source/dix/atom.d
+index 7e1b06d9..6d367c00 100644
+--- a/source/dix/atom.d
++++ b/source/dix/atom.d
+@@ -13,29 +13,13 @@ import core.stdc.config: c_long, c_ulong;
+  * See COPYING for the full license texts.
+  */
+ 
+-import build.dix_config;
+-
+-import core.stdc.stdio;
++import core.stdc.stdlib;
+ import core.stdc.string;
+-//import x11.X;
+ import externs.X11.Xatom;
+ import os.log;
+-import externs.gnu;
+ import dix.dix_priv;
+-
+ import dix.resource;
+-import externs.gnu;
+ import atoms;
+-alias strncmp = core.stdc.string.strncmp;
+-
+-
+-// enum Atom : int {
+-//     ATOM
+-// }
+-// alias Atom = uint;
+-// enum None = 0;
+-// enum XA_LAST_PREDEFINED = 68;
+-// enum BAD_RESOURCE = 0;
+ 
+ string charsToString(const char* chars) {
+     return cast(immutable(char)[])chars[0..strlen(chars)];
+@@ -57,133 +41,125 @@ struct AtomBinTreeNode {
+ }
+ alias NodePtr = AtomBinTreeNode*;
+ 
+-private Atom lastAtom = 0;
+-private NodePtr atomRoot = null;
+-private c_ulong tableLength;
+-private NodePtr* nodeTable;
+-
+-// Atom MakeAtom(const(char)* string, uint len, Bool makeit);
+-
+-Atom
+-MakeAtom(const char *string_, uint len, Bool makeit)
+-{
+-    NodePtr *np = &atomRoot;
+-    uint fp = 0;
+-    for (uint i = 0; i < (len + 1) / 2; i++) {
+-        fp = fp * 27 + cast(uint)string_[i];
+-        fp = fp * 27 + cast(uint)string_[len - 1 - i];
+-    }
+-    while (*np !is null) {
+-        if (fp < (*np).fingerPrint)
+-            np = &((*np).left);
+-        else if (fp > (*np).fingerPrint)
+-            np = &((*np).right);
+-        else {                  /* now start testing the string_s */
+-//         pragma(msg, "strncmp = ", strncmp.stringof);
+-// pragma(msg, "typeof(strncmp) = ", typeof(strncmp).stringof);
+-            int comp = strncmp(string_, (*np).atom.string_.ptr, len);
+-            if ((comp < 0) || ((comp == 0) && len < (*np).atom.string_.length))
++struct AtomManager {
++    private Atom lastAtom = 0;
++    private NodePtr atomRoot = null;
++    private c_ulong tableLength;
++    private NodePtr* nodeTable;
++
++@nogc nothrow:
++    Atom MakeAtom(const char *string_, uint len, Bool makeit) {
++        NodePtr *np = &atomRoot;
++        uint fp = 0;
++        for (uint i = 0; i < (len + 1) / 2; i++) {
++            fp = fp * 27 + cast(uint)string_[i];
++            fp = fp * 27 + cast(uint)string_[len - 1 - i];
++        }
++        while (*np !is null) {
++            if (fp < (*np).fingerPrint)
+                 np = &((*np).left);
+-            else if (comp > 0)
++            else if (fp > (*np).fingerPrint)
+                 np = &((*np).right);
+-            else
+-                return (*np).atom.id;
+-        }
+-    }
+-    if (makeit) {
+-        NodePtr nd = cast(NodePtr)calloc(1, AtomBinTreeNode.sizeof);
+-        if (!nd)
+-            return BAD_RESOURCE;
+-        if (lastAtom < XA_LAST_PREDEFINED) {
+-            nd.atom.string_ = string_.charsToString;
++            else {                  /* now start testing the string_s */
++                int comp = strncmp(string_, (*np).atom.string_.ptr, len);
++                if ((comp < 0) || ((comp == 0) && len < (*np).atom.string_.length))
++                    np = &((*np).left);
++                else if (comp > 0)
++                    np = &((*np).right);
++                else
++                    return (*np).atom.id;
++            }
+         }
+-        else {
+-            nd.atom.string_ = strndup(string_, len).charsToString;
+-            if (!nd.atom.string_) {
+-                free(nd);
++        if (makeit) {
++            NodePtr nd = cast(NodePtr)calloc(1, AtomBinTreeNode.sizeof);
++            if (!nd)
+                 return BAD_RESOURCE;
++            if (lastAtom < XA_LAST_PREDEFINED) {
++                nd.atom.string_ = string_.charsToString;
+             }
+-        }
+-        if ((lastAtom + 1) >= tableLength) {
+-            NodePtr *table;
+-
+-            table = cast(NodePtr*)reallocarray(nodeTable, tableLength, 2 * NodePtr.sizeof);
+-            if (!table) {
+-                if (nd.atom.string_ .ptr != string_) {
+-                    /* nd.atom.string_ has been strdup'ed */
+-                    free(cast(void*)nd.atom.string_.ptr);
++            else {
++                nd.atom.string_ = strndup(string_, len).charsToString;
++                if (!nd.atom.string_) {
++                    free(nd);
++                    return BAD_RESOURCE;
+                 }
+-                free(nd);
+-                return BAD_RESOURCE;
+             }
+-            tableLength <<= 1;
+-            nodeTable = table;
++            if ((lastAtom + 1) >= tableLength) {
++                NodePtr *table;
++
++                table = cast(NodePtr*)reallocarray(nodeTable, tableLength, 2 * NodePtr.sizeof);
++                if (!table) {
++                    if (nd.atom.string_ .ptr != string_) {
++                        /* nd.atom.string_ has been strdup'ed */
++                        free(cast(void*)nd.atom.string_.ptr);
++                    }
++                    free(nd);
++                    return BAD_RESOURCE;
++                }
++                tableLength <<= 1;
++                nodeTable = table;
++            }
++            *np = nd;
++            nd.left = nd.right = null;
++            nd.fingerPrint = fp;
++            nd.atom.id = ++lastAtom;
++            nodeTable[lastAtom] = nd;
++            return nd.atom.id;
+         }
+-        *np = nd;
+-        nd.left = nd.right = null;
+-        nd.fingerPrint = fp;
+-        nd.atom.id = ++lastAtom;
+-        nodeTable[lastAtom] = nd;
+-        return nd.atom.id;
++        else
++            return None;
+     }
+-    else
+-        return None;
+-}
+ 
++    Bool
++    ValidAtom(Atom atom) {
++        return (atom != None) && (atom <= lastAtom);
++    }
+ 
+-Bool
+-ValidAtom(Atom atom)
+-{
+-    return (atom != None) && (atom <= lastAtom);
+-}
++    const(char)* NameForAtom(Atom atom) {
++        if (atom > lastAtom)
++            return null;
+ 
+-const(char)* NameForAtom(Atom atom)
+-{
+-    if (atom > lastAtom)
+-        return null;
++        if (nodeTable[atom] is null)
++            return null;
+ 
+-    if (nodeTable[atom] is null)
+-        return null;
++        return nodeTable[atom].atom.string_.ptr;
++    }
+ 
+-    return nodeTable[atom].atom.string_.ptr;
+-}
++    private void FreeAtom(NodePtr patom) {
++        if (patom.left)
++            FreeAtom(patom.left);
++        if (patom.right)
++            FreeAtom(patom.right);
++        if (patom.atom.id > XA_LAST_PREDEFINED) {
++            /*
++            * All strings above XA_LAST_PREDEFINED are strdup'ed, so it's safe to
++            * cast here
++            */
++            free(cast(char*) patom.atom.string_.ptr);
++        }
++        free(patom);
++    }
+ 
+-private void FreeAtom(NodePtr patom)
+-{
+-    if (patom.left)
+-        FreeAtom(patom.left);
+-    if (patom.right)
+-        FreeAtom(patom.right);
+-    if (patom.atom.id > XA_LAST_PREDEFINED) {
+-        /*
+-         * All strings above XA_LAST_PREDEFINED are strdup'ed, so it's safe to
+-         * cast here
+-         */
+-        free(cast(char*) patom.atom.string_.ptr);
++    void FreeAllAtoms() {
++        if (atomRoot is null)
++            return;
++        FreeAtom(atomRoot);
++        atomRoot = null;
++        free(nodeTable);
++        nodeTable = null;
++        lastAtom = None;
+     }
+-    free(patom);
+-}
+ 
+-void FreeAllAtoms()
+-{
+-    if (atomRoot is null)
+-        return;
+-    FreeAtom(atomRoot);
+-    atomRoot = null;
+-    free(nodeTable);
+-    nodeTable = null;
+-    lastAtom = None;
++    void InitAtoms() {
++        FreeAllAtoms();
++        tableLength = InitialTableSize;
++        nodeTable = cast(NodePtr*) calloc(InitialTableSize, NodePtr.sizeof);
++        if (!nodeTable)
++            FatalError("creating atom table");
++        nodeTable[None] = null;
++        MakePredeclaredAtoms();
++        if (lastAtom != XA_LAST_PREDEFINED)
++            FatalError("builtin atom number mismatch");
++    }
+ }
+ 
+-void InitAtoms()
+-{
+-    FreeAllAtoms();
+-    tableLength = InitialTableSize;
+-    nodeTable = cast(NodePtr*) calloc(InitialTableSize, NodePtr.sizeof);
+-    if (!nodeTable)
+-        FatalError("creating atom table");
+-    nodeTable[None] = null;
+-    MakePredeclaredAtoms();
+-    if (lastAtom != XA_LAST_PREDEFINED)
+-        FatalError("builtin atom number mismatch");
+-}
+diff --git a/source/dix/atoms.d b/source/dix/atoms.d
+index e63e0d1e..9ef5dbdb 100644
+--- a/source/dix/atoms.d
++++ b/source/dix/atoms.d
+@@ -7,145 +7,146 @@ import dix.atom;
+ import os.log;;
+ 
+ import externs.X11.Xatom;
++import dix.globals;
+ 
+ void MakePredeclaredAtoms()
+ {
+-    // if (MakeAtom("mandatory", 9, 1) != XA_mandatory)
++    // if (atomMgr.MakeAtom("mandatory", 9, 1) != XA_mandatory)
+     //     FatalError("Adding builtin atom");
+-    if (MakeAtom("PRIMARY", 7, 1) != XA_PRIMARY)
++    if (atomMgr.MakeAtom("PRIMARY", 7, 1) != XA_PRIMARY)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("SECONDARY", 9, 1) != XA_SECONDARY)
++    if (atomMgr.MakeAtom("SECONDARY", 9, 1) != XA_SECONDARY)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("ARC", 3, 1) != XA_ARC)
++    if (atomMgr.MakeAtom("ARC", 3, 1) != XA_ARC)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("ATOM", 4, 1) != XA_ATOM)
++    if (atomMgr.MakeAtom("ATOM", 4, 1) != XA_ATOM)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("BITMAP", 6, 1) != XA_BITMAP)
++    if (atomMgr.MakeAtom("BITMAP", 6, 1) != XA_BITMAP)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("CARDINAL", 8, 1) != XA_CARDINAL)
++    if (atomMgr.MakeAtom("CARDINAL", 8, 1) != XA_CARDINAL)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("COLORMAP", 8, 1) != XA_COLORMAP)
++    if (atomMgr.MakeAtom("COLORMAP", 8, 1) != XA_COLORMAP)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("CURSOR", 6, 1) != XA_CURSOR)
++    if (atomMgr.MakeAtom("CURSOR", 6, 1) != XA_CURSOR)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("CUT_BUFFER0", 11, 1) != XA_CUT_BUFFER0)
++    if (atomMgr.MakeAtom("CUT_BUFFER0", 11, 1) != XA_CUT_BUFFER0)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("CUT_BUFFER1", 11, 1) != XA_CUT_BUFFER1)
++    if (atomMgr.MakeAtom("CUT_BUFFER1", 11, 1) != XA_CUT_BUFFER1)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("CUT_BUFFER2", 11, 1) != XA_CUT_BUFFER2)
++    if (atomMgr.MakeAtom("CUT_BUFFER2", 11, 1) != XA_CUT_BUFFER2)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("CUT_BUFFER3", 11, 1) != XA_CUT_BUFFER3)
++    if (atomMgr.MakeAtom("CUT_BUFFER3", 11, 1) != XA_CUT_BUFFER3)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("CUT_BUFFER4", 11, 1) != XA_CUT_BUFFER4)
++    if (atomMgr.MakeAtom("CUT_BUFFER4", 11, 1) != XA_CUT_BUFFER4)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("CUT_BUFFER5", 11, 1) != XA_CUT_BUFFER5)
++    if (atomMgr.MakeAtom("CUT_BUFFER5", 11, 1) != XA_CUT_BUFFER5)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("CUT_BUFFER6", 11, 1) != XA_CUT_BUFFER6)
++    if (atomMgr.MakeAtom("CUT_BUFFER6", 11, 1) != XA_CUT_BUFFER6)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("CUT_BUFFER7", 11, 1) != XA_CUT_BUFFER7)
++    if (atomMgr.MakeAtom("CUT_BUFFER7", 11, 1) != XA_CUT_BUFFER7)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("DRAWABLE", 8, 1) != XA_DRAWABLE)
++    if (atomMgr.MakeAtom("DRAWABLE", 8, 1) != XA_DRAWABLE)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("FONT", 4, 1) != XA_FONT)
++    if (atomMgr.MakeAtom("FONT", 4, 1) != XA_FONT)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("INTEGER", 7, 1) != XA_INTEGER)
++    if (atomMgr.MakeAtom("INTEGER", 7, 1) != XA_INTEGER)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("PIXMAP", 6, 1) != XA_PIXMAP)
++    if (atomMgr.MakeAtom("PIXMAP", 6, 1) != XA_PIXMAP)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("POINT", 5, 1) != XA_POINT)
++    if (atomMgr.MakeAtom("POINT", 5, 1) != XA_POINT)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("RECTANGLE", 9, 1) != XA_RECTANGLE)
++    if (atomMgr.MakeAtom("RECTANGLE", 9, 1) != XA_RECTANGLE)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("RESOURCE_MANAGER", 16, 1) != XA_RESOURCE_MANAGER)
++    if (atomMgr.MakeAtom("RESOURCE_MANAGER", 16, 1) != XA_RESOURCE_MANAGER)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("RGB_COLOR_MAP", 13, 1) != XA_RGB_COLOR_MAP)
++    if (atomMgr.MakeAtom("RGB_COLOR_MAP", 13, 1) != XA_RGB_COLOR_MAP)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("RGB_BEST_MAP", 12, 1) != XA_RGB_BEST_MAP)
++    if (atomMgr.MakeAtom("RGB_BEST_MAP", 12, 1) != XA_RGB_BEST_MAP)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("RGB_BLUE_MAP", 12, 1) != XA_RGB_BLUE_MAP)
++    if (atomMgr.MakeAtom("RGB_BLUE_MAP", 12, 1) != XA_RGB_BLUE_MAP)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("RGB_DEFAULT_MAP", 15, 1) != XA_RGB_DEFAULT_MAP)
++    if (atomMgr.MakeAtom("RGB_DEFAULT_MAP", 15, 1) != XA_RGB_DEFAULT_MAP)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("RGB_GRAY_MAP", 12, 1) != XA_RGB_GRAY_MAP)
++    if (atomMgr.MakeAtom("RGB_GRAY_MAP", 12, 1) != XA_RGB_GRAY_MAP)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("RGB_GREEN_MAP", 13, 1) != XA_RGB_GREEN_MAP)
++    if (atomMgr.MakeAtom("RGB_GREEN_MAP", 13, 1) != XA_RGB_GREEN_MAP)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("RGB_RED_MAP", 11, 1) != XA_RGB_RED_MAP)
++    if (atomMgr.MakeAtom("RGB_RED_MAP", 11, 1) != XA_RGB_RED_MAP)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("STRING", 6, 1) != XA_STRING)
++    if (atomMgr.MakeAtom("STRING", 6, 1) != XA_STRING)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("VISUALID", 8, 1) != XA_VISUALID)
++    if (atomMgr.MakeAtom("VISUALID", 8, 1) != XA_VISUALID)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("WINDOW", 6, 1) != XA_WINDOW)
++    if (atomMgr.MakeAtom("WINDOW", 6, 1) != XA_WINDOW)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("WM_COMMAND", 10, 1) != XA_WM_COMMAND)
++    if (atomMgr.MakeAtom("WM_COMMAND", 10, 1) != XA_WM_COMMAND)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("WM_HINTS", 8, 1) != XA_WM_HINTS)
++    if (atomMgr.MakeAtom("WM_HINTS", 8, 1) != XA_WM_HINTS)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("WM_CLIENT_MACHINE", 17, 1) != XA_WM_CLIENT_MACHINE)
++    if (atomMgr.MakeAtom("WM_CLIENT_MACHINE", 17, 1) != XA_WM_CLIENT_MACHINE)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("WM_ICON_NAME", 12, 1) != XA_WM_ICON_NAME)
++    if (atomMgr.MakeAtom("WM_ICON_NAME", 12, 1) != XA_WM_ICON_NAME)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("WM_ICON_SIZE", 12, 1) != XA_WM_ICON_SIZE)
++    if (atomMgr.MakeAtom("WM_ICON_SIZE", 12, 1) != XA_WM_ICON_SIZE)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("WM_NAME", 7, 1) != XA_WM_NAME)
++    if (atomMgr.MakeAtom("WM_NAME", 7, 1) != XA_WM_NAME)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("WM_NORMAL_HINTS", 15, 1) != XA_WM_NORMAL_HINTS)
++    if (atomMgr.MakeAtom("WM_NORMAL_HINTS", 15, 1) != XA_WM_NORMAL_HINTS)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("WM_SIZE_HINTS", 13, 1) != XA_WM_SIZE_HINTS)
++    if (atomMgr.MakeAtom("WM_SIZE_HINTS", 13, 1) != XA_WM_SIZE_HINTS)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("WM_ZOOM_HINTS", 13, 1) != XA_WM_ZOOM_HINTS)
++    if (atomMgr.MakeAtom("WM_ZOOM_HINTS", 13, 1) != XA_WM_ZOOM_HINTS)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("MIN_SPACE", 9, 1) != XA_MIN_SPACE)
++    if (atomMgr.MakeAtom("MIN_SPACE", 9, 1) != XA_MIN_SPACE)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("NORM_SPACE", 10, 1) != XA_NORM_SPACE)
++    if (atomMgr.MakeAtom("NORM_SPACE", 10, 1) != XA_NORM_SPACE)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("MAX_SPACE", 9, 1) != XA_MAX_SPACE)
++    if (atomMgr.MakeAtom("MAX_SPACE", 9, 1) != XA_MAX_SPACE)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("END_SPACE", 9, 1) != XA_END_SPACE)
++    if (atomMgr.MakeAtom("END_SPACE", 9, 1) != XA_END_SPACE)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("SUPERSCRIPT_X", 13, 1) != XA_SUPERSCRIPT_X)
++    if (atomMgr.MakeAtom("SUPERSCRIPT_X", 13, 1) != XA_SUPERSCRIPT_X)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("SUPERSCRIPT_Y", 13, 1) != XA_SUPERSCRIPT_Y)
++    if (atomMgr.MakeAtom("SUPERSCRIPT_Y", 13, 1) != XA_SUPERSCRIPT_Y)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("SUBSCRIPT_X", 11, 1) != XA_SUBSCRIPT_X)
++    if (atomMgr.MakeAtom("SUBSCRIPT_X", 11, 1) != XA_SUBSCRIPT_X)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("SUBSCRIPT_Y", 11, 1) != XA_SUBSCRIPT_Y)
++    if (atomMgr.MakeAtom("SUBSCRIPT_Y", 11, 1) != XA_SUBSCRIPT_Y)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("UNDERLINE_POSITION", 18, 1) != XA_UNDERLINE_POSITION)
++    if (atomMgr.MakeAtom("UNDERLINE_POSITION", 18, 1) != XA_UNDERLINE_POSITION)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("UNDERLINE_THICKNESS", 19, 1) != XA_UNDERLINE_THICKNESS)
++    if (atomMgr.MakeAtom("UNDERLINE_THICKNESS", 19, 1) != XA_UNDERLINE_THICKNESS)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("STRIKEOUT_ASCENT", 16, 1) != XA_STRIKEOUT_ASCENT)
++    if (atomMgr.MakeAtom("STRIKEOUT_ASCENT", 16, 1) != XA_STRIKEOUT_ASCENT)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("STRIKEOUT_DESCENT", 17, 1) != XA_STRIKEOUT_DESCENT)
++    if (atomMgr.MakeAtom("STRIKEOUT_DESCENT", 17, 1) != XA_STRIKEOUT_DESCENT)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("ITALIC_ANGLE", 12, 1) != XA_ITALIC_ANGLE)
++    if (atomMgr.MakeAtom("ITALIC_ANGLE", 12, 1) != XA_ITALIC_ANGLE)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("X_HEIGHT", 8, 1) != XA_X_HEIGHT)
++    if (atomMgr.MakeAtom("X_HEIGHT", 8, 1) != XA_X_HEIGHT)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("QUAD_WIDTH", 10, 1) != XA_QUAD_WIDTH)
++    if (atomMgr.MakeAtom("QUAD_WIDTH", 10, 1) != XA_QUAD_WIDTH)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("WEIGHT", 6, 1) != XA_WEIGHT)
++    if (atomMgr.MakeAtom("WEIGHT", 6, 1) != XA_WEIGHT)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("POINT_SIZE", 10, 1) != XA_POINT_SIZE)
++    if (atomMgr.MakeAtom("POINT_SIZE", 10, 1) != XA_POINT_SIZE)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("RESOLUTION", 10, 1) != XA_RESOLUTION)
++    if (atomMgr.MakeAtom("RESOLUTION", 10, 1) != XA_RESOLUTION)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("COPYRIGHT", 9, 1) != XA_COPYRIGHT)
++    if (atomMgr.MakeAtom("COPYRIGHT", 9, 1) != XA_COPYRIGHT)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("NOTICE", 6, 1) != XA_NOTICE)
++    if (atomMgr.MakeAtom("NOTICE", 6, 1) != XA_NOTICE)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("FONT_NAME", 9, 1) != XA_FONT_NAME)
++    if (atomMgr.MakeAtom("FONT_NAME", 9, 1) != XA_FONT_NAME)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("FAMILY_NAME", 11, 1) != XA_FAMILY_NAME)
++    if (atomMgr.MakeAtom("FAMILY_NAME", 11, 1) != XA_FAMILY_NAME)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("FULL_NAME", 9, 1) != XA_FULL_NAME)
++    if (atomMgr.MakeAtom("FULL_NAME", 9, 1) != XA_FULL_NAME)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("CAP_HEIGHT", 10, 1) != XA_CAP_HEIGHT)
++    if (atomMgr.MakeAtom("CAP_HEIGHT", 10, 1) != XA_CAP_HEIGHT)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("WM_CLASS", 8, 1) != XA_WM_CLASS)
++    if (atomMgr.MakeAtom("WM_CLASS", 8, 1) != XA_WM_CLASS)
+         FatalError("Adding builtin atom");
+-    if (MakeAtom("WM_TRANSIENT_FOR", 16, 1) != XA_WM_TRANSIENT_FOR)
++    if (atomMgr.MakeAtom("WM_TRANSIENT_FOR", 16, 1) != XA_WM_TRANSIENT_FOR)
+         FatalError("Adding builtin atom");
+ }
+diff --git a/source/dix/dispatch.d b/source/dix/dispatch.d
+index f08e2acd..50b76d30 100644
+--- a/source/dix/dispatch.d
++++ b/source/dix/dispatch.d
+@@ -1114,7 +1114,7 @@ int ProcInternAtom(ClientPtr client)
+         return BadValue;
+     }
+     tchar = cast(char*) &stuff[1];
+-    atom = MakeAtom(tchar, stuff.nbytes, !stuff.onlyIfExists);
++    atom = atomMgr.MakeAtom(tchar, stuff.nbytes, !stuff.onlyIfExists);
+     if (atom == BAD_RESOURCE)
+         return BadAlloc;
+ 
+@@ -1139,7 +1139,7 @@ int ProcGetAtomName(ClientPtr client)
+     if (client.swapped)
+         swapl(&stuff.id);
+ 
+-    if (((str = NameForAtom(stuff.id)) is null)) {
++    if (((str = atomMgr.NameForAtom(stuff.id)) is null)) {
+         client.errorValue = cast(uint)stuff.id;
+         return BadAtom;
+     }
+diff --git a/source/dix/dix_priv.d b/source/dix/dix_priv.d
+index 4a1b9d93..59f5f85d 100644
+--- a/source/dix/dix_priv.d
++++ b/source/dix/dix_priv.d
+@@ -628,7 +628,7 @@ pragma(inline, true) private ClientPtr dixLookupXIDOwner(XID xid)
+  * @return atom ID
+  */
+ pragma(inline, true) Atom dixAddAtom(const(char)* name) {
+-    return MakeAtom(name, cast(uint)strlen(name), True);
++    return atomMgr.MakeAtom(name, cast(uint)strlen(name), True);
+ }
+ 
+ /*
+@@ -640,7 +640,7 @@ pragma(inline, true) Atom dixAddAtom(const(char)* name) {
+  * @return atom ID
+  */
+ pragma(inline, true) Atom dixGetAtomID(const(char)* name) {
+-    return MakeAtom(name, cast(uint)strlen(name), False);
++    return atomMgr.MakeAtom(name, cast(uint)strlen(name), False);
+ }
+ 
+ /*
+diff --git a/source/dix/globals.d b/source/dix/globals.d
+index aa8c8886..e3fdea8a 100644
+--- a/source/dix/globals.d
++++ b/source/dix/globals.d
+@@ -65,6 +65,7 @@ import dix.dixfonts;
+ import dix.dixstruct_priv;
+ import os.os;
+ import dix.timestamp;
++import dix.atom;
+ 
+ ScreenInfo screenInfo;
+ 
+@@ -86,6 +87,12 @@ PtrCtrl defaultPointerControl = {
+     0
+ };
+ 
++AtomManager atomMgr;
++alias MakeAtom = atomMgr.MakeAtom;
++alias ValidAtom = atomMgr.ValidAtom;
++alias NameForAtom = atomMgr.NameForAtom;
++
++
+ ClientPtr[MAXCLIENTS] clients;
+ ClientPtr serverClient;
+ int currentMaxClients;          /* current size of clients array */
+diff --git a/source/dix/main.d b/source/dix/main.d
+index e89d73b2..b830d5b8 100644
+--- a/source/dix/main.d
++++ b/source/dix/main.d
+@@ -193,7 +193,7 @@ int dix_main(int argc, char** argv, char** envp)
+         SetInputCheck(&alwaysCheckForInput[0], &alwaysCheckForInput[1]);
+         screenInfo.numScreens = 0;
+ 
+-        InitAtoms();
++        atomMgr.InitAtoms();
+         InitEvents();
+         assumeNoGC(&xfont2_init_glyph_caching)();
+         dixResetRegistry();
+@@ -361,7 +361,7 @@ static if(XINERAMA){
+ 
+         FreeFonts();
+ 
+-        FreeAllAtoms();
++        atomMgr.FreeAllAtoms();
+ 
+         FreeAuditTimer();
+ 
+diff --git a/source/dix/property.d b/source/dix/property.d
+index 37915f03..7d5fd799 100644
+--- a/source/dix/property.d
++++ b/source/dix/property.d
+@@ -143,7 +143,7 @@ private void setVRRMode(WindowPtr pWin, WindowVRRMode mode)
+ 
+ private void notifyVRRMode(ClientPtr pClient, WindowPtr pWindow, int state, PropertyPtr pProp)
+ {
+-    const(char)* pName = NameForAtom(pProp.propertyName);
++    const(char)* pName = atomMgr.NameForAtom(pProp.propertyName);
+     if (pName is null || strcmp(pName, "_VARIABLE_REFRESH") || pProp.format != 32 || pProp.size != 1)
+         return;
+ 
+@@ -236,7 +236,7 @@ int ProcRotateProperties(ClientPtr client)
+     }
+ 
+     for (int i = 0; i < p.nAtoms; i++) {
+-        if (!ValidAtom(p.atoms[i])) {
++        if (!atomMgr.ValidAtom(p.atoms[i])) {
+             rc = BadAtom;
+             client.errorValue = cast(uint)p.atoms[i];
+             goto out_;
+@@ -328,11 +328,11 @@ int ProcChangeProperty(ClientPtr client)
+     totalSize = len * sizeInBytes;
+     mixin(REQUEST_FIXED_SIZE!("xChangePropertyReq", "totalSize"));
+ 
+-    if (!ValidAtom(stuff.property)) {
++    if (!atomMgr.ValidAtom(stuff.property)) {
+         client.errorValue = cast(uint)stuff.property;
+         return BadAtom;
+     }
+-    if (!ValidAtom(stuff.type)) {
++    if (!atomMgr.ValidAtom(stuff.type)) {
+         client.errorValue = cast(uint)stuff.type;
+         return BadAtom;
+     }
+@@ -554,7 +554,7 @@ int ProcGetProperty(ClientPtr client)
+     int rc = void;
+     Mask win_mode = DixGetPropAccess, prop_mode = DixReadAccess;
+ 
+-    if (!ValidAtom(stuff.property)) {
++    if (!atomMgr.ValidAtom(stuff.property)) {
+         client.errorValue = cast(uint)stuff.property;
+         return BadAtom;
+     }
+@@ -562,7 +562,7 @@ int ProcGetProperty(ClientPtr client)
+         client.errorValue = cast(uint)stuff.delete_;
+         return BadValue;
+     }
+-    if ((stuff.type != AnyPropertyType) && !ValidAtom(stuff.type)) {
++    if ((stuff.type != AnyPropertyType) && !atomMgr.ValidAtom(stuff.type)) {
+         client.errorValue = cast(uint)stuff.type;
+         return BadAtom;
+     }
+@@ -740,7 +740,7 @@ int ProcDeleteProperty(ClientPtr client)
+     }
+ 
+     UpdateCurrentTime();
+-    if (!ValidAtom(stuff.property)) {
++    if (!atomMgr.ValidAtom(stuff.property)) {
+         client.errorValue = cast(uint)stuff.property;
+         return BadAtom;
+     }
+diff --git a/source/dix/selection.d b/source/dix/selection.d
+index 5506ce20..911eb89f 100644
+--- a/source/dix/selection.d
++++ b/source/dix/selection.d
+@@ -192,7 +192,7 @@ int ProcSetSelectionOwner(ClientPtr client)
+             return rc;
+     }
+ 
+-    if (!ValidAtom(param.selection)) {
++    if (!atomMgr.ValidAtom(param.selection)) {
+         client.errorValue = cast(uint)stuff.selection;
+         return BadAtom;
+     }
+@@ -260,7 +260,7 @@ int ProcGetSelectionOwner(ClientPtr client)
+         goto out_;
+     }
+ 
+-    if (!ValidAtom(param.selection)) {
++    if (!atomMgr.ValidAtom(param.selection)) {
+         param.status = BadAtom;
+         goto out_;
+     }
+@@ -318,8 +318,8 @@ int ProcConvertSelection(ClientPtr client)
+     if (rc != Success)
+         return rc;
+ 
+-    paramsOkay = ValidAtom(param.selection) && ValidAtom(param.target);
+-    paramsOkay &= (param.property == None) || ValidAtom(param.property);
++    paramsOkay = atomMgr.ValidAtom(param.selection) && atomMgr.ValidAtom(param.target);
++    paramsOkay &= (param.property == None) || atomMgr.ValidAtom(param.property);
+     if (!paramsOkay) {
+         client.errorValue = cast(uint)stuff.property;
+         return BadAtom;
+diff --git a/source/hw/.kdrive/ephyr/ephyrvideo.d b/source/hw/.kdrive/ephyr/ephyrvideo.d
+index cd9b5fd1..2665403a 100644
+--- a/source/hw/.kdrive/ephyr/ephyrvideo.d
++++ b/source/hw/.kdrive/ephyr/ephyrvideo.d
+@@ -120,10 +120,10 @@ private Bool ephyrLocalAtomToHost(int a_local_atom, int* a_host_atom)
+ 
+     mixin(EPHYR_RETURN_VAL_IF_FAIL!("a_host_atom", "FALSE"));
+ 
+-    if (!ValidAtom(a_local_atom))
++    if (!atomMgr.ValidAtom(a_local_atom))
+         return False;
+ 
+-    atom_name = NameForAtom(a_local_atom);
++    atom_name = atomMgr.NameForAtom(a_local_atom);
+ 
+     if (!atom_name)
+         return False;
+@@ -303,7 +303,7 @@ private Bool translate_xv_attributes(KdVideoAdaptorPtr adaptor, xcb_xv_adaptor_i
+                                   it.data.size);
+ 
+         /* make sure atoms of attrs names are created in xephyr */
+-        MakeAtom(xcb_xv_attribute_info_name(it.data), it.data.size, True);
++        atomMgr.MakeAtom(xcb_xv_attribute_info_name(it.data), it.data.size, True);
+ 
+         xcb_xv_attribute_info_next(&it);
+     }
+@@ -657,11 +657,11 @@ private int ephyrSetPortAttribute(KdScreenInfo* a_info, Atom a_attr_name, int a_
+     mixin(EPHYR_RETURN_VAL_IF_FAIL!("port_priv.current_adaptor", "BadMatch"));
+     mixin(EPHYR_RETURN_VAL_IF_FAIL!("port_priv.current_adaptor.pAttributes", "BadMatch"));
+     mixin(EPHYR_RETURN_VAL_IF_FAIL!("port_priv.current_adaptor.nAttributes", "BadMatch"));
+-    mixin(EPHYR_RETURN_VAL_IF_FAIL!("ValidAtom(a_attr_name)", "BadMatch"));
++    mixin(EPHYR_RETURN_VAL_IF_FAIL!("atomMgr.ValidAtom(a_attr_name)", "BadMatch"));
+ 
+     EPHYR_LOG("enter, portnum:%d, atomid:%d, attr_name:%s, attr_val:%d\n",
+               port_priv.port_number,
+-              cast(int) a_attr_name, NameForAtom(a_attr_name), a_attr_value);
++              cast(int) a_attr_name, atomMgr.NameForAtom(a_attr_name), a_attr_value);
+ 
+     if (!ephyrLocalAtomToHost(a_attr_name, &host_atom)) {
+         EPHYR_LOG_ERROR("failed to convert local atom to host atom\n");
+@@ -671,10 +671,10 @@ private int ephyrSetPortAttribute(KdScreenInfo* a_info, Atom a_attr_name, int a_
+ 
+     if (!ephyrXVPrivIsAttrValueValid(port_priv.current_adaptor.pAttributes,
+                                      port_priv.current_adaptor.nAttributes,
+-                                     NameForAtom(a_attr_name),
++                                     atomMgr.NameForAtom(a_attr_name),
+                                      a_attr_value, &is_attr_valid)) {
+         EPHYR_LOG_ERROR("failed to validate attribute %s\n",
+-                        NameForAtom(a_attr_name));
++                        atomMgr.NameForAtom(a_attr_name));
+         /*
+            res = BadMatch ;
+            goto out_ ;
+@@ -682,7 +682,7 @@ private int ephyrSetPortAttribute(KdScreenInfo* a_info, Atom a_attr_name, int a_
+     }
+     if (!is_attr_valid) {
+         EPHYR_LOG_ERROR("attribute %s is not valid\n",
+-                        NameForAtom(a_attr_name));
++                        atomMgr.NameForAtom(a_attr_name));
+         /*
+            res = BadMatch ;
+            goto out_ ;
+@@ -709,11 +709,11 @@ private int ephyrGetPortAttribute(KdScreenInfo* a_screen_info, Atom a_attr_name,
+     xcb_xv_get_port_attribute_reply_t* reply = void;
+ 
+     mixin(EPHYR_RETURN_VAL_IF_FAIL!("port_priv", "BadMatch"));
+-    mixin(EPHYR_RETURN_VAL_IF_FAIL!("ValidAtom(a_attr_name)", "BadMatch"));
++    mixin(EPHYR_RETURN_VAL_IF_FAIL!("atomMgr.ValidAtom(a_attr_name)", "BadMatch"));
+ 
+     EPHYR_LOG("enter, portnum:%d, atomid:%d, attr_name:%s\n",
+               port_priv.port_number,
+-              cast(int) a_attr_name, NameForAtom(a_attr_name));
++              cast(int) a_attr_name, atomMgr.NameForAtom(a_attr_name));
+ 
+     if (!ephyrLocalAtomToHost(a_attr_name, &host_atom)) {
+         EPHYR_LOG_ERROR("failed to convert local atom to host atom\n");
+diff --git a/source/hw/.kdrive/src/kinput.d b/source/hw/.kdrive/src/kinput.d
+index 0e4920b1..2d0a2149 100644
+--- a/source/hw/.kdrive/src/kinput.d
++++ b/source/hw/.kdrive/src/kinput.d
+@@ -72,7 +72,7 @@ enum DEV_INPUT_EVENT_PREFIX = "/dev/input/event";
+ enum DEV_INPUT_EVENT_PREFIX_LEN = (sizeof(DEV_INPUT_EVENT_PREFIX) - 1);
+ }
+ 
+-enum string AtomFromName(string x) = `MakeAtom(` ~ x ~ `, strlen(` ~ x ~ `), 1)`;
++enum string AtomFromName(string x) = `atomMgr.MakeAtom(` ~ x ~ `, strlen(` ~ x ~ `), 1)`;
+ 
+ enum KD_KEY_COUNT =    248;
+ enum KD_MIN_KEYCODE =  8;
+diff --git a/source/hw/.xnest/Font.d b/source/hw/.xnest/Font.d
+index 630fb904..b161a1ae 100644
+--- a/source/hw/.xnest/Font.d
++++ b/source/hw/.xnest/Font.d
+@@ -63,7 +63,7 @@ Bool xnestRealizeFont(ScreenPtr pScreen, FontPtr pFont)
+     if (!value_atom)
+         return False;
+ 
+-    name = NameForAtom(value_atom);
++    name = atomMgr.NameForAtom(value_atom);
+ 
+     if (!name)
+         return False;
+diff --git a/source/hw/xfree86/drivers/video/modesetting/drmmode_display.d b/source/hw/xfree86/drivers/video/modesetting/drmmode_display.d
+index 79ea8fa7..7aedc4d2 100644
+--- a/source/hw/xfree86/drivers/video/modesetting/drmmode_display.d
++++ b/source/hw/xfree86/drivers/video/modesetting/drmmode_display.d
+@@ -3644,7 +3644,7 @@ private Bool drmmode_output_set_property(xf86OutputPtr output, Atom property, RR
+                 value.size != 1)
+                 return False;
+             memcpy(&atom, value.data, 4);
+-            if (((name = NameForAtom(atom)) is null))
++            if (((name = atomMgr.NameForAtom(atom)) is null))
+                 return False;
+ 
+             /* search for matching name string, then set its value down */

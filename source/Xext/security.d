@@ -793,7 +793,7 @@ private void SecurityProperty(CallbackListPtr* pcbl, void* unused, void* calldat
     if (SecurityDoCheck(subj, obj, requested, allowed) != Success) {
         SecurityAudit("Security: denied client %d access to property %s "
                       ~ "(atom 0x%x) window 0x%lx of client %d on request %s\n",
-                      rec.client.index, NameForAtom(name), name,
+                      rec.client.index, atomMgr.nameForAtom(name), name,
                       cast(c_ulong)rec.pWin.drawable.id, dixClientForWindow(rec.pWin).index,
                       SecurityLookupRequestName(rec.client));
         rec.status = BadAccess;

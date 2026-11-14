@@ -1114,7 +1114,7 @@ int ProcInternAtom(ClientPtr client)
         return BadValue;
     }
     tchar = cast(char*) &stuff[1];
-    atom = MakeAtom(tchar, stuff.nbytes, !stuff.onlyIfExists);
+    atom = atomMgr.makeAtom(tchar, stuff.nbytes, !stuff.onlyIfExists);
     if (atom == BAD_RESOURCE)
         return BadAlloc;
 
@@ -1139,7 +1139,7 @@ int ProcGetAtomName(ClientPtr client)
     if (client.swapped)
         swapl(&stuff.id);
 
-    if (((str = NameForAtom(stuff.id)) is null)) {
+    if (((str = atomMgr.nameForAtom(stuff.id)) is null)) {
         client.errorValue = cast(uint)stuff.id;
         return BadAtom;
     }
