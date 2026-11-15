@@ -86,6 +86,23 @@ struct RPCBuffer {
         }
         return false;
     }
+
+    /*
+    * reset rpcbuf and clear memory, but doesn't free it.
+    *
+    * this is for reusing existing buffers for different purpose, w/o
+    * having to go through new allocatons.
+    *
+    * @param rpcbuf    pointer to RPCBuffer to operate on
+    */
+    void reset() {
+        /* no need to reset if never been actually written to */
+        if (!this.buffer.length || !this.wpos)
+            return;
+
+        /* clear memory, but don't free it */
+        this.wpos = 0;
+    }
 }
 
 enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
@@ -192,24 +209,6 @@ void  x_rpcbuf_clear(RPCBuffer* rpcbuf)
 {
     free(rpcbuf.buffer.ptr);
     memset(rpcbuf, 0, RPCBuffer.sizeof);
-}
-
-/*
- * reset rpcbuf and clear memory, but doesn't free it.
- *
- * this is for reusing existing buffers for different purpose, w/o
- * having to go through new allocatons.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- */
-void x_rpcbuf_reset(RPCBuffer* rpcbuf)
-{
-    /* no need to reset if never been actually written to */
-    if ((!rpcbuf.buffer) || (!rpcbuf.buffer.length) || (!rpcbuf.wpos))
-        return;
-
-    /* clear memory, but don't free it */
-    rpcbuf.wpos = 0;
 }
 
 /*
