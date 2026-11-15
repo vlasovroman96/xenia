@@ -24,6 +24,7 @@ string charsToString(const char* chars) {
     return cast(immutable(char)[])chars[0..strlen(chars)];
 }
 
+//Issue #69: Replace atoms binary tree by std.container.rbtree
 // Atom-string pair
 struct AtomData {
     Atom id;
