@@ -105,6 +105,29 @@ struct RPCBuffer {
         free(this.buffer.ptr);
         memset(&this, 0, RPCBuffer.sizeof);
     }
+
+    /*
+    * reserve a piece of buffer and move the buffer pointer forward.
+    *
+    * the returned slice can be used to directly write data into the
+    * reserved region. buffer pointer is moved right after that region.
+    *
+    * NOTE: that region is only valid until another operation on this
+    * buffer that might affect the allocated memory block: when buffer
+    * needs to be resized, it may get a new memory location.
+    *
+    * @param needed    amount of bytes needed
+    * @return          reserved slice of buffer
+    */
+    ubyte[] reserve(size_t needed) {
+        if (!this.makeRoom(needed))
+            return null;
+        
+        ubyte[] reserved = buffer[this.wpos..$-1];
+        this.wpos += needed;
+
+        return reserved;
+    }
 }
 
 enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
@@ -193,38 +216,13 @@ pragma(inline, true) Bool __x_rpcbuf_write_bin_pad(RPCBuffer* rpcbuf, const(char
 {
     const(size_t) blen = padForInt32(cast(int)len);
 
-    char* reserved = cast(char*)x_rpcbuf_reserve(rpcbuf, blen);
+    char* reserved = cast(char*)rpcbuf.reserve(blen).ptr;
     if (!reserved)
         return False;
 
     memcpy(reserved, val, len);
     memset(reserved + len, 0, blen - len);
     return True;
-}
-
-/*
- * reserve a piece of buffer and move the buffer pointer forward.
- *
- * the returned poiner can be used to directly write data into the
- * reserved region. buffer pointer is moved right after that region.
- *
- * NOTE: that region is only valid until another operation on this
- * buffer that might affect the allocated memory block: when buffer
- * needs to be resized, it may get a new memory location.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @param needed    amount of bytes needed
- * @return          pointer to reserved region of NULL on allocation failure
- */
-void* x_rpcbuf_reserve(RPCBuffer* rpcbuf, size_t needed)
-{
-    if (!rpcbuf.makeRoom(needed))
-        return null;
-
-    void* pos = rpcbuf.buffer.ptr + rpcbuf.wpos;
-    rpcbuf.wpos += needed;
-
-    return pos;
 }
 
 /*
@@ -243,7 +241,7 @@ void* x_rpcbuf_reserve(RPCBuffer* rpcbuf, size_t needed)
  */
 void * x_rpcbuf_reserve0(RPCBuffer* rpcbuf, size_t needed)
 {
-    void* buf = x_rpcbuf_reserve(rpcbuf, needed);
+    void* buf = rpcbuf.reserve(needed).ptr;
     if (!buf)
         return null;
 
@@ -300,7 +298,7 @@ int x_rpcbuf_write_string_0t_pad(RPCBuffer* rpcbuf, const(char)* str)
  */
 Bool x_rpcbuf_write_CARD8(RPCBuffer* rpcbuf, CARD8 value)
 {
-    CARD8* reserved = cast(ubyte*)x_rpcbuf_reserve(rpcbuf, value.sizeof);
+    CARD8* reserved = cast(ubyte*)rpcbuf.reserve(value.sizeof).ptr;
     if (!reserved)
         return False;
 
@@ -323,7 +321,7 @@ Bool x_rpcbuf_write_CARD8(RPCBuffer* rpcbuf, CARD8 value)
  */
 Bool x_rpcbuf_write_CARD16(RPCBuffer* rpcbuf, CARD16 value)
 {
-    CARD16* reserved = cast(ushort*)x_rpcbuf_reserve(rpcbuf, value.sizeof);
+    CARD16* reserved = cast(ushort*)rpcbuf.reserve(value.sizeof).ptr;
     if (!reserved)
         return False;
 
@@ -365,7 +363,7 @@ pragma(inline, true) Bool x_rpcbuf_write_INT16(RPCBuffer* rpcbuf, INT16 value) {
  */
 int x_rpcbuf_write_CARD32(RPCBuffer* rpcbuf, CARD32 value)
 {
-    CARD32* reserved = cast(uint*)x_rpcbuf_reserve(rpcbuf, value.sizeof);
+    CARD32* reserved = cast(uint*)rpcbuf.reserve(value.sizeof).ptr;
     if (!reserved)
         return False;
 
@@ -426,7 +424,7 @@ pragma(inline, true) Bool x_rpcbuf_write_INT32s(RPCBuffer* rpcbuf, const(INT32)*
  */
 Bool x_rpcbuf_write_CARD64(RPCBuffer* rpcbuf, CARD64 value)
 {
-    CARD64* reserved = cast(ulong*)x_rpcbuf_reserve(rpcbuf, value.sizeof);
+    CARD64* reserved = cast(ulong*)rpcbuf.reserve(value.sizeof).ptr;
     if (!reserved)
         return False;
 
@@ -456,7 +454,7 @@ Bool  x_rpcbuf_write_CARD8s(RPCBuffer* rpcbuf, const(CARD8)* values, size_t coun
     if ((!values) || (!count))
         return True;
 
-    INT16* reserved = cast(short*)x_rpcbuf_reserve(rpcbuf, count);
+    INT16* reserved = cast(short*)rpcbuf.reserve(count).ptr;
     if (!reserved)
         return False;
 
@@ -484,7 +482,7 @@ Bool x_rpcbuf_write_CARD16s(RPCBuffer* rpcbuf, const(CARD16)* values, size_t cou
     if ((!values) || (!count))
         return True;
 
-    INT16* reserved = cast(short*)x_rpcbuf_reserve(rpcbuf, ((CARD16).sizeof * count));
+    INT16* reserved = cast(short*)rpcbuf.reserve(((CARD16).sizeof * count)).ptr;
     if (!reserved)
         return False;
 
@@ -515,7 +513,7 @@ Bool  x_rpcbuf_write_CARD32s(RPCBuffer* rpcbuf, const(CARD32)* values, size_t co
     if ((!values) || (!count))
         return True;
 
-    CARD32* reserved = cast(uint*)x_rpcbuf_reserve(rpcbuf, ((CARD32).sizeof * count));
+    CARD32* reserved = cast(uint*)rpcbuf.reserve(((CARD32).sizeof * count)).ptr;
     if (!reserved)
         return False;
 
@@ -546,7 +544,7 @@ Bool x_rpcbuf_write_CARD64s(RPCBuffer* rpcbuf, const(CARD64)* values, size_t cou
     if ((!values) || (!count))
         return True;
 
-    CARD64* reserved = cast(ulong*)x_rpcbuf_reserve(rpcbuf, ((CARD64).sizeof * count));
+    CARD64* reserved = cast(ulong*)rpcbuf.reserve(((CARD64).sizeof * count)).ptr;
     if (!reserved)
         return False;
 

@@ -1112,7 +1112,7 @@ private void XkbWriteKeyTypes(XkbDescPtr xkb, CARD8 firstType, CARD8 nTypes, RPC
 {
     XkbKeyTypePtr type = &xkb.map.types[firstType];
     for (int i = 0; i < nTypes; i++, type++) {
-        xkbKeyTypeWireDesc* wire = cast(xkbKeyTypeWireDesc*)x_rpcbuf_reserve(rpcbuf, xkbKeyTypeWireDesc.sizeof);
+        xkbKeyTypeWireDesc* wire = cast(xkbKeyTypeWireDesc*)rpcbuf.reserve(xkbKeyTypeWireDesc.sizeof).ptr;
         wire.mask = type.mods.mask;
         wire.realMods = type.mods.real_mods;
         wire.virtualMods = type.mods.vmods;
@@ -1124,8 +1124,8 @@ private void XkbWriteKeyTypes(XkbDescPtr xkb, CARD8 firstType, CARD8 nTypes, RPC
         }
 
         if (type.map_count > 0) {
-            void* space = x_rpcbuf_reserve(
-                rpcbuf, ((xkbKTMapEntryWireDesc).sizeof * type.map_count));
+            void* space = 
+                cast(void*)rpcbuf.reserve(((xkbKTMapEntryWireDesc).sizeof * type.map_count)).ptr;
             xkbKTMapEntryWireDesc* ewire = cast(xkbKTMapEntryWireDesc*) space;
             XkbKTMapEntryPtr entry = type.map;
 
@@ -1143,8 +1143,8 @@ private void XkbWriteKeyTypes(XkbDescPtr xkb, CARD8 firstType, CARD8 nTypes, RPC
             }
 
             if (type.preserve !is null) {
-                xkbModsWireDesc* pwire = cast(xkbModsWireDesc*)x_rpcbuf_reserve(
-                    rpcbuf, ((xkbModsWireDesc).sizeof * type.map_count));
+                xkbModsWireDesc* pwire = 
+                    cast(xkbModsWireDesc*)rpcbuf.reserve(((xkbModsWireDesc).sizeof * type.map_count)).ptr;
                 XkbModsPtr preserve = type.preserve;
 
                 for (n = 0; n < type.map_count; n++, pwire++, preserve++) {
@@ -1208,7 +1208,7 @@ private void XkbWriteKeySyms(XkbDescPtr xkb, KeyCode firstKeySym, CARD8 nKeySyms
     XkbSymMapPtr symMap = &xkb.map.key_sym_map[firstKeySym];
     for (int i = 0; i < nKeySyms; i++, symMap++) {
         size_t nSyms = symMap.width * mixin(XkbNumGroups!("symMap.group_info"));
-        xkbSymMapWireDesc* outMap = cast(xkbSymMapWireDesc*)x_rpcbuf_reserve(rpcbuf, xkbSymMapWireDesc.sizeof);
+        xkbSymMapWireDesc* outMap = cast(xkbSymMapWireDesc*)rpcbuf.reserve(xkbSymMapWireDesc.sizeof).ptr;
         outMap.ktIndex[0] = symMap.kt_index[0];
         outMap.ktIndex[1] = symMap.kt_index[1];
         outMap.ktIndex[2] = symMap.kt_index[2];
@@ -1251,7 +1251,7 @@ private int XkbSizeKeyActions(XkbDescPtr xkb, xkbGetMapReply* rep)
 
 private void XkbWriteKeyActions(XkbDescPtr xkb, KeyCode firstKeyAct, CARD8 nKeyActs, RPCBuffer* rpcbuf)
 {
-    CARD8* numDesc = cast(ubyte*)x_rpcbuf_reserve(rpcbuf, mixin(XkbPaddedSize!("nKeyActs")));
+    CARD8* numDesc = cast(ubyte*)rpcbuf.reserve(mixin(XkbPaddedSize!("nKeyActs")));
 
     for (int i = 0; i < nKeyActs; i++) {
         if (xkb.server.key_acts[i + firstKeyAct] == 0)
@@ -1297,7 +1297,7 @@ private void XkbWriteKeyBehaviors(XkbDescPtr xkb, KeyCode firstKeyBehavior, CARD
     XkbBehavior* pBhvr = &xkb.server.behaviors[firstKeyBehavior];
     for (int i = 0; i < nKeyBehaviors; i++, pBhvr++) {
         if (pBhvr.type != XkbKB_Default) {
-            xkbBehaviorWireDesc* wire = cast(xkbBehaviorWireDesc*)x_rpcbuf_reserve(rpcbuf, xkbBehaviorWireDesc.sizeof);
+            xkbBehaviorWireDesc* wire = cast(xkbBehaviorWireDesc*)rpcbuf.reserve(xkbBehaviorWireDesc.sizeof).ptr;
             wire.key = cast(ubyte)(i + firstKeyBehavior);
             wire.type = pBhvr.type;
             wire.data = pBhvr.data;
@@ -1338,7 +1338,7 @@ private void XkbWriteExplicit(XkbDescPtr xkb, KeyCode firstKeyExplicit, CARD8 nK
     }
 
     /* reserve buffer space (with padding) */
-    char* buf = cast(char*)x_rpcbuf_reserve(rpcbuf, mixin(XkbPaddedSize!("count * 2")));
+    char* buf = cast(char*)rpcbuf.reserve(mixin(XkbPaddedSize!("count * 2"))).ptr;
 
     /* copy over the active entries */
     for (int i = 0; i < nKeyExplicit; i++) {
@@ -1409,7 +1409,7 @@ private void XkbWriteVirtualModMap(XkbDescPtr xkb, KeyCode firstVModMapKey, CARD
     ushort* pMap = &xkb.server.vmodmap[firstVModMapKey];
     for (int i = 0; i < nVModMapKeys; i++, pMap++) {
         if (*pMap != 0) {
-            xkbVModMapWireDesc* wire = cast(xkbVModMapWireDesc*)x_rpcbuf_reserve(rpcbuf, xkbVModMapWireDesc.sizeof);
+            xkbVModMapWireDesc* wire = cast(xkbVModMapWireDesc*)rpcbuf.reserve(xkbVModMapWireDesc.sizeof);
             wire.key = cast(ubyte)(i + firstVModMapKey);
             wire.vmods = *pMap;
         }
@@ -6291,7 +6291,7 @@ int ProcXkbGetDeviceInfo(ClientPtr client)
     }
 
     int sz = cast(int)(nameLen + reply.nBtnsRtrn * ((xkbActionWireDesc).sizeof + led_len));
-    char* buf = cast(char*)x_rpcbuf_reserve(&rpcbuf, sz);
+    char* buf = cast(char*)rpcbuf.reserve(sz).ptr;
     if (!buf)
         return BadAlloc;
     char* walk = buf;

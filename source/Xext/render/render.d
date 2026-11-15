@@ -254,7 +254,7 @@ static if(XINERAMA){
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
-    xPictFormInfo* pictForm = cast(xPictFormInfo*)x_rpcbuf_reserve(&rpcbuf, rlength);
+    xPictFormInfo* pictForm = cast(xPictFormInfo*)rpcbuf.reserve(rlength).ptr;
     if (!pictForm)
         return BadAlloc;
 
@@ -1529,7 +1529,7 @@ int ProcRenderQueryFilters(ClientPtr client)
     total_bytes = (len << 2);
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    aliases = cast(INT16*) x_rpcbuf_reserve(&rpcbuf, total_bytes);
+    aliases = cast(INT16*) rpcbuf.reserve(total_bytes).ptr;
     if (!aliases)
         return BadAlloc;
 

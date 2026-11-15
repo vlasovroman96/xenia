@@ -359,7 +359,7 @@ int ProcXListInputDevices(ClientPtr client)
 
     /* allocate space for reply */
     total_length = cast(int)(numdevs * (xDeviceInfo).sizeof + size + namesize);
-    char* devbuf = cast(char*)x_rpcbuf_reserve(&rpcbuf, total_length);
+    char* devbuf = cast(char*)rpcbuf.reserve(total_length).ptr;
     if (!devbuf) {
         free(skip);
         return BadAlloc;

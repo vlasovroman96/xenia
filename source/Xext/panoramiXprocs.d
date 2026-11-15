@@ -2069,7 +2069,7 @@ int PanoramiXGetImage(ClientPtr client)
         while (h - linesDone > 0) {
             nlines = min(linesPerBuf, h - linesDone);
 
-            char* pBuf = cast(char*)x_rpcbuf_reserve(&rpcbuf, nlines * widthBytesLine);
+            char* pBuf = cast(char*)rpcbuf.reserve(nlines * widthBytesLine).ptr;
             if (!pBuf)
                 return BadAlloc;
             XineramaGetImageData(drawables.ptr, x, y + linesDone, w, nlines,
@@ -2086,7 +2086,7 @@ int PanoramiXGetImage(ClientPtr client)
                 while (h - linesDone > 0) {
                     nlines = min(linesPerBuf, h - linesDone);
 
-                    char* pBuf = cast(char*)x_rpcbuf_reserve(&rpcbuf, nlines * widthBytesLine);
+                    char* pBuf = cast(char*)rpcbuf.reserve(nlines * widthBytesLine).ptr;
                     if (!pBuf)
                         return BadAlloc;
                     XineramaGetImageData(drawables.ptr, x, y + linesDone, w,

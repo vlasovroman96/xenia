@@ -299,7 +299,7 @@ int ProcXGetFeedbackControl(ClientPtr client)
         return BadMatch;
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    char* buf = cast(char*)x_rpcbuf_reserve(&rpcbuf, total_length);
+    char* buf = cast(char*)rpcbuf.reserve(total_length).ptr;
 
     for (k = dev.kbdfeed; k; k = k.next)
         CopySwapKbdFeedback(client, k, &buf);

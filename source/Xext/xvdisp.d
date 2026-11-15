@@ -838,7 +838,7 @@ static if(XvMCExtension) {
 
     /* allocating for `offsets` as well as `pitches` in one block */
     /* both having CARD32 * num_planes (actually int32_t put into CARD32) */
-    int* offsets = cast(int*)x_rpcbuf_reserve(&rpcbuf, 2 * num_planes * int.sizeof);
+    int* offsets = cast(int*)rpcbuf.reserve(2 * num_planes * int.sizeof).ptr;
     if (!offsets)
         return BadAlloc;
     int* pitches = offsets + num_planes;
@@ -891,18 +891,18 @@ private int ProcXvListImageFormats(ClientPtr client)
         x_rpcbuf_write_CARD32(&rpcbuf, pImage.id);
         x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)cast(ubyte)pImage.type);
         x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)cast(ubyte)pImage.byte_order);
-        x_rpcbuf_reserve(&rpcbuf, CARD16.sizeof); /* pad1; */
+        rpcbuf.reserve(CARD16.sizeof); /* pad1; */
         x_rpcbuf_write_binary_pad(&rpcbuf, pImage.guid.ptr, 16);
         x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)cast(ubyte)pImage.bits_per_pixel);
         x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)cast(ubyte)pImage.num_planes);
-        x_rpcbuf_reserve(&rpcbuf, CARD16.sizeof); /* pad2; */
+        rpcbuf.reserve(CARD16.sizeof); /* pad2; */
         x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)cast(ubyte)pImage.depth);
-        x_rpcbuf_reserve(&rpcbuf, ((CARD8).sizeof+CARD16.sizeof)); /* pad3, pad4 */
+        rpcbuf.reserve(((CARD8).sizeof+CARD16.sizeof)); /* pad3, pad4 */
         x_rpcbuf_write_CARD32(&rpcbuf, pImage.red_mask);
         x_rpcbuf_write_CARD32(&rpcbuf, pImage.green_mask);
         x_rpcbuf_write_CARD32(&rpcbuf, pImage.blue_mask);
         x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)cast(ubyte)pImage.format);
-        x_rpcbuf_reserve(&rpcbuf, ((CARD8).sizeof+CARD16.sizeof)); /* pad5, pad6 */
+        rpcbuf.reserve(((CARD8).sizeof+CARD16.sizeof)); /* pad5, pad6 */
         x_rpcbuf_write_CARD32(&rpcbuf, pImage.y_sample_bits);
         x_rpcbuf_write_CARD32(&rpcbuf, pImage.u_sample_bits);
         x_rpcbuf_write_CARD32(&rpcbuf, pImage.v_sample_bits);
@@ -914,7 +914,7 @@ private int ProcXvListImageFormats(ClientPtr client)
         x_rpcbuf_write_CARD32(&rpcbuf, pImage.vert_v_period);
         x_rpcbuf_write_binary_pad(&rpcbuf, pImage.component_order.ptr, 32);
         x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)cast(ubyte)pImage.scanline_order);
-        x_rpcbuf_reserve(&rpcbuf, CARD8.sizeof+CARD16.sizeof+CARD32.sizeof*32); /* pad7, pad8, pad9, pad10 */
+        rpcbuf.reserve(CARD8.sizeof+CARD16.sizeof+CARD32.sizeof*32); /* pad7, pad8, pad9, pad10 */
     }
 
     /* use rpc.wpos here, in order to get how much we've really written */

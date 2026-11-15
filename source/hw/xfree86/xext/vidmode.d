@@ -1660,7 +1660,7 @@ private int ProcVidModeGetGammaRamp(ClientPtr client)
 
     if (stuff.size) {
         size_t ramplen = length * 3 * CARD16.sizeof;
-        CARD16* ramp = cast(ushort*)x_rpcbuf_reserve(&rpcbuf, ramplen);
+        CARD16* ramp = cast(ushort*)rpcbuf.reserve(ramplen).ptr;
         if (!ramp)
             return BadAlloc;
 

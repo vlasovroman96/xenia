@@ -2314,7 +2314,7 @@ private int DoGetImage(ClientPtr client, int format, Drawable drawable, int x, i
         while (height - linesDone > 0) {
             size_t nlines = min(linesPerBuf, height - linesDone);
 
-            char* pBuf = cast(char*)x_rpcbuf_reserve(&rpcbuf, (nlines * widthBytesLine));
+            char* pBuf = cast(char*)rpcbuf.reserve(nlines * widthBytesLine).ptr;
             if (!pBuf) {
                 rpcbuf.clear();
                 return BadAlloc;
@@ -2346,7 +2346,9 @@ private int DoGetImage(ClientPtr client, int format, Drawable drawable, int x, i
                 while (height - linesDone > 0) {
                     size_t nlines = min(linesPerBuf, height - linesDone);
 
-                    char* pBuf = cast(char*)x_rpcbuf_reserve(&rpcbuf, (nlines * widthBytesLine));
+                    // char* pBuf = cast(char*)rpcbuf.reserve((nlines * widthBytesLine));
+                    char* pBuf = cast(char*)rpcbuf.reserve(nlines * widthBytesLine).ptr;
+
                     if (!pBuf) {
                         rpcbuf.clear();
                         return BadAlloc;
@@ -2770,7 +2772,7 @@ int ProcAllocColorCells(ClientPtr client)
 
         RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
-        Pixel* ppixels = cast(uint*)x_rpcbuf_reserve(&rpcbuf, length);
+        Pixel* ppixels = cast(uint*)rpcbuf.reserve(length).ptr;
         if (!ppixels)
             return BadAlloc;
         pmasks = ppixels + npixels;
@@ -2849,7 +2851,9 @@ int ProcAllocColorPlanes(ClientPtr client)
         length = cast(c_long) npixels *Pixel.sizeof;
 
         RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-        Pixel* ppixels = cast(uint*)x_rpcbuf_reserve(&rpcbuf, length);
+        // Pixel* ppixels = cast(uint*)rpcbuf.reserve(length);
+        Pixel* ppixels = cast(uint*)rpcbuf.reserve(length).ptr;
+
         if (!ppixels)
             return BadAlloc;
         if ((rc = AllocColorPlanes(client.index, pcmp, npixels,
@@ -2989,7 +2993,7 @@ int ProcQueryColors(ClientPtr client)
             cast(int)int32ForBytes(((client.req_len << 2)) - xQueryColorsReq.sizeof);
 
         RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-        xrgb* prgbs = cast(xrgb*)x_rpcbuf_reserve(&rpcbuf, count * xrgb.sizeof);
+        xrgb* prgbs = cast(xrgb*)rpcbuf.reserve(count * xrgb.sizeof).ptr;
         if (!prgbs && count)
             return BadAlloc;
         if ((rc =

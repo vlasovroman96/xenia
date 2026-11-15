@@ -177,7 +177,7 @@ int ProcRRGetProviderInfo(ClientPtr client)
 
     extraLen = cast(uint)(reply.length << 2);
     if (extraLen) {
-        extra = cast(ubyte*)x_rpcbuf_reserve(&rpcbuf, extraLen);
+        extra = cast(ubyte*)rpcbuf.reserve(extraLen).ptr;
         if (!extra)
             return BadAlloc;
     }

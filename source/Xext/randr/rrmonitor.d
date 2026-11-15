@@ -607,7 +607,7 @@ int ProcRRGetMonitors(ClientPtr client)
 
     for (size_t m = 0; m < nmonitors; m++) {
         RRMonitorPtr monitor = &monitors[m];
-        xRRMonitorInfo* info = cast(xRRMonitorInfo*)x_rpcbuf_reserve(&rpcbuf, xRRMonitorInfo.sizeof);
+        xRRMonitorInfo* info = cast(xRRMonitorInfo*)rpcbuf.reserve(xRRMonitorInfo.sizeof).ptr;
 
         noutputs += monitors[m].numOutputs;
 

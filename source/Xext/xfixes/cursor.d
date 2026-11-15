@@ -370,7 +370,7 @@ int ProcXFixesGetCursorImage(ClientPtr client)
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
-    CARD32* image = cast(CARD32*)x_rpcbuf_reserve(&rpcbuf, npixels * CARD32.sizeof);
+    CARD32* image = cast(CARD32*)rpcbuf.reserve(npixels * CARD32.sizeof).ptr;
     if (!image)
         return BadAlloc;
 
@@ -463,7 +463,7 @@ int ProcXFixesGetCursorImageAndName(ClientPtr client)
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
-    CARD32* image = cast(uint*)x_rpcbuf_reserve(&rpcbuf, npixels * CARD32.sizeof);
+    CARD32* image = cast(uint*)rpcbuf.reserve(npixels * CARD32.sizeof).ptr;
     if (!image)
         return BadAlloc;
 
