@@ -38,7 +38,7 @@ import externs.X11.extensions.panoramiXproto;
 import dix.dix_priv;
 import dix.request_priv;
 import dix.resource_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.screen_hooks_priv;
 import dix.screenint_priv;
 import dix.server_priv;

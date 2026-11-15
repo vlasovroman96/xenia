@@ -41,7 +41,7 @@ import dix.dix_priv;
 import dix.dixgrabs_priv;
 import dix.exevents_priv;
 import dix.inpututils_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.request_priv;
 import Xi.handlers;
 

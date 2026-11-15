@@ -8,7 +8,7 @@ extern(C): __gshared:
  
 //public import x11.Xproto;
 
-public import dix.rpcbuf_priv; /* x_rpcbuf_t */
+public import dix.rpcbuf; /* x_rpcbuf_t */
 public import dix.dixstruct_priv;
 import common.bytes;
 public import os.os;      /* WriteToClient */

@@ -60,7 +60,7 @@ import externs.X11.extensions.XIproto;
 
 import dix.dix_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.window_priv;
 import Xi.handlers;
 public import Xi.extinit;

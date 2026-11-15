@@ -36,7 +36,7 @@ import core.stdc.string;
 import externs.X11.extensions.shmproto;
 
 import dix.dix_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.request_priv;
 import dix.screenint_priv;
 import Xext.shm;

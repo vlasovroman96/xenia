@@ -35,7 +35,7 @@ import externs.glxproto;
 
 import dix.dix_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 
 import glx.indirect_size;
 import glx.indirect_size_get;

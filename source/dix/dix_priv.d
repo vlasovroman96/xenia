@@ -19,7 +19,7 @@ import core.stdc.config: c_long, c_ulong;
 import dix.atom;
 public import dix.input_priv;
 public import dix.resource_priv;
-public import dix.rpcbuf_priv;
+public import dix.rpcbuf;
 
 public import dix.callback;
 public import dix.cursor;

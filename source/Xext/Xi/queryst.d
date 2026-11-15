@@ -44,7 +44,7 @@ import dix.dix_priv;
 import dix.exevents_priv;
 import dix.input_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import Xi.handlers;
 
 import dix.inputstr;           /* DeviceIntPtr      */

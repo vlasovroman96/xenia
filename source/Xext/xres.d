@@ -20,7 +20,7 @@ import dix.dix_priv;
 import dix.registry_priv;
 import dix.request_priv;
 import dix.resource_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import os.client_priv;
 import miext.extinit_priv;
 import Xext.xace;

@@ -60,7 +60,7 @@ import build.dix_config;
 
 import dix.dix_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import Xi.handlers;
 
 import dix.inputstr;           /* DeviceIntPtr      */

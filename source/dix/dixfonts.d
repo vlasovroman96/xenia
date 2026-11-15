@@ -65,7 +65,7 @@ import externs.X11.fonts.libxfont2;
 import dix.dix_priv;
 import dix.gc_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.screenint_priv;
 import dix.server_priv;
 import dix.swaprep;

@@ -51,7 +51,7 @@ import dix.cursor_priv;
 import dix.dix_priv;
 import dix.input_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.screen_hooks_priv;
 import dix.screenint_priv;
 import dix.atom;

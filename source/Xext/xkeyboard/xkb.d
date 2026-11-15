@@ -42,7 +42,7 @@ import xkb.XKBMAlloc;
 import dix.devices_priv;
 import dix.dix_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.server_priv;
 import miext.extinit_priv;
 import os.osdep;

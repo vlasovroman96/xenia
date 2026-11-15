@@ -40,7 +40,7 @@ import dix.client_priv;
 import dix.dix_priv;
 import dix.gc_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.screenint_priv;
 import dix.screen_hooks_priv;
 import dix.window_priv;

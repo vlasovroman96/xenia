@@ -44,7 +44,7 @@ import externs.X11.extensions.xf86vmproto;
 
 import dix.dix_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.swapreq;
 
 import dix.screenint_priv;
