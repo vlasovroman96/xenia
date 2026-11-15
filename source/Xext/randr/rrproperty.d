@@ -433,7 +433,7 @@ int ProcRRListOutputProperties(ClientPtr client)
     mixin(VERIFY_RR_OUTPUT!("stuff.output", "output", "DixReadAccess"));
 ;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     size_t numProps = 0;
     for (RRPropertyPtr prop = output.properties; prop; prop = prop.next) {
@@ -472,7 +472,7 @@ int ProcRRQueryOutputProperty(ClientPtr client)
     if (!prop)
         return BadName;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)prop.valid_values, prop.num_valid);
 
     xRRQueryOutputPropertyReply reply = {
@@ -664,7 +664,7 @@ int ProcRRGetOutputProperty(ClientPtr client)
         if (prop.propertyName == stuff.property)
             break;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     xRRGetOutputPropertyReply reply = { 0 };
 

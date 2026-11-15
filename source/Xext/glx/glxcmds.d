@@ -919,7 +919,7 @@ int __glXDisp_GetVisualConfigs(__GLXclientState* cl, GLbyte* pc)
         swapl(&reply.numProps);
     }
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: TRUE };
 
     for (int i = 0; i < pGlxScreen.numVisuals; i++) {
         modes = pGlxScreen.visuals[i];
@@ -1006,7 +1006,7 @@ private int DoGetFBConfigs(__GLXclientState* cl, uint screen)
         return err;
 
     RPCBuffer rpcbuf;
-        rpcbuf.swapped = client.swapped; 
+        rpcbuf.swapped = cast(bool)client.swapped; 
         rpcbuf.err_clear = TRUE ;
 
     for (modes = pGlxScreen.fbconfigs; modes != null; modes = modes.next) {
@@ -1594,7 +1594,7 @@ private int DoQueryContext(__GLXclientState* cl, XeGLXContextID gcId)
     if (!validGlxContext(cl.client, cast(uint)gcId, DixReadAccess, &ctx, &err))
         return err;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: TRUE };
 
     x_rpcbuf_write_CARD32(&rpcbuf, GLX_SHARE_CONTEXT_EXT);
     x_rpcbuf_write_CARD32(&rpcbuf, cast(int) (ctx.share_id));
@@ -1833,7 +1833,7 @@ enum string ATTRIB(string a, string v) = `{
         swapl(&reply.numAttribs);
     }
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: TRUE };
     x_rpcbuf_write_CARD32s(&rpcbuf, attributes.ptr, num << 1);
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
@@ -2262,7 +2262,7 @@ int __glXDisp_QueryExtensionsString(__GLXclientState* cl, GLbyte* pc)
         swapl(&reply.n);
     }
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: TRUE };
 
     x_rpcbuf_write_string_0t_pad(&rpcbuf, pGlxScreen.GLXextensions);
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));

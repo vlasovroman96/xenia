@@ -100,7 +100,7 @@ private int ProcXCMiscGetXIDList(ClientPtr client)
 
     size_t count = GetXIDList(client, cast(uint)stuff.count, pids);
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)pids, count);
     free(pids);

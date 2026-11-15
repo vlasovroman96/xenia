@@ -447,7 +447,7 @@ private int rrGetMultiScreenResources(ClientPtr client, Bool query, ScreenPtr pS
                   total_modes * int32ForBytes((xRRModeInfo).sizeof) +
                   int32ForBytes(total_name_len));
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     extraLen = reply.length << 2;
     if (extraLen) {
@@ -532,7 +532,7 @@ private int rrGetScreenResources(ClientPtr client, Bool query)
     if (pScreen.output_secondarys)
         return rrGetMultiScreenResources(client, query, pScreen);
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (!pScrPriv) {
         reply = xRRGetScreenResourcesReply (
@@ -784,7 +784,7 @@ int ProcRRGetScreenInfo(ClientPtr client)
 
     output = RRFirstOutput(pScreen);
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (!pScrPriv || !output) {
         reply = xRRGetScreenInfoReply (

@@ -711,7 +711,7 @@ if (nCharInfos > 0)
             swapCharInfo(&reply.maxBounds);
         }
 
-        RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+        RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
         for (int i = 0; i < nfontprops; i++) {
             x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)pFont.info.props[i].name);

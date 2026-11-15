@@ -480,7 +480,7 @@ private int ProcVidModeGetAllModeLines(ClientPtr client)
     if (!pVidMode.GetFirstModeline(pScreen, &mode, &dotClock))
         return BadValue;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     do {
         if (ver < 2)
@@ -1389,7 +1389,7 @@ private int ProcVidModeGetMonitor(ClientPtr client)
     const(char)* vendorStr = cast(const(char)*)pVidMode.GetMonitorValue(pScreen, VIDMODE_MON_VENDOR, 0).ptr;
     const(char)* modelStr = cast(const(char)*)pVidMode.GetMonitorValue(pScreen, VIDMODE_MON_MODEL, 0).ptr;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     for (int i = 0; i < nHsync; i++) {
         x_rpcbuf_write_CARD32(
@@ -1499,7 +1499,7 @@ private int ProcVidModeGetDotClocks(ClientPtr client)
 
     numClocks = pVidMode.GetNumOfClocks(pScreen, &ClockProg);
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (!ClockProg) {
         int* Clocks = cast(int*) calloc(numClocks, int.sizeof);
@@ -1656,7 +1656,7 @@ private int ProcVidModeGetGammaRamp(ClientPtr client)
 
     const(int) length = (stuff.size + 1) & ~1;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (stuff.size) {
         size_t ramplen = length * 3 * CARD16.sizeof;

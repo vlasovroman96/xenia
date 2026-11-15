@@ -103,7 +103,7 @@ int ProcRRGetProviders(ClientPtr client)
         return mixin(X_SEND_REPLY_SIMPLE!("client", "reply"));
     }
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     CARD16 count_providers = 0;
     mixin(ADD_PROVIDER!(`pScreen`));
@@ -173,7 +173,7 @@ int ProcRRGetProviderInfo(ClientPtr client)
     reply.length = (pScrPriv.numCrtcs + pScrPriv.numOutputs +
                    (reply.nAssociatedProviders * 2) + int32ForBytes(reply.nameLength));
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     extraLen = cast(uint)(reply.length << 2);
     if (extraLen) {

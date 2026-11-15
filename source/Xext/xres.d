@@ -178,7 +178,7 @@ private int ProcXResQueryClients(ClientPtr client)
 {
     mixin(X_REQUEST_HEAD_STRUCT!xXResQueryClientsReq);
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     int num_clients = 0;
     for (int i = 0; i < currentMaxClients; i++) {
@@ -243,7 +243,7 @@ private int ProcXResQueryClientResources(ClientPtr client)
 
     FindAllClientResources(resClient, &ResFindAllRes, counts);
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     int num_types = 0;
     for (int i = 0; i <= lastResourceType; i++) {
@@ -465,7 +465,7 @@ private int ProcXResQueryClientIds(ClientPtr client)
 
     ConstructClientIdCtx ctx;
 
-    ctx.rpcbuf.swapped = client.swapped;
+    ctx.rpcbuf.swapped = cast(bool)client.swapped;
     ctx.rpcbuf.swapped = True;
 
     int rc = ConstructClientIds(client, cast(int)stuff.numSpecs, specs, &ctx);
@@ -812,7 +812,7 @@ private int ProcXResQueryResourceBytes(ClientPtr client)
         return BadAlloc;
     }
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     int rc = ConstructResourceBytes(stuff.client, &ctx);
 

@@ -107,7 +107,7 @@ int ProcXGetDeviceMotionEvents(ClientPtr client)
     TimeStamp start = ClientTimeToServerTime(stuff.start);
     TimeStamp stop = ClientTimeToServerTime(stuff.stop);
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (CompareTimeStamps(start, stop) != LATER &&
         CompareTimeStamps(start, currentTime) != LATER) {

@@ -409,7 +409,7 @@ int ProcXFixesFetchRegion(ClientPtr client)
     BoxPtr pBox = RegionRects(pRegion);
     int nBox = RegionNumRects(pRegion);
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     for (int i = 0; i < nBox; i++) {
         x_rpcbuf_write_rect(&rpcbuf,

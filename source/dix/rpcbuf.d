@@ -38,9 +38,9 @@ struct RPCBuffer {
     size_t size;    /* total size of buffer */
     size_t wpos;    /* length of data inside the buffer / next write position */
     char* buffer;   /* pointer to whole buffer */
-    Bool swapped;   /* True when typed write operation shall byte-swap */
-    Bool error;     /* True when the last allocation failed */
-    Bool err_clear; /* set to True if should automatically clear on error */
+    bool swapped;   /* True when typed write operation shall byte-swap */
+    bool error;     /* True when the last allocation failed */
+    bool err_clear; /* set to True if should automatically clear on error */
 }
 
 enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;

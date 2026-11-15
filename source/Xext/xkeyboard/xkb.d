@@ -1571,7 +1571,7 @@ int ProcXkbGetMap(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     XkbAssembleMap(client, xkb, reply, &rpcbuf);
 
     if (rpcbuf.error)
@@ -2875,7 +2875,7 @@ int ProcXkbGetCompatMap(ClientPtr client)
         groups: stuff.groups,
     };
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     XkbAssembleCompatMap(client, compat, reply, &rpcbuf);
 
     if (rpcbuf.error)
@@ -3192,7 +3192,7 @@ int ProcXkbGetIndicatorMap(ClientPtr client)
     };
     XkbComputeGetIndicatorMapReplySize(leds, &reply);
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     XkbAssembleIndicatorMap(client, leds, reply, &rpcbuf);
 
@@ -3815,7 +3815,7 @@ int ProcXkbGetNames(ClientPtr client)
     };
     XkbComputeGetNamesReplySize(xkb, &reply);
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     XkbAssembleNames(client, xkb, reply, &rpcbuf);
 
@@ -4779,7 +4779,7 @@ int ProcXkbGetGeometry(ClientPtr client)
     if (status != Success)
         goto free_out;
 
-    rpcbuf.swapped = client.swapped;
+    rpcbuf.swapped = cast(bool)client.swapped;
     rpcbuf.err_clear = True;
     XkbAssembleGeometry(client, geom, reply, &rpcbuf);
 
@@ -5816,10 +5816,10 @@ int ProcXkbGetKbdByName(ClientPtr client)
         swaps(&reply.reported);
     }
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (reported & (XkbGBN_SymbolsMask | XkbGBN_TypesMask)) {
-        RPCBuffer childbuf = { swapped: client.swapped, err_clear: True };
+        RPCBuffer childbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
         XkbAssembleMap(client, new_, mrep, &childbuf);
 
@@ -5843,7 +5843,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
     }
 
     if (reported & XkbGBN_CompatMapMask) {
-        RPCBuffer childbuf = { swapped: client.swapped, err_clear: True };
+        RPCBuffer childbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
         XkbAssembleCompatMap(client, new_.compat, crep, &childbuf);
 
@@ -5864,7 +5864,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
     }
 
     if (reported & XkbGBN_IndicatorMapMask) {
-        RPCBuffer childbuf = { swapped: client.swapped, err_clear: True };
+        RPCBuffer childbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
         XkbAssembleIndicatorMap(client, new_.indicators, irep, &childbuf);
 
@@ -5887,7 +5887,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
     }
 
     if (reported & (XkbGBN_KeyNamesMask | XkbGBN_OtherNamesMask)) {
-        RPCBuffer childbuf = { swapped: client.swapped, err_clear: True };
+        RPCBuffer childbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
         XkbAssembleNames(client, new_, nrep, &childbuf);
 
@@ -5908,7 +5908,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
     }
 
     if (reported & XkbGBN_GeometryMask) {
-        RPCBuffer childbuf = { swapped: client.swapped, err_clear: True };
+        RPCBuffer childbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
         XkbAssembleGeometry(client, new_.geom, grep, &childbuf);
 
@@ -6146,7 +6146,7 @@ private int FillDeviceLedFBs(DeviceIntPtr dev, int class_, int id, uint wantLeng
             if ((id == XkbAllXIIds) || (id == XkbDfltXIId) ||
                 (id == kf.ctrl.id)) {
 
-                RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+                RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
                 int written = FillDeviceLedInfo(kf.xkb_sli, &rpcbuf, client);
                 memcpy(buffer, rpcbuf.buffer, rpcbuf.wpos);
                 x_rpcbuf_clear(&rpcbuf);
@@ -6165,7 +6165,7 @@ private int FillDeviceLedFBs(DeviceIntPtr dev, int class_, int id, uint wantLeng
         for (lf = dev.leds; (lf); lf = lf.next) {
             if ((id == XkbAllXIIds) || (id == XkbDfltXIId) ||
                 (id == lf.ctrl.id)) {
-                RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+                RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
                 int written = FillDeviceLedInfo(lf.xkb_sli, &rpcbuf, client);
                 memcpy(buffer, rpcbuf.buffer, rpcbuf.wpos);
                 x_rpcbuf_clear(&rpcbuf);
@@ -6278,7 +6278,7 @@ int ProcXkbGetDeviceInfo(ClientPtr client)
 
     length = cast(uint)reply.length * 4;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (rpcbuf.swapped) {
         swaps(&reply.present);

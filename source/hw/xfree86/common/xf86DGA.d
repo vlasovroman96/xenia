@@ -1224,7 +1224,7 @@ private int ProcXDGAOpenFramebuffer(ClientPtr client)
 
     nameSize = deviceName ? cast(int)(strlen(deviceName) + 1) : 0;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)deviceName, nameSize);
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
@@ -1279,7 +1279,7 @@ private int ProcXDGAQueryModes(ClientPtr client)
         number: num
     };
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     for (int i = 0; i < num; i++) {
         size_t size = strlen(mode[i].name) + 1;
@@ -1423,7 +1423,7 @@ private int ProcXDGASetMode(ClientPtr client)
     info.reserved1 = mode.reserved1;
     info.reserved2 = mode.reserved2;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     x_rpcbuf_write_binary_pad(&rpcbuf, &info, info.sizeof);
     x_rpcbuf_write_string_0t_pad(&rpcbuf, mode.name);
 

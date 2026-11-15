@@ -109,7 +109,7 @@ private int ProcDRI2Connect(ClientPtr client)
                        &pDraw, &status))
         return status;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     xDRI2ConnectReply reply = { 0 };
 
     if (DRI2Connect(client, pDraw.pScreen,
@@ -215,7 +215,7 @@ private int send_buffers_reply(ClientPtr client, DrawablePtr pDrawable, DRI2Buff
         count: count - skip
     };
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     for (i = 0; i < count; i++) {
         xDRI2Buffer buffer = void;

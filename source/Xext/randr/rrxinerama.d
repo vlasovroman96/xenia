@@ -271,7 +271,7 @@ int ProcRRXineramaQueryScreens(ClientPtr client)
             return BadAlloc;
     }
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     xXineramaQueryScreensReply reply = {
         number: nmonitors

@@ -152,7 +152,7 @@ int ProcXIPassiveGrabDevice(ClientPtr client)
         param.other_devices_mode = stuff.grab_mode;
     }
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (stuff.cursor != None) {
         ret = dixLookupResourceByType(&tmp, stuff.cursor,

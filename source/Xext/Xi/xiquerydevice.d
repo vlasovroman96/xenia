@@ -111,7 +111,7 @@ int ProcXIQueryDevice(ClientPtr client)
         }
     }
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     info = cast(char*)x_rpcbuf_reserve(&rpcbuf, len);
     if (!info) {

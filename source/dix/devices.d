@@ -1694,7 +1694,7 @@ int ProcGetModifierMapping(ClientPtr client)
     generate_modkeymap(client, PickKeyboard(client), &modkeymap,
                        &max_keys_per_mod);
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     x_rpcbuf_write_binary_pad(&rpcbuf, modkeymap, max_keys_per_mod * 8);
 
     free(modkeymap);
@@ -1841,7 +1841,7 @@ int ProcGetKeyboardMapping(ClientPtr client)
         keySymsPerKeyCode: cast(ubyte)syms.mapWidth,
     };
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     x_rpcbuf_write_CARD32s(
         &rpcbuf,
         &syms.map[syms.mapWidth * (stuff.firstKeyCode - syms.minKeyCode)],
@@ -1867,7 +1867,7 @@ int ProcGetPointerMapping(ClientPtr client)
     ButtonClassPtr butc = ptr.button;
     int nElts = (butc) ? butc.numButtons : 0;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     x_rpcbuf_write_binary_pad(&rpcbuf, &butc.map[1], nElts);
 
     xGetPointerMappingReply reply = {
@@ -2296,7 +2296,7 @@ int ProcGetMotionEvents(ClientPtr client)
     if (mouse.valuator.motionHintWindow)
         MaybeStopHint(mouse, client);
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     c_ulong nEvents = 0;
     TimeStamp start = ClientTimeToServerTime(stuff.start);

@@ -122,7 +122,7 @@ int ProcXGetDeviceControl(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     switch (stuff.control) {
     case DEVICE_RESOLUTION:

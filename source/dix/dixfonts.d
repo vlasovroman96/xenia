@@ -661,7 +661,7 @@ private Bool doListFontsAndAliases(ClientPtr client, list_fonts_closure* c)
     int aliascount = 0;
     xListFontsReply reply;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     if (client.clientGone) {
         if (c.current.current_fpe < c.num_fpes) {
             fpe = c.fpe_list[c.current.current_fpe];

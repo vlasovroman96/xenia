@@ -350,7 +350,7 @@ int ProcXIGetSelectedEvents(ClientPtr client)
         }
     }
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (!others)
         goto finish;

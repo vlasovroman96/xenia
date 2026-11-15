@@ -134,7 +134,7 @@ int __glXDisp_RenderMode(__GLXclientState* cl, GLbyte* pc)
     newMode = *cast(GLenum*) pc;
     retval = glRenderMode(newMode);
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: TRUE };
 
     /* Check that render mode worked */
     glGetIntegerv(GL_RENDER_MODE, &newModeCheck);

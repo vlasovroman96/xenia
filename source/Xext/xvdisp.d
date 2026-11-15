@@ -107,7 +107,7 @@ private int ProcXvQueryAdaptors(ClientPtr client)
                                           XvGetScreenKey());
 
     size_t numAdaptors = 0;
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (pxvs) {
         numAdaptors = pxvs.nAdaptors;
@@ -154,7 +154,7 @@ private int ProcXvQueryEncodings(ClientPtr client)
     XvPortPtr pPort = void;
     mixin(VALIDATE_XV_PORT!("stuff.port", "pPort", "DixReadAccess"));
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     size_t ne = pPort.pAdaptor.nEncodings;
     XvEncodingPtr pe = pPort.pAdaptor.pEncodings;
@@ -580,7 +580,7 @@ private int ProcXvQueryPortAttributes(ClientPtr client)
 
     mixin(VALIDATE_XV_PORT!("stuff.port", "pPort", "DixGetAttrAccess"));
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     size_t textSize = 0;
     for (i = 0, pAtt = pPort.pAdaptor.pAttributes;
@@ -834,7 +834,7 @@ static if(XvMCExtension) {
 
     num_planes = pImage.num_planes;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     /* allocating for `offsets` as well as `pitches` in one block */
     /* both having CARD32 * num_planes (actually int32_t put into CARD32) */
@@ -884,7 +884,7 @@ private int ProcXvListImageFormats(ClientPtr client)
 
     pImage = pPort.pAdaptor.pImages;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     for (i = 0; i < pPort.pAdaptor.nImages; i++, pImage++) {
         /* xvImageFormatInfo */

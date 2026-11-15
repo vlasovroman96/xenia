@@ -368,7 +368,7 @@ int ProcXFixesGetCursorImage(ClientPtr client)
     int height = pCursor.bits.height;
     int npixels = width * height;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     CARD32* image = cast(CARD32*)x_rpcbuf_reserve(&rpcbuf, npixels * CARD32.sizeof);
     if (!image)
@@ -427,7 +427,7 @@ int ProcXFixesGetCursorName(ClientPtr client)
 
     const(char)* str = ((pCursor.name) ? atomMgr.nameForAtom(pCursor.name) : "");
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     x_rpcbuf_write_string_pad(&rpcbuf, str);
 
     xXFixesGetCursorNameReply reply = {
@@ -461,7 +461,7 @@ int ProcXFixesGetCursorImageAndName(ClientPtr client)
 
     const(char)* name = pCursor.name ? atomMgr.nameForAtom(pCursor.name) : "";
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     CARD32* image = cast(uint*)x_rpcbuf_reserve(&rpcbuf, npixels * CARD32.sizeof);
     if (!image)

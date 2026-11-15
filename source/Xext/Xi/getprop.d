@@ -102,7 +102,7 @@ int ProcXGetDeviceDontPropagateList(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if ((others = mixin(wOtherInputMasks!("pWin"))) !is null) {
         for (i = 0; i < EMASKSIZE; i++)
