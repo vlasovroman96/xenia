@@ -6148,7 +6148,7 @@ private int FillDeviceLedFBs(DeviceIntPtr dev, int class_, int id, uint wantLeng
 
                 RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
                 int written = FillDeviceLedInfo(kf.xkb_sli, &rpcbuf, client);
-                memcpy(buffer, rpcbuf.buffer, rpcbuf.wpos);
+                memcpy(buffer, rpcbuf.buffer.ptr, rpcbuf.wpos);
                 x_rpcbuf_clear(&rpcbuf);
 
                 buffer += written;
@@ -6167,7 +6167,7 @@ private int FillDeviceLedFBs(DeviceIntPtr dev, int class_, int id, uint wantLeng
                 (id == lf.ctrl.id)) {
                 RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
                 int written = FillDeviceLedInfo(lf.xkb_sli, &rpcbuf, client);
-                memcpy(buffer, rpcbuf.buffer, rpcbuf.wpos);
+                memcpy(buffer, rpcbuf.buffer.ptr, rpcbuf.wpos);
                 x_rpcbuf_clear(&rpcbuf);
 
                 buffer += written;

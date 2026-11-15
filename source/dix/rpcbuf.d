@@ -37,7 +37,7 @@ import common.swap;
 struct RPCBuffer {
     size_t size;    /* total size of buffer */
     size_t wpos;    /* length of data inside the buffer / next write position */
-    char* buffer;   /* pointer to whole buffer */
+    ubyte[] buffer;   /* pointer to whole buffer */
     bool swapped;   /* True when typed write operation shall byte-swap */
     bool error;     /* True when the last allocation failed */
     bool err_clear; /* set to True if should automatically clear on error */
@@ -99,11 +99,11 @@ pragma(inline, true) void x_rpcbuf_write_rpcbuf_pad(RPCBuffer* rpcbuf, RPCBuffer
     if (source.error) {
         rpcbuf.error = True;
         if (rpcbuf.err_clear) {
-            free(rpcbuf.buffer);
+            free(rpcbuf.buffer.ptr);
             rpcbuf.buffer = null;
         }
     } else {
-        x_rpcbuf_write_binary_pad(rpcbuf, source.buffer, source.wpos);
+        x_rpcbuf_write_binary_pad(rpcbuf, source.buffer.ptr, source.wpos);
     }
     x_rpcbuf_clear(source);
 }
@@ -167,11 +167,11 @@ Bool x_rpcbuf_makeroom(RPCBuffer* rpcbuf, size_t needed)
     const(size_t) newsize = (((rpcbuf.wpos + needed) / XLIBRE_RPCBUF_CHUNK_SIZE) + 1)
                                 * XLIBRE_RPCBUF_CHUNK_SIZE;
 
-    char* newbuf = cast(char*) realloc(rpcbuf.buffer, newsize);
+    char* newbuf = cast(char*) realloc(rpcbuf.buffer.ptr, newsize);
     if (!newbuf)
         goto err;
 
-    rpcbuf.buffer = newbuf;
+    rpcbuf.buffer = cast(ubyte[])newbuf[0..newsize];
     rpcbuf.size = newsize;
 
     return True;
@@ -179,7 +179,7 @@ Bool x_rpcbuf_makeroom(RPCBuffer* rpcbuf, size_t needed)
 err:
     rpcbuf.error = True;
     if (rpcbuf.err_clear) {
-        free(rpcbuf.buffer);
+        free(rpcbuf.buffer.ptr);
         rpcbuf.buffer = null;
     }
     return False;
@@ -192,7 +192,7 @@ err:
  */
 void  x_rpcbuf_clear(RPCBuffer* rpcbuf)
 {
-    free(rpcbuf.buffer);
+    free(rpcbuf.buffer.ptr);
     memset(rpcbuf, 0, RPCBuffer.sizeof);
 }
 
@@ -233,7 +233,7 @@ void* x_rpcbuf_reserve(RPCBuffer* rpcbuf, size_t needed)
     if (!x_rpcbuf_makeroom(rpcbuf, needed))
         return null;
 
-    void* pos = rpcbuf.buffer + rpcbuf.wpos;
+    void* pos = rpcbuf.buffer.ptr + rpcbuf.wpos;
     rpcbuf.wpos += needed;
 
     return pos;

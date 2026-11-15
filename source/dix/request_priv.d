@@ -52,7 +52,7 @@ pragma(inline, true) private ssize_t WriteRpcbufToClient(ClientPtr pClient, RPCB
        since payloads are always small enough to easily fit into int. */
     ssize_t ret = WriteToClient(pClient,
                                 cast(int)rpcbuf.wpos,
-                                rpcbuf.buffer);
+                                rpcbuf.buffer.ptr);
     x_rpcbuf_clear(rpcbuf);
     return ret;
 }
