@@ -58,14 +58,14 @@ struct RPCBuffer {
     * @param needed    amount of free space needed in the buffer
     * @return          True if there (now) is enough room, False on alloc failure
     */
-    Bool makeRoom(size_t needed) {
+    bool makeRoom(size_t needed) {
         /* break out of alreay in error state */
         if (this.error)
-            return False;
+            return false;
 
         /* still enough space */
         if (this.size > this.wpos + needed)
-            return True;
+            return true;
 
         const(size_t) newsize = (((this.wpos + needed) / XLIBRE_RPCBUF_CHUNK_SIZE) + 1)
                                     * XLIBRE_RPCBUF_CHUNK_SIZE;
@@ -77,15 +77,15 @@ struct RPCBuffer {
         this.buffer = cast(ubyte[])newbuf[0..newsize];
         this.size = newsize;
 
-        return True;
+        return true;
 
     err:
-        this.error = True;
+        this.error = true;
         if (this.err_clear) {
             free(this.buffer.ptr);
             this.buffer = null;
         }
-        return False;
+        return false;
     }
 }
 
