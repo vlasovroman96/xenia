@@ -41,19 +41,19 @@ struct RPCBuffer {
     bool swapped;   /* True when typed write operation shall byte-swap */
     bool error;     /* True when the last allocation failed */
     bool err_clear; /* set to True if should automatically clear on error */
+
+    /*
+    * retrieve number of 4-byte-units (padded) of data written in the buffer
+    *
+    * @param rpcbuf    pointer to RPCBuffer to operate on
+    * @return          number of 4-byte units (w/ padding) written into the buffer
+    */
+@nogc: nothrow:
+    CARD32 writedSizeUnits() => cast(CARD32) ((this.wpos + 3) / 4);
+
 }
 
 enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
-
-/*
- * retrieve number of 4-byte-units (padded) of data written in the buffer
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @return          number of 4-byte units (w/ padding) written into the buffer
- */
-pragma(inline, true) CARD32 x_rpcbuf_wsize_units(RPCBuffer* rpcbuf) {
-    return cast(CARD32)((rpcbuf.wpos + 3) / 4);
-}
 
 /*
  * pad the buffer to 4-byte-units (ie. write extra zeros if necessary)
