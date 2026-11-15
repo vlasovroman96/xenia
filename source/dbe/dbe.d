@@ -606,7 +606,7 @@ private int ProcDbeGetVisualInfo(ClientPtr client)
 
         /* ensure enough buffer space here, so we don't need to check for
            errors on individual operations */
-        if (!x_rpcbuf_makeroom(&rpcbuf, (visualInfo.count+1)*8)) {
+        if (!rpcbuf.makeRoom((visualInfo.count+1)*8)) {
             rc = BadAlloc;
             free(visualInfo.visinfo);
             goto clearRpcBuf;

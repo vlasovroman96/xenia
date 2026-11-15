@@ -860,7 +860,7 @@ static if(XvMCExtension) {
     if (client.swapped) {
         /* needed here, because ddQueryImageAttributes() directly wrote into
            our rpcbuf area */
-        SwapLongs(cast(CARD32*) offsets, x_rpcbuf_wsize_units(&rpcbuf));
+        SwapLongs(cast(CARD32*) offsets, rpcbuf.writedSizeUnits);
     }
 
     mixin(X_REPLY_FIELD_CARD32!"num_planes");

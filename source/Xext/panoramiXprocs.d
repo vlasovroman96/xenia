@@ -2058,7 +2058,7 @@ int PanoramiXGetImage(ClientPtr client)
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     /* can become quite big, so make enough room so we don't need to relloc */
-    if (!x_rpcbuf_makeroom(&rpcbuf, length))
+    if (!rpcbuf.makeRoom(length))
         return BadAlloc;
 
     if (linesPerBuf == 0) {

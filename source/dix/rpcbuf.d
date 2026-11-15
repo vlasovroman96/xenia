@@ -51,6 +51,42 @@ struct RPCBuffer {
 @nogc: nothrow:
     CARD32 writedSizeUnits() => cast(CARD32) ((this.wpos + 3) / 4);
 
+    /*
+    * make sure there's enough room for `needed` bytes in the buffer.
+    *
+    * @param rpcbuf    pointer to RPCBuffer to operate on
+    * @param needed    amount of free space needed in the buffer
+    * @return          True if there (now) is enough room, False on alloc failure
+    */
+    Bool makeRoom(size_t needed) {
+        /* break out of alreay in error state */
+        if (this.error)
+            return False;
+
+        /* still enough space */
+        if (this.size > this.wpos + needed)
+            return True;
+
+        const(size_t) newsize = (((this.wpos + needed) / XLIBRE_RPCBUF_CHUNK_SIZE) + 1)
+                                    * XLIBRE_RPCBUF_CHUNK_SIZE;
+
+        char* newbuf = cast(char*) realloc(this.buffer.ptr, newsize);
+        if (!newbuf)
+            goto err;
+
+        this.buffer = cast(ubyte[])newbuf[0..newsize];
+        this.size = newsize;
+
+        return True;
+
+    err:
+        this.error = True;
+        if (this.err_clear) {
+            free(this.buffer.ptr);
+            this.buffer = null;
+        }
+        return False;
+    }
 }
 
 enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
@@ -147,43 +183,6 @@ pragma(inline, true) Bool __x_rpcbuf_write_bin_pad(RPCBuffer* rpcbuf, const(char
     memset(reserved + len, 0, blen - len);
     return True;
 }
-/*
- * make sure there's enough room for `needed` bytes in the buffer.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @param needed    amount of free space needed in the buffer
- * @return          True if there (now) is enough room, False on alloc failure
- */
-Bool x_rpcbuf_makeroom(RPCBuffer* rpcbuf, size_t needed)
-{
-    /* break out of alreay in error state */
-    if (rpcbuf.error)
-        return False;
-
-    /* still enough space */
-    if (rpcbuf.size > rpcbuf.wpos + needed)
-        return True;
-
-    const(size_t) newsize = (((rpcbuf.wpos + needed) / XLIBRE_RPCBUF_CHUNK_SIZE) + 1)
-                                * XLIBRE_RPCBUF_CHUNK_SIZE;
-
-    char* newbuf = cast(char*) realloc(rpcbuf.buffer.ptr, newsize);
-    if (!newbuf)
-        goto err;
-
-    rpcbuf.buffer = cast(ubyte[])newbuf[0..newsize];
-    rpcbuf.size = newsize;
-
-    return True;
-
-err:
-    rpcbuf.error = True;
-    if (rpcbuf.err_clear) {
-        free(rpcbuf.buffer.ptr);
-        rpcbuf.buffer = null;
-    }
-    return False;
-}
 
 /*
  * clear rpcbuf and free all held memory.
@@ -230,7 +229,7 @@ void x_rpcbuf_reset(RPCBuffer* rpcbuf)
  */
 void* x_rpcbuf_reserve(RPCBuffer* rpcbuf, size_t needed)
 {
-    if (!x_rpcbuf_makeroom(rpcbuf, needed))
+    if (!rpcbuf.makeRoom(needed))
         return null;
 
     void* pos = rpcbuf.buffer.ptr + rpcbuf.wpos;

@@ -90,7 +90,7 @@ pragma(inline, true) int __write_reply_hdr_and_rpcbuf(ClientPtr pClient, void* h
     xGenericReply* reply = cast(xGenericReply*)hdrData;
     reply.type = X_Reply;
     reply.length = (int32ForBytes(hdrLen - xGenericReply.sizeof))
-                  + x_rpcbuf_wsize_units(rpcbuf);
+                  + rpcbuf.writedSizeUnits;
     reply.sequenceNumber = cast(CARD16)pClient.sequence; /* shouldn't go above 64k */
 
     if (pClient.swapped) {
