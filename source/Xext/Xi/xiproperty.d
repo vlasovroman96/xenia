@@ -803,7 +803,7 @@ int XISetDevicePropertyDeletable(DeviceIntPtr dev, Atom property, Bool deletable
 }
 
 /* rpcbuf->err_clear needs to be True */
-private int _writeDevProps(x_rpcbuf_t* rpcbuf, XID devId, ClientPtr pClient, size_t* natoms) {
+private int _writeDevProps(RPCBuffer* rpcbuf, XID devId, ClientPtr pClient, size_t* natoms) {
     DeviceIntPtr dev = void;
     int rc = dixLookupDevice(&dev, cast(int)devId, pClient, DixListPropAccess);
     if (rc != Success)
@@ -823,7 +823,7 @@ int ProcXListDeviceProperties(ClientPtr client)
 {
     mixin(X_REQUEST_HEAD_STRUCT!xListDevicePropertiesReq);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     size_t natoms = 0;
     int rc = _writeDevProps(&rpcbuf, stuff.deviceid, client, &natoms);
@@ -937,7 +937,7 @@ int ProcXGetDeviceProperty(ClientPtr client)
     if (stuff.delete_ && (reply.bytesAfter == 0))
         send_property_event(dev, stuff.property, XIPropertyDeleted);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (length) {
         switch (format) {
@@ -980,7 +980,7 @@ int ProcXIListProperties(ClientPtr client)
     mixin(X_REQUEST_HEAD_STRUCT!xXIListPropertiesReq);
     mixin(X_REQUEST_FIELD_CARD16!"deviceid");
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     size_t natoms = 0;
     int rc = _writeDevProps(&rpcbuf, stuff.deviceid, client, &natoms);
@@ -1096,7 +1096,7 @@ int ProcXIGetProperty(ClientPtr client)
     if (length && stuff.delete_ && (reply.bytes_after == 0))
         send_property_event(dev, stuff.property, XIPropertyDeleted);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (length) {
         switch (format) {

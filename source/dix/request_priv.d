@@ -8,7 +8,7 @@ extern(C): __gshared:
  
 //public import x11.Xproto;
 
-public import dix.rpcbuf; /* x_rpcbuf_t */
+public import dix.rpcbuf; /* RPCBuffer */
 public import dix.dixstruct_priv;
 import common.bytes;
 public import os.os;      /* WriteToClient */
@@ -47,7 +47,7 @@ enum string REQUEST_FIXED_SIZE(string req, string n) = `
  * @param rpcbuf  the buffer whose contents will be written
  * @return the result of WriteToClient() call
  */
-pragma(inline, true) private ssize_t WriteRpcbufToClient(ClientPtr pClient, x_rpcbuf_t* rpcbuf) {
+pragma(inline, true) private ssize_t WriteRpcbufToClient(ClientPtr pClient, RPCBuffer* rpcbuf) {
     /* explicitly casting between (s)size_t and int - should be safe,
        since payloads are always small enough to easily fit into int. */
     ssize_t ret = WriteToClient(pClient,
@@ -82,7 +82,7 @@ int __write_reply_hdr_simple(ClientPtr pClient, void* hdrData, size_t hdrLen)
 enum string X_REPLY_HEADER_UNITS(string hdrtype) = `
     (int32ForBytes((((` ~ hdrtype ~ `).sizeof - xGenericReply.sizeof))))`;
 
-pragma(inline, true) int __write_reply_hdr_and_rpcbuf(ClientPtr pClient, void* hdrData, size_t hdrLen, x_rpcbuf_t* rpcbuf)
+pragma(inline, true) int __write_reply_hdr_and_rpcbuf(ClientPtr pClient, void* hdrData, size_t hdrLen, RPCBuffer* rpcbuf)
 {
     if (rpcbuf.error)
         return BadAlloc;

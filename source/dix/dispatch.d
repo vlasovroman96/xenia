@@ -1075,7 +1075,7 @@ int ProcQueryTree(ClientPtr client)
 
     pHead = RealChildHead(pWin);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     CARD32 numChildren = 0;
     for (WindowPtr pChild = pWin.lastChild; pChild != pHead; pChild = pChild.prevSib) {
@@ -1146,7 +1146,7 @@ int ProcGetAtomName(ClientPtr client)
 
     const(int) len = cast(int)strlen(str);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)str, len);
 
     xGetAtomNameReply reply = {
@@ -2304,7 +2304,7 @@ private int DoGetImage(ClientPtr client, int format, Drawable drawable, int x, i
                                        IncludeInferiors);
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (linesPerBuf == 0) {
         /* nothing to do */
@@ -2624,7 +2624,7 @@ int ProcListInstalledColormaps(ClientPtr client)
     ScreenPtr pScreen = pWin.drawable.pScreen;
     const(int) nummaps = pScreen.ListInstalledColormaps(pScreen, cm);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD32s(&rpcbuf, cm, nummaps); /* Colormap is an XID, thus CARD32  */
     free(cm);
 
@@ -2768,7 +2768,7 @@ int ProcAllocColorCells(ClientPtr client)
         nmasks = stuff.planes;
         length = (cast(c_long) npixels + cast(c_long) nmasks) * Pixel.sizeof;
 
-        x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+        RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
         Pixel* ppixels = cast(uint*)x_rpcbuf_reserve(&rpcbuf, length);
         if (!ppixels)
@@ -2848,7 +2848,7 @@ int ProcAllocColorPlanes(ClientPtr client)
         };
         length = cast(c_long) npixels *Pixel.sizeof;
 
-        x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+        RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
         Pixel* ppixels = cast(uint*)x_rpcbuf_reserve(&rpcbuf, length);
         if (!ppixels)
             return BadAlloc;
@@ -2988,7 +2988,7 @@ int ProcQueryColors(ClientPtr client)
         count =
             cast(int)int32ForBytes(((client.req_len << 2)) - xQueryColorsReq.sizeof);
 
-        x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+        RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
         xrgb* prgbs = cast(xrgb*)x_rpcbuf_reserve(&rpcbuf, count * xrgb.sizeof);
         if (!prgbs && count)
             return BadAlloc;
@@ -3399,7 +3399,7 @@ int ProcListHosts(ClientPtr client)
         nHosts: cast(ushort)nHosts
     };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (client.swapped) {
         char* bufT = cast(char*) pdata;
@@ -3518,7 +3518,7 @@ int ProcGetFontPath(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     xGetFontPathReply reply = {
         nPaths: cast(ushort)FillFontPath(&rpcbuf)

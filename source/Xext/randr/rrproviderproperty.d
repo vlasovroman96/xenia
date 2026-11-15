@@ -362,7 +362,7 @@ int ProcRRListProviderProperties(ClientPtr client)
 
     mixin(VERIFY_RR_PROVIDER!("stuff.provider", "provider", "DixReadAccess"));
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     for (prop = provider.properties; prop; prop = prop.next) {
         x_rpcbuf_write_CARD32(&rpcbuf, prop.propertyName);
@@ -398,7 +398,7 @@ int ProcRRQueryProviderProperty(ClientPtr client)
     if (!prop)
         return BadName;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_INT32s(&rpcbuf, prop.valid_values, prop.num_valid);
 
     xRRQueryProviderPropertyReply reply = {
@@ -579,7 +579,7 @@ int ProcRRGetProviderProperty(ClientPtr client)
         if (prop.propertyName == stuff.property)
             break;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     xRRGetProviderPropertyReply reply = { 0 };
 

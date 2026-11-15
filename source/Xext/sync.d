@@ -1281,7 +1281,7 @@ private int ProcSyncListSystemCounters(ClientPtr client)
 {
     mixin(X_REQUEST_HEAD_STRUCT!xSyncListSystemCountersReq);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     CARD32 nCounters = 0;
     foreach(psci; SysCounterList.byEntries!(SysCounterInfo, "entry")) {

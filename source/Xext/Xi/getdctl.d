@@ -66,7 +66,7 @@ import common.swap;
 
 import dix.inputstr;           /* DeviceIntPtr      */
 
-private void _writeDeviceResolution(ClientPtr client, ValuatorClassPtr v, x_rpcbuf_t* rpcbuf)
+private void _writeDeviceResolution(ClientPtr client, ValuatorClassPtr v, RPCBuffer* rpcbuf)
 {
     AxisInfoPtr a = void;
     int i = void;
@@ -85,7 +85,7 @@ private void _writeDeviceResolution(ClientPtr client, ValuatorClassPtr v, x_rpcb
         x_rpcbuf_write_CARD32(rpcbuf, a.max_resolution);
 }
 
-private void _writeDeviceCore(ClientPtr client, DeviceIntPtr dev, x_rpcbuf_t* rpcbuf)
+private void _writeDeviceCore(ClientPtr client, DeviceIntPtr dev, RPCBuffer* rpcbuf)
 {
     /* write xDeviceCoreState */
     x_rpcbuf_write_CARD16(rpcbuf, DEVICE_CORE);
@@ -95,7 +95,7 @@ private void _writeDeviceCore(ClientPtr client, DeviceIntPtr dev, x_rpcbuf_t* rp
     x_rpcbuf_write_CARD16(rpcbuf, 0); /* pad1 */
 }
 
-private void _writeDeviceEnable(ClientPtr client, DeviceIntPtr dev, x_rpcbuf_t* rpcbuf)
+private void _writeDeviceEnable(ClientPtr client, DeviceIntPtr dev, RPCBuffer* rpcbuf)
 {
     /* write xDeviceEnableState */
     x_rpcbuf_write_CARD16(rpcbuf, DEVICE_ENABLE);
@@ -122,7 +122,7 @@ int ProcXGetDeviceControl(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     switch (stuff.control) {
     case DEVICE_RESOLUTION:

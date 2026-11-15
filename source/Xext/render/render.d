@@ -252,7 +252,7 @@ static if(XINERAMA){
                ndepth * (xPictDepth).sizeof +
                nvisual * (xPictVisual).sizeof + numSubpixel * CARD32.sizeof);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     xPictFormInfo* pictForm = cast(xPictFormInfo*)x_rpcbuf_reserve(&rpcbuf, rlength);
     if (!pictForm)
@@ -398,7 +398,7 @@ int ProcRenderQueryPictIndexValues(ClientPtr client)
         return BadMatch;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
     for (int i = 0; i < pFormat.index.nvalues; i++) {
         /* write xIndexValue */
         xIndexValue* iv = &(pFormat.index.pValues[i]);
@@ -1528,7 +1528,7 @@ int ProcRenderQueryFilters(ClientPtr client)
     len = cast(int)(((nnames + 1) >> 1) + int32ForBytes(nbytesName));
     total_bytes = (len << 2);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
     aliases = cast(INT16*) x_rpcbuf_reserve(&rpcbuf, total_bytes);
     if (!aliases)
         return BadAlloc;

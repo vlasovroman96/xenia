@@ -1061,7 +1061,7 @@ int ProcXineramaQueryScreens(ClientPtr client)
         number: number
     };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (!noPanoramiXExtension) {
         mixin(XINERAMA_FOR_EACH_SCREEN_BACKWARD!(q{

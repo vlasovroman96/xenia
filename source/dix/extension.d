@@ -355,7 +355,7 @@ int ProcListExtensions(ClientPtr client)
 
     xListExtensionsReply reply = { 0 };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (NumExtensions && extensions) {
         for (int i = 0; i < NumExtensions; i++) {

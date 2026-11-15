@@ -661,7 +661,7 @@ private Bool doListFontsAndAliases(ClientPtr client, list_fonts_closure* c)
     int aliascount = 0;
     xListFontsReply reply;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
     if (client.clientGone) {
         if (c.current.current_fpe < c.num_fpes) {
             fpe = c.fpe_list[c.current.current_fpe];
@@ -1858,7 +1858,7 @@ void DeleteClientFontStuff(ClientPtr client)
     }
 }
 
-int FillFontPath(x_rpcbuf_t* rpcbuf)
+int FillFontPath(RPCBuffer* rpcbuf)
 {
     for (int i = 0; i < num_fpes; i++) {
         FontPathElementPtr fpe = font_path_elements[i];

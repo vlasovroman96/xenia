@@ -349,7 +349,7 @@ private void swapCharInfo(xCharInfo* pCI)
     swaps(&pCI.attributes);
 }
 
-pragma(inline, true) private void writeCharInfo(x_rpcbuf_t* rpcbuf, xCharInfo CI) {
+pragma(inline, true) private void writeCharInfo(RPCBuffer* rpcbuf, xCharInfo CI) {
     x_rpcbuf_write_INT16(rpcbuf, CI.leftSideBearing);
     x_rpcbuf_write_INT16(rpcbuf, CI.rightSideBearing);
     x_rpcbuf_write_INT16(rpcbuf, CI.characterWidth);
@@ -711,7 +711,7 @@ if (nCharInfos > 0)
             swapCharInfo(&reply.maxBounds);
         }
 
-        x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+        RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
         for (int i = 0; i < nfontprops; i++) {
             x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)pFont.info.props[i].name);

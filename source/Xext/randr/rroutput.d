@@ -482,7 +482,7 @@ int ProcRRGetOutputInfo(ClientPtr client)
         nameLength: cast(ushort)output.nameLength,
     };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (leased) {
         reply.connection = RR_Disconnected;

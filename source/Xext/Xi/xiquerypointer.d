@@ -141,7 +141,7 @@ int ProcXIQueryPointer(ClientPtr client)
         reply.group.locked_group = state.locked_group;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (pDev.button) {
         int i = void;

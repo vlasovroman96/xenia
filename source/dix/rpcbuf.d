@@ -6,7 +6,7 @@ extern(C): __gshared:
  * Copyright © 2026, Roman Vlasov
  * Copyright © 2024 Enrico Weigelt, metux IT consult <info@metux.net>
  */
- 
+
 import build.dix_config;
 
 import core.stdc.stddef;
@@ -25,7 +25,7 @@ import common.swap;
  *
  * Example:
  *
- * x_rpcbuf_t x_rpcbuf buf = { 0 };
+ * RPCBuffer x_rpcbuf buf = { 0 };
  * x_rpcbuf_write_string(&buf, "hello world");
  * x_rpcbuf_write_CARD1&(&buf, 91126);
  * ...
@@ -34,7 +34,7 @@ import common.swap;
  * x_rpcbuf_clear(&buf);
  */
 
-struct x_rpcbuf_t {
+struct RPCBuffer {
     size_t size;    /* total size of buffer */
     size_t wpos;    /* length of data inside the buffer / next write position */
     char* buffer;   /* pointer to whole buffer */
@@ -48,19 +48,19 @@ enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
 /*
  * retrieve number of 4-byte-units (padded) of data written in the buffer
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @return          number of 4-byte units (w/ padding) written into the buffer
  */
-pragma(inline, true) CARD32 x_rpcbuf_wsize_units(x_rpcbuf_t* rpcbuf) {
+pragma(inline, true) CARD32 x_rpcbuf_wsize_units(RPCBuffer* rpcbuf) {
     return cast(CARD32)((rpcbuf.wpos + 3) / 4);
 }
 
 /*
  * pad the buffer to 4-byte-units (ie. write extra zeros if necessary)
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  */
-pragma(inline, true) void x_rpcbuf_pad(x_rpcbuf_t* rpcbuf) {
+pragma(inline, true) void x_rpcbuf_pad(RPCBuffer* rpcbuf) {
     x_rpcbuf_reserve0(
         rpcbuf,
         (((rpcbuf.wpos + 3) / 4) * 4) - rpcbuf.wpos);
@@ -72,10 +72,10 @@ pragma(inline, true) void x_rpcbuf_pad(x_rpcbuf_t* rpcbuf) {
  *
  * if str is NULL, don't write anything
  *
- * @param rpcbuf    pointer to the x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to the RPCBuffer to operate on
  * @param str       zero-terminated string to write into the buffer
  */
-pragma(inline, true) void x_rpcbuf_write_counted_string_pad(x_rpcbuf_t* rpcbuf, const(char)* str)
+pragma(inline, true) void x_rpcbuf_write_counted_string_pad(RPCBuffer* rpcbuf, const(char)* str)
 {
     if (str) {
         CARD16 len = cast(CARD16)strlen(str); /* 64k should really be enough */
@@ -88,10 +88,10 @@ pragma(inline, true) void x_rpcbuf_write_counted_string_pad(x_rpcbuf_t* rpcbuf, 
 /*
  * write contents of an rpcbuf into another one (padded) and clear the source buffer
  *
- * @param rpcbuf    pointer to the x_rpcbuf_t to operate on
- * @param source    pointer to source x_rpcbuf_t
+ * @param rpcbuf    pointer to the RPCBuffer to operate on
+ * @param source    pointer to source RPCBuffer
  */
-pragma(inline, true) void x_rpcbuf_write_rpcbuf_pad(x_rpcbuf_t* rpcbuf, x_rpcbuf_t* source)
+pragma(inline, true) void x_rpcbuf_write_rpcbuf_pad(RPCBuffer* rpcbuf, RPCBuffer* source)
 {
     if (!source)
         return;
@@ -111,13 +111,13 @@ pragma(inline, true) void x_rpcbuf_write_rpcbuf_pad(x_rpcbuf_t* rpcbuf, x_rpcbuf
 /*
  * write an X11 RECTANGLE protocol structure into the buffer
  *
- * @param rpcbuf    pointer to the x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to the RPCBuffer to operate on
  * @param x         X value of the rectangle
  * @param y         Y value of the rectangle
  * @param width     WIDTH value of the rectangle
  * @param height    HEIGHT value of the rectangle
  */
-pragma(inline, true) void x_rpcbuf_write_rect(x_rpcbuf_t* rpcbuf, INT16 x, INT16 y, CARD16 width, CARD16 height)
+pragma(inline, true) void x_rpcbuf_write_rect(RPCBuffer* rpcbuf, INT16 x, INT16 y, CARD16 width, CARD16 height)
 {
     x_rpcbuf_write_INT16(rpcbuf, x);
     x_rpcbuf_write_INT16(rpcbuf, y);
@@ -131,11 +131,11 @@ pragma(inline, true) void x_rpcbuf_write_rect(x_rpcbuf_t* rpcbuf, INT16 x, INT16
  * allocate a region for the string (padded to 32bits) and copy in the data.
  * if given data is NULL or size is zero , nothing happens.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param needed    string to plain C string
  * @return          True on success, False on allocation failure
  */
-pragma(inline, true) Bool __x_rpcbuf_write_bin_pad(x_rpcbuf_t* rpcbuf, const(char)* val, size_t len)
+pragma(inline, true) Bool __x_rpcbuf_write_bin_pad(RPCBuffer* rpcbuf, const(char)* val, size_t len)
 {
     const(size_t) blen = padForInt32(cast(int)len);
 
@@ -150,11 +150,11 @@ pragma(inline, true) Bool __x_rpcbuf_write_bin_pad(x_rpcbuf_t* rpcbuf, const(cha
 /*
  * make sure there's enough room for `needed` bytes in the buffer.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param needed    amount of free space needed in the buffer
  * @return          True if there (now) is enough room, False on alloc failure
  */
-Bool x_rpcbuf_makeroom(x_rpcbuf_t* rpcbuf, size_t needed)
+Bool x_rpcbuf_makeroom(RPCBuffer* rpcbuf, size_t needed)
 {
     /* break out of alreay in error state */
     if (rpcbuf.error)
@@ -188,12 +188,12 @@ err:
 /*
  * clear rpcbuf and free all held memory.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  */
-void  x_rpcbuf_clear(x_rpcbuf_t* rpcbuf)
+void  x_rpcbuf_clear(RPCBuffer* rpcbuf)
 {
     free(rpcbuf.buffer);
-    memset(rpcbuf, 0, x_rpcbuf_t.sizeof);
+    memset(rpcbuf, 0, RPCBuffer.sizeof);
 }
 
 /*
@@ -202,9 +202,9 @@ void  x_rpcbuf_clear(x_rpcbuf_t* rpcbuf)
  * this is for reusing existing buffers for different purpose, w/o
  * having to go through new allocatons.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  */
-void x_rpcbuf_reset(x_rpcbuf_t* rpcbuf)
+void x_rpcbuf_reset(RPCBuffer* rpcbuf)
 {
     /* no need to reset if never been actually written to */
     if ((!rpcbuf.buffer) || (!rpcbuf.size) || (!rpcbuf.wpos))
@@ -224,11 +224,11 @@ void x_rpcbuf_reset(x_rpcbuf_t* rpcbuf)
  * buffer that might affect the allocated memory block: when buffer
  * needs to be resized, it may get a new memory location.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param needed    amount of bytes needed
  * @return          pointer to reserved region of NULL on allocation failure
  */
-void* x_rpcbuf_reserve(x_rpcbuf_t* rpcbuf, size_t needed)
+void* x_rpcbuf_reserve(RPCBuffer* rpcbuf, size_t needed)
 {
     if (!x_rpcbuf_makeroom(rpcbuf, needed))
         return null;
@@ -249,11 +249,11 @@ void* x_rpcbuf_reserve(x_rpcbuf_t* rpcbuf, size_t needed)
  * buffer that might affect the allocated memory block: when buffer
  * needs to be resized, it may get a new memory location.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param needed    amount of bytes needed
  * @return          pointer to reserved region of NULL on allocation failure
  */
-void * x_rpcbuf_reserve0(x_rpcbuf_t* rpcbuf, size_t needed)
+void * x_rpcbuf_reserve0(RPCBuffer* rpcbuf, size_t needed)
 {
     void* buf = x_rpcbuf_reserve(rpcbuf, needed);
     if (!buf)
@@ -269,11 +269,11 @@ void * x_rpcbuf_reserve0(x_rpcbuf_t* rpcbuf, size_t needed)
  * allocate a region for the string (padded to 32bits) and copy in the string.
  * if given string is NULL or zero-size, nothing happens.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param needed    string to plain C string
  * @return          True on success, False on allocation failure
  */
-Bool x_rpcbuf_write_string_pad(x_rpcbuf_t* rpcbuf, const(char)* str)
+Bool x_rpcbuf_write_string_pad(RPCBuffer* rpcbuf, const(char)* str)
 {
     if (!str)
         return True;
@@ -287,11 +287,11 @@ Bool x_rpcbuf_write_string_pad(x_rpcbuf_t* rpcbuf, const(char)* str)
  * allocate a region for the string (padded to 32bits) and copy in the string.
  * if given string is NULL or zero-size, only a (CARD32)0 is written.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param needed    string to plain C string
  * @return          True on success, False on allocation failure
  */
-int x_rpcbuf_write_string_0t_pad(x_rpcbuf_t* rpcbuf, const(char)* str)
+int x_rpcbuf_write_string_0t_pad(RPCBuffer* rpcbuf, const(char)* str)
 {
     if (!str)
         return x_rpcbuf_write_CARD32(rpcbuf, 0);
@@ -306,11 +306,11 @@ int x_rpcbuf_write_string_0t_pad(x_rpcbuf_t* rpcbuf, const(char)* str)
  *
  * doesn't do any padding.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param value     the CARD16 value to write
  * @return          True on success, False on allocation failure
  */
-Bool x_rpcbuf_write_CARD8(x_rpcbuf_t* rpcbuf, CARD8 value)
+Bool x_rpcbuf_write_CARD8(RPCBuffer* rpcbuf, CARD8 value)
 {
     CARD8* reserved = cast(ubyte*)x_rpcbuf_reserve(rpcbuf, value.sizeof);
     if (!reserved)
@@ -329,11 +329,11 @@ Bool x_rpcbuf_write_CARD8(x_rpcbuf_t* rpcbuf, CARD8 value)
  *
  * doesn't do any padding.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param value     the CARD16 value to write
  * @return          True on success, False on allocation failure
  */
-Bool x_rpcbuf_write_CARD16(x_rpcbuf_t* rpcbuf, CARD16 value)
+Bool x_rpcbuf_write_CARD16(RPCBuffer* rpcbuf, CARD16 value)
 {
     CARD16* reserved = cast(ushort*)x_rpcbuf_reserve(rpcbuf, value.sizeof);
     if (!reserved)
@@ -355,11 +355,11 @@ Bool x_rpcbuf_write_CARD16(x_rpcbuf_t* rpcbuf, CARD16 value)
  *
  * doesn't do any padding.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param value     the CARD16 value to write
  * @return          True on success, False on allocation failure
  */
-pragma(inline, true) Bool x_rpcbuf_write_INT16(x_rpcbuf_t* rpcbuf, INT16 value) {
+pragma(inline, true) Bool x_rpcbuf_write_INT16(RPCBuffer* rpcbuf, INT16 value) {
     return x_rpcbuf_write_CARD16(rpcbuf, cast(CARD16)value);
 }
 
@@ -371,11 +371,11 @@ pragma(inline, true) Bool x_rpcbuf_write_INT16(x_rpcbuf_t* rpcbuf, INT16 value) 
  *
  * doesn't do any padding.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param value     the CARD32 value to write
  * @return          True on success, False on allocation failure
  */
-int x_rpcbuf_write_CARD32(x_rpcbuf_t* rpcbuf, CARD32 value)
+int x_rpcbuf_write_CARD32(RPCBuffer* rpcbuf, CARD32 value)
 {
     CARD32* reserved = cast(uint*)x_rpcbuf_reserve(rpcbuf, value.sizeof);
     if (!reserved)
@@ -397,11 +397,11 @@ int x_rpcbuf_write_CARD32(x_rpcbuf_t* rpcbuf, CARD32 value)
  *
  * doesn't do any padding.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param value     the CARD16 value to write
  * @return          True on success, False on allocation failure
  */
-pragma(inline, true) Bool x_rpcbuf_write_INT32(x_rpcbuf_t* rpcbuf, INT32 value) {
+pragma(inline, true) Bool x_rpcbuf_write_INT32(RPCBuffer* rpcbuf, INT32 value) {
     return x_rpcbuf_write_CARD32(rpcbuf, cast(CARD32)value);
 }
 
@@ -414,12 +414,12 @@ pragma(inline, true) Bool x_rpcbuf_write_INT32(x_rpcbuf_t* rpcbuf, INT32 value) 
  *
  * doesn't do any padding.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param values    pointer to INT32 array to write
  * @param count     number of elements in the array
  * @return          True on success, False on allocation failure
  */
-pragma(inline, true) Bool x_rpcbuf_write_INT32s(x_rpcbuf_t* rpcbuf, const(INT32)* values, size_t count)
+pragma(inline, true) Bool x_rpcbuf_write_INT32s(RPCBuffer* rpcbuf, const(INT32)* values, size_t count)
 {
     return x_rpcbuf_write_CARD32s(rpcbuf, cast(CARD32*)values, count);
 }
@@ -432,11 +432,11 @@ pragma(inline, true) Bool x_rpcbuf_write_INT32s(x_rpcbuf_t* rpcbuf, const(INT32)
  *
  * doesn't do any padding.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param value     the CARD64 value to write
  * @return          True on success, False on allocation failure
  */
-Bool x_rpcbuf_write_CARD64(x_rpcbuf_t* rpcbuf, CARD64 value)
+Bool x_rpcbuf_write_CARD64(RPCBuffer* rpcbuf, CARD64 value)
 {
     CARD64* reserved = cast(ulong*)x_rpcbuf_reserve(rpcbuf, value.sizeof);
     if (!reserved)
@@ -458,12 +458,12 @@ Bool x_rpcbuf_write_CARD64(x_rpcbuf_t* rpcbuf, CARD64 value)
  *
  * doesn't do any padding.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param values    pointer to CARD16 array to write
  * @param count     number of elements in the array
  * @return          True on success, False on allocation failure
  */
-Bool  x_rpcbuf_write_CARD8s(x_rpcbuf_t* rpcbuf, const(CARD8)* values, size_t count)
+Bool  x_rpcbuf_write_CARD8s(RPCBuffer* rpcbuf, const(CARD8)* values, size_t count)
 {
     if ((!values) || (!count))
         return True;
@@ -486,12 +486,12 @@ Bool  x_rpcbuf_write_CARD8s(x_rpcbuf_t* rpcbuf, const(CARD8)* values, size_t cou
  *
  * doesn't do any padding.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param values    pointer to CARD16 array to write
  * @param count     number of elements in the array
  * @return          True on success, False on allocation failure
  */
-Bool x_rpcbuf_write_CARD16s(x_rpcbuf_t* rpcbuf, const(CARD16)* values, size_t count)
+Bool x_rpcbuf_write_CARD16s(RPCBuffer* rpcbuf, const(CARD16)* values, size_t count)
 {
     if ((!values) || (!count))
         return True;
@@ -517,12 +517,12 @@ Bool x_rpcbuf_write_CARD16s(x_rpcbuf_t* rpcbuf, const(CARD16)* values, size_t co
  *
  * doesn't do any padding.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param values    pointer to CARD32 array to write
  * @param count     number of elements in the array
  * @return          True on success, False on allocation failure
  */
-Bool  x_rpcbuf_write_CARD32s(x_rpcbuf_t* rpcbuf, const(CARD32)* values, size_t count)
+Bool  x_rpcbuf_write_CARD32s(RPCBuffer* rpcbuf, const(CARD32)* values, size_t count)
 {
     if ((!values) || (!count))
         return True;
@@ -548,12 +548,12 @@ Bool  x_rpcbuf_write_CARD32s(x_rpcbuf_t* rpcbuf, const(CARD32)* values, size_t c
  *
  * doesn't do any padding.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param values    pointer to CARD64 array to write
  * @param count     number of elements in the array
  * @return          True on success, False on allocation failure
  */
-Bool x_rpcbuf_write_CARD64s(x_rpcbuf_t* rpcbuf, const(CARD64)* values, size_t count)
+Bool x_rpcbuf_write_CARD64s(RPCBuffer* rpcbuf, const(CARD64)* values, size_t count)
 {
     if ((!values) || (!count))
         return True;
@@ -577,11 +577,11 @@ Bool x_rpcbuf_write_CARD64s(x_rpcbuf_t* rpcbuf, const(CARD64)* values, size_t co
  * allocate a region for the string (padded to 32bits) and copy in the data.
  * if given data is NULL or size is zero , nothing happens.
  *
- * @param rpcbuf    pointer to x_rpcbuf_t to operate on
+ * @param rpcbuf    pointer to RPCBuffer to operate on
  * @param needed    string to plain C string
  * @return          True on success, False on allocation failure
  */
-Bool x_rpcbuf_write_binary_pad(x_rpcbuf_t* rpcbuf, const(void)* values, size_t size)
+Bool x_rpcbuf_write_binary_pad(RPCBuffer* rpcbuf, const(void)* values, size_t size)
 {
     if ((!values) || (!size))
         return True;

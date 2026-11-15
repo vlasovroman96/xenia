@@ -292,7 +292,7 @@ private int ProcPseudoramiXQueryScreens(ClientPtr client)
 
     mixin(REQUEST_AT_LEAST_SIZE!xXineramaQueryScreensReq);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (!noPseudoramiXExtension) {
         for (int i = 0; i < pseudoramiXNumScreens; i++) {

@@ -582,7 +582,7 @@ private int ProcDbeGetVisualInfo(ClientPtr client)
 
     count = cast(int)((stuff.n == 0) ? screenInfo.numScreens : stuff.n);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
         xDbeGetVisualInfoReply reply = {
             m: count
         };

@@ -60,7 +60,7 @@ enum string FRAGMENT_DATA(string ptr) = `(cast(void*) (cast(char*) (` ~ ptr ~ `)
 struct ConstructClientIdCtx {
     int numIds;
     int[MAXCLIENTS] sentClientMasks;
-    x_rpcbuf_t rpcbuf;
+    RPCBuffer rpcbuf;
 }
 
 /** @brief Holds the structure for information required to
@@ -178,7 +178,7 @@ private int ProcXResQueryClients(ClientPtr client)
 {
     mixin(X_REQUEST_HEAD_STRUCT!xXResQueryClientsReq);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     int num_clients = 0;
     for (int i = 0; i < currentMaxClients; i++) {
@@ -243,7 +243,7 @@ private int ProcXResQueryClientResources(ClientPtr client)
 
     FindAllClientResources(resClient, &ResFindAllRes, counts);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     int num_types = 0;
     for (int i = 0; i <= lastResourceType; i++) {
@@ -812,7 +812,7 @@ private int ProcXResQueryResourceBytes(ClientPtr client)
         return BadAlloc;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     int rc = ConstructResourceBytes(stuff.client, &ctx);
 

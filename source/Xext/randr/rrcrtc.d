@@ -1177,7 +1177,7 @@ int ProcRRGetCrtcInfo(ClientPtr client)
         rotations: crtc.rotations,
     };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (leased) {
         reply.rotation = RR_Rotate_0;
@@ -1652,7 +1652,7 @@ int ProcRRGetCrtcGamma(ClientPtr client)
     if (!RRCrtcGammaGet(crtc))
         return RRErrorBase + BadRRCrtc;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     x_rpcbuf_write_CARD16s(&rpcbuf, crtc.gammaRed, crtc.gammaSize);
     x_rpcbuf_write_CARD16s(&rpcbuf, crtc.gammaGreen, crtc.gammaSize);
@@ -1771,7 +1771,7 @@ int ProcRRGetCrtcTransform(ClientPtr client)
     pending = &crtc.client_pending_transform;
     current = &crtc.client_current_transform;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     xRRGetCrtcTransformReply reply = {
         hasTransforms: cast(ubyte)crtc.transforms,

@@ -147,7 +147,7 @@ private int ProcXvMCListSurfaceTypes(ClientPtr client)
         }
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     int num_surfaces = (adaptor) ? adaptor.num_surfaces : 0;
     for (int i = 0; i < num_surfaces; i++) {
@@ -251,7 +251,7 @@ private int ProcXvMCCreateContext(ClientPtr client)
         return BadAlloc;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD32s(&rpcbuf, data, dwords);
     free(data);
 
@@ -326,7 +326,7 @@ private int ProcXvMCCreateSurface(ClientPtr client)
         return BadAlloc;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD32s(&rpcbuf, data, dwords);
     free(data);
 
@@ -440,7 +440,7 @@ private int ProcXvMCCreateSubpicture(ClientPtr client)
         return BadAlloc;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD32s(&rpcbuf, data, dwords);
     free(data);
 
@@ -527,7 +527,7 @@ private int ProcXvMCListSubpictureTypes(ClientPtr client)
     int num = (surface.compatible_subpictures ?
                surface.compatible_subpictures.num_xvimages : 0);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
 
     if (num) {
         for (int i = 0; i < num; i++) {
@@ -607,7 +607,7 @@ private int ProcXvMCGetDRInfo(ClientPtr client)
     int nameLen = cast(int)strlen(pScreenPriv.clientDriverName.ptr) + 1;
     int busIDLen = cast(int)strlen(pScreenPriv.busID.ptr) + 1;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)pScreenPriv.clientDriverName, nameLen);
     x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)pScreenPriv.busID, busIDLen);
 

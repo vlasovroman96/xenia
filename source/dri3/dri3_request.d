@@ -395,7 +395,7 @@ private int proc_dri3_get_supported_modifiers(ClientPtr client)
                                  &nwindowmodifiers, &window_modifiers,
                                  &nscreenmodifiers, &screen_modifiers);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD64s(&rpcbuf, window_modifiers, nwindowmodifiers);
     x_rpcbuf_write_CARD64s(&rpcbuf, screen_modifiers, nscreenmodifiers);
 
@@ -551,7 +551,7 @@ private int proc_dri3_buffers_from_pixmap(ClientPtr client)
         }
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)strides, num_fds);
     x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)offsets, num_fds);
 
