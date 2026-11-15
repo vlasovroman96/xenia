@@ -409,7 +409,7 @@ int ProcXFixesSetCursorName(ClientPtr client)
     CursorPtr pCursor = void;
     mixin(VERIFY_CURSOR!(`pCursor`, `stuff.cursor`, `client`, `DixSetAttrAccess`));
     char* tchar = cast(char*) &stuff[1];
-    Atom atom = MakeAtom(tchar, stuff.nbytes, True);
+    Atom atom = atomMgr.makeAtom(tchar, stuff.nbytes, True);
     if (atom == BAD_RESOURCE)
         return BadAlloc;
 
@@ -425,7 +425,7 @@ int ProcXFixesGetCursorName(ClientPtr client)
     CursorPtr pCursor = void;
     mixin(VERIFY_CURSOR!(`pCursor`, `stuff.cursor`, `client`, `DixGetAttrAccess`));
 
-    const(char)* str = ((pCursor.name) ? NameForAtom(pCursor.name) : "");
+    const(char)* str = ((pCursor.name) ? atomMgr.nameForAtom(pCursor.name) : "");
 
     x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
     x_rpcbuf_write_string_pad(&rpcbuf, str);
@@ -459,7 +459,7 @@ int ProcXFixesGetCursorImageAndName(ClientPtr client)
     int height = pCursor.bits.height;
     int npixels = width * height;
 
-    const(char)* name = pCursor.name ? NameForAtom(pCursor.name) : "";
+    const(char)* name = pCursor.name ? atomMgr.nameForAtom(pCursor.name) : "";
 
     x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
 
@@ -641,7 +641,7 @@ int ProcXFixesChangeCursorByName(ClientPtr client)
     mixin(VERIFY_CURSOR!(`pSource`, `stuff.source`, `client`,
                   `DixReadAccess | DixGetAttrAccess`));
     tchar = cast(char*) &stuff[1];
-    name = MakeAtom(tchar, stuff.nbytes, False);
+    name = atomMgr.makeAtom(tchar, stuff.nbytes, False);
     if (name)
         ReplaceCursor(pSource, &TestForCursorName, &name);
     return Success;

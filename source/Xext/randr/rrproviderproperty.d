@@ -484,11 +484,11 @@ int ProcRRChangeProviderProperty(ClientPtr client)
 
     mixin(VERIFY_RR_PROVIDER!("stuff.provider", "provider", "DixReadAccess"));
 
-    if (!ValidAtom(stuff.property)) {
+    if (!atomMgr.validAtom(stuff.property)) {
         client.errorValue = cast(uint)stuff.property;
         return BadAtom;
     }
-    if (!ValidAtom(stuff.type)) {
+    if (!atomMgr.validAtom(stuff.type)) {
         client.errorValue = cast(uint)stuff.type;
         return BadAtom;
     }
@@ -519,7 +519,7 @@ int ProcRRDeleteProviderProperty(ClientPtr client)
     UpdateCurrentTime();
     mixin(VERIFY_RR_PROVIDER!("stuff.provider", "provider", "DixReadAccess"));
 
-    if (!ValidAtom(stuff.property)) {
+    if (!atomMgr.validAtom(stuff.property)) {
         client.errorValue = cast(uint)stuff.property;
         return BadAtom;
     }
@@ -562,7 +562,7 @@ int ProcRRGetProviderProperty(ClientPtr client)
     mixin(VERIFY_RR_PROVIDER!("stuff.provider", "provider",
                      "stuff.delete_ ? DixWriteAccess : DixReadAccess"));
 
-    if (!ValidAtom(stuff.property)) {
+    if (!atomMgr.validAtom(stuff.property)) {
         client.errorValue = cast(uint)stuff.property;
         return BadAtom;
     }
@@ -570,7 +570,7 @@ int ProcRRGetProviderProperty(ClientPtr client)
         client.errorValue = cast(uint)stuff.delete_;
         return BadValue;
     }
-    if ((stuff.type != AnyPropertyType) && !ValidAtom(stuff.type)) {
+    if ((stuff.type != AnyPropertyType) && !atomMgr.validAtom(stuff.type)) {
         client.errorValue = cast(uint)stuff.type;
         return BadAtom;
     }

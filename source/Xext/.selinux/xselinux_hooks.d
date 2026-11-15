@@ -300,8 +300,8 @@ private int SELinuxAudit(void* auditdata, security_class_t class_, char* msgbuf,
         snprintf(idNum.ptr, 16, "%x", audit.id);
     }
 
-    propertyName = audit.property ? NameForAtom(audit.property) : null;
-    selectionName = audit.selection ? NameForAtom(audit.selection) : null;
+    propertyName = audit.property ? atomMgr.nameForAtom(audit.property) : null;
+    selectionName = audit.selection ? atomMgr.nameForAtom(audit.selection) : null;
 
     return snprintf(msgbuf, msgbufsize,
                     "%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s".ptr,

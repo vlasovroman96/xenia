@@ -104,7 +104,7 @@ private void SELinuxArrayFree(SELinuxArrayRec* rec, int free_elements)
  */
 private int SELinuxAtomToSIDLookup(Atom atom, SELinuxObjectRec* obj, int map, int polymap)
 {
-    const(char)* name = NameForAtom(atom);
+    const(char)* name = atomMgr.nameForAtom(atom);
     char* ctx = void;
     int rc = Success;
 

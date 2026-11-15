@@ -6,6 +6,8 @@ At that moment see CODE_OVERVIEW_BASE.md
 
 1. Every struct must be defined in its own module.
    **1 struct - 1 module**.
+   Exceptions:
+   Private implementation structures may be defined alongside their owning structure if they are used exclusively for internal data organization and are not exposed through its public interface.
 
 	**NO**
    ```d

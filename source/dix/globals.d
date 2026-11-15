@@ -65,6 +65,7 @@ import dix.dixfonts;
 import dix.dixstruct_priv;
 import os.os;
 import dix.timestamp;
+import dix.atom;
 
 ScreenInfo screenInfo;
 
@@ -85,6 +86,8 @@ PtrCtrl defaultPointerControl = {
     DEFAULT_PTR_THRESHOLD,
     0
 };
+
+AtomManager atomMgr;
 
 ClientPtr[MAXCLIENTS] clients;
 ClientPtr serverClient;

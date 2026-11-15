@@ -192,7 +192,7 @@ int ProcSetSelectionOwner(ClientPtr client)
             return rc;
     }
 
-    if (!ValidAtom(param.selection)) {
+    if (!atomMgr.validAtom(param.selection)) {
         client.errorValue = cast(uint)stuff.selection;
         return BadAtom;
     }
@@ -260,7 +260,7 @@ int ProcGetSelectionOwner(ClientPtr client)
         goto out_;
     }
 
-    if (!ValidAtom(param.selection)) {
+    if (!atomMgr.validAtom(param.selection)) {
         param.status = BadAtom;
         goto out_;
     }
@@ -318,8 +318,8 @@ int ProcConvertSelection(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    paramsOkay = ValidAtom(param.selection) && ValidAtom(param.target);
-    paramsOkay &= (param.property == None) || ValidAtom(param.property);
+    paramsOkay = atomMgr.validAtom(param.selection) && atomMgr.validAtom(param.target);
+    paramsOkay &= (param.property == None) || atomMgr.validAtom(param.property);
     if (!paramsOkay) {
         client.errorValue = cast(uint)stuff.property;
         return BadAtom;

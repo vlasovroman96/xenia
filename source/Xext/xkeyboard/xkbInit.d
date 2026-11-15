@@ -181,7 +181,7 @@ private Bool XkbWriteRulesProp()
     len += 5;                   /* trailing NULs */
 
     name =
-        MakeAtom(_XKB_RF_NAMES_PROP_ATOM.ptr, cast(uint)strlen(_XKB_RF_NAMES_PROP_ATOM.ptr), 1);
+        atomMgr.makeAtom(_XKB_RF_NAMES_PROP_ATOM.ptr, cast(uint)strlen(_XKB_RF_NAMES_PROP_ATOM.ptr), 1);
     if (name == None) {
         ErrorF("[xkb] Atom error: %s not created\n", _XKB_RF_NAMES_PROP_ATOM.ptr);
         return True;

@@ -473,7 +473,7 @@ private int SingleXvSetPortAttribute(ClientPtr client)
 
     mixin(VALIDATE_XV_PORT!("stuff.port", "pPort", "DixSetAttrAccess"));
 
-    if (!ValidAtom(stuff.attribute)) {
+    if (!atomMgr.validAtom(stuff.attribute)) {
         client.errorValue = cast(uint)stuff.attribute;
         return BadAtom;
     }
@@ -519,7 +519,7 @@ private int ProcXvGetPortAttribute(ClientPtr client)
 
     mixin(VALIDATE_XV_PORT!("stuff.port", "pPort", "DixGetAttrAccess"));
 
-    if (!ValidAtom(stuff.attribute)) {
+    if (!atomMgr.validAtom(stuff.attribute)) {
         client.errorValue = cast(uint)stuff.attribute;
         return BadAtom;
     }

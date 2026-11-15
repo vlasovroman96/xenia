@@ -72,7 +72,7 @@ enum DEV_INPUT_EVENT_PREFIX = "/dev/input/event";
 enum DEV_INPUT_EVENT_PREFIX_LEN = (sizeof(DEV_INPUT_EVENT_PREFIX) - 1);
 }
 
-enum string AtomFromName(string x) = `MakeAtom(` ~ x ~ `, strlen(` ~ x ~ `), 1)`;
+enum string AtomFromName(string x) = `atomMgr.makeAtom(` ~ x ~ `, strlen(` ~ x ~ `), 1)`;
 
 enum KD_KEY_COUNT =    248;
 enum KD_MIN_KEYCODE =  8;

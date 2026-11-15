@@ -120,10 +120,10 @@ private Bool ephyrLocalAtomToHost(int a_local_atom, int* a_host_atom)
 
     mixin(EPHYR_RETURN_VAL_IF_FAIL!("a_host_atom", "FALSE"));
 
-    if (!ValidAtom(a_local_atom))
+    if (!atomMgr.validAtom(a_local_atom))
         return False;
 
-    atom_name = NameForAtom(a_local_atom);
+    atom_name = atomMgr.nameForAtom(a_local_atom);
 
     if (!atom_name)
         return False;
@@ -303,7 +303,7 @@ private Bool translate_xv_attributes(KdVideoAdaptorPtr adaptor, xcb_xv_adaptor_i
                                   it.data.size);
 
         /* make sure atoms of attrs names are created in xephyr */
-        MakeAtom(xcb_xv_attribute_info_name(it.data), it.data.size, True);
+        atomMgr.makeAtom(xcb_xv_attribute_info_name(it.data), it.data.size, True);
 
         xcb_xv_attribute_info_next(&it);
     }
@@ -657,11 +657,11 @@ private int ephyrSetPortAttribute(KdScreenInfo* a_info, Atom a_attr_name, int a_
     mixin(EPHYR_RETURN_VAL_IF_FAIL!("port_priv.current_adaptor", "BadMatch"));
     mixin(EPHYR_RETURN_VAL_IF_FAIL!("port_priv.current_adaptor.pAttributes", "BadMatch"));
     mixin(EPHYR_RETURN_VAL_IF_FAIL!("port_priv.current_adaptor.nAttributes", "BadMatch"));
-    mixin(EPHYR_RETURN_VAL_IF_FAIL!("ValidAtom(a_attr_name)", "BadMatch"));
+    mixin(EPHYR_RETURN_VAL_IF_FAIL!("atomMgr.validAtom(a_attr_name)", "BadMatch"));
 
     EPHYR_LOG("enter, portnum:%d, atomid:%d, attr_name:%s, attr_val:%d\n",
               port_priv.port_number,
-              cast(int) a_attr_name, NameForAtom(a_attr_name), a_attr_value);
+              cast(int) a_attr_name, atomMgr.nameForAtom(a_attr_name), a_attr_value);
 
     if (!ephyrLocalAtomToHost(a_attr_name, &host_atom)) {
         EPHYR_LOG_ERROR("failed to convert local atom to host atom\n");
@@ -671,10 +671,10 @@ private int ephyrSetPortAttribute(KdScreenInfo* a_info, Atom a_attr_name, int a_
 
     if (!ephyrXVPrivIsAttrValueValid(port_priv.current_adaptor.pAttributes,
                                      port_priv.current_adaptor.nAttributes,
-                                     NameForAtom(a_attr_name),
+                                     atomMgr.nameForAtom(a_attr_name),
                                      a_attr_value, &is_attr_valid)) {
         EPHYR_LOG_ERROR("failed to validate attribute %s\n",
-                        NameForAtom(a_attr_name));
+                        atomMgr.nameForAtom(a_attr_name));
         /*
            res = BadMatch ;
            goto out_ ;
@@ -682,7 +682,7 @@ private int ephyrSetPortAttribute(KdScreenInfo* a_info, Atom a_attr_name, int a_
     }
     if (!is_attr_valid) {
         EPHYR_LOG_ERROR("attribute %s is not valid\n",
-                        NameForAtom(a_attr_name));
+                        atomMgr.nameForAtom(a_attr_name));
         /*
            res = BadMatch ;
            goto out_ ;
@@ -709,11 +709,11 @@ private int ephyrGetPortAttribute(KdScreenInfo* a_screen_info, Atom a_attr_name,
     xcb_xv_get_port_attribute_reply_t* reply = void;
 
     mixin(EPHYR_RETURN_VAL_IF_FAIL!("port_priv", "BadMatch"));
-    mixin(EPHYR_RETURN_VAL_IF_FAIL!("ValidAtom(a_attr_name)", "BadMatch"));
+    mixin(EPHYR_RETURN_VAL_IF_FAIL!("atomMgr.validAtom(a_attr_name)", "BadMatch"));
 
     EPHYR_LOG("enter, portnum:%d, atomid:%d, attr_name:%s\n",
               port_priv.port_number,
-              cast(int) a_attr_name, NameForAtom(a_attr_name));
+              cast(int) a_attr_name, atomMgr.nameForAtom(a_attr_name));
 
     if (!ephyrLocalAtomToHost(a_attr_name, &host_atom)) {
         EPHYR_LOG_ERROR("failed to convert local atom to host atom\n");

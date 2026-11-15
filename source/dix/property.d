@@ -143,7 +143,7 @@ private void setVRRMode(WindowPtr pWin, WindowVRRMode mode)
 
 private void notifyVRRMode(ClientPtr pClient, WindowPtr pWindow, int state, PropertyPtr pProp)
 {
-    const(char)* pName = NameForAtom(pProp.propertyName);
+    const(char)* pName = atomMgr.nameForAtom(pProp.propertyName);
     if (pName is null || strcmp(pName, "_VARIABLE_REFRESH") || pProp.format != 32 || pProp.size != 1)
         return;
 
@@ -236,7 +236,7 @@ int ProcRotateProperties(ClientPtr client)
     }
 
     for (int i = 0; i < p.nAtoms; i++) {
-        if (!ValidAtom(p.atoms[i])) {
+        if (!atomMgr.validAtom(p.atoms[i])) {
             rc = BadAtom;
             client.errorValue = cast(uint)p.atoms[i];
             goto out_;
@@ -328,11 +328,11 @@ int ProcChangeProperty(ClientPtr client)
     totalSize = len * sizeInBytes;
     mixin(REQUEST_FIXED_SIZE!("xChangePropertyReq", "totalSize"));
 
-    if (!ValidAtom(stuff.property)) {
+    if (!atomMgr.validAtom(stuff.property)) {
         client.errorValue = cast(uint)stuff.property;
         return BadAtom;
     }
-    if (!ValidAtom(stuff.type)) {
+    if (!atomMgr.validAtom(stuff.type)) {
         client.errorValue = cast(uint)stuff.type;
         return BadAtom;
     }
@@ -554,7 +554,7 @@ int ProcGetProperty(ClientPtr client)
     int rc = void;
     Mask win_mode = DixGetPropAccess, prop_mode = DixReadAccess;
 
-    if (!ValidAtom(stuff.property)) {
+    if (!atomMgr.validAtom(stuff.property)) {
         client.errorValue = cast(uint)stuff.property;
         return BadAtom;
     }
@@ -562,7 +562,7 @@ int ProcGetProperty(ClientPtr client)
         client.errorValue = cast(uint)stuff.delete_;
         return BadValue;
     }
-    if ((stuff.type != AnyPropertyType) && !ValidAtom(stuff.type)) {
+    if ((stuff.type != AnyPropertyType) && !atomMgr.validAtom(stuff.type)) {
         client.errorValue = cast(uint)stuff.type;
         return BadAtom;
     }
@@ -740,7 +740,7 @@ int ProcDeleteProperty(ClientPtr client)
     }
 
     UpdateCurrentTime();
-    if (!ValidAtom(stuff.property)) {
+    if (!atomMgr.validAtom(stuff.property)) {
         client.errorValue = cast(uint)stuff.property;
         return BadAtom;
     }

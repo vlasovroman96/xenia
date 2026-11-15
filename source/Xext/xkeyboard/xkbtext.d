@@ -93,7 +93,7 @@ char* XkbAtomText(Atom atm, uint format)
     const(char)* atmstr = void;
     char* rtrn = void, tmp = void;
 
-    atmstr = NameForAtom(atm);
+    atmstr = atomMgr.nameForAtom(atm);
     if (atmstr !is null) {
         rtrn = tbGetBufferString(atmstr);
     }
@@ -131,7 +131,7 @@ char* XkbVModIndexText(XkbDescPtr xkb, uint ndx, uint format)
     if (ndx >= XkbNumVirtualMods)
         tmp = "illegal";
     else if (vmodNames && (vmodNames[ndx] != None))
-        tmp = NameForAtom(vmodNames[ndx]);
+        tmp = atomMgr.nameForAtom(vmodNames[ndx]);
     if (tmp is null) {
         snprintf(numBuf.ptr, numBuf.sizeof, "%d", ndx);
         tmp = numBuf.ptr;

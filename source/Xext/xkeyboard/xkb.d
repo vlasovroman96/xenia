@@ -108,7 +108,7 @@ enum string	CHK_ANY_DEVICE(string dev, string id, string client, string mode) = 
     ` ~ CHK_DEVICE!(dev, id, client, mode, `_XkbLookupAnyDevice`) ~ ``;
 
 enum string	CHK_ATOM_ONLY2(string a,string ev,string er) = `{
-	if (((` ~ a ~ `)==None)||(!ValidAtom((` ~ a ~ `)))) {
+	if (((` ~ a ~ `)==None)||(!atomMgr.validAtom((` ~ a ~ `)))) {
 	    (` ~ ev ~ `)= cast(XID)(` ~ a ~ `);
 	    return ` ~ er ~ `;
 	}
@@ -117,14 +117,14 @@ enum string	CHK_ATOM_ONLY(string a) = `
 	` ~ CHK_ATOM_ONLY2!(a,`client.errorValue`,`BadAtom`) ~ ``;
 
 enum string	CHK_ATOM_OR_NONE3(string a,string ev,string er,string ret) = `{
-	if (((` ~ a ~ `)!=None)&&(!ValidAtom((` ~ a ~ `)))) {
+	if (((` ~ a ~ `)!=None)&&(!atomMgr.validAtom((` ~ a ~ `)))) {
 	    (` ~ ev ~ `)= cast(XID)(` ~ a ~ `);
 	    (` ~ er ~ `)= BadAtom;
 	    return ` ~ ret ~ `;
 	}
 }`;
 enum string	CHK_ATOM_OR_NONE2(string a,string ev,string er) = `{
-	if (((` ~ a ~ `)!=None)&&(!ValidAtom((` ~ a ~ `)))) {
+	if (((` ~ a ~ `)!=None)&&(!atomMgr.validAtom((` ~ a ~ `)))) {
 	    (` ~ ev ~ `)= cast(XID)(` ~ a ~ `);
 	    return ` ~ er ~ `;
 	}
@@ -3837,7 +3837,7 @@ private CARD32* _XkbCheckAtoms(CARD32* wire, int nAtoms, int swapped, Atom* pErr
         if (swapped) {
             swapl(wire);
         }
-        if (((cast(Atom) (*wire)) != None) && (!ValidAtom(cast(Atom) (*wire)))) {
+        if (((cast(Atom) (*wire)) != None) && (!atomMgr.validAtom(cast(Atom) (*wire)))) {
             *pError = (cast(Atom) (*wire));
             return null;
         }
@@ -3855,7 +3855,7 @@ private CARD32* _XkbCheckMaskedAtoms(CARD32* wire, int nAtoms, CARD32 present, i
         if (swapped) {
             swapl(wire);
         }
-        if (((cast(Atom) (*wire)) != None) && (!ValidAtom((cast(Atom) (*wire))))) {
+        if (((cast(Atom) (*wire)) != None) && (!atomMgr.validAtom((cast(Atom) (*wire))))) {
             *pError = cast(Atom) (*wire);
             return null;
         }
@@ -3880,7 +3880,7 @@ private Bool _XkbCheckTypeName(Atom name, int typeNdx)
 {
     const(char)* str = void;
 
-    str = NameForAtom(name);
+    str = atomMgr.nameForAtom(name);
     if ((strcmp(str, "ONE_LEVEL") == 0) || (strcmp(str, "TWO_LEVEL") == 0) ||
         (strcmp(str, "ALPHABETIC") == 0) || (strcmp(str, "KEYPAD") == 0))
         return False;

@@ -3644,7 +3644,7 @@ private Bool drmmode_output_set_property(xf86OutputPtr output, Atom property, RR
                 value.size != 1)
                 return False;
             memcpy(&atom, value.data, 4);
-            if (((name = NameForAtom(atom)) is null))
+            if (((name = atomMgr.nameForAtom(atom)) is null))
                 return False;
 
             /* search for matching name string, then set its value down */

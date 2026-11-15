@@ -193,7 +193,7 @@ int dix_main(int argc, char** argv, char** envp)
         SetInputCheck(&alwaysCheckForInput[0], &alwaysCheckForInput[1]);
         screenInfo.numScreens = 0;
 
-        InitAtoms();
+        atomMgr.initAtoms();
         InitEvents();
         assumeNoGC(&xfont2_init_glyph_caching)();
         dixResetRegistry();
@@ -361,7 +361,7 @@ static if(XINERAMA){
 
         FreeFonts();
 
-        FreeAllAtoms();
+        atomMgr.freeAllAtoms();
 
         FreeAuditTimer();
 

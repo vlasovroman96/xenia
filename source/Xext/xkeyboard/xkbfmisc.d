@@ -246,7 +246,7 @@ Bool XkbWriteXKBKeymapForNames(FILE* file, XkbComponentNamesPtr names, XkbDescPt
     if ((xkb !is null) && (old_names !is null)) {
         if (wantNames & XkmTypesMask) {
             if (old_names.types != None) {
-                tmp = NameForAtom(old_names.types);
+                tmp = atomMgr.nameForAtom(old_names.types);
                 names.types = cast(char*)Xstrdup(tmp);
             }
             else {
@@ -256,7 +256,7 @@ Bool XkbWriteXKBKeymapForNames(FILE* file, XkbComponentNamesPtr names, XkbDescPt
         }
         if (wantNames & XkmCompatMapMask) {
             if (old_names.compat != None) {
-                tmp = NameForAtom(old_names.compat);
+                tmp = atomMgr.nameForAtom(old_names.compat);
                 names.compat = cast(char*)Xstrdup(tmp);
             }
             else
@@ -266,13 +266,13 @@ Bool XkbWriteXKBKeymapForNames(FILE* file, XkbComponentNamesPtr names, XkbDescPt
         if (wantNames & XkmSymbolsMask) {
             if (old_names.symbols == None)
                 return False;
-            tmp = NameForAtom(old_names.symbols);
+            tmp = atomMgr.nameForAtom(old_names.symbols);
             names.symbols = cast(char*)Xstrdup(tmp);
             complete |= XkmSymbolsMask;
         }
         if (wantNames & XkmKeyNamesMask) {
             if (old_names.keycodes != None) {
-                tmp = NameForAtom(old_names.keycodes);
+                tmp = atomMgr.nameForAtom(old_names.keycodes);
                 names.keycodes = cast(char*)Xstrdup(tmp);
             }
             else
@@ -282,7 +282,7 @@ Bool XkbWriteXKBKeymapForNames(FILE* file, XkbComponentNamesPtr names, XkbDescPt
         if (wantNames & XkmGeometryMask) {
             if (old_names.geometry == None)
                 return False;
-            tmp = NameForAtom(old_names.geometry);
+            tmp = atomMgr.nameForAtom(old_names.geometry);
             names.geometry = cast(char*)Xstrdup(tmp);
             complete |= XkmGeometryMask;
             wantNames &= ~XkmGeometryMask;
