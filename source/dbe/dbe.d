@@ -632,7 +632,7 @@ private int ProcDbeGetVisualInfo(ClientPtr client)
     rc = mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
 
 clearRpcBuf:
-    x_rpcbuf_clear(&rpcbuf);
+    rpcbuf.clear();
     free(pDrawables);
 
     return rc;

@@ -53,7 +53,7 @@ pragma(inline, true) private ssize_t WriteRpcbufToClient(ClientPtr pClient, RPCB
     ssize_t ret = WriteToClient(pClient,
                                 cast(int)rpcbuf.wpos,
                                 rpcbuf.buffer.ptr);
-    x_rpcbuf_clear(rpcbuf);
+    rpcbuf.clear();
     return ret;
 }
 

@@ -6149,7 +6149,7 @@ private int FillDeviceLedFBs(DeviceIntPtr dev, int class_, int id, uint wantLeng
                 RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
                 int written = FillDeviceLedInfo(kf.xkb_sli, &rpcbuf, client);
                 memcpy(buffer, rpcbuf.buffer.ptr, rpcbuf.wpos);
-                x_rpcbuf_clear(&rpcbuf);
+                rpcbuf.clear();
 
                 buffer += written;
                 length += written;
@@ -6168,7 +6168,7 @@ private int FillDeviceLedFBs(DeviceIntPtr dev, int class_, int id, uint wantLeng
                 RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
                 int written = FillDeviceLedInfo(lf.xkb_sli, &rpcbuf, client);
                 memcpy(buffer, rpcbuf.buffer.ptr, rpcbuf.wpos);
-                x_rpcbuf_clear(&rpcbuf);
+                rpcbuf.clear();
 
                 buffer += written;
                 length += written;
@@ -6311,7 +6311,7 @@ int ProcXkbGetDeviceInfo(ClientPtr client)
     if (nDeviceLedFBs > 0) {
         status = FillDeviceLedFBs(dev, ledClass, ledID, length, walk, client);
         if (status != Success) {
-            x_rpcbuf_clear(&rpcbuf);
+            rpcbuf.clear();
             return status;
         }
     }
@@ -6319,7 +6319,7 @@ int ProcXkbGetDeviceInfo(ClientPtr client)
         ErrorF("[xkb] Internal Error!  BadLength in ProcXkbGetDeviceInfo\n");
         ErrorF("[xkb]                  Wrote %d fewer bytes than expected\n",
                length);
-        x_rpcbuf_clear(&rpcbuf);
+        rpcbuf.clear();
         return BadLength;
     }
 

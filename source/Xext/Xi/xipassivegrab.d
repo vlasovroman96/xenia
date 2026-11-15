@@ -239,7 +239,7 @@ modifier_done:
 
  out_:
     xi2mask_free(&mask.xi2mask);
-    x_rpcbuf_clear(&rpcbuf);
+    rpcbuf.clear();
     return ret;
 }
 

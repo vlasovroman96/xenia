@@ -479,7 +479,7 @@ private int ProcXResQueryClientIds(ClientPtr client)
         rc = mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "ctx.rpcbuf"));
     }
 
-    x_rpcbuf_clear(&ctx.rpcbuf);
+    ctx.rpcbuf.clear();
     return rc;
 }
 

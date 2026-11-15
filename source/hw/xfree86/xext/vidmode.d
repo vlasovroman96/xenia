@@ -1666,7 +1666,7 @@ private int ProcVidModeGetGammaRamp(ClientPtr client)
 
         if (!pVidMode.GetGammaRamp(pScreen, stuff.size,
                                  ramp, ramp + length, ramp + (length * 2))) {
-            x_rpcbuf_clear(&rpcbuf);
+            rpcbuf.clear();
             return BadValue;
         }
 

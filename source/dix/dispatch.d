@@ -2316,7 +2316,7 @@ private int DoGetImage(ClientPtr client, int format, Drawable drawable, int x, i
 
             char* pBuf = cast(char*)x_rpcbuf_reserve(&rpcbuf, (nlines * widthBytesLine));
             if (!pBuf) {
-                x_rpcbuf_clear(&rpcbuf);
+                rpcbuf.clear();
                 return BadAlloc;
             }
 
@@ -2348,7 +2348,7 @@ private int DoGetImage(ClientPtr client, int format, Drawable drawable, int x, i
 
                     char* pBuf = cast(char*)x_rpcbuf_reserve(&rpcbuf, (nlines * widthBytesLine));
                     if (!pBuf) {
-                        x_rpcbuf_clear(&rpcbuf);
+                        rpcbuf.clear();
                         return BadAlloc;
                     }
 
@@ -2777,7 +2777,7 @@ int ProcAllocColorCells(ClientPtr client)
 
         if ((rc = AllocColorCells(client, pcmp, npixels, nmasks,
                                   cast(Bool) stuff.contiguous, ppixels, pmasks)) != 0) {
-            x_rpcbuf_clear(&rpcbuf);
+            rpcbuf.clear();
             return rc;
         }
 static if(XINERAMA){
@@ -2810,7 +2810,7 @@ static if(XINERAMA){
 
             return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
         }
-        x_rpcbuf_clear(&rpcbuf);
+        rpcbuf.clear();
         return Success;
     }
     else {
@@ -2857,7 +2857,7 @@ int ProcAllocColorPlanes(ClientPtr client)
                                    cast(int) stuff.blue, cast(Bool) stuff.contiguous,
                                    ppixels, &reply.redMask, &reply.greenMask,
                                    &reply.blueMask)) != 0) {
-            x_rpcbuf_clear(&rpcbuf);
+            rpcbuf.clear();
             return rc;
         }
 
@@ -2878,7 +2878,7 @@ static if(XINERAMA){
 else {
             return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
 }
-        x_rpcbuf_clear(&rpcbuf);
+        rpcbuf.clear();
         return Success;
 
     }
@@ -2994,7 +2994,7 @@ int ProcQueryColors(ClientPtr client)
             return BadAlloc;
         if ((rc =
              QueryColors(pcmp, count, cast(Pixel*) &stuff[1], prgbs, client)) != 0) {
-            x_rpcbuf_clear(&rpcbuf);
+            rpcbuf.clear();
             return rc;
         }
 

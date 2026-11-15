@@ -43,8 +43,6 @@ struct RPCBuffer {
 
     /*
     * retrieve number of 4-byte-units (padded) of data written in the buffer
-    *
-    * @param rpcbuf    pointer to RPCBuffer to operate on
     * @return          number of 4-byte units (w/ padding) written into the buffer
     */
 @nogc: nothrow:
@@ -52,8 +50,6 @@ struct RPCBuffer {
 
     /*
     * make sure there's enough room for `needed` bytes in the buffer.
-    *
-    * @param rpcbuf    pointer to RPCBuffer to operate on
     * @param needed    amount of free space needed in the buffer
     * @return          True if there (now) is enough room, False on alloc failure
     */
@@ -92,8 +88,6 @@ struct RPCBuffer {
     *
     * this is for reusing existing buffers for different purpose, w/o
     * having to go through new allocatons.
-    *
-    * @param rpcbuf    pointer to RPCBuffer to operate on
     */
     void reset() {
         /* no need to reset if never been actually written to */
@@ -102,6 +96,14 @@ struct RPCBuffer {
 
         /* clear memory, but don't free it */
         this.wpos = 0;
+    }
+
+    /*
+    * clear rpcbuf and free all held memory.
+    */
+    void  clear() {
+        free(this.buffer.ptr);
+        memset(&this, 0, RPCBuffer.sizeof);
     }
 }
 
@@ -157,7 +159,7 @@ pragma(inline, true) void x_rpcbuf_write_rpcbuf_pad(RPCBuffer* rpcbuf, RPCBuffer
     } else {
         x_rpcbuf_write_binary_pad(rpcbuf, source.buffer.ptr, source.wpos);
     }
-    x_rpcbuf_clear(source);
+    source.clear();
 }
 
 /*
@@ -198,17 +200,6 @@ pragma(inline, true) Bool __x_rpcbuf_write_bin_pad(RPCBuffer* rpcbuf, const(char
     memcpy(reserved, val, len);
     memset(reserved + len, 0, blen - len);
     return True;
-}
-
-/*
- * clear rpcbuf and free all held memory.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- */
-void  x_rpcbuf_clear(RPCBuffer* rpcbuf)
-{
-    free(rpcbuf.buffer.ptr);
-    memset(rpcbuf, 0, RPCBuffer.sizeof);
 }
 
 /*
