@@ -35,7 +35,6 @@ import common.swap;
  */
 
 struct RPCBuffer {
-    size_t size;    /* total size of buffer */
     size_t wpos;    /* length of data inside the buffer / next write position */
     ubyte[] buffer;   /* pointer to whole buffer */
     bool swapped;   /* True when typed write operation shall byte-swap */
@@ -64,7 +63,7 @@ struct RPCBuffer {
             return false;
 
         /* still enough space */
-        if (this.size > this.wpos + needed)
+        if (this.buffer.length > this.wpos + needed)
             return true;
 
         const(size_t) newsize = (((this.wpos + needed) / XLIBRE_RPCBUF_CHUNK_SIZE) + 1)
@@ -75,10 +74,10 @@ struct RPCBuffer {
             goto err;
 
         this.buffer = newbuf[0..newsize];
-        this.size = newsize;
 
         return true;
 
+    //Issue #70: Use scope(failure)
     err:
         this.error = true;
         if (this.err_clear) {
@@ -206,7 +205,7 @@ void  x_rpcbuf_clear(RPCBuffer* rpcbuf)
 void x_rpcbuf_reset(RPCBuffer* rpcbuf)
 {
     /* no need to reset if never been actually written to */
-    if ((!rpcbuf.buffer) || (!rpcbuf.size) || (!rpcbuf.wpos))
+    if ((!rpcbuf.buffer) || (!rpcbuf.buffer.length) || (!rpcbuf.wpos))
         return;
 
     /* clear memory, but don't free it */
