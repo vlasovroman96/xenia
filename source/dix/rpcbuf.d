@@ -70,11 +70,11 @@ struct RPCBuffer {
         const(size_t) newsize = (((this.wpos + needed) / XLIBRE_RPCBUF_CHUNK_SIZE) + 1)
                                     * XLIBRE_RPCBUF_CHUNK_SIZE;
 
-        char* newbuf = cast(char*) realloc(this.buffer.ptr, newsize);
+        ubyte* newbuf = cast(ubyte*) realloc(this.buffer.ptr, newsize);
         if (!newbuf)
             goto err;
 
-        this.buffer = cast(ubyte[])newbuf[0..newsize];
+        this.buffer = newbuf[0..newsize];
         this.size = newsize;
 
         return true;
