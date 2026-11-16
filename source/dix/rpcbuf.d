@@ -309,6 +309,21 @@ struct RPCBuffer {
     }
 
     /*
+    * write a INT32 and do byte-swapping (when needed).
+    *
+    * allocate a region for INT32, write it into the buffer and do byte-swap
+    * if buffer is configured to do so (`swapped` field is True).
+    *
+    * doesn't do any padding.
+    * @param rpcbuf    pointer to RPCBuffer to operate on
+    * @param value     the CARD16 value to write
+    * @return          True on success, False on allocation failure
+    */
+    bool writeInt32(INT32 value) {
+        return this.writeCard32(cast(CARD32)value);
+    }
+
+    /*
     * write an X11 RECTANGLE protocol structure into the buffer
     *
     * @param x         X value of the rectangle
@@ -366,22 +381,6 @@ pragma(inline, true) void x_rpcbuf_write_rpcbuf_pad(RPCBuffer* rpcbuf, RPCBuffer
         x_rpcbuf_write_binary_pad(rpcbuf, source.buffer.ptr, source.wpos);
     }
     source.clear();
-}
-
-/*
- * write a INT32 and do byte-swapping (when needed).
- *
- * allocate a region for INT32, write it into the buffer and do byte-swap
- * if buffer is configured to do so (`swapped` field is True).
- *
- * doesn't do any padding.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @param value     the CARD16 value to write
- * @return          True on success, False on allocation failure
- */
-pragma(inline, true) Bool x_rpcbuf_write_INT32(RPCBuffer* rpcbuf, INT32 value) {
-    return rpcbuf.writeCard32(cast(CARD32)value);
 }
 
 /*
