@@ -590,7 +590,7 @@ private int ProcXvQueryPortAttributes(ClientPtr client)
         rpcbuf.writeCard32(pAtt.min_value);
         rpcbuf.writeCard32(pAtt.max_value);
         rpcbuf.writeCard32(padForInt32(cast(uint)strlen(pAtt.name)+1)); /* pass the NULL */
-        rpcbuf.writeString0tPad(pAtt.name);
+        rpcbuf.writeString0tPad(pAtt.name.charsToString);
     }
 
     xvQueryPortAttributesReply reply = {

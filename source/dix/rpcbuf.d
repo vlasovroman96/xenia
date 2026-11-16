@@ -1,24 +1,21 @@
 module dix.rpcbuf;
-@nogc nothrow:
-extern(C): __gshared:
+
 /* SPDX-License-Identifier: MIT OR X11
  *
  * Copyright © 2026, Roman Vlasov
  * Copyright © 2024 Enrico Weigelt, metux IT consult <info@metux.net>
  */
 
-import build.dix_config;
+import x11.Xmd; //CARD(8/16/32/64) types
 
-import core.stdc.stddef;
+import core.stdc.stdlib : realloc, free;
+import core.stdc.string : memset;
 
-import dix.dix_priv;
-import dix.rpcbuf;
-import dix.swapreq;
-import common.bytes;
-import common.swap;
+import common.bytes : padForInt32;
+import common.swap; //swap funcs
 
 //must be deleted after D rewriting
-public import abi.common;
+public import abi.common : charsToString;
 
 struct RPCBuffer {
     enum ChunkSize = 4096;
@@ -94,19 +91,15 @@ struct RPCBuffer {
         memset(&this, 0, RPCBuffer.sizeof);
     }
 
-    /*
-    * reserve a piece of buffer and move the buffer pointer forward.
-    *
-    * the returned slice can be used to directly write data into the
-    * reserved region. buffer pointer is moved right after that region.
-    *
-    * NOTE: that region is only valid until another operation on this
-    * buffer that might affect the allocated memory block: when buffer
-    * needs to be resized, it may get a new memory location.
-    *
-    * @param needed    amount of bytes needed
-    * @return          reserved slice of buffer
-    */
+    /** 
+     * reserve a piece of buffer and move the buffer pointer forward.
+     * 
+     * Params:
+     *   needed = needed size
+     *   fillZero = true if filling by zeroes is needed
+     * Returns:
+     *   reserved slice of ubyte[] 
+     */  
     ubyte[] reserve(size_t needed, bool fillZero = false) {
         if (!this.makeRoom(needed))
             return null;
@@ -217,7 +210,7 @@ struct RPCBuffer {
      * Returns: 
      *      true if data have been written
      */
-    bool writeCardNs(T)(T[] values) {
+    bool writeCardNs(T)(const(T[]) values) {
         //empty slice
         if (!values)
             return true;
@@ -297,11 +290,11 @@ struct RPCBuffer {
     * @param needed    string to plain C string
     * @return          true on success, false on allocation failure
     */
-    bool writeString0tPad(const(char)* str) {
+    bool writeString0tPad(string str) {
         if (!str)
             return this.writeCard32(0);
 
-        return this.writeBinPad(cast(ubyte[])str[0..strlen(str)], 1);
+        return this.writeBinPad(cast(ubyte[])str, 1);
     }
 
     /*
@@ -313,30 +306,36 @@ struct RPCBuffer {
     * @param rpcbuf    pointer to the RPCBuffer to operate on
     * @param str       zero-terminated string to write into the buffer
     */
-    void writeCountedStringPad(const(char)* str) {
+    deprecated("Use writeCountedStringPad(string str)")
+    void writeCountedStringPad(const(char)* str) =>
+        writeCountedStringPad(str.charsToString());
+
+    void writeCountedStringPad(string str) {
         if (str) {
-            CARD16 len = cast(CARD16)strlen(str); /* 64k should really be enough */
+            CARD16 len = cast(CARD16)str.length; /* 64k should really be enough */
             this.writeCard16(len);
-            this.writeCard8s(cast(CARD8*)str, len);
+            this.writeCard8s(cast(CARD8*)str.ptr, len);
             this.doPad();
         }
     }
 
-    /*
-    * write binary data to rpc buffer and pad it.
-    *
-    * allocate a region for the string (padded to 32bits) and copy in the data.
-    * if given data is NULL or size is zero , nothing happens.
-    *
-    * @param rpcbuf    pointer to RPCBuffer to operate on
-    * @param needed    string to plain C string
-    * @return          true on success, false on allocation failure
-    */
-    bool writeBinaryPad(const(void)* values, size_t size) {
-        if ((!values) || (!size))
+    /** 
+     * write binary data to rpc buffer and pad it.
+     * 
+     * Params:
+     *   values = type-unified slice ov void[]
+     * Returns: 
+     *   true on success
+     */
+    deprecated("Use writeBinaryPad(void[] values)")
+    bool writeBinaryPad(const(void)* values, size_t size) =>
+        writeBinaryPad(cast(void[])values[0..size]);
+
+    bool writeBinaryPad(void[] values) {
+        if (!values)
             return true;
 
-        return this.writeBinPad(cast(ubyte[])values[0..size]);
+        return this.writeBinPad(cast(ubyte[])values);
     }
 
     /*
@@ -356,7 +355,7 @@ struct RPCBuffer {
                 this.buffer = null;
             }
         } else {
-            this.writeBinaryPad(source.buffer.ptr, source.wpos);
+            this.writeBinaryPad(source.buffer[0..source.wpos]);
         }
         source.clear();
     }
