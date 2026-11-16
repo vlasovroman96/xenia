@@ -20,23 +20,6 @@ import common.swap;
 //must be deleted after D rewriting
 public import abi.common;
 
-/*
- * buffer for easing RPC payload assembly
- *
- * the structure should be zero-initialized. subsequent operations will
- * automatically allocate enough buffer space under the hood
- *
- * Example:
- *
- * RPCBuffer x_rpcbuf buf = { 0 };
- * x_rpcbuf_write_string(&buf, "hello world");
- * x_rpcbuf_write_CARD1&(&buf, 91126);
- * ...
- * ...
- * do_write_out(buf->buffer, buf->wpos);
- * x_rpcbuf_clear(&buf);
- */
-
 struct RPCBuffer {
     size_t wpos;    /* length of data inside the buffer / next write position */
     ubyte[] buffer;   /* pointer to whole buffer */
@@ -185,7 +168,6 @@ struct RPCBuffer {
         return this.writeBinPad(cast(ubyte[])str);
     }
 
-
     /** 
      * 
      * Params:
@@ -215,133 +197,62 @@ struct RPCBuffer {
     //alias for writeCardN
     bool writeCard8(CARD8 value) => writeCardN(value);
 
-    /*
-    * write array of CARD8s and do byte-swapping (when needed).
-    *
-    * allocate a region for CARD8, write them into the buffer.
-    * when `values` or `count` are zero, does nothing.
-    *
-    * doesn't do any padding.
-    *
-    * @param values    pointer to CARD16 array to write
-    * @param count     number of elements in the array
-    * @return          true on success, false on allocation failure
-    */
-    bool writeCard8s(const(CARD8)* values, size_t count)
-    {
-        if ((!values) || (!count))
-            return true;
-
-        INT16* reserved = cast(short*)this.reserve(count).ptr;
-        if (!reserved)
-            return false;
-
-        memcpy(reserved, values, count);
-
-        return false;
-    }
-
     //alias for writeCardN
     bool writeCard16(CARD16 value) => writeCardN(value);
 
-    /*
-    * write array of CARD16s and do byte-swapping (when needed).
-    *
-    * allocate a region for CARD16s, write them into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is true).
-    * when `values` or `count` are zero, does nothing.
-    *
-    * doesn't do any padding.
-    *
-    * @param rpcbuf    pointer to RPCBuffer to operate on
-    * @param values    pointer to CARD16 array to write
-    * @param count     number of elements in the array
-    * @return          true on success, false on allocation failure
-    */
-    bool writeCard16s(const(CARD16)* values, size_t count)
-    {
-        if ((!values) || (!count))
-            return true;
-
-        INT16* reserved = cast(short*)this.reserve(((CARD16).sizeof * count)).ptr;
-        if (!reserved)
-            return false;
-
-        memcpy(reserved, values, ((CARD16).sizeof * count));
-
-        if (this.swapped)
-            SwapShorts(reserved, count);
-
-        return true;
-    }
-
     //alias for writeCardN
     bool writeCard32(CARD32 value) => writeCardN(value);
-
-    /*
-    * write array of CARD32s and do byte-swapping (when needed).
-    *
-    * allocate a region for CARD32s, write them into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is true).
-    * when `values` or `count` are zero, does nothing.
-    *
-    * doesn't do any padding.
-    *
-    * @param values    pointer to CARD32 array to write
-    * @param count     number of elements in the array
-    * @return          true on success, false on allocation failure
-    */
-    bool  writeCard32s(const(CARD32)* values, size_t count)
-    {
-        if ((!values) || (!count))
-            return true;
-
-        CARD32* reserved = cast(uint*)this.reserve(((CARD32).sizeof * count)).ptr;
-        if (!reserved)
-            return false;
-
-        memcpy(reserved, values, ((CARD32).sizeof * count));
-
-        if (this.swapped)
-            SwapLongs(reserved, count);
-
-        return true;
-    }
 
     //NOT USED. REMOVE THIS?
     //alias for writeCardN
     bool writeCard64(CARD64 value) => writeCardN(value);
 
-    /*
-    * write array of CARD64s and do byte-swapping (when needed).
-    *
-    * allocate a region for CARD64s, write them into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is true).
-    * when `values` or `count` are zero, does nothing.
-    *
-    * doesn't do any padding.
-    *
-    * @param values    pointer to CARD64 array to write
-    * @param count     number of elements in the array
-    * @return          true on success, false on allocation failure
-    */
-    bool writeCard64s(const(CARD64)* values, size_t count)
-    {
+    /** 
+     * 
+     * Params:
+     *      values = C-like array pointer
+     *      count = count of elements
+     * Returns: 
+     *      true if data have been written
+     */
+    bool writeCardNs(T)(T* values, size_t count) {
         if ((!values) || (!count))
             return true;
 
-        CARD64* reserved = cast(ulong*)this.reserve(((CARD64).sizeof * count)).ptr;
+        T* reserved = cast(T*)this.reserve((T.sizeof * count)).ptr;
         if (!reserved)
             return false;
 
-        memcpy(reserved, values, ((CARD64).sizeof * count));
+        memcpy(reserved, values, (T.sizeof * count));
 
-        if (this.swapped)
-            for (size_t x = 0; x<count; x++)
-                swapll(&reserved[x]);
+        if (!is(T == CARD8) && this.swapped)
+            for (size_t x = 0; x<count; x++) {
+                static if(is(T == CARD16))
+                    swaps(reserved);
+                else static if(is(T == CARD32))
+                    swapl(reserved);
+                else
+                    swapll(reserved);
+            }
 
         return true;
     }
+
+    //alias for writeCardNs
+    bool writeCard8s(CARD8* values, size_t count)
+        => writeCardNs(values, count);
+
+    //alias for writeCardNs
+    bool writeCard16s(CARD16* values, size_t count)
+        => writeCardNs(values, count);
+
+    //alias for writeCardNs
+    bool  writeCard32s(CARD32* values, size_t count)
+        => writeCardNs(values, count);
+
+    //alias for writeCardNs
+    bool writeCard64s(CARD64* values, size_t count)
+        => writeCardNs(values, count);
 
     //alias for this.writeCard16
     bool writeInt16(INT16 value) => this.writeCard16(cast(CARD16)value);
@@ -349,23 +260,9 @@ struct RPCBuffer {
     //alias for this.writeCard32
     bool writeInt32(INT32 value) => this.writeCard32(cast(CARD32)value);
 
-    /*
-    * write array of INT32s and do byte-swapping (when needed).
-    *
-    * allocate a region for INT32s, write them into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is true).
-    * when `values` or `count` are zero, does nothing.
-    *
-    * doesn't do any padding.
-    *
-    * @param values    pointer to INT32 array to write
-    * @param count     number of elements in the array
-    * @return          true on success, false on allocation failure
-    */
-    pragma(inline, true) bool writeInt32s(const(INT32)* values, size_t count)
-    {
-        return this.writeCard32s(cast(CARD32*)values, count);
-    }
+    //alias for writeCard32s
+    bool writeInt32s(const(INT32)* values, size_t count)
+        => this.writeCard32s(cast(CARD32*)values, count);
 
     /*
     * write an X11 RECTANGLE protocol structure into the buffer
