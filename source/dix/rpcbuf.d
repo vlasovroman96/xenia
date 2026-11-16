@@ -134,6 +134,8 @@ struct RPCBuffer {
         return reserved;
     }
 
+    auto reserve0(size_t needed) => this.reserve(needed, true);
+
     /*
     * write binary data to rpc buffer and pad it.
     *
@@ -164,8 +166,7 @@ enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
  * @param rpcbuf    pointer to RPCBuffer to operate on
  */
 pragma(inline, true) void x_rpcbuf_pad(RPCBuffer* rpcbuf) {
-    x_rpcbuf_reserve0(
-        rpcbuf,
+    rpcbuf.reserve0(
         (((rpcbuf.wpos + 3) / 4) * 4) - rpcbuf.wpos);
 }
 
@@ -226,32 +227,6 @@ pragma(inline, true) void x_rpcbuf_write_rect(RPCBuffer* rpcbuf, INT16 x, INT16 
     x_rpcbuf_write_INT16(rpcbuf, y);
     x_rpcbuf_write_CARD16(rpcbuf, width);
     x_rpcbuf_write_CARD16(rpcbuf, height);
-}
-
-
-
-/*
- * like x_rpcbuf_reserve(), but additionally clearing the reserved space.
- *
- * the returned poiner can be used to directly write data into the
- * reserved region. buffer pointer is moved right after that region.
- *
- * NOTE: that region is only valid until another operation on this
- * buffer that might affect the allocated memory block: when buffer
- * needs to be resized, it may get a new memory location.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @param needed    amount of bytes needed
- * @return          pointer to reserved region of NULL on allocation failure
- */
-void * x_rpcbuf_reserve0(RPCBuffer* rpcbuf, size_t needed)
-{
-    void* buf = rpcbuf.reserve(needed).ptr;
-    if (!buf)
-        return null;
-
-    memset(buf, 0, needed);
-    return buf;
 }
 
 /*

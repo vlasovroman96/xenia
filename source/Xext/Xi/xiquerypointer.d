@@ -148,7 +148,7 @@ int ProcXIQueryPointer(ClientPtr client)
 
         const(int) buttons_size = bytesForBits(256); /* button map up to 255 */
         reply.buttons_len = cast(ushort)int32ForBytes(buttons_size);
-        char* buttons = cast(char*)x_rpcbuf_reserve0(&rpcbuf, buttons_size);
+        char* buttons = cast(char*)rpcbuf.reserve0(buttons_size).ptr;
         if (!buttons)
             return BadAlloc;
 

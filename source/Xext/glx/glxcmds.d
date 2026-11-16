@@ -975,7 +975,7 @@ int __glXDisp_GetVisualConfigs(__GLXclientState* cl, GLbyte* pc)
             x_rpcbuf_write_CARD32(&rpcbuf, modes.sRGBCapable);
         } else {
             /* Pad with zeroes, so that attributes count is constant. */
-            x_rpcbuf_reserve0(&rpcbuf, ((CARD32).sizeof * 2));
+            rpcbuf.reserve0(((CARD32).sizeof * 2));
         }
     }
 
