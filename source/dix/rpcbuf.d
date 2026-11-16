@@ -251,6 +251,31 @@ struct RPCBuffer {
 
         return true;
     }
+
+    //NOT USED. REMOVE THIS?
+    /*
+    * write a CARD64 and do byte-swapping (when needed).
+    *
+    * allocate a region for CARD64, write it into the buffer and do byte-swap
+    * if buffer is configured to do so (`swapped` field is True).
+    *
+    * doesn't do any padding.
+    *
+    * @param value     the CARD64 value to write
+    * @return          True on success, False on allocation failure
+    */
+    bool writeCard64(CARD64 value) {
+        CARD64* reserved = cast(ulong*)this.reserve(value.sizeof).ptr;
+        if (!reserved)
+            return false;
+
+        *reserved = value;
+
+        if (this.swapped)
+            swapll(reserved);
+
+        return true;
+    }
 }
 
 enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
@@ -381,32 +406,6 @@ pragma(inline, true) Bool x_rpcbuf_write_INT32(RPCBuffer* rpcbuf, INT32 value) {
 pragma(inline, true) Bool x_rpcbuf_write_INT32s(RPCBuffer* rpcbuf, const(INT32)* values, size_t count)
 {
     return x_rpcbuf_write_CARD32s(rpcbuf, cast(CARD32*)values, count);
-}
-
-/*
- * write a CARD64 and do byte-swapping (when needed).
- *
- * allocate a region for CARD64, write it into the buffer and do byte-swap
- * if buffer is configured to do so (`swapped` field is True).
- *
- * doesn't do any padding.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @param value     the CARD64 value to write
- * @return          True on success, False on allocation failure
- */
-Bool x_rpcbuf_write_CARD64(RPCBuffer* rpcbuf, CARD64 value)
-{
-    CARD64* reserved = cast(ulong*)rpcbuf.reserve(value.sizeof).ptr;
-    if (!reserved)
-        return False;
-
-    *reserved = value;
-
-    if (rpcbuf.swapped)
-        swapll(reserved);
-
-    return True;
 }
 
 /*
