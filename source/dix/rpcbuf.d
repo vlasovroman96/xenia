@@ -119,11 +119,16 @@ struct RPCBuffer {
     * @param needed    amount of bytes needed
     * @return          reserved slice of buffer
     */
-    ubyte[] reserve(size_t needed) {
+    ubyte[] reserve(size_t needed, bool fillZero = false) {
         if (!this.makeRoom(needed))
             return null;
         
         ubyte[] reserved = buffer[this.wpos..this.wpos + needed];
+
+        if(fillZero) {
+            reserved[] = 0;
+        }
+
         this.wpos += needed;
 
         return reserved;
