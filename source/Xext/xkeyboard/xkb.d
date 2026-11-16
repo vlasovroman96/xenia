@@ -5838,7 +5838,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
         }
 
         rpcbuf.writeBinaryPad(&mrep, mrep.sizeof);
-        x_rpcbuf_write_rpcbuf_pad(&rpcbuf, &childbuf);
+        rpcbuf.moveFromBuffer(&childbuf);
     }
 
     if (reported & XkbGBN_CompatMapMask) {
@@ -5859,7 +5859,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
         }
 
         rpcbuf.writeBinaryPad(&crep, crep.sizeof);
-        x_rpcbuf_write_rpcbuf_pad(&rpcbuf, &childbuf);
+        rpcbuf.moveFromBuffer(&childbuf);
     }
 
     if (reported & XkbGBN_IndicatorMapMask) {
@@ -5882,7 +5882,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
         }
 
         rpcbuf.writeBinaryPad(&irep, irep.sizeof);
-        x_rpcbuf_write_rpcbuf_pad(&rpcbuf, &childbuf);
+        rpcbuf.moveFromBuffer(&childbuf);
     }
 
     if (reported & (XkbGBN_KeyNamesMask | XkbGBN_OtherNamesMask)) {
@@ -5903,7 +5903,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
         }
 
         rpcbuf.writeBinaryPad(&nrep, nrep.sizeof);
-        x_rpcbuf_write_rpcbuf_pad(&rpcbuf, &childbuf);
+        rpcbuf.moveFromBuffer(&childbuf);
     }
 
     if (reported & XkbGBN_GeometryMask) {
@@ -5926,7 +5926,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
         }
 
         rpcbuf.writeBinaryPad(&grep, grep.sizeof);
-        x_rpcbuf_write_rpcbuf_pad(&rpcbuf, &childbuf);
+        rpcbuf.moveFromBuffer(&childbuf);
     }
 
     mixin(X_REPLY_FIELD_CARD16!"found");

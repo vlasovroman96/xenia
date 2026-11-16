@@ -509,31 +509,30 @@ struct RPCBuffer {
 
         return this.writeBinPad(cast(ubyte[])values[0..size]);
     }
+
+    /*
+    * write contents of an rpcbuf into another one (padded) and clear the source buffer
+    *
+    * @param rpcbuf    pointer to the RPCBuffer to operate on
+    * @param source    pointer to source RPCBuffer
+    */
+    pragma(inline, true) void moveFromBuffer(RPCBuffer* source)
+    {
+        if (!source)
+            return;
+
+        if (source.error) {
+            this.error = True;
+            if (this.err_clear) {
+                free(this.buffer.ptr);
+                this.buffer = null;
+            }
+        } else {
+            this.writeBinaryPad(source.buffer.ptr, source.wpos);
+        }
+        source.clear();
+    }
 }
 
 enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
-
-
-/*
- * write contents of an rpcbuf into another one (padded) and clear the source buffer
- *
- * @param rpcbuf    pointer to the RPCBuffer to operate on
- * @param source    pointer to source RPCBuffer
- */
-pragma(inline, true) void x_rpcbuf_write_rpcbuf_pad(RPCBuffer* rpcbuf, RPCBuffer* source)
-{
-    if (!source)
-        return;
-
-    if (source.error) {
-        rpcbuf.error = True;
-        if (rpcbuf.err_clear) {
-            free(rpcbuf.buffer.ptr);
-            rpcbuf.buffer = null;
-        }
-    } else {
-        rpcbuf.writeBinaryPad(source.buffer.ptr, source.wpos);
-    }
-    source.clear();
-}
 
