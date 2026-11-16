@@ -1653,9 +1653,9 @@ int ProcRRGetCrtcGamma(ClientPtr client)
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
-    x_rpcbuf_write_CARD16s(&rpcbuf, crtc.gammaRed, crtc.gammaSize);
-    x_rpcbuf_write_CARD16s(&rpcbuf, crtc.gammaGreen, crtc.gammaSize);
-    x_rpcbuf_write_CARD16s(&rpcbuf, crtc.gammaBlue, crtc.gammaSize);
+    rpcbuf.writeCard16s(crtc.gammaRed, crtc.gammaSize);
+    rpcbuf.writeCard16s(crtc.gammaGreen, crtc.gammaSize);
+    rpcbuf.writeCard16s(crtc.gammaBlue, crtc.gammaSize);
 
     xRRGetCrtcGammaReply reply = {
         size: cast(ushort)crtc.gammaSize

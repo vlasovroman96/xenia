@@ -653,7 +653,7 @@ int ProcGetProperty(ClientPtr client)
             x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)dataptr, len / 4);
         break;
         case 16:
-            x_rpcbuf_write_CARD16s(&rpcbuf, cast(CARD16*)dataptr, len / 2);
+            rpcbuf.writeCard16s(cast(CARD16*)dataptr, len / 2);
         break;
         default:
             rpcbuf.writeCard8s(cast(CARD8*)dataptr, len);

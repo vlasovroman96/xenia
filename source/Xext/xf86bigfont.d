@@ -722,7 +722,7 @@ if (nCharInfos > 0)
             for (int i = 0; i < nUniqCharInfos; i++) {
                 writeCharInfo(&rpcbuf, pCI[pUniqIndex2Index[i]]);
             }
-            x_rpcbuf_write_CARD16s(&rpcbuf, pIndex2UniqIndex, nCharInfos);
+            rpcbuf.writeCard16s(pIndex2UniqIndex, nCharInfos);
         }
 
         int rc = mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));

@@ -255,6 +255,37 @@ struct RPCBuffer {
     }
 
     /*
+    * write array of CARD16s and do byte-swapping (when needed).
+    *
+    * allocate a region for CARD16s, write them into the buffer and do byte-swap
+    * if buffer is configured to do so (`swapped` field is True).
+    * when `values` or `count` are zero, does nothing.
+    *
+    * doesn't do any padding.
+    *
+    * @param rpcbuf    pointer to RPCBuffer to operate on
+    * @param values    pointer to CARD16 array to write
+    * @param count     number of elements in the array
+    * @return          True on success, False on allocation failure
+    */
+    Bool writeCard16s(const(CARD16)* values, size_t count)
+    {
+        if ((!values) || (!count))
+            return True;
+
+        INT16* reserved = cast(short*)this.reserve(((CARD16).sizeof * count)).ptr;
+        if (!reserved)
+            return False;
+
+        memcpy(reserved, values, ((CARD16).sizeof * count));
+
+        if (this.swapped)
+            SwapShorts(reserved, count);
+
+        return True;
+    }
+
+    /*
     * write a CARD32 and do byte-swapping (when needed).
     *
     * allocate a region for CARD32, write it into the buffer and do byte-swap
@@ -428,36 +459,6 @@ pragma(inline, true) Bool x_rpcbuf_write_INT32s(RPCBuffer* rpcbuf, const(INT32)*
     return x_rpcbuf_write_CARD32s(rpcbuf, cast(CARD32*)values, count);
 }
 
-/*
- * write array of CARD16s and do byte-swapping (when needed).
- *
- * allocate a region for CARD16s, write them into the buffer and do byte-swap
- * if buffer is configured to do so (`swapped` field is True).
- * when `values` or `count` are zero, does nothing.
- *
- * doesn't do any padding.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @param values    pointer to CARD16 array to write
- * @param count     number of elements in the array
- * @return          True on success, False on allocation failure
- */
-Bool x_rpcbuf_write_CARD16s(RPCBuffer* rpcbuf, const(CARD16)* values, size_t count)
-{
-    if ((!values) || (!count))
-        return True;
-
-    INT16* reserved = cast(short*)rpcbuf.reserve(((CARD16).sizeof * count)).ptr;
-    if (!reserved)
-        return False;
-
-    memcpy(reserved, values, ((CARD16).sizeof * count));
-
-    if (rpcbuf.swapped)
-        SwapShorts(reserved, count);
-
-    return True;
-}
 
 /*
  * write array of CARD32s and do byte-swapping (when needed).

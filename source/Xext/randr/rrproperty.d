@@ -731,7 +731,7 @@ int ProcRRGetOutputProperty(ClientPtr client)
             x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)src, len / CARD32.sizeof);
             break;
         case 16:
-            x_rpcbuf_write_CARD16s(&rpcbuf, cast(CARD16*)src, len / CARD16.sizeof);
+            rpcbuf.writeCard16s(cast(CARD16*)src, len / CARD16.sizeof);
             break;
         default:
             x_rpcbuf_write_binary_pad(&rpcbuf, src, len);
