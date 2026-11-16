@@ -276,6 +276,23 @@ struct RPCBuffer {
 
         return true;
     }
+
+    /*
+    * write a plain C string with terminating 0 to rpc buffer and pad it.
+    *
+    * allocate a region for the string (padded to 32bits) and copy in the string.
+    * if given string is NULL or zero-size, only a (CARD32)0 is written.
+    *
+    * @param rpcbuf    pointer to RPCBuffer to operate on
+    * @param needed    string to plain C string
+    * @return          True on success, False on allocation failure
+    */
+    bool writeString0tPad(const(char)* str) {
+        if (!str)
+            return this.writeCard32(0);
+
+        return this.writeBinPad(cast(ubyte[])str[0..strlen(str)], 1);
+    }
 }
 
 enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
@@ -337,24 +354,6 @@ pragma(inline, true) void x_rpcbuf_write_rect(RPCBuffer* rpcbuf, INT16 x, INT16 
     x_rpcbuf_write_INT16(rpcbuf, y);
     rpcbuf.writeCard16(width);
     rpcbuf.writeCard16(height);
-}
-
-/*
- * write a plain C string with terminating 0 to rpc buffer and pad it.
- *
- * allocate a region for the string (padded to 32bits) and copy in the string.
- * if given string is NULL or zero-size, only a (CARD32)0 is written.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @param needed    string to plain C string
- * @return          True on success, False on allocation failure
- */
-int x_rpcbuf_write_string_0t_pad(RPCBuffer* rpcbuf, const(char)* str)
-{
-    if (!str)
-        return rpcbuf.writeCard32(0);
-
-    return rpcbuf.writeBinPad(cast(ubyte[])str[0..strlen(str)], 1);
 }
 
 /*
