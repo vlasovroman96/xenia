@@ -185,24 +185,35 @@ struct RPCBuffer {
         return this.writeBinPad(cast(ubyte[])str);
     }
 
-    /*
-    * write a CARD8(ubyte)
-    *
-    * allocate a region for CARD8 and write it into the buffer.
-    *
-    * doesn't do any padding.
-    *
-    * @param value     the CARD8 value to write
-    * @return          true on success, false on allocation failure
-    */
-    bool writeCard8(CARD8 value) {
-        auto reserved = this.reserve(value.sizeof);
+
+    /** 
+     * 
+     * Params:
+     *      value = CARD8/CARD16/CARD32/CARD64 value
+     * Returns: 
+     *      true if data have been writed
+     */
+    bool writeCardN(T) (T value) {
+        T* reserved = cast(T*)this.reserve(value.sizeof).ptr;
         if (!reserved)
             return false;
 
-        reserved[0] = value;
+        *reserved = value;
+
+        if (!is(T == CARD8) && this.swapped) {
+            static if(is(T == CARD16))
+                swaps(reserved);
+            else static if(is(T == CARD32))
+                swapl(reserved);
+            else
+                swapll(reserved);
+        }
+
         return true;
     }
+
+    //alias for writeCardN
+    bool writeCard8(CARD8 value) => writeCardN(value);
 
     /*
     * write array of CARD8s and do byte-swapping (when needed).
@@ -230,29 +241,8 @@ struct RPCBuffer {
         return false;
     }
 
-    /*
-    * write a CARD16 and do byte-swapping (when needed).
-    *
-    * allocate a region for CARD16, write it into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is true).
-    *
-    * doesn't do any padding.
-    *
-    * @param value     the CARD16 value to write
-    * @return          true on success, false on allocation failure
-    */
-    bool writeCard16(CARD16 value) {
-        CARD16* reserved = cast(ushort*)this.reserve(value.sizeof).ptr;
-        if (!reserved)
-            return false;
-
-        *reserved = value;
-
-        if (this.swapped)
-            swaps(reserved);
-
-        return true;
-    }
+    //alias for writeCardN
+    bool writeCard16(CARD16 value) => writeCardN(value);
 
     /*
     * write array of CARD16s and do byte-swapping (when needed).
@@ -285,29 +275,8 @@ struct RPCBuffer {
         return true;
     }
 
-    /*
-    * write a CARD32 and do byte-swapping (when needed).
-    *
-    * allocate a region for CARD32, write it into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is true).
-    *
-    * doesn't do any padding.
-    *
-    * @param value     the CARD32 value to write
-    * @return          true on success, false on allocation failure
-    */
-    bool writeCard32(CARD32 value) {
-        CARD32* reserved = cast(uint*)this.reserve(value.sizeof).ptr;
-        if (!reserved)
-            return false;
-
-        *reserved = value;
-
-        if (this.swapped)
-            swapl(reserved);
-
-        return true;
-    }
+    //alias for writeCardN
+    bool writeCard32(CARD32 value) => writeCardN(value);
 
     /*
     * write array of CARD32s and do byte-swapping (when needed).
@@ -340,29 +309,8 @@ struct RPCBuffer {
     }
 
     //NOT USED. REMOVE THIS?
-    /*
-    * write a CARD64 and do byte-swapping (when needed).
-    *
-    * allocate a region for CARD64, write it into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is true).
-    *
-    * doesn't do any padding.
-    *
-    * @param value     the CARD64 value to write
-    * @return          true on success, false on allocation failure
-    */
-    bool writeCard64(CARD64 value) {
-        CARD64* reserved = cast(ulong*)this.reserve(value.sizeof).ptr;
-        if (!reserved)
-            return false;
-
-        *reserved = value;
-
-        if (this.swapped)
-            swapll(reserved);
-
-        return true;
-    }
+    //alias for writeCardN
+    bool writeCard64(CARD64 value) => writeCardN(value);
 
     /*
     * write array of CARD64s and do byte-swapping (when needed).
@@ -395,34 +343,11 @@ struct RPCBuffer {
         return true;
     }
 
-    /*
-    * write a INT16 and do byte-swapping (when needed).
-    *
-    * allocate a region for INT16, write it into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is true).
-    *
-    * doesn't do any padding.
-    *
-    * @param value     the CARD16 value to write
-    * @return          true on success, false on allocation failure
-    */
-    bool writeInt16(INT16 value) {
-        return this.writeCard16(cast(CARD16)value);
-    }
+    //alias for this.writeCard16
+    bool writeInt16(INT16 value) => this.writeCard16(cast(CARD16)value);
 
-    /*
-    * write a INT32 and do byte-swapping (when needed).
-    *
-    * allocate a region for INT32, write it into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is true).
-    *
-    * doesn't do any padding.
-    * @param value     the CARD16 value to write
-    * @return          true on success, false on allocation failure
-    */
-    bool writeInt32(INT32 value) {
-        return this.writeCard32(cast(CARD32)value);
-    }
+    //alias for this.writeCard32
+    bool writeInt32(INT32 value) => this.writeCard32(cast(CARD32)value);
 
     /*
     * write array of INT32s and do byte-swapping (when needed).
