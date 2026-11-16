@@ -17,11 +17,11 @@ void swaps(T)(T* x) {
 	*x = bswap_16(*x); 
 }
 
-auto swapl(T)(T* t) {
+void swapl(T)(T* t) {
 	*t = cast(T)bswap_32(*t); 
 }
 
-auto swapll(T)(T* t) {
+void swapll(T)(T* t) {
 	*t = cast(T)bswap_64(*t);          
 }
 

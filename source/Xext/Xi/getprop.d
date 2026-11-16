@@ -60,7 +60,7 @@ import externs.X11.extensions.XIproto;
 
 import dix.dix_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.window_priv;
 import Xi.handlers;
 public import Xi.extinit;
@@ -102,7 +102,7 @@ int ProcXGetDeviceDontPropagateList(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if ((others = mixin(wOtherInputMasks!("pWin"))) !is null) {
         for (i = 0; i < EMASKSIZE; i++)
@@ -118,7 +118,7 @@ int ProcXGetDeviceDontPropagateList(ClientPtr client)
                 tbuf = ClassFromMask(tbuf, others.dontPropagateMask[i], i,
                                      null, CREATE);
 
-            x_rpcbuf_write_CARD32s(&rpcbuf, buf, count);
+            rpcbuf.writeCard32s(buf, count);
             free(buf);
         }
     }

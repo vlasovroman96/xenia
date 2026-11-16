@@ -38,7 +38,7 @@ import externs.X11.extensions.panoramiXproto;
 import dix.dix_priv;
 import dix.request_priv;
 import dix.resource_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.screen_hooks_priv;
 import dix.screenint_priv;
 import dix.server_priv;
@@ -1061,12 +1061,12 @@ int ProcXineramaQueryScreens(ClientPtr client)
         number: number
     };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (!noPanoramiXExtension) {
         mixin(XINERAMA_FOR_EACH_SCREEN_BACKWARD!(q{
             /* xXineramaScreenInfo is the same as xRectangle */
-            x_rpcbuf_write_rect(&rpcbuf,
+            rpcbuf.writeProtoRect(
                                 walkScreen.x,
                                 walkScreen.y,
                                 walkScreen.width,

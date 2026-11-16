@@ -1,240 +1,365 @@
-module rpcbuf;
-@nogc nothrow:
-extern(C): __gshared:
+module dix.rpcbuf;
+
 /* SPDX-License-Identifier: MIT OR X11
  *
+ * Copyright © 2026, Roman Vlasov
  * Copyright © 2024 Enrico Weigelt, metux IT consult <info@metux.net>
  */
-import build.dix_config;
 
-import core.stdc.stddef;
+import x11.Xmd; //CARD(8/16/32/64) types
 
-import dix.dix_priv;
-import dix.rpcbuf_priv;
-import dix.swapreq;
-import common.bytes;
-import common.swap;
+import core.stdc.stdlib : realloc, free;
+import core.stdc.string : memset;
 
-pragma(inline, true) Bool __x_rpcbuf_write_bin_pad(x_rpcbuf_t* rpcbuf, const(char)* val, size_t len)
-{
-    const(size_t) blen = padForInt32(cast(int)len);
+import common.bytes : padForInt32;
+import common.swap; //swap funcs
 
-    char* reserved = cast(char*)x_rpcbuf_reserve(rpcbuf, blen);
-    if (!reserved)
-        return False;
+//must be deleted after D rewriting
+public import abi.common : charsToString;
 
-    memcpy(reserved, val, len);
-    memset(reserved + len, 0, blen - len);
-    return True;
-}
+struct RPCBuffer {
+    enum ChunkSize = 4096;
 
-Bool x_rpcbuf_makeroom(x_rpcbuf_t* rpcbuf, size_t needed)
-{
-    /* break out of alreay in error state */
-    if (rpcbuf.error)
-        return False;
+    size_t wpos;    /* length of data inside the buffer / next write position */
+    ubyte[] buffer;   /* pointer to whole buffer */
+    bool swapped;   /* true when typed write operation shall byte-swap */
+    bool error;     /* true when the last allocation failed */
+    bool err_clear; /* set to true if should automatically clear on error */
 
-    /* still enough space */
-    if (rpcbuf.size > rpcbuf.wpos + needed)
-        return True;
+    /*
+    * retrieve number of 4-byte-units (padded) of data written in the buffer
+    * @return          number of 4-byte units (w/ padding) written into the buffer
+    */
+@nogc: nothrow:
+    CARD32 writedSizeUnits() => cast(CARD32) ((this.wpos + 3) / 4);
 
-    const(size_t) newsize = (((rpcbuf.wpos + needed) / XLIBRE_RPCBUF_CHUNK_SIZE) + 1)
-                                * XLIBRE_RPCBUF_CHUNK_SIZE;
+    /*
+    * make sure there's enough room for `needed` bytes in the buffer.
+    * @param needed    amount of free space needed in the buffer
+    * @return          true if there (now) is enough room, false on alloc failure
+    */
+    bool makeRoom(size_t needed) {
+        /* break out of alreay in error state */
+        if (this.error)
+            return false;
 
-    char* newbuf = cast(char*) realloc(rpcbuf.buffer, newsize);
-    if (!newbuf)
-        goto err;
+        /* still enough space */
+        if (this.buffer.length > this.wpos + needed)
+            return true;
 
-    rpcbuf.buffer = newbuf;
-    rpcbuf.size = newsize;
+        const(size_t) newsize = (((this.wpos + needed) / ChunkSize) + 1)
+                                    * ChunkSize;
 
-    return True;
+        ubyte* newbuf = cast(ubyte*) realloc(this.buffer.ptr, newsize);
+        if (!newbuf)
+            goto err;
 
-err:
-    rpcbuf.error = True;
-    if (rpcbuf.err_clear) {
-        free(rpcbuf.buffer);
-        rpcbuf.buffer = null;
+        this.buffer = newbuf[0..newsize];
+
+        return true;
+
+    //Issue #70: Use scope(failure)
+    err:
+        this.error = true;
+        if (this.err_clear) {
+            free(this.buffer.ptr);
+            this.buffer = null;
+        }
+        return false;
     }
-    return False;
+
+    /*
+    * reset rpcbuf and clear memory, but doesn't free it.
+    *
+    * this is for reusing existing buffers for different purpose, w/o
+    * having to go through new allocatons.
+    */
+    void reset() {
+        /* no need to reset if never been actually written to */
+        if (!this.buffer.length || !this.wpos)
+            return;
+
+        /* clear memory, but don't free it */
+        this.wpos = 0;
+    }
+
+    /*
+    * clear rpcbuf and free all held memory.
+    */
+    void  clear() {
+        free(this.buffer.ptr);
+        memset(&this, 0, RPCBuffer.sizeof);
+    }
+
+    /** 
+     * reserve a piece of buffer and move the buffer pointer forward.
+     * 
+     * Params:
+     *   needed = needed size
+     *   fillZero = true if filling by zeroes is needed
+     * Returns:
+     *   reserved slice of ubyte[] 
+     */  
+    ubyte[] reserve(size_t needed, bool fillZero = false) {
+        if (!this.makeRoom(needed))
+            return null;
+        
+        ubyte[] reserved = buffer[this.wpos..this.wpos + needed];
+
+        if(fillZero) {
+            reserved[] = 0;
+        }
+
+        this.wpos += needed;
+
+        return reserved;
+    }
+
+    auto reserve0(size_t needed) => this.reserve(needed, true);
+
+    /*
+    * write binary data to rpc buffer and pad it.
+    *
+    * allocate a region for the string (padded to 32bits) and copy in the data.
+    * if given data is NULL or size is zero , nothing happens.
+    *
+    * @param needed    string to plain C string
+    * @return          true on success, false on allocation failure
+    */
+    bool writeBinPad(ubyte[] val, size_t padding = 0) {
+        size_t blen = padForInt32(cast(int)(val.length + padding));
+
+        auto reserved = this.reserve(blen);
+        if (!reserved)
+            return false;
+
+        reserved[0..val.length] = val[];
+        reserved[val.length..$] = 0;
+        return true;
+    }
+
+    /*
+    * pad the buffer to 4-byte-units (ie. write extra zeros if necessary)
+    *
+    * @param rpcbuf    pointer to RPCBuffer to operate on
+    */
+    void doPad() {
+        this.reserve0(
+            (((this.wpos + 3) / 4) * 4) - this.wpos);
+    }
+
+    /* write a plain C string to rpc buffer and pad it.
+    *
+    * allocate a region for the string (padded to 32bits) and copy in the string.
+    * if given string is NULL or zero-size, nothing happens.
+    *
+    * @param str        string to plain C string
+    * @return          true on success, false on allocation failure
+    */
+    bool writeStringPad(string str) {
+        if (!str)
+            return true;
+
+        return this.writeBinPad(cast(ubyte[])str);
+    }
+
+    /** 
+     * 
+     * Params:
+     *      value = CARD8/CARD16/CARD32/CARD64 value
+     * Returns: 
+     *      true if data have been writed
+     */
+    bool writeCardN(T) (T value) {
+        T* reserved = cast(T*)this.reserve(value.sizeof).ptr;
+        if (!reserved)
+            return false;
+
+        *reserved = value;
+
+        if (!is(T == CARD8) && this.swapped) {
+            static if(is(T == CARD16))
+                swaps(reserved);
+            else static if(is(T == CARD32))
+                swapl(reserved);
+            else
+                swapll(reserved);
+        }
+
+        return true;
+    }
+
+    //alias for writeCardN
+    bool writeCard8(CARD8 value) => writeCardN(value);
+
+    //alias for writeCardN
+    bool writeCard16(CARD16 value) => writeCardN(value);
+
+    //alias for writeCardN
+    bool writeCard32(CARD32 value) => writeCardN(value);
+
+    //NOT USED. REMOVE THIS?
+    //alias for writeCardN
+    bool writeCard64(CARD64 value) => writeCardN(value);
+
+    /** 
+     * Writes CARD* arrays to the buffer with swapping if needed
+     * 
+     * Params:
+     *      values = slice of T (CARD8/CARD16/CARD32/CARD64)
+     * Returns: 
+     *      true if data have been written
+     */
+    bool writeCardNs(T)(const(T[]) values) {
+        //empty slice
+        if (!values)
+            return true;
+
+        CARD8[] rawReserve = this.reserve(T.sizeof * values.length);
+        // CARD8[] rawReserve = this.reserve(values[].sizeof);
+
+        //reserving error
+        if (!rawReserve)
+            return false;
+
+        rawReserve[] = cast(CARD8[])values[];
+
+        if (!is(T == CARD8) && this.swapped) {
+            T[] reserved = cast(T[])rawReserve;
+         
+            foreach(ref T val; reserved) {
+                static if(is(T == CARD16))
+                    swaps(&val);
+                else static if(is(T == CARD32))
+                    swapl(&val);
+                else
+                    swapll(&val);
+            }
+        }
+
+        return true;
+    }
+
+    //alias for writeCardNs
+    bool writeCard8s(CARD8* values, size_t count)
+        => writeCardNs(values[0..count]);
+
+    //alias for writeCardNs
+    bool writeCard16s(CARD16* values, size_t count)
+        => writeCardNs(values[0..count]);
+
+    //alias for writeCardNs
+    bool  writeCard32s(CARD32* values, size_t count)
+        => writeCardNs(values[0..count]);
+
+    //alias for writeCardNs
+    bool writeCard64s(CARD64* values, size_t count)
+        => writeCardNs(values[0..count]);
+
+    //alias for this.writeCard16
+    bool writeInt16(INT16 value) => this.writeCard16(cast(CARD16)value);
+
+    //alias for this.writeCard32
+    bool writeInt32(INT32 value) => this.writeCard32(cast(CARD32)value);
+
+    //alias for writeCard32s
+    bool writeInt32s(const(INT32)* values, size_t count)
+        => this.writeCard32s(cast(CARD32*)values, count);
+
+    /*
+    * write an X11 RECTANGLE protocol structure into the buffer
+    *
+    * @param x         X value of the rectangle
+    * @param y         Y value of the rectangle
+    * @param width     WIDTH value of the rectangle
+    * @param height    HEIGHT value of the rectangle
+    */
+    void writeProtoRect(INT16 x, INT16 y, CARD16 width, CARD16 height) {
+        this.writeInt16(x);
+        this.writeInt16(y);
+        this.writeCard16(width);
+        this.writeCard16(height);
+    }
+
+    /*
+    * write a plain C string with terminating 0 to rpc buffer and pad it.
+    *
+    * allocate a region for the string (padded to 32bits) and copy in the string.
+    * if given string is NULL or zero-size, only a (CARD32)0 is written.
+    *
+    * @param needed    string to plain C string
+    * @return          true on success, false on allocation failure
+    */
+    bool writeString0tPad(string str) {
+        if (!str)
+            return this.writeCard32(0);
+
+        return this.writeBinPad(cast(ubyte[])str, 1);
+    }
+
+    /*
+    * write a Pascal-like counted string, starting with CARD16 couter,
+    * followed by the char bytes, padded to full protocol units (4-bytes).
+    *
+    * if str is NULL, don't write anything
+    *
+    * @param rpcbuf    pointer to the RPCBuffer to operate on
+    * @param str       zero-terminated string to write into the buffer
+    */
+    deprecated("Use writeCountedStringPad(string str)")
+    void writeCountedStringPad(const(char)* str) =>
+        writeCountedStringPad(str.charsToString());
+
+    void writeCountedStringPad(string str) {
+        if (str) {
+            CARD16 len = cast(CARD16)str.length; /* 64k should really be enough */
+            this.writeCard16(len);
+            this.writeCard8s(cast(CARD8*)str.ptr, len);
+            this.doPad();
+        }
+    }
+
+    /** 
+     * write binary data to rpc buffer and pad it.
+     * 
+     * Params:
+     *   values = type-unified slice ov void[]
+     * Returns: 
+     *   true on success
+     */
+    deprecated("Use writeBinaryPad(void[] values)")
+    bool writeBinaryPad(const(void)* values, size_t size) =>
+        writeBinaryPad(cast(void[])values[0..size]);
+
+    bool writeBinaryPad(void[] values) {
+        if (!values)
+            return true;
+
+        return this.writeBinPad(cast(ubyte[])values);
+    }
+
+    /*
+    * write contents of an rpcbuf into another one (padded) and clear the source buffer
+    *
+    * @param rpcbuf    pointer to the RPCBuffer to operate on
+    * @param source    pointer to source RPCBuffer
+    */
+    void moveFromBuffer(RPCBuffer* source) {
+        if (!source)
+            return;
+
+        if (source.error) {
+            this.error = true;
+            if (this.err_clear) {
+                free(this.buffer.ptr);
+                this.buffer = null;
+            }
+        } else {
+            this.writeBinaryPad(source.buffer[0..source.wpos]);
+        }
+        source.clear();
+    }
 }
 
-void  x_rpcbuf_clear(x_rpcbuf_t* rpcbuf)
-{
-    free(rpcbuf.buffer);
-    memset(rpcbuf, 0, x_rpcbuf_t.sizeof);
-}
+enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
 
-void x_rpcbuf_reset(x_rpcbuf_t* rpcbuf)
-{
-    /* no need to reset if never been actually written to */
-    if ((!rpcbuf.buffer) || (!rpcbuf.size) || (!rpcbuf.wpos))
-        return;
-
-    /* clear memory, but don't free it */
-    rpcbuf.wpos = 0;
-}
-
-void* x_rpcbuf_reserve(x_rpcbuf_t* rpcbuf, size_t needed)
-{
-    if (!x_rpcbuf_makeroom(rpcbuf, needed))
-        return null;
-
-    void* pos = rpcbuf.buffer + rpcbuf.wpos;
-    rpcbuf.wpos += needed;
-
-    return pos;
-}
-
-void * x_rpcbuf_reserve0(x_rpcbuf_t* rpcbuf, size_t needed)
-{
-    void* buf = x_rpcbuf_reserve(rpcbuf, needed);
-    if (!buf)
-        return null;
-
-    memset(buf, 0, needed);
-    return buf;
-}
-
-Bool x_rpcbuf_write_string_pad(x_rpcbuf_t* rpcbuf, const(char)* str)
-{
-    if (!str)
-        return True;
-
-    return __x_rpcbuf_write_bin_pad(rpcbuf, str, strlen(str));
-}
-
-int x_rpcbuf_write_string_0t_pad(x_rpcbuf_t* rpcbuf, const(char)* str)
-{
-    if (!str)
-        return x_rpcbuf_write_CARD32(rpcbuf, 0);
-
-    return __x_rpcbuf_write_bin_pad(rpcbuf, str, strlen(str)+1);
-}
-
-Bool x_rpcbuf_write_CARD8(x_rpcbuf_t* rpcbuf, CARD8 value)
-{
-    CARD8* reserved = cast(ubyte*)x_rpcbuf_reserve(rpcbuf, value.sizeof);
-    if (!reserved)
-        return False;
-
-    *reserved = value;
-
-    return True;
-}
-
-Bool x_rpcbuf_write_CARD16(x_rpcbuf_t* rpcbuf, CARD16 value)
-{
-    CARD16* reserved = cast(ushort*)x_rpcbuf_reserve(rpcbuf, value.sizeof);
-    if (!reserved)
-        return False;
-
-    *reserved = value;
-
-    if (rpcbuf.swapped)
-        swaps(reserved);
-
-    return True;
-}
-
-int x_rpcbuf_write_CARD32(x_rpcbuf_t* rpcbuf, CARD32 value)
-{
-    CARD32* reserved = cast(uint*)x_rpcbuf_reserve(rpcbuf, value.sizeof);
-    if (!reserved)
-        return False;
-
-    *reserved = value;
-
-    if (rpcbuf.swapped)
-        swapl(reserved);
-
-    return True;
-}
-
-Bool x_rpcbuf_write_CARD64(x_rpcbuf_t* rpcbuf, CARD64 value)
-{
-    CARD64* reserved = cast(ulong*)x_rpcbuf_reserve(rpcbuf, value.sizeof);
-    if (!reserved)
-        return False;
-
-    *reserved = value;
-
-    if (rpcbuf.swapped)
-        swapll(reserved);
-
-    return True;
-}
-
-Bool  x_rpcbuf_write_CARD8s(x_rpcbuf_t* rpcbuf, const(CARD8)* values, size_t count)
-{
-    if ((!values) || (!count))
-        return True;
-
-    INT16* reserved = cast(short*)x_rpcbuf_reserve(rpcbuf, count);
-    if (!reserved)
-        return False;
-
-    memcpy(reserved, values, count);
-
-    return True;
-}
-
-Bool x_rpcbuf_write_CARD16s(x_rpcbuf_t* rpcbuf, const(CARD16)* values, size_t count)
-{
-    if ((!values) || (!count))
-        return True;
-
-    INT16* reserved = cast(short*)x_rpcbuf_reserve(rpcbuf, ((CARD16).sizeof * count));
-    if (!reserved)
-        return False;
-
-    memcpy(reserved, values, ((CARD16).sizeof * count));
-
-    if (rpcbuf.swapped)
-        SwapShorts(reserved, count);
-
-    return True;
-}
-
-Bool  x_rpcbuf_write_CARD32s(x_rpcbuf_t* rpcbuf, const(CARD32)* values, size_t count)
-{
-    if ((!values) || (!count))
-        return True;
-
-    CARD32* reserved = cast(uint*)x_rpcbuf_reserve(rpcbuf, ((CARD32).sizeof * count));
-    if (!reserved)
-        return False;
-
-    memcpy(reserved, values, ((CARD32).sizeof * count));
-
-    if (rpcbuf.swapped)
-        SwapLongs(reserved, count);
-
-    return True;
-}
-
-Bool x_rpcbuf_write_CARD64s(x_rpcbuf_t* rpcbuf, const(CARD64)* values, size_t count)
-{
-    if ((!values) || (!count))
-        return True;
-
-    CARD64* reserved = cast(ulong*)x_rpcbuf_reserve(rpcbuf, ((CARD64).sizeof * count));
-    if (!reserved)
-        return False;
-
-    memcpy(reserved, values, ((CARD64).sizeof * count));
-
-    if (rpcbuf.swapped)
-        for (size_t x = 0; x<count; x++)
-            swapll(&reserved[x]);
-
-    return True;
-}
-
-Bool x_rpcbuf_write_binary_pad(x_rpcbuf_t* rpcbuf, const(void)* values, size_t size)
-{
-    if ((!values) || (!size))
-        return True;
-
-    return __x_rpcbuf_write_bin_pad(rpcbuf,cast(const char*) values, size);
-}

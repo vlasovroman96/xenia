@@ -349,13 +349,13 @@ private void swapCharInfo(xCharInfo* pCI)
     swaps(&pCI.attributes);
 }
 
-pragma(inline, true) private void writeCharInfo(x_rpcbuf_t* rpcbuf, xCharInfo CI) {
-    x_rpcbuf_write_INT16(rpcbuf, CI.leftSideBearing);
-    x_rpcbuf_write_INT16(rpcbuf, CI.rightSideBearing);
-    x_rpcbuf_write_INT16(rpcbuf, CI.characterWidth);
-    x_rpcbuf_write_INT16(rpcbuf, CI.ascent);
-    x_rpcbuf_write_INT16(rpcbuf, CI.descent);
-    x_rpcbuf_write_CARD16(rpcbuf, CI.attributes);
+pragma(inline, true) private void writeCharInfo(RPCBuffer* rpcbuf, xCharInfo CI) {
+    rpcbuf.writeInt16(CI.leftSideBearing);
+    rpcbuf.writeInt16(CI.rightSideBearing);
+    rpcbuf.writeInt16(CI.characterWidth);
+    rpcbuf.writeInt16(CI.ascent);
+    rpcbuf.writeInt16(CI.descent);
+    rpcbuf.writeCard16(CI.attributes);
 }
 
 /* static CARD32 hashCI (xCharInfo *p); */
@@ -711,18 +711,18 @@ if (nCharInfos > 0)
             swapCharInfo(&reply.maxBounds);
         }
 
-        x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+        RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
         for (int i = 0; i < nfontprops; i++) {
-            x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)pFont.info.props[i].name);
-            x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)pFont.info.props[i].value);
+            rpcbuf.writeCard32(cast(uint)pFont.info.props[i].name);
+            rpcbuf.writeCard32(cast(uint)pFont.info.props[i].value);
         }
 
         if (nCharInfos > 0 && shmid == -1) {
             for (int i = 0; i < nUniqCharInfos; i++) {
                 writeCharInfo(&rpcbuf, pCI[pUniqIndex2Index[i]]);
             }
-            x_rpcbuf_write_CARD16s(&rpcbuf, pIndex2UniqIndex, nCharInfos);
+            rpcbuf.writeCard16s(pIndex2UniqIndex, nCharInfos);
         }
 
         int rc = mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));

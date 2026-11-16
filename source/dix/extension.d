@@ -355,7 +355,7 @@ int ProcListExtensions(ClientPtr client)
 
     xListExtensionsReply reply = { 0 };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (NumExtensions && extensions) {
         for (int i = 0; i < NumExtensions; i++) {
@@ -367,8 +367,8 @@ int ProcListExtensions(ClientPtr client)
             reply.nExtensions++;
 
             /* write a pascal string */
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)len);
-            x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)extensions[i].name, len);
+            rpcbuf.writeCard8(cast(ubyte)len);
+            rpcbuf.writeCard8s(cast(CARD8*)extensions[i].name, len);
         }
     }
 

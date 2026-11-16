@@ -39,7 +39,7 @@ import core.stdc.stdlib;
 
 import dix.dix_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 
 import glx.glxserver;
 import glx.glxutil;
@@ -134,7 +134,7 @@ int __glXDisp_RenderMode(__GLXclientState* cl, GLbyte* pc)
     newMode = *cast(GLenum*) pc;
     retval = glRenderMode(newMode);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: TRUE };
 
     /* Check that render mode worked */
     glGetIntegerv(GL_RENDER_MODE, &newModeCheck);
@@ -162,7 +162,7 @@ int __glXDisp_RenderMode(__GLXclientState* cl, GLbyte* pc)
         else {
             nitems = retval;
         }
-        x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)cx.feedbackBuf, nitems * __GLX_SIZE_FLOAT32);
+        rpcbuf.writeCard8s(cast(CARD8*)cx.feedbackBuf, nitems * __GLX_SIZE_FLOAT32);
         cx.renderMode = newMode;
         break;
     case GL_SELECT:
@@ -191,7 +191,7 @@ int __glXDisp_RenderMode(__GLXclientState* cl, GLbyte* pc)
             }
             nitems = cast(int)(bp - cx.selectBuf);
         }
-        x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)cx.selectBuf, nitems * __GLX_SIZE_CARD32);
+        rpcbuf.writeCard8s(cast(CARD8*)cx.selectBuf, nitems * __GLX_SIZE_CARD32);
 
         cx.renderMode = newMode;
         break;

@@ -27,7 +27,7 @@ import build.xlibre_server;;
 
 import dix.dix_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.window_priv;
 import render.picturestr_priv;
 import Xext.panoramiX;
@@ -409,10 +409,10 @@ int ProcXFixesFetchRegion(ClientPtr client)
     BoxPtr pBox = RegionRects(pRegion);
     int nBox = RegionNumRects(pRegion);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     for (int i = 0; i < nBox; i++) {
-        x_rpcbuf_write_rect(&rpcbuf,
+        rpcbuf.writeProtoRect(
                             pBox[i].x1,
                             pBox[i].y1,
                             cast(ushort)(pBox[i].x2 - pBox[i].x1),

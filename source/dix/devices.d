@@ -1694,8 +1694,8 @@ int ProcGetModifierMapping(ClientPtr client)
     generate_modkeymap(client, PickKeyboard(client), &modkeymap,
                        &max_keys_per_mod);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-    x_rpcbuf_write_binary_pad(&rpcbuf, modkeymap, max_keys_per_mod * 8);
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+    rpcbuf.writeBinaryPad(modkeymap, max_keys_per_mod * 8);
 
     free(modkeymap);
 
@@ -1841,9 +1841,8 @@ int ProcGetKeyboardMapping(ClientPtr client)
         keySymsPerKeyCode: cast(ubyte)syms.mapWidth,
     };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD32s(
-        &rpcbuf,
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+    rpcbuf.writeCard32s(
         &syms.map[syms.mapWidth * (stuff.firstKeyCode - syms.minKeyCode)],
         count);
 
@@ -1867,8 +1866,8 @@ int ProcGetPointerMapping(ClientPtr client)
     ButtonClassPtr butc = ptr.button;
     int nElts = (butc) ? butc.numButtons : 0;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-    x_rpcbuf_write_binary_pad(&rpcbuf, &butc.map[1], nElts);
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+    rpcbuf.writeBinaryPad(&butc.map[1], nElts);
 
     xGetPointerMappingReply reply = {
         nElts: cast(ubyte)nElts,
@@ -2296,7 +2295,7 @@ int ProcGetMotionEvents(ClientPtr client)
     if (mouse.valuator.motionHintWindow)
         MaybeStopHint(mouse, client);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     c_ulong nEvents = 0;
     TimeStamp start = ClientTimeToServerTime(stuff.start);
@@ -2324,9 +2323,9 @@ int ProcGetMotionEvents(ClientPtr client)
                 nEvents++;
 
                 /* write xTimecoord */
-                x_rpcbuf_write_CARD32(&rpcbuf, coords[i].time);
-                x_rpcbuf_write_INT16(&rpcbuf, cast(short)(coords[i].x - pWin.drawable.x));
-                x_rpcbuf_write_INT16(&rpcbuf, cast(short)(coords[i].y - pWin.drawable.y));
+                rpcbuf.writeCard32(coords[i].time);
+                rpcbuf.writeInt16(cast(short)(coords[i].x - pWin.drawable.x));
+                rpcbuf.writeInt16(cast(short)(coords[i].y - pWin.drawable.y));
             }
 
         free(coords);

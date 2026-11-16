@@ -508,7 +508,7 @@ private int ProcSecurityGenerateAuthorization(ClientPtr client)
     /* associate additional information with this auth ID */
 
     SecurityAuthorizationPtr pAuth = cast(SecurityAuthorizationPtr)cast(SecurityAuthorizationRec*) calloc(1, SecurityAuthorizationRec.sizeof);
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     xSecurityGenerateAuthorizationReply reply = {
         authId: cast(uint)authId,
         dataLength: cast(ushort)authdata_len
@@ -548,7 +548,7 @@ private int ProcSecurityGenerateAuthorization(ClientPtr client)
 
     /* tell client the auth id and data */
 
-    x_rpcbuf_write_binary_pad(&rpcbuf, pAuthdata, authdata_len);
+    rpcbuf.writeBinaryPad(pAuthdata, authdata_len);
 
 
     SecurityAudit

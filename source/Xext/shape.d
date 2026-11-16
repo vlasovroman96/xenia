@@ -40,7 +40,7 @@ import dix.client_priv;
 import dix.dix_priv;
 import dix.gc_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.screenint_priv;
 import dix.screen_hooks_priv;
 import dix.window_priv;
@@ -875,7 +875,7 @@ private int ProcShapeGetRectangles(ClientPtr client)
         return BadValue;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (!region) {
         xRectangle rect = void;
@@ -900,7 +900,7 @@ private int ProcShapeGetRectangles(ClientPtr client)
             break;
         default: break;}
         nrects = 1;
-        x_rpcbuf_write_CARD16s(&rpcbuf, cast(CARD16*)&rect, 4);
+        rpcbuf.writeCard16s(cast(CARD16*)&rect, 4);
     }
     else {
         nrects = RegionNumRects(region);
@@ -912,7 +912,7 @@ private int ProcShapeGetRectangles(ClientPtr client)
                 width: cast(ushort)(boxes[i].x2 - boxes[i].x1),
                 height: cast(ushort)(boxes[i].y2 - boxes[i].y1),
             };
-            x_rpcbuf_write_CARD16s(&rpcbuf, cast(CARD16*)&rect, 4);
+            rpcbuf.writeCard16s(cast(CARD16*)&rect, 4);
         }{}
     }
 

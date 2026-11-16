@@ -20,7 +20,7 @@ import dix.dix_priv;
 import dix.registry_priv;
 import dix.request_priv;
 import dix.resource_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import os.client_priv;
 import miext.extinit_priv;
 import Xext.xace;
@@ -60,7 +60,7 @@ enum string FRAGMENT_DATA(string ptr) = `(cast(void*) (cast(char*) (` ~ ptr ~ `)
 struct ConstructClientIdCtx {
     int numIds;
     int[MAXCLIENTS] sentClientMasks;
-    x_rpcbuf_t rpcbuf;
+    RPCBuffer rpcbuf;
 }
 
 /** @brief Holds the structure for information required to
@@ -178,15 +178,15 @@ private int ProcXResQueryClients(ClientPtr client)
 {
     mixin(X_REQUEST_HEAD_STRUCT!xXResQueryClientsReq);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     int num_clients = 0;
     for (int i = 0; i < currentMaxClients; i++) {
         ClientPtr walkClient = clients[i];
         if (walkClient &&
             (dixCallClientAccessCallback(client, walkClient, DixReadAccess) == Success)) {
-            x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)walkClient.clientAsMask); /* resource_base */
-            x_rpcbuf_write_CARD32(&rpcbuf, RESOURCE_ID_MASK);         /* resource_mask */
+            rpcbuf.writeCard32(cast(uint)walkClient.clientAsMask); /* resource_base */
+            rpcbuf.writeCard32(RESOURCE_ID_MASK);         /* resource_mask */
             num_clients++;
         }
     }
@@ -243,7 +243,7 @@ private int ProcXResQueryClientResources(ClientPtr client)
 
     FindAllClientResources(resClient, &ResFindAllRes, counts);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     int num_types = 0;
     for (int i = 0; i <= lastResourceType; i++) {
@@ -253,8 +253,8 @@ private int ProcXResQueryClientResources(ClientPtr client)
         }
 
         /* write xXResType */
-        x_rpcbuf_write_CARD32(&rpcbuf, resourceTypeAtom(i + 1));
-        x_rpcbuf_write_CARD32(&rpcbuf, counts[i]);
+        rpcbuf.writeCard32(resourceTypeAtom(i + 1));
+        rpcbuf.writeCard32(counts[i]);
 
         num_types++;
     }
@@ -369,7 +369,7 @@ private Bool ConstructClientIdValue(ClientPtr sendClient, ClientPtr client, CARD
             /* swapl (&reply.length, n); - not required for reply.length = 0 */
         }
 
-        x_rpcbuf_write_CARD8s(&ctx.rpcbuf, cast(CARD8*)&reply, reply.sizeof);
+        ctx.rpcbuf.writeCard8s(cast(CARD8*)&reply, reply.sizeof);
         ++ctx.numIds;
     }
     if (WillConstructMask(client, mask, ctx, X_XResLocalClientPIDMask)) {
@@ -391,8 +391,8 @@ private Bool ConstructClientIdValue(ClientPtr sendClient, ClientPtr client, CARD
             swapl (&reply.length);
         }
 
-        x_rpcbuf_write_CARD8s(&ctx.rpcbuf, cast(CARD8*)&reply, reply.sizeof);
-        x_rpcbuf_write_CARD32(&ctx.rpcbuf, pid);
+        ctx.rpcbuf.writeCard8s(cast(CARD8*)&reply, reply.sizeof);
+        ctx.rpcbuf.writeCard32(pid);
 
         ++ctx.numIds;
     }
@@ -465,7 +465,7 @@ private int ProcXResQueryClientIds(ClientPtr client)
 
     ConstructClientIdCtx ctx;
 
-    ctx.rpcbuf.swapped = client.swapped;
+    ctx.rpcbuf.swapped = cast(bool)client.swapped;
     ctx.rpcbuf.swapped = True;
 
     int rc = ConstructClientIds(client, cast(int)stuff.numSpecs, specs, &ctx);
@@ -479,7 +479,7 @@ private int ProcXResQueryClientIds(ClientPtr client)
         rc = mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "ctx.rpcbuf"));
     }
 
-    x_rpcbuf_clear(&ctx.rpcbuf);
+    ctx.rpcbuf.clear();
     return rc;
 }
 
@@ -812,7 +812,7 @@ private int ProcXResQueryResourceBytes(ClientPtr client)
         return BadAlloc;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     int rc = ConstructResourceBytes(stuff.client, &ctx);
 
@@ -828,7 +828,7 @@ private int ProcXResQueryResourceBytes(ClientPtr client)
         }
 
         foreach(it; ctx.response.byEntries!(FragmentList, "l")) {
-            x_rpcbuf_write_CARD8s(&rpcbuf, cast(ubyte*)mixin(FRAGMENT_DATA!(`it`)), it.bytes);
+            rpcbuf.writeCard8s(cast(ubyte*)mixin(FRAGMENT_DATA!(`it`)), it.bytes);
         }  
         if (rpcbuf.wpos != ctx.resultBytes)
             LogMessage(X_WARNING, "ProcXResQueryClientIds() rpcbuf size (%ld) context size (%ld)\n",

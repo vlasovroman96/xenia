@@ -447,11 +447,13 @@ private int rrGetMultiScreenResources(ClientPtr client, Bool query, ScreenPtr pS
                   total_modes * int32ForBytes((xRRModeInfo).sizeof) +
                   int32ForBytes(total_name_len));
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     extraLen = reply.length << 2;
     if (extraLen) {
-        extra = cast(ubyte*)x_rpcbuf_reserve(&rpcbuf, extraLen);
+        // extra = cast(ubyte*)rpcbuf.reserve(extraLen);
+        extra = cast(ubyte*)rpcbuf.reserve(extraLen).ptr;
+
         if (!extra) {
             return BadAlloc;
         }
@@ -532,7 +534,7 @@ private int rrGetScreenResources(ClientPtr client, Bool query)
     if (pScreen.output_secondarys)
         return rrGetMultiScreenResources(client, query, pScreen);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (!pScrPriv) {
         reply = xRRGetScreenResourcesReply (
@@ -574,7 +576,9 @@ private int rrGetScreenResources(ClientPtr client, Bool query)
         if (!extraLen)
             goto finish;
 
-        extra = cast(ubyte*)x_rpcbuf_reserve(&rpcbuf, extraLen);
+        // extra = cast(ubyte*)rpcbuf.reserve(extraLen);
+        extra = cast(ubyte*)rpcbuf.reserve(extraLen).ptr;
+
         if (!extra) {
             free(modes);
             return BadAlloc;
@@ -784,7 +788,7 @@ int ProcRRGetScreenInfo(ClientPtr client)
 
     output = RRFirstOutput(pScreen);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (!pScrPriv || !output) {
         reply = xRRGetScreenInfoReply (
@@ -828,7 +832,9 @@ int ProcRRGetScreenInfo(ClientPtr client)
         if (!extraLen)
             goto finish; // no extra payload
 
-        extra = cast(ubyte*)x_rpcbuf_reserve(&rpcbuf, extraLen);
+        // extra = cast(ubyte*)rpcbuf.reserve(extraLen);
+        extra = cast(ubyte*)rpcbuf.reserve(extraLen).ptr;
+
         if (!extra) {
             free(pData);
             return BadAlloc;

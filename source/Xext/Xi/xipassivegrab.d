@@ -41,7 +41,7 @@ import dix.dix_priv;
 import dix.dixgrabs_priv;
 import dix.exevents_priv;
 import dix.inpututils_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.request_priv;
 import Xi.handlers;
 
@@ -152,7 +152,7 @@ int ProcXIPassiveGrabDevice(ClientPtr client)
         param.other_devices_mode = stuff.grab_mode;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (stuff.cursor != None) {
         ret = dixLookupResourceByType(&tmp, stuff.cursor,
@@ -222,10 +222,10 @@ int ProcXIPassiveGrabDevice(ClientPtr client)
 modifier_done:
         if (status != cast(ubyte)GrabSuccess) {
             /* write xXIGrabModifierInfo */
-            x_rpcbuf_write_CARD32(&rpcbuf, *modifiers);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)status);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)0); /* pad0 */
-            x_rpcbuf_write_CARD16(&rpcbuf, 0); /* pad1 */
+            rpcbuf.writeCard32(*modifiers);
+            rpcbuf.writeCard8(cast(ubyte)status);
+            rpcbuf.writeCard8(cast(ubyte)0); /* pad0 */
+            rpcbuf.writeCard16( 0); /* pad1 */
 
             reply.num_modifiers++;
         }
@@ -239,7 +239,7 @@ modifier_done:
 
  out_:
     xi2mask_free(&mask.xi2mask);
-    x_rpcbuf_clear(&rpcbuf);
+    rpcbuf.clear();
     return ret;
 }
 

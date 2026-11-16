@@ -35,7 +35,7 @@ import externs.glxproto;
 
 import dix.dix_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 
 import glx.indirect_size;
 import glx.indirect_size_get;
@@ -134,9 +134,9 @@ void __glXSendReply(ClientPtr client, const(void)* data, size_t elements, size_t
         reply_ints = int32ForBytes(elements * element_size);
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: TRUE };
     /* data should already be padded */
-    x_rpcbuf_write_CARD8s(&rpcbuf, cast(ubyte*)data, reply_ints * 4);
+    rpcbuf.writeCard8s(cast(ubyte*)data, reply_ints * 4);
 
     xGLXSingleReply reply = {
         size: cast(uint)elements,

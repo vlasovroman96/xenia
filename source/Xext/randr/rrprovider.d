@@ -68,7 +68,7 @@ void RRProviderInitErrorValue()
 enum string ADD_PROVIDER(string _pScreen) = `{                                 
     pScrPriv = mixin(rrGetScrPriv!("` ~ _pScreen ~ `"));                            
     if (pScrPriv.provider) {                                   
-        x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)pScrPriv.provider.id); 
+        rpcbuf.writeCard32(cast(uint)pScrPriv.provider.id); 
         count_providers++;                                      
     }                                                           
     }`;
@@ -103,7 +103,7 @@ int ProcRRGetProviders(ClientPtr client)
         return mixin(X_SEND_REPLY_SIMPLE!("client", "reply"));
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     CARD16 count_providers = 0;
     mixin(ADD_PROVIDER!(`pScreen`));
@@ -173,11 +173,11 @@ int ProcRRGetProviderInfo(ClientPtr client)
     reply.length = (pScrPriv.numCrtcs + pScrPriv.numOutputs +
                    (reply.nAssociatedProviders * 2) + int32ForBytes(reply.nameLength));
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     extraLen = cast(uint)(reply.length << 2);
     if (extraLen) {
-        extra = cast(ubyte*)x_rpcbuf_reserve(&rpcbuf, extraLen);
+        extra = cast(ubyte*)rpcbuf.reserve(extraLen).ptr;
         if (!extra)
             return BadAlloc;
     }

@@ -61,7 +61,7 @@ import build.dix_config;
 import dix.dix_priv;
 import dix.resource_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.window_priv;
 import Xi.handlers;
 
@@ -104,7 +104,7 @@ int ProcXGetSelectedExtensionEvents(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if ((pOthers = mixin(wOtherInputMasks!("pWin"))) !is null) {
         for (others = pOthers.inputClients; others; others = others.next)
@@ -138,7 +138,7 @@ int ProcXGetSelectedExtensionEvents(ClientPtr client)
                 aclient =
                     ClassFromMask(aclient, others.mask[i], i, null, CREATE);
 
-        x_rpcbuf_write_CARD32s(&rpcbuf, buf, total_count);
+        rpcbuf.writeCard32s(buf, total_count);
         free(buf);
     }
 

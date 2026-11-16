@@ -433,12 +433,12 @@ int ProcRRListOutputProperties(ClientPtr client)
     mixin(VERIFY_RR_OUTPUT!("stuff.output", "output", "DixReadAccess"));
 ;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     size_t numProps = 0;
     for (RRPropertyPtr prop = output.properties; prop; prop = prop.next) {
         numProps++;
-        x_rpcbuf_write_CARD32(&rpcbuf, prop.propertyName);
+        rpcbuf.writeCard32(prop.propertyName);
     }
 
     xRRListOutputPropertiesReply reply = {
@@ -472,8 +472,8 @@ int ProcRRQueryOutputProperty(ClientPtr client)
     if (!prop)
         return BadName;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)prop.valid_values, prop.num_valid);
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+    rpcbuf.writeCard32s(cast(CARD32*)prop.valid_values, prop.num_valid);
 
     xRRQueryOutputPropertyReply reply = {
         pending: cast(ubyte)prop.is_pending,
@@ -664,7 +664,7 @@ int ProcRRGetOutputProperty(ClientPtr client)
         if (prop.propertyName == stuff.property)
             break;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     xRRGetOutputPropertyReply reply = { 0 };
 
@@ -728,13 +728,13 @@ int ProcRRGetOutputProperty(ClientPtr client)
         const(char)* src = cast(char*) prop_value.data + ind;
         switch (reply.format) {
         case 32:
-            x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)src, len / CARD32.sizeof);
+            rpcbuf.writeCard32s(cast(CARD32*)src, len / CARD32.sizeof);
             break;
         case 16:
-            x_rpcbuf_write_CARD16s(&rpcbuf, cast(CARD16*)src, len / CARD16.sizeof);
+            rpcbuf.writeCard16s(cast(CARD16*)src, len / CARD16.sizeof);
             break;
         default:
-            x_rpcbuf_write_binary_pad(&rpcbuf, src, len);
+            rpcbuf.writeBinaryPad(src, len);
             break;
         }
     }

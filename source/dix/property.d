@@ -647,16 +647,16 @@ int ProcGetProperty(ClientPtr client)
 
     const(char)* dataptr = (cast(char*)pProp.data) + ind;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     switch (pProp.format) {
         case 32:
-            x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)dataptr, len / 4);
+            rpcbuf.writeCard32s(cast(CARD32*)dataptr, len / 4);
         break;
         case 16:
-            x_rpcbuf_write_CARD16s(&rpcbuf, cast(CARD16*)dataptr, len / 2);
+            rpcbuf.writeCard16s(cast(CARD16*)dataptr, len / 2);
         break;
         default:
-            x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)dataptr, len);
+            rpcbuf.writeCard8s(cast(CARD8*)dataptr, len);
         break;
     }
 
@@ -706,14 +706,14 @@ int ProcListProperties(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     size_t numProps = 0;
     for (PropertyPtr realProp = void, pProp = pWin.properties; pProp; pProp = pProp.next) {
         realProp = pProp;
         rc = XaceHookPropertyAccess(client, pWin, &realProp, DixGetAttrAccess);
         if (rc == Success && realProp == pProp) {
-            x_rpcbuf_write_CARD32(&rpcbuf, pProp.propertyName);
+            rpcbuf.writeCard32(pProp.propertyName);
             numProps++;
         }
     }

@@ -45,7 +45,7 @@ import dix.exevents_priv;
 import dix.input_priv;
 import dix.inpututils_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import os.fmt;
 import Xi.handlers;
 
@@ -111,9 +111,9 @@ int ProcXIQueryDevice(ClientPtr client)
         }
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
-    info = cast(char*)x_rpcbuf_reserve(&rpcbuf, len);
+    info = cast(char*)rpcbuf.reserve(len).ptr;
     if (!info) {
         free(skip);
         return BadAlloc;

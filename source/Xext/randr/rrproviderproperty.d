@@ -362,10 +362,10 @@ int ProcRRListProviderProperties(ClientPtr client)
 
     mixin(VERIFY_RR_PROVIDER!("stuff.provider", "provider", "DixReadAccess"));
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     for (prop = provider.properties; prop; prop = prop.next) {
-        x_rpcbuf_write_CARD32(&rpcbuf, prop.propertyName);
+        rpcbuf.writeCard32(prop.propertyName);
         numProps++;
     }
 
@@ -398,8 +398,8 @@ int ProcRRQueryProviderProperty(ClientPtr client)
     if (!prop)
         return BadName;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-    x_rpcbuf_write_INT32s(&rpcbuf, prop.valid_values, prop.num_valid);
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+    rpcbuf.writeInt32s(prop.valid_values, prop.num_valid);
 
     xRRQueryProviderPropertyReply reply = {
         pending: cast(ubyte)prop.is_pending,
@@ -579,7 +579,7 @@ int ProcRRGetProviderProperty(ClientPtr client)
         if (prop.propertyName == stuff.property)
             break;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     xRRGetProviderPropertyReply reply = { 0 };
 
@@ -653,13 +653,13 @@ int ProcRRGetProviderProperty(ClientPtr client)
         const(char)* dataptr = (cast(char*)prop_value.data) + ind;
         switch (prop_value.format) {
         case 32:
-            x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)dataptr, len/CARD32.sizeof);
+            rpcbuf.writeCard32s(cast(CARD32*)dataptr, len/CARD32.sizeof);
             break;
         case 16:
-            x_rpcbuf_write_CARD16s(&rpcbuf, cast(CARD16*)dataptr, len/CARD16.sizeof);
+            rpcbuf.writeCard16s(cast(CARD16*)dataptr, len/CARD16.sizeof);
             break;
         default:
-            x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)dataptr, len);
+            rpcbuf.writeCard8s(cast(CARD8*)dataptr, len);
             break;
         }
     }

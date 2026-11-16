@@ -41,7 +41,7 @@ import dix.exevents_priv;
 import dix.extension_priv;
 import dix.input_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import Xi.handlers;
 import dix.atom;
 import dix.dispatch;
@@ -803,7 +803,7 @@ int XISetDevicePropertyDeletable(DeviceIntPtr dev, Atom property, Bool deletable
 }
 
 /* rpcbuf->err_clear needs to be True */
-private int _writeDevProps(x_rpcbuf_t* rpcbuf, XID devId, ClientPtr pClient, size_t* natoms) {
+private int _writeDevProps(RPCBuffer* rpcbuf, XID devId, ClientPtr pClient, size_t* natoms) {
     DeviceIntPtr dev = void;
     int rc = dixLookupDevice(&dev, cast(int)devId, pClient, DixListPropAccess);
     if (rc != Success)
@@ -812,7 +812,7 @@ private int _writeDevProps(x_rpcbuf_t* rpcbuf, XID devId, ClientPtr pClient, siz
     size_t n = 0;
     for (XIPropertyPtr p = dev.properties.properties; p; p = p.next) {
         n++;
-        if (!x_rpcbuf_write_CARD32(rpcbuf, cast(uint)p.propertyName))
+        if (!rpcbuf.writeCard32(cast(uint)p.propertyName))
             return BadAlloc;
     }
     *natoms = n;
@@ -823,7 +823,7 @@ int ProcXListDeviceProperties(ClientPtr client)
 {
     mixin(X_REQUEST_HEAD_STRUCT!xListDevicePropertiesReq);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     size_t natoms = 0;
     int rc = _writeDevProps(&rpcbuf, stuff.deviceid, client, &natoms);
@@ -937,18 +937,18 @@ int ProcXGetDeviceProperty(ClientPtr client)
     if (stuff.delete_ && (reply.bytesAfter == 0))
         send_property_event(dev, stuff.property, XIPropertyDeleted);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (length) {
         switch (format) {
         case 32:
-            x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)data, length / 4);
+            rpcbuf.writeCard32s(cast(CARD32*)data, length / 4);
             break;
         case 16:
-            x_rpcbuf_write_CARD16s(&rpcbuf, cast(CARD16*)data, length / 2);
+            rpcbuf.writeCard16s(cast(CARD16*)data, length / 2);
             break;
         default:
-            x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)data, length);
+            rpcbuf.writeCard8s(cast(CARD8*)data, length);
             break;
         }
     }
@@ -980,7 +980,7 @@ int ProcXIListProperties(ClientPtr client)
     mixin(X_REQUEST_HEAD_STRUCT!xXIListPropertiesReq);
     mixin(X_REQUEST_FIELD_CARD16!"deviceid");
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     size_t natoms = 0;
     int rc = _writeDevProps(&rpcbuf, stuff.deviceid, client, &natoms);
@@ -1096,18 +1096,18 @@ int ProcXIGetProperty(ClientPtr client)
     if (length && stuff.delete_ && (reply.bytes_after == 0))
         send_property_event(dev, stuff.property, XIPropertyDeleted);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (length) {
         switch (format) {
         case 32:
-            x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)data, length / 4);
+            rpcbuf.writeCard32s(cast(CARD32*)data, length / 4);
             break;
         case 16:
-            x_rpcbuf_write_CARD16s(&rpcbuf, cast(CARD16*)data, length / 2);
+            rpcbuf.writeCard16s(cast(CARD16*)data, length / 2);
             break;
         default:
-            x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)data, length);
+            rpcbuf.writeCard8s(cast(CARD8*)data, length);
             break;
         }
     }

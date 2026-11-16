@@ -39,7 +39,7 @@ import build.dix_config;
 import dix.dix_priv;
 import dix.request_priv;
 import dix.resource_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import miext.extinit_priv;
 
 import os.os;
@@ -100,9 +100,9 @@ private int ProcXCMiscGetXIDList(ClientPtr client)
 
     size_t count = GetXIDList(client, cast(uint)stuff.count, pids);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
-    x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)pids, count);
+    rpcbuf.writeCard32s(cast(CARD32*)pids, count);
     free(pids);
 
     xXCMiscGetXIDListReply reply = {

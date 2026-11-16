@@ -60,7 +60,7 @@ import build.dix_config;
 
 import dix.dix_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import Xi.handlers;
 import externs.X11.extensions.XIproto;
 import dix.devices;
@@ -90,8 +90,8 @@ int ProcXGetDeviceButtonMapping(ClientPtr client)
     if (b is null)
         return BadMatch;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD8s(&rpcbuf, &b.map[1], b.numButtons);
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+    rpcbuf.writeCard8s(&b.map[1], b.numButtons);
 
     xGetDeviceButtonMappingReply reply = {
         RepType: X_GetDeviceButtonMapping,

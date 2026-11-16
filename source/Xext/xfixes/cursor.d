@@ -51,7 +51,7 @@ import dix.cursor_priv;
 import dix.dix_priv;
 import dix.input_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.screen_hooks_priv;
 import dix.screenint_priv;
 import dix.atom;
@@ -368,9 +368,9 @@ int ProcXFixesGetCursorImage(ClientPtr client)
     int height = pCursor.bits.height;
     int npixels = width * height;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
-    CARD32* image = cast(CARD32*)x_rpcbuf_reserve(&rpcbuf, npixels * CARD32.sizeof);
+    CARD32* image = cast(CARD32*)rpcbuf.reserve(npixels * CARD32.sizeof).ptr;
     if (!image)
         return BadAlloc;
 
@@ -427,8 +427,8 @@ int ProcXFixesGetCursorName(ClientPtr client)
 
     const(char)* str = ((pCursor.name) ? atomMgr.nameForAtom(pCursor.name) : "");
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-    x_rpcbuf_write_string_pad(&rpcbuf, str);
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+    rpcbuf.writeStringPad(str.charsToString());
 
     xXFixesGetCursorNameReply reply = {
         atom: cast(int)pCursor.name,
@@ -461,9 +461,9 @@ int ProcXFixesGetCursorImageAndName(ClientPtr client)
 
     const(char)* name = pCursor.name ? atomMgr.nameForAtom(pCursor.name) : "";
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
-    CARD32* image = cast(uint*)x_rpcbuf_reserve(&rpcbuf, npixels * CARD32.sizeof);
+    CARD32* image = cast(uint*)rpcbuf.reserve(npixels * CARD32.sizeof).ptr;
     if (!image)
         return BadAlloc;
 
@@ -471,7 +471,7 @@ int ProcXFixesGetCursorImageAndName(ClientPtr client)
     if (client.swapped)
         SwapLongs(image, npixels);
 
-    x_rpcbuf_write_string_pad(&rpcbuf, name);
+    rpcbuf.writeStringPad( name.charsToString());
 
     if (rpcbuf.error)
         return BadAlloc;

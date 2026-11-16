@@ -30,7 +30,7 @@ import externs.X11.Xatom;
 
 import dix.dix_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import randr.randrstr_priv;
 import randr.rrdispatch_priv;
 import os.bug_priv;
@@ -57,7 +57,6 @@ import common.math;
 import common.bytes;
 import common.swap;
 import dix.dispatch;
-
 /* XFixed is just `int`, so better check whether it's really 32bit */
 static assert(XFixed.sizeof, CARD32.sizeof);
 
@@ -1177,7 +1176,7 @@ int ProcRRGetCrtcInfo(ClientPtr client)
         rotations: crtc.rotations,
     };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (leased) {
         reply.rotation = RR_Rotate_0;
@@ -1212,14 +1211,14 @@ int ProcRRGetCrtcInfo(ClientPtr client)
         }
 
         for (int i = 0; i < crtc.numOutputs; i++) {
-            x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)crtc.outputs[i].id);
+            rpcbuf.writeCard32(cast(uint)crtc.outputs[i].id);
         }
 
         for (int i = 0; i < pScrPriv.numOutputs; i++) {
             if (!RROutputIsLeased(pScrPriv.outputs[i])) {
                 for (int j = 0; j < pScrPriv.outputs[i].numCrtcs; j++)
                     if (pScrPriv.outputs[i].crtcs[j] == crtc) {
-                        x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)pScrPriv.outputs[i].id);
+                        rpcbuf.writeCard32(cast(uint)pScrPriv.outputs[i].id);
                     }
             }
         }
@@ -1652,11 +1651,11 @@ int ProcRRGetCrtcGamma(ClientPtr client)
     if (!RRCrtcGammaGet(crtc))
         return RRErrorBase + BadRRCrtc;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
-    x_rpcbuf_write_CARD16s(&rpcbuf, crtc.gammaRed, crtc.gammaSize);
-    x_rpcbuf_write_CARD16s(&rpcbuf, crtc.gammaGreen, crtc.gammaSize);
-    x_rpcbuf_write_CARD16s(&rpcbuf, crtc.gammaBlue, crtc.gammaSize);
+    rpcbuf.writeCard16s(crtc.gammaRed, crtc.gammaSize);
+    rpcbuf.writeCard16s(crtc.gammaGreen, crtc.gammaSize);
+    rpcbuf.writeCard16s(crtc.gammaBlue, crtc.gammaSize);
 
     xRRGetCrtcGammaReply reply = {
         size: cast(ushort)crtc.gammaSize
@@ -1771,7 +1770,7 @@ int ProcRRGetCrtcTransform(ClientPtr client)
     pending = &crtc.client_pending_transform;
     current = &crtc.client_current_transform;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     xRRGetCrtcTransformReply reply = {
         hasTransforms: cast(ubyte)crtc.transforms,
@@ -1783,15 +1782,15 @@ int ProcRRGetCrtcTransform(ClientPtr client)
     if (pending.filter) {
         reply.pendingNbytesFilter = cast(ushort)strlen(pending.filter.name);
         reply.pendingNparamsFilter = cast(ushort)pending.nparams;
-        x_rpcbuf_write_string_pad(&rpcbuf, pending.filter.name);
-        x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)pending.params, pending.nparams);
+        rpcbuf.writeStringPad(pending.filter.name.charsToString());
+        rpcbuf.writeCard32s(cast(CARD32*)pending.params, pending.nparams);
     }
 
     if (current.filter) {
         reply.currentNbytesFilter = cast(ushort)strlen(current.filter.name);
         reply.currentNparamsFilter = cast(ushort)current.nparams;
-        x_rpcbuf_write_string_pad(&rpcbuf, current.filter.name);
-        x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)current.params, current.nparams);
+        rpcbuf.writeStringPad(current.filter.name.charsToString());
+        rpcbuf.writeCard32s(cast(CARD32*)current.params, current.nparams);
     }
 
     if (client.swapped) {

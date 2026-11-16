@@ -147,22 +147,22 @@ private int ProcXvMCListSurfaceTypes(ClientPtr client)
         }
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     int num_surfaces = (adaptor) ? adaptor.num_surfaces : 0;
     for (int i = 0; i < num_surfaces; i++) {
         XvMCSurfaceInfoPtr surface = adaptor.surfaces[i];
 
         /* write xvmcSurfaceInfo */
-        x_rpcbuf_write_CARD32(&rpcbuf, surface.surface_type_id);
-        x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)surface.chroma_format);
-        x_rpcbuf_write_CARD16(&rpcbuf, 0);
-        x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)surface.max_width);
-        x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)surface.max_height);
-        x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)surface.subpicture_max_width);
-        x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)surface.subpicture_max_height);
-        x_rpcbuf_write_CARD32(&rpcbuf, cast(ushort)surface.mc_type);
-        x_rpcbuf_write_CARD32(&rpcbuf, cast(ushort)surface.flags);
+        rpcbuf.writeCard32(surface.surface_type_id);
+        rpcbuf.writeCard16(cast(ushort)surface.chroma_format);
+        rpcbuf.writeCard16(0);
+        rpcbuf.writeCard16(cast(ushort)surface.max_width);
+        rpcbuf.writeCard16(cast(ushort)surface.max_height);
+        rpcbuf.writeCard16(cast(ushort)surface.subpicture_max_width);
+        rpcbuf.writeCard16(cast(ushort)surface.subpicture_max_height);
+        rpcbuf.writeCard32(cast(ushort)surface.mc_type);
+        rpcbuf.writeCard32(cast(ushort)surface.flags);
     }
 
     xvmcListSurfaceTypesReply reply = {
@@ -251,8 +251,8 @@ private int ProcXvMCCreateContext(ClientPtr client)
         return BadAlloc;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD32s(&rpcbuf, data, dwords);
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+    rpcbuf.writeCard32s(data, dwords);
     free(data);
 
     xvmcCreateContextReply reply = {
@@ -326,8 +326,8 @@ private int ProcXvMCCreateSurface(ClientPtr client)
         return BadAlloc;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD32s(&rpcbuf, data, dwords);
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+    rpcbuf.writeCard32s(data, dwords);
     free(data);
 
     xvmcCreateSurfaceReply reply = { 0 };
@@ -440,8 +440,8 @@ private int ProcXvMCCreateSubpicture(ClientPtr client)
         return BadAlloc;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD32s(&rpcbuf, data, dwords);
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+    rpcbuf.writeCard32s(data, dwords);
     free(data);
 
     xvmcCreateSubpictureReply reply;
@@ -527,7 +527,7 @@ private int ProcXvMCListSubpictureTypes(ClientPtr client)
     int num = (surface.compatible_subpictures ?
                surface.compatible_subpictures.num_xvimages : 0);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (num) {
         for (int i = 0; i < num; i++) {
@@ -544,38 +544,38 @@ private int ProcXvMCListSubpictureTypes(ClientPtr client)
             }
 
             /* xvImageFormatInfo */
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.id);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)pImage.type);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)pImage.byte_order);
-            x_rpcbuf_write_CARD16(&rpcbuf, 0); /* pad1 */
-            x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)pImage.guid, 16);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)pImage.bits_per_pixel);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)pImage.num_planes);
-            x_rpcbuf_write_CARD16(&rpcbuf, 0); /* pad2 */
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)pImage.depth);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)0); /* pad3 */
-            x_rpcbuf_write_CARD16(&rpcbuf, 0); /* pad4 */
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.red_mask);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.green_mask);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.blue_mask);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)pImage.format);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)0); /* pad5 */
-            x_rpcbuf_write_CARD16(&rpcbuf, 0); /* pad6 */
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.y_sample_bits);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.u_sample_bits);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.v_sample_bits);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.horz_y_period);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.horz_u_period);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.horz_v_period);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.vert_y_period);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.vert_u_period);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.vert_v_period);
-            x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)pImage.component_order, 32);
-            x_rpcbuf_write_CARD8(&rpcbuf,  cast(ubyte)pImage.scanline_order);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)0); /* pad7 */
-            x_rpcbuf_write_CARD16(&rpcbuf, 0); /* pad8 */
-            x_rpcbuf_write_CARD32(&rpcbuf, 0); /* pad9 */
-            x_rpcbuf_write_CARD32(&rpcbuf, 0); /* pad10 */
+            rpcbuf.writeCard32(pImage.id);
+            rpcbuf.writeCard8(cast(ubyte)pImage.type);
+            rpcbuf.writeCard8(cast(ubyte)pImage.byte_order);
+            rpcbuf.writeCard16( 0); /* pad1 */
+            rpcbuf.writeCard8s(cast(CARD8*)pImage.guid, 16);
+            rpcbuf.writeCard8(cast(ubyte)pImage.bits_per_pixel);
+            rpcbuf.writeCard8(cast(ubyte)pImage.num_planes);
+            rpcbuf.writeCard16( 0); /* pad2 */
+            rpcbuf.writeCard8(cast(ubyte)pImage.depth);
+            rpcbuf.writeCard8(cast(ubyte)0); /* pad3 */
+            rpcbuf.writeCard16( 0); /* pad4 */
+            rpcbuf.writeCard32(pImage.red_mask);
+            rpcbuf.writeCard32(pImage.green_mask);
+            rpcbuf.writeCard32(pImage.blue_mask);
+            rpcbuf.writeCard8(cast(ubyte)pImage.format);
+            rpcbuf.writeCard8(cast(ubyte)0); /* pad5 */
+            rpcbuf.writeCard16( 0); /* pad6 */
+            rpcbuf.writeCard32(pImage.y_sample_bits);
+            rpcbuf.writeCard32(pImage.u_sample_bits);
+            rpcbuf.writeCard32(pImage.v_sample_bits);
+            rpcbuf.writeCard32(pImage.horz_y_period);
+            rpcbuf.writeCard32(pImage.horz_u_period);
+            rpcbuf.writeCard32(pImage.horz_v_period);
+            rpcbuf.writeCard32(pImage.vert_y_period);
+            rpcbuf.writeCard32(pImage.vert_u_period);
+            rpcbuf.writeCard32(pImage.vert_v_period);
+            rpcbuf.writeCard8s(cast(CARD8*)pImage.component_order, 32);
+            rpcbuf.writeCard8( cast(ubyte)pImage.scanline_order);
+            rpcbuf.writeCard8(cast(ubyte)0); /* pad7 */
+            rpcbuf.writeCard16( 0); /* pad8 */
+            rpcbuf.writeCard32(0); /* pad9 */
+            rpcbuf.writeCard32(0); /* pad10 */
         }
     }
 
@@ -607,9 +607,9 @@ private int ProcXvMCGetDRInfo(ClientPtr client)
     int nameLen = cast(int)strlen(pScreenPriv.clientDriverName.ptr) + 1;
     int busIDLen = cast(int)strlen(pScreenPriv.busID.ptr) + 1;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)pScreenPriv.clientDriverName, nameLen);
-    x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)pScreenPriv.busID, busIDLen);
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+    rpcbuf.writeCard8s(cast(CARD8*)pScreenPriv.clientDriverName, nameLen);
+    rpcbuf.writeCard8s(cast(CARD8*)pScreenPriv.busID, busIDLen);
 
     xvmcGetDRInfoReply reply = {
         major: pScreenPriv.major,

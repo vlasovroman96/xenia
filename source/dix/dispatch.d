@@ -1075,11 +1075,11 @@ int ProcQueryTree(ClientPtr client)
 
     pHead = RealChildHead(pWin);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     CARD32 numChildren = 0;
     for (WindowPtr pChild = pWin.lastChild; pChild != pHead; pChild = pChild.prevSib) {
-        x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)pChild.drawable.id);
+        rpcbuf.writeCard32(cast(uint)pChild.drawable.id);
         numChildren++;
     }
 
@@ -1146,8 +1146,8 @@ int ProcGetAtomName(ClientPtr client)
 
     const(int) len = cast(int)strlen(str);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)str, len);
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+    rpcbuf.writeCard8s(cast(CARD8*)str, len);
 
     xGetAtomNameReply reply = {
         nameLength: cast(ushort)len
@@ -2304,7 +2304,7 @@ private int DoGetImage(ClientPtr client, int format, Drawable drawable, int x, i
                                        IncludeInferiors);
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (linesPerBuf == 0) {
         /* nothing to do */
@@ -2314,9 +2314,9 @@ private int DoGetImage(ClientPtr client, int format, Drawable drawable, int x, i
         while (height - linesDone > 0) {
             size_t nlines = min(linesPerBuf, height - linesDone);
 
-            char* pBuf = cast(char*)x_rpcbuf_reserve(&rpcbuf, (nlines * widthBytesLine));
+            char* pBuf = cast(char*)rpcbuf.reserve(nlines * widthBytesLine).ptr;
             if (!pBuf) {
-                x_rpcbuf_clear(&rpcbuf);
+                rpcbuf.clear();
                 return BadAlloc;
             }
 
@@ -2346,9 +2346,11 @@ private int DoGetImage(ClientPtr client, int format, Drawable drawable, int x, i
                 while (height - linesDone > 0) {
                     size_t nlines = min(linesPerBuf, height - linesDone);
 
-                    char* pBuf = cast(char*)x_rpcbuf_reserve(&rpcbuf, (nlines * widthBytesLine));
+                    // char* pBuf = cast(char*)rpcbuf.reserve((nlines * widthBytesLine));
+                    char* pBuf = cast(char*)rpcbuf.reserve(nlines * widthBytesLine).ptr;
+
                     if (!pBuf) {
-                        x_rpcbuf_clear(&rpcbuf);
+                        rpcbuf.clear();
                         return BadAlloc;
                     }
 
@@ -2624,8 +2626,8 @@ int ProcListInstalledColormaps(ClientPtr client)
     ScreenPtr pScreen = pWin.drawable.pScreen;
     const(int) nummaps = pScreen.ListInstalledColormaps(pScreen, cm);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD32s(&rpcbuf, cm, nummaps); /* Colormap is an XID, thus CARD32  */
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+    rpcbuf.writeCard32s(cm, nummaps); /* Colormap is an XID, thus CARD32  */
     free(cm);
 
     xListInstalledColormapsReply reply = {
@@ -2768,16 +2770,16 @@ int ProcAllocColorCells(ClientPtr client)
         nmasks = stuff.planes;
         length = (cast(c_long) npixels + cast(c_long) nmasks) * Pixel.sizeof;
 
-        x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+        RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
-        Pixel* ppixels = cast(uint*)x_rpcbuf_reserve(&rpcbuf, length);
+        Pixel* ppixels = cast(uint*)rpcbuf.reserve(length).ptr;
         if (!ppixels)
             return BadAlloc;
         pmasks = ppixels + npixels;
 
         if ((rc = AllocColorCells(client, pcmp, npixels, nmasks,
                                   cast(Bool) stuff.contiguous, ppixels, pmasks)) != 0) {
-            x_rpcbuf_clear(&rpcbuf);
+            rpcbuf.clear();
             return rc;
         }
 static if(XINERAMA){
@@ -2810,7 +2812,7 @@ static if(XINERAMA){
 
             return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
         }
-        x_rpcbuf_clear(&rpcbuf);
+        rpcbuf.clear();
         return Success;
     }
     else {
@@ -2848,8 +2850,10 @@ int ProcAllocColorPlanes(ClientPtr client)
         };
         length = cast(c_long) npixels *Pixel.sizeof;
 
-        x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-        Pixel* ppixels = cast(uint*)x_rpcbuf_reserve(&rpcbuf, length);
+        RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+        // Pixel* ppixels = cast(uint*)rpcbuf.reserve(length);
+        Pixel* ppixels = cast(uint*)rpcbuf.reserve(length).ptr;
+
         if (!ppixels)
             return BadAlloc;
         if ((rc = AllocColorPlanes(client.index, pcmp, npixels,
@@ -2857,7 +2861,7 @@ int ProcAllocColorPlanes(ClientPtr client)
                                    cast(int) stuff.blue, cast(Bool) stuff.contiguous,
                                    ppixels, &reply.redMask, &reply.greenMask,
                                    &reply.blueMask)) != 0) {
-            x_rpcbuf_clear(&rpcbuf);
+            rpcbuf.clear();
             return rc;
         }
 
@@ -2878,7 +2882,7 @@ static if(XINERAMA){
 else {
             return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
 }
-        x_rpcbuf_clear(&rpcbuf);
+        rpcbuf.clear();
         return Success;
 
     }
@@ -2988,13 +2992,13 @@ int ProcQueryColors(ClientPtr client)
         count =
             cast(int)int32ForBytes(((client.req_len << 2)) - xQueryColorsReq.sizeof);
 
-        x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-        xrgb* prgbs = cast(xrgb*)x_rpcbuf_reserve(&rpcbuf, count * xrgb.sizeof);
+        RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+        xrgb* prgbs = cast(xrgb*)rpcbuf.reserve(count * xrgb.sizeof).ptr;
         if (!prgbs && count)
             return BadAlloc;
         if ((rc =
              QueryColors(pcmp, count, cast(Pixel*) &stuff[1], prgbs, client)) != 0) {
-            x_rpcbuf_clear(&rpcbuf);
+            rpcbuf.clear();
             return rc;
         }
 
@@ -3399,7 +3403,7 @@ int ProcListHosts(ClientPtr client)
         nHosts: cast(ushort)nHosts
     };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (client.swapped) {
         char* bufT = cast(char*) pdata;
@@ -3415,7 +3419,7 @@ int ProcListHosts(ClientPtr client)
         swaps(&reply.nHosts);
     }
 
-    x_rpcbuf_write_CARD8s(&rpcbuf, cast(ubyte*)pdata, len);
+    rpcbuf.writeCard8s(cast(ubyte*)pdata, len);
     free(pdata);
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
@@ -3518,7 +3522,7 @@ int ProcGetFontPath(ClientPtr client)
     if (rc != Success)
         return rc;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     xGetFontPathReply reply = {
         nPaths: cast(ushort)FillFontPath(&rpcbuf)

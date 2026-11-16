@@ -19,7 +19,7 @@ import core.stdc.config: c_long, c_ulong;
 import dix.atom;
 public import dix.input_priv;
 public import dix.resource_priv;
-public import dix.rpcbuf_priv;
+public import dix.rpcbuf;
 
 public import dix.callback;
 public import dix.cursor;
@@ -108,7 +108,7 @@ void ProcessWorkQueue();
 ClientPtr GetCurrentClient();
 // void InitClient(ClientPtr client, int i, void* ospriv);
 
-// int FillFontPath(x_rpcbuf_t* rpcbuf);
+// int FillFontPath(RPCBuffer* rpcbuf);
 
 /* lookup builtin color by name */
 Bool dixLookupBuiltinColor(char* name, uint len, ushort* pred, ushort* pgreen, ushort* pblue);

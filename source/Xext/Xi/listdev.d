@@ -64,7 +64,7 @@ import dix.devices_priv;
 import dix.dix_priv;
 import dix.input_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import Xi.handlers;
 
 import dix.inputstr;           /* DeviceIntPtr      */
@@ -355,11 +355,11 @@ int ProcXListInputDevices(ClientPtr client)
         numdevs++;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     /* allocate space for reply */
     total_length = cast(int)(numdevs * (xDeviceInfo).sizeof + size + namesize);
-    char* devbuf = cast(char*)x_rpcbuf_reserve(&rpcbuf, total_length);
+    char* devbuf = cast(char*)rpcbuf.reserve(total_length).ptr;
     if (!devbuf) {
         free(skip);
         return BadAlloc;

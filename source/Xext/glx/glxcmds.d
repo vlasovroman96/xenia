@@ -43,7 +43,7 @@ import os.utils;
 import dix.dix_priv;
 import dix.resource_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.screenint_priv;
 import dix.window_priv;
 import os.bug_priv;
@@ -919,63 +919,63 @@ int __glXDisp_GetVisualConfigs(__GLXclientState* cl, GLbyte* pc)
         swapl(&reply.numProps);
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: TRUE };
 
     for (int i = 0; i < pGlxScreen.numVisuals; i++) {
         modes = pGlxScreen.visuals[i];
 
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.visualID);
-        x_rpcbuf_write_CARD32(&rpcbuf, glxConvertToXVisualType(modes.visualType));
-        x_rpcbuf_write_CARD32(&rpcbuf, (modes.renderType & GLX_RGBA_BIT) ? GL_TRUE : GL_FALSE);
+        rpcbuf.writeCard32(modes.visualID);
+        rpcbuf.writeCard32(glxConvertToXVisualType(modes.visualType));
+        rpcbuf.writeCard32((modes.renderType & GLX_RGBA_BIT) ? GL_TRUE : GL_FALSE);
 
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.redBits);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.greenBits);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.blueBits);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.alphaBits);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.accumRedBits);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.accumGreenBits);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.accumBlueBits);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.accumAlphaBits);
+        rpcbuf.writeCard32(modes.redBits);
+        rpcbuf.writeCard32(modes.greenBits);
+        rpcbuf.writeCard32(modes.blueBits);
+        rpcbuf.writeCard32(modes.alphaBits);
+        rpcbuf.writeCard32(modes.accumRedBits);
+        rpcbuf.writeCard32(modes.accumGreenBits);
+        rpcbuf.writeCard32(modes.accumBlueBits);
+        rpcbuf.writeCard32(modes.accumAlphaBits);
 
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.doubleBufferMode);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.stereoMode);
+        rpcbuf.writeCard32(modes.doubleBufferMode);
+        rpcbuf.writeCard32(modes.stereoMode);
 
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.rgbBits);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.depthBits);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.stencilBits);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.numAuxBuffers);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.level);
+        rpcbuf.writeCard32(modes.rgbBits);
+        rpcbuf.writeCard32(modes.depthBits);
+        rpcbuf.writeCard32(modes.stencilBits);
+        rpcbuf.writeCard32(modes.numAuxBuffers);
+        rpcbuf.writeCard32(modes.level);
 
         /*
          ** Add token/value pairs for extensions.
          */
-        x_rpcbuf_write_CARD32(&rpcbuf, GLX_VISUAL_CAVEAT_EXT);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.visualRating);
-        x_rpcbuf_write_CARD32(&rpcbuf, GLX_TRANSPARENT_TYPE);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.transparentPixel);
-        x_rpcbuf_write_CARD32(&rpcbuf, GLX_TRANSPARENT_RED_VALUE);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.transparentRed);
-        x_rpcbuf_write_CARD32(&rpcbuf, GLX_TRANSPARENT_GREEN_VALUE);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.transparentGreen);
-        x_rpcbuf_write_CARD32(&rpcbuf, GLX_TRANSPARENT_BLUE_VALUE);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.transparentBlue);
-        x_rpcbuf_write_CARD32(&rpcbuf, GLX_TRANSPARENT_ALPHA_VALUE);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.transparentAlpha);
-        x_rpcbuf_write_CARD32(&rpcbuf, GLX_TRANSPARENT_INDEX_VALUE);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.transparentIndex);
-        x_rpcbuf_write_CARD32(&rpcbuf, GLX_SAMPLES_SGIS);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.samples);
-        x_rpcbuf_write_CARD32(&rpcbuf, GLX_SAMPLE_BUFFERS_SGIS);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.sampleBuffers);
-        x_rpcbuf_write_CARD32(&rpcbuf, GLX_VISUAL_SELECT_GROUP_SGIX);
-        x_rpcbuf_write_CARD32(&rpcbuf, modes.visualSelectGroup);
+        rpcbuf.writeCard32(GLX_VISUAL_CAVEAT_EXT);
+        rpcbuf.writeCard32(modes.visualRating);
+        rpcbuf.writeCard32(GLX_TRANSPARENT_TYPE);
+        rpcbuf.writeCard32(modes.transparentPixel);
+        rpcbuf.writeCard32(GLX_TRANSPARENT_RED_VALUE);
+        rpcbuf.writeCard32(modes.transparentRed);
+        rpcbuf.writeCard32(GLX_TRANSPARENT_GREEN_VALUE);
+        rpcbuf.writeCard32(modes.transparentGreen);
+        rpcbuf.writeCard32(GLX_TRANSPARENT_BLUE_VALUE);
+        rpcbuf.writeCard32(modes.transparentBlue);
+        rpcbuf.writeCard32(GLX_TRANSPARENT_ALPHA_VALUE);
+        rpcbuf.writeCard32(modes.transparentAlpha);
+        rpcbuf.writeCard32(GLX_TRANSPARENT_INDEX_VALUE);
+        rpcbuf.writeCard32(modes.transparentIndex);
+        rpcbuf.writeCard32(GLX_SAMPLES_SGIS);
+        rpcbuf.writeCard32(modes.samples);
+        rpcbuf.writeCard32(GLX_SAMPLE_BUFFERS_SGIS);
+        rpcbuf.writeCard32(modes.sampleBuffers);
+        rpcbuf.writeCard32(GLX_VISUAL_SELECT_GROUP_SGIX);
+        rpcbuf.writeCard32(modes.visualSelectGroup);
         /* Add attribute only if its value is not default. */
         if (modes.sRGBCapable != GL_FALSE) {
-            x_rpcbuf_write_CARD32(&rpcbuf, GLX_FRAMEBUFFER_SRGB_CAPABLE_EXT);
-            x_rpcbuf_write_CARD32(&rpcbuf, modes.sRGBCapable);
+            rpcbuf.writeCard32(GLX_FRAMEBUFFER_SRGB_CAPABLE_EXT);
+            rpcbuf.writeCard32(modes.sRGBCapable);
         } else {
             /* Pad with zeroes, so that attributes count is constant. */
-            x_rpcbuf_reserve0(&rpcbuf, ((CARD32).sizeof * 2));
+            rpcbuf.reserve0(((CARD32).sizeof * 2));
         }
     }
 
@@ -1005,8 +1005,8 @@ private int DoGetFBConfigs(__GLXclientState* cl, uint screen)
     if (!validGlxScreen(cl.client, screen, &pGlxScreen, &err))
         return err;
 
-    x_rpcbuf_t rpcbuf;
-        rpcbuf.swapped = client.swapped; 
+    RPCBuffer rpcbuf;
+        rpcbuf.swapped = cast(bool)client.swapped; 
         rpcbuf.err_clear = TRUE ;
 
     for (modes = pGlxScreen.fbconfigs; modes != null; modes = modes.next) {
@@ -1080,7 +1080,7 @@ enum string WRITE_PAIR(string tag,string value) = `
         }
         assert(p == __GLX_FBCONFIG_ATTRIBS_LENGTH);
 
-        x_rpcbuf_write_CARD32s(&rpcbuf, buf.ptr, __GLX_FBCONFIG_ATTRIBS_LENGTH);
+        rpcbuf.writeCard32s(buf.ptr, __GLX_FBCONFIG_ATTRIBS_LENGTH);
     }
 
     xGLXGetFBConfigsReply reply;
@@ -1594,18 +1594,18 @@ private int DoQueryContext(__GLXclientState* cl, XeGLXContextID gcId)
     if (!validGlxContext(cl.client, cast(uint)gcId, DixReadAccess, &ctx, &err))
         return err;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: TRUE };
 
-    x_rpcbuf_write_CARD32(&rpcbuf, GLX_SHARE_CONTEXT_EXT);
-    x_rpcbuf_write_CARD32(&rpcbuf, cast(int) (ctx.share_id));
-    x_rpcbuf_write_CARD32(&rpcbuf, GLX_VISUAL_ID_EXT);
-    x_rpcbuf_write_CARD32(&rpcbuf, cast(int) (ctx.config ? ctx.config.visualID : 0));
-    x_rpcbuf_write_CARD32(&rpcbuf, GLX_SCREEN_EXT);
-    x_rpcbuf_write_CARD32(&rpcbuf, cast(int) (ctx.pGlxScreen.pScreen.myNum));
-    x_rpcbuf_write_CARD32(&rpcbuf, GLX_FBCONFIG_ID);
-    x_rpcbuf_write_CARD32(&rpcbuf, cast(int) (ctx.config ? ctx.config.fbconfigID : 0));
-    x_rpcbuf_write_CARD32(&rpcbuf, GLX_RENDER_TYPE);
-    x_rpcbuf_write_CARD32(&rpcbuf, cast(int) (ctx.renderType));
+    rpcbuf.writeCard32(GLX_SHARE_CONTEXT_EXT);
+    rpcbuf.writeCard32(cast(int) (ctx.share_id));
+    rpcbuf.writeCard32(GLX_VISUAL_ID_EXT);
+    rpcbuf.writeCard32(cast(int) (ctx.config ? ctx.config.visualID : 0));
+    rpcbuf.writeCard32(GLX_SCREEN_EXT);
+    rpcbuf.writeCard32(cast(int) (ctx.pGlxScreen.pScreen.myNum));
+    rpcbuf.writeCard32(GLX_FBCONFIG_ID);
+    rpcbuf.writeCard32(cast(int) (ctx.config ? ctx.config.fbconfigID : 0));
+    rpcbuf.writeCard32(GLX_RENDER_TYPE);
+    rpcbuf.writeCard32(cast(int) (ctx.renderType));
 
     xGLXQueryContextInfoEXTReply reply = {
         n: cast(uint)((rpcbuf.wpos / CARD32.sizeof) / 2),
@@ -1833,8 +1833,8 @@ enum string ATTRIB(string a, string v) = `{
         swapl(&reply.numAttribs);
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
-    x_rpcbuf_write_CARD32s(&rpcbuf, attributes.ptr, num << 1);
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: TRUE };
+    rpcbuf.writeCard32s(attributes.ptr, num << 1);
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
 }
@@ -2262,9 +2262,9 @@ int __glXDisp_QueryExtensionsString(__GLXclientState* cl, GLbyte* pc)
         swapl(&reply.n);
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: TRUE };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: TRUE };
 
-    x_rpcbuf_write_string_0t_pad(&rpcbuf, pGlxScreen.GLXextensions);
+    rpcbuf.writeString0tPad(pGlxScreen.GLXextensions.charsToString);
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
 }
 

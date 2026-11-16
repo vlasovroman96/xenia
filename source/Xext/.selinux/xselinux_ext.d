@@ -97,7 +97,7 @@ private int ProcSELinuxQueryVersion(ClientPtr client)
 
 private int SELinuxSendContextReply(ClientPtr client, security_id_t sid)
 {
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     // auto dd = &assumeNoGC(&avc_sid_to_context_raw);
 
@@ -109,7 +109,7 @@ private int SELinuxSendContextReply(ClientPtr client, security_id_t sid)
             return BadValue;
         }
         len = cast(uint)(strlen(ctx) + 1);
-        x_rpcbuf_write_string_0t_pad(&rpcbuf, ctx);
+        rpcbuf.writeString0tPad(ctx);
         assumeNoGC(&externs.selinux.avc.free)(ctx);
     }
 
@@ -360,15 +360,15 @@ private void SELinuxFreeItems(SELinuxListItemRec* items, int count)
 
 private int SELinuxSendItemsToClient(ClientPtr client, SELinuxListItemRec* items, int size, int count)
 {
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     /* Fill in the buffer */
     for (int k = 0; k < count; k++) {
-        x_rpcbuf_write_CARD32(&rpcbuf, items[k].id);
-        x_rpcbuf_write_CARD32(&rpcbuf, items[k].octx_len * 4);
-        x_rpcbuf_write_CARD32(&rpcbuf, items[k].dctx_len * 4);
-        x_rpcbuf_write_string_0t_pad(&rpcbuf, items[k].octx);
-        x_rpcbuf_write_string_0t_pad(&rpcbuf, items[k].dctx);
+        rpcbuf.writeCard32(items[k].id);
+        rpcbuf.writeCard32(items[k].octx_len * 4);
+        rpcbuf.writeCard32(items[k].dctx_len * 4);
+        rpcbuf.writeString0tPad(items[k].octx);
+        rpcbuf.writeString0tPad(items[k].dctx);
     }
 
     /* Send reply to client */

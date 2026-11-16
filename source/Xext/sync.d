@@ -1281,7 +1281,7 @@ private int ProcSyncListSystemCounters(ClientPtr client)
 {
     mixin(X_REQUEST_HEAD_STRUCT!xSyncListSystemCountersReq);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     CARD32 nCounters = 0;
     foreach(psci; SysCounterList.byEntries!(SysCounterInfo, "entry")) {
@@ -1292,12 +1292,12 @@ private int ProcSyncListSystemCounters(ClientPtr client)
            after the header fields, then the whole thing is padded to
            full protocol units.
         */
-        x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)psci.pCounter.sync.id);
-        x_rpcbuf_write_INT32(&rpcbuf, cast(int)(psci.resolution >> 32));
-        x_rpcbuf_write_INT32(&rpcbuf, cast(int)psci.resolution);
-        x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)namelen);
-        x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)psci.name, namelen);
-        x_rpcbuf_pad(&rpcbuf);
+        rpcbuf.writeCard32(cast(uint)psci.pCounter.sync.id);
+        rpcbuf.writeInt32(cast(int)(psci.resolution >> 32));
+        rpcbuf.writeInt32(cast(int)psci.resolution);
+        rpcbuf.writeCard16( cast(ushort)namelen);
+        rpcbuf.writeCard8s(cast(CARD8*)psci.name, namelen);
+        rpcbuf.doPad();
 
         nCounters++;
     }

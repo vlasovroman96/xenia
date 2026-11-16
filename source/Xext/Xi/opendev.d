@@ -61,7 +61,7 @@ import build.dix_config;
 import dix.dix_priv;
 import dix.input_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import Xi.handlers;
 
 import dix.inputstr;           /* DeviceIntPtr      */
@@ -84,8 +84,8 @@ import dix.events;
  */
 
 enum string WRITE_ICI(string cls) = `{ 
-        x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)` ~ cls ~ `); 
-        x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)event_base[` ~ cls ~ `]); 
+        rpcbuf.writeCard8(cast(ubyte)` ~ cls ~ `); 
+        rpcbuf.writeCard8(cast(ubyte)event_base[` ~ cls ~ `]); 
         num_classes++; 
     } `;
 
@@ -115,7 +115,7 @@ int ProcXOpenDevice(ClientPtr client)
     if (status != Success)
         return status;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (dev.key !is null) {
         mixin(WRITE_ICI!(`KeyClass`));

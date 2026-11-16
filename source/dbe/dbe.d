@@ -42,7 +42,7 @@ import core.stdc.stdint;
 
 import dix.dix_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.screen_hooks_priv;
 import dix.screenint_priv;
 import dix.window_priv;
@@ -582,7 +582,7 @@ private int ProcDbeGetVisualInfo(ClientPtr client)
 
     count = cast(int)((stuff.n == 0) ? screenInfo.numScreens : stuff.n);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
         xDbeGetVisualInfoReply reply = {
             m: count
         };
@@ -606,7 +606,7 @@ private int ProcDbeGetVisualInfo(ClientPtr client)
 
         /* ensure enough buffer space here, so we don't need to check for
            errors on individual operations */
-        if (!x_rpcbuf_makeroom(&rpcbuf, (visualInfo.count+1)*8)) {
+        if (!rpcbuf.makeRoom((visualInfo.count+1)*8)) {
             rc = BadAlloc;
             free(visualInfo.visinfo);
             goto clearRpcBuf;
@@ -614,13 +614,13 @@ private int ProcDbeGetVisualInfo(ClientPtr client)
 
         /* For each screen in the reply, send off the visual info */
 
-        x_rpcbuf_write_CARD32(&rpcbuf, visualInfo.count);
+        rpcbuf.writeCard32(visualInfo.count);
         for (int j = 0; j < visualInfo.count; j++) {
             /* Write visualID(32), depth(8), perfLevel(8), and pad(16). */
-            x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)visualInfo.visinfo[j].visual);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)visualInfo.visinfo[j].depth);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)visualInfo.visinfo[j].perflevel);
-            x_rpcbuf_write_CARD16(&rpcbuf, 0);
+            rpcbuf.writeCard32(cast(uint)visualInfo.visinfo[j].visual);
+            rpcbuf.writeCard8(cast(ubyte)visualInfo.visinfo[j].depth);
+            rpcbuf.writeCard8(cast(ubyte)visualInfo.visinfo[j].perflevel);
+            rpcbuf.writeCard16( 0);
         }
 
         free(visualInfo.visinfo);
@@ -632,7 +632,7 @@ private int ProcDbeGetVisualInfo(ClientPtr client)
     rc = mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
 
 clearRpcBuf:
-    x_rpcbuf_clear(&rpcbuf);
+    rpcbuf.clear();
     free(pDrawables);
 
     return rc;

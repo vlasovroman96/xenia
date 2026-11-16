@@ -37,7 +37,7 @@ import core.stdc.stdio;
 
 import dix.dix_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.screenint_priv;
 import dix.server_priv;
 import dix.window_priv;
@@ -2055,10 +2055,10 @@ int PanoramiXGetImage(ClientPtr client)
     }
 
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     /* can become quite big, so make enough room so we don't need to relloc */
-    if (!x_rpcbuf_makeroom(&rpcbuf, length))
+    if (!rpcbuf.makeRoom(length))
         return BadAlloc;
 
     if (linesPerBuf == 0) {
@@ -2069,7 +2069,7 @@ int PanoramiXGetImage(ClientPtr client)
         while (h - linesDone > 0) {
             nlines = min(linesPerBuf, h - linesDone);
 
-            char* pBuf = cast(char*)x_rpcbuf_reserve(&rpcbuf, nlines * widthBytesLine);
+            char* pBuf = cast(char*)rpcbuf.reserve(nlines * widthBytesLine).ptr;
             if (!pBuf)
                 return BadAlloc;
             XineramaGetImageData(drawables.ptr, x, y + linesDone, w, nlines,
@@ -2086,7 +2086,7 @@ int PanoramiXGetImage(ClientPtr client)
                 while (h - linesDone > 0) {
                     nlines = min(linesPerBuf, h - linesDone);
 
-                    char* pBuf = cast(char*)x_rpcbuf_reserve(&rpcbuf, nlines * widthBytesLine);
+                    char* pBuf = cast(char*)rpcbuf.reserve(nlines * widthBytesLine).ptr;
                     if (!pBuf)
                         return BadAlloc;
                     XineramaGetImageData(drawables.ptr, x, y + linesDone, w,

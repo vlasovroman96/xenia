@@ -46,7 +46,7 @@ import dix.exevents_priv;
 import dix.input_priv;
 import dix.inpututils_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.screenint_priv;
 import os.fmt;
 import Xext.panoramiXsrv;
@@ -141,14 +141,14 @@ int ProcXIQueryPointer(ClientPtr client)
         reply.group.locked_group = state.locked_group;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (pDev.button) {
         int i = void;
 
         const(int) buttons_size = bytesForBits(256); /* button map up to 255 */
         reply.buttons_len = cast(ushort)int32ForBytes(buttons_size);
-        char* buttons = cast(char*)x_rpcbuf_reserve0(&rpcbuf, buttons_size);
+        char* buttons = cast(char*)rpcbuf.reserve0(buttons_size).ptr;
         if (!buttons)
             return BadAlloc;
 

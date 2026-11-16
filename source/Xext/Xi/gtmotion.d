@@ -61,7 +61,7 @@ import build.dix_config;
 import dix.dix_priv;
 import dix.exevents_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import Xi.handlers;
 
 import dix.inputstr;           /* DeviceIntPtr      */
@@ -107,7 +107,7 @@ int ProcXGetDeviceMotionEvents(ClientPtr client)
     TimeStamp start = ClientTimeToServerTime(stuff.start);
     TimeStamp stop = ClientTimeToServerTime(stuff.stop);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (CompareTimeStamps(start, stop) != LATER &&
         CompareTimeStamps(start, currentTime) != LATER) {
@@ -119,7 +119,7 @@ int ProcXGetDeviceMotionEvents(ClientPtr client)
             reply.nEvents = GetMotionHistory(dev, cast(xTimecoord**) &coords,   /* XXX */
                                            start.milliseconds, stop.milliseconds,
                                            cast(ScreenPtr) null, False);
-            x_rpcbuf_write_INT32s(&rpcbuf, coords, int32ForBytes(reply.nEvents * size));
+            rpcbuf.writeInt32s(coords, int32ForBytes(reply.nEvents * size));
             free(coords);
         }
     }

@@ -350,7 +350,7 @@ int ProcXIGetSelectedEvents(ClientPtr client)
         }
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (!others)
         goto finish;
@@ -372,13 +372,13 @@ int ProcXIGetSelectedEvents(ClientPtr client)
                 int mask_len = (j + 4) / 4;     /* j is an index, hence + 4, not + 3 */
 
                 /* write xXIEventMask */
-                x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)i);
-                x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)mask_len);
+                rpcbuf.writeCard16( cast(ushort)i);
+                rpcbuf.writeCard16( cast(ushort)mask_len);
 
                 /* write mask -- be prepared for original mask not 32bit aligned */
-                x_rpcbuf_write_CARD8s(&rpcbuf, devmask, j+1);
+                rpcbuf.writeCard8s(cast(ubyte*)devmask, j+1);
                 CARD8[8] zero = 0;
-                x_rpcbuf_write_CARD8s(&rpcbuf, zero.ptr, (mask_len*4) - (j+1));
+                rpcbuf.writeCard8s(zero.ptr, (mask_len*4) - (j+1));
 
                 reply.num_masks++;
 

@@ -271,7 +271,7 @@ int ProcRRXineramaQueryScreens(ClientPtr client)
             return BadAlloc;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     xXineramaQueryScreensReply reply = {
         number: nmonitors
@@ -283,7 +283,7 @@ int ProcRRXineramaQueryScreens(ClientPtr client)
     for (m = 0; m < nmonitors; m++) {
         BoxRec box = monitors[m].geometry.box;
         /* write xXineramaScreenInfo */
-        x_rpcbuf_write_rect(&rpcbuf,
+        rpcbuf.writeProtoRect(
                             box.x1,
                             box.y1,
                             cast(ushort)(box.x2 - box.x1),

@@ -252,9 +252,9 @@ static if(XINERAMA){
                ndepth * (xPictDepth).sizeof +
                nvisual * (xPictVisual).sizeof + numSubpixel * CARD32.sizeof);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
-    xPictFormInfo* pictForm = cast(xPictFormInfo*)x_rpcbuf_reserve(&rpcbuf, rlength);
+    xPictFormInfo* pictForm = cast(xPictFormInfo*)rpcbuf.reserve(rlength).ptr;
     if (!pictForm)
         return BadAlloc;
 
@@ -398,15 +398,15 @@ int ProcRenderQueryPictIndexValues(ClientPtr client)
         return BadMatch;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     for (int i = 0; i < pFormat.index.nvalues; i++) {
         /* write xIndexValue */
         xIndexValue* iv = &(pFormat.index.pValues[i]);
-        x_rpcbuf_write_CARD32(&rpcbuf, iv.pixel);
-        x_rpcbuf_write_CARD16(&rpcbuf, iv.red);
-        x_rpcbuf_write_CARD16(&rpcbuf, iv.green);
-        x_rpcbuf_write_CARD16(&rpcbuf, iv.blue);
-        x_rpcbuf_write_CARD16(&rpcbuf, iv.alpha);
+        rpcbuf.writeCard32(iv.pixel);
+        rpcbuf.writeCard16( iv.red);
+        rpcbuf.writeCard16( iv.green);
+        rpcbuf.writeCard16( iv.blue);
+        rpcbuf.writeCard16( iv.alpha);
     }
 
     xRenderQueryPictIndexValuesReply reply = {
@@ -1528,8 +1528,8 @@ int ProcRenderQueryFilters(ClientPtr client)
     len = cast(int)(((nnames + 1) >> 1) + int32ForBytes(nbytesName));
     total_bytes = (len << 2);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-    aliases = cast(INT16*) x_rpcbuf_reserve(&rpcbuf, total_bytes);
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+    aliases = cast(INT16*) rpcbuf.reserve(total_bytes).ptr;
     if (!aliases)
         return BadAlloc;
 

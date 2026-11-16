@@ -65,7 +65,7 @@ import externs.X11.fonts.libxfont2;
 import dix.dix_priv;
 import dix.gc_priv;
 import dix.request_priv;
-import dix.rpcbuf_priv;
+import dix.rpcbuf;
 import dix.screenint_priv;
 import dix.server_priv;
 import dix.swaprep;
@@ -661,7 +661,7 @@ private Bool doListFontsAndAliases(ClientPtr client, list_fonts_closure* c)
     int aliascount = 0;
     xListFontsReply reply;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     if (client.clientGone) {
         if (c.current.current_fpe < c.num_fpes) {
             fpe = c.fpe_list[c.current.current_fpe];
@@ -843,8 +843,8 @@ private Bool doListFontsAndAliases(ClientPtr client, list_fonts_closure* c)
             reply.nFonts--;
         else {
             /* write a pascal string */
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)names.length[i]);
-            x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)names.names[i], names.length[i]);
+            rpcbuf.writeCard8(cast(ubyte)names.length[i]);
+            rpcbuf.writeCard8s(cast(CARD8*)names.names[i], names.length[i]);
         }
     }
 
@@ -1858,13 +1858,13 @@ void DeleteClientFontStuff(ClientPtr client)
     }
 }
 
-int FillFontPath(x_rpcbuf_t* rpcbuf)
+int FillFontPath(RPCBuffer* rpcbuf)
 {
     for (int i = 0; i < num_fpes; i++) {
         FontPathElementPtr fpe = font_path_elements[i];
         /* write a pascal-string */
-        x_rpcbuf_write_CARD8(rpcbuf, cast(ubyte)fpe.name_length);
-        x_rpcbuf_write_CARD8s(rpcbuf, cast(CARD8*)fpe.name, fpe.name_length);
+        rpcbuf.writeCard8(cast(ubyte)fpe.name_length);
+        rpcbuf.writeCard8s( cast(CARD8*)fpe.name, fpe.name_length);
     }
     return num_fpes;
 }

@@ -146,10 +146,10 @@ private int ProcXF86DRIOpenConnection(ClientPtr client)
         return BadValue;
     }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     if (busIdString) {
         busIdStringLength = cast(uint)strlen(busIdString);
-        x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)busIdString, strlen(busIdString));
+        rpcbuf.writeCard8s(cast(CARD8*)busIdString, strlen(busIdString));
     }
 
     xXF86DRIOpenConnectionReply reply = {
@@ -221,10 +221,10 @@ private int ProcXF86DRIGetClientDriverName(ClientPtr client)
                            cast(int*) &reply.ddxDriverPatchVersion,
                            &clientDriverName);
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     if (clientDriverName) {
         reply.clientDriverNameLength = cast(uint)strlen(clientDriverName);
-        x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)clientDriverName, reply.clientDriverNameLength);
+        rpcbuf.writeCard8s(cast(CARD8*)clientDriverName, reply.clientDriverNameLength);
     }
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
@@ -370,7 +370,7 @@ private int ProcXF86DRIGetDrawableInfo(ClientPtr client)
     reply.backX = cast(short)backX;
     reply.backY = cast(short)backY;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     if (reply.numClipRects) {
         int j = 0;
@@ -384,10 +384,10 @@ private int ProcXF86DRIGetDrawableInfo(ClientPtr client)
 
             /* only write visible ones */
             if (x1 < x2 && y1 < y2) {
-                x_rpcbuf_write_CARD16(&rpcbuf, x1);
-                x_rpcbuf_write_CARD16(&rpcbuf, y1);
-                x_rpcbuf_write_CARD16(&rpcbuf, x2);
-                x_rpcbuf_write_CARD16(&rpcbuf, y2);
+                rpcbuf.writeCard16( x1);
+                rpcbuf.writeCard16( y1);
+                rpcbuf.writeCard16( x2);
+                rpcbuf.writeCard16( y2);
                 j++;
             }
         }
@@ -396,10 +396,10 @@ private int ProcXF86DRIGetDrawableInfo(ClientPtr client)
     }
 
     for (int i = 0; i < reply.numBackClipRects; i++) {
-        x_rpcbuf_write_CARD16(&rpcbuf, pBackClipRects[i].x1);
-        x_rpcbuf_write_CARD16(&rpcbuf, pBackClipRects[i].y1);
-        x_rpcbuf_write_CARD16(&rpcbuf, pBackClipRects[i].x2);
-        x_rpcbuf_write_CARD16(&rpcbuf, pBackClipRects[i].y2);
+        rpcbuf.writeCard16( pBackClipRects[i].x1);
+        rpcbuf.writeCard16( pBackClipRects[i].y1);
+        rpcbuf.writeCard16( pBackClipRects[i].x2);
+        rpcbuf.writeCard16( pBackClipRects[i].y2);
     }
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
@@ -435,8 +435,8 @@ static if (HasVersion!"LONG64" && !HasVersion!"linux") {
     reply.hFrameBufferHigh = cast(CARD32) (hFrameBuffer >> 32);
 }
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD8s(&rpcbuf, cast(ubyte*)pDevPrivate, reply.devPrivateSize);
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
+    rpcbuf.writeCard8s(cast(ubyte*)pDevPrivate, reply.devPrivateSize);
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
 }

@@ -109,7 +109,7 @@ private int ProcDRI2Connect(ClientPtr client)
                        &pDraw, &status))
         return status;
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     xDRI2ConnectReply reply = { 0 };
 
     if (DRI2Connect(client, pDraw.pScreen,
@@ -117,8 +117,8 @@ private int ProcDRI2Connect(ClientPtr client)
         reply.driverNameLength = cast(uint)strlen(driverName);
         reply.deviceNameLength = cast(uint)strlen(deviceName);
 
-        x_rpcbuf_write_string_pad(&rpcbuf, driverName);
-        x_rpcbuf_write_string_pad(&rpcbuf, deviceName);
+        rpcbuf.writeStringPad(driverName.charsToString());
+        rpcbuf.writeStringPad(deviceName.charsToString());
     }
 
     auto res = mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
@@ -215,7 +215,7 @@ private int send_buffers_reply(ClientPtr client, DrawablePtr pDrawable, DRI2Buff
         count: count - skip
     };
 
-    x_rpcbuf_t rpcbuf = { swapped: client.swapped, err_clear: True };
+    RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     for (i = 0; i < count; i++) {
         xDRI2Buffer buffer = void;
@@ -233,7 +233,7 @@ private int send_buffers_reply(ClientPtr client, DrawablePtr pDrawable, DRI2Buff
         buffer.cpp = buffers[i].cpp;
         buffer.flags = buffers[i].flags;
 
-        x_rpcbuf_write_binary_pad(&rpcbuf, &buffer, xDRI2Buffer.sizeof);
+        rpcbuf.writeBinaryPad( &buffer, xDRI2Buffer.sizeof);
     }
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
