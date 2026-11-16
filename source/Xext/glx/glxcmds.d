@@ -2264,7 +2264,7 @@ int __glXDisp_QueryExtensionsString(__GLXclientState* cl, GLbyte* pc)
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: TRUE };
 
-    x_rpcbuf_write_string_0t_pad(&rpcbuf, pGlxScreen.GLXextensions);
+    rpcbuf.writeString0tPad(pGlxScreen.GLXextensions);
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
 }
 

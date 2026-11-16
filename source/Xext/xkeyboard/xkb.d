@@ -4478,8 +4478,8 @@ private void XkbWriteGeomShapes(RPCBuffer* rpcbuf, XkbGeometryPtr geom)
 
             for (p = 0, pt = ol.points; p < ol.num_points; p++, pt++) {
                 /* write xkbPointWireDesc */
-                x_rpcbuf_write_INT16(rpcbuf, cast(short)pt.x);
-                x_rpcbuf_write_INT16(rpcbuf, cast(short)pt.y);
+                rpcbuf.writeInt16(cast(short)pt.x);
+                rpcbuf.writeInt16(cast(short)pt.y);
             }
         }
     }
@@ -4511,9 +4511,9 @@ private void XkbWriteGeomDoodads(RPCBuffer* rpcbuf, int num_doodads, XkbDoodadPt
         rpcbuf.writeCard32(cast(uint)doodad.any.name);
         rpcbuf.writeCard8(cast(ubyte)doodad.any.type);
         rpcbuf.writeCard8(cast(ubyte)doodad.any.priority);
-        x_rpcbuf_write_INT16(rpcbuf, cast(short)doodad.any.top);
-        x_rpcbuf_write_INT16(rpcbuf, cast(short)doodad.any.left);
-        x_rpcbuf_write_INT16(rpcbuf, cast(short)doodad.any.angle);
+        rpcbuf.writeInt16(cast(short)doodad.any.top);
+        rpcbuf.writeInt16(cast(short)doodad.any.left);
+        rpcbuf.writeInt16(cast(short)doodad.any.angle);
 
         switch (doodad.any.type) {
         case XkbOutlineDoodad:
@@ -4636,11 +4636,11 @@ private void XkbWriteGeomSections(RPCBuffer* rpcbuf, XkbGeometryPtr geom)
 
         /* write xkbSectionWireDesc */
         rpcbuf.writeCard32(cast(uint)section.name);
-        x_rpcbuf_write_INT16(rpcbuf, cast(short)section.top);
-        x_rpcbuf_write_INT16(rpcbuf, cast(short)section.left);
+        rpcbuf.writeInt16(cast(short)section.top);
+        rpcbuf.writeInt16(cast(short)section.left);
         rpcbuf.writeCard16(section.width);
         rpcbuf.writeCard16(section.height);
-        x_rpcbuf_write_INT16(rpcbuf, cast(short)section.angle);
+        rpcbuf.writeInt16(cast(short)section.angle);
         rpcbuf.writeCard8(cast(ubyte)section.priority);
         rpcbuf.writeCard8(cast(ubyte)section.num_rows);
         rpcbuf.writeCard8(cast(ubyte)section.num_doodads);
@@ -4653,8 +4653,8 @@ private void XkbWriteGeomSections(RPCBuffer* rpcbuf, XkbGeometryPtr geom)
 
             for (r = 0, row = section.rows; r < section.num_rows; r++, row++) {
                 /* write xkbRowWireDesc */
-                x_rpcbuf_write_INT16(rpcbuf, cast(short)row.top);
-                x_rpcbuf_write_INT16(rpcbuf, cast(short)row.left),
+                rpcbuf.writeInt16(cast(short)row.top);
+                rpcbuf.writeInt16(cast(short)row.left),
                 rpcbuf.writeCard8(cast(ubyte)row.num_keys);
                 rpcbuf.writeCard8(cast(ubyte)row.vertical);
                 rpcbuf.writeCard16(0); /* pad1 */
@@ -4666,7 +4666,7 @@ private void XkbWriteGeomSections(RPCBuffer* rpcbuf, XkbGeometryPtr geom)
                     for (k = 0, key = row.keys; k < row.num_keys; k++, key++) {
                         /* xkbKeyWireDesc */
                         x_rpcbuf_write_CARD8s(rpcbuf, cast(CARD8*)key.name.name, XkbKeyNameLength);
-                        x_rpcbuf_write_INT16(rpcbuf, cast(short)key.gap);
+                        rpcbuf.writeInt16(cast(short)key.gap);
                         rpcbuf.writeCard8(cast(ubyte)key.shape_ndx);
                         rpcbuf.writeCard8(cast(ubyte)key.color_ndx);
                     }

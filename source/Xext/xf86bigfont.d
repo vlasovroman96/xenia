@@ -350,11 +350,11 @@ private void swapCharInfo(xCharInfo* pCI)
 }
 
 pragma(inline, true) private void writeCharInfo(RPCBuffer* rpcbuf, xCharInfo CI) {
-    x_rpcbuf_write_INT16(rpcbuf, CI.leftSideBearing);
-    x_rpcbuf_write_INT16(rpcbuf, CI.rightSideBearing);
-    x_rpcbuf_write_INT16(rpcbuf, CI.characterWidth);
-    x_rpcbuf_write_INT16(rpcbuf, CI.ascent);
-    x_rpcbuf_write_INT16(rpcbuf, CI.descent);
+    rpcbuf.writeInt16(CI.leftSideBearing);
+    rpcbuf.writeInt16(CI.rightSideBearing);
+    rpcbuf.writeInt16(CI.characterWidth);
+    rpcbuf.writeInt16(CI.ascent);
+    rpcbuf.writeInt16(CI.descent);
     rpcbuf.writeCard16(CI.attributes);
 }
 

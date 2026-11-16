@@ -109,7 +109,7 @@ private int SELinuxSendContextReply(ClientPtr client, security_id_t sid)
             return BadValue;
         }
         len = cast(uint)(strlen(ctx) + 1);
-        x_rpcbuf_write_string_0t_pad(&rpcbuf, ctx);
+        rpcbuf.writeString0tPad(ctx);
         assumeNoGC(&externs.selinux.avc.free)(ctx);
     }
 
@@ -367,8 +367,8 @@ private int SELinuxSendItemsToClient(ClientPtr client, SELinuxListItemRec* items
         rpcbuf.writeCard32(items[k].id);
         rpcbuf.writeCard32(items[k].octx_len * 4);
         rpcbuf.writeCard32(items[k].dctx_len * 4);
-        x_rpcbuf_write_string_0t_pad(&rpcbuf, items[k].octx);
-        x_rpcbuf_write_string_0t_pad(&rpcbuf, items[k].dctx);
+        rpcbuf.writeString0tPad(items[k].octx);
+        rpcbuf.writeString0tPad(items[k].dctx);
     }
 
     /* Send reply to client */

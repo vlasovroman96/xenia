@@ -293,6 +293,22 @@ struct RPCBuffer {
 
         return this.writeBinPad(cast(ubyte[])str[0..strlen(str)], 1);
     }
+
+    /*
+    * write a INT16 and do byte-swapping (when needed).
+    *
+    * allocate a region for INT16, write it into the buffer and do byte-swap
+    * if buffer is configured to do so (`swapped` field is True).
+    *
+    * doesn't do any padding.
+    *
+    * @param rpcbuf    pointer to RPCBuffer to operate on
+    * @param value     the CARD16 value to write
+    * @return          True on success, False on allocation failure
+    */
+    bool writeInt16(INT16 value) {
+        return this.writeCard16(cast(CARD16)value);
+    }
 }
 
 enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
@@ -350,26 +366,10 @@ pragma(inline, true) void x_rpcbuf_write_rpcbuf_pad(RPCBuffer* rpcbuf, RPCBuffer
  */
 pragma(inline, true) void x_rpcbuf_write_rect(RPCBuffer* rpcbuf, INT16 x, INT16 y, CARD16 width, CARD16 height)
 {
-    x_rpcbuf_write_INT16(rpcbuf, x);
-    x_rpcbuf_write_INT16(rpcbuf, y);
+    rpcbuf.writeInt16(x);
+    rpcbuf.writeInt16(y);
     rpcbuf.writeCard16(width);
     rpcbuf.writeCard16(height);
-}
-
-/*
- * write a INT16 and do byte-swapping (when needed).
- *
- * allocate a region for INT16, write it into the buffer and do byte-swap
- * if buffer is configured to do so (`swapped` field is True).
- *
- * doesn't do any padding.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @param value     the CARD16 value to write
- * @return          True on success, False on allocation failure
- */
-pragma(inline, true) Bool x_rpcbuf_write_INT16(RPCBuffer* rpcbuf, INT16 value) {
-    return rpcbuf.writeCard16(cast(CARD16)value);
 }
 
 /*
