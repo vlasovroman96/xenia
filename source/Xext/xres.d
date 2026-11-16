@@ -185,8 +185,8 @@ private int ProcXResQueryClients(ClientPtr client)
         ClientPtr walkClient = clients[i];
         if (walkClient &&
             (dixCallClientAccessCallback(client, walkClient, DixReadAccess) == Success)) {
-            x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)walkClient.clientAsMask); /* resource_base */
-            x_rpcbuf_write_CARD32(&rpcbuf, RESOURCE_ID_MASK);         /* resource_mask */
+            rpcbuf.writeCard32(cast(uint)walkClient.clientAsMask); /* resource_base */
+            rpcbuf.writeCard32(RESOURCE_ID_MASK);         /* resource_mask */
             num_clients++;
         }
     }
@@ -253,8 +253,8 @@ private int ProcXResQueryClientResources(ClientPtr client)
         }
 
         /* write xXResType */
-        x_rpcbuf_write_CARD32(&rpcbuf, resourceTypeAtom(i + 1));
-        x_rpcbuf_write_CARD32(&rpcbuf, counts[i]);
+        rpcbuf.writeCard32(resourceTypeAtom(i + 1));
+        rpcbuf.writeCard32(counts[i]);
 
         num_types++;
     }
@@ -392,7 +392,7 @@ private Bool ConstructClientIdValue(ClientPtr sendClient, ClientPtr client, CARD
         }
 
         x_rpcbuf_write_CARD8s(&ctx.rpcbuf, cast(CARD8*)&reply, reply.sizeof);
-        x_rpcbuf_write_CARD32(&ctx.rpcbuf, pid);
+        ctx.rpcbuf.writeCard32(pid);
 
         ++ctx.numIds;
     }

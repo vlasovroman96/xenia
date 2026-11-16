@@ -1079,7 +1079,7 @@ int ProcQueryTree(ClientPtr client)
 
     CARD32 numChildren = 0;
     for (WindowPtr pChild = pWin.lastChild; pChild != pHead; pChild = pChild.prevSib) {
-        x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)pChild.drawable.id);
+        rpcbuf.writeCard32(cast(uint)pChild.drawable.id);
         numChildren++;
     }
 

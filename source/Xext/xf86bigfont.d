@@ -714,8 +714,8 @@ if (nCharInfos > 0)
         RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
         for (int i = 0; i < nfontprops; i++) {
-            x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)pFont.info.props[i].name);
-            x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)pFont.info.props[i].value);
+            rpcbuf.writeCard32(cast(uint)pFont.info.props[i].name);
+            rpcbuf.writeCard32(cast(uint)pFont.info.props[i].value);
         }
 
         if (nCharInfos > 0 && shmid == -1) {

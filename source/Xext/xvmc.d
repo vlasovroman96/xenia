@@ -154,15 +154,15 @@ private int ProcXvMCListSurfaceTypes(ClientPtr client)
         XvMCSurfaceInfoPtr surface = adaptor.surfaces[i];
 
         /* write xvmcSurfaceInfo */
-        x_rpcbuf_write_CARD32(&rpcbuf, surface.surface_type_id);
-        rpcbuf.writeCard16( cast(ushort)surface.chroma_format);
-        rpcbuf.writeCard16( 0);
-        rpcbuf.writeCard16( cast(ushort)surface.max_width);
-        rpcbuf.writeCard16( cast(ushort)surface.max_height);
-        rpcbuf.writeCard16( cast(ushort)surface.subpicture_max_width);
-        rpcbuf.writeCard16( cast(ushort)surface.subpicture_max_height);
-        x_rpcbuf_write_CARD32(&rpcbuf, cast(ushort)surface.mc_type);
-        x_rpcbuf_write_CARD32(&rpcbuf, cast(ushort)surface.flags);
+        rpcbuf.writeCard32(surface.surface_type_id);
+        rpcbuf.writeCard16(cast(ushort)surface.chroma_format);
+        rpcbuf.writeCard16(0);
+        rpcbuf.writeCard16(cast(ushort)surface.max_width);
+        rpcbuf.writeCard16(cast(ushort)surface.max_height);
+        rpcbuf.writeCard16(cast(ushort)surface.subpicture_max_width);
+        rpcbuf.writeCard16(cast(ushort)surface.subpicture_max_height);
+        rpcbuf.writeCard32(cast(ushort)surface.mc_type);
+        rpcbuf.writeCard32(cast(ushort)surface.flags);
     }
 
     xvmcListSurfaceTypesReply reply = {
@@ -544,7 +544,7 @@ private int ProcXvMCListSubpictureTypes(ClientPtr client)
             }
 
             /* xvImageFormatInfo */
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.id);
+            rpcbuf.writeCard32(pImage.id);
             rpcbuf.writeCard8(cast(ubyte)pImage.type);
             rpcbuf.writeCard8(cast(ubyte)pImage.byte_order);
             rpcbuf.writeCard16( 0); /* pad1 */
@@ -555,27 +555,27 @@ private int ProcXvMCListSubpictureTypes(ClientPtr client)
             rpcbuf.writeCard8(cast(ubyte)pImage.depth);
             rpcbuf.writeCard8(cast(ubyte)0); /* pad3 */
             rpcbuf.writeCard16( 0); /* pad4 */
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.red_mask);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.green_mask);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.blue_mask);
+            rpcbuf.writeCard32(pImage.red_mask);
+            rpcbuf.writeCard32(pImage.green_mask);
+            rpcbuf.writeCard32(pImage.blue_mask);
             rpcbuf.writeCard8(cast(ubyte)pImage.format);
             rpcbuf.writeCard8(cast(ubyte)0); /* pad5 */
             rpcbuf.writeCard16( 0); /* pad6 */
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.y_sample_bits);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.u_sample_bits);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.v_sample_bits);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.horz_y_period);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.horz_u_period);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.horz_v_period);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.vert_y_period);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.vert_u_period);
-            x_rpcbuf_write_CARD32(&rpcbuf, pImage.vert_v_period);
+            rpcbuf.writeCard32(pImage.y_sample_bits);
+            rpcbuf.writeCard32(pImage.u_sample_bits);
+            rpcbuf.writeCard32(pImage.v_sample_bits);
+            rpcbuf.writeCard32(pImage.horz_y_period);
+            rpcbuf.writeCard32(pImage.horz_u_period);
+            rpcbuf.writeCard32(pImage.horz_v_period);
+            rpcbuf.writeCard32(pImage.vert_y_period);
+            rpcbuf.writeCard32(pImage.vert_u_period);
+            rpcbuf.writeCard32(pImage.vert_v_period);
             x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)pImage.component_order, 32);
             rpcbuf.writeCard8( cast(ubyte)pImage.scanline_order);
             rpcbuf.writeCard8(cast(ubyte)0); /* pad7 */
             rpcbuf.writeCard16( 0); /* pad8 */
-            x_rpcbuf_write_CARD32(&rpcbuf, 0); /* pad9 */
-            x_rpcbuf_write_CARD32(&rpcbuf, 0); /* pad10 */
+            rpcbuf.writeCard32(0); /* pad9 */
+            rpcbuf.writeCard32(0); /* pad10 */
         }
     }
 

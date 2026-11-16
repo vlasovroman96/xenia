@@ -812,7 +812,7 @@ private int _writeDevProps(RPCBuffer* rpcbuf, XID devId, ClientPtr pClient, size
     size_t n = 0;
     for (XIPropertyPtr p = dev.properties.properties; p; p = p.next) {
         n++;
-        if (!x_rpcbuf_write_CARD32(rpcbuf, cast(uint)p.propertyName))
+        if (!rpcbuf.writeCard32(cast(uint)p.propertyName))
             return BadAlloc;
     }
     *natoms = n;

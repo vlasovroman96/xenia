@@ -438,7 +438,7 @@ int ProcRRListOutputProperties(ClientPtr client)
     size_t numProps = 0;
     for (RRPropertyPtr prop = output.properties; prop; prop = prop.next) {
         numProps++;
-        x_rpcbuf_write_CARD32(&rpcbuf, prop.propertyName);
+        rpcbuf.writeCard32(prop.propertyName);
     }
 
     xRRListOutputPropertiesReply reply = {

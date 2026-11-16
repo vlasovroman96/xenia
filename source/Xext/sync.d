@@ -1292,7 +1292,7 @@ private int ProcSyncListSystemCounters(ClientPtr client)
            after the header fields, then the whole thing is padded to
            full protocol units.
         */
-        x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)psci.pCounter.sync.id);
+        rpcbuf.writeCard32(cast(uint)psci.pCounter.sync.id);
         x_rpcbuf_write_INT32(&rpcbuf, cast(int)(psci.resolution >> 32));
         x_rpcbuf_write_INT32(&rpcbuf, cast(int)psci.resolution);
         rpcbuf.writeCard16( cast(ushort)namelen);

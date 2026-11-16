@@ -365,7 +365,7 @@ int ProcRRListProviderProperties(ClientPtr client)
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     for (prop = provider.properties; prop; prop = prop.next) {
-        x_rpcbuf_write_CARD32(&rpcbuf, prop.propertyName);
+        rpcbuf.writeCard32(prop.propertyName);
         numProps++;
     }
 

@@ -499,17 +499,17 @@ int ProcRRGetOutputInfo(ClientPtr client)
         reply.nClones = cast(ushort)output.numClones;
 
         for (i = 0; i < output.numCrtcs; i++)
-            x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)output.crtcs[i].id);
+            rpcbuf.writeCard32(cast(uint)output.crtcs[i].id);
 
         for (i = 0; i < output.numModes + output.numUserModes; i++) {
             if (i < output.numModes)
-                x_rpcbuf_write_CARD32(&rpcbuf, output.modes[i].mode.id);
+                rpcbuf.writeCard32(output.modes[i].mode.id);
             else
-                x_rpcbuf_write_CARD32(&rpcbuf, output.userModes[i - output.numModes].mode.id);
+                rpcbuf.writeCard32(output.userModes[i - output.numModes].mode.id);
         }
 
         for (i = 0; i < output.numClones; i++)
-            x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)output.clones[i].id);
+            rpcbuf.writeCard32(cast(uint)output.clones[i].id);
     }
 
     rpcbuf.writeStringPad(output.name.charsToString()); /* indeed 0-terminated */

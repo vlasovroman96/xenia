@@ -68,7 +68,7 @@ void RRProviderInitErrorValue()
 enum string ADD_PROVIDER(string _pScreen) = `{                                 
     pScrPriv = mixin(rrGetScrPriv!("` ~ _pScreen ~ `"));                            
     if (pScrPriv.provider) {                                   
-        x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)pScrPriv.provider.id); 
+        rpcbuf.writeCard32(cast(uint)pScrPriv.provider.id); 
         count_providers++;                                      
     }                                                           
     }`;

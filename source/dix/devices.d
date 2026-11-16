@@ -2324,7 +2324,7 @@ int ProcGetMotionEvents(ClientPtr client)
                 nEvents++;
 
                 /* write xTimecoord */
-                x_rpcbuf_write_CARD32(&rpcbuf, coords[i].time);
+                rpcbuf.writeCard32(coords[i].time);
                 x_rpcbuf_write_INT16(&rpcbuf, cast(short)(coords[i].x - pWin.drawable.x));
                 x_rpcbuf_write_INT16(&rpcbuf, cast(short)(coords[i].y - pWin.drawable.y));
             }

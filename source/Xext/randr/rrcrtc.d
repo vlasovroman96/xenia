@@ -1211,14 +1211,14 @@ int ProcRRGetCrtcInfo(ClientPtr client)
         }
 
         for (int i = 0; i < crtc.numOutputs; i++) {
-            x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)crtc.outputs[i].id);
+            rpcbuf.writeCard32(cast(uint)crtc.outputs[i].id);
         }
 
         for (int i = 0; i < pScrPriv.numOutputs; i++) {
             if (!RROutputIsLeased(pScrPriv.outputs[i])) {
                 for (int j = 0; j < pScrPriv.outputs[i].numCrtcs; j++)
                     if (pScrPriv.outputs[i].crtcs[j] == crtc) {
-                        x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)pScrPriv.outputs[i].id);
+                        rpcbuf.writeCard32(cast(uint)pScrPriv.outputs[i].id);
                     }
             }
         }

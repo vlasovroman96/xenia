@@ -75,14 +75,14 @@ private void _writeDeviceResolution(ClientPtr client, ValuatorClassPtr v, RPCBuf
     rpcbuf.writeCard16(DEVICE_RESOLUTION);
     rpcbuf.writeCard16(
         cast(ushort)((xDeviceResolutionState).sizeof + (3*((CARD32).sizeof*v.numAxes))));
-    x_rpcbuf_write_CARD32(rpcbuf, v.numAxes);
+    rpcbuf.writeCard32(v.numAxes);
 
     for (i = 0, a = v.axes; i < v.numAxes; i++, a++)
-        x_rpcbuf_write_CARD32(rpcbuf, a.resolution);
+        rpcbuf.writeCard32(a.resolution);
     for (i = 0, a = v.axes; i < v.numAxes; i++, a++)
-        x_rpcbuf_write_CARD32(rpcbuf, a.min_resolution);
+        rpcbuf.writeCard32(a.min_resolution);
     for (i = 0, a = v.axes; i < v.numAxes; i++, a++)
-        x_rpcbuf_write_CARD32(rpcbuf, a.max_resolution);
+        rpcbuf.writeCard32(a.max_resolution);
 }
 
 private void _writeDeviceCore(ClientPtr client, DeviceIntPtr dev, RPCBuffer* rpcbuf)

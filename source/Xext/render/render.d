@@ -402,7 +402,7 @@ int ProcRenderQueryPictIndexValues(ClientPtr client)
     for (int i = 0; i < pFormat.index.nvalues; i++) {
         /* write xIndexValue */
         xIndexValue* iv = &(pFormat.index.pValues[i]);
-        x_rpcbuf_write_CARD32(&rpcbuf, iv.pixel);
+        rpcbuf.writeCard32(iv.pixel);
         rpcbuf.writeCard16( iv.red);
         rpcbuf.writeCard16( iv.green);
         rpcbuf.writeCard16( iv.blue);

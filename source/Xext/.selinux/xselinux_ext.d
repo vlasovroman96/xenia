@@ -364,9 +364,9 @@ private int SELinuxSendItemsToClient(ClientPtr client, SELinuxListItemRec* items
 
     /* Fill in the buffer */
     for (int k = 0; k < count; k++) {
-        x_rpcbuf_write_CARD32(&rpcbuf, items[k].id);
-        x_rpcbuf_write_CARD32(&rpcbuf, items[k].octx_len * 4);
-        x_rpcbuf_write_CARD32(&rpcbuf, items[k].dctx_len * 4);
+        rpcbuf.writeCard32(items[k].id);
+        rpcbuf.writeCard32(items[k].octx_len * 4);
+        rpcbuf.writeCard32(items[k].dctx_len * 4);
         x_rpcbuf_write_string_0t_pad(&rpcbuf, items[k].octx);
         x_rpcbuf_write_string_0t_pad(&rpcbuf, items[k].dctx);
     }

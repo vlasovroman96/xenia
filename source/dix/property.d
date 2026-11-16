@@ -713,7 +713,7 @@ int ProcListProperties(ClientPtr client)
         realProp = pProp;
         rc = XaceHookPropertyAccess(client, pWin, &realProp, DixGetAttrAccess);
         if (rc == Success && realProp == pProp) {
-            x_rpcbuf_write_CARD32(&rpcbuf, pProp.propertyName);
+            rpcbuf.writeCard32(pProp.propertyName);
             numProps++;
         }
     }

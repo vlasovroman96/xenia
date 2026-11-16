@@ -222,7 +222,7 @@ int ProcXIPassiveGrabDevice(ClientPtr client)
 modifier_done:
         if (status != cast(ubyte)GrabSuccess) {
             /* write xXIGrabModifierInfo */
-            x_rpcbuf_write_CARD32(&rpcbuf, *modifiers);
+            rpcbuf.writeCard32(*modifiers);
             rpcbuf.writeCard8(cast(ubyte)status);
             rpcbuf.writeCard8(cast(ubyte)0); /* pad0 */
             rpcbuf.writeCard16( 0); /* pad1 */
