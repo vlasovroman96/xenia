@@ -156,19 +156,19 @@ struct RPCBuffer {
         reserved[val.length..$] = 0;
         return true;
     }
+
+    /*
+    * pad the buffer to 4-byte-units (ie. write extra zeros if necessary)
+    *
+    * @param rpcbuf    pointer to RPCBuffer to operate on
+    */
+    void doPad() {
+        this.reserve0(
+            (((this.wpos + 3) / 4) * 4) - this.wpos);
+    }
 }
 
 enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
-
-/*
- * pad the buffer to 4-byte-units (ie. write extra zeros if necessary)
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- */
-pragma(inline, true) void x_rpcbuf_pad(RPCBuffer* rpcbuf) {
-    rpcbuf.reserve0(
-        (((rpcbuf.wpos + 3) / 4) * 4) - rpcbuf.wpos);
-}
 
 /*
  * write a Pascal-like counted string, starting with CARD16 couter,
@@ -185,7 +185,7 @@ pragma(inline, true) void x_rpcbuf_write_counted_string_pad(RPCBuffer* rpcbuf, c
         CARD16 len = cast(CARD16)strlen(str); /* 64k should really be enough */
         x_rpcbuf_write_CARD16(rpcbuf, len);
         x_rpcbuf_write_CARD8s(rpcbuf, cast(CARD8*)str, len);
-        x_rpcbuf_pad(rpcbuf);
+        rpcbuf.doPad();
     }
 }
 

@@ -1381,7 +1381,7 @@ private void XkbWriteModifierMap(XkbDescPtr xkb, KeyCode firstModMapKey, CARD8 n
     }
 
     /* make sure the just written data is properly padded */
-    x_rpcbuf_pad(rpcbuf);
+    rpcbuf.doPad();
 }
 
 private int XkbSizeVirtualModMap(XkbDescPtr xkb, xkbGetMapReply* rep)
@@ -2836,7 +2836,7 @@ private void XkbAssembleCompatMap(ClientPtr client, XkbCompatMapPtr compat, xkbG
                 }
             }
         }
-        x_rpcbuf_pad(rpcbuf);
+        rpcbuf.doPad();
 }
 
 int ProcXkbGetCompatMap(ClientPtr client)
@@ -3753,7 +3753,7 @@ private void XkbAssembleNames(ClientPtr client, XkbDescPtr xkb, xkbGetNamesReply
                 /* Either no name or all of them, even empty ones */
                 x_rpcbuf_write_CARD8(rpcbuf, type.level_names ? type.num_levels : 0);
             }
-            x_rpcbuf_pad(rpcbuf);
+            rpcbuf.doPad();
 
             type = xkb.map.types;
             for (i = 0; i < xkb.map.num_types; i++, type++) {
@@ -4475,7 +4475,7 @@ private void XkbWriteGeomShapes(RPCBuffer* rpcbuf, XkbGeometryPtr geom)
             /* write xkbOutlineWireDesc */
             x_rpcbuf_write_CARD8(rpcbuf, cast(ubyte)ol.num_points);
             x_rpcbuf_write_CARD8(rpcbuf, cast(ubyte)ol.corner_radius);
-            x_rpcbuf_pad(rpcbuf);
+            rpcbuf.doPad();
 
             for (p = 0, pt = ol.points; p < ol.num_points; p++, pt++) {
                 /* write xkbPointWireDesc */
