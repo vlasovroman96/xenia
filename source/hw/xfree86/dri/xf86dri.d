@@ -384,10 +384,10 @@ private int ProcXF86DRIGetDrawableInfo(ClientPtr client)
 
             /* only write visible ones */
             if (x1 < x2 && y1 < y2) {
-                x_rpcbuf_write_CARD16(&rpcbuf, x1);
-                x_rpcbuf_write_CARD16(&rpcbuf, y1);
-                x_rpcbuf_write_CARD16(&rpcbuf, x2);
-                x_rpcbuf_write_CARD16(&rpcbuf, y2);
+                rpcbuf.writeCard16( x1);
+                rpcbuf.writeCard16( y1);
+                rpcbuf.writeCard16( x2);
+                rpcbuf.writeCard16( y2);
                 j++;
             }
         }
@@ -396,10 +396,10 @@ private int ProcXF86DRIGetDrawableInfo(ClientPtr client)
     }
 
     for (int i = 0; i < reply.numBackClipRects; i++) {
-        x_rpcbuf_write_CARD16(&rpcbuf, pBackClipRects[i].x1);
-        x_rpcbuf_write_CARD16(&rpcbuf, pBackClipRects[i].y1);
-        x_rpcbuf_write_CARD16(&rpcbuf, pBackClipRects[i].x2);
-        x_rpcbuf_write_CARD16(&rpcbuf, pBackClipRects[i].y2);
+        rpcbuf.writeCard16( pBackClipRects[i].x1);
+        rpcbuf.writeCard16( pBackClipRects[i].y1);
+        rpcbuf.writeCard16( pBackClipRects[i].x2);
+        rpcbuf.writeCard16( pBackClipRects[i].y2);
     }
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));

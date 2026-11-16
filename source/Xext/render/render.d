@@ -403,10 +403,10 @@ int ProcRenderQueryPictIndexValues(ClientPtr client)
         /* write xIndexValue */
         xIndexValue* iv = &(pFormat.index.pValues[i]);
         x_rpcbuf_write_CARD32(&rpcbuf, iv.pixel);
-        x_rpcbuf_write_CARD16(&rpcbuf, iv.red);
-        x_rpcbuf_write_CARD16(&rpcbuf, iv.green);
-        x_rpcbuf_write_CARD16(&rpcbuf, iv.blue);
-        x_rpcbuf_write_CARD16(&rpcbuf, iv.alpha);
+        rpcbuf.writeCard16( iv.red);
+        rpcbuf.writeCard16( iv.green);
+        rpcbuf.writeCard16( iv.blue);
+        rpcbuf.writeCard16( iv.alpha);
     }
 
     xRenderQueryPictIndexValuesReply reply = {

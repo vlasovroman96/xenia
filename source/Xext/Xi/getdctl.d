@@ -72,8 +72,8 @@ private void _writeDeviceResolution(ClientPtr client, ValuatorClassPtr v, RPCBuf
     int i = void;
 
     /* write xDeviceResolutionState */
-    x_rpcbuf_write_CARD16(rpcbuf, DEVICE_RESOLUTION);
-    x_rpcbuf_write_CARD16(rpcbuf,
+    rpcbuf.writeCard16(DEVICE_RESOLUTION);
+    rpcbuf.writeCard16(
         cast(ushort)((xDeviceResolutionState).sizeof + (3*((CARD32).sizeof*v.numAxes))));
     x_rpcbuf_write_CARD32(rpcbuf, v.numAxes);
 
@@ -88,21 +88,21 @@ private void _writeDeviceResolution(ClientPtr client, ValuatorClassPtr v, RPCBuf
 private void _writeDeviceCore(ClientPtr client, DeviceIntPtr dev, RPCBuffer* rpcbuf)
 {
     /* write xDeviceCoreState */
-    x_rpcbuf_write_CARD16(rpcbuf, DEVICE_CORE);
-    x_rpcbuf_write_CARD16(rpcbuf, xDeviceCoreState.sizeof);
+    rpcbuf.writeCard16(DEVICE_CORE);
+    rpcbuf.writeCard16(xDeviceCoreState.sizeof);
     rpcbuf.writeCard8(cast(ubyte)dev.coreEvents);
     rpcbuf.writeCard8(cast(ubyte)(dev == inputInfo.keyboard || dev == inputInfo.pointer));
-    x_rpcbuf_write_CARD16(rpcbuf, 0); /* pad1 */
+    rpcbuf.writeCard16(0); /* pad1 */
 }
 
 private void _writeDeviceEnable(ClientPtr client, DeviceIntPtr dev, RPCBuffer* rpcbuf)
 {
     /* write xDeviceEnableState */
-    x_rpcbuf_write_CARD16(rpcbuf, DEVICE_ENABLE);
-    x_rpcbuf_write_CARD16(rpcbuf, xDeviceEnableState.sizeof);
+    rpcbuf.writeCard16(DEVICE_ENABLE);
+    rpcbuf.writeCard16(xDeviceEnableState.sizeof);
     rpcbuf.writeCard8(cast(ubyte)dev.enabled);
     rpcbuf.writeCard8(0); /* pad0 */
-    x_rpcbuf_write_CARD16(rpcbuf, 0); /* pad1 */
+    rpcbuf.writeCard16(0); /* pad1 */
 }
 
 /***********************************************************************

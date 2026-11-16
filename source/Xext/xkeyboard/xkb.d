@@ -2832,7 +2832,7 @@ private void XkbAssembleCompatMap(ClientPtr client, XkbCompatMapPtr compat, xkbG
                     /* write xkbModsWireDesc */
                     rpcbuf.writeCard8(compat.groups[i].mask);
                     rpcbuf.writeCard8(compat.groups[i].real_mods);
-                    x_rpcbuf_write_CARD16(rpcbuf, compat.groups[i].vmods);
+                    rpcbuf.writeCard16(compat.groups[i].vmods);
                 }
             }
         }
@@ -3162,7 +3162,7 @@ private void XkbAssembleIndicatorMap(ClientPtr client, XkbIndicatorPtr indicator
             rpcbuf.writeCard8(entry.which_mods);
             rpcbuf.writeCard8(entry.mods.mask);
             rpcbuf.writeCard8(entry.mods.real_mods);
-            x_rpcbuf_write_CARD16(rpcbuf, entry.mods.vmods);
+            rpcbuf.writeCard16(entry.mods.vmods);
             x_rpcbuf_write_CARD32(rpcbuf, entry.ctrls);
         }
     }
@@ -4521,16 +4521,16 @@ private void XkbWriteGeomDoodads(RPCBuffer* rpcbuf, int num_doodads, XkbDoodadPt
             /* write xkbShapeDoodadWireDesc head part */
             rpcbuf.writeCard8(cast(ubyte)doodad.shape.color_ndx);
             rpcbuf.writeCard8(cast(ubyte)doodad.shape.shape_ndx);
-            x_rpcbuf_write_CARD16(rpcbuf, 0); /* pad1 */
+            rpcbuf.writeCard16(0); /* pad1 */
             x_rpcbuf_write_CARD32(rpcbuf, cast(uint)0); /* pad2 */
             break;
         case XkbTextDoodad:
             /* write xkbTextDoodadWireDesc head part */
-            x_rpcbuf_write_CARD16(rpcbuf, doodad.text.width);
-            x_rpcbuf_write_CARD16(rpcbuf, doodad.text.height);
+            rpcbuf.writeCard16(doodad.text.width);
+            rpcbuf.writeCard16(doodad.text.height);
             rpcbuf.writeCard8(cast(ubyte)doodad.text.color_ndx);
             rpcbuf.writeCard8(cast(ubyte)0); /* pad1 */
-            x_rpcbuf_write_CARD16(rpcbuf, 0); /* pad2 */
+            rpcbuf.writeCard16(0); /* pad2 */
             x_rpcbuf_write_counted_string_pad(rpcbuf, doodad.text.text);
             x_rpcbuf_write_counted_string_pad(rpcbuf, doodad.text.font);
             break;
@@ -4546,7 +4546,7 @@ private void XkbWriteGeomDoodads(RPCBuffer* rpcbuf, int num_doodads, XkbDoodadPt
             /* write xkbLogoDoodadWireDesc head part */
             rpcbuf.writeCard8(cast(ubyte)doodad.logo.color_ndx);
             rpcbuf.writeCard8(cast(ubyte)doodad.logo.shape_ndx);
-            x_rpcbuf_write_CARD16(rpcbuf, 0); /* pad1 */
+            rpcbuf.writeCard16(0); /* pad1 */
             x_rpcbuf_write_CARD32(rpcbuf, cast(uint)0); /* pad2 */
             x_rpcbuf_write_counted_string_pad(rpcbuf, doodad.logo.logo_name);
             break;
@@ -4568,7 +4568,7 @@ private void XkbWriteGeomOverlay(RPCBuffer* rpcbuf, XkbOverlayPtr ol)
     x_rpcbuf_write_CARD32(rpcbuf, cast(uint)ol.name);
     rpcbuf.writeCard8(cast(ubyte)ol.num_rows);
     rpcbuf.writeCard8(cast(ubyte)0); /* pad1 */
-    x_rpcbuf_write_CARD16(rpcbuf, 0); /* pad2 */
+    rpcbuf.writeCard16(0); /* pad2 */
 
     for (r = 0, row = ol.rows; r < ol.num_rows; r++, row++) {
         uint k = void;
@@ -4577,7 +4577,7 @@ private void XkbWriteGeomOverlay(RPCBuffer* rpcbuf, XkbOverlayPtr ol)
         /* write xkbOverlayRowWireDesc */
         rpcbuf.writeCard8(cast(ubyte)row.row_under);
         rpcbuf.writeCard8(cast(ubyte)row.num_keys);
-        x_rpcbuf_write_CARD16(rpcbuf, 0); /* pad1 */
+        rpcbuf.writeCard16(0); /* pad1 */
 
         for (k = 0, key = row.keys; k < row.num_keys; k++, key++) {
             /* write xkbOverlayKeyWireDesc */
@@ -4638,14 +4638,14 @@ private void XkbWriteGeomSections(RPCBuffer* rpcbuf, XkbGeometryPtr geom)
         x_rpcbuf_write_CARD32(rpcbuf, cast(uint)section.name);
         x_rpcbuf_write_INT16(rpcbuf, cast(short)section.top);
         x_rpcbuf_write_INT16(rpcbuf, cast(short)section.left);
-        x_rpcbuf_write_CARD16(rpcbuf, section.width);
-        x_rpcbuf_write_CARD16(rpcbuf, section.height);
+        rpcbuf.writeCard16(section.width);
+        rpcbuf.writeCard16(section.height);
         x_rpcbuf_write_INT16(rpcbuf, cast(short)section.angle);
         rpcbuf.writeCard8(cast(ubyte)section.priority);
         rpcbuf.writeCard8(cast(ubyte)section.num_rows);
         rpcbuf.writeCard8(cast(ubyte)section.num_doodads);
         rpcbuf.writeCard8(cast(ubyte)section.num_overlays);
-        x_rpcbuf_write_CARD16(rpcbuf, 0); /* pad1 */
+        rpcbuf.writeCard16(0); /* pad1 */
 
         if (section.rows) {
             int r = void;
@@ -4657,7 +4657,7 @@ private void XkbWriteGeomSections(RPCBuffer* rpcbuf, XkbGeometryPtr geom)
                 x_rpcbuf_write_INT16(rpcbuf, cast(short)row.left),
                 rpcbuf.writeCard8(cast(ubyte)row.num_keys);
                 rpcbuf.writeCard8(cast(ubyte)row.vertical);
-                x_rpcbuf_write_CARD16(rpcbuf, 0); /* pad1 */
+                rpcbuf.writeCard16(0); /* pad1 */
 
                 if (row.keys) {
                     int k = void;
@@ -6091,8 +6091,8 @@ private int FillDeviceLedInfo(XkbSrvLedInfoPtr sli, RPCBuffer* rpcbuf, ClientPtr
     size_t oldpos = rpcbuf.wpos;
 
     /* write xkbDeviceLedsWireDesc */
-    x_rpcbuf_write_CARD16(rpcbuf, sli.class_);
-    x_rpcbuf_write_CARD16(rpcbuf, sli.id);
+    rpcbuf.writeCard16(sli.class_);
+    rpcbuf.writeCard16(sli.id);
     x_rpcbuf_write_CARD32(rpcbuf, cast(uint)sli.namesPresent);
     x_rpcbuf_write_CARD32(rpcbuf, cast(uint)sli.mapsPresent);
     x_rpcbuf_write_CARD32(rpcbuf, cast(uint)sli.physIndicators);
@@ -6118,7 +6118,7 @@ private int FillDeviceLedInfo(XkbSrvLedInfoPtr sli, RPCBuffer* rpcbuf, ClientPtr
                     rpcbuf.writeCard8(sli.maps[i].which_mods);
                     rpcbuf.writeCard8(sli.maps[i].mods.mask);
                     rpcbuf.writeCard8(sli.maps[i].mods.real_mods);
-                    x_rpcbuf_write_CARD16(rpcbuf, sli.maps[i].mods.vmods);
+                    rpcbuf.writeCard16(sli.maps[i].mods.vmods);
                     x_rpcbuf_write_CARD32(rpcbuf, cast(uint)sli.maps[i].ctrls);
                 }
             }

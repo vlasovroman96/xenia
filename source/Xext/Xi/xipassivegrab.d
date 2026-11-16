@@ -225,7 +225,7 @@ modifier_done:
             x_rpcbuf_write_CARD32(&rpcbuf, *modifiers);
             rpcbuf.writeCard8(cast(ubyte)status);
             rpcbuf.writeCard8(cast(ubyte)0); /* pad0 */
-            x_rpcbuf_write_CARD16(&rpcbuf, 0); /* pad1 */
+            rpcbuf.writeCard16( 0); /* pad1 */
 
             reply.num_modifiers++;
         }

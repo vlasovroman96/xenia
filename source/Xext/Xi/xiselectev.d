@@ -372,8 +372,8 @@ int ProcXIGetSelectedEvents(ClientPtr client)
                 int mask_len = (j + 4) / 4;     /* j is an index, hence + 4, not + 3 */
 
                 /* write xXIEventMask */
-                x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)i);
-                x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)mask_len);
+                rpcbuf.writeCard16( cast(ushort)i);
+                rpcbuf.writeCard16( cast(ushort)mask_len);
 
                 /* write mask -- be prepared for original mask not 32bit aligned */
                 x_rpcbuf_write_CARD8s(&rpcbuf, devmask, j+1);

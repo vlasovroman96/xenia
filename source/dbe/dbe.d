@@ -620,7 +620,7 @@ private int ProcDbeGetVisualInfo(ClientPtr client)
             x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)visualInfo.visinfo[j].visual);
             rpcbuf.writeCard8(cast(ubyte)visualInfo.visinfo[j].depth);
             rpcbuf.writeCard8(cast(ubyte)visualInfo.visinfo[j].perflevel);
-            x_rpcbuf_write_CARD16(&rpcbuf, 0);
+            rpcbuf.writeCard16( 0);
         }
 
         free(visualInfo.visinfo);

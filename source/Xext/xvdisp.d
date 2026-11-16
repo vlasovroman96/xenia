@@ -116,9 +116,9 @@ private int ProcXvQueryAdaptors(ClientPtr client)
         while (na--) {
             /* xvAdaptorInfo */
             x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)pa.base_id);
-            x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)strlen(pa.name));
-            x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)pa.nPorts);
-            x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)pa.nFormats);
+            rpcbuf.writeCard16( cast(ushort)strlen(pa.name));
+            rpcbuf.writeCard16( cast(ushort)pa.nPorts);
+            rpcbuf.writeCard16( cast(ushort)pa.nFormats);
             rpcbuf.writeCard8(cast(ubyte)cast(ubyte)pa.type);
             rpcbuf.writeCard8(cast(ubyte)cast(ubyte)0); /* padding */
             rpcbuf.writeStringPad(pa.name.charsToString());
@@ -130,7 +130,7 @@ private int ProcXvQueryAdaptors(ClientPtr client)
                 x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)pf.visual);
                 rpcbuf.writeCard8(cast(ubyte)cast(ubyte)pf.depth);
                 rpcbuf.writeCard8(cast(ubyte)cast(ubyte)0); /* padding */
-                x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)0); /* padding */
+                rpcbuf.writeCard16( cast(ushort)0); /* padding */
                 pf++;
             }
             pa++;
@@ -162,10 +162,10 @@ private int ProcXvQueryEncodings(ClientPtr client)
         size_t nameSize = strlen(pe.name);
 
         x_rpcbuf_write_CARD32(&rpcbuf, pe.id);
-        x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)nameSize);
-        x_rpcbuf_write_CARD16(&rpcbuf, pe.width);
-        x_rpcbuf_write_CARD16(&rpcbuf, pe.height);
-        x_rpcbuf_write_CARD16(&rpcbuf, 0); /* padding */
+        rpcbuf.writeCard16( cast(ushort)nameSize);
+        rpcbuf.writeCard16( pe.width);
+        rpcbuf.writeCard16( pe.height);
+        rpcbuf.writeCard16( 0); /* padding */
         x_rpcbuf_write_CARD32(&rpcbuf, pe.rate.numerator);
         x_rpcbuf_write_CARD32(&rpcbuf, pe.rate.denominator);
         rpcbuf.writeStringPad( pe.name.charsToString());

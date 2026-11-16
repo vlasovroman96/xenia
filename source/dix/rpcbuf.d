@@ -203,6 +203,31 @@ struct RPCBuffer {
         reserved[0] = value;
         return true;
     }
+
+    /*
+    * write a CARD16 and do byte-swapping (when needed).
+    *
+    * allocate a region for CARD16, write it into the buffer and do byte-swap
+    * if buffer is configured to do so (`swapped` field is True).
+    *
+    * doesn't do any padding.
+    *
+    * @param value     the CARD16 value to write
+    * @return          True on success, False on allocation failure
+    */
+    bool writeCard16(CARD16 value)
+    {
+        CARD16* reserved = cast(ushort*)this.reserve(value.sizeof).ptr;
+        if (!reserved)
+            return false;
+
+        *reserved = value;
+
+        if (this.swapped)
+            swaps(reserved);
+
+        return true;
+    }
 }
 
 enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
@@ -220,7 +245,7 @@ pragma(inline, true) void x_rpcbuf_write_counted_string_pad(RPCBuffer* rpcbuf, c
 {
     if (str) {
         CARD16 len = cast(CARD16)strlen(str); /* 64k should really be enough */
-        x_rpcbuf_write_CARD16(rpcbuf, len);
+        rpcbuf.writeCard16(len);
         x_rpcbuf_write_CARD8s(rpcbuf, cast(CARD8*)str, len);
         rpcbuf.doPad();
     }
@@ -262,8 +287,8 @@ pragma(inline, true) void x_rpcbuf_write_rect(RPCBuffer* rpcbuf, INT16 x, INT16 
 {
     x_rpcbuf_write_INT16(rpcbuf, x);
     x_rpcbuf_write_INT16(rpcbuf, y);
-    x_rpcbuf_write_CARD16(rpcbuf, width);
-    x_rpcbuf_write_CARD16(rpcbuf, height);
+    rpcbuf.writeCard16(width);
+    rpcbuf.writeCard16(height);
 }
 
 /*
@@ -285,32 +310,6 @@ int x_rpcbuf_write_string_0t_pad(RPCBuffer* rpcbuf, const(char)* str)
 }
 
 /*
- * write a CARD16 and do byte-swapping (when needed).
- *
- * allocate a region for CARD16, write it into the buffer and do byte-swap
- * if buffer is configured to do so (`swapped` field is True).
- *
- * doesn't do any padding.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @param value     the CARD16 value to write
- * @return          True on success, False on allocation failure
- */
-Bool x_rpcbuf_write_CARD16(RPCBuffer* rpcbuf, CARD16 value)
-{
-    CARD16* reserved = cast(ushort*)rpcbuf.reserve(value.sizeof).ptr;
-    if (!reserved)
-        return False;
-
-    *reserved = value;
-
-    if (rpcbuf.swapped)
-        swaps(reserved);
-
-    return True;
-}
-
-/*
  * write a INT16 and do byte-swapping (when needed).
  *
  * allocate a region for INT16, write it into the buffer and do byte-swap
@@ -323,7 +322,7 @@ Bool x_rpcbuf_write_CARD16(RPCBuffer* rpcbuf, CARD16 value)
  * @return          True on success, False on allocation failure
  */
 pragma(inline, true) Bool x_rpcbuf_write_INT16(RPCBuffer* rpcbuf, INT16 value) {
-    return x_rpcbuf_write_CARD16(rpcbuf, cast(CARD16)value);
+    return rpcbuf.writeCard16(cast(CARD16)value);
 }
 
 /*

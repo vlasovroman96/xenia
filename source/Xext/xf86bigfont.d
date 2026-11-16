@@ -355,7 +355,7 @@ pragma(inline, true) private void writeCharInfo(RPCBuffer* rpcbuf, xCharInfo CI)
     x_rpcbuf_write_INT16(rpcbuf, CI.characterWidth);
     x_rpcbuf_write_INT16(rpcbuf, CI.ascent);
     x_rpcbuf_write_INT16(rpcbuf, CI.descent);
-    x_rpcbuf_write_CARD16(rpcbuf, CI.attributes);
+    rpcbuf.writeCard16(CI.attributes);
 }
 
 /* static CARD32 hashCI (xCharInfo *p); */
