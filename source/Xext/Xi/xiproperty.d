@@ -942,7 +942,7 @@ int ProcXGetDeviceProperty(ClientPtr client)
     if (length) {
         switch (format) {
         case 32:
-            x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)data, length / 4);
+            rpcbuf.writeCard32s(cast(CARD32*)data, length / 4);
             break;
         case 16:
             rpcbuf.writeCard16s(cast(CARD16*)data, length / 2);
@@ -1101,7 +1101,7 @@ int ProcXIGetProperty(ClientPtr client)
     if (length) {
         switch (format) {
         case 32:
-            x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)data, length / 4);
+            rpcbuf.writeCard32s(cast(CARD32*)data, length / 4);
             break;
         case 16:
             rpcbuf.writeCard16s(cast(CARD16*)data, length / 2);

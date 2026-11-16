@@ -2627,7 +2627,7 @@ int ProcListInstalledColormaps(ClientPtr client)
     const(int) nummaps = pScreen.ListInstalledColormaps(pScreen, cm);
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD32s(&rpcbuf, cm, nummaps); /* Colormap is an XID, thus CARD32  */
+    rpcbuf.writeCard32s(cm, nummaps); /* Colormap is an XID, thus CARD32  */
     free(cm);
 
     xListInstalledColormapsReply reply = {

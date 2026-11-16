@@ -473,7 +473,7 @@ int ProcRRQueryOutputProperty(ClientPtr client)
         return BadName;
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)prop.valid_values, prop.num_valid);
+    rpcbuf.writeCard32s(cast(CARD32*)prop.valid_values, prop.num_valid);
 
     xRRQueryOutputPropertyReply reply = {
         pending: cast(ubyte)prop.is_pending,
@@ -728,7 +728,7 @@ int ProcRRGetOutputProperty(ClientPtr client)
         const(char)* src = cast(char*) prop_value.data + ind;
         switch (reply.format) {
         case 32:
-            x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)src, len / CARD32.sizeof);
+            rpcbuf.writeCard32s(cast(CARD32*)src, len / CARD32.sizeof);
             break;
         case 16:
             rpcbuf.writeCard16s(cast(CARD16*)src, len / CARD16.sizeof);

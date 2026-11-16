@@ -1222,7 +1222,7 @@ private void XkbWriteKeySyms(XkbDescPtr xkb, KeyCode firstKeySym, CARD8 nKeySyms
 
         if (outMap.nSyms) {
             KeySym* pSym = &xkb.map.syms[symMap.offset];
-            x_rpcbuf_write_CARD32s(rpcbuf, pSym, cast(uint*)nSyms);
+            rpcbuf.writeCard32s(pSym, cast(uint*)nSyms);
         }
     }
 }
@@ -3782,7 +3782,7 @@ private void XkbAssembleNames(ClientPtr client, XkbDescPtr xkb, xkbGetNamesReply
                                       ((XkbKeyAliasRec).sizeof * rep.nKeyAliases));
         }
         if ((which & XkbRGNamesMask) && (rep.nRadioGroups > 0)) {
-            x_rpcbuf_write_CARD32s(rpcbuf, xkb.names.radio_groups, rep.nRadioGroups);
+            rpcbuf.writeCard32s(xkb.names.radio_groups, rep.nRadioGroups);
         }
     }
 }

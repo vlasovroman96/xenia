@@ -552,8 +552,8 @@ private int proc_dri3_buffers_from_pixmap(ClientPtr client)
     }
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)strides, num_fds);
-    x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)offsets, num_fds);
+    rpcbuf.writeCard32s(cast(CARD32*)strides, num_fds);
+    rpcbuf.writeCard32s(cast(CARD32*)offsets, num_fds);
 
     xDRI3BuffersFromPixmapReply reply = {
         nfd: cast(ubyte)num_fds,

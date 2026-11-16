@@ -650,7 +650,7 @@ int ProcGetProperty(ClientPtr client)
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     switch (pProp.format) {
         case 32:
-            x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)dataptr, len / 4);
+            rpcbuf.writeCard32s(cast(CARD32*)dataptr, len / 4);
         break;
         case 16:
             rpcbuf.writeCard16s(cast(CARD16*)dataptr, len / 2);

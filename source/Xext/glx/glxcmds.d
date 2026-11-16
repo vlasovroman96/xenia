@@ -1080,7 +1080,7 @@ enum string WRITE_PAIR(string tag,string value) = `
         }
         assert(p == __GLX_FBCONFIG_ATTRIBS_LENGTH);
 
-        x_rpcbuf_write_CARD32s(&rpcbuf, buf.ptr, __GLX_FBCONFIG_ATTRIBS_LENGTH);
+        rpcbuf.writeCard32s(buf.ptr, __GLX_FBCONFIG_ATTRIBS_LENGTH);
     }
 
     xGLXGetFBConfigsReply reply;
@@ -1834,7 +1834,7 @@ enum string ATTRIB(string a, string v) = `{
     }
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: TRUE };
-    x_rpcbuf_write_CARD32s(&rpcbuf, attributes.ptr, num << 1);
+    rpcbuf.writeCard32s(attributes.ptr, num << 1);
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
 }

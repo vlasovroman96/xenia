@@ -653,7 +653,7 @@ int ProcRRGetProviderProperty(ClientPtr client)
         const(char)* dataptr = (cast(char*)prop_value.data) + ind;
         switch (prop_value.format) {
         case 32:
-            x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)dataptr, len/CARD32.sizeof);
+            rpcbuf.writeCard32s(cast(CARD32*)dataptr, len/CARD32.sizeof);
             break;
         case 16:
             rpcbuf.writeCard16s(cast(CARD16*)dataptr, len/CARD16.sizeof);

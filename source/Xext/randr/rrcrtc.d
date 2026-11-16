@@ -1783,14 +1783,14 @@ int ProcRRGetCrtcTransform(ClientPtr client)
         reply.pendingNbytesFilter = cast(ushort)strlen(pending.filter.name);
         reply.pendingNparamsFilter = cast(ushort)pending.nparams;
         rpcbuf.writeStringPad(pending.filter.name.charsToString());
-        x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)pending.params, pending.nparams);
+        rpcbuf.writeCard32s(cast(CARD32*)pending.params, pending.nparams);
     }
 
     if (current.filter) {
         reply.currentNbytesFilter = cast(ushort)strlen(current.filter.name);
         reply.currentNparamsFilter = cast(ushort)current.nparams;
         rpcbuf.writeStringPad(current.filter.name.charsToString());
-        x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)current.params, current.nparams);
+        rpcbuf.writeCard32s(cast(CARD32*)current.params, current.nparams);
     }
 
     if (client.swapped) {

@@ -252,7 +252,7 @@ private int ProcXvMCCreateContext(ClientPtr client)
     }
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD32s(&rpcbuf, data, dwords);
+    rpcbuf.writeCard32s(data, dwords);
     free(data);
 
     xvmcCreateContextReply reply = {
@@ -327,7 +327,7 @@ private int ProcXvMCCreateSurface(ClientPtr client)
     }
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD32s(&rpcbuf, data, dwords);
+    rpcbuf.writeCard32s(data, dwords);
     free(data);
 
     xvmcCreateSurfaceReply reply = { 0 };
@@ -441,7 +441,7 @@ private int ProcXvMCCreateSubpicture(ClientPtr client)
     }
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD32s(&rpcbuf, data, dwords);
+    rpcbuf.writeCard32s(data, dwords);
     free(data);
 
     xvmcCreateSubpictureReply reply;
