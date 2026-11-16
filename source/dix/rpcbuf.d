@@ -21,6 +21,8 @@ import common.swap;
 public import abi.common;
 
 struct RPCBuffer {
+    enum ChunkSize = 4096;
+
     size_t wpos;    /* length of data inside the buffer / next write position */
     ubyte[] buffer;   /* pointer to whole buffer */
     bool swapped;   /* true when typed write operation shall byte-swap */
@@ -48,8 +50,8 @@ struct RPCBuffer {
         if (this.buffer.length > this.wpos + needed)
             return true;
 
-        const(size_t) newsize = (((this.wpos + needed) / XLIBRE_RPCBUF_CHUNK_SIZE) + 1)
-                                    * XLIBRE_RPCBUF_CHUNK_SIZE;
+        const(size_t) newsize = (((this.wpos + needed) / ChunkSize) + 1)
+                                    * ChunkSize;
 
         ubyte* newbuf = cast(ubyte*) realloc(this.buffer.ptr, newsize);
         if (!newbuf)
@@ -304,8 +306,7 @@ struct RPCBuffer {
     * @param rpcbuf    pointer to the RPCBuffer to operate on
     * @param str       zero-terminated string to write into the buffer
     */
-    pragma(inline, true) void writeCountedStringPad(const(char)* str)
-    {
+    void writeCountedStringPad(const(char)* str) {
         if (str) {
             CARD16 len = cast(CARD16)strlen(str); /* 64k should really be enough */
             this.writeCard16(len);
@@ -324,8 +325,7 @@ struct RPCBuffer {
     * @param needed    string to plain C string
     * @return          true on success, false on allocation failure
     */
-    bool writeBinaryPad(const(void)* values, size_t size)
-    {
+    bool writeBinaryPad(const(void)* values, size_t size) {
         if ((!values) || (!size))
             return true;
 
@@ -338,8 +338,7 @@ struct RPCBuffer {
     * @param rpcbuf    pointer to the RPCBuffer to operate on
     * @param source    pointer to source RPCBuffer
     */
-    pragma(inline, true) void moveFromBuffer(RPCBuffer* source)
-    {
+    void moveFromBuffer(RPCBuffer* source) {
         if (!source)
             return;
 
