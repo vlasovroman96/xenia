@@ -2823,7 +2823,7 @@ private void XkbAssembleCompatMap(ClientPtr client, XkbCompatMapPtr compat, xkbG
             rpcbuf.writeCard8(sym.virtual_mod);
             rpcbuf.writeCard8(sym.flags);
             /* write xkbActionWireDesc */
-            x_rpcbuf_write_binary_pad(rpcbuf, &sym.act, xkbActionWireDesc.sizeof);
+            rpcbuf.writeBinaryPad(&sym.act, xkbActionWireDesc.sizeof);
         }
 
         if (rep.groups) {
@@ -3772,12 +3772,12 @@ private void XkbAssembleNames(ClientPtr client, XkbDescPtr xkb, xkbGetNamesReply
             __rpcbuf_write_atoms(rpcbuf, xkb.names.groups.ptr, XkbNumKbdGroups);
         }
         if (which & XkbKeyNamesMask) {
-            x_rpcbuf_write_binary_pad(rpcbuf,
+            rpcbuf.writeBinaryPad(
                                       &(xkb.names.keys[rep.firstKey]),
                                       ((XkbKeyNameRec).sizeof * rep.nKeys));
         }
         if (which & XkbKeyAliasesMask) {
-            x_rpcbuf_write_binary_pad(rpcbuf,
+            rpcbuf.writeBinaryPad(
                                       xkb.names.key_aliases,
                                       ((XkbKeyAliasRec).sizeof * rep.nKeyAliases));
         }
@@ -5837,7 +5837,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
             swaps(&mrep.totalActs);
         }
 
-        x_rpcbuf_write_binary_pad(&rpcbuf, &mrep, mrep.sizeof);
+        rpcbuf.writeBinaryPad(&mrep, mrep.sizeof);
         x_rpcbuf_write_rpcbuf_pad(&rpcbuf, &childbuf);
     }
 
@@ -5858,7 +5858,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
             swaps(&crep.nTotalSI);
         }
 
-        x_rpcbuf_write_binary_pad(&rpcbuf, &crep, crep.sizeof);
+        rpcbuf.writeBinaryPad(&crep, crep.sizeof);
         x_rpcbuf_write_rpcbuf_pad(&rpcbuf, &childbuf);
     }
 
@@ -5881,7 +5881,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
             swapl(&irep.realIndicators);
         }
 
-        x_rpcbuf_write_binary_pad(&rpcbuf, &irep, irep.sizeof);
+        rpcbuf.writeBinaryPad(&irep, irep.sizeof);
         x_rpcbuf_write_rpcbuf_pad(&rpcbuf, &childbuf);
     }
 
@@ -5902,7 +5902,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
             swapl(&nrep.indicators);
         }
 
-        x_rpcbuf_write_binary_pad(&rpcbuf, &nrep, nrep.sizeof);
+        rpcbuf.writeBinaryPad(&nrep, nrep.sizeof);
         x_rpcbuf_write_rpcbuf_pad(&rpcbuf, &childbuf);
     }
 
@@ -5925,7 +5925,7 @@ int ProcXkbGetKbdByName(ClientPtr client)
             swaps(&grep.nKeyAliases);
         }
 
-        x_rpcbuf_write_binary_pad(&rpcbuf, &grep, grep.sizeof);
+        rpcbuf.writeBinaryPad(&grep, grep.sizeof);
         x_rpcbuf_write_rpcbuf_pad(&rpcbuf, &childbuf);
     }
 

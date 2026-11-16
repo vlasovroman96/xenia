@@ -734,7 +734,7 @@ int ProcRRGetOutputProperty(ClientPtr client)
             rpcbuf.writeCard16s(cast(CARD16*)src, len / CARD16.sizeof);
             break;
         default:
-            x_rpcbuf_write_binary_pad(&rpcbuf, src, len);
+            rpcbuf.writeBinaryPad(src, len);
             break;
         }
     }

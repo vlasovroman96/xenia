@@ -233,7 +233,7 @@ private int send_buffers_reply(ClientPtr client, DrawablePtr pDrawable, DRI2Buff
         buffer.cpp = buffers[i].cpp;
         buffer.flags = buffers[i].flags;
 
-        x_rpcbuf_write_binary_pad(&rpcbuf, &buffer, xDRI2Buffer.sizeof);
+        rpcbuf.writeBinaryPad( &buffer, xDRI2Buffer.sizeof);
     }
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));

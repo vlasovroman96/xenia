@@ -892,7 +892,7 @@ private int ProcXvListImageFormats(ClientPtr client)
         rpcbuf.writeCard8(cast(ubyte)cast(ubyte)pImage.type);
         rpcbuf.writeCard8(cast(ubyte)cast(ubyte)pImage.byte_order);
         rpcbuf.reserve(CARD16.sizeof); /* pad1; */
-        x_rpcbuf_write_binary_pad(&rpcbuf, pImage.guid.ptr, 16);
+        rpcbuf.writeBinaryPad(pImage.guid.ptr, 16);
         rpcbuf.writeCard8(cast(ubyte)cast(ubyte)pImage.bits_per_pixel);
         rpcbuf.writeCard8(cast(ubyte)cast(ubyte)pImage.num_planes);
         rpcbuf.reserve(CARD16.sizeof); /* pad2; */
@@ -912,7 +912,7 @@ private int ProcXvListImageFormats(ClientPtr client)
         rpcbuf.writeCard32(pImage.vert_y_period);
         rpcbuf.writeCard32(pImage.vert_u_period);
         rpcbuf.writeCard32(pImage.vert_v_period);
-        x_rpcbuf_write_binary_pad(&rpcbuf, pImage.component_order.ptr, 32);
+        rpcbuf.writeBinaryPad(pImage.component_order.ptr, 32);
         rpcbuf.writeCard8(cast(ubyte)cast(ubyte)pImage.scanline_order);
         rpcbuf.reserve(CARD8.sizeof+CARD16.sizeof+CARD32.sizeof*32); /* pad7, pad8, pad9, pad10 */
     }

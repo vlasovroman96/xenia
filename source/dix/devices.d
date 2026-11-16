@@ -1695,7 +1695,7 @@ int ProcGetModifierMapping(ClientPtr client)
                        &max_keys_per_mod);
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_binary_pad(&rpcbuf, modkeymap, max_keys_per_mod * 8);
+    rpcbuf.writeBinaryPad(modkeymap, max_keys_per_mod * 8);
 
     free(modkeymap);
 
@@ -1867,7 +1867,7 @@ int ProcGetPointerMapping(ClientPtr client)
     int nElts = (butc) ? butc.numButtons : 0;
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_binary_pad(&rpcbuf, &butc.map[1], nElts);
+    rpcbuf.writeBinaryPad(&butc.map[1], nElts);
 
     xGetPointerMappingReply reply = {
         nElts: cast(ubyte)nElts,

@@ -491,10 +491,27 @@ struct RPCBuffer {
             this.doPad();
         }
     }
+
+    /*
+    * write binary data to rpc buffer and pad it.
+    *
+    * allocate a region for the string (padded to 32bits) and copy in the data.
+    * if given data is NULL or size is zero , nothing happens.
+    *
+    * @param rpcbuf    pointer to RPCBuffer to operate on
+    * @param needed    string to plain C string
+    * @return          True on success, False on allocation failure
+    */
+    Bool writeBinaryPad(const(void)* values, size_t size)
+    {
+        if ((!values) || (!size))
+            return True;
+
+        return this.writeBinPad(cast(ubyte[])values[0..size]);
+    }
 }
 
 enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
-
 
 
 /*
@@ -515,25 +532,8 @@ pragma(inline, true) void x_rpcbuf_write_rpcbuf_pad(RPCBuffer* rpcbuf, RPCBuffer
             rpcbuf.buffer = null;
         }
     } else {
-        x_rpcbuf_write_binary_pad(rpcbuf, source.buffer.ptr, source.wpos);
+        rpcbuf.writeBinaryPad(source.buffer.ptr, source.wpos);
     }
     source.clear();
 }
 
-/*
- * write binary data to rpc buffer and pad it.
- *
- * allocate a region for the string (padded to 32bits) and copy in the data.
- * if given data is NULL or size is zero , nothing happens.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @param needed    string to plain C string
- * @return          True on success, False on allocation failure
- */
-Bool x_rpcbuf_write_binary_pad(RPCBuffer* rpcbuf, const(void)* values, size_t size)
-{
-    if ((!values) || (!size))
-        return True;
-
-    return rpcbuf.writeBinPad(cast(ubyte[])values[0..size]);
-}

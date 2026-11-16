@@ -1424,7 +1424,7 @@ private int ProcXDGASetMode(ClientPtr client)
     info.reserved2 = mode.reserved2;
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_binary_pad(&rpcbuf, &info, info.sizeof);
+    rpcbuf.writeBinaryPad(&info, info.sizeof);
     rpcbuf.writeString0tPad(mode.name);
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));

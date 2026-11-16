@@ -548,7 +548,7 @@ private int ProcSecurityGenerateAuthorization(ClientPtr client)
 
     /* tell client the auth id and data */
 
-    x_rpcbuf_write_binary_pad(&rpcbuf, pAuthdata, authdata_len);
+    rpcbuf.writeBinaryPad(pAuthdata, authdata_len);
 
 
     SecurityAudit
