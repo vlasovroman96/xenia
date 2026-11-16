@@ -4393,8 +4393,8 @@ pragma(inline, true) private void XkbWriteGeomProperties(RPCBuffer* rpcbuf, XkbG
     XkbPropertyPtr prop = void;
 
     for (i = 0, prop = geom.properties; i < geom.num_properties; i++, prop++) {
-        x_rpcbuf_write_counted_string_pad(rpcbuf, prop.name);
-        x_rpcbuf_write_counted_string_pad(rpcbuf, prop.value);
+        rpcbuf.writeCountedStringPad(prop.name);
+        rpcbuf.writeCountedStringPad(prop.value);
     }
 }
 
@@ -4427,7 +4427,7 @@ pragma(inline, true) private void XkbWriteGeomColors(RPCBuffer* rpcbuf, XkbGeome
     XkbColorPtr color = void;
 
     for (i = 0, color = geom.colors; i < geom.num_colors; i++, color++) {
-        x_rpcbuf_write_counted_string_pad(rpcbuf, color.spec);
+        rpcbuf.writeCountedStringPad(color.spec);
     }
 }
 
@@ -4531,8 +4531,8 @@ private void XkbWriteGeomDoodads(RPCBuffer* rpcbuf, int num_doodads, XkbDoodadPt
             rpcbuf.writeCard8(cast(ubyte)doodad.text.color_ndx);
             rpcbuf.writeCard8(cast(ubyte)0); /* pad1 */
             rpcbuf.writeCard16(0); /* pad2 */
-            x_rpcbuf_write_counted_string_pad(rpcbuf, doodad.text.text);
-            x_rpcbuf_write_counted_string_pad(rpcbuf, doodad.text.font);
+            rpcbuf.writeCountedStringPad(doodad.text.text);
+            rpcbuf.writeCountedStringPad(doodad.text.font);
             break;
         case XkbIndicatorDoodad:
             /* write xkbIndicatorDoodadWireDesc head part */
@@ -4548,7 +4548,7 @@ private void XkbWriteGeomDoodads(RPCBuffer* rpcbuf, int num_doodads, XkbDoodadPt
             rpcbuf.writeCard8(cast(ubyte)doodad.logo.shape_ndx);
             rpcbuf.writeCard16(0); /* pad1 */
             rpcbuf.writeCard32(cast(uint)0); /* pad2 */
-            x_rpcbuf_write_counted_string_pad(rpcbuf, doodad.logo.logo_name);
+            rpcbuf.writeCountedStringPad(doodad.logo.logo_name);
             break;
         default:
             ErrorF("[xkb] Unknown doodad type %d in XkbWriteGeomDoodads\n",
@@ -4730,7 +4730,7 @@ private void XkbAssembleGeometry(ClientPtr client, XkbGeometryPtr geom, xkbGetGe
     if (geom is null)
         return;
 
-    x_rpcbuf_write_counted_string_pad(rpcbuf, geom.label_font);
+    rpcbuf.writeCountedStringPad(geom.label_font);
 
     if (rep.nProperties > 0) {
         XkbWriteGeomProperties(rpcbuf, geom);

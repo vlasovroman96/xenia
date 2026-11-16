@@ -396,22 +396,6 @@ struct RPCBuffer {
     }
 
     /*
-    * write a plain C string with terminating 0 to rpc buffer and pad it.
-    *
-    * allocate a region for the string (padded to 32bits) and copy in the string.
-    * if given string is NULL or zero-size, only a (CARD32)0 is written.
-    *
-    * @param needed    string to plain C string
-    * @return          True on success, False on allocation failure
-    */
-    bool writeString0tPad(const(char)* str) {
-        if (!str)
-            return this.writeCard32(0);
-
-        return this.writeBinPad(cast(ubyte[])str[0..strlen(str)], 1);
-    }
-
-    /*
     * write a INT16 and do byte-swapping (when needed).
     *
     * allocate a region for INT16, write it into the buffer and do byte-swap
@@ -472,28 +456,46 @@ struct RPCBuffer {
         this.writeCard16(width);
         this.writeCard16(height);
     }
+
+    /*
+    * write a plain C string with terminating 0 to rpc buffer and pad it.
+    *
+    * allocate a region for the string (padded to 32bits) and copy in the string.
+    * if given string is NULL or zero-size, only a (CARD32)0 is written.
+    *
+    * @param needed    string to plain C string
+    * @return          True on success, False on allocation failure
+    */
+    bool writeString0tPad(const(char)* str) {
+        if (!str)
+            return this.writeCard32(0);
+
+        return this.writeBinPad(cast(ubyte[])str[0..strlen(str)], 1);
+    }
+
+    /*
+    * write a Pascal-like counted string, starting with CARD16 couter,
+    * followed by the char bytes, padded to full protocol units (4-bytes).
+    *
+    * if str is NULL, don't write anything
+    *
+    * @param rpcbuf    pointer to the RPCBuffer to operate on
+    * @param str       zero-terminated string to write into the buffer
+    */
+    pragma(inline, true) void writeCountedStringPad(const(char)* str)
+    {
+        if (str) {
+            CARD16 len = cast(CARD16)strlen(str); /* 64k should really be enough */
+            this.writeCard16(len);
+            this.writeCard8s(cast(CARD8*)str, len);
+            this.doPad();
+        }
+    }
 }
 
 enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
 
-/*
- * write a Pascal-like counted string, starting with CARD16 couter,
- * followed by the char bytes, padded to full protocol units (4-bytes).
- *
- * if str is NULL, don't write anything
- *
- * @param rpcbuf    pointer to the RPCBuffer to operate on
- * @param str       zero-terminated string to write into the buffer
- */
-pragma(inline, true) void x_rpcbuf_write_counted_string_pad(RPCBuffer* rpcbuf, const(char)* str)
-{
-    if (str) {
-        CARD16 len = cast(CARD16)strlen(str); /* 64k should really be enough */
-        rpcbuf.writeCard16(len);
-        rpcbuf.writeCard8s(cast(CARD8*)str, len);
-        rpcbuf.doPad();
-    }
-}
+
 
 /*
  * write contents of an rpcbuf into another one (padded) and clear the source buffer
