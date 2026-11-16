@@ -228,11 +228,11 @@ struct RPCBuffer {
         if (!is(T == CARD8) && this.swapped)
             for (size_t x = 0; x<count; x++) {
                 static if(is(T == CARD16))
-                    swaps(reserved);
+                    swaps(&reserved[x]);
                 else static if(is(T == CARD32))
-                    swapl(reserved);
+                    swapl(&reserved[x]);
                 else
-                    swapll(reserved);
+                    swapll(&reserved[x]);
             }
 
         return true;
