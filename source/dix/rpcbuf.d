@@ -123,10 +123,31 @@ struct RPCBuffer {
         if (!this.makeRoom(needed))
             return null;
         
-        ubyte[] reserved = buffer[this.wpos..$-1];
+        ubyte[] reserved = buffer[this.wpos..this.wpos + needed];
         this.wpos += needed;
 
         return reserved;
+    }
+
+    /*
+    * write binary data to rpc buffer and pad it.
+    *
+    * allocate a region for the string (padded to 32bits) and copy in the data.
+    * if given data is NULL or size is zero , nothing happens.
+    *
+    * @param needed    string to plain C string
+    * @return          True on success, False on allocation failure
+    */
+    bool writeBinPad(ubyte[] val, size_t padding = 0) {
+        size_t blen = padForInt32(cast(int)(val.length + padding));
+
+        auto reserved = this.reserve(blen);
+        if (!reserved)
+            return false;
+
+        reserved[0..val.length] = val[];
+        reserved[val.length..$] = 0;
+        return true;
     }
 }
 
@@ -202,28 +223,7 @@ pragma(inline, true) void x_rpcbuf_write_rect(RPCBuffer* rpcbuf, INT16 x, INT16 
     x_rpcbuf_write_CARD16(rpcbuf, height);
 }
 
-/*
- * write binary data to rpc buffer and pad it.
- *
- * allocate a region for the string (padded to 32bits) and copy in the data.
- * if given data is NULL or size is zero , nothing happens.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @param needed    string to plain C string
- * @return          True on success, False on allocation failure
- */
-pragma(inline, true) Bool __x_rpcbuf_write_bin_pad(RPCBuffer* rpcbuf, const(char)* val, size_t len)
-{
-    const(size_t) blen = padForInt32(cast(int)len);
 
-    char* reserved = cast(char*)rpcbuf.reserve(blen).ptr;
-    if (!reserved)
-        return False;
-
-    memcpy(reserved, val, len);
-    memset(reserved + len, 0, blen - len);
-    return True;
-}
 
 /*
  * like x_rpcbuf_reserve(), but additionally clearing the reserved space.
@@ -264,7 +264,7 @@ Bool x_rpcbuf_write_string_pad(RPCBuffer* rpcbuf, const(char)* str)
     if (!str)
         return True;
 
-    return __x_rpcbuf_write_bin_pad(rpcbuf, str, strlen(str));
+    return rpcbuf.writeBinPad(cast(ubyte[])str[0..strlen(str)]);
 }
 
 /*
@@ -282,7 +282,7 @@ int x_rpcbuf_write_string_0t_pad(RPCBuffer* rpcbuf, const(char)* str)
     if (!str)
         return x_rpcbuf_write_CARD32(rpcbuf, 0);
 
-    return __x_rpcbuf_write_bin_pad(rpcbuf, str, strlen(str)+1);
+    return rpcbuf.writeBinPad(cast(ubyte[])str[0..strlen(str)], 1);
 }
 
 /*
@@ -572,5 +572,5 @@ Bool x_rpcbuf_write_binary_pad(RPCBuffer* rpcbuf, const(void)* values, size_t si
     if ((!values) || (!size))
         return True;
 
-    return __x_rpcbuf_write_bin_pad(rpcbuf,cast(const char*) values, size);
+    return rpcbuf.writeBinPad(cast(ubyte[])values[0..size]);
 }
