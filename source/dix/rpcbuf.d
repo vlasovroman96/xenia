@@ -210,51 +210,58 @@ struct RPCBuffer {
     bool writeCard64(CARD64 value) => writeCardN(value);
 
     /** 
+     * Writes CARD* arrays to the buffer with swapping if needed
      * 
      * Params:
-     *      values = C-like array pointer
-     *      count = count of elements
+     *      values = slice of T (CARD8/CARD16/CARD32/CARD64)
      * Returns: 
      *      true if data have been written
      */
-    bool writeCardNs(T)(T* values, size_t count) {
-        if ((!values) || (!count))
+    bool writeCardNs(T)(T[] values) {
+        //empty slice
+        if (!values)
             return true;
 
-        T* reserved = cast(T*)this.reserve((T.sizeof * count)).ptr;
-        if (!reserved)
+        CARD8[] rawReserve = this.reserve(T.sizeof * values.length);
+        // CARD8[] rawReserve = this.reserve(values[].sizeof);
+
+        //reserving error
+        if (!rawReserve)
             return false;
 
-        memcpy(reserved, values, (T.sizeof * count));
+        rawReserve[] = cast(CARD8[])values[];
 
-        if (!is(T == CARD8) && this.swapped)
-            for (size_t x = 0; x<count; x++) {
+        if (!is(T == CARD8) && this.swapped) {
+            T[] reserved = cast(T[])rawReserve;
+         
+            foreach(ref T val; reserved) {
                 static if(is(T == CARD16))
-                    swaps(&reserved[x]);
+                    swaps(&val);
                 else static if(is(T == CARD32))
-                    swapl(&reserved[x]);
+                    swapl(&val);
                 else
-                    swapll(&reserved[x]);
+                    swapll(&val);
             }
+        }
 
         return true;
     }
 
     //alias for writeCardNs
     bool writeCard8s(CARD8* values, size_t count)
-        => writeCardNs(values, count);
+        => writeCardNs(values[0..count]);
 
     //alias for writeCardNs
     bool writeCard16s(CARD16* values, size_t count)
-        => writeCardNs(values, count);
+        => writeCardNs(values[0..count]);
 
     //alias for writeCardNs
     bool  writeCard32s(CARD32* values, size_t count)
-        => writeCardNs(values, count);
+        => writeCardNs(values[0..count]);
 
     //alias for writeCardNs
     bool writeCard64s(CARD64* values, size_t count)
-        => writeCardNs(values, count);
+        => writeCardNs(values[0..count]);
 
     //alias for this.writeCard16
     bool writeInt16(INT16 value) => this.writeCard16(cast(CARD16)value);
