@@ -365,6 +365,37 @@ struct RPCBuffer {
     }
 
     /*
+    * write array of CARD64s and do byte-swapping (when needed).
+    *
+    * allocate a region for CARD64s, write them into the buffer and do byte-swap
+    * if buffer is configured to do so (`swapped` field is True).
+    * when `values` or `count` are zero, does nothing.
+    *
+    * doesn't do any padding.
+    *
+    * @param values    pointer to CARD64 array to write
+    * @param count     number of elements in the array
+    * @return          True on success, False on allocation failure
+    */
+    Bool writeCard64s(const(CARD64)* values, size_t count)
+    {
+        if ((!values) || (!count))
+            return True;
+
+        CARD64* reserved = cast(ulong*)this.reserve(((CARD64).sizeof * count)).ptr;
+        if (!reserved)
+            return False;
+
+        memcpy(reserved, values, ((CARD64).sizeof * count));
+
+        if (this.swapped)
+            for (size_t x = 0; x<count; x++)
+                swapll(&reserved[x]);
+
+        return True;
+    }
+
+    /*
     * write a plain C string with terminating 0 to rpc buffer and pad it.
     *
     * allocate a region for the string (padded to 32bits) and copy in the string.
@@ -485,38 +516,6 @@ pragma(inline, true) void x_rpcbuf_write_rpcbuf_pad(RPCBuffer* rpcbuf, RPCBuffer
         x_rpcbuf_write_binary_pad(rpcbuf, source.buffer.ptr, source.wpos);
     }
     source.clear();
-}
-
-/*
- * write array of CARD64s and do byte-swapping (when needed).
- *
- * allocate a region for CARD64s, write them into the buffer and do byte-swap
- * if buffer is configured to do so (`swapped` field is True).
- * when `values` or `count` are zero, does nothing.
- *
- * doesn't do any padding.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @param values    pointer to CARD64 array to write
- * @param count     number of elements in the array
- * @return          True on success, False on allocation failure
- */
-Bool x_rpcbuf_write_CARD64s(RPCBuffer* rpcbuf, const(CARD64)* values, size_t count)
-{
-    if ((!values) || (!count))
-        return True;
-
-    CARD64* reserved = cast(ulong*)rpcbuf.reserve(((CARD64).sizeof * count)).ptr;
-    if (!reserved)
-        return False;
-
-    memcpy(reserved, values, ((CARD64).sizeof * count));
-
-    if (rpcbuf.swapped)
-        for (size_t x = 0; x<count; x++)
-            swapll(&reserved[x]);
-
-    return True;
 }
 
 /*

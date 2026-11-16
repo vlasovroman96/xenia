@@ -396,8 +396,8 @@ private int proc_dri3_get_supported_modifiers(ClientPtr client)
                                  &nscreenmodifiers, &screen_modifiers);
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD64s(&rpcbuf, window_modifiers, nwindowmodifiers);
-    x_rpcbuf_write_CARD64s(&rpcbuf, screen_modifiers, nscreenmodifiers);
+    rpcbuf.writeCard64s(window_modifiers, nwindowmodifiers);
+    rpcbuf.writeCard64s(screen_modifiers, nscreenmodifiers);
 
     free(window_modifiers);
     free(screen_modifiers);
