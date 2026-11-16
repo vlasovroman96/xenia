@@ -428,7 +428,7 @@ int ProcXFixesGetCursorName(ClientPtr client)
     const(char)* str = ((pCursor.name) ? atomMgr.nameForAtom(pCursor.name) : "");
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_string_pad(&rpcbuf, str);
+    rpcbuf.writeStringPad(str.charsToString());
 
     xXFixesGetCursorNameReply reply = {
         atom: cast(int)pCursor.name,
@@ -471,7 +471,7 @@ int ProcXFixesGetCursorImageAndName(ClientPtr client)
     if (client.swapped)
         SwapLongs(image, npixels);
 
-    x_rpcbuf_write_string_pad(&rpcbuf, name);
+    rpcbuf.writeStringPad( name.charsToString());
 
     if (rpcbuf.error)
         return BadAlloc;

@@ -512,7 +512,7 @@ int ProcRRGetOutputInfo(ClientPtr client)
             x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)output.clones[i].id);
     }
 
-    x_rpcbuf_write_string_pad(&rpcbuf, output.name); /* indeed 0-terminated */
+    rpcbuf.writeStringPad(output.name.charsToString()); /* indeed 0-terminated */
 
     if (client.swapped) {
         swapl(&reply.timestamp);

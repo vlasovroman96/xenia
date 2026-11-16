@@ -19,10 +19,7 @@ import os.log;
 import dix.dix_priv;
 import dix.resource;
 import atoms;
-
-string charsToString(const char* chars) {
-    return cast(immutable(char)[])chars[0..strlen(chars)];
-}
+import abi.common;
 
 //Issue #69: Replace atoms binary tree by std.container.rbtree
 // Atom-string pair

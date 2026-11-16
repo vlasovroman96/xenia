@@ -17,6 +17,9 @@ import dix.swapreq;
 import common.bytes;
 import common.swap;
 
+//must be deleted after D rewriting
+public import abi.common;
+
 /*
  * buffer for easing RPC payload assembly
  *
@@ -166,6 +169,21 @@ struct RPCBuffer {
         this.reserve0(
             (((this.wpos + 3) / 4) * 4) - this.wpos);
     }
+
+    /* write a plain C string to rpc buffer and pad it.
+    *
+    * allocate a region for the string (padded to 32bits) and copy in the string.
+    * if given string is NULL or zero-size, nothing happens.
+    *
+    * @param str        string to plain C string
+    * @return          True on success, False on allocation failure
+    */
+    bool writeStringPad(string str) {
+        if (!str)
+            return True;
+
+        return this.writeBinPad(cast(ubyte[])str);
+    }
 }
 
 enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
@@ -227,24 +245,6 @@ pragma(inline, true) void x_rpcbuf_write_rect(RPCBuffer* rpcbuf, INT16 x, INT16 
     x_rpcbuf_write_INT16(rpcbuf, y);
     x_rpcbuf_write_CARD16(rpcbuf, width);
     x_rpcbuf_write_CARD16(rpcbuf, height);
-}
-
-/*
- * write a plain C string to rpc buffer and pad it.
- *
- * allocate a region for the string (padded to 32bits) and copy in the string.
- * if given string is NULL or zero-size, nothing happens.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @param needed    string to plain C string
- * @return          True on success, False on allocation failure
- */
-Bool x_rpcbuf_write_string_pad(RPCBuffer* rpcbuf, const(char)* str)
-{
-    if (!str)
-        return True;
-
-    return rpcbuf.writeBinPad(cast(ubyte[])str[0..strlen(str)]);
 }
 
 /*

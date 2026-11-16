@@ -1405,8 +1405,8 @@ private int ProcVidModeGetMonitor(ClientPtr client)
                        pVidMode.GetMonitorValue(pScreen, VIDMODE_MON_VREFRESH_HI, i)));
     }
 
-    x_rpcbuf_write_string_pad(&rpcbuf, vendorStr);
-    x_rpcbuf_write_string_pad(&rpcbuf, modelStr);
+    rpcbuf.writeStringPad(vendorStr.charsToString());
+    rpcbuf.writeStringPad(modelStr.charsToString());
 
     xXF86VidModeGetMonitorReply reply = {
         nhsync: cast(ubyte)nHsync,

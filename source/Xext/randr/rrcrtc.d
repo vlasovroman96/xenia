@@ -57,7 +57,6 @@ import common.math;
 import common.bytes;
 import common.swap;
 import dix.dispatch;
-
 /* XFixed is just `int`, so better check whether it's really 32bit */
 static assert(XFixed.sizeof, CARD32.sizeof);
 
@@ -1783,14 +1782,14 @@ int ProcRRGetCrtcTransform(ClientPtr client)
     if (pending.filter) {
         reply.pendingNbytesFilter = cast(ushort)strlen(pending.filter.name);
         reply.pendingNparamsFilter = cast(ushort)pending.nparams;
-        x_rpcbuf_write_string_pad(&rpcbuf, pending.filter.name);
+        rpcbuf.writeStringPad(pending.filter.name.charsToString());
         x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)pending.params, pending.nparams);
     }
 
     if (current.filter) {
         reply.currentNbytesFilter = cast(ushort)strlen(current.filter.name);
         reply.currentNparamsFilter = cast(ushort)current.nparams;
-        x_rpcbuf_write_string_pad(&rpcbuf, current.filter.name);
+        rpcbuf.writeStringPad(current.filter.name.charsToString());
         x_rpcbuf_write_CARD32s(&rpcbuf, cast(CARD32*)current.params, current.nparams);
     }
 

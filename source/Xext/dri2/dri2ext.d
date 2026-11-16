@@ -117,8 +117,8 @@ private int ProcDRI2Connect(ClientPtr client)
         reply.driverNameLength = cast(uint)strlen(driverName);
         reply.deviceNameLength = cast(uint)strlen(deviceName);
 
-        x_rpcbuf_write_string_pad(&rpcbuf, driverName);
-        x_rpcbuf_write_string_pad(&rpcbuf, deviceName);
+        rpcbuf.writeStringPad(driverName.charsToString());
+        rpcbuf.writeStringPad(deviceName.charsToString());
     }
 
     auto res = mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));

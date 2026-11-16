@@ -1297,7 +1297,7 @@ private int ProcSyncListSystemCounters(ClientPtr client)
         x_rpcbuf_write_INT32(&rpcbuf, cast(int)psci.resolution);
         x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)namelen);
         x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)psci.name, namelen);
-        x_rpcbuf_pad(&rpcbuf);
+        rpcbuf.doPad();
 
         nCounters++;
     }

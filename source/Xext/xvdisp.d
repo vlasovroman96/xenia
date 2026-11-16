@@ -121,7 +121,7 @@ private int ProcXvQueryAdaptors(ClientPtr client)
             x_rpcbuf_write_CARD16(&rpcbuf, cast(ushort)pa.nFormats);
             x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)cast(ubyte)pa.type);
             x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)cast(ubyte)0); /* padding */
-            x_rpcbuf_write_string_pad(&rpcbuf, pa.name);
+            rpcbuf.writeStringPad(pa.name.charsToString());
 
             nf = pa.nFormats;
             pf = pa.pFormats;
@@ -168,7 +168,7 @@ private int ProcXvQueryEncodings(ClientPtr client)
         x_rpcbuf_write_CARD16(&rpcbuf, 0); /* padding */
         x_rpcbuf_write_CARD32(&rpcbuf, pe.rate.numerator);
         x_rpcbuf_write_CARD32(&rpcbuf, pe.rate.denominator);
-        x_rpcbuf_write_string_pad(&rpcbuf, pe.name);
+        rpcbuf.writeStringPad( pe.name.charsToString());
 
         pe++;
     }
