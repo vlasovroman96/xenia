@@ -119,7 +119,7 @@ int ProcXGetDeviceMotionEvents(ClientPtr client)
             reply.nEvents = GetMotionHistory(dev, cast(xTimecoord**) &coords,   /* XXX */
                                            start.milliseconds, stop.milliseconds,
                                            cast(ScreenPtr) null, False);
-            x_rpcbuf_write_INT32s(&rpcbuf, coords, int32ForBytes(reply.nEvents * size));
+            rpcbuf.writeInt32s(coords, int32ForBytes(reply.nEvents * size));
             free(coords);
         }
     }

@@ -402,12 +402,29 @@ struct RPCBuffer {
     * if buffer is configured to do so (`swapped` field is True).
     *
     * doesn't do any padding.
-    * @param rpcbuf    pointer to RPCBuffer to operate on
     * @param value     the CARD16 value to write
     * @return          True on success, False on allocation failure
     */
     bool writeInt32(INT32 value) {
         return this.writeCard32(cast(CARD32)value);
+    }
+
+    /*
+    * write array of INT32s and do byte-swapping (when needed).
+    *
+    * allocate a region for INT32s, write them into the buffer and do byte-swap
+    * if buffer is configured to do so (`swapped` field is True).
+    * when `values` or `count` are zero, does nothing.
+    *
+    * doesn't do any padding.
+    *
+    * @param values    pointer to INT32 array to write
+    * @param count     number of elements in the array
+    * @return          True on success, False on allocation failure
+    */
+    pragma(inline, true) Bool writeInt32s(const(INT32)* values, size_t count)
+    {
+        return this.writeCard32s(cast(CARD32*)values, count);
     }
 
     /*
@@ -468,25 +485,6 @@ pragma(inline, true) void x_rpcbuf_write_rpcbuf_pad(RPCBuffer* rpcbuf, RPCBuffer
         x_rpcbuf_write_binary_pad(rpcbuf, source.buffer.ptr, source.wpos);
     }
     source.clear();
-}
-
-/*
- * write array of INT32s and do byte-swapping (when needed).
- *
- * allocate a region for INT32s, write them into the buffer and do byte-swap
- * if buffer is configured to do so (`swapped` field is True).
- * when `values` or `count` are zero, does nothing.
- *
- * doesn't do any padding.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @param values    pointer to INT32 array to write
- * @param count     number of elements in the array
- * @return          True on success, False on allocation failure
- */
-pragma(inline, true) Bool x_rpcbuf_write_INT32s(RPCBuffer* rpcbuf, const(INT32)* values, size_t count)
-{
-    return rpcbuf.writeCard32s(cast(CARD32*)values, count);
 }
 
 /*

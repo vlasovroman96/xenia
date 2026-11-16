@@ -399,7 +399,7 @@ int ProcRRQueryProviderProperty(ClientPtr client)
         return BadName;
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_INT32s(&rpcbuf, prop.valid_values, prop.num_valid);
+    rpcbuf.writeInt32s(prop.valid_values, prop.num_valid);
 
     xRRQueryProviderPropertyReply reply = {
         pending: cast(ubyte)prop.is_pending,
