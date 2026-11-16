@@ -548,7 +548,7 @@ private int ProcXvMCListSubpictureTypes(ClientPtr client)
             rpcbuf.writeCard8(cast(ubyte)pImage.type);
             rpcbuf.writeCard8(cast(ubyte)pImage.byte_order);
             rpcbuf.writeCard16( 0); /* pad1 */
-            x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)pImage.guid, 16);
+            rpcbuf.writeCard8s(cast(CARD8*)pImage.guid, 16);
             rpcbuf.writeCard8(cast(ubyte)pImage.bits_per_pixel);
             rpcbuf.writeCard8(cast(ubyte)pImage.num_planes);
             rpcbuf.writeCard16( 0); /* pad2 */
@@ -570,7 +570,7 @@ private int ProcXvMCListSubpictureTypes(ClientPtr client)
             rpcbuf.writeCard32(pImage.vert_y_period);
             rpcbuf.writeCard32(pImage.vert_u_period);
             rpcbuf.writeCard32(pImage.vert_v_period);
-            x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)pImage.component_order, 32);
+            rpcbuf.writeCard8s(cast(CARD8*)pImage.component_order, 32);
             rpcbuf.writeCard8( cast(ubyte)pImage.scanline_order);
             rpcbuf.writeCard8(cast(ubyte)0); /* pad7 */
             rpcbuf.writeCard16( 0); /* pad8 */
@@ -608,8 +608,8 @@ private int ProcXvMCGetDRInfo(ClientPtr client)
     int busIDLen = cast(int)strlen(pScreenPriv.busID.ptr) + 1;
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)pScreenPriv.clientDriverName, nameLen);
-    x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)pScreenPriv.busID, busIDLen);
+    rpcbuf.writeCard8s(cast(CARD8*)pScreenPriv.clientDriverName, nameLen);
+    rpcbuf.writeCard8s(cast(CARD8*)pScreenPriv.busID, busIDLen);
 
     xvmcGetDRInfoReply reply = {
         major: pScreenPriv.major,

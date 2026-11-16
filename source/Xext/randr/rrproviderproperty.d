@@ -659,7 +659,7 @@ int ProcRRGetProviderProperty(ClientPtr client)
             x_rpcbuf_write_CARD16s(&rpcbuf, cast(CARD16*)dataptr, len/CARD16.sizeof);
             break;
         default:
-            x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)dataptr, len);
+            rpcbuf.writeCard8s(cast(CARD8*)dataptr, len);
             break;
         }
     }

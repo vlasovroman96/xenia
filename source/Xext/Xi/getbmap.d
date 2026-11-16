@@ -91,7 +91,7 @@ int ProcXGetDeviceButtonMapping(ClientPtr client)
         return BadMatch;
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD8s(&rpcbuf, &b.map[1], b.numButtons);
+    rpcbuf.writeCard8s(&b.map[1], b.numButtons);
 
     xGetDeviceButtonMappingReply reply = {
         RepType: X_GetDeviceButtonMapping,

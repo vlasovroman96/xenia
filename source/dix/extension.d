@@ -368,7 +368,7 @@ int ProcListExtensions(ClientPtr client)
 
             /* write a pascal string */
             rpcbuf.writeCard8(cast(ubyte)len);
-            x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)extensions[i].name, len);
+            rpcbuf.writeCard8s(cast(CARD8*)extensions[i].name, len);
         }
     }
 

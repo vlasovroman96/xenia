@@ -162,7 +162,7 @@ int __glXDisp_RenderMode(__GLXclientState* cl, GLbyte* pc)
         else {
             nitems = retval;
         }
-        x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)cx.feedbackBuf, nitems * __GLX_SIZE_FLOAT32);
+        rpcbuf.writeCard8s(cast(CARD8*)cx.feedbackBuf, nitems * __GLX_SIZE_FLOAT32);
         cx.renderMode = newMode;
         break;
     case GL_SELECT:
@@ -191,7 +191,7 @@ int __glXDisp_RenderMode(__GLXclientState* cl, GLbyte* pc)
             }
             nitems = cast(int)(bp - cx.selectBuf);
         }
-        x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)cx.selectBuf, nitems * __GLX_SIZE_CARD32);
+        rpcbuf.writeCard8s(cast(CARD8*)cx.selectBuf, nitems * __GLX_SIZE_CARD32);
 
         cx.renderMode = newMode;
         break;

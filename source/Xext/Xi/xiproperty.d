@@ -948,7 +948,7 @@ int ProcXGetDeviceProperty(ClientPtr client)
             x_rpcbuf_write_CARD16s(&rpcbuf, cast(CARD16*)data, length / 2);
             break;
         default:
-            x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)data, length);
+            rpcbuf.writeCard8s(cast(CARD8*)data, length);
             break;
         }
     }
@@ -1107,7 +1107,7 @@ int ProcXIGetProperty(ClientPtr client)
             x_rpcbuf_write_CARD16s(&rpcbuf, cast(CARD16*)data, length / 2);
             break;
         default:
-            x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)data, length);
+            rpcbuf.writeCard8s(cast(CARD8*)data, length);
             break;
         }
     }

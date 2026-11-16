@@ -1263,7 +1263,7 @@ private void XkbWriteKeyActions(XkbDescPtr xkb, KeyCode firstKeyAct, CARD8 nKeyA
     for (int i = 0; i < nKeyActs; i++) {
         if (xkb.server.key_acts[i + firstKeyAct] != 0) {
             size_t num = mixin(XkbKeyNumActions!("xkb"," (i + firstKeyAct)"));
-            x_rpcbuf_write_CARD8s(rpcbuf,
+            rpcbuf.writeCard8s(
                                   cast(CARD8*)mixin(XkbKeyActionsPtr!("xkb", "(i + firstKeyAct)")),
                                   cast(ubyte)(num * (xkbActionWireDesc).sizeof));
         }
@@ -1450,7 +1450,7 @@ private void XkbAssembleMap(ClientPtr client, XkbDescPtr xkb, xkbGetMapReply rep
                 vmods[sz++] = xkb.server.vmods[i];
             }
         }
-        x_rpcbuf_write_CARD8s(rpcbuf, vmods.ptr, mixin(XkbPaddedSize!("sz")));
+        rpcbuf.writeCard8s( vmods.ptr, mixin(XkbPaddedSize!("sz")));
     }
 
     if (rep.totalKeyExplicit > 0)
@@ -4405,7 +4405,7 @@ private int XkbSizeGeomKeyAliases(XkbGeometryPtr geom)
 
 pragma(inline, true) private void XkbWriteGeomKeyAliases(RPCBuffer* rpcbuf, XkbGeometryPtr geom)
 {
-    x_rpcbuf_write_CARD8s(rpcbuf,
+    rpcbuf.writeCard8s(
                           cast(CARD8*) geom.key_aliases,
                           geom.num_key_aliases * XkbKeyAliasRec.sizeof);
 }
@@ -4581,8 +4581,8 @@ private void XkbWriteGeomOverlay(RPCBuffer* rpcbuf, XkbOverlayPtr ol)
 
         for (k = 0, key = row.keys; k < row.num_keys; k++, key++) {
             /* write xkbOverlayKeyWireDesc */
-            x_rpcbuf_write_CARD8s(rpcbuf, cast(CARD8*)key.over.name, XkbKeyNameLength);
-            x_rpcbuf_write_CARD8s(rpcbuf, cast(CARD8*)key.under.name, XkbKeyNameLength);
+            rpcbuf.writeCard8s( cast(CARD8*)key.over.name, XkbKeyNameLength);
+            rpcbuf.writeCard8s( cast(CARD8*)key.under.name, XkbKeyNameLength);
         }
     }
 }
@@ -4665,7 +4665,7 @@ private void XkbWriteGeomSections(RPCBuffer* rpcbuf, XkbGeometryPtr geom)
 
                     for (k = 0, key = row.keys; k < row.num_keys; k++, key++) {
                         /* xkbKeyWireDesc */
-                        x_rpcbuf_write_CARD8s(rpcbuf, cast(CARD8*)key.name.name, XkbKeyNameLength);
+                        rpcbuf.writeCard8s( cast(CARD8*)key.name.name, XkbKeyNameLength);
                         rpcbuf.writeInt16(cast(short)key.gap);
                         rpcbuf.writeCard8(cast(ubyte)key.shape_ndx);
                         rpcbuf.writeCard8(cast(ubyte)key.color_ndx);

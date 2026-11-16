@@ -1147,7 +1147,7 @@ int ProcGetAtomName(ClientPtr client)
     const(int) len = cast(int)strlen(str);
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)str, len);
+    rpcbuf.writeCard8s(cast(CARD8*)str, len);
 
     xGetAtomNameReply reply = {
         nameLength: cast(ushort)len
@@ -3419,7 +3419,7 @@ int ProcListHosts(ClientPtr client)
         swaps(&reply.nHosts);
     }
 
-    x_rpcbuf_write_CARD8s(&rpcbuf, cast(ubyte*)pdata, len);
+    rpcbuf.writeCard8s(cast(ubyte*)pdata, len);
     free(pdata);
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));

@@ -149,7 +149,7 @@ private int ProcXF86DRIOpenConnection(ClientPtr client)
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     if (busIdString) {
         busIdStringLength = cast(uint)strlen(busIdString);
-        x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)busIdString, strlen(busIdString));
+        rpcbuf.writeCard8s(cast(CARD8*)busIdString, strlen(busIdString));
     }
 
     xXF86DRIOpenConnectionReply reply = {
@@ -224,7 +224,7 @@ private int ProcXF86DRIGetClientDriverName(ClientPtr client)
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
     if (clientDriverName) {
         reply.clientDriverNameLength = cast(uint)strlen(clientDriverName);
-        x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)clientDriverName, reply.clientDriverNameLength);
+        rpcbuf.writeCard8s(cast(CARD8*)clientDriverName, reply.clientDriverNameLength);
     }
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
@@ -436,7 +436,7 @@ static if (HasVersion!"LONG64" && !HasVersion!"linux") {
 }
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD8s(&rpcbuf, cast(ubyte*)pDevPrivate, reply.devPrivateSize);
+    rpcbuf.writeCard8s(cast(ubyte*)pDevPrivate, reply.devPrivateSize);
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
 }

@@ -205,6 +205,32 @@ struct RPCBuffer {
     }
 
     /*
+    * write array of CARD8s and do byte-swapping (when needed).
+    *
+    * allocate a region for CARD8, write them into the buffer.
+    * when `values` or `count` are zero, does nothing.
+    *
+    * doesn't do any padding.
+    *
+    * @param values    pointer to CARD16 array to write
+    * @param count     number of elements in the array
+    * @return          True on success, False on allocation failure
+    */
+    Bool writeCard8s(const(CARD8)* values, size_t count)
+    {
+        if ((!values) || (!count))
+            return True;
+
+        INT16* reserved = cast(short*)this.reserve(count).ptr;
+        if (!reserved)
+            return False;
+
+        memcpy(reserved, values, count);
+
+        return True;
+    }
+
+    /*
     * write a CARD16 and do byte-swapping (when needed).
     *
     * allocate a region for CARD16, write it into the buffer and do byte-swap
@@ -355,7 +381,7 @@ pragma(inline, true) void x_rpcbuf_write_counted_string_pad(RPCBuffer* rpcbuf, c
     if (str) {
         CARD16 len = cast(CARD16)strlen(str); /* 64k should really be enough */
         rpcbuf.writeCard16(len);
-        x_rpcbuf_write_CARD8s(rpcbuf, cast(CARD8*)str, len);
+        rpcbuf.writeCard8s(cast(CARD8*)str, len);
         rpcbuf.doPad();
     }
 }
@@ -400,33 +426,6 @@ pragma(inline, true) void x_rpcbuf_write_rpcbuf_pad(RPCBuffer* rpcbuf, RPCBuffer
 pragma(inline, true) Bool x_rpcbuf_write_INT32s(RPCBuffer* rpcbuf, const(INT32)* values, size_t count)
 {
     return x_rpcbuf_write_CARD32s(rpcbuf, cast(CARD32*)values, count);
-}
-
-/*
- * write array of CARD8s and do byte-swapping (when needed).
- *
- * allocate a region for CARD8, write them into the buffer.
- * when `values` or `count` are zero, does nothing.
- *
- * doesn't do any padding.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @param values    pointer to CARD16 array to write
- * @param count     number of elements in the array
- * @return          True on success, False on allocation failure
- */
-Bool  x_rpcbuf_write_CARD8s(RPCBuffer* rpcbuf, const(CARD8)* values, size_t count)
-{
-    if ((!values) || (!count))
-        return True;
-
-    INT16* reserved = cast(short*)rpcbuf.reserve(count).ptr;
-    if (!reserved)
-        return False;
-
-    memcpy(reserved, values, count);
-
-    return True;
 }
 
 /*

@@ -369,7 +369,7 @@ private Bool ConstructClientIdValue(ClientPtr sendClient, ClientPtr client, CARD
             /* swapl (&reply.length, n); - not required for reply.length = 0 */
         }
 
-        x_rpcbuf_write_CARD8s(&ctx.rpcbuf, cast(CARD8*)&reply, reply.sizeof);
+        ctx.rpcbuf.writeCard8s(cast(CARD8*)&reply, reply.sizeof);
         ++ctx.numIds;
     }
     if (WillConstructMask(client, mask, ctx, X_XResLocalClientPIDMask)) {
@@ -391,7 +391,7 @@ private Bool ConstructClientIdValue(ClientPtr sendClient, ClientPtr client, CARD
             swapl (&reply.length);
         }
 
-        x_rpcbuf_write_CARD8s(&ctx.rpcbuf, cast(CARD8*)&reply, reply.sizeof);
+        ctx.rpcbuf.writeCard8s(cast(CARD8*)&reply, reply.sizeof);
         ctx.rpcbuf.writeCard32(pid);
 
         ++ctx.numIds;
@@ -828,7 +828,7 @@ private int ProcXResQueryResourceBytes(ClientPtr client)
         }
 
         foreach(it; ctx.response.byEntries!(FragmentList, "l")) {
-            x_rpcbuf_write_CARD8s(&rpcbuf, cast(ubyte*)mixin(FRAGMENT_DATA!(`it`)), it.bytes);
+            rpcbuf.writeCard8s(cast(ubyte*)mixin(FRAGMENT_DATA!(`it`)), it.bytes);
         }  
         if (rpcbuf.wpos != ctx.resultBytes)
             LogMessage(X_WARNING, "ProcXResQueryClientIds() rpcbuf size (%ld) context size (%ld)\n",

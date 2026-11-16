@@ -1225,7 +1225,7 @@ private int ProcXDGAOpenFramebuffer(ClientPtr client)
     nameSize = deviceName ? cast(int)(strlen(deviceName) + 1) : 0;
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
-    x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)deviceName, nameSize);
+    rpcbuf.writeCard8s(cast(CARD8*)deviceName, nameSize);
 
     return mixin(X_SEND_REPLY_WITH_RPCBUF!("client", "reply", "rpcbuf"));
 }
@@ -1311,8 +1311,8 @@ private int ProcXDGAQueryModes(ClientPtr client)
         info.reserved1 = mode[i].reserved1;
         info.reserved2 = mode[i].reserved2;
 
-        x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)&info, sz_xXDGAModeInfo);
-        x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)mode[i].name, size);
+        rpcbuf.writeCard8s(cast(CARD8*)&info, sz_xXDGAModeInfo);
+        rpcbuf.writeCard8s(cast(CARD8*)mode[i].name, size);
     }
 
     free(mode);

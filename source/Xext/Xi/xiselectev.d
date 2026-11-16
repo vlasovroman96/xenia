@@ -376,9 +376,9 @@ int ProcXIGetSelectedEvents(ClientPtr client)
                 rpcbuf.writeCard16( cast(ushort)mask_len);
 
                 /* write mask -- be prepared for original mask not 32bit aligned */
-                x_rpcbuf_write_CARD8s(&rpcbuf, devmask, j+1);
+                rpcbuf.writeCard8s(devmask, j+1);
                 CARD8[8] zero = 0;
-                x_rpcbuf_write_CARD8s(&rpcbuf, zero.ptr, (mask_len*4) - (j+1));
+                rpcbuf.writeCard8s(zero.ptr, (mask_len*4) - (j+1));
 
                 reply.num_masks++;
 

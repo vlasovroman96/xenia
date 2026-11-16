@@ -136,7 +136,7 @@ void __glXSendReply(ClientPtr client, const(void)* data, size_t elements, size_t
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: TRUE };
     /* data should already be padded */
-    x_rpcbuf_write_CARD8s(&rpcbuf, cast(ubyte*)data, reply_ints * 4);
+    rpcbuf.writeCard8s(cast(ubyte*)data, reply_ints * 4);
 
     xGLXSingleReply reply = {
         size: cast(uint)elements,
