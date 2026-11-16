@@ -618,8 +618,8 @@ private int ProcDbeGetVisualInfo(ClientPtr client)
         for (int j = 0; j < visualInfo.count; j++) {
             /* Write visualID(32), depth(8), perfLevel(8), and pad(16). */
             x_rpcbuf_write_CARD32(&rpcbuf, cast(uint)visualInfo.visinfo[j].visual);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)visualInfo.visinfo[j].depth);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)visualInfo.visinfo[j].perflevel);
+            rpcbuf.writeCard8(cast(ubyte)visualInfo.visinfo[j].depth);
+            rpcbuf.writeCard8(cast(ubyte)visualInfo.visinfo[j].perflevel);
             x_rpcbuf_write_CARD16(&rpcbuf, 0);
         }
 

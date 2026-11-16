@@ -545,21 +545,21 @@ private int ProcXvMCListSubpictureTypes(ClientPtr client)
 
             /* xvImageFormatInfo */
             x_rpcbuf_write_CARD32(&rpcbuf, pImage.id);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)pImage.type);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)pImage.byte_order);
+            rpcbuf.writeCard8(cast(ubyte)pImage.type);
+            rpcbuf.writeCard8(cast(ubyte)pImage.byte_order);
             x_rpcbuf_write_CARD16(&rpcbuf, 0); /* pad1 */
             x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)pImage.guid, 16);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)pImage.bits_per_pixel);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)pImage.num_planes);
+            rpcbuf.writeCard8(cast(ubyte)pImage.bits_per_pixel);
+            rpcbuf.writeCard8(cast(ubyte)pImage.num_planes);
             x_rpcbuf_write_CARD16(&rpcbuf, 0); /* pad2 */
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)pImage.depth);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)0); /* pad3 */
+            rpcbuf.writeCard8(cast(ubyte)pImage.depth);
+            rpcbuf.writeCard8(cast(ubyte)0); /* pad3 */
             x_rpcbuf_write_CARD16(&rpcbuf, 0); /* pad4 */
             x_rpcbuf_write_CARD32(&rpcbuf, pImage.red_mask);
             x_rpcbuf_write_CARD32(&rpcbuf, pImage.green_mask);
             x_rpcbuf_write_CARD32(&rpcbuf, pImage.blue_mask);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)pImage.format);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)0); /* pad5 */
+            rpcbuf.writeCard8(cast(ubyte)pImage.format);
+            rpcbuf.writeCard8(cast(ubyte)0); /* pad5 */
             x_rpcbuf_write_CARD16(&rpcbuf, 0); /* pad6 */
             x_rpcbuf_write_CARD32(&rpcbuf, pImage.y_sample_bits);
             x_rpcbuf_write_CARD32(&rpcbuf, pImage.u_sample_bits);
@@ -571,8 +571,8 @@ private int ProcXvMCListSubpictureTypes(ClientPtr client)
             x_rpcbuf_write_CARD32(&rpcbuf, pImage.vert_u_period);
             x_rpcbuf_write_CARD32(&rpcbuf, pImage.vert_v_period);
             x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)pImage.component_order, 32);
-            x_rpcbuf_write_CARD8(&rpcbuf,  cast(ubyte)pImage.scanline_order);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)0); /* pad7 */
+            rpcbuf.writeCard8( cast(ubyte)pImage.scanline_order);
+            rpcbuf.writeCard8(cast(ubyte)0); /* pad7 */
             x_rpcbuf_write_CARD16(&rpcbuf, 0); /* pad8 */
             x_rpcbuf_write_CARD32(&rpcbuf, 0); /* pad9 */
             x_rpcbuf_write_CARD32(&rpcbuf, 0); /* pad10 */

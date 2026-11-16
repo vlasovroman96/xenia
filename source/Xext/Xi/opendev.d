@@ -84,8 +84,8 @@ import dix.events;
  */
 
 enum string WRITE_ICI(string cls) = `{ 
-        x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)` ~ cls ~ `); 
-        x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)event_base[` ~ cls ~ `]); 
+        rpcbuf.writeCard8(cast(ubyte)` ~ cls ~ `); 
+        rpcbuf.writeCard8(cast(ubyte)event_base[` ~ cls ~ `]); 
         num_classes++; 
     } `;
 

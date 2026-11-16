@@ -223,8 +223,8 @@ modifier_done:
         if (status != cast(ubyte)GrabSuccess) {
             /* write xXIGrabModifierInfo */
             x_rpcbuf_write_CARD32(&rpcbuf, *modifiers);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)status);
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)0); /* pad0 */
+            rpcbuf.writeCard8(cast(ubyte)status);
+            rpcbuf.writeCard8(cast(ubyte)0); /* pad0 */
             x_rpcbuf_write_CARD16(&rpcbuf, 0); /* pad1 */
 
             reply.num_modifiers++;

@@ -843,7 +843,7 @@ private Bool doListFontsAndAliases(ClientPtr client, list_fonts_closure* c)
             reply.nFonts--;
         else {
             /* write a pascal string */
-            x_rpcbuf_write_CARD8(&rpcbuf, cast(ubyte)names.length[i]);
+            rpcbuf.writeCard8(cast(ubyte)names.length[i]);
             x_rpcbuf_write_CARD8s(&rpcbuf, cast(CARD8*)names.names[i], names.length[i]);
         }
     }
@@ -1863,7 +1863,7 @@ int FillFontPath(RPCBuffer* rpcbuf)
     for (int i = 0; i < num_fpes; i++) {
         FontPathElementPtr fpe = font_path_elements[i];
         /* write a pascal-string */
-        x_rpcbuf_write_CARD8(rpcbuf, cast(ubyte)fpe.name_length);
+        rpcbuf.writeCard8(cast(ubyte)fpe.name_length);
         x_rpcbuf_write_CARD8s(rpcbuf, cast(CARD8*)fpe.name, fpe.name_length);
     }
     return num_fpes;
