@@ -40,9 +40,9 @@ public import abi.common;
 struct RPCBuffer {
     size_t wpos;    /* length of data inside the buffer / next write position */
     ubyte[] buffer;   /* pointer to whole buffer */
-    bool swapped;   /* True when typed write operation shall byte-swap */
-    bool error;     /* True when the last allocation failed */
-    bool err_clear; /* set to True if should automatically clear on error */
+    bool swapped;   /* true when typed write operation shall byte-swap */
+    bool error;     /* true when the last allocation failed */
+    bool err_clear; /* set to true if should automatically clear on error */
 
     /*
     * retrieve number of 4-byte-units (padded) of data written in the buffer
@@ -54,7 +54,7 @@ struct RPCBuffer {
     /*
     * make sure there's enough room for `needed` bytes in the buffer.
     * @param needed    amount of free space needed in the buffer
-    * @return          True if there (now) is enough room, False on alloc failure
+    * @return          true if there (now) is enough room, false on alloc failure
     */
     bool makeRoom(size_t needed) {
         /* break out of alreay in error state */
@@ -146,7 +146,7 @@ struct RPCBuffer {
     * if given data is NULL or size is zero , nothing happens.
     *
     * @param needed    string to plain C string
-    * @return          True on success, False on allocation failure
+    * @return          true on success, false on allocation failure
     */
     bool writeBinPad(ubyte[] val, size_t padding = 0) {
         size_t blen = padForInt32(cast(int)(val.length + padding));
@@ -176,11 +176,11 @@ struct RPCBuffer {
     * if given string is NULL or zero-size, nothing happens.
     *
     * @param str        string to plain C string
-    * @return          True on success, False on allocation failure
+    * @return          true on success, false on allocation failure
     */
     bool writeStringPad(string str) {
         if (!str)
-            return True;
+            return true;
 
         return this.writeBinPad(cast(ubyte[])str);
     }
@@ -193,7 +193,7 @@ struct RPCBuffer {
     * doesn't do any padding.
     *
     * @param value     the CARD8 value to write
-    * @return          True on success, False on allocation failure
+    * @return          true on success, false on allocation failure
     */
     bool writeCard8(CARD8 value) {
         auto reserved = this.reserve(value.sizeof);
@@ -214,32 +214,32 @@ struct RPCBuffer {
     *
     * @param values    pointer to CARD16 array to write
     * @param count     number of elements in the array
-    * @return          True on success, False on allocation failure
+    * @return          true on success, false on allocation failure
     */
-    Bool writeCard8s(const(CARD8)* values, size_t count)
+    bool writeCard8s(const(CARD8)* values, size_t count)
     {
         if ((!values) || (!count))
-            return True;
+            return true;
 
         INT16* reserved = cast(short*)this.reserve(count).ptr;
         if (!reserved)
-            return False;
+            return false;
 
         memcpy(reserved, values, count);
 
-        return True;
+        return false;
     }
 
     /*
     * write a CARD16 and do byte-swapping (when needed).
     *
     * allocate a region for CARD16, write it into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is True).
+    * if buffer is configured to do so (`swapped` field is true).
     *
     * doesn't do any padding.
     *
     * @param value     the CARD16 value to write
-    * @return          True on success, False on allocation failure
+    * @return          true on success, false on allocation failure
     */
     bool writeCard16(CARD16 value) {
         CARD16* reserved = cast(ushort*)this.reserve(value.sizeof).ptr;
@@ -258,7 +258,7 @@ struct RPCBuffer {
     * write array of CARD16s and do byte-swapping (when needed).
     *
     * allocate a region for CARD16s, write them into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is True).
+    * if buffer is configured to do so (`swapped` field is true).
     * when `values` or `count` are zero, does nothing.
     *
     * doesn't do any padding.
@@ -266,35 +266,35 @@ struct RPCBuffer {
     * @param rpcbuf    pointer to RPCBuffer to operate on
     * @param values    pointer to CARD16 array to write
     * @param count     number of elements in the array
-    * @return          True on success, False on allocation failure
+    * @return          true on success, false on allocation failure
     */
-    Bool writeCard16s(const(CARD16)* values, size_t count)
+    bool writeCard16s(const(CARD16)* values, size_t count)
     {
         if ((!values) || (!count))
-            return True;
+            return true;
 
         INT16* reserved = cast(short*)this.reserve(((CARD16).sizeof * count)).ptr;
         if (!reserved)
-            return False;
+            return false;
 
         memcpy(reserved, values, ((CARD16).sizeof * count));
 
         if (this.swapped)
             SwapShorts(reserved, count);
 
-        return True;
+        return true;
     }
 
     /*
     * write a CARD32 and do byte-swapping (when needed).
     *
     * allocate a region for CARD32, write it into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is True).
+    * if buffer is configured to do so (`swapped` field is true).
     *
     * doesn't do any padding.
     *
     * @param value     the CARD32 value to write
-    * @return          True on success, False on allocation failure
+    * @return          true on success, false on allocation failure
     */
     bool writeCard32(CARD32 value) {
         CARD32* reserved = cast(uint*)this.reserve(value.sizeof).ptr;
@@ -313,30 +313,30 @@ struct RPCBuffer {
     * write array of CARD32s and do byte-swapping (when needed).
     *
     * allocate a region for CARD32s, write them into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is True).
+    * if buffer is configured to do so (`swapped` field is true).
     * when `values` or `count` are zero, does nothing.
     *
     * doesn't do any padding.
     *
     * @param values    pointer to CARD32 array to write
     * @param count     number of elements in the array
-    * @return          True on success, False on allocation failure
+    * @return          true on success, false on allocation failure
     */
-    Bool  writeCard32s(const(CARD32)* values, size_t count)
+    bool  writeCard32s(const(CARD32)* values, size_t count)
     {
         if ((!values) || (!count))
-            return True;
+            return true;
 
         CARD32* reserved = cast(uint*)this.reserve(((CARD32).sizeof * count)).ptr;
         if (!reserved)
-            return False;
+            return false;
 
         memcpy(reserved, values, ((CARD32).sizeof * count));
 
         if (this.swapped)
             SwapLongs(reserved, count);
 
-        return True;
+        return true;
     }
 
     //NOT USED. REMOVE THIS?
@@ -344,12 +344,12 @@ struct RPCBuffer {
     * write a CARD64 and do byte-swapping (when needed).
     *
     * allocate a region for CARD64, write it into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is True).
+    * if buffer is configured to do so (`swapped` field is true).
     *
     * doesn't do any padding.
     *
     * @param value     the CARD64 value to write
-    * @return          True on success, False on allocation failure
+    * @return          true on success, false on allocation failure
     */
     bool writeCard64(CARD64 value) {
         CARD64* reserved = cast(ulong*)this.reserve(value.sizeof).ptr;
@@ -368,23 +368,23 @@ struct RPCBuffer {
     * write array of CARD64s and do byte-swapping (when needed).
     *
     * allocate a region for CARD64s, write them into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is True).
+    * if buffer is configured to do so (`swapped` field is true).
     * when `values` or `count` are zero, does nothing.
     *
     * doesn't do any padding.
     *
     * @param values    pointer to CARD64 array to write
     * @param count     number of elements in the array
-    * @return          True on success, False on allocation failure
+    * @return          true on success, false on allocation failure
     */
-    Bool writeCard64s(const(CARD64)* values, size_t count)
+    bool writeCard64s(const(CARD64)* values, size_t count)
     {
         if ((!values) || (!count))
-            return True;
+            return true;
 
         CARD64* reserved = cast(ulong*)this.reserve(((CARD64).sizeof * count)).ptr;
         if (!reserved)
-            return False;
+            return false;
 
         memcpy(reserved, values, ((CARD64).sizeof * count));
 
@@ -392,19 +392,19 @@ struct RPCBuffer {
             for (size_t x = 0; x<count; x++)
                 swapll(&reserved[x]);
 
-        return True;
+        return true;
     }
 
     /*
     * write a INT16 and do byte-swapping (when needed).
     *
     * allocate a region for INT16, write it into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is True).
+    * if buffer is configured to do so (`swapped` field is true).
     *
     * doesn't do any padding.
     *
     * @param value     the CARD16 value to write
-    * @return          True on success, False on allocation failure
+    * @return          true on success, false on allocation failure
     */
     bool writeInt16(INT16 value) {
         return this.writeCard16(cast(CARD16)value);
@@ -414,11 +414,11 @@ struct RPCBuffer {
     * write a INT32 and do byte-swapping (when needed).
     *
     * allocate a region for INT32, write it into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is True).
+    * if buffer is configured to do so (`swapped` field is true).
     *
     * doesn't do any padding.
     * @param value     the CARD16 value to write
-    * @return          True on success, False on allocation failure
+    * @return          true on success, false on allocation failure
     */
     bool writeInt32(INT32 value) {
         return this.writeCard32(cast(CARD32)value);
@@ -428,16 +428,16 @@ struct RPCBuffer {
     * write array of INT32s and do byte-swapping (when needed).
     *
     * allocate a region for INT32s, write them into the buffer and do byte-swap
-    * if buffer is configured to do so (`swapped` field is True).
+    * if buffer is configured to do so (`swapped` field is true).
     * when `values` or `count` are zero, does nothing.
     *
     * doesn't do any padding.
     *
     * @param values    pointer to INT32 array to write
     * @param count     number of elements in the array
-    * @return          True on success, False on allocation failure
+    * @return          true on success, false on allocation failure
     */
-    pragma(inline, true) Bool writeInt32s(const(INT32)* values, size_t count)
+    pragma(inline, true) bool writeInt32s(const(INT32)* values, size_t count)
     {
         return this.writeCard32s(cast(CARD32*)values, count);
     }
@@ -464,7 +464,7 @@ struct RPCBuffer {
     * if given string is NULL or zero-size, only a (CARD32)0 is written.
     *
     * @param needed    string to plain C string
-    * @return          True on success, False on allocation failure
+    * @return          true on success, false on allocation failure
     */
     bool writeString0tPad(const(char)* str) {
         if (!str)
@@ -500,12 +500,12 @@ struct RPCBuffer {
     *
     * @param rpcbuf    pointer to RPCBuffer to operate on
     * @param needed    string to plain C string
-    * @return          True on success, False on allocation failure
+    * @return          true on success, false on allocation failure
     */
-    Bool writeBinaryPad(const(void)* values, size_t size)
+    bool writeBinaryPad(const(void)* values, size_t size)
     {
         if ((!values) || (!size))
-            return True;
+            return true;
 
         return this.writeBinPad(cast(ubyte[])values[0..size]);
     }
@@ -522,7 +522,7 @@ struct RPCBuffer {
             return;
 
         if (source.error) {
-            this.error = True;
+            this.error = true;
             if (this.err_clear) {
                 free(this.buffer.ptr);
                 this.buffer = null;
