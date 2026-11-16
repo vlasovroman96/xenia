@@ -184,6 +184,25 @@ struct RPCBuffer {
 
         return this.writeBinPad(cast(ubyte[])str);
     }
+
+    /*
+    * write a CARD8(ubyte)
+    *
+    * allocate a region for CARD8 and write it into the buffer.
+    *
+    * doesn't do any padding.
+    *
+    * @param value     the CARD8 value to write
+    * @return          True on success, False on allocation failure
+    */
+    bool writeCard8(CARD8 value) {
+        auto reserved = this.reserve(value.sizeof);
+        if (!reserved)
+            return false;
+
+        reserved[0] = value;
+        return true;
+    }
 }
 
 enum XLIBRE_RPCBUF_CHUNK_SIZE = 4096;
@@ -263,28 +282,6 @@ int x_rpcbuf_write_string_0t_pad(RPCBuffer* rpcbuf, const(char)* str)
         return x_rpcbuf_write_CARD32(rpcbuf, 0);
 
     return rpcbuf.writeBinPad(cast(ubyte[])str[0..strlen(str)], 1);
-}
-
-/*
- * write a CARD8
- *
- * allocate a region for CARD8 and write it into the buffer.
- *
- * doesn't do any padding.
- *
- * @param rpcbuf    pointer to RPCBuffer to operate on
- * @param value     the CARD16 value to write
- * @return          True on success, False on allocation failure
- */
-Bool x_rpcbuf_write_CARD8(RPCBuffer* rpcbuf, CARD8 value)
-{
-    CARD8* reserved = cast(ubyte*)rpcbuf.reserve(value.sizeof).ptr;
-    if (!reserved)
-        return False;
-
-    *reserved = value;
-
-    return True;
 }
 
 /*
