@@ -297,7 +297,7 @@ private int ProcPseudoramiXQueryScreens(ClientPtr client)
     if (!noPseudoramiXExtension) {
         for (int i = 0; i < pseudoramiXNumScreens; i++) {
             /* xXineramaScreenInfo is the same as xRectangle */
-            x_rpcbuf_write_rect(&rpcbuf,
+            rpcbuf.writeProtoRect(
                                 cast(short)pseudoramiXScreens[i].x,
                                 cast(short)pseudoramiXScreens[i].y,
                                 cast(short)pseudoramiXScreens[i].w,

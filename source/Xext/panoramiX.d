@@ -1066,7 +1066,7 @@ int ProcXineramaQueryScreens(ClientPtr client)
     if (!noPanoramiXExtension) {
         mixin(XINERAMA_FOR_EACH_SCREEN_BACKWARD!(q{
             /* xXineramaScreenInfo is the same as xRectangle */
-            x_rpcbuf_write_rect(&rpcbuf,
+            rpcbuf.writeProtoRect(
                                 walkScreen.x,
                                 walkScreen.y,
                                 walkScreen.width,

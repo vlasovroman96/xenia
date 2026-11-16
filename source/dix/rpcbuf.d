@@ -283,7 +283,6 @@ struct RPCBuffer {
     * allocate a region for the string (padded to 32bits) and copy in the string.
     * if given string is NULL or zero-size, only a (CARD32)0 is written.
     *
-    * @param rpcbuf    pointer to RPCBuffer to operate on
     * @param needed    string to plain C string
     * @return          True on success, False on allocation failure
     */
@@ -302,12 +301,26 @@ struct RPCBuffer {
     *
     * doesn't do any padding.
     *
-    * @param rpcbuf    pointer to RPCBuffer to operate on
     * @param value     the CARD16 value to write
     * @return          True on success, False on allocation failure
     */
     bool writeInt16(INT16 value) {
         return this.writeCard16(cast(CARD16)value);
+    }
+
+    /*
+    * write an X11 RECTANGLE protocol structure into the buffer
+    *
+    * @param x         X value of the rectangle
+    * @param y         Y value of the rectangle
+    * @param width     WIDTH value of the rectangle
+    * @param height    HEIGHT value of the rectangle
+    */
+    void writeProtoRect(INT16 x, INT16 y, CARD16 width, CARD16 height) {
+        this.writeInt16(x);
+        this.writeInt16(y);
+        this.writeCard16(width);
+        this.writeCard16(height);
     }
 }
 
@@ -353,23 +366,6 @@ pragma(inline, true) void x_rpcbuf_write_rpcbuf_pad(RPCBuffer* rpcbuf, RPCBuffer
         x_rpcbuf_write_binary_pad(rpcbuf, source.buffer.ptr, source.wpos);
     }
     source.clear();
-}
-
-/*
- * write an X11 RECTANGLE protocol structure into the buffer
- *
- * @param rpcbuf    pointer to the RPCBuffer to operate on
- * @param x         X value of the rectangle
- * @param y         Y value of the rectangle
- * @param width     WIDTH value of the rectangle
- * @param height    HEIGHT value of the rectangle
- */
-pragma(inline, true) void x_rpcbuf_write_rect(RPCBuffer* rpcbuf, INT16 x, INT16 y, CARD16 width, CARD16 height)
-{
-    rpcbuf.writeInt16(x);
-    rpcbuf.writeInt16(y);
-    rpcbuf.writeCard16(width);
-    rpcbuf.writeCard16(height);
 }
 
 /*

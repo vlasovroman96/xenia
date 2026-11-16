@@ -283,7 +283,7 @@ int ProcRRXineramaQueryScreens(ClientPtr client)
     for (m = 0; m < nmonitors; m++) {
         BoxRec box = monitors[m].geometry.box;
         /* write xXineramaScreenInfo */
-        x_rpcbuf_write_rect(&rpcbuf,
+        rpcbuf.writeProtoRect(
                             box.x1,
                             box.y1,
                             cast(ushort)(box.x2 - box.x1),
