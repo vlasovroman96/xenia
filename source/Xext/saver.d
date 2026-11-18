@@ -80,6 +80,7 @@ import dix.dixutils;
 import os.utils;
 import dix.events;
 import common.swap;
+import dix.windowOpt;
 
 Bool noScreenSaverExtension = False;
 

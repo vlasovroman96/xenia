@@ -170,25 +170,7 @@ import mi.mi_priv;
 import common.math;
 import common.swap;
 import dix.devCursor;
-
-
-struct _WindowOpt {
-    CursorPtr cursor;           /* default: window.cursorNone */
-    VisualID visual;            /* default: same as parent */
-    Colormap colormap;          /* default: same as parent */
-    Mask dontPropagateMask;     /* default: window.dontPropagate */
-    Mask otherEventMasks;       /* default: 0 */
-    _OtherClients* otherClients; /* default: NULL */
-    _GrabRec* passiveGrabs;      /* default: NULL */
-    CARD32 backingBitPlanes;    /* default: ~0L */
-    CARD32 backingPixel;        /* default: 0 */
-    RegionPtr boundingShape;    /* default: NULL */
-    RegionPtr clipShape;        /* default: NULL */
-    RegionPtr inputShape;       /* default: NULL */
-    _OtherInputMasks* inputMasks;        /* default: NULL */
-    DevCursorList deviceCursors;        /* default: NULL */
-}alias WindowOptRec = _WindowOpt;
-alias WindowOptPtr = _WindowOpt*;
+import dix.windowOpt;
 
 enum BackgroundPixel =	    2L;
 enum BackgroundPixmap =    3L;
@@ -840,23 +822,11 @@ Bool CreateRootWindow(ScreenPtr pScreen)
     pWin.parent = NullWindow;
     SetWindowToDefaults(pWin);
 
-    pWin.optional = cast(WindowOptRec*) calloc(1, WindowOptRec.sizeof);
+    pWin.optional = cast(WindowOptPtr) calloc(1, WindowOpt.sizeof);
     if (!pWin.optional)
         return False;
 
-    pWin.optional.dontPropagateMask = 0;
-    pWin.optional.otherEventMasks = 0;
-    pWin.optional.otherClients = null;
-    pWin.optional.passiveGrabs = null;
-    pWin.optional.backingBitPlanes = cast(uint)~0L;
-    pWin.optional.backingPixel = 0;
-    pWin.optional.boundingShape = null;
-    pWin.optional.clipShape = null;
-    pWin.optional.inputShape = null;
-    pWin.optional.inputMasks = null;
-    pWin.optional.deviceCursors = null;
-    pWin.optional.colormap = cast(uint)pScreen.defColormap;
-    pWin.optional.visual = cast(uint)cast(uint)pScreen.rootVisual;
+    pWin.optional.initByWindow(pWin, true);
 
     pWin.nextSib = NullWindow;
 
@@ -877,7 +847,6 @@ Bool CreateRootWindow(ScreenPtr pScreen)
     RegionInit(&pWin.borderClip, &box, 1);
 
     pWin.drawable.class_ = InputOutput;
-    pWin.optional.visual = cast(uint)pScreen.rootVisual;
 
     pWin.backgroundState = BackgroundPixel;
     pWin.background.pixel = pScreen.whitePixel;
@@ -3589,35 +3558,15 @@ void CheckWindowOptionalNeed(WindowPtr w)
 
 Bool MakeWindowOptional(WindowPtr pWin)
 {
-    WindowOptPtr parentOptional = void;
-
     if (pWin.optional)
         return True;
 
-    WindowOptPtr optional = cast(WindowOptRec*) calloc(1, WindowOptRec.sizeof);
+    WindowOptPtr optional = cast(WindowOptPtr) calloc(1, WindowOpt.sizeof);
+    
     if (!optional)
         return False;
-    optional.dontPropagateMask = DontPropagateMasks[pWin.dontPropagate];
-    optional.otherEventMasks = 0;
-    optional.otherClients = null;
-    optional.passiveGrabs = null;
-    optional.backingBitPlanes = cast(uint)~0L;
-    optional.backingPixel = 0;
-    optional.boundingShape = null;
-    optional.clipShape = null;
-    optional.inputShape = null;
-    optional.inputMasks = null;
-    optional.deviceCursors = null;
-
-    parentOptional = FindWindowWithOptional(pWin).optional;
-    optional.visual = parentOptional.visual;
-    if (!pWin.cursorIsNone) {
-        optional.cursor = RefCursor(parentOptional.cursor);
-    }
-    else {
-        optional.cursor = null;
-    }
-    optional.colormap = parentOptional.colormap;
+    
+    optional.initByWindow(pWin);
     pWin.optional = optional;
     return True;
 }
