@@ -321,7 +321,7 @@ private int miRecomputeExposures(WindowPtr pWin, void* value)
          * gravity manipulations, so don't recompute their
          * exposed areas here.
          */
-        if (pWin.redirectDraw != RedirectDrawNone)
+        if (pWin.redirectDraw != RedirectDraw.None)
             return WT_DONTWALKCHILDREN;
         /*
          * compute exposed regions of this window

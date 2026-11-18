@@ -76,10 +76,10 @@ import dix.dispatch;
 //     PixmapPtr pScreenPixmap = (*pScreen.GetScreenPixmap) (pScreen);
 
 //     if (!pWin.parent) {
-//         assert(pWin.redirectDraw == RedirectDrawNone);
+//         assert(pWin.redirectDraw == RedirectDraw.None);
 //         assert(pWinPixmap == pScreenPixmap);
 //     }
-//     else if (pWin.redirectDraw != RedirectDrawNone) {
+//     else if (pWin.redirectDraw != RedirectDraw.None) {
 //         assert(pWinPixmap != pParentPixmap);
 //         assert(pWinPixmap != pScreenPixmap);
 //     }
@@ -135,7 +135,7 @@ private int compSetPixmapVisitWindow(WindowPtr pWindow, void* data)
     CompPixmapVisitPtr pVisit = cast(CompPixmapVisitPtr) data;
     ScreenPtr pScreen = pWindow.drawable.pScreen;
 
-    if (pWindow != pVisit.pWindow && pWindow.redirectDraw != RedirectDrawNone)
+    if (pWindow != pVisit.pWindow && pWindow.redirectDraw != RedirectDraw.None)
         return WT_DONTWALKCHILDREN;
     (*pScreen.SetWindowPixmap) (pWindow, pVisit.pPixmap);
     /*
@@ -178,7 +178,7 @@ Bool compCheckRedirect(WindowPtr pWin)
         }
     }
 
-    if (should != (pWin.redirectDraw != RedirectDrawNone)) {
+    if (should != (pWin.redirectDraw != RedirectDraw.None)) {
         if (should)
             return compAllocPixmap(pWin);
         else {
@@ -192,9 +192,9 @@ Bool compCheckRedirect(WindowPtr pWin)
     }
     else if (should) {
         if (cw.update == CompositeRedirectAutomatic)
-            pWin.redirectDraw = RedirectDrawAutomatic;
+            pWin.redirectDraw = RedirectDraw.Automatic;
         else
-            pWin.redirectDraw = RedirectDrawManual;
+            pWin.redirectDraw = RedirectDraw.Manual;
     }
     return True;
 }
@@ -239,11 +239,11 @@ void compWindowPosition(CallbackListPtr* pcbl, ScreenPtr pScreen, XorgScreenWind
      compCheckRedirect (pWin);
      */
 version (COMPOSITE_DEBUG) {
-    if ((pWin.redirectDraw != RedirectDrawNone) !=
+    if ((pWin.redirectDraw != RedirectDraw.None) !=
         (pWin.viewable && (mixin(GetCompWindow!("pWin") !is null))))
         OsAbort();
 }
-    if (pWin.redirectDraw != RedirectDrawNone) {
+    if (pWin.redirectDraw != RedirectDraw.None) {
         PixmapPtr pPixmap = (*pScreen.GetWindowPixmap) (pWin);
         int bw = mixin(wBorderWidth!("pWin"));
         int nx = pWin.drawable.x - bw;
@@ -363,7 +363,7 @@ private Bool compImplicitRedirect(WindowPtr pWin, WindowPtr pParent)
 
 private void compFreeOldPixmap(WindowPtr pWin)
 {
-    if (pWin.redirectDraw != RedirectDrawNone) {
+    if (pWin.redirectDraw != RedirectDraw.None) {
         CompWindowPtr cw = mixin(GetCompWindow!("pWin"));
 
         if (cw.pOldPixmap) {
@@ -447,7 +447,7 @@ void compReparentWindow(WindowPtr pWin, WindowPtr pPriorParent)
     /*
      * Reset pixmap pointers as appropriate
      */
-    if (pWin.parent && pWin.redirectDraw == RedirectDrawNone)
+    if (pWin.parent && pWin.redirectDraw == RedirectDraw.None)
         compSetPixmap(pWin, (*pScreen.GetWindowPixmap) (pWin.parent),
                       pWin.borderWidth);
     /*
@@ -471,7 +471,7 @@ void compCopyWindow(WindowPtr pWin, xPoint ptOldOrg, RegionPtr prgnSrc)
     CompScreenPtr cs = mixin(GetCompScreen!("pScreen"));
     int dx = 0, dy = 0;
 
-    if (pWin.redirectDraw != RedirectDrawNone) {
+    if (pWin.redirectDraw != RedirectDraw.None) {
         PixmapPtr pPixmap = (*pScreen.GetWindowPixmap) (pWin);
         CompWindowPtr cw = mixin(GetCompWindow!("pWin"));
 
@@ -584,7 +584,7 @@ void compWindowDestroy(CallbackListPtr* pcbl, ScreenPtr pScreen, WindowPtr pWin)
     while ((csw = mixin(GetCompSubwindows!("pWin")))!is null)
         FreeResource(cast(uint)csw.clients.id, X11_RESTYPE_NONE);
 
-    if (pWin.redirectDraw != RedirectDrawNone) {
+    if (pWin.redirectDraw != RedirectDraw.None) {
         PixmapPtr pPixmap = (*pScreen.GetWindowPixmap) (pWin);
 
         compSetParentPixmap(pWin);
@@ -699,7 +699,7 @@ private void compPaintWindowToParent(WindowPtr pWin)
 {
     compPaintChildrenToWindow(pWin);
 
-    if (pWin.redirectDraw != RedirectDrawNone) {
+    if (pWin.redirectDraw != RedirectDraw.None) {
         CompWindowPtr cw = mixin(GetCompWindow!("pWin"));
 
         if (cw.damaged) {
@@ -771,7 +771,7 @@ int compConfigNotify(WindowPtr pWin, int x, int y, int w, int h, int bw, WindowP
             return ret;
     }
 
-    if (pWin.redirectDraw == RedirectDrawNone)
+    if (pWin.redirectDraw == RedirectDraw.None)
         return Success;
 
     //compCheckTree(pScreen);

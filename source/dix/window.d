@@ -178,18 +178,18 @@ enum BackgroundPixmap =    3L;
 /*
  * The redirectDraw field can have one of three values:
  *
- *  RedirectDrawNone
+ *  RedirectDraw.None
  *	A normal window; painted into the same pixmap as the parent
  *	and clipping parent and siblings to its geometry. These
  *	windows get a clip list equal to the intersection of their
  *	geometry with the parent geometry, minus the geometry
  *	of overlapping None and Clipped siblings.
- *  RedirectDrawAutomatic
+ *  RedirectDraw.Automatic
  *	A redirected window which clips parent and sibling drawing.
  *	Contents for these windows are manage inside the server.
  *	These windows get an internal clip list equal to their
  *	geometry.
- *  RedirectDrawManual
+ *  RedirectDraw.Manual
  *	A redirected window which does not clip parent and sibling
  *	drawing; the window must be represented within the parent
  *	geometry by the client performing the redirection management.
@@ -198,9 +198,11 @@ enum BackgroundPixmap =    3L;
  *	geometry.
  */
 
-enum RedirectDrawNone =	0;
-enum RedirectDrawAutomatic =	1;
-enum RedirectDrawManual =	2;
+enum RedirectDraw : uint {
+    None,
+    Automatic,
+    Manual
+}
 
 struct _Window {
     DrawableRec drawable;
@@ -494,7 +496,7 @@ private void log_window_info(WindowPtr pWin, int depth)
         ErrorF(" (override redirect)");
     if (pWin.redirectDraw)
         ErrorF(" (%s compositing: pixmap %x)",
-               (pWin.redirectDraw == RedirectDrawAutomatic) ?
+               (pWin.redirectDraw == RedirectDraw.Automatic) ?
                "automatic".ptr : "manual".ptr,
                cast(uint) pWin.drawable.pScreen.GetWindowPixmap(pWin).drawable.id);
 
@@ -738,7 +740,7 @@ void SetWindowToDefaults(WindowPtr pWin)
     pWin.eventMask = 0;
     pWin.deliverableEvents = 0;
     pWin.dontPropagate = 0;
-    pWin.redirectDraw = RedirectDrawNone;
+    pWin.redirectDraw = RedirectDraw.None;
     pWin.forcedBG = False;
     pWin.unhittable = False;
 
@@ -1914,7 +1916,7 @@ version (ROOTLESS) {
 
 void SetWinSize(WindowPtr pWin)
 {
-    if (pWin.redirectDraw != RedirectDrawNone) {
+    if (pWin.redirectDraw != RedirectDraw.None) {
         BoxRec box = void;
 
         /*
@@ -1949,7 +1951,7 @@ void SetBorderSize(WindowPtr pWin)
 
     if (mixin(HasBorder!("pWin"))) {
         bw = mixin(wBorderWidth!("pWin"));
-        if (pWin.redirectDraw != RedirectDrawNone) {
+        if (pWin.redirectDraw != RedirectDraw.None) {
             BoxRec box = void;
 
             /*

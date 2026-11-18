@@ -372,7 +372,7 @@ private void GetCompositeWindowBytes(void* value, XID id, ResourceSizePtr size)
     coreGetWindowBytes(value, id, size);
 
     /* account for redirection */
-    if (window.redirectDraw != RedirectDrawNone)
+    if (window.redirectDraw != RedirectDraw.None)
     {
         SizeType pixmapSizeFunc = GetResourceTypeSizeFunc(X11_RESTYPE_PIXMAP);
         ResourceSizeRec pixmapSize = { 0, 0 };

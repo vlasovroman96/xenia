@@ -166,7 +166,7 @@ int miShapedWindowIn(RegionPtr universe, RegionPtr bounding, BoxPtr rect, int x,
  * siblings or parent windows
  */
 
-enum string TreatAsTransparent(string w) = `((` ~ w ~ `).redirectDraw == RedirectDrawManual)`;
+enum string TreatAsTransparent(string w) = `((` ~ w ~ `).redirectDraw == RedirectDraw.Manual)`;
 
 enum string HasParentRelativeBorder(string w) = `(!(` ~ w ~ `).borderIsPixel && 
 				    `~HasBorder!(w)~` && 
@@ -223,7 +223,7 @@ private void miComputeClips(WindowPtr pParent, ScreenPtr pScreen, RegionPtr univ
     /*
      * In redirected drawing case, reset universe to borderSize
      */
-    if (pParent.redirectDraw != RedirectDrawNone) {
+    if (pParent.redirectDraw != RedirectDraw.None) {
         if (mixin(TreatAsTransparent!(`pParent`)))
             RegionEmpty(universe);
         compSetRedirectBorderClip (pParent, universe);
@@ -497,7 +497,7 @@ private void miTreeObscured(WindowPtr pParent)
 
 private RegionPtr getBorderClip(WindowPtr pWin)
 {
-    if (pWin.redirectDraw != RedirectDrawNone)
+    if (pWin.redirectDraw != RedirectDraw.None)
         return compGetRedirectBorderClip(pWin);
     else
         return &pWin.borderClip;

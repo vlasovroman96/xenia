@@ -293,7 +293,7 @@ void compFreeClientWindow(WindowPtr pWin, XID id)
     if (!cw.clients) {
         anyMarked = compMarkWindows(pWin, &pLayerWin);
 
-        if (pWin.redirectDraw != RedirectDrawNone) {
+        if (pWin.redirectDraw != RedirectDraw.None) {
             pPixmap = (*pScreen.GetWindowPixmap) (pWin);
             compSetParentPixmap(pWin);
         }
@@ -307,12 +307,12 @@ void compFreeClientWindow(WindowPtr pWin, XID id)
         free(cw);
     }
     else if (cw.update == CompositeRedirectAutomatic &&
-             !cw.damageRegistered && pWin.redirectDraw != RedirectDrawNone) {
+             !cw.damageRegistered && pWin.redirectDraw != RedirectDraw.None) {
         anyMarked = compMarkWindows(pWin, &pLayerWin);
 
         DamageRegister(&pWin.drawable, cw.damage);
         cw.damageRegistered = True;
-        pWin.redirectDraw = RedirectDrawAutomatic;
+        pWin.redirectDraw = RedirectDraw.Automatic;
         DamageDamageRegion(&pWin.drawable, &pWin.borderSize);
     }
 
@@ -625,9 +625,9 @@ Bool compAllocPixmap(WindowPtr pWin)
         goto out_;
     }
     if (cw.update == CompositeRedirectAutomatic)
-        pWin.redirectDraw = RedirectDrawAutomatic;
+        pWin.redirectDraw = RedirectDraw.Automatic;
     else
-        pWin.redirectDraw = RedirectDrawManual;
+        pWin.redirectDraw = RedirectDraw.Manual;
 
     compSetPixmap(pWin, pPixmap, bw);
     cw.oldx = COMP_ORIGIN_INVALID;
@@ -668,7 +668,7 @@ void compSetParentPixmap(WindowPtr pWin)
      */
     RegionCopy(&pWin.borderClip, &cw.borderClip);
     pParentPixmap = (*pScreen.GetWindowPixmap) (pWin.parent);
-    pWin.redirectDraw = RedirectDrawNone;
+    pWin.redirectDraw = RedirectDraw.None;
     compSetPixmap(pWin, pParentPixmap, pWin.borderWidth);
 }
 
@@ -687,7 +687,7 @@ Bool compReallocPixmap(WindowPtr pWin, int draw_x, int draw_y, uint w, uint h, i
     int pix_w = void, pix_h = void;
 
     assert(cw);
-    assert(pWin.redirectDraw != RedirectDrawNone);
+    assert(pWin.redirectDraw != RedirectDraw.None);
     cw.oldx = pOld.screen_x;
     cw.oldy = pOld.screen_y;
     pix_x = draw_x - bw;
