@@ -169,17 +169,8 @@ public import dix.inputstr;
 import mi.mi_priv;
 import common.math;
 import common.swap;
+import dix.devCursor;
 
-
-
-/* used as NULL-terminated list */
-struct _DevCursorNode {
-    CursorPtr cursor;
-    DeviceIntPtr dev;
-    _DevCursorNode* next;
-}alias DevCursNodeRec = _DevCursorNode;
-alias DevCursNodePtr = _DevCursorNode*;
-alias DevCursorList = _DevCursorNode*;
 
 struct _WindowOpt {
     CursorPtr cursor;           /* default: window.cursorNone */
@@ -3573,13 +3564,9 @@ void CheckWindowOptionalNeed(WindowPtr w)
     if (optional.inputMasks !is null)
         return;
     if (optional.deviceCursors !is null) {
-        DevCursNodePtr pNode = optional.deviceCursors;
-
-        while (pNode) {
-            if (pNode.cursor !is null)
+        foreach(curs; optional.deviceCursors.ntRange!"next")
+            if(curs != null)
                 return;
-            pNode = pNode.next;
-        }
     }
 
     parentOptional = FindWindowWithOptional(w).optional;
