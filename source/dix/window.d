@@ -237,7 +237,7 @@ struct _Window {
     uint realized : 1;        /* ancestors are all mapped */
     uint viewable : 1;        /* realized && InputOutput */
     uint dontPropagate : 3;   /* index into DontPropagateMasks */
-    uint redirectDraw : 2;    /* COMPOSITE rendering redirect */
+    RedirectDraw redirectDraw : 2;    /* COMPOSITE rendering redirect */
     uint forcedBG : 1;        /* must have an opaque background */
     uint unhittable : 1;      /* doesn't hit-test, for rootless */
     uint damagedDescendants : 1;      /* some descendants are damaged */
