@@ -261,10 +261,7 @@ struct WindowRec {
 alias WindowPtr = WindowRec*;
 enum NullWindow = cast(WindowPtr) 0;
 
-enum TOTALLY_OBSCURED = 0;
-enum UNOBSCURED = 1;
-enum OBSCURED = 2;
-
+// XXX: used additionaly with Visibility* enum fron X11 oriti 
 enum VisibilityNotViewable =	3;
 
 /* return values for tree-walking callback procedures */
