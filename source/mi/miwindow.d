@@ -415,7 +415,7 @@ void miResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h, WindowPtr pSib
             moved = True;
 
         if ((pWin.drawable.height != h || pWin.drawable.width != w) &&
-            mixin(HasBorder!("pWin"))) {
+            pWin.hasBorder()) {
             borderVisible = RegionCreate(NullBox, 1);
             /* for tiled borders, we punt and draw the whole thing */
             if (pWin.borderIsPixel || !moved) {
@@ -475,7 +475,7 @@ void miResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h, WindowPtr pSib
 
     if (WasViewable) {
         /* avoid the border */
-        if (mixin(HasBorder!("pWin"))) {
+        if (pWin.hasBorder()) {
             int offx = void, offy = void, dx = void, dy = void;
 
             /* kruft to avoid double translates for each gravity */
@@ -639,7 +639,7 @@ void miSetShape(WindowPtr pWin, int kind)
             anyMarked = (*pScreen.MarkOverlappedWindows) (pWin, pWin,
                                                            &pLayerWin);
             if (pWin.valdata) {
-                if (mixin(HasBorder!("pWin"))) {
+                if (pWin.hasBorder()) {
                     RegionPtr borderVisible = void;
 
                     borderVisible = RegionCreate(NullBox, 1);
@@ -688,7 +688,7 @@ void miChangeBorderWidth(WindowPtr pWin, uint width)
     oldwidth = pWin.borderWidth;
     if (oldwidth == width)
         return;
-    HadBorder = mixin(HasBorder!("pWin"));
+    HadBorder = pWin.hasBorder();
     pScreen = pWin.drawable.pScreen;
     if (WasViewable && width < oldwidth)
         anyMarked = (*pScreen.MarkOverlappedWindows) (pWin, pWin, &pLayerWin);

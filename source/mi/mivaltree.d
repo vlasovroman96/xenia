@@ -169,7 +169,7 @@ int miShapedWindowIn(RegionPtr universe, RegionPtr bounding, BoxPtr rect, int x,
 enum string TreatAsTransparent(string w) = `((` ~ w ~ `).redirectDraw == RedirectDraw.Manual)`;
 
 enum string HasParentRelativeBorder(string w) = `(!(` ~ w ~ `).borderIsPixel && 
-				    `~HasBorder!(w)~` && 
+				    (`~w~`).hasBorder() && 
 				    (` ~ w ~ `).backgroundState == ParentRelative)`;
 
 /*
@@ -350,7 +350,7 @@ private void miComputeClips(WindowPtr pParent, ScreenPtr pScreen, RegionPtr univ
      * This leaves a region of pieces that weren't exposed before.
      */
 
-    if (mixin(HasBorder!("pParent"))) {
+    if (pParent.hasBorder()) {
         if (borderVisible) {
             /*
              * when the border changes shape, the old visible portions

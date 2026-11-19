@@ -486,7 +486,7 @@ private int ShapeCombine(ClientPtr client, xShapeCombineReq* stuff)
         createSrc = &CreateBoundingShape;
         break;
     case ShapeClip:
-        srcRgn = mixin(wClipShape!("pSrcWin"));
+        srcRgn = pSrcWin.getClipShape();
         createSrc = &CreateClipShape;
         break;
     case ShapeInput:
@@ -584,7 +584,7 @@ private int ShapeOffset(ClientPtr client, xShapeOffsetReq* stuff)
         srcRgn = mixin(wBoundingShape!("pWin"));
         break;
     case ShapeClip:
-        srcRgn = mixin(wClipShape!("pWin"));
+        srcRgn = pWin.getClipShape();
         break;
     case ShapeInput:
         srcRgn = mixin(wInputShape!("pWin"));
@@ -659,7 +659,7 @@ private int ProcShapeQueryExtents(ClientPtr client)
 
     RegionPtr shapeRegion = void;
     BoxRec shapeBox = void;
-    if ((shapeRegion = mixin(wClipShape!("pWin"))) !is null) {
+    if ((shapeRegion = pWin.getClipShape()) !is null) {
         /* this is done in two steps because of a compiler bug on SunOS 4.1.3 */
         BoxRec* pExtents = RegionExtents(shapeRegion);
         shapeBox = *pExtents;
@@ -673,7 +673,7 @@ private int ProcShapeQueryExtents(ClientPtr client)
 
     xShapeQueryExtentsReply reply = {
         boundingShaped: (mixin(wBoundingShape!("pWin")) !is null),
-        clipShaped: (mixin(wClipShape!("pWin")) !is null),
+        clipShaped: (pWin.getClipShape() !is null),
         xBoundingShape: boundBox.x1,
         yBoundingShape: boundBox.y1,
         widthBoundingShape: cast(ushort)(boundBox.x2 - boundBox.x1),
@@ -771,7 +771,7 @@ void SendShapeNotify(WindowPtr pWin, int which)
         }
         break;
     case ShapeClip:
-        region = mixin(wClipShape!("pWin"));
+        region = pWin.getClipShape();
         if (region) {
             extents = *RegionExtents(region);
             shaped = xTrue;
@@ -865,7 +865,7 @@ private int ProcShapeGetRectangles(ClientPtr client)
         region = mixin(wBoundingShape!("pWin"));
         break;
     case ShapeClip:
-        region = mixin(wClipShape!("pWin"));
+        region = pWin.getClipShape();
         break;
     case ShapeInput:
         region = mixin(wInputShape!("pWin"));

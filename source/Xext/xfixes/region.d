@@ -163,7 +163,7 @@ int ProcXFixesCreateRegionFromWindow(ClientPtr client)
         }
         break;
     case WindowRegionClip:
-        pRegion = mixin(wClipShape!("pWin"));
+        pRegion = pWin.getClipShape();
         if (!pRegion) {
             pRegion = CreateClipShape(pWin);
             copy = False;

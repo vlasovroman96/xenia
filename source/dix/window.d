@@ -244,12 +244,21 @@ struct WindowRec {
     uint inhibitBGPaint : 1;  /* paint the background? */
 
     PropertyPtr properties;     /* default: NULL */
+
+@nogc: nothrow:
+    auto useDefault(string field, alias def)() {
+        return (this.optional ? mixin("this.optional."~field) 
+            : def);
+    }
+
+    bool hasBorder() {
+        return this.borderWidth || this.getClipShape();
+    }
+
+    alias getClipShape = useDefault!("clipShape", null);
 }
 alias WindowPtr = WindowRec*;
 // void [1] DontPropagateMasks;
-
-/* true when w needs a border drawn. */
-enum string HasBorder(string w) = `((` ~ w ~ `).borderWidth || `~wClipShape!(w)~ `)`;
 
 enum SCREEN_IS_BLANKED =   0;
 enum SCREEN_ISNT_SAVED =   1;
@@ -1201,8 +1210,8 @@ private void FreeWindowResources(WindowPtr pWin)
     RegionUninit(&pWin.borderSize);
     if (mixin(wBoundingShape!("pWin")))
         RegionDestroy(mixin(wBoundingShape!("pWin")));
-    if (mixin(wClipShape!("pWin")))
-        RegionDestroy(mixin(wClipShape!("pWin")));
+    if (pWin.getClipShape())
+        RegionDestroy(pWin.getClipShape());
     if (mixin(wInputShape!("pWin")))
         RegionDestroy(mixin(wInputShape!("pWin")));
     if (pWin.borderIsPixel == False)
@@ -1770,7 +1779,7 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
        for the tile to be rotated, and the correct function selected.
      */
     if (((vmaskCopy & (CWBorderPixel | CWBorderPixmap)) || borderRelative)
-        && pWin.viewable && mixin(HasBorder!("pWin"))) {
+        && pWin.viewable && pWin.hasBorder()) {
         RegionRec exposed = void;
 
         RegionNull(&exposed);
@@ -1928,13 +1937,13 @@ void SetWinSize(WindowPtr pWin)
                              pWin.drawable.x, pWin.drawable.y,
                              cast(int) pWin.drawable.width,
                              cast(int) pWin.drawable.height);
-    if (mixin(wBoundingShape!("pWin")) || mixin(wClipShape!("pWin"))) {
+    if (mixin(wBoundingShape!("pWin")) || pWin.getClipShape()) {
         RegionTranslate(&pWin.winSize, -pWin.drawable.x, -pWin.drawable.y);
         if (mixin(wBoundingShape!("pWin")))
             RegionIntersect(&pWin.winSize, &pWin.winSize,
                             mixin(wBoundingShape!("pWin")));
-        if (mixin(wClipShape!("pWin")))
-            RegionIntersect(&pWin.winSize, &pWin.winSize, mixin(wClipShape!("pWin")));
+        if (pWin.getClipShape())
+            RegionIntersect(&pWin.winSize, &pWin.winSize, pWin.getClipShape());
         RegionTranslate(&pWin.winSize, pWin.drawable.x, pWin.drawable.y);
     }
 }
@@ -1943,7 +1952,7 @@ void SetBorderSize(WindowPtr pWin)
 {
     int bw = void;
 
-    if (mixin(HasBorder!("pWin"))) {
+    if (pWin.hasBorder()) {
         bw = pWin.borderWidth;
         if (pWin.redirectDraw != RedirectDraw.None) {
             BoxRec box = void;
@@ -3782,7 +3791,7 @@ void SetRootClip(ScreenPtr pScreen, int enable)
         (*pScreen.MarkWindow) (pWin);
         anyMarked = True;
         if (pWin.valdata) {
-            if (mixin(HasBorder!("pWin"))) {
+            if (pWin.hasBorder()) {
                 RegionPtr borderVisible = void;
 
                 borderVisible = RegionCreate(NullBox, 1);

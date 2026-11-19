@@ -127,7 +127,7 @@ enum string MARK_OVERLAY(string w) = `miMarkWindow(`~w~`)`;
 enum string MARK_UNDERLAY(string w) = `MarkUnderlayWindow(`~w~`)`;
 
 enum string HasParentRelativeBorder(string w) = `(!(` ~ w ~ `).borderIsPixel && 
-                                    `~HasBorder!(w)~` && 
+                                    (`~w~`).hasBorder() && 
                                     (` ~ w ~ `).backgroundState == ParentRelative)`;
 
 Bool miInitOverlay(ScreenPtr pScreen, miOverlayInOverlayFunc inOverlayFunc, miOverlayTransFunc transFunc)
@@ -583,7 +583,7 @@ private void miOverlayComputeClips(WindowPtr pParent, RegionPtr universe, VTKind
     RegionNull(&tParent.valdata.borderExposed);
     RegionNull(&tParent.valdata.exposed);
 
-    if (mixin(HasBorder!("pParent"))) {
+    if (pParent.hasBorder()) {
         if (borderVisible) {
             RegionSubtract(exposed, universe, borderVisible);
             RegionDestroy(borderVisible);
@@ -1160,7 +1160,7 @@ private void miOverlayResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h,
             moved = True;
 
         if ((pWin.drawable.height != h || pWin.drawable.width != w) &&
-            mixin(HasBorder!("pWin"))) {
+            pWin.hasBorder()) {
             borderVisible = RegionCreate(NullBox, 1);
             if (pTree)
                 borderVisible2 = RegionCreate(NullBox, 1);
@@ -1228,7 +1228,7 @@ private void miOverlayResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h,
         miOverlayTwoRegions TwoRegions = void;
 
         /* avoid the border */
-        if (mixin(HasBorder!("pWin"))) {
+        if (pWin.hasBorder()) {
             int offx = void, offy = void, dx = void, dy = void;
 
             /* kruft to avoid double translates for each gravity */
@@ -1437,7 +1437,7 @@ private void miOverlaySetShape(WindowPtr pWin, int kind)
         if (WasViewable) {
             (*pScreen.MarkOverlappedWindows) (pWin, pWin, null);
 
-            if (mixin(HasBorder!("pWin"))) {
+            if (pWin.hasBorder()) {
                 RegionPtr borderVisible = void;
 
                 borderVisible = RegionCreate(NullBox, 1);
@@ -1486,7 +1486,7 @@ private void miOverlayChangeBorderWidth(WindowPtr pWin, uint width)
     oldwidth = pWin.borderWidth;
     if (oldwidth == width)
         return;
-    HadBorder = mixin(HasBorder!("pWin"));
+    HadBorder = pWin.hasBorder();
     pScreen = pWin.drawable.pScreen;
     if (WasViewable && (width < oldwidth))
         (*pScreen.MarkOverlappedWindows) (pWin, pWin, null);

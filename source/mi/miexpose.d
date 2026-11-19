@@ -235,7 +235,7 @@ RegionPtr miHandleExposures(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, 
     if (pSrcWin) {
         RegionPtr region = void;
 
-        if (((region = mixin(wClipShape!("pSrcWin"))) is null))
+        if (((region = pSrcWin.getClipShape()) is null))
             region = mixin(wBoundingShape!("pSrcWin"));
         /*
          * If you try to CopyArea the extents of a shaped window, compacting the
