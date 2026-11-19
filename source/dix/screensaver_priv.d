@@ -44,4 +44,10 @@ pragma(inline, true) bool HasSaverWindow(ScreenPtr pScreen) {
     return (pScreen.screensaver.pWindow != NullWindow);
 }
 
+//FIXME: Unite it under one enum
+enum SCREEN_IS_BLANKED =   0;
+enum SCREEN_ISNT_SAVED =   1;
+enum SCREEN_IS_TILED =     2;
+enum SCREEN_IS_BLACK =	    3;
+
  /* _XSERVER_DIX_SCREENSAVER_PRIV_H */

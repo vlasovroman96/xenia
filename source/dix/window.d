@@ -257,16 +257,9 @@ struct WindowRec {
 
     alias getClipShape = useDefault!("clipShape", null);
 }
+
 alias WindowPtr = WindowRec*;
-// void [1] DontPropagateMasks;
-
-enum SCREEN_IS_BLANKED =   0;
-enum SCREEN_ISNT_SAVED =   1;
-enum SCREEN_IS_TILED =     2;
-enum SCREEN_IS_BLACK =	    3;
-
-                          /* WINDOWSTRUCT_H */
-
+enum NullWindow = cast(WindowPtr) 0;
 
 enum TOTALLY_OBSCURED = 0;
 enum UNOBSCURED = 1;
