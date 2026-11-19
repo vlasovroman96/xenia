@@ -249,8 +249,6 @@ alias WindowPtr = _Window*;
 alias WindowRec = _Window;
 // void [1] DontPropagateMasks;
 
-enum string wBorderWidth(string w) = `(cast(int) (` ~ w ~ `).borderWidth)`;
-
 pragma(inline, true) private PropertyPtr wUserProps(WindowPtr pWin) { return pWin.properties; }
 
 /* true when w needs a border drawn. */
@@ -1950,7 +1948,7 @@ void SetBorderSize(WindowPtr pWin)
     int bw = void;
 
     if (mixin(HasBorder!("pWin"))) {
-        bw = mixin(wBorderWidth!("pWin"));
+        bw = pWin.borderWidth;
         if (pWin.redirectDraw != RedirectDraw.None) {
             BoxRec box = void;
 
@@ -2055,8 +2053,8 @@ void ResizeChildrenWinSize(WindowPtr pWin, int dx, int dy, int dw, int dh)
                 xEvent event;
                 
                     event.u.gravity.window = cast(uint)pSib.drawable.id,
-                    event.u.gravity.x = cast(short)(cwsx - mixin(wBorderWidth!("pSib"))),
-                    event.u.gravity.y = cast(short)(cwsy - mixin(wBorderWidth!("pSib"))),
+                    event.u.gravity.x = cast(short)(cwsx - pSib.borderWidth),
+                    event.u.gravity.y = cast(short)(cwsy - pSib.borderWidth),
 
                 event.u.u.type = GravityNotify;
                 DeliverEvents(pSib, &event, 1, NullWindow);
@@ -2140,12 +2138,12 @@ private int IsSiblingAboveMe(WindowPtr pMe, WindowPtr pSib)
 
 private BoxPtr WindowExtents(WindowPtr pWin, BoxPtr pBox)
 {
-    pBox.x1 = cast(short)(pWin.drawable.x - mixin(wBorderWidth!("pWin")));
-    pBox.y1 = cast(short)(pWin.drawable.y - mixin(wBorderWidth!("pWin")));
+    pBox.x1 = cast(short)(pWin.drawable.x - pWin.borderWidth);
+    pBox.y1 = cast(short)(pWin.drawable.y - pWin.borderWidth);
     pBox.x2 = cast(short)(pWin.drawable.x + cast(int) pWin.drawable.width
-        + mixin(wBorderWidth!("pWin")));
+        + pWin.borderWidth);
     pBox.y2 = cast(short)(pWin.drawable.y + cast(int) pWin.drawable.height
-        + mixin(wBorderWidth!("pWin")));
+        + pWin.borderWidth);
     return pBox;
 }
 
@@ -2528,7 +2526,7 @@ static if(XINERAMA){
         goto ActuallyDoSomething;
     if ((mask & CWY) && (y != beforeY))
         goto ActuallyDoSomething;
-    if ((mask & CWBorderWidth) && (bw != mixin(wBorderWidth!("pWin"))))
+    if ((mask & CWBorderWidth) && (bw != pWin.borderWidth))
         goto ActuallyDoSomething;
     if (mask & CWStackMode) {
 version (ROOTLESS) {
@@ -2593,8 +2591,8 @@ static if(XINERAMA){
             pWin.borderWidth = bw;
         }
         else if ((action == MOVE_WIN) &&
-                 (beforeX + mixin(wBorderWidth!"pWin")== x + cast(int) bw) &&
-                 (beforeY + mixin(wBorderWidth!"pWin")== y + cast(int) bw)) {
+                 (beforeX + pWin.borderWidth== x + cast(int) bw) &&
+                 (beforeY + pWin.borderWidth== y + cast(int) bw)) {
             action = REBORDER_WIN;
             (*pWin.drawable.pScreen.ChangeBorderWidth) (pWin, bw);
         }
@@ -2703,7 +2701,7 @@ int ReparentWindow(WindowPtr pWin, WindowPtr pParent, int x, int y, ClientPtr cl
     WindowPtr pPrev = void, pPriorParent = void;
     Bool WasMapped = cast(Bool) (pWin.mapped);
     xEvent event = void;
-    int bw = mixin(wBorderWidth!("pWin"));
+    int bw = pWin.borderWidth;
     ScreenPtr pScreen = void;
 
     pScreen = pWin.drawable.pScreen;
@@ -3147,9 +3145,9 @@ void HandleSaveSet(ClientPtr client)
                 if (!mixin(SaveSetShouldMap!("client.saveSet[j]")))
                     UnmapWindow(pWin, False);
                 ReparentWindow(pWin, pParent,
-                               pWin.drawable.x - mixin(wBorderWidth!"pWin")-
+                               pWin.drawable.x - pWin.borderWidth-
                                pParent.drawable.x,
-                               pWin.drawable.y - mixin(wBorderWidth!"pWin")-
+                               pWin.drawable.y - pWin.borderWidth-
                                pParent.drawable.y, client);
                 if (!pWin.realized && pWin.mapped)
                     pWin.mapped = False;

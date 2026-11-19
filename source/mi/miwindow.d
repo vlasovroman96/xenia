@@ -261,7 +261,7 @@ void miMoveWindow(WindowPtr pWin, int x, int y, WindowPtr pNextSib, VTKind kind)
     if (((pParent = pWin.parent) is null))
         return;
     pScreen = pWin.drawable.pScreen;
-    bw = mixin(wBorderWidth!("pWin"));
+    bw = pWin.borderWidth;
 
     oldpt.x = pWin.drawable.x;
     oldpt.y = pWin.drawable.y;
@@ -345,7 +345,7 @@ void miResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h, WindowPtr pSib
     Bool WasViewable = cast(Bool) (pWin.viewable);
     ushort width = pWin.drawable.width, height = pWin.drawable.height;
     short oldx = pWin.drawable.x, oldy = pWin.drawable.y;
-    int bw = mixin(wBorderWidth!("pWin"));
+    int bw = pWin.borderWidth;
     short dw = void, dh = void;
     xPoint oldpt = void;
     RegionPtr oldRegion = null;
@@ -685,7 +685,7 @@ void miChangeBorderWidth(WindowPtr pWin, uint width)
     Bool HadBorder = void;
     WindowPtr pLayerWin = void;
 
-    oldwidth = mixin(wBorderWidth!("pWin"));
+    oldwidth = pWin.borderWidth;
     if (oldwidth == width)
         return;
     HadBorder = mixin(HasBorder!("pWin"));
@@ -744,12 +744,12 @@ WindowPtr miSpriteTrace(SpritePtr pSprite, int x, int y)
     pWin = DeepestSpriteWin(pSprite).firstChild;
     while (pWin) {
         if ((pWin.mapped) &&
-            (x >= pWin.drawable.x - mixin(wBorderWidth!("pWin"))) &&
+            (x >= pWin.drawable.x - pWin.borderWidth) &&
             (x < pWin.drawable.x + cast(int) pWin.drawable.width +
-             mixin(wBorderWidth!("pWin"))) &&
-            (y >= pWin.drawable.y - mixin(wBorderWidth!("pWin"))) &&
+             pWin.borderWidth) &&
+            (y >= pWin.drawable.y - pWin.borderWidth) &&
             (y < pWin.drawable.y + cast(int) pWin.drawable.height +
-             mixin(wBorderWidth!("pWin")))
+             pWin.borderWidth)
             /* When a window is shaped, a further check
              * is made to see if the point is inside
              * borderSize

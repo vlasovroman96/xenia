@@ -245,7 +245,7 @@ version (COMPOSITE_DEBUG) {
 }
     if (pWin.redirectDraw != RedirectDraw.None) {
         PixmapPtr pPixmap = (*pScreen.GetWindowPixmap) (pWin);
-        int bw = mixin(wBorderWidth!("pWin"));
+        int bw = pWin.borderWidth;
         int nx = pWin.drawable.x - bw;
         int ny = pWin.drawable.y - bw;
 

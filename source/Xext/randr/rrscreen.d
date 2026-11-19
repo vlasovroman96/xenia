@@ -107,7 +107,7 @@ void RRSendConfigNotify(ScreenPtr pScreen)
 
     //     u:configureNotify:width: pWin.drawable.width,
     //     u:configureNotify:height: pWin.drawable.height,
-    //     u:configureNotify:borderWidth: mixin(wBorderWidth!("pWin")),
+    //     u:configureNotify:borderWidth: pWin.borderWidth,
     //     u:configureNotify:override: pWin.overrideRedirect
     // };
         xEvent event;
@@ -118,7 +118,7 @@ void RRSendConfigNotify(ScreenPtr pScreen)
 
         event.u.configureNotify.width = pWin.drawable.width,
         event.u.configureNotify.height = pWin.drawable.height,
-        event.u.configureNotify.borderWidth = mixin(wBorderWidth!("pWin")),
+        event.u.configureNotify.borderWidth = pWin.borderWidth,
         event.u.configureNotify.override_ = cast(ubyte)pWin.overrideRedirect;
     // };
 

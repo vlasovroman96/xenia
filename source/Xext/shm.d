@@ -645,12 +645,12 @@ private int ShmGetImage(ClientPtr client, xShmGetImageReq* stuff)
                pDraw.y + stuff.y + cast(int) stuff.height >
                pDraw.pScreen.height ||
                /* check for being inside of border */
-               stuff.x < -mixin(wBorderWidth!("cast(WindowPtr) pDraw")) ||
+               stuff.x < -(cast(WindowPtr) pDraw).borderWidth ||
                stuff.x + cast(int) stuff.width >
-               mixin(wBorderWidth!("cast(WindowPtr) pDraw")) + cast(int) pDraw.width ||
-               stuff.y < -mixin(wBorderWidth!("cast(WindowPtr) pDraw")) ||
+               (cast(WindowPtr) pDraw).borderWidth + cast(int) pDraw.width ||
+               stuff.y < -(cast(WindowPtr) pDraw).borderWidth ||
                stuff.y + cast(int) stuff.height >
-               mixin(wBorderWidth!("cast(WindowPtr) pDraw")) + cast(int) pDraw.height)
+               (cast(WindowPtr) pDraw).borderWidth + cast(int) pDraw.height)
             return BadMatch;
         visual = mixin(wVisual!("cast(WindowPtr) pDraw"));
         if (pDraw.type == DRAWABLE_WINDOW)
@@ -856,10 +856,10 @@ static if(XINERAMA){
                masterScreen.y + pDraw.y + y < 0 ||
                masterScreen.y + pDraw.y + y + h > PanoramiXPixHeight ||
                /* check for being inside of border */
-               x < -mixin(wBorderWidth!("cast(WindowPtr) pDraw")) ||
-               x + w > mixin(wBorderWidth!("cast(WindowPtr) pDraw")) + cast(int) pDraw.width ||
-               y < -mixin(wBorderWidth!("cast(WindowPtr) pDraw")) ||
-               y + h > mixin(wBorderWidth!("cast(WindowPtr) pDraw")) + cast(int) pDraw.height)
+               x < -(cast(WindowPtr) pDraw).borderWidth ||
+               x + w > (cast(WindowPtr) pDraw).borderWidth + cast(int) pDraw.width ||
+               y < -(cast(WindowPtr) pDraw).borderWidth ||
+               y + h > (cast(WindowPtr) pDraw).borderWidth + cast(int) pDraw.height)
             return BadMatch;
     }
 

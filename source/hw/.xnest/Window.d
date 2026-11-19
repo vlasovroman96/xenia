@@ -124,8 +124,8 @@ Bool xnestCreateWindow(WindowPtr pWin)
                           pWin.drawable.depth,
                           xnestWindowPriv(pWin).window,
                           xnestWindowParent(pWin),
-                          pWin.origin.x - mixin(wBorderWidth!("pWin")),
-                          pWin.origin.y - mixin(wBorderWidth!("pWin")),
+                          pWin.origin.x - pWin.borderWidth,
+                          pWin.origin.y - pWin.borderWidth,
                           pWin.drawable.width,
                           pWin.drawable.height,
                           pWin.borderWidth,
@@ -135,8 +135,8 @@ Bool xnestCreateWindow(WindowPtr pWin)
                           &attributes);
 
     xnestWindowPriv(pWin).parent = xnestWindowParent(pWin);
-    xnestWindowPriv(pWin).x = pWin.origin.x - mixin(wBorderWidth!("pWin"));
-    xnestWindowPriv(pWin).y = pWin.origin.y - mixin(wBorderWidth!("pWin"));
+    xnestWindowPriv(pWin).x = pWin.origin.x - pWin.borderWidth;
+    xnestWindowPriv(pWin).y = pWin.origin.y - pWin.borderWidth;
     xnestWindowPriv(pWin).width = pWin.drawable.width;
     xnestWindowPriv(pWin).height = pWin.drawable.height;
     xnestWindowPriv(pWin).border_width = pWin.borderWidth;
@@ -193,12 +193,12 @@ void xnestConfigureWindow(WindowPtr pWin, uint mask)
             xnestUpstreamInfo.conn,
             xnestWindow(pWin),
             xnestWindowParent(pWin),
-            pWin.origin.x - mixin(wBorderWidth!("pWin")),
-            pWin.origin.y - mixin(wBorderWidth!("pWin")));
+            pWin.origin.x - pWin.borderWidth,
+            pWin.origin.y - pWin.borderWidth);
 
         xnestWindowPriv(pWin).parent = xnestWindowParent(pWin);
-        xnestWindowPriv(pWin).x = pWin.origin.x - mixin(wBorderWidth!("pWin"));
-        xnestWindowPriv(pWin).y = pWin.origin.y - mixin(wBorderWidth!("pWin"));
+        xnestWindowPriv(pWin).x = pWin.origin.x - pWin.borderWidth);
+        xnestWindowPriv(pWin).y = pWin.origin.y - pWin.borderWidth);
         xnestWindowPriv(pWin).sibling_above = XCB_WINDOW_NONE;
         if (pWin.nextSib)
             xnestWindowPriv(pWin.nextSib).sibling_above = xnestWindow(pWin);
@@ -207,17 +207,17 @@ void xnestConfigureWindow(WindowPtr pWin, uint mask)
     valuemask = 0;
 
     if (mask & XCB_CONFIG_WINDOW_X &&
-        xnestWindowPriv(pWin).x != pWin.origin.x - mixin(wBorderWidth!("pWin"))) {
+        xnestWindowPriv(pWin).x != pWin.origin.x - pWin.borderWidth) {
         valuemask |= XCB_CONFIG_WINDOW_X;
         values.x =
-            xnestWindowPriv(pWin).x = pWin.origin.x - mixin(wBorderWidth!("pWin"));
+            xnestWindowPriv(pWin).x = pWin.origin.x - pWin.borderWidth;
     }
 
     if (mask & XCB_CONFIG_WINDOW_Y &&
-        xnestWindowPriv(pWin).y != pWin.origin.y - mixin(wBorderWidth!("pWin"))) {
+        xnestWindowPriv(pWin).y != pWin.origin.y - pWin.borderWidth) {
         valuemask |= XCB_CONFIG_WINDOW_Y;
         values.y =
-            xnestWindowPriv(pWin).y = pWin.origin.y - mixin(wBorderWidth!("pWin"));
+            xnestWindowPriv(pWin).y = pWin.origin.y - pWin.borderWidth;
     }
 
     if (mask & XCB_CONFIG_WINDOW_WIDTH && xnestWindowPriv(pWin).width != pWin.drawable.width) {

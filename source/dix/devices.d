@@ -2311,12 +2311,12 @@ int ProcGetMotionEvents(ClientPtr client)
         int count = GetMotionHistory(mouse, &coords, start.milliseconds,
                                  stop.milliseconds, pWin.drawable.pScreen,
                                  True);
-        int xmin = pWin.drawable.x - mixin(wBorderWidth!("pWin"));
+        int xmin = pWin.drawable.x - pWin.borderWidth;
         int xmax = pWin.drawable.x + cast(int) pWin.drawable.width +
-            mixin(wBorderWidth!("pWin"));
-        int ymin = pWin.drawable.y - mixin(wBorderWidth!("pWin"));
+            pWin.borderWidth;
+        int ymin = pWin.drawable.y - pWin.borderWidth;
         int ymax = pWin.drawable.y + cast(int) pWin.drawable.height +
-            mixin(wBorderWidth!("pWin"));
+            pWin.borderWidth;
         for (int i = 0; i < count; i++)
             if ((xmin <= coords[i].x) && (coords[i].x < xmax) &&
                 (ymin <= coords[i].y) && (coords[i].y < ymax)) {

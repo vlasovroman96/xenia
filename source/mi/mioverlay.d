@@ -475,15 +475,15 @@ private void miOverlayComputeClips(WindowPtr pParent, RegionPtr universe, VTKind
     miOverlayTreePtr tChild = void;
     Bool overlap = void;
 
-    borderSize.x1 = cast(short)(pParent.drawable.x - mixin(wBorderWidth!("pParent")));
-    borderSize.y1 = cast(short)(pParent.drawable.y - mixin(wBorderWidth!("pParent")));
+    borderSize.x1 = cast(short)(pParent.drawable.x - pParent.borderWidth);
+    borderSize.y1 = cast(short)(pParent.drawable.y - pParent.borderWidth);
     dx = cast(int) pParent.drawable.x + cast(int) pParent.drawable.width +
-        mixin(wBorderWidth!("pParent"));
+        pParent.borderWidth;
     if (dx > 32767)
         dx = 32767;
     borderSize.x2 = cast(short)dx;
     dy = cast(int) pParent.drawable.y + cast(int) pParent.drawable.height +
-        mixin(wBorderWidth!("pParent"));
+        pParent.borderWidth;
     if (dy > 32767)
         dy = 32767;
     borderSize.y2 = cast(short)dy;
@@ -926,7 +926,7 @@ private void miOverlayMoveWindow(WindowPtr pWin, int x, int y, WindowPtr pNextSi
 
     if (((pParent = pWin.parent) is null))
         return;
-    bw = mixin(wBorderWidth!("pWin"));
+    bw = pWin.borderWidth;
 
     oldpt.x = pWin.drawable.x;
     oldpt.y = pWin.drawable.y;
@@ -1071,7 +1071,7 @@ private void miOverlayResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h,
     ushort height = pWin.drawable.height;
     short oldx = pWin.drawable.x;
     short oldy = pWin.drawable.y;
-    int bw = mixin(wBorderWidth!("pWin"));
+    int bw = pWin.borderWidth;
     short dw = void, dh = void;
     xPoint oldpt = void;
     RegionPtr oldRegion = null, oldRegion2 = null;
@@ -1483,7 +1483,7 @@ private void miOverlayChangeBorderWidth(WindowPtr pWin, uint width)
     Bool WasViewable = cast(Bool) (pWin.viewable);
     Bool HadBorder = void;
 
-    oldwidth = mixin(wBorderWidth!("pWin"));
+    oldwidth = pWin.borderWidth;
     if (oldwidth == width)
         return;
     HadBorder = mixin(HasBorder!("pWin"));

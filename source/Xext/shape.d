@@ -207,10 +207,10 @@ RegionPtr CreateBoundingShape(WindowPtr pWin)
 {
     BoxRec extents = void;
 
-    extents.x1 = cast(short)-mixin(wBorderWidth!("pWin"));
-    extents.y1 = cast(short)-mixin(wBorderWidth!("pWin"));
-    extents.x2 = cast(short)(pWin.drawable.width + mixin(wBorderWidth!("pWin")));
-    extents.y2 = cast(short)(pWin.drawable.height + mixin(wBorderWidth!("pWin")));
+    extents.x1 = cast(short)-pWin.borderWidth;
+    extents.y1 = cast(short)-pWin.borderWidth;
+    extents.x2 = cast(short)(pWin.drawable.width + pWin.borderWidth);
+    extents.y2 = cast(short)(pWin.drawable.height + pWin.borderWidth);
     return RegionCreate(&extents, 1);
 }
 
@@ -651,10 +651,10 @@ private int ProcShapeQueryExtents(ClientPtr client)
         boundBox = *pExtents;
     }
     else {
-        boundBox.x1 = cast(ushort)-mixin(wBorderWidth!("pWin"));
-        boundBox.y1 = cast(ushort)-mixin(wBorderWidth!("pWin"));
-        boundBox.x2 = cast(ushort)(pWin.drawable.width + mixin(wBorderWidth!("pWin")));
-        boundBox.y2 = cast(ushort)(pWin.drawable.height + mixin(wBorderWidth!("pWin")));
+        boundBox.x1 = cast(ushort)-pWin.borderWidth;
+        boundBox.y1 = cast(ushort)-pWin.borderWidth;
+        boundBox.x2 = cast(ushort)(pWin.drawable.width + pWin.borderWidth);
+        boundBox.y2 = cast(ushort)(pWin.drawable.height + pWin.borderWidth);
     }
 
     RegionPtr shapeRegion = void;
@@ -763,10 +763,10 @@ void SendShapeNotify(WindowPtr pWin, int which)
             shaped = xTrue;
         }
         else {
-            extents.x1 = cast(short)-mixin(wBorderWidth!("pWin"));
-            extents.y1 = cast(short)-mixin(wBorderWidth!("pWin"));
-            extents.x2 = cast(short)(pWin.drawable.width + mixin(wBorderWidth!("pWin")));
-            extents.y2 = cast(short)(pWin.drawable.height + mixin(wBorderWidth!("pWin")));
+            extents.x1 = cast(short)-pWin.borderWidth;
+            extents.y1 = cast(short)-pWin.borderWidth;
+            extents.x2 = cast(short)(pWin.drawable.width + pWin.borderWidth);
+            extents.y2 = cast(short)(pWin.drawable.height + pWin.borderWidth);
             shaped = xFalse;
         }
         break;
@@ -791,10 +791,10 @@ void SendShapeNotify(WindowPtr pWin, int which)
             shaped = xTrue;
         }
         else {
-            extents.x1 = cast(short)-mixin(wBorderWidth!("pWin"));
-            extents.y1 = cast(short)-mixin(wBorderWidth!("pWin"));
-            extents.x2 = cast(short)(pWin.drawable.width + mixin(wBorderWidth!("pWin")));
-            extents.y2 = cast(short)(pWin.drawable.height + mixin(wBorderWidth!("pWin")));
+            extents.x1 = cast(short)-pWin.borderWidth;
+            extents.y1 = cast(short)-pWin.borderWidth;
+            extents.x2 = cast(short)(pWin.drawable.width + pWin.borderWidth);
+            extents.y2 = cast(short)(pWin.drawable.height + pWin.borderWidth);
             shaped = xFalse;
         }
         break;
@@ -881,10 +881,10 @@ private int ProcShapeGetRectangles(ClientPtr client)
         xRectangle rect = void;
         switch (stuff.kind) {
         case ShapeBounding:
-            rect.x = cast(short)-mixin(wBorderWidth!("pWin"));
-            rect.y = cast(short)-mixin(wBorderWidth!("pWin"));
-            rect.width = cast(ushort)(pWin.drawable.width + mixin(wBorderWidth!("pWin")));
-            rect.height = cast(ushort)(pWin.drawable.height + mixin(wBorderWidth!("pWin")));
+            rect.x = cast(short)-pWin.borderWidth;
+            rect.y = cast(short)-pWin.borderWidth;
+            rect.width = cast(ushort)(pWin.drawable.width + pWin.borderWidth);
+            rect.height = cast(ushort)(pWin.drawable.height + pWin.borderWidth);
             break;
         case ShapeClip:
             rect.x = 0;
@@ -893,10 +893,10 @@ private int ProcShapeGetRectangles(ClientPtr client)
             rect.height = pWin.drawable.height;
             break;
         case ShapeInput:
-            rect.x = cast(short)-mixin(wBorderWidth!("pWin"));
-            rect.y = cast(short)-mixin(wBorderWidth!("pWin"));
-            rect.width = cast(ushort)(pWin.drawable.width + mixin(wBorderWidth!("pWin")));
-            rect.height = cast(ushort)(pWin.drawable.height + mixin(wBorderWidth!("pWin")));
+            rect.x = cast(short)-pWin.borderWidth;
+            rect.y = cast(short)-pWin.borderWidth;
+            rect.width = cast(ushort)(pWin.drawable.width + pWin.borderWidth);
+            rect.height = cast(ushort)(pWin.drawable.height + pWin.borderWidth);
             break;
         default: break;}
         nrects = 1;

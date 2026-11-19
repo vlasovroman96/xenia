@@ -207,15 +207,15 @@ private void miComputeClips(WindowPtr pParent, ScreenPtr pScreen, RegionPtr univ
      * completely). If the window is completely obscured, none of the
      * universe will cover the rectangle.
      */
-    borderSize.x1 = cast(short)(pParent.drawable.x - mixin(wBorderWidth!"pParent"));
-    borderSize.y1 = cast(short)(pParent.drawable.y - mixin(wBorderWidth!"pParent"));
+    borderSize.x1 = cast(short)(pParent.drawable.x - pParent.borderWidth);
+    borderSize.y1 = cast(short)(pParent.drawable.y - pParent.borderWidth);
     dx = (cast(int) pParent.drawable.x + cast(int) pParent.drawable.width +
-        mixin(wBorderWidth!"pParent"));
+        pParent.borderWidth);
     if (dx > 32767)
         dx = 32767;
     borderSize.x2 = cast(short)dx;
     dy = (cast(int) pParent.drawable.y + cast(int) pParent.drawable.height +
-        mixin(wBorderWidth!"pParent"));
+        pParent.borderWidth);
     if (dy > 32767)
         dy = 32767;
     borderSize.y2 = cast(short)dy;

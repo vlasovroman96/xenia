@@ -247,7 +247,7 @@ void compRestoreWindow(WindowPtr pWin, PixmapPtr pPixmap)
 
     if (pParent.drawable.depth == pWin.drawable.depth) {
         GCPtr pGC = GetScratchGC(pWin.drawable.depth, pScreen);
-        int bw = cast(int) pWin.borderWidth;
+        int bw = pWin.borderWidth;
         int x = bw;
         int y = bw;
         int w = pWin.drawable.width;
@@ -611,7 +611,7 @@ private PixmapPtr compNewPixmap(WindowPtr pWin, int x, int y, int w, int h)
 
 Bool compAllocPixmap(WindowPtr pWin)
 {
-    int bw = cast(int) pWin.borderWidth;
+    int bw = pWin.borderWidth;
     int x = pWin.drawable.x - bw;
     int y = pWin.drawable.y - bw;
     int w = pWin.drawable.width + (bw << 1);

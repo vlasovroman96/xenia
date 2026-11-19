@@ -1041,8 +1041,8 @@ int ProcGetGeometry(ClientPtr client)
     if (mixin(WindowDrawable!("pDraw.type"))) {
         WindowPtr pWin = cast(WindowPtr) pDraw;
 
-        reply.x = cast(short)(pWin.origin.x - mixin(wBorderWidth!("pWin")));
-        reply.y = cast(short)(pWin.origin.y - mixin(wBorderWidth!("pWin")));
+        reply.x = cast(short)(pWin.origin.x - pWin.borderWidth);
+        reply.y = cast(short)(pWin.origin.y - pWin.borderWidth);
         reply.borderWidth = pWin.borderWidth;
     }
 
@@ -1257,12 +1257,12 @@ int ProcTranslateCoords(ClientPtr client)
             BoxRec box = void;
 
             if ((pWin.mapped) &&
-                (x >= pWin.drawable.x - mixin(wBorderWidth!("pWin"))) &&
+                (x >= pWin.drawable.x - pWin.borderWidth) &&
                 (x < pWin.drawable.x + cast(int) pWin.drawable.width +
-                 mixin(wBorderWidth!("pWin"))) &&
-                (y >= pWin.drawable.y - mixin(wBorderWidth!("pWin"))) &&
+                 pWin.borderWidth) &&
+                (y >= pWin.drawable.y - pWin.borderWidth) &&
                 (y < pWin.drawable.y + cast(int) pWin.drawable.height +
-                 mixin(wBorderWidth!("pWin")))
+                 pWin.borderWidth)
                 /* When a window is shaped, a further check
                  * is made to see if the point is inside
                  * borderSize
@@ -2218,10 +2218,10 @@ private int DoGetImage(ClientPtr client, int format, Drawable drawable, int x, i
 
         /* If the drawable is a window, the rectangle must be contained within
          * its bounds (including the border). */
-        if (x < -mixin(wBorderWidth!"pWin")||
-            x + width > mixin(wBorderWidth!"pWin")+ cast(int) pDraw.width ||
-            y < -mixin(wBorderWidth!"pWin")||
-            y + height > mixin(wBorderWidth!"pWin")+ cast(int) pDraw.height)
+        if (x < -pWin.borderWidth ||
+            x + width > pWin.borderWidth + cast(int) pDraw.width ||
+            y < -pWin.borderWidth ||
+            y + height > pWin.borderWidth + cast(int) pDraw.height)
             return BadMatch;
 
         relx += pDraw.x;
