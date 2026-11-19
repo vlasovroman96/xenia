@@ -312,7 +312,7 @@ void miMoveWindow(WindowPtr pWin, int x, int y, WindowPtr pNextSib, VTKind kind)
  */
 
 private int miRecomputeExposures(WindowPtr pWin, void* value)
-{                               /* must conform to VisitWindowProcPtr */
+{                               /* must conform to VisitWindowProc */
     RegionPtr pValid = cast(RegionPtr) value;
 
     if (pWin.valdata) {

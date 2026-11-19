@@ -352,7 +352,7 @@ int FreeColormap(void* value, XID mid)
 
     if (!dixResouceIsServerOwned(mid)) {
         (*pmap.pScreen.UninstallColormap) (pmap);
-        WalkTree(pmap.pScreen, cast(VisitWindowProcPtr) &TellNoMap, cast(void*) &mid);
+        WalkTree(pmap.pScreen, cast(VisitWindowProc) &TellNoMap, cast(void*) &mid);
     }
 
     /* This is the device's chance to undo anything it needs to, especially

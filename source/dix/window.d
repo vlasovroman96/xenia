@@ -278,36 +278,14 @@ enum RootClipMode {
     InputOnly = 2, /**< as above, but no rendering to screen */
 }
 
-alias VisitWindowProcPtr = int function(WindowPtr pWin, void* data) @nogc nothrow;
-
-// int TraverseTree(WindowPtr pWin, VisitWindowProcPtr func, void* data);
-
-// int WalkTree(ScreenPtr pScreen, VisitWindowProcPtr func, void* data);
-
-// bool CreateRootWindow(ScreenPtr);
-
-// void InitRootWindow(WindowPtr);
-
+alias VisitWindowProc = int function(WindowPtr pWin, void* data) @nogc nothrow;
 alias RealChildHeadProc = WindowPtr function(WindowPtr pWin) @nogc nothrow;
-
-// void RegisterRealChildHeadProc(RealChildHeadProc proc);
-
-// WindowPtr RealChildHead(WindowPtr);
-
-// int DeleteWindow(void* pWin, XID wid);
-
-// int DestroySubwindows(WindowPtr, ClientPtr);
 
 /* Quartz support on Mac OS X uses the HIToolbox
    framework whose ChangeWindowAttributes function conflicts here. */
 version (OSX) {
 enum ChangeWindowAttributes = Darwin_X_ChangeWindowAttributes;
 }
-// int ChangeWindowAttributes(WindowPtr, Mask, XID*, ClientPtr);
-
-// int ChangeWindowDeviceCursor(WindowPtr, DeviceIntRec*, _Cursor*);
-
-// _Cursor* WindowGetDeviceCursor(WindowPtr, DeviceIntRec*);
 
 /* Quartz support on Mac OS X uses the HIToolbox
    framework whose GetWindowAttributes function conflicts here. */
@@ -327,58 +305,6 @@ else {
                                              xGetWindowAttributesReply *
                                              /* wa */ );
 }
-
-// void GravityTranslate(int, int, int, int, int, int, uint, int*, int*);
-
-// int ConfigureWindow(WindowPtr, Mask, XID*, ClientPtr);
-
-// int CirculateWindow(WindowPtr, int, ClientPtr);
-
-// int ReparentWindow(WindowPtr, WindowPtr, int, int, ClientPtr);
-
-// int MapWindow(WindowPtr, ClientPtr);
-
-// void MapSubwindows(WindowPtr, ClientPtr);
-
-// int UnmapWindow(WindowPtr, Bool);
-
-// void UnmapSubwindows(WindowPtr);
-
-// void HandleSaveSet(ClientPtr);
-
-// bool PointInWindowIsVisible(WindowPtr, int, int);
-
-// RegionPtr NotClippedByChildren(WindowPtr);
-
-// void SendVisibilityNotify(WindowPtr);
-
-// int dixSaveScreens(ClientPtr client, int on, int mode);
-
-int SaveScreens(int on, int mode);
-
-// WindowPtr FindWindowWithOptional(WindowPtr);
-
-// void CheckWindowOptionalNeed(WindowPtr);
-
-// WindowPtr MoveWindowInStack(WindowPtr, WindowPtr);
-
-// void SetWinSize(WindowPtr);
-
-// void SetBorderSize(WindowPtr);
-
-// void ResizeChildrenWinSize(WindowPtr, int, int, int, int);
-
-// void SendShapeNotify(WindowPtr, int);
-
-// RegionPtr CreateBoundingShape(WindowPtr);
-
-// RegionPtr CreateClipShape(WindowPtr);
-
-// void SetRootClip(ScreenPtr pScreen, int enable);
-
-// VisualPtr WindowGetVisual(WindowPtr);                         /* WINDOW_H */
-
-
 /******
  * Window stuff for server
  *
@@ -656,7 +582,7 @@ void PrintWindowTree()
     });
 }
 
-int TraverseTree(WindowPtr pWin, VisitWindowProcPtr func, void* data)
+int TraverseTree(WindowPtr pWin, VisitWindowProc func, void* data)
 {
     int result = void;
     WindowPtr pChild = void;
@@ -688,7 +614,7 @@ int TraverseTree(WindowPtr pWin, VisitWindowProcPtr func, void* data)
  *   exit WalkTree.  Does depth-first traverse.
  *****/
 
-int WalkTree(ScreenPtr pScreen, VisitWindowProcPtr func, void* data)
+int WalkTree(ScreenPtr pScreen, VisitWindowProc func, void* data)
 {
     return (TraverseTree(pScreen.root, func, data));
 }
@@ -2667,7 +2593,7 @@ int CirculateWindow(WindowPtr pParent, int direction, ClientPtr client)
 }
 
 private int CompareWIDs(WindowPtr pWin, void* value)
-{                               /* must conform to VisitWindowProcPtr */
+{                               /* must conform to VisitWindowProc */
     Window* wid = cast(Window*) value;
 
     if (pWin.drawable.id == *wid)
