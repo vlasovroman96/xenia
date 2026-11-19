@@ -33,6 +33,7 @@ import region;
 import Xext.xacestr;
 import dix.gc;
 import dix.dixutils;
+import dix.property;
 
 // import externs.
 

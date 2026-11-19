@@ -28,6 +28,7 @@ public import dix.extension;
 public import dix.window;
 public import dix.input;
 public import Xext.xace;
+import dix.property;
 
 /* XACE_RESOURCE_ACCESS */
 struct XaceResourceAccessRec {

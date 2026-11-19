@@ -273,14 +273,10 @@ enum WinTreeWalking : int {
 }
 
 enum RootClipMode {
-    ROOT_CLIP_NONE = 0, /**< resize the root window to 0x0 */
-    ROOT_CLIP_FULL = 1, /**< resize the root window to fit screen */
-    ROOT_CLIP_INPUT_ONLY = 2, /**< as above, but no rendering to screen */
+    None = 0, /**< resize the root window to 0x0 */
+    Full = 1, /**< resize the root window to fit screen */
+    InputOnly = 2, /**< as above, but no rendering to screen */
 }
-alias ROOT_CLIP_NONE = RootClipMode.ROOT_CLIP_NONE;
-alias ROOT_CLIP_FULL = RootClipMode.ROOT_CLIP_FULL;
-alias ROOT_CLIP_INPUT_ONLY = RootClipMode.ROOT_CLIP_INPUT_ONLY;
-
 
 alias VisitWindowProcPtr = int function(WindowPtr pWin, void* data) @nogc nothrow;
 
@@ -3766,7 +3762,7 @@ void SetRootClip(ScreenPtr pScreen, int enable)
     if (!pWin)
         return;
     WasViewable = cast(Bool) (pWin.viewable);
-    if (WasViewable && mode != ROOT_CLIP_INPUT_ONLY) {
+    if (WasViewable && mode != RootClipMode.InputOnly) {
         for (WindowPtr pChild = pWin.firstChild; pChild; pChild = pChild.nextSib) {
             cast(void) (*pScreen.MarkOverlappedWindows) (pChild,
                                                       pChild, &pLayerWin);
@@ -3786,7 +3782,7 @@ void SetRootClip(ScreenPtr pScreen, int enable)
         }
     }
 
-    if (mode != ROOT_CLIP_NONE) {
+    if (mode != RootClipMode.None) {
         pWin.drawable.width = pScreen.width;
         pWin.drawable.height = pScreen.height;
 
@@ -3808,7 +3804,7 @@ void SetRootClip(ScreenPtr pScreen, int enable)
 	/* For INPUT_ONLY, empty the borderClip so no rendering will ever
 	 * be attempted to the screen pixmap (only redirected windows),
 	 * but we keep borderSize as full regardless. */
-        if (WasViewable && mode == ROOT_CLIP_FULL)
+        if (WasViewable && mode == RootClipMode.Full)
             RegionReset(&pWin.borderClip, &box);
         else
             RegionEmpty(&pWin.borderClip);
@@ -3820,7 +3816,7 @@ void SetRootClip(ScreenPtr pScreen, int enable)
 
     ResizeChildrenWinSize(pWin, 0, 0, 0, 0);
 
-    if (WasViewable && mode != ROOT_CLIP_INPUT_ONLY) {
+    if (WasViewable && mode != RootClipMode.InputOnly) {
         if (pWin.firstChild) {
             anyMarked |= (*pScreen.MarkOverlappedWindows) (pWin.firstChild,
                                                             pWin.firstChild,

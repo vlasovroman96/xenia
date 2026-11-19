@@ -56,6 +56,7 @@ SOFTWARE.
 //public import x11.X;
 
 public import dix.window;
+import dix.property;
 
 struct PropertyStateRec {
     WindowPtr win;

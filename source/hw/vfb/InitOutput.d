@@ -888,7 +888,7 @@ static if (GLAMOR) {
     rrScrPrivPtr pScrPriv = mixin(rrGetScrPriv!("pScreen"));
 
     // Prevent screen updates while we change things around
-    SetRootClip(pScreen, ROOT_CLIP_NONE);
+    SetRootClip(pScreen, RootClipMode.None);
 
     pScreen.width = width;
     pScreen.height = height;
@@ -896,7 +896,7 @@ static if (GLAMOR) {
     pScreen.mmHeight = mmHeight;
 
     // Restore the ability to update screen, now with new dimensions
-    SetRootClip(pScreen, ROOT_CLIP_FULL);
+    SetRootClip(pScreen, RootClipMode.Full);
 
     RRScreenSizeNotify (pScreen);
     RRTellChanged(pScreen);

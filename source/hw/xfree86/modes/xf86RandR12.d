@@ -2054,12 +2054,12 @@ private Bool xf86RandR14ProviderSetOutputSource(ScreenPtr pScreen, RRProviderPtr
     if (provider.output_source == source_provider)
         return True;
 
-    SetRootClip(source_provider.pScreen, ROOT_CLIP_NONE);
+    SetRootClip(source_provider.pScreen, RootClipMode.None);
 
     AttachOutputGPU(source_provider.pScreen, pScreen);
 
     provider.output_source = source_provider;
-    SetRootClip(source_provider.pScreen, ROOT_CLIP_FULL);
+    SetRootClip(source_provider.pScreen, RootClipMode.Full);
     return True;
 }
 
