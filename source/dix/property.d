@@ -89,6 +89,7 @@ struct _Property {
     PrivateRec* devPrivates;
 }
 alias PropertyRec = _Property;
+alias PropertyPtr = _Property*;
 
 /*****************************************************************
  * Property Stuff

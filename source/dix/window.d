@@ -272,10 +272,6 @@ enum WinTreeWalking : int {
     NoMatch
 }
 
-struct _BackingStore; 
-alias BackingStorePtr = _BackingStore*;
-alias PropertyPtr = _Property*;
-
 enum RootClipMode {
     ROOT_CLIP_NONE = 0, /**< resize the root window to 0x0 */
     ROOT_CLIP_FULL = 1, /**< resize the root window to fit screen */
