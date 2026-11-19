@@ -204,7 +204,7 @@ enum RedirectDraw : uint {
     Manual
 }
 
-struct _Window {
+struct WindowRec {
     DrawableRec drawable;
     PrivateRec* devPrivates;
     WindowPtr parent;           /* ancestor chain */
@@ -245,14 +245,10 @@ struct _Window {
 
     PropertyPtr properties;     /* default: NULL */
 }
-alias WindowPtr = _Window*;
-alias WindowRec = _Window;
+alias WindowPtr = WindowRec*;
 // void [1] DontPropagateMasks;
 
-pragma(inline, true) private PropertyPtr wUserProps(WindowPtr pWin) { return pWin.properties; }
-
 /* true when w needs a border drawn. */
-
 enum string HasBorder(string w) = `((` ~ w ~ `).borderWidth || `~wClipShape!(w)~ `)`;
 
 enum SCREEN_IS_BLANKED =   0;
@@ -798,7 +794,7 @@ Bool CreateRootWindow(ScreenPtr pScreen)
     BoxRec box = void;
     PixmapFormatRec* format = void;
 
-    pWin = cast(_Window*)mixin(dixAllocateScreenObjectWithPrivates!("pScreen", "WindowRec", "PRIVATE_WINDOW"));
+    pWin = cast(WindowRec*)mixin(dixAllocateScreenObjectWithPrivates!("pScreen", "WindowRec", "PRIVATE_WINDOW"));
     if (!pWin)
         return False;
 
@@ -1030,7 +1026,7 @@ WindowPtr dixCreateWindow(Window wid, WindowPtr pParent, int x, int y, uint w, u
         return NullWindow;
     }
 
-    pWin = cast(_Window*)mixin(dixAllocateScreenObjectWithPrivates!("pScreen", "WindowRec", "PRIVATE_WINDOW"));
+    pWin = cast(WindowRec*)mixin(dixAllocateScreenObjectWithPrivates!("pScreen", "WindowRec", "PRIVATE_WINDOW"));
     if (!pWin) {
         *error = BadAlloc;
         return NullWindow;

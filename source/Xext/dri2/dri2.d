@@ -707,7 +707,7 @@ pragma(inline, true) private PixmapPtr GetDrawablePixmap(DrawablePtr drawable)
     if (drawable.type == DRAWABLE_PIXMAP)
         return cast(PixmapPtr)drawable;
     else {
-        _Window* pWin = cast(_Window*)drawable;
+        WindowRec* pWin = cast(WindowRec*)drawable;
         return drawable.pScreen.GetWindowPixmap(pWin);
     }
 }

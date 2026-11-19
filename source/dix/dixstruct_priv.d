@@ -44,7 +44,7 @@ alias ReplySwapPtr = void function(ClientPtr, int, void*);
 
 
 struct SaveSetElt {
-    _Window* windowPtr;
+    WindowRec* windowPtr;
     Bool toRoot;
     Bool map;
 }

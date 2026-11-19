@@ -1152,7 +1152,7 @@ Bool CopySprite(SpritePtr src, SpritePtr dst)
 {
     WindowPtr* trace = void;
     if (src.spriteTraceGood > dst.spriteTraceSize) {
-        trace = cast(_Window**)reallocarray(dst.spriteTrace,
+        trace = cast(WindowRec**)reallocarray(dst.spriteTrace,
                              src.spriteTraceSize, typeof(*trace).sizeof);
         if (!trace) {
             dst.spriteTraceGood = 0;

@@ -221,7 +221,7 @@ Bool TouchInitTouchPoint(TouchClassPtr t, ValuatorClassPtr v, int index)
     if (!ti.valuators)
         return False;
 
-    ti.sprite.spriteTrace = cast(_Window**)calloc(32, typeof(*ti.sprite.spriteTrace).sizeof);
+    ti.sprite.spriteTrace = cast(WindowRec**)calloc(32, typeof(*ti.sprite.spriteTrace).sizeof);
     if (!ti.sprite.spriteTrace) {
         valuator_mask_free(&ti.valuators);
         return False;

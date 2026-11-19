@@ -768,7 +768,7 @@ WindowPtr miSpriteTrace(SpritePtr pSprite, int x, int y)
                 WindowPtr* newTrace = void;
                 int newSize = pSprite.spriteTraceSize + 10;
 
-                newTrace = cast(_Window**)reallocarray(pSprite.spriteTrace,
+                newTrace = cast(WindowRec**)reallocarray(pSprite.spriteTrace,
                                         newSize,
                                         WindowPtr.sizeof);
                 if (!newTrace)
