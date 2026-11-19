@@ -261,7 +261,7 @@ private int RestorePreDrawingPixmapVisitor(WindowPtr pWindow, void* data)
         dixSetPrivate(&pWindow.devPrivates, rootlessWindowOldPixmapPrivateKey,
                       null);
     }
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 void RootlessStopDrawing(WindowPtr pWindow, Bool flush)

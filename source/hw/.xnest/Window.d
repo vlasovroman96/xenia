@@ -53,10 +53,10 @@ private int xnestFindWindowMatch(WindowPtr pWin, void* ptr)
 
     if (wm.window == xnestWindow(pWin)) {
         wm.pWin = pWin;
-        return WT_STOPWALKING;
+        return WinTreeWalking.Stop;
     }
     else
-        return WT_WALKCHILDREN;
+        return WinTreeWalking.ToChild;
 }
 
 WindowPtr xnestWindowPtr(xcb_window_t window)

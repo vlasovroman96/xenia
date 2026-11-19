@@ -62,7 +62,7 @@ private int DeliverPropertyEvent(WindowPtr pWin, void* value)
     dixLookupResourceByType(cast(void**) &pHead, pWin.drawable.id,
                             RREventType, serverClient, DixReadAccess);
     if (!pHead)
-        return WT_WALKCHILDREN;
+        return WinTreeWalking.ToChild;
 
     for (pRREvent = *pHead; pRREvent; pRREvent = pRREvent.next) {
         if (!(pRREvent.mask & RRProviderPropertyNotifyMask))
@@ -72,7 +72,7 @@ private int DeliverPropertyEvent(WindowPtr pWin, void* value)
         WriteEventsToClient(pRREvent.client, 1, cast(xEvent*) event);
     }
 
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 private void RRDeliverPropertyEvent(ScreenPtr pScreen, xEvent* event)

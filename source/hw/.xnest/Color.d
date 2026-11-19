@@ -165,10 +165,10 @@ private int xnestCountInstalledColormapWindows(WindowPtr pWin, void* ptr)
     for (i = 0; i < icws.numCmapIDs; i++)
         if (SEARCH_PREDICATE) {
             icws.numWindows++;
-            return WT_DONTWALKCHILDREN;
+            return WinTreeWalking.DontWalkChild;
         }
 
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 private int xnestGetInstalledColormapWindows(WindowPtr pWin, void* ptr)
@@ -179,10 +179,10 @@ private int xnestGetInstalledColormapWindows(WindowPtr pWin, void* ptr)
     for (i = 0; i < icws.numCmapIDs; i++)
         if (SEARCH_PREDICATE) {
             icws.windows[icws.index++] = xnestWindow(pWin);
-            return WT_DONTWALKCHILDREN;
+            return WinTreeWalking.DontWalkChild;
         }
 
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 private xcb_window_t* xnestOldInstalledColormapWindows = null;

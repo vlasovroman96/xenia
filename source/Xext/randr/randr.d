@@ -1175,7 +1175,7 @@ private int TellChanged(WindowPtr pWin, void* value)
     dixLookupResourceByType(cast(void**) &pHead, pWin.drawable.id,
                             RREventType, serverClient, DixReadAccess);
     if (!pHead)
-        return WT_WALKCHILDREN;
+        return WinTreeWalking.ToChild;
 
     for (pRREvent = *pHead; pRREvent; pRREvent = pRREvent.next) {
         client = pRREvent.client;
@@ -1249,7 +1249,7 @@ private int TellChanged(WindowPtr pWin, void* value)
             }
         }
     }
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 void RRSetChanged(ScreenPtr pScreen)

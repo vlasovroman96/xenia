@@ -1509,7 +1509,7 @@ void miDamageCreate(DamagePtr pDamage)
 private int damageRegisterVisit(WindowPtr pWin, void* data)
 {
     pWin.drawable.serialNumber = NEXT_SERIAL_NUMBER;
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 void miDamageRegister(DrawablePtr pDrawable, DamagePtr pDamage)

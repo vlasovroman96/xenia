@@ -197,11 +197,11 @@ private int check_flip_visit(WindowPtr window, void* data)
     present_screen_priv_ptr screen_priv = present_screen_priv(screen);
 
     if (!screen_priv)
-        return WT_DONTWALKCHILDREN;
+        return WinTreeWalking.DontWalkChild;
 
     screen_priv.check_flip_window(window);
 
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 void present_check_flips(WindowPtr window)

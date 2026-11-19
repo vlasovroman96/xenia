@@ -1360,7 +1360,7 @@ private int DRIDCNTreeTraversal(WindowPtr pWin, void* data)
         ScreenPtr pScreen = pWin.drawable.pScreen;
         DRIScreenPrivPtr pDRIPriv = DRI_SCREEN_PRIV(pScreen);
         if (!pDRIPriv)
-            return WT_WALKCHILDREN;
+            return WinTreeWalking.ToChild;
 
         if (RegionNumRects(&pWin.clipList) > 0) {
             WindowPtr* pDRIWindows = cast(WindowPtr*) data;
@@ -1375,10 +1375,10 @@ private int DRIDCNTreeTraversal(WindowPtr pWin, void* data)
         }
 
         if (pDRIPriv.nrWindows == pDRIPriv.nrWalked)
-            return WT_STOPWALKING;
+            return WinTreeWalking.Stop;
     }
 
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 private void DRIDriverClipNotify(ScreenPtr pScreen)
@@ -2060,7 +2060,7 @@ private int DRITreeTraversal(WindowPtr pWin, void* data)
         ScreenPtr pScreen = pWin.drawable.pScreen;
         DRIScreenPrivPtr pDRIPriv = DRI_SCREEN_PRIV(pScreen);
         if (!pDRIPriv)
-            return WT_WALKCHILDREN;
+            return WinTreeWalking.ToChild;
 
         if (RegionNumRects(&(pWin.clipList)) > 0) {
             RegionPtr reg = cast(RegionPtr) data;
@@ -2070,9 +2070,9 @@ private int DRITreeTraversal(WindowPtr pWin, void* data)
         }
 
         if (pDRIPriv.nrWindows == pDRIPriv.nrWalked)
-            return WT_STOPWALKING;
+            return WinTreeWalking.Stop;
     }
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 private void DRIWindowDestroy(CallbackListPtr* pcbl, ScreenPtr pScreen, WindowPtr pWin)

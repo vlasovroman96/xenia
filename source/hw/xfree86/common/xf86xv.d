@@ -982,7 +982,7 @@ private int xf86XVReputAllVideo(WindowPtr pWin, void* data)
         WinPriv = WinPriv.next;
     }
 
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 private int xf86XVEnlistPortInWindow(WindowPtr pWin, XvPortRecPrivatePtr portPriv)

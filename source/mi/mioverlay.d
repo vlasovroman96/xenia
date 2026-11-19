@@ -1056,9 +1056,9 @@ private int miOverlayRecomputeExposures(WindowPtr pWin, void* value)
                        &pTree.valdata.borderExposed, pValid.under);
     }
     else if (!pWin.valdata)
-        return WT_NOMATCH;
+        return WinTreeWalking.NoMatch;
 
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 private void miOverlayResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h, WindowPtr pSib)

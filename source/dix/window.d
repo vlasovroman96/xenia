@@ -265,15 +265,12 @@ enum NullWindow = cast(WindowPtr) 0;
 enum VisibilityNotViewable =	3;
 
 /* return values for tree-walking callback procedures */
-enum WT_STOPWALKING =		0;
-enum WT_WALKCHILDREN =		1;
-enum WT_DONTWALKCHILDREN =	2;
-enum WT_NOMATCH = 3;
-enum NullWindow = cast(WindowPtr) 0;
-
-/* Forward declaration, we can't include input.h here */
-// struct _DeviceIntRec;
-// struct _Cursor;
+enum WinTreeWalking : int {
+    Stop,
+    ToChild,
+    DontWalkChild,
+    NoMatch
+}
 
 struct _BackingStore; 
 alias BackingStorePtr = _BackingStore*;
@@ -673,12 +670,12 @@ int TraverseTree(WindowPtr pWin, VisitWindowProcPtr func, void* data)
     WindowPtr pChild = void;
 
     if (((pChild = pWin) is null))
-        return WT_NOMATCH;
+        return WinTreeWalking.NoMatch;
     while (1) {
         result = (*func) (pChild, data);
-        if (result == WT_STOPWALKING)
-            return WT_STOPWALKING;
-        if ((result == WT_WALKCHILDREN) && pChild.firstChild) {
+        if (result == WinTreeWalking.Stop)
+            return WinTreeWalking.Stop;
+        if ((result == WinTreeWalking.ToChild) && pChild.firstChild) {
             pChild = pChild.firstChild;
             continue;
         }
@@ -688,14 +685,14 @@ int TraverseTree(WindowPtr pWin, VisitWindowProcPtr func, void* data)
             break;
         pChild = pChild.nextSib;
     }
-    return WT_NOMATCH;
+    return WinTreeWalking.NoMatch;
 }
 
 /*****
  * WalkTree
  *   Walk the window tree, for SCREEN, performing FUNC(pWin, data) on
- *   each window.  If FUNC returns WT_WALKCHILDREN, traverse the children,
- *   if it returns WT_DONTWALKCHILDREN, don't.  If it returns WT_STOPWALKING,
+ *   each window.  If FUNC returns WinTreeWalking.ToChild, traverse the children,
+ *   if it returns WinTreeWalking.DontWalkChild, don't.  If it returns WinTreeWalking.Stop,
  *   exit WalkTree.  Does depth-first traverse.
  *****/
 
@@ -2682,9 +2679,9 @@ private int CompareWIDs(WindowPtr pWin, void* value)
     Window* wid = cast(Window*) value;
 
     if (pWin.drawable.id == *wid)
-        return WT_STOPWALKING;
+        return WinTreeWalking.Stop;
     else
-        return WT_WALKCHILDREN;
+        return WinTreeWalking.ToChild;
 }
 
 /*****
@@ -2701,7 +2698,7 @@ int ReparentWindow(WindowPtr pWin, WindowPtr pParent, int x, int y, ClientPtr cl
 
     pScreen = pWin.drawable.pScreen;
     if (TraverseTree(pWin, &CompareWIDs, cast(void*) &pParent.drawable.id) ==
-        WT_STOPWALKING)
+        WinTreeWalking.Stop)
         return BadMatch;
     if (!MakeWindowOptional(pWin))
         return BadAlloc;

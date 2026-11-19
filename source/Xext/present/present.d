@@ -127,7 +127,7 @@ private int present_set_tree_pixmap_visit(WindowPtr window, void* data)
      * the old pixmap have been reparented to newly
      * created windows using the screen pixmap instead.
      */
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 void present_set_tree_pixmap(WindowPtr window, PixmapPtr expected, PixmapPtr pixmap)

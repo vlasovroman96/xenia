@@ -322,7 +322,7 @@ private int miRecomputeExposures(WindowPtr pWin, void* value)
          * exposed areas here.
          */
         if (pWin.redirectDraw != RedirectDraw.None)
-            return WT_DONTWALKCHILDREN;
+            return WinTreeWalking.DontWalkChild;
         /*
          * compute exposed regions of this window
          */
@@ -334,9 +334,9 @@ private int miRecomputeExposures(WindowPtr pWin, void* value)
                        &pWin.borderClip, &pWin.winSize);
         RegionSubtract(&pWin.valdata.after.borderExposed,
                        &pWin.valdata.after.borderExposed, pValid);
-        return WT_WALKCHILDREN;
+        return WinTreeWalking.ToChild;
     }
-    return WT_NOMATCH;
+    return WinTreeWalking.NoMatch;
 }
 
 void miResizeWindow(WindowPtr pWin, int x, int y, uint w, uint h, WindowPtr pSib)

@@ -1652,9 +1652,9 @@ private int ephyrSetPixmapVisitWindow(WindowPtr window, void* data)
 
     if (screen.GetWindowPixmap(window) == data) {
         screen.SetWindowPixmap(window, screen.GetScreenPixmap(screen));
-        return WT_WALKCHILDREN;
+        return WinTreeWalking.ToChild;
     }
-    return WT_DONTWALKCHILDREN;
+    return WinTreeWalking.DontWalkChild;
 }
 
 Bool ephyr_glamor_create_screen_resources(ScreenPtr pScreen)

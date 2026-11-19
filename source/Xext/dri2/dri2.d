@@ -719,9 +719,9 @@ pragma(inline, true) private PixmapPtr GetDrawablePixmap(DrawablePtr drawable)
 private int DRI2InvalidateWalk(WindowPtr pWin, void* data)
 {
     if (pWin.drawable.pScreen.GetWindowPixmap(pWin) != data)
-        return WT_DONTWALKCHILDREN;
+        return WinTreeWalking.DontWalkChild;
     DRI2InvalidateDrawable(&pWin.drawable);
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 private void DRI2InvalidateDrawableAll(DrawablePtr pDraw)

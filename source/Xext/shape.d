@@ -116,7 +116,7 @@ private int ShapeDelClientFromWin(WindowPtr pWin, void* value) {
         prev = &curr.next;
         curr = curr.next;
     }
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 /****************

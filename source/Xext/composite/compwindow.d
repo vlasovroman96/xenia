@@ -97,7 +97,7 @@ import dix.dispatch;
 //         assert(0 <= pParentPixmap.refcnt);
 //         assert(pParentPixmap.refcnt < 3);
 //     }
-//     return WT_WALKCHILDREN;
+//     return WinTreeWalking.ToChild;
 // }
 
 // void compCheckTree(ScreenPtr pScreen)
@@ -136,7 +136,7 @@ private int compSetPixmapVisitWindow(WindowPtr pWindow, void* data)
     ScreenPtr pScreen = pWindow.drawable.pScreen;
 
     if (pWindow != pVisit.pWindow && pWindow.redirectDraw != RedirectDraw.None)
-        return WT_DONTWALKCHILDREN;
+        return WinTreeWalking.DontWalkChild;
     (*pScreen.SetWindowPixmap) (pWindow, pVisit.pPixmap);
     /*
      * Recompute winSize and borderSize.  This is duplicate effort
@@ -148,7 +148,7 @@ private int compSetPixmapVisitWindow(WindowPtr pWindow, void* data)
     if (pVisit.bw)
         QueueWorkProc(&compRepaintBorder, serverClient,
                       cast(void*) cast(intptr_t) pWindow.drawable.id);
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 void compSetPixmap(WindowPtr pWindow, PixmapPtr pPixmap, int bw)

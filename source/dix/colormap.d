@@ -420,7 +420,7 @@ else { /* XINERAMA */
         }
     }
 
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 /* Tell window that pmid got uninstalled */
@@ -430,7 +430,7 @@ int TellLostMap(WindowPtr pwin, void* value)
 
 static if(XINERAMA){
     if (!noPanoramiXExtension && pwin.drawable.pScreen.myNum)
-        return WT_STOPWALKING;
+        return WinTreeWalking.Stop;
 } /* XINERAMA */
     if (mixin(wColormap!("pwin")) == *pmid) {
         /* This should be call to DeliverEvent */
@@ -450,7 +450,7 @@ static if(XINERAMA){
         DeliverEvents(pwin, &xE, 1, cast(WindowPtr) null);
     }
 
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 /* Tell window that pmid got installed */
@@ -460,7 +460,7 @@ int TellGainedMap(WindowPtr pwin, void* value)
 
 static if(XINERAMA){
     if (!noPanoramiXExtension && pwin.drawable.pScreen.myNum)
-        return WT_STOPWALKING;
+        return WinTreeWalking.Stop;
 } /* XINERAMA */
     if (mixin(wColormap!("pwin")) == *pmid) {
         /* This should be call to DeliverEvent */
@@ -475,7 +475,7 @@ static if(XINERAMA){
         DeliverEvents(pwin, &xE, 1, cast(WindowPtr) null);
     }
 
-    return WT_WALKCHILDREN;
+    return WinTreeWalking.ToChild;
 }
 
 int CopyColormapAndFree(Colormap mid, ColormapPtr pSrc, int client)
