@@ -325,12 +325,6 @@ private const(ubyte)[4] _back_msb = [ 0X11, 0x44, 0x22, 0x88 ];
 enum InputOnlyLegalMask = (CWWinGravity | CWEventMask | 
 			      CWDontPropagate | CWOverrideRedirect | CWCursor );
 
-enum string BOXES_OVERLAP(string b1, string b2) = `
-      (!( ((` ~ b1 ~ `).x2 <= (` ~ b2 ~ `).x1)  || 
-	( ((` ~ b1 ~ `).x1 >= (` ~ b2 ~ `).x2)) || 
-	( ((` ~ b1 ~ `).y2 <= (` ~ b2 ~ `).y1)) || 
-	( ((` ~ b1 ~ `).y1 >= (` ~ b2 ~ `).y2)) ) )`;
-
 enum string RedirectSend(string pWin) = `
     ((` ~ pWin ~ `.eventMask| `~wOtherEventMasks!(pWin)~`) & SubstructureRedirectMask)`;
 

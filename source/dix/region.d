@@ -439,6 +439,13 @@ enum string good(string reg) = `assert(RegionIsValid(` ~ reg ~ `));`;
 
 alias BoxRec = pixman_box16;
 alias BoxPtr = BoxRec*;
+
+
+enum string BOXES_OVERLAP(string b1, string b2) = `
+      (!( ((` ~ b1 ~ `).x2 <= (` ~ b2 ~ `).x1)  || 
+	( ((` ~ b1 ~ `).x1 >= (` ~ b2 ~ `).x2)) || 
+	( ((` ~ b1 ~ `).y2 <= (` ~ b2 ~ `).y1)) || 
+	( ((` ~ b1 ~ `).y1 >= (` ~ b2 ~ `).y2)) ) )`;
 /*  true iff two Boxes overlap */
 enum string EXTENTCHECK(string r1,string r2) = `
       (!( ((` ~ r1 ~ `).x2 <= (` ~ r2 ~ `).x1)  || 
