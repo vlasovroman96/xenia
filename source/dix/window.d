@@ -259,9 +259,10 @@ struct WindowRec {
 }
 
 alias WindowPtr = WindowRec*;
-enum NullWindow = cast(WindowPtr) 0;
 
-// XXX: used additionaly with Visibility* enum fron X11 oriti 
+enum NullWindow = null;
+
+// XXX: used additionaly with Visibility* enums fron X11 oriti 
 enum VisibilityNotViewable =	3;
 
 /* return values for tree-walking callback procedures */
@@ -317,17 +318,11 @@ else {
 
 Bool bgNoneRoot = False;
 
+// XXX: PixMask for root window background
 private const(ubyte)[4] _back_lsb = [ 0x88, 0x22, 0x44, 0X11 ];
 private const(ubyte)[4] _back_msb = [ 0X11, 0x44, 0x22, 0x88 ];
 
-
-
-
-// int screenIsSaved = SCREEN_SAVER_OFF;
-
-
-
-enum INPUTONLY_LEGAL_MASK = (CWWinGravity | CWEventMask | 
+enum InputOnlyLegalMask = (CWWinGravity | CWEventMask | 
 			      CWDontPropagate | CWOverrideRedirect | CWCursor );
 
 enum string BOXES_OVERLAP(string b1, string b2) = `
@@ -1278,7 +1273,7 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
     Bool checkOptional = False, borderRelative = False;
 
     if ((pWin.drawable.class_ == InputOnly) &&
-        (vmask & (~INPUTONLY_LEGAL_MASK)))
+        (vmask & (~InputOnlyLegalMask)))
         return BadMatch;
 
     error = Success;

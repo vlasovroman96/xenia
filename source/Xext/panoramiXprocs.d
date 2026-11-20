@@ -60,8 +60,6 @@ import common.math;
 import common.swap;
 
 enum XINERAMA_IMAGE_BUFSIZE = (256*1024);
-enum INPUTONLY_LEGAL_MASK = (CWWinGravity | CWEventMask |
-                              CWDontPropagate | CWOverrideRedirect | CWCursor );
 
 int PanoramiXCreateWindow(ClientPtr client)
 {
@@ -90,7 +88,7 @@ int PanoramiXCreateWindow(ClientPtr client)
     if (__traits(getMember, stuff, "class_") == CopyFromParent)
         __traits(getMember, stuff, "class_") = parent.u.win.class_;
 
-    if ((__traits(getMember, stuff, "class_") == InputOnly) && (stuff.mask & (~INPUTONLY_LEGAL_MASK)))
+    if ((__traits(getMember, stuff, "class_") == InputOnly) && (stuff.mask & (~InputOnlyLegalMask)))
         return BadMatch;
 
     if (cast(Mask) stuff.mask & CWBackPixmap) {
@@ -197,7 +195,7 @@ int PanoramiXChangeWindowAttributes(ClientPtr client)
         return result;
 
     if ((win.u.win.class_ == InputOnly) &&
-        (stuff.valueMask & (~INPUTONLY_LEGAL_MASK)))
+        (stuff.valueMask & (~InputOnlyLegalMask)))
         return BadMatch;
 
     if (cast(Mask) stuff.valueMask & CWBackPixmap) {
