@@ -2007,9 +2007,9 @@ int PanoramiXGetImage(ClientPtr client)
             masterScreen.x + pDraw.x + x + w > PanoramiXPixWidth ||
             masterScreen.y + pDraw.y + y < 0 ||
             masterScreen.y + pDraw.y + y + h > PanoramiXPixHeight ||
-            x < (cast(WindowPtr) pDraw).borderWidth ||
+            x < -(cast(WindowPtr) pDraw).borderWidth ||
             x + w >(cast(WindowPtr) pDraw).borderWidth + cast(int) pDraw.width ||
-            y < (cast(WindowPtr) pDraw).borderWidth ||
+            y < -(cast(WindowPtr) pDraw).borderWidth ||
             y + h >(cast(WindowPtr) pDraw).borderWidth + cast(int) pDraw.height)
             return BadMatch;
     }
