@@ -109,12 +109,14 @@ auto PixmapBytePad(T, S) (T w, S d) {
 
 enum string BitmapBytePad(string w) = `
     ((cast(int)((` ~ w ~ `) + BITMAP_SCANLINE_PAD - 1) >> LOG2_BITMAP_PAD) << LOG2_BYTES_PER_SCANLINE_PAD)`;
-    
+
+
+//FIXME: Do we need move it do ddx layer?
 /*
  * PIXMAP -- device dependent
  */
 
-struct _Pixmap {
+struct PixmapRec {
     DrawableRec drawable;
     PrivateRec* devPrivates;
     int refcnt;
@@ -127,8 +129,8 @@ struct _Pixmap {
     PixmapPtr primary_pixmap;    /* pointer to primary copy of pixmap for pixmap sharing */
 }
 
-alias PixmapRec = _Pixmap;
-
+alias PixmapPtr = PixmapRec*;
+enum NullPixmap = null;
 
 struct _PixmapDirtyUpdate {
     DrawablePtr src;            /* Root window / shared pixmap */
@@ -158,10 +160,7 @@ pragma(inline, true) void PixmapRegionInit(RegionPtr region, PixmapPtr pixmap)
 enum PW_BACKGROUND = 0;
 enum PW_BORDER = 1;
 
-enum NullPixmap = cast(PixmapPtr)0;
 
-// alias DrawablePtr = _Drawable*;
-alias PixmapPtr = _Pixmap*;
 
 union PixUnion {
     PixmapPtr pixmap;

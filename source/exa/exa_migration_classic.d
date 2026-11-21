@@ -429,7 +429,7 @@ void exaMoveOutPixmap_classic(PixmapPtr pPixmap)
  */
 void exaPixmapSave(ScreenPtr pScreen, ExaOffscreenArea* area)
 {
-    PixmapPtr pPixmap = cast(_Pixmap*)area.privData;
+    PixmapPtr pPixmap = cast(PixmapRec*)area.privData;
 
     mixin(ExaPixmapPriv!("pPixmap"));
 

@@ -140,7 +140,7 @@ void exaMoveInPixmap_mixed(PixmapPtr pPixmap)
 
 void exaDamageReport_mixed(DamagePtr pDamage, RegionPtr pRegion, void* closure)
 {
-    PixmapPtr pPixmap = cast(_Pixmap*)closure;
+    PixmapPtr pPixmap = cast(PixmapRec*)closure;
 
     mixin(ExaPixmapPriv!("pPixmap"));
 

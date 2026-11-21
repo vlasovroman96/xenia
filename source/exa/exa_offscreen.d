@@ -546,7 +546,7 @@ ExaOffscreenArea* ExaOffscreenDefragment(ScreenPtr pScreen)
             largest_size = area.size;
         }
 
-        pSrcPix = cast(_Pixmap*)prev.privData;
+        pSrcPix = cast(PixmapRec*)prev.privData;
         pExaSrcPix = mixin(ExaGetPixmapPriv!("pSrcPix"));
 
         pExaDstPix.fb_ptr = pExaScr.info.memoryBase +
