@@ -63,6 +63,8 @@ public import dix.damage;
 public import dix.picturestr;
 import xf86Bus;
 import dix.dispatch;
+//TODO: DELETE THIS
+public import dix.drawable;
 
 enum GLYPHPADBYTES =           4;
 
@@ -108,24 +110,6 @@ auto PixmapBytePad(T, S) (T w, S d) {
 enum string BitmapBytePad(string w) = `
     ((cast(int)((` ~ w ~ `) + BITMAP_SCANLINE_PAD - 1) >> LOG2_BITMAP_PAD) << LOG2_BYTES_PER_SCANLINE_PAD)`;
     
-
-struct _Drawable {
-    ubyte type;         /* DRAWABLE_<type> */
-    ubyte class_;        /* specific to type */
-    ubyte depth;
-    ubyte bitsPerPixel;
-    XID id;                     /* resource id */
-    short x;                    /* window: screen absolute, pixmap: 0 */
-    short y;                    /* window: screen absolute, pixmap: 0 */
-    ushort width;
-    ushort height;
-    ScreenPtr pScreen;
-    c_ulong serialNumber;
-}
-
-alias DrawableRec = _Drawable;
-alias DrawablePtr = DrawableRec*;
-
 /*
  * PIXMAP -- device dependent
  */
@@ -169,20 +153,6 @@ pragma(inline, true) void PixmapRegionInit(RegionPtr region, PixmapPtr pixmap)
     };
     RegionInit(region, &box, 1);
 }
-
-/* types for Drawable */
-enum DRAWABLE_WINDOW = 0;
-enum DRAWABLE_PIXMAP = 1;
-enum UNDRAWABLE_WINDOW = 2;
-
-/* corresponding type masks for dixLookupDrawable() */
-enum M_DRAWABLE_WINDOW =	(1<<0);
-enum M_DRAWABLE_PIXMAP =	(1<<1);
-enum M_UNDRAWABLE_WINDOW =	(1<<2);
-enum M_ANY =			(-1);
-enum M_WINDOW =	(M_DRAWABLE_WINDOW|M_UNDRAWABLE_WINDOW);
-enum M_DRAWABLE =	(M_DRAWABLE_WINDOW|M_DRAWABLE_PIXMAP);
-enum M_UNDRAWABLE =	(M_UNDRAWABLE_WINDOW);
 
 /* flags to PaintWindow() */
 enum PW_BACKGROUND = 0;
