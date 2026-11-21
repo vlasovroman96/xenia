@@ -177,12 +177,6 @@ bool equalPixUnion(uint puType1, PixUnion a, uint puType2, PixUnion b) {
     return (puType1 == puType2) && samePixUnion(a, b, puType1);
 }
 
-enum string OnScreenDrawable(string type) = `
-	(` ~ type ~ ` == DRAWABLE_WINDOW)`;
-
-enum string WindowDrawable(string type) = `
-	((` ~ type ~ ` == DRAWABLE_WINDOW) || (` ~ type ~ ` == UNDRAWABLE_WINDOW))`;
-
 // int GetScratchPixmapHeader(ScreenPtr pScreen, int width, int height, int depth, int bitsPerPixel, int devKind, void* pPixData);
 
 // int FreeScratchPixmapHeader(PixmapPtr);

@@ -21,6 +21,13 @@ enum M_WINDOW =	(M_DRAWABLE_WINDOW|M_UNDRAWABLE_WINDOW);
 enum M_DRAWABLE =	(M_DRAWABLE_WINDOW|M_DRAWABLE_PIXMAP);
 enum M_UNDRAWABLE =	(M_UNDRAWABLE_WINDOW);
 
+//FIXME: Rework macroses
+enum string OnScreenDrawable(string type) = `
+	(` ~ type ~ ` == DRAWABLE_WINDOW)`;
+
+enum string WindowDrawable(string type) = `
+	((` ~ type ~ ` == DRAWABLE_WINDOW) || (` ~ type ~ ` == UNDRAWABLE_WINDOW))`;
+
 struct _Drawable {
     ubyte type;         /* DRAWABLE_<type> */
     ubyte class_;        /* specific to type */
