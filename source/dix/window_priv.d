@@ -30,12 +30,12 @@ enum string wBackingPixel(string w) = `` ~ wUseDefault!(w, `backingPixel`, `0`) 
 enum string wBoundingShape(string w) = `` ~ wUseDefault!(w, `boundingShape`, `null`) ~ ``;
 enum string wInputShape(string w) = `` ~ wUseDefault!(w, `inputShape`, `null`) ~ ``;
 
-enum string SameBackground(string as, string a, string bs, string b) = `
-    ((` ~ as ~ `) == (` ~ bs ~ `) && ((` ~ as ~ `) == None ||				
-                      (` ~ as ~ `) == ParentRelative ||			
-                      SamePixUnion(` ~ a ~ `,` ~ b ~ `,` ~ as ~ ` == BackgroundPixel)))`;
+// enum string SameBackground(string as, string a, string bs, string b) = `
+//     ((` ~ as ~ `) == (` ~ bs ~ `) && ((` ~ as ~ `) == None ||				
+//                       (` ~ as ~ `) == ParentRelative ||			
+//                       SamePixUnion(` ~ a ~ `,` ~ b ~ `,` ~ as ~ ` == BackgroundPixel)))`;
 
-enum string SameBorder(string as, string a, string bs, string b) = `EqualPixUnion(` ~ as ~ `, ` ~ a ~ `, ` ~ bs ~ `, ` ~ b ~ `)`;
+enum string SameBorder(string as, string a, string bs, string b) = `equalPixUnion(` ~ as ~ `, ` ~ a ~ `, ` ~ bs ~ `, ` ~ b ~ `)`;
 
 /*
  * @brief create a window

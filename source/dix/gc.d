@@ -819,9 +819,9 @@ int CopyGC(GCPtr pgcSrc, GCPtr pgcDst, BITS32 mask)
             break;
         case GCTile:
         {
-            if (mixin(EqualPixUnion!("pgcDst.tileIsPixel",
-                              "pgcDst.tile",
-                              "pgcSrc.tileIsPixel", "pgcSrc.tile"))) {
+            if (equalPixUnion(pgcDst.tileIsPixel,
+                              pgcDst.tile,
+                              pgcSrc.tileIsPixel, pgcSrc.tile)) {
                 break;
             }
             if (!pgcDst.tileIsPixel)

@@ -169,11 +169,13 @@ union PixUnion {
     c_ulong pixel;
 }
 
-enum string SamePixUnion(string a,string b,string isPixel) = `
-    ((` ~ isPixel ~ `) ? (` ~ a ~ `).pixel == (` ~ b ~ `).pixel : (` ~ a ~ `).pixmap == (` ~ b ~ `).pixmap)`;
+bool samePixUnion(PixUnion a, PixUnion b, uint isPixel) {
+    return isPixel ? a.pixel == b.pixel : a.pixmap ==  b.pixmap;
+}
 
-enum string EqualPixUnion(string as, string a, string bs, string b) = `
-    ((` ~ as ~ `) == (` ~ bs ~ `) && (` ~ SamePixUnion! (a, b, as) ~ `))`;
+bool equalPixUnion(uint puType1, PixUnion a, uint puType2, PixUnion b) {
+    return (puType1 == puType2) && samePixUnion(a, b, puType1);
+}
 
 enum string OnScreenDrawable(string type) = `
 	(` ~ type ~ ` == DRAWABLE_WINDOW)`;
