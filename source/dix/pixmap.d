@@ -127,6 +127,17 @@ struct PixmapRec {
     uint usage_hint;        /* see CREATE_PIXMAP_USAGE_* */
 
     PixmapPtr primary_pixmap;    /* pointer to primary copy of pixmap for pixmap sharing */
+
+@nogc nothrow:
+
+    auto getInitRegion(RegionPtr region) {
+        BoxRec box = {
+            x2: cast(short)this.drawable.width,
+            y2: cast(short)this.drawable.height,
+        };
+
+        RegionInit(region, &box, 1);
+    }
 }
 
 alias PixmapPtr = PixmapRec*;
@@ -146,15 +157,6 @@ struct _PixmapDirtyUpdate {
 
 alias PixmapDirtyUpdateRec = _PixmapDirtyUpdate;
 alias PixmapDirtyUpdatePtr = PixmapDirtyUpdateRec*;
-
-pragma(inline, true) void PixmapRegionInit(RegionPtr region, PixmapPtr pixmap)
-{
-    BoxRec box = {
-        x2: cast(short)pixmap.drawable.width,
-        y2: cast(short)pixmap.drawable.height,
-    };
-    RegionInit(region, &box, 1);
-}
 
 /* flags to PaintWindow() */
 enum PW_BACKGROUND = 0;

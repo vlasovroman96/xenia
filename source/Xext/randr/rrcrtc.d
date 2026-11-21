@@ -629,7 +629,7 @@ private Bool rrCheckPixmapBounding(ScreenPtr pScreen, RRCrtcPtr rr_crtc, Rotatio
     PixmapPtr screen_pixmap = pScreen.GetScreenPixmap(pScreen);
     mixin(rrScrPriv!("pScreen"));
 
-    PixmapRegionInit(&root_pixmap_region, screen_pixmap);
+    screen_pixmap.getInitRegion(&root_pixmap_region);
     RegionInit(&total_region, null, 0);
 
     /* have to iterate all the crtcs of the attached gpu primarys

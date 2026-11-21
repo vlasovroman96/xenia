@@ -1041,7 +1041,8 @@ private void redisplay_dirty(ScreenPtr screen, PixmapDirtyUpdatePtr dirty, int* 
 {
     RegionRec pixregion = void;
 
-    PixmapRegionInit(&pixregion, dirty.secondary_dst);
+    dirty.secondary_dst.getInitRegion(&pixregion);
+
     DamageRegionAppend(&dirty.secondary_dst.drawable, &pixregion);
     PixmapSyncDirtyHelper(dirty);
 
