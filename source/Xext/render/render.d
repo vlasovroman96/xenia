@@ -34,7 +34,7 @@ import core.stdc.stdint;
 // //import externs.X11.extensions.renderproto;
 // //import x11.Xfuncproto;
 
-import dix.colormap_priv;
+import dix.colormap;
 import dix.cursor_priv;
 import dix.dix_priv;
 import dix.request_priv;

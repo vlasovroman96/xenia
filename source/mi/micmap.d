@@ -36,7 +36,6 @@ import build.dix_config;
 //import x11.X;
 //import x11.Xproto;
 
-import dix.colormap_priv;
 import mi.mi_priv;
 import os.bug_priv;
 import os.osdep;
@@ -44,7 +43,6 @@ import os.osdep;
 import dix.scrnintstr;
 import mi.micmap;
 import dix.resource;
-import dix.colormap;
 import dix.window;
 
 public import dix.colormap;

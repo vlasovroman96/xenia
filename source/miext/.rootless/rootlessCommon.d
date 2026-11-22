@@ -38,7 +38,7 @@ import dix-config;
 import core.stdc.stddef;             /* For NULL */
 import core.stdc.limits;             /* For CHAR_BIT */
 
-import dix.colormap_priv;
+import dix.colormap;
 import os.mathx_priv;
 
 import rootlessCommon;

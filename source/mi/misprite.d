@@ -39,7 +39,7 @@ import build.dix_config;
 // //import   externs.X11.fonts.font;
 // //import   externs.X11.fonts.fontstruct;
 
-import   dix.colormap_priv;
+import   dix.colormap;
 import   dix.dix_priv;
 import   dix.screen_hooks_priv;
 import   mi.mipointer_priv;

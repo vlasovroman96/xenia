@@ -35,7 +35,6 @@ import build.dix_config;
 
 //import x11.X;
 
-import dix.colormap_priv;
 import fb.fb_priv;
 import mi.mi_priv;
 

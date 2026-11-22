@@ -26,7 +26,6 @@ extern(C): __gshared:
 
 import build.dix_config;
 
-import dix.colormap_priv;
 import dix.colormap;
 
 import mi.mipict;

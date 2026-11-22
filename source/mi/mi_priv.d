@@ -22,7 +22,7 @@ public import dix.scrnintstr;
 public import dix.validate;
 public import dix.window;
 public import mi.miexpose;
-import dix.colormap_priv;
+import dix.colormap;
 
 pragma(inline, true) void SetInstalledmiColormap(ScreenPtr s, ColormapPtr c) {
     dixSetPrivate(&(s).devPrivates, micmapScrPrivateKey, c);

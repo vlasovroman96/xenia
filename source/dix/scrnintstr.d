@@ -56,7 +56,6 @@ public import dix.validate;
 public import dix.privates;
 public import externs.X11.extensions.randr;
 import dix.scrnintstr;
-import dix.colormap_priv;
 
 struct PixmapFormatRec {
     ubyte depth;

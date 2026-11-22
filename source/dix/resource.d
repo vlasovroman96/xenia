@@ -125,7 +125,6 @@ import build.xlibre_server;
 
 //import x11.X;
 
-import dix.colormap_priv;
 import dix.dispatch;
 import dix.dix_priv;
 import dix.dixgrabs_priv;

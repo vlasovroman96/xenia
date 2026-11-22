@@ -55,7 +55,7 @@ import build.dix_config;
 
 import core.stdc.stddef;
 
-import dix.colormap_priv;
+import dix.colormap;
 import dix.screenint_priv;
 
 import dix.window;

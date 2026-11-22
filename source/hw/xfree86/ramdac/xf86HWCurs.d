@@ -6,7 +6,7 @@ import build.xorg_config;
 import core.stdc.string;
 //import x11.X;
 
-import dix.colormap_priv;
+import dix.colormap;
 import randr.randrstr_priv;
 
 import hw.xfree86.os_support.xf86_OSproc;;

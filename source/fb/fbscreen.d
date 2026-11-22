@@ -35,7 +35,7 @@ import fb.fbgc;
 import dix.dixutils;
 import mi.miscrinit;
 import fb.fb;
-import dix.colormap_priv;
+import dix.colormap;
 import dix.dixstruct_priv;
 
 Bool fbCloseScreen(ScreenPtr pScreen)

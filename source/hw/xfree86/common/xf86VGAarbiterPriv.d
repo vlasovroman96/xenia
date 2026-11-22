@@ -41,7 +41,7 @@ public import dix.picturestr;
 import externs.pciaccess;
 import hw.xfree86.common.xf86Helper;
 import hw.xfree86.modes.displaymode;
-import dix.colormap_priv;
+import dix.colormap;
 import dix.picture;
 
 enum string WRAP_SCREEN(string x,string y) = `{pScreenPriv.` ~ x ~ ` = pScreen.` ~ x ~ `; pScreen.` ~ x ~ ` = &` ~ y ~ `;}`;

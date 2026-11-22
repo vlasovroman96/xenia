@@ -22,7 +22,7 @@ import build.xorg_config;
 
 import externs.xcb.xcb;
 
-import dix.colormap_priv;
+import dix.colormap;
 import os.osdep;
 
 import dix.scrnintstr;

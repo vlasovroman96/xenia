@@ -108,7 +108,6 @@ import core.stdc.stddef;
 // //import externs.X11.fonts.libxfont2;
 
 import dix.client_priv;
-import dix.colormap_priv;
 import dix.cursor_priv;
 import dix.dix_priv;
 import dix.extension_priv;

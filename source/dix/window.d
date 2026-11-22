@@ -18,7 +18,7 @@ import core.stdc.config: c_long, c_ulong;
 import build.xlibre_server;
 import region;
 
-import dix.colormap_priv;
+import dix.colormap;
 import dix.cursor_priv;
 import dix.dispatch;
 import dix.dix_priv;

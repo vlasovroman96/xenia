@@ -34,7 +34,7 @@ import core.stdc.config: c_long, c_ulong;
 
 import build.xorg_config;
 
-import dix.colormap_priv;
+import dix.colormap;
 
 import xf86VGAarbiter_priv;
 import xf86VGAarbiterPriv;

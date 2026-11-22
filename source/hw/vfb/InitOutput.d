@@ -40,7 +40,7 @@ import core.stdc.stdio;
 //import x11.Xproto;
 // //import x11.Xos;
 
-import dix.colormap_priv;
+import dix.colormap;
 import dix.dix_priv;
 import dix.screenint_priv;
 import include.extinit;

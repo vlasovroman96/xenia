@@ -38,7 +38,7 @@ public import dix.scrnintstr;
 public import render.glyphstr_priv;
 public import dix.resource;
 public import dix.privates;
-import dix.colormap_priv;
+import dix.colormap;
 import dix.picture;
 
 // public import dix.scrintstr;

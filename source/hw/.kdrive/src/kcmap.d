@@ -26,7 +26,7 @@ extern(C): __gshared:
 import config.kdrive_config;
 import hw.kdrive.src.kdrive;
 
-import dix.colormap_priv;
+import dix.colormap;
 
 /*
  * Put the entire colormap into the DAC

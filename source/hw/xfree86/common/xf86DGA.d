@@ -48,7 +48,6 @@ import core.stdc.string;
 //import x11.Xproto;
 import externs.X11.extensions.xf86dgaproto;
 
-import dix.colormap_priv;
 import dix.dix_priv;
 import dix.eventconvert;
 import dix.exevents_priv;

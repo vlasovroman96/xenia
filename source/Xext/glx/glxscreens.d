@@ -38,7 +38,7 @@ import dix.screen_hooks_priv;
 import core.stdc.string;
 import externs.glxtokens;
 
-import dix.colormap_priv;
+import dix.colormap;
 
 import dix.window;
 import os.os;

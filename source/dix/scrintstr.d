@@ -49,7 +49,7 @@ import dix.scrintstr;
 import dix.pixmap;
 import dix.input;
 import dix.cursor;
-import dix.colormap_priv;
+import dix.colormap;
 
 
 //import x11.X;

@@ -41,7 +41,6 @@ import core.sys.posix.sys.stat;
 import core.sys.posix.fcntl;
 import core.stdc.string;
 
-import dix.colormap_priv;
 import dix.screen_hooks_priv;
 import dix.screenint_priv;
 import dix.colormap;

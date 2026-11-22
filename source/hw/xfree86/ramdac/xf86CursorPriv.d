@@ -7,7 +7,7 @@ public import build.xorg_config;
 public import xf86Cursor;
 public import mi.mipointer;
 import hw.xfree86.modes.displaymode;
-import dix.colormap_priv;
+import dix.colormap;
 
 struct _Xf86CursorScreenRec {
     Bool SWCursor;

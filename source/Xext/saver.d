@@ -41,7 +41,7 @@ import core.stdc.stdio;
 //import x11.Xproto;
 // //import externs.X11.extensions.saverproto;
 
-import dix.colormap_priv;
+import dix.colormap;
 import dix.cursor_priv;
 import dix.dix_priv;
 import dix.dixgrabs_priv;

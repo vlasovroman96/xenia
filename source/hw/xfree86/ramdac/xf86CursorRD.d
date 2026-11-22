@@ -3,7 +3,7 @@ module xf86CursorRD;
 extern(C): __gshared:
 import build.xorg_config;
 
-import dix.colormap_priv;
+import dix.colormap;
 import dix.cursor_priv;
 import dix.screen_hooks_priv;
 import mi.mipointer_priv;
