@@ -78,18 +78,18 @@ void Dispatch();
 // CallbackListPtr RootWindowFinalizeCallback = null;
 // CallbackListPtr PostInitRootWindowCallback = null;
 
-int dix_main(int argc, char** argv, char** envp)
+int dix_main(string[] args)
 {
 
     display = "0";
 
     InitRegions();
 
-    CheckUserParameters(argc, argv, envp);
+    CheckUserParameters(cast(int)args.length, cast(char**)args.ptr);
 
     CheckUserAuthorization();
 
-    ProcessCommandLine(argc, argv);
+    ProcessCommandLine(cast(int)args.length, cast(char**)args.ptr);
 
         ScreenSaverTime = defaultScreenSaverTime;
         ScreenSaverInterval = defaultScreenSaverInterval;
@@ -136,13 +136,13 @@ int dix_main(int argc, char** argv, char** envp)
         dixResetRegistry();
         InitFonts();
         InitCallbackManager();
-        InitOutput(argc, argv);
+        InitOutput(cast(int)args.length, cast(char**)args.ptr);
 
         if (screenInfo.numScreens < 1)
             FatalError("no screens found");
         LogMessageVerb(X_INFO, 1, "Output(s) initialized\n");
 
-        InitExtensions(argc, argv);
+        InitExtensions(cast(int)args.length, cast(char**)args.ptr);
         LogMessageVerb(X_INFO, 1, "Extensions initialized\n");
 
         mixin(DIX_FOR_EACH_GPU_SCREEN!("{
@@ -203,7 +203,7 @@ static if(XINERAMA){
         LogMessageVerb(X_INFO, 1, "Screen(s) initialized\n");
 
         InitCoreDevices();
-        InitInput(argc, argv);
+        InitInput(cast(int)args.length, cast(char**)args.ptr);
         InitAndStartDevices();
         LogMessageVerb(X_INFO, 1, "Input(s) initialized\n");
 

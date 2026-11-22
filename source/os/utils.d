@@ -1313,6 +1313,7 @@ version (Windows) {
     return privsElevated;
 }
 
+extern(C) __gshared char** environ;
 /*
  * CheckUserParameters: check for long command line arguments and long
  * environment variables.  By default, these checks are only done when
@@ -1349,13 +1350,14 @@ alias UnprintableArg = BadCode.UnprintableArg;
 alias InternalError = BadCode.InternalError;
 
 
-void CheckUserParameters(int argc, char** argv, char** envp)
+void CheckUserParameters(int argc, char** argv)
 {
     BadCode bad = NotBad;
     int i = 0, j = void;
     char* a = null;
     bool chk;
 
+    char** envp = environ;
 static if (CHECK_EUID) {
     chk = true;
 }
