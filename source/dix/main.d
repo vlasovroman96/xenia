@@ -259,7 +259,7 @@ static if(XINERAMA){
 } /* XINERAMA */
 
         mixin(DIX_FOR_EACH_SCREEN!("{
-            InitRootWindow(walkScreen.root);
+            walkScreen.root.initRootWindow();
             CallCallbacks(&PostInitRootWindowCallback, walkScreen);
         }"));
 

@@ -352,6 +352,43 @@ struct WindowRec {
 
         FreeScratchGC(pGC);
     }
+
+    void initRootWindow() {
+        ScreenPtr pScreen = this.drawable.pScreen;
+        int backFlag = cast(int)(CWBorderPixel | CWCursor | CWBackingStore);
+
+        if (!(*pScreen.CreateWindow) (&this))
+            return;
+
+        dixScreenRaiseWindowPosition(&this, 0, 0);
+
+        this.cursorIsNone = False;
+        this.optional.cursor = RefCursor(rootCursor);
+
+        if (party_like_its_1989) {
+            this.makeRootTile();
+            backFlag |= CWBackPixmap;
+        }
+        else if (pScreen.canDoBGNoneRoot && bgNoneRoot) {
+            this.backgroundState = XaceBackgroundNoneState(this);
+            this.background.pixel = pScreen.whitePixel;
+            backFlag |= CWBackPixmap;
+        }
+        else {
+            this.backgroundState = BackgroundPixel;
+            if (whiteRoot)
+                this.background.pixel = pScreen.whitePixel;
+            else
+                this.background.pixel = pScreen.blackPixel;
+            backFlag |= CWBackPixel;
+        }
+
+        this.backingStore = NotUseful;
+        /* We SHOULD check for an error value here XXX */
+        (*pScreen.ChangeWindowAttributes) (&this, backFlag);
+
+        MapWindow(&this, serverClient);
+    }
 }
 
 enum string SameBackground(string as, string a, string bs, string b) = `
@@ -417,44 +454,6 @@ enum InputOnlyLegalMask = (CWWinGravity | CWEventMask |
 			      CWDontPropagate | CWOverrideRedirect | CWCursor );
 
 ///------------------------------------------------------------------------------------
-
-void InitRootWindow(WindowPtr pWin)
-{
-    ScreenPtr pScreen = pWin.drawable.pScreen;
-    int backFlag = cast(int)(CWBorderPixel | CWCursor | CWBackingStore);
-
-    if (!(*pScreen.CreateWindow) (pWin))
-        return;
-
-    dixScreenRaiseWindowPosition(pWin, 0, 0);
-
-    pWin.cursorIsNone = False;
-    pWin.optional.cursor = RefCursor(rootCursor);
-
-    if (party_like_its_1989) {
-        pWin.makeRootTile();
-        backFlag |= CWBackPixmap;
-    }
-    else if (pScreen.canDoBGNoneRoot && bgNoneRoot) {
-        pWin.backgroundState = XaceBackgroundNoneState(pWin);
-        pWin.background.pixel = pScreen.whitePixel;
-        backFlag |= CWBackPixmap;
-    }
-    else {
-        pWin.backgroundState = BackgroundPixel;
-        if (whiteRoot)
-            pWin.background.pixel = pScreen.whitePixel;
-        else
-            pWin.background.pixel = pScreen.blackPixel;
-        backFlag |= CWBackPixel;
-    }
-
-    pWin.backingStore = NotUseful;
-    /* We SHOULD check for an error value here XXX */
-    (*pScreen.ChangeWindowAttributes) (pWin, backFlag);
-
-    MapWindow(pWin, serverClient);
-}
 
 /* Set the region to the intersection of the rectangle and the
  * window's winSize.  The window is typically the parent of the
