@@ -23,6 +23,7 @@ import os.client_priv;
 import common.list;
 import dix.dixstruct_priv;
 import dix.input;
+import dix.saveSet;
 
 struct NewClientInfoRec {
     ClientPtr client;
@@ -41,19 +42,6 @@ alias ClientStateRetained = ClientState.ClientStateRetained;
 alias ClientStateGone = ClientState.ClientStateGone;
 
 alias ReplySwapPtr = void function(ClientPtr, int, void*);
-
-
-struct SaveSetElt {
-    WindowRec* windowPtr;
-    Bool toRoot;
-    Bool map;
-}
-enum string SaveSetWindow(string ss) = `((` ~ ss ~ `).windowPtr)`;
-enum string SaveSetToRoot(string ss) = `((` ~ ss ~ `).toRoot)`;
-enum string SaveSetShouldMap(string ss) = `((` ~ ss ~ `).map)`;
-enum string SaveSetAssignWindow(string ss,string w) = `((` ~ ss ~ `).windowPtr = (` ~ w ~ `));`;
-enum string SaveSetAssignToRoot(string ss,string tr) = `((` ~ ss ~ `).toRoot = (` ~ tr ~ `));`;
-enum string SaveSetAssignMap(string ss,string m) = `((` ~ ss ~ `).map = (` ~ m ~ `));`;
 
 struct _Client {
     void* requestBuffer;
@@ -77,7 +65,7 @@ struct _Client {
     int sequence;
     int ignoreCount;            /* count for Attend/IgnoreClient */
     uint numSaved;          /* amount of windows in saveSet */
-    SaveSetElt* saveSet;
+    SaveSetRec* saveSet;
     @nogc nothrow int function(ClientPtr)* requestVector;
     CARD32 req_len;             /* length of current request */
     uint replyBytesRemaining;

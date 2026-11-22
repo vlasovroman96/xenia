@@ -2612,8 +2612,8 @@ void HandleSaveSet(ClientPtr client)
     WindowPtr pParent = void, pWin = void;
 
     for (uint j = 0; j < client.numSaved; j++) {
-        pWin = mixin(SaveSetWindow!("client.saveSet[j]"));
-        if (mixin(SaveSetToRoot!("client.saveSet[j]")))
+        pWin = client.saveSet[j].windowPtr;
+        if (client.saveSet[j].toRoot)
             pParent = pWin.drawable.pScreen.root;
         else
         {
@@ -2624,7 +2624,7 @@ void HandleSaveSet(ClientPtr client)
         if (pParent) {
             if (pParent != pWin.parent) {
                 /* unmap first so that ReparentWindow doesn't remap */
-                if (!mixin(SaveSetShouldMap!("client.saveSet[j]")))
+                if (!client.saveSet[j].toRoot)
                     UnmapWindow(pWin, False);
                 ReparentWindow(pWin, pParent,
                                pWin.drawable.x - pWin.borderWidth-
@@ -2634,7 +2634,7 @@ void HandleSaveSet(ClientPtr client)
                 if (!pWin.realized && pWin.mapped)
                     pWin.mapped = False;
             }
-            if (mixin(SaveSetShouldMap!("client.saveSet[j]")))
+            if (client.saveSet[j].map)
                 MapWindow(pWin, client);
         }
     }

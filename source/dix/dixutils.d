@@ -103,7 +103,7 @@ import dix.scrnintstr;
 import Xext.xace;
 import externs.attrs;
 import dix.timestamp;
-
+import dix.saveSet;
 /*
  * CompareTimeStamps returns -1, 0, or +1 depending on if the first
  * argument is less than, equal to or greater than the second argument.
@@ -246,28 +246,26 @@ int dixLookupResourceOwner(ClientPtr* result, XID id, ClientPtr client, Mask acc
 int AlterSaveSetForClient(ClientPtr client, WindowPtr pWin, uint mode, Bool toRoot, Bool map)
 {
     uint numnow = void;
-    SaveSetElt* pTmp = null;
+    SaveSetRec* pTmp = null;
     int j = void;
 
     numnow = client.numSaved;
     j = 0;
     if (numnow) {
         pTmp = client.saveSet;
-        while ((j < numnow) && (mixin(SaveSetWindow!("pTmp[j]")) != cast(void*) pWin))
+        while ((j < numnow) && (pTmp[j].windowPtr != cast(void*) pWin))
             j++;
     }
     if (mode == SetModeInsert) {
         if (j < numnow)         /* duplicate */
             return Success;
         numnow++;
-        pTmp = cast(SaveSetElt*) realloc(client.saveSet, ((*pTmp).sizeof * numnow));
+        pTmp = cast(SaveSetRec*) realloc(client.saveSet, ((*pTmp).sizeof * numnow));
         if (!pTmp)
             return BadAlloc;
         client.saveSet = pTmp;
         client.numSaved = numnow;
-        mixin(SaveSetAssignWindow!("client.saveSet[numnow - 1]", "pWin"));
-        mixin(SaveSetAssignToRoot!("client.saveSet[numnow - 1]", "toRoot"));
-        mixin(SaveSetAssignMap!("client.saveSet[numnow - 1]", "map"));
+        client.saveSet[numnow -1].set(pWin, toRoot, map);
         return Success;
     }
     else if ((mode == SetModeDelete) && (j < numnow)) {
@@ -278,13 +276,13 @@ int AlterSaveSetForClient(ClientPtr client, WindowPtr pWin, uint mode, Bool toRo
         numnow--;
         if (numnow) {
             pTmp =
-                cast(SaveSetElt*) realloc(client.saveSet, ((*pTmp).sizeof * numnow));
+                cast(SaveSetRec*) realloc(client.saveSet, ((*pTmp).sizeof * numnow));
             if (pTmp)
                 client.saveSet = pTmp;
         }
         else {
             free(client.saveSet);
-            client.saveSet = cast(SaveSetElt*) null;
+            client.saveSet = cast(SaveSetRec*) null;
         }
         client.numSaved = numnow;
         return Success;
