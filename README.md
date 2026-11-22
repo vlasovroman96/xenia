@@ -1,6 +1,7 @@
 # Xenia
 
 An ongoing effort to port the XLibre/Xorg X server from C to D.
+<img width="750" height="350" alt="xenia_full750" src="https://github.com/user-attachments/assets/a3191f51-6cfb-45f2-b303-06cd19cf101a" />
 
 <img width="1920" height="1080" alt="Снимок экрана_2026-10-14_10-36-50" src="https://github.com/user-attachments/assets/20688709-7e8e-4c2b-9fc0-4140bb8d0362" />
 
