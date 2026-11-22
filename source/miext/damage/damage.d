@@ -52,6 +52,7 @@ import dix.screen_hooks;
 import dix.window;
 import dix.picture;
 import common.math;
+import dix.windowTree;
 
 
 enum string wrap(string priv, string real_, string mem, string func) = `{

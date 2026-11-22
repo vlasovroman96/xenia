@@ -84,6 +84,7 @@ import common.math;
 import common.swap;
 import dix.devCursor;
 import dix.windowOpt;
+import dix.windowTree;
 
 enum BackgroundPixel =	    2L;
 enum BackgroundPixmap =    3L;
@@ -302,7 +303,7 @@ enum WINDOW_NAME_BUF_LEN = 512;
     return null;
 }
 
-private void log_window_info(WindowPtr pWin, int depth)
+void log_window_info(WindowPtr pWin, int depth)
 {
     const(char)* win_name = void, visibility = void;
     BoxPtr rects = void;
@@ -354,187 +355,6 @@ private void log_window_info(WindowPtr pWin, int depth)
     }
 
     ErrorF("\n");
-}
-
-private const(char)* grab_grabtype_to_text(GrabPtr pGrab)
-{
-    switch (pGrab.grabtype) {
-        case XI2:
-            return "xi2";
-        case CORE:
-            return "core";
-        default:
-            return "xi1";
-    }
-}
-
-private const(char)* grab_type_to_text(GrabPtr pGrab)
-{
-    switch (pGrab.type) {
-        case ButtonPress:
-            return "ButtonPress";
-        case KeyPress:
-            return "KeyPress";
-        case XI_Enter:
-            return "XI_Enter";
-        case XI_FocusIn:
-            return "XI_FocusIn";
-        default:
-            return "unknown?!";
-    }
-}
-
-private void log_grab_info(void* value, XID id, void* cdata)
-{
-    GrabPtr pGrab = cast(GrabPtr)value;
-
-    ErrorF("  grab 0x%lx (%s), type '%s' on window 0x%lx\n",
-           cast(c_ulong) pGrab.resource,
-           grab_grabtype_to_text(pGrab),
-           grab_type_to_text(pGrab),
-           cast(c_ulong) pGrab.window.drawable.id);
-    ErrorF("    detail %d (mask %lu), modifiersDetail %d (mask %lu)\n",
-           pGrab.detail.exact,
-           pGrab.detail.pMask ? cast(c_ulong) *(pGrab.detail.pMask) : 0,
-           pGrab.modifiersDetail.exact,
-           pGrab.modifiersDetail.pMask ?
-           cast(c_ulong) *(pGrab.modifiersDetail.pMask) :
-           cast(c_ulong) 0);
-    ErrorF("    device '%s' (%d), modifierDevice '%s' (%d)\n",
-           pGrab.device.name, pGrab.device.id,
-           pGrab.modifierDevice.name, pGrab.modifierDevice.id);
-    if (pGrab.grabtype == CORE) {
-        ErrorF("    core event mask 0x%lx\n",
-               cast(c_ulong) pGrab.eventMask);
-    }
-    else if (pGrab.grabtype == XI) {
-        ErrorF("    xi1 event mask 0x%lx\n",
-               cast(c_ulong) pGrab.eventMask);
-    }
-    else if (pGrab.grabtype == XI2) {
-        for (int i = 0; i < xi2mask_num_masks(pGrab.xi2mask); i++) {
-            const(ubyte)* mask = void;
-            int print = void;
-
-            print = 0;
-            for (int j = 0; j < XI2MASKSIZE; j++) {
-                mask = xi2mask_get_one_mask(pGrab.xi2mask, i);
-                if (mask[j]) {
-                    print = 1;
-                    break;
-                }
-            }
-            if (!print)
-                continue;
-            ErrorF("      xi2 event mask 0x");
-            for (int j = 0; j < xi2mask_mask_size(pGrab.xi2mask); j++)
-                ErrorF("%x ", mask[j]);
-            ErrorF("\n");
-        }
-    }
-    ErrorF("    owner-events %s, kb %d ptr %d, confine 0x%lx, cursor 0x%lx\n",
-           pGrab.ownerEvents ? "true".ptr : "false".ptr,
-           pGrab.keyboardMode, pGrab.pointerMode,
-           pGrab.confineTo ? cast(c_ulong) pGrab.confineTo.drawable.id : 0,
-           pGrab.cursor ? cast(c_ulong) pGrab.cursor.id : 0);
-}
-
-void PrintPassiveGrabs()
-{
-    LocalClientCredRec* lcc = void;
-    pid_t clientpid = void;
-    const(char)* cmdname = void;
-    const(char)* cmdargs = void;
-
-    ErrorF("Printing all currently registered grabs\n");
-
-    for (int i = 1; i < currentMaxClients; i++) {
-        if (!clients[i] || clients[i].clientState != ClientStateRunning)
-            continue;
-
-        clientpid = GetClientPid(clients[i]);
-        cmdname = GetClientCmdName(clients[i]);
-        cmdargs = GetClientCmdArgs(clients[i]);
-        if ((clientpid > 0) && (cmdname !is null)) {
-            ErrorF("  Printing all registered grabs of client pid %ld %s %s\n",
-                   cast(c_long) clientpid, cmdname, cmdargs ? cmdargs : "");
-        } else {
-            if (GetLocalClientCreds(clients[i], &lcc) == -1) {
-                ErrorF("  GetLocalClientCreds() failed\n");
-                continue;
-            }
-            ErrorF("  Printing all registered grabs of client pid %ld uid %ld gid %ld\n",
-                   (lcc.fieldsSet & LCC_PID_SET) ? cast(c_long) lcc.pid : 0,
-                   (lcc.fieldsSet & LCC_UID_SET) ? cast(c_long) lcc.euid : 0,
-                   (lcc.fieldsSet & LCC_GID_SET) ? cast(c_long) lcc.egid : 0);
-            FreeLocalClientCreds(lcc);
-        }
-
-        FindClientResourcesByType(clients[i], X11_RESTYPE_PASSIVEGRAB, &log_grab_info, null);
-    }
-    ErrorF("End list of registered passive grabs\n");
-}
-
-void PrintWindowTree()
-{
-    mixin(DIX_FOR_EACH_SCREEN!q{
-        ErrorF("[dix] Dumping windows for screen %d (pixmap %x):\n", walkScreenIdx,
-               cast(uint) walkScreen.GetScreenPixmap(walkScreen).drawable.id);
-        WindowPtr pWin = walkScreen.root;
-        int depth = 1;
-        while (pWin) {
-            log_window_info(pWin, depth);
-            if (pWin.firstChild) {
-                pWin = pWin.firstChild;
-                depth++;
-                continue;
-            }
-            while (pWin && !pWin.nextSib) {
-                pWin = pWin.parent;
-                depth--;
-            }
-            if (!pWin)
-                break;
-            pWin = pWin.nextSib;
-        }
-    });
-}
-
-int TraverseTree(WindowPtr pWin, VisitWindowProc func, void* data)
-{
-    int result = void;
-    WindowPtr pChild = void;
-
-    if (((pChild = pWin) is null))
-        return WinTreeWalking.NoMatch;
-    while (1) {
-        result = (*func) (pChild, data);
-        if (result == WinTreeWalking.Stop)
-            return WinTreeWalking.Stop;
-        if ((result == WinTreeWalking.ToChild) && pChild.firstChild) {
-            pChild = pChild.firstChild;
-            continue;
-        }
-        while (!pChild.nextSib && (pChild != pWin))
-            pChild = pChild.parent;
-        if (pChild == pWin)
-            break;
-        pChild = pChild.nextSib;
-    }
-    return WinTreeWalking.NoMatch;
-}
-
-/*****
- * WalkTree
- *   Walk the window tree, for SCREEN, performing FUNC(pWin, data) on
- *   each window.  If FUNC returns WinTreeWalking.ToChild, traverse the children,
- *   if it returns WinTreeWalking.DontWalkChild, don't.  If it returns WinTreeWalking.Stop,
- *   exit WalkTree.  Does depth-first traverse.
- *****/
-
-int WalkTree(ScreenPtr pScreen, VisitWindowProc func, void* data)
-{
-    return (TraverseTree(pScreen.root, func, data));
 }
 
 /* hack to force no backing store */
@@ -710,7 +530,7 @@ void InitRootWindow(WindowPtr pWin)
     int backFlag = cast(int)(CWBorderPixel | CWCursor | CWBackingStore);
 
     if (!(*pScreen.CreateWindow) (pWin))
-        return;                 /* XXX */
+        return;
 
     dixScreenRaiseWindowPosition(pWin, 0, 0);
 

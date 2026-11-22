@@ -65,6 +65,8 @@ import dix.dixutils;
 import dix.window;
 import dix.picture;
 import dix.dispatch;
+import dix.windowTree;
+
 
 // version (COMPOSITE_DEBUG) {
 // private int compCheckWindow(WindowPtr pWin, void* data)

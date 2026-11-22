@@ -34,6 +34,7 @@ import externs.X11.extensions.presenttokens;
 import os.log;
 import Xext.panoramiXsrv;
 import dix.window;
+import dix.windowTree;
 
 
 // int present_request;

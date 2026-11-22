@@ -51,6 +51,7 @@ public import dix.colormap;
 public import dix.privates;
 public import dix.scrintstr;
 public import mi.micmap;
+import dix.windowTree;
 
 DevPrivateKeyRec micmapScrPrivateKeyRec;
 

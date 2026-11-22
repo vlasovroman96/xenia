@@ -78,6 +78,7 @@ import dix.resource;
 public import hw.xfree86.common.xvdix;
 public import hw.xfree86.common.xf86str;
 import xf86Bus;
+import dix.windowTree;
 
 enum VIDEO_OVERLAID_IMAGES =			0x00000004;
 enum VIDEO_OVERLAID_STILLS =			0x00000008;

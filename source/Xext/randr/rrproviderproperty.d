@@ -53,6 +53,7 @@ import common.math;
 import common.bytes;
 import common.swap;
 import dix.dispatch;
+import dix.windowTree;
 
 private int DeliverPropertyEvent(WindowPtr pWin, void* value)
 {

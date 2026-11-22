@@ -65,6 +65,9 @@ import dix.events;
 import externs.gnu;
 import dix.devices;
 import dix.inpututils;
+import dix.windowTree;
+import grabs;
+
 
 
 enum EXTENSION_EVENT_BASE = 64;

@@ -90,6 +90,7 @@ import os.log;
 import dix.inputstr;
 import dix.events;
 import dix.window;
+import dix.windowTree;
 
 
 alias gid_t = core.sys.posix.sys.types.gid_t;

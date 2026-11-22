@@ -77,6 +77,7 @@ import os.osinit;
 import std.conv;
 import dix.events;
 import dix.window;
+import dix.windowTree;
 
 enum REDMAP = 0;
 enum GREENMAP = 1;

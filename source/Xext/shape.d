@@ -62,6 +62,7 @@ import dix.extension;
 import dix.events;
 import dix.screen_hooks;
 import common.swap;
+import dix.windowTree;
 
 
 Bool noShapeExtension = False;

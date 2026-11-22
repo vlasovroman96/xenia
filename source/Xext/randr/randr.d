@@ -56,6 +56,7 @@ public import dix.extension;
 public import common.servermd;
 public import randr.rrtransform;
 import dix.timestamp;
+import dix.windowTree;
 
 //public import externs.X11.extensions._randr;
 public import externs.X11.extensions.randrproto;

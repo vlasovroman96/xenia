@@ -32,7 +32,7 @@ alias _GrabParameters = GrabParameters;
  *
  * @param dev the device to act on
  */
-void PrintDeviceGrabInfo(DeviceIntPtr dev);
+// void PrintDeviceGrabInfo(DeviceIntPtr dev);
 
 /**
  * @brief Forcefully remove _all_ device grabs
@@ -42,7 +42,7 @@ void PrintDeviceGrabInfo(DeviceIntPtr dev);
  *
  * @param kill_client True if clients holding a grab should be killed
  */
-void UngrabAllDevices(Bool kill_client);
+// void UngrabAllDevices(Bool kill_client);
 
 /**
  * @brief Allocate new grab, optionally copy from existing

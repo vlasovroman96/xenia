@@ -28,6 +28,7 @@ import dix.events;
 import externs.X11.extensions.shapeconst;
 import mi.mivaltree;
 import dix.window;
+import dix.windowTree;
 
 alias miOverlayTransFunc = void function(ScreenPtr, int, BoxPtr);
 alias miOverlayInOverlayFunc = Bool function(WindowPtr);
