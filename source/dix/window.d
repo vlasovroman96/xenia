@@ -313,6 +313,7 @@ struct WindowRec {
         return &this;
     }
 
+    //FIXME: Where do you must go???
     void makeRootTile() {
         ScreenPtr pScreen = this.drawable.pScreen;
         GCPtr pGC = void;

@@ -734,6 +734,7 @@ alias ScreenPtr = _Screen*;
  *    Makes a window at initialization time for specified screen
  *****/
 
+//TODO: Must be splitted
 Bool CreateRootWindow(ScreenPtr pScreen)
 {
     WindowPtr pWin = void;
