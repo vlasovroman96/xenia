@@ -192,6 +192,13 @@ struct WindowRec {
     alias getBackingPixel = useDefault!(`backingPixel`, 0);
     alias getBoundingShape = useDefault!(`boundingShape`, null);
     alias getInputShape = useDefault!(`inputShape`, null);
+
+    @property{
+        auto RedirectSend() => (this.eventMask | this.getOtherEventMasks()) & SubstructureRedirectMask;
+        auto SubSend() => (this.eventMask | this.getOtherEventMasks()) & SubstructureNotifyMask;
+        auto StrSend() => (this.eventMask | this.getOtherEventMasks()) & StructureNotifyMask;
+        auto SubStrSend() => this.StrSend || this.parent.SubSend;
+    }
 }
 
 enum string SameBackground(string as, string a, string bs, string b) = `
@@ -267,27 +274,7 @@ private const(ubyte)[4] _back_msb = [ 0X11, 0x44, 0x22, 0x88 ];
 enum InputOnlyLegalMask = (CWWinGravity | CWEventMask | 
 			      CWDontPropagate | CWOverrideRedirect | CWCursor );
 
-enum string RedirectSend(string pWin) = `
-    ((` ~ pWin ~ `.eventMask| `~pWin~`.getOtherEventMasks()) & SubstructureRedirectMask)`;
-
-// enum string SubSend(string pWin) = `
-//     ((` ~ pWin ~ `.eventMask|"~pWin~".getOtherEventMasks() & SubstructureNotifyMask))`;
-
-import x11.X;
-    enum string SubSend(string pWin) = `
-    ((`~pWin~`.eventMask| `~pWin~`.getOtherEventMasks()) & SubstructureNotifyMask)`;
-pragma(msg, typeof(SubstructureRedirectMask).stringof);
-pragma(msg, __traits(identifier, SubstructureRedirectMask));
-
-pragma(msg, __traits(compiles, cast(Mask)SubstructureNotifyMask));
-pragma(msg, __traits(compiles, cast(Mask)StructureNotifyMask));
-pragma(msg, __traits(compiles, cast(Mask)SubstructureRedirectMask));
-
-
-enum string StrSend(string pWin) = `
-    ((` ~ pWin ~ `.eventMask|`~pWin~`.getOtherEventMasks()) & StructureNotifyMask)`;
-
-enum string SubStrSend(string pWin,string pParent) = `(` ~ StrSend!(pWin) ~ ` || ` ~ SubSend!(pParent) ~ `)`;
+///------------------------------------------------------------------------------------
 
 private const(char)* overlay_win_name = "<composite overlay>";
 
@@ -981,9 +968,7 @@ WindowPtr dixCreateWindow(Window wid, WindowPtr pParent, int x, int y, uint w, u
         return NullWindow;
     }
 
-    bool m = cast(bool)mixin(SubSend!(`pParent`)); 
-    // pragma(msg, SubSend!("pParent"));
-    // bool m;
+    bool m = cast(bool)pParent.SubSend; 
 
     if (m) {
         xEvent event;
@@ -1076,7 +1061,7 @@ private void CrushTree(WindowPtr pWin)
 
         while (1) {
             WindowPtr pParent = pChild.parent;
-            if (mixin(SubStrSend!(`pChild`, `pParent`))) {
+            if(pChild.SubStrSend) {
                 xEvent event;
                 event.u.u.type = DestroyNotify ;
                 event.u.destroyNotify.window = cast(uint)pChild.drawable.id;
@@ -1117,7 +1102,7 @@ int DeleteWindow(void* value, XID wid)
     CrushTree(pWin);
 
     pParent = pWin.parent;
-    if (wid && pParent && mixin(SubStrSend!(`pWin`, `pParent`))) {
+    if (wid && pParent && pWin.SubStrSend) {
         xEvent event;
         event.u.u.type = DestroyNotify ;
         event.u.destroyNotify.window = cast(uint)pWin.drawable.id;
@@ -2304,7 +2289,7 @@ enum REBORDER_WIN =   3;
         pSib = pWin.nextSib;
 
     // if(true) {
-    if ((!pWin.overrideRedirect) && (mixin(RedirectSend!(`pParent`)))) {
+    if ((!pWin.overrideRedirect) && pParent.RedirectSend) {
         xEvent event;
             event.u.configureRequest.window = cast(uint)pWin.drawable.id,
             event.u.configureRequest.sibling = (mask & CWSibling) ? cast(uint)sibwid : cast(uint)None,
@@ -2394,7 +2379,7 @@ version (ROOTLESS) {
         }
     }
 
-    if (mixin(SubStrSend!(`pWin`, `pParent`))) {
+    if (pWin.SubStrSend) {
         // xEvent event = {
             // u:configureNotify:window: cast(uint)pWin.drawable.id,
         //     u:configureNotify:aboveSibling: pSib ? pSib.drawable.id : None,
@@ -2507,7 +2492,7 @@ int CirculateWindow(WindowPtr pParent, int direction, ClientPtr client)
                               PlaceOnTop : PlaceOnBottom;
     // );
 
-    if (mixin(RedirectSend!(`pParent`))) {
+    if (pParent.RedirectSend) {
         event.u.u.type = CirculateRequest;
         if (MaybeDeliverEventToClient(pParent, &event,
                                       SubstructureRedirectMask, client))
@@ -2704,12 +2689,12 @@ int MapWindow(WindowPtr pWin, ClientPtr client)
     if ((pParent = pWin.parent) !is null) {
         Bool anyMarked = void;
 
-        if ((!pWin.overrideRedirect) && (mixin(RedirectSend!(`pParent`))))
+        if ((!pWin.overrideRedirect) && pParent.RedirectSend)
             if (MaybeDeliverMapRequest(pWin, pParent, client))
                 return Success;
 
         pWin.mapped = True;
-        if (mixin(SubStrSend!(`pWin`, `pParent`)))
+        if (pWin.SubStrSend)
             DeliverMapNotify(pWin);
 
         if (!pParent.realized)
@@ -2765,8 +2750,8 @@ void MapSubwindows(WindowPtr pParent, ClientPtr client)
     WindowPtr pLayerWin = void;
 
     pScreen = pParent.drawable.pScreen;
-    parentRedirect = mixin(RedirectSend!(`pParent`));
-    parentNotify = mixin(SubSend!(`pParent`));
+    parentRedirect = cast(uint)pParent.RedirectSend;
+    parentNotify = cast(uint)pParent.SubSend;
     anyMarked = False;
     for (WindowPtr pWin = pParent.firstChild; pWin; pWin = pWin.nextSib) {
         if (!pWin.mapped) {
@@ -2775,7 +2760,7 @@ void MapSubwindows(WindowPtr pParent, ClientPtr client)
                     continue;
 
             pWin.mapped = True;
-            if (parentNotify || mixin(StrSend!(`pWin`)))
+            if (parentNotify || pWin.StrSend)
                 DeliverMapNotify(pWin);
 
             if (!pFirstMapped)
@@ -2877,7 +2862,7 @@ int UnmapWindow(WindowPtr pWin, Bool fromConfigure)
 
     if ((!pWin.mapped) || (((pParent = pWin.parent) is null)))
         return Success;
-    if (mixin(SubStrSend!(`pWin`, `pParent`)))
+    if (pWin.SubStrSend)
         DeliverUnmapNotify(pWin, fromConfigure);
     if (wasViewable && !fromConfigure) {
         pWin.valdata = UnmapValData;
@@ -2918,7 +2903,7 @@ void UnmapSubwindows(WindowPtr pWin)
 
     if (!pWin.firstChild)
         return;
-    parentNotify = mixin(SubSend!(`pWin`));
+    parentNotify = cast(uint)pWin.SubSend;
     pHead = RealChildHead(pWin);
 
     if (wasViewable)
@@ -2926,7 +2911,7 @@ void UnmapSubwindows(WindowPtr pWin)
 
     for (WindowPtr pChild = pWin.lastChild; pChild != pHead; pChild = pChild.prevSib) {
         if (pChild.mapped) {
-            if (parentNotify || mixin(StrSend!(`pChild`)))
+            if (parentNotify || pChild.StrSend)
                 DeliverUnmapNotify(pChild, xFalse);
             if (pChild.viewable) {
                 pChild.valdata = UnmapValData;
