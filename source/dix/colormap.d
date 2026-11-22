@@ -110,9 +110,15 @@ struct SharedColor {
     SharedColorChannel* red, green, blue;
 }
 
-struct SimpleColor {
-    ushort red, green, blue;
-}
+/* SimpleColor -- a local color for a PseudoColor cell. DirectColor maps always
+ * use the first value (called red) in the structure.  What channel they
+ * are really talking about depends on which map they are in. */
+// Xenia v0.0.8 - Now its alias for xrgb from X11 proto;
+// struct SimpleColor {
+//     ushort red, green, blue;
+// }
+
+alias SimpleColor = x11.Xproto.xrgb;
 
 union ColorUnion {
     SimpleColor local;
@@ -156,41 +162,6 @@ struct ColormapRec {
 alias ColormapPtr = ColormapRec*;
 
 alias ColorCompareProcPtr = int function(EntryPtr, xrgb*);
-/* SimpleColor -- a local color for a PseudoColor cell. DirectColor maps always
- * use the first value (called red) in the structure.  What channel they
- * are really talking about depends on which map they are in. */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 enum string NUMRED(string vis) = `((` ~ vis ~ `.redMask >> ` ~ vis ~ `.offsetRed) + 1)`;
 enum string NUMGREEN(string vis) = `((` ~ vis ~ `.greenMask >> ` ~ vis ~ `.offsetGreen) + 1)`;
