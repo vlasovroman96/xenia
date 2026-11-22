@@ -22,14 +22,13 @@ extern(C): __gshared:
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
-alias DamagePtr = _damage*;
  
 public import dix.gc;
 public import dix.privates;
 public import dix.picturestr;
 import dix.pixmap;
 
-struct _damage {
+struct DamageRec {
     DamagePtr pNext;
     DamagePtr pNextWin;
     RegionRec damage;
@@ -47,6 +46,8 @@ struct _damage {
     RegionRec pendingDamage;    /* will be flushed post submission at the latest */
     ScreenPtr pScreen;
 }
+alias DamagePtr = DamageRec*;
+
 
 struct _damageScreenFuncs {
     DamageScreenCreateFunc Create;
@@ -64,17 +65,12 @@ import dix.damage;
 // struct _Damage;
 
 enum DamageReportLevel : ubyte {
-    DamageReportRawRegion,
-    DamageReportDeltaRegion,
-    DamageReportBoundingBox,
-    DamageReportNonEmpty,
-    DamageReportNone
+    RawRegion,
+    DeltaRegion,
+    BoundingBox,
+    NonEmpty,
+    None
 }
-alias DamageReportRawRegion = DamageReportLevel.DamageReportRawRegion;
-alias DamageReportDeltaRegion = DamageReportLevel.DamageReportDeltaRegion;
-alias DamageReportBoundingBox = DamageReportLevel.DamageReportBoundingBox;
-alias DamageReportNonEmpty = DamageReportLevel.DamageReportNonEmpty;
-alias DamageReportNone = DamageReportLevel.DamageReportNone;
 
 // struct _Region;
 // alias RegionPtr = _Region*;
@@ -87,8 +83,6 @@ alias DamageScreenCreateFunc = void function(DamagePtr);
 alias DamageScreenRegisterFunc = void function(DrawablePtr, DamagePtr);
 alias DamageScreenUnregisterFunc = void function(DrawablePtr, DamagePtr);
 alias DamageScreenDestroyFunc = void function(DamagePtr);
-
-alias DamageRec = _damage;
 
 struct _damageScrPriv {
     int internalLevel;
