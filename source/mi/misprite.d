@@ -287,7 +287,7 @@ bool miSpriteInitialize(ScreenPtr pScreen, miPointerScreenFuncPtr screenFuncs)
 
     pScreenPriv.pDamage = DamageCreate(&miSpriteReportDamage,
                                         null,
-                                        DamageReportRawRegion,
+                                        DamageReportLevel.RawRegion,
                                         True, pScreen, pScreen);
 
     if (!miPointerInitialize(pScreen, &miSpritePointerFuncs, screenFuncs, True)) {

@@ -226,7 +226,7 @@ void exaPrepareAccessReg_mixed(PixmapPtr pPixmap, int index, RegionPtr pReg)
 
             /* Set up damage tracking */
             pExaPixmap.pDamage = DamageCreate(&exaDamageReport_mixed, null,
-                                               DamageReportNonEmpty, True,
+                                               DamageReportLevel.NonEmpty, True,
                                                pPixmap.drawable.pScreen,
                                                pPixmap);
 

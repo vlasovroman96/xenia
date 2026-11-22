@@ -134,14 +134,14 @@ private Bool ShadowCreateRootWindow(WindowPtr pWin)
 
         if (pPriv.preRefresh) {
             damage = DamageCreate(&shadowfbReportPre, null,
-                                  DamageReportRawRegion,
+                                  DamageReportLevel.RawRegion,
                                   True, pScreen, pPriv);
             DamageRegister(&pWin.drawable, damage);
         }
 
         if (pPriv.postRefresh) {
             damage = DamageCreate(&shadowfbReportPost, null,
-                                  DamageReportRawRegion,
+                                  DamageReportLevel.RawRegion,
                                   True, pScreen, pPriv);
             DamageSetReportAfterOp(damage, True);
             DamageRegister(&pWin.drawable, damage);

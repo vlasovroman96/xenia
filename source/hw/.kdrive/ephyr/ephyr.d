@@ -444,7 +444,7 @@ Bool ephyrSetInternalDamage(ScreenPtr pScreen)
 
     scrpriv.pDamage = DamageCreate(cast(DamageReportFunc) 0,
                                     cast(DamageDestroyFunc) 0,
-                                    DamageReportNone, True, pScreen, pScreen);
+                                    DamageReportLevel.None, True, pScreen, pScreen);
 
     pPixmap = (*pScreen.GetScreenPixmap) (pScreen);
 

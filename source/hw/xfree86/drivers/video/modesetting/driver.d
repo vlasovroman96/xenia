@@ -1968,7 +1968,7 @@ private Bool modesetCreateScreenResources(ScreenPtr pScreen)
     err = drmModeDirtyFB(ms.fd, ms.drmmode.fb_id, null, 0);
 
     if ((err != -EINVAL && err != -ENOSYS) || ms.drmmode.tearfree_enable) {
-        ms.damage = DamageCreate(null, null, DamageReportNone, True,
+        ms.damage = DamageCreate(null, null, DamageReportLevel.None, True,
                                   pScreen, rootPixmap);
 
         if (ms.damage) {

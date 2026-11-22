@@ -53,7 +53,7 @@ import dix.window;
 import dix.picture;
 import common.math;
 import dix.windowTree;
-
+import dix.damageScreenPriv;
 
 enum string wrap(string priv, string real_, string mem, string func) = `{
     ` ~ priv ~ `.` ~ mem ~ ` = ` ~ real_ ~ `.` ~ mem ~ `; 
@@ -1541,7 +1541,7 @@ Bool DamageSetup(ScreenPtr pScreen)
 {
     PictureScreenPtr ps = mixin(GetPictureScreenIfSet!("pScreen"));
 
-    const(DamageScreenFuncsRec) miFuncs = {
+    const(DamageScreenFuncs) miFuncs = {
         &miDamageCreate, &miDamageRegister, &miDamageUnregister, &miDamageDestroy
     };
 
@@ -1793,7 +1793,7 @@ void DamageSetReportAfterOp(DamagePtr pDamage, Bool reportAfter)
     pDamage.reportAfter = reportAfter;
 }
 
-DamageScreenFuncsPtr DamageGetScreenFuncs(ScreenPtr pScreen)
+DamageScreenFuncs* DamageGetScreenFuncs(ScreenPtr pScreen)
 {
     mixin(damageScrPriv!("pScreen"));
     return &pScrPriv.funcs;
@@ -1806,11 +1806,11 @@ void DamageReportDamage(DamagePtr pDamage, RegionPtr pDamageRegion)
     Bool was_empty = void;
 
     switch (pDamage.damageLevel) {
-    case DamageReportRawRegion:
+    case DamageReportLevel.RawRegion:
         RegionUnion(&pDamage.damage, &pDamage.damage, pDamageRegion);
         (*pDamage.damageReport) (pDamage, pDamageRegion, pDamage.closure);
         break;
-    case DamageReportDeltaRegion:
+    case DamageReportLevel.DeltaRegion:
         RegionNull(&tmpRegion);
         RegionSubtract(&tmpRegion, pDamageRegion, &pDamage.damage);
         if (RegionNotEmpty(&tmpRegion)) {
@@ -1819,7 +1819,7 @@ void DamageReportDamage(DamagePtr pDamage, RegionPtr pDamageRegion)
         }
         RegionUninit(&tmpRegion);
         break;
-    case DamageReportBoundingBox:
+    case DamageReportLevel.BoundingBox:
         tmpBox = *RegionExtents(&pDamage.damage);
         RegionUnion(&pDamage.damage, &pDamage.damage, pDamageRegion);
         if (!mixin(BOX_SAME!(`&tmpBox`, `RegionExtents(&pDamage.damage)`))) {
@@ -1827,7 +1827,7 @@ void DamageReportDamage(DamagePtr pDamage, RegionPtr pDamageRegion)
                                       pDamage.closure);
         }
         break;
-    case DamageReportNonEmpty:
+    case DamageReportLevel.NonEmpty:
         was_empty = !RegionNotEmpty(&pDamage.damage);
         RegionUnion(&pDamage.damage, &pDamage.damage, pDamageRegion);
         if (was_empty && RegionNotEmpty(&pDamage.damage)) {
@@ -1835,7 +1835,7 @@ void DamageReportDamage(DamagePtr pDamage, RegionPtr pDamageRegion)
                                       pDamage.closure);
         }
         break;
-    case DamageReportNone:
+    case DamageReportLevel.None:
         RegionUnion(&pDamage.damage, &pDamage.damage, pDamageRegion);
         break;
     default: break;}

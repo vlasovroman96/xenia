@@ -244,7 +244,7 @@ Bool shadowSetup(ScreenPtr pScreen)
         return False;
     pBuf.pDamage = DamageCreate(cast(DamageReportFunc) null,
                                  cast(DamageDestroyFunc) null,
-                                 DamageReportNone, True, pScreen, pScreen);
+                                 DamageReportLevel.None, True, pScreen, pScreen);
     if (!pBuf.pDamage) {
         free(pBuf);
         return False;

@@ -2369,7 +2369,7 @@ private Bool drmmode_set_target_scanout_pixmap_cpu(xf86CrtcPtr crtc, PixmapPtr p
     ppriv = mixin(msGetPixmapPriv!("drmmode", "ppix"));
     if (!ppriv.secondary_damage) {
         ppriv.secondary_damage = DamageCreate(null, null,
-                                           DamageReportNone,
+                                           DamageReportLevel.None,
                                            True,
                                            crtc.randr_crtc.pScreen,
                                            null);

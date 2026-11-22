@@ -27,6 +27,20 @@ public import dix.gc;
 public import dix.privates;
 public import dix.picturestr;
 import dix.pixmap;
+import region;
+import dix.scrintstr;
+public import miext.damage.damage_;
+
+enum DamageReportLevel : ubyte {
+    RawRegion,
+    DeltaRegion,
+    BoundingBox,
+    NonEmpty,
+    None
+}
+
+alias DamageReportFunc = void function(DamagePtr pDamage, RegionPtr pRegion, void* closure);
+alias DamageDestroyFunc = void function(DamagePtr pDamage, void* closure);
 
 struct DamageRec {
     DamagePtr pNext;
@@ -47,99 +61,3 @@ struct DamageRec {
     ScreenPtr pScreen;
 }
 alias DamagePtr = DamageRec*;
-
-
-struct _damageScreenFuncs {
-    DamageScreenCreateFunc Create;
-    DamageScreenRegisterFunc Register;
-    DamageScreenUnregisterFunc Unregister;
-    DamageScreenDestroyFunc Destroy;
-}alias DamageScreenFuncsRec = _damageScreenFuncs;
-alias DamageScreenFuncsPtr = _damageScreenFuncs*;
-
-import region;
-import dix.scrintstr;
-public import miext.damage.damage_;
-import dix.damage;
-
-// struct _Damage;
-
-enum DamageReportLevel : ubyte {
-    RawRegion,
-    DeltaRegion,
-    BoundingBox,
-    NonEmpty,
-    None
-}
-
-// struct _Region;
-// alias RegionPtr = _Region*;
-alias DamageReportFunc = void function(DamagePtr pDamage, RegionPtr pRegion, void* closure);
-alias DamageDestroyFunc = void function(DamagePtr pDamage, void* closure);
-
-struct _Drawable;
-// alias DrawablePtr = _Drawable*;
-alias DamageScreenCreateFunc = void function(DamagePtr);
-alias DamageScreenRegisterFunc = void function(DrawablePtr, DamagePtr);
-alias DamageScreenUnregisterFunc = void function(DrawablePtr, DamagePtr);
-alias DamageScreenDestroyFunc = void function(DamagePtr);
-
-struct _damageScrPriv {
-    int internalLevel;
-
-    /*
-     * For DDXen which don't provide GetScreenPixmap, this provides
-     * a place to hook damage for windows on the screen
-     */
-    DamagePtr pScreenDamage;
-
-    CopyWindowProcPtr CopyWindow;
-    void* _dummy1; // required in place of a removed field for ABI compatibility
-    CreateGCProcPtr CreateGC;
-    void* _dummy2; // required in place of a removed field for ABI compatibility
-    SetWindowPixmapProcPtr SetWindowPixmap;
-    void* _dummy3; // required in place of a removed field for ABI compatibility
-    CompositeProcPtr Composite;
-    GlyphsProcPtr Glyphs;
-    AddTrapsProcPtr AddTraps;
-
-    /* Table of wrappable function pointers */
-    DamageScreenFuncsRec funcs;
-}alias DamageScrPrivRec = _damageScrPriv;
-alias DamageScrPrivPtr = _damageScrPriv*;
-
-struct _damageGCPriv {
-    const(_GCOps)* ops;
-    const(GCFuncs)* funcs;
-}alias DamageGCPrivRec = _damageGCPriv;
-alias DamageGCPrivPtr = _damageGCPriv*;
-
-/* XXX should move these into damage.c, damageScrPrivateIndex is static */
-enum string damageGetScrPriv(string pScr) = `(cast(DamageScrPrivPtr) 
-    dixLookupPrivate(&(` ~ pScr ~ `).devPrivates, damageScrPrivateKey))`;
-
-enum string damageScrPriv(string pScr) = `
-    DamageScrPrivPtr pScrPriv = ` ~ damageGetScrPriv!(pScr) ~ `;`;
-
-enum string damageGetPixPriv(string pPix) = `
-    dixLookupPrivate(&(` ~ pPix ~ `).devPrivates, damagePixPrivateKey)`;
-
-enum string damgeSetPixPriv(string pPix,string v) = `
-    dixSetPrivate(&(` ~ pPix ~ `).devPrivates, damagePixPrivateKey, ` ~ v ~ `)`;
-
-enum string damagePixPriv(string pPix) = `
-    DamagePtr pDamage = ` ~ damageGetPixPriv!(pPix) ~ `;`;
-
-enum string damageGetGCPriv(string pGC) = `
-    cast(_damageGCPriv*)dixLookupPrivate(&(` ~ pGC ~ `).devPrivates, damageGCPrivateKey)`;
-
-enum string damageGCPriv(string pGC) = `
-    DamageGCPrivPtr pGCPriv = ` ~ damageGetGCPriv!(pGC) ~ `;`;
-
-enum string damageGetWinPriv(string pWin) = `
-    (cast(DamagePtr)dixLookupPrivate(&(` ~ pWin ~ `).devPrivates, damageWinPrivateKey))`;
-
-enum string damageSetWinPriv(string pWin,string d) = `
-    dixSetPrivate(&(` ~ pWin ~ `).devPrivates, damageWinPrivateKey, ` ~ d ~ `)`;
-
-                          /* _DAMAGESTR_H_ */

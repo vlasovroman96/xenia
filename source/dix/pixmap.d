@@ -374,7 +374,7 @@ Bool PixmapStartDirtyTracking(DrawablePtr src, PixmapPtr secondary_dst, int x, i
     dirty_update.dst_y = dst_y;
     dirty_update.rotation = rotation;
     dirty_update.damage = DamageCreate(null, &PixmapDirtyDamageDestroy,
-                                        DamageReportNone, True, screen,
+                                        DamageReportLevel.None, True, screen,
                                         dirty_update);
 
     if (rotation != RR_Rotate_0) {

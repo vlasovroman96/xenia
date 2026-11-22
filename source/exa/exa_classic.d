@@ -107,7 +107,7 @@ PixmapPtr exaCreatePixmap_classic(ScreenPtr pScreen, int w, int h, int depth, ui
 
     /* Set up damage tracking */
     pExaPixmap.pDamage = DamageCreate(null, null,
-                                       DamageReportNone, True,
+                                       DamageReportLevel.None, True,
                                        pScreen, pPixmap);
 
     if (pExaPixmap.pDamage is null) {

@@ -435,7 +435,7 @@ Bool xf86CrtcRotate(xf86CrtcPtr crtc)
             if (!xf86_config.rotation_damage) {
                 /* Create damage structure */
                 xf86_config.rotation_damage = DamageCreate(null, null,
-                                                            DamageReportNone,
+                                                            DamageReportLevel.None,
                                                             True, pScreen,
                                                             pScreen);
                 if (!xf86_config.rotation_damage)

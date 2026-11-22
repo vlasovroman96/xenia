@@ -190,18 +190,18 @@ private void DamageExtReport(DamagePtr pDamage, RegionPtr pRegion, void* closure
     DamageExtPtr pDamageExt = cast(DamageExtPtr)closure;
 
     switch (pDamageExt.level) {
-    case DamageReportRawRegion:
-    case DamageReportDeltaRegion:
+    case DamageReportLevel.RawRegion:
+    case DamageReportLevel.DeltaRegion:
         DamageExtNotify(pDamageExt, RegionRects(pRegion),
                         RegionNumRects(pRegion));
         break;
-    case DamageReportBoundingBox:
+    case DamageReportLevel.BoundingBox:
         DamageExtNotify(pDamageExt, RegionExtents(pRegion), 1);
         break;
-    case DamageReportNonEmpty:
+    case DamageReportLevel.NonEmpty:
         DamageExtNotify(pDamageExt, NullBox, 0);
         break;
-    case DamageReportNone:
+    case DamageReportLevel.None:
         break;
     default: break;}
 }
@@ -307,16 +307,16 @@ private int doDamageCreate(ClientPtr client, DamageExtPtr* ext, xDamageCreateReq
 
     switch (stuff.level) {
     case XDamageReportRawRectangles:
-        level = DamageReportRawRegion;
+        level = DamageReportLevel.RawRegion;
         break;
     case XDamageReportDeltaRectangles:
-        level = DamageReportDeltaRegion;
+        level = DamageReportLevel.DeltaRegion;
         break;
     case XDamageReportBoundingBox:
-        level = DamageReportBoundingBox;
+        level = DamageReportLevel.BoundingBox;
         break;
     case XDamageReportNonEmpty:
-        level = DamageReportNonEmpty;
+        level = DamageReportLevel.NonEmpty;
         break;
     default:
         client.errorValue = cast(uint)stuff.level;
@@ -453,7 +453,7 @@ private int ProcDamageSubtract(ClientPtr client)
     mixin(VERIFY_REGION_OR_NONE!("pRepair", "stuff.repair", "client", "DixWriteAccess"));
     mixin(VERIFY_REGION_OR_NONE!("pParts", "stuff.parts", "client", "DixWriteAccess"));
 
-    if (pDamageExt.level != DamageReportRawRegion) {
+    if (pDamageExt.level != DamageReportLevel.RawRegion) {
         DamagePtr pDamage = pDamageExt.pDamage;
 
         if (pRepair) {
@@ -603,7 +603,7 @@ private int PanoramiXDamageCreate(ClientPtr client, xDamageCreateReq* stuff)
             DrawablePtr pDrawable = void;
             DamagePtr pDamage = DamageCreate(&PanoramiXDamageReport,
                                              &PanoramiXDamageExtDestroy,
-                                             DamageReportRawRegion,
+                                             DamageReportLevel.RawRegion,
                                              False,
                                              walkScreen,
                                              damage);

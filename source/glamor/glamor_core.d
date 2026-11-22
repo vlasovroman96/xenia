@@ -204,7 +204,7 @@ void glamor_track_stipple(GCPtr gc)
         if (!gc_priv.stipple_damage)
             gc_priv.stipple_damage = DamageCreate(&glamor_stipple_damage_report,
                                                    &glamor_stipple_damage_destroy,
-                                                   DamageReportNonEmpty,
+                                                   DamageReportLevel.NonEmpty,
                                                    TRUE, gc.pScreen, gc);
         if (gc_priv.stipple_damage)
             DamageRegister(&gc.stipple.drawable, gc_priv.stipple_damage);

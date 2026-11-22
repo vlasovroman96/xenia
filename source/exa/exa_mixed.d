@@ -104,7 +104,7 @@ PixmapPtr exaCreatePixmap_mixed(ScreenPtr pScreen, int w, int h, int depth, uint
 
             /* Set up damage tracking */
             pExaPixmap.pDamage = DamageCreate(&exaDamageReport_mixed, null,
-                                               DamageReportNonEmpty, True,
+                                               DamageReportLevel.NonEmpty, True,
                                                pPixmap.drawable.pScreen,
                                                pPixmap);
 

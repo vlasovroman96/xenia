@@ -190,7 +190,7 @@ int compRedirectWindow(ClientPtr pClient, WindowPtr pWin, int update)
         }
         cw.damage = DamageCreate(&compReportDamage,
                                   &compDestroyDamage,
-                                  DamageReportNonEmpty,
+                                  DamageReportLevel.NonEmpty,
                                   False, pWin.drawable.pScreen, pWin);
         if (!cw.damage) {
             free(ccw);
