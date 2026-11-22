@@ -55,6 +55,11 @@ import dix.colormap_priv;
 //import x11.X;
 import externs.X11.extensions.randrproto;
 import dix.validate;
+import dix.screensaver_priv;
+import dix.windowOpt;
+import Xext.xace;
+import dix.dix_priv;
+import composite.compinit;
 
 enum MAXFORMATS =	8;
 
@@ -724,6 +729,94 @@ struct _Screen {
 alias ScreenRec = _Screen;
 alias ScreenPtr = _Screen*;
 
+/*****
+ * CreateRootWindow
+ *    Makes a window at initialization time for specified screen
+ *****/
+
+Bool CreateRootWindow(ScreenPtr pScreen)
+{
+    WindowPtr pWin = void;
+    BoxRec box = void;
+    PixmapFormatRec* format = void;
+
+    pWin = cast(WindowRec*)mixin(dixAllocateScreenObjectWithPrivates!("pScreen", "WindowRec", "PRIVATE_WINDOW"));
+    if (!pWin)
+        return False;
+
+    pScreen.screensaver.pWindow = null;
+    pScreen.screensaver.wid = dixAllocServerXID();
+    pScreen.screensaver.ExternalScreenSaver = null;
+    screenIsSaved = SCREEN_SAVER_OFF;
+
+    pScreen.root = pWin;
+
+    pWin.drawable.pScreen = pScreen;
+    pWin.drawable.type = DRAWABLE_WINDOW;
+
+    pWin.drawable.depth = pScreen.rootDepth;
+    for (format = cast(PixmapFormatRec*)screenInfo.formats.ptr;
+         format.depth != pScreen.rootDepth; format++){}
+    pWin.drawable.bitsPerPixel = format.bitsPerPixel;
+
+    pWin.drawable.serialNumber = NEXT_SERIAL_NUMBER;
+
+    pWin.parent = NullWindow;
+    pWin.setDefault();
+
+    pWin.optional = cast(WindowOptPtr) calloc(1, WindowOpt.sizeof);
+    if (!pWin.optional)
+        return False;
+
+    pWin.optional.initByWindow(pWin, true);
+
+    pWin.nextSib = NullWindow;
+
+    pWin.drawable.id = dixAllocServerXID();
+
+    pWin.origin.x = pWin.origin.y = 0;
+    pWin.drawable.height = pScreen.height;
+    pWin.drawable.width = pScreen.width;
+    pWin.drawable.x = pWin.drawable.y = 0;
+
+    box.x1 = 0;
+    box.y1 = 0;
+    box.x2 = pScreen.width;
+    box.y2 = pScreen.height;
+    RegionInit(&pWin.clipList, &box, 1);
+    RegionInit(&pWin.winSize, &box, 1);
+    RegionInit(&pWin.borderSize, &box, 1);
+    RegionInit(&pWin.borderClip, &box, 1);
+
+    pWin.drawable.class_ = InputOutput;
+
+    pWin.backgroundState = BackgroundPixel;
+    pWin.background.pixel = pScreen.whitePixel;
+
+    pWin.borderIsPixel = True;
+    pWin.border.pixel = pScreen.blackPixel;
+    pWin.borderWidth = 0;
+
+    /*  security creation/labeling check
+     */
+    if (XaceHookResourceAccess(serverClient, pWin.drawable.id,
+                 X11_RESTYPE_WINDOW, pWin, X11_RESTYPE_NONE, null, DixCreateAccess))
+        return False;
+
+    if (!AddResource(cast(uint)pWin.drawable.id, X11_RESTYPE_WINDOW, cast(void*) pWin))
+        return False;
+
+    if (disableBackingStore)
+        pScreen.backingStoreSupport = NotUseful;
+    if (enableBackingStore)
+        pScreen.backingStoreSupport = WhenMapped;
+    if (noCompositeExtension)
+        pScreen.backingStoreSupport = NotUseful;
+
+    pScreen.saveUnderSupport = NotUseful;
+
+    return True;
+}
 
 RegionPtr BitmapToRegion(ScreenPtr _pScreen, PixmapPtr pPix)
 {

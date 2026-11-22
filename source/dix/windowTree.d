@@ -7,6 +7,20 @@ import core.stdc.config: c_long, c_ulong;
 public import dix.window;
 import os.log;
 import dix.screenint_priv;
+import dix.screen_hooks;
+
+
+alias VisitWindowProc = int function(WindowPtr pWin, void* data) @nogc nothrow;
+alias RealChildHeadProc = WindowPtr function(WindowPtr pWin) @nogc nothrow;
+
+
+/* return values for tree-walking callback procedures */
+enum WinTreeWalking : int {
+    Stop,
+    ToChild,
+    DontWalkChild,
+    NoMatch
+}
 
 void PrintWindowTree()
 {
@@ -68,4 +82,43 @@ int TraverseTree(WindowPtr pWin, VisitWindowProc func, void* data)
 int WalkTree(ScreenPtr pScreen, VisitWindowProc func, void* data)
 {
     return (TraverseTree(pScreen.root, func, data));
+}
+
+void CrushTree(WindowPtr pWin)
+{
+    WindowPtr pChild = void, pSib = void;
+
+    if (((pChild = pWin.firstChild) is null))
+        return;
+    while (1) {
+
+        /* go to a leaf node in the window tree */
+        while (pChild.firstChild)
+            pChild = pChild.firstChild;
+
+        while (1) {
+            WindowPtr pParent = pChild.parent;
+            if(pChild.SubStrSend) {
+                xEvent event;
+                event.u.u.type = DestroyNotify ;
+                event.u.destroyNotify.window = cast(uint)pChild.drawable.id;
+                DeliverEvents(pChild, &event, 1, NullWindow);
+            }
+            FreeResource(cast(uint)pChild.drawable.id, X11_RESTYPE_WINDOW);
+            pSib = pChild.nextSib;
+            pChild.viewable = False;
+            if (pChild.realized) {
+                dixScreenRaiseUnrealizeWindow(pChild);
+            }
+            FreeWindowResources(pChild);
+            mixin(dixFreeObjectWithPrivatesM!("pChild", "PRIVATE_WINDOW"));
+            if ((pChild = pSib) !is null)
+                break;
+            pChild = pParent;
+            pChild.firstChild = NullWindow;
+            pChild.lastChild = NullWindow;
+            if (pChild == pWin)
+                return;
+        }
+    }
 }

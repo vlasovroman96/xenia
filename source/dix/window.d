@@ -367,22 +367,11 @@ enum NullWindow = null;
 // XXX: used additionaly with Visibility* enums fron X11 oriti 
 enum VisibilityNotViewable =	3;
 
-/* return values for tree-walking callback procedures */
-enum WinTreeWalking : int {
-    Stop,
-    ToChild,
-    DontWalkChild,
-    NoMatch
-}
-
 enum RootClipMode {
     None = 0, /**< resize the root window to 0x0 */
     Full = 1, /**< resize the root window to fit screen */
     InputOnly = 2, /**< as above, but no rendering to screen */
 }
-
-alias VisitWindowProc = int function(WindowPtr pWin, void* data) @nogc nothrow;
-alias RealChildHeadProc = WindowPtr function(WindowPtr pWin) @nogc nothrow;
 
 /* Quartz support on Mac OS X uses the HIToolbox
    framework whose ChangeWindowAttributes function conflicts here. */
@@ -745,7 +734,7 @@ private void DisposeWindowOptional(WindowPtr pWin)
     pWin.optional = null;
 }
 
-private void FreeWindowResources(WindowPtr pWin)
+void FreeWindowResources(WindowPtr pWin)
 {
     DeleteWindowFromAnySaveSet(pWin);
     DeleteWindowFromAnySelections(pWin);
@@ -770,45 +759,6 @@ private void FreeWindowResources(WindowPtr pWin)
     /* We SHOULD check for an error value here XXX */
     dixScreenRaiseWindowDestroy(pWin);
     DisposeWindowOptional(pWin);
-}
-
-private void CrushTree(WindowPtr pWin)
-{
-    WindowPtr pChild = void, pSib = void;
-
-    if (((pChild = pWin.firstChild) is null))
-        return;
-    while (1) {
-
-        /* go to a leaf node in the window tree */
-        while (pChild.firstChild)
-            pChild = pChild.firstChild;
-
-        while (1) {
-            WindowPtr pParent = pChild.parent;
-            if(pChild.SubStrSend) {
-                xEvent event;
-                event.u.u.type = DestroyNotify ;
-                event.u.destroyNotify.window = cast(uint)pChild.drawable.id;
-                DeliverEvents(pChild, &event, 1, NullWindow);
-            }
-            FreeResource(cast(uint)pChild.drawable.id, X11_RESTYPE_WINDOW);
-            pSib = pChild.nextSib;
-            pChild.viewable = False;
-            if (pChild.realized) {
-                dixScreenRaiseUnrealizeWindow(pChild);
-            }
-            FreeWindowResources(pChild);
-            mixin(dixFreeObjectWithPrivatesM!("pChild", "PRIVATE_WINDOW"));
-            if ((pChild = pSib) !is null)
-                break;
-            pChild = pParent;
-            pChild.firstChild = NullWindow;
-            pChild.lastChild = NullWindow;
-            if (pChild == pWin)
-                return;
-        }
-    }
 }
 
 /*****
@@ -883,7 +833,7 @@ private void SetRootWindowBackground(WindowPtr pWin, ScreenPtr pScreen, Mask* in
         pWin.background.pixel = pScreen.whitePixel;
     }
     else if (party_like_its_1989)
-        MakeRootTile(pWin);
+        pWin.makeRootTile();
     else {
         pWin.backgroundState = BackgroundPixel;
         if (whiteRoot)
