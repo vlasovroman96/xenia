@@ -2624,7 +2624,7 @@ void HandleSaveSet(ClientPtr client)
         if (pParent) {
             if (pParent != pWin.parent) {
                 /* unmap first so that ReparentWindow doesn't remap */
-                if (!client.saveSet[j].toRoot)
+                if (!client.saveSet[j].map)
                     UnmapWindow(pWin, False);
                 ReparentWindow(pWin, pParent,
                                pWin.drawable.x - pWin.borderWidth-
