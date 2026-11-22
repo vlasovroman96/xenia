@@ -32,6 +32,9 @@ import os.connection;
 import os.WaitFor;
 import mi.miinitext;
 import dix.dispatch;
+import std.algorithm;
+import std.string;
+import std.array;
 
 static if(DPMSExtension) {
     import Xext.dpmsproc;
@@ -40,13 +43,16 @@ static if(DPMSExtension) {
 int dix_main(string[] args) {
     display = "0";
 
+    //TODO: delete this after CheckUserParameters etc. reworking
+    auto argv = args.map!(a => cast(char*)a.toStringz).array;
+
     InitRegions();
 
-    CheckUserParameters(cast(int)args.length, cast(char**)args.ptr);
+    CheckUserParameters(cast(int)args.length, argv.ptr);
 
     CheckUserAuthorization();
 
-    ProcessCommandLine(cast(int)args.length, cast(char**)args.ptr);
+    ProcessCommandLine(cast(int)args.length, argv.ptr);
 
         ScreenSaverTime = defaultScreenSaverTime;
         ScreenSaverInterval = defaultScreenSaverInterval;
@@ -93,13 +99,13 @@ int dix_main(string[] args) {
         dixResetRegistry();
         InitFonts();
         InitCallbackManager();
-        InitOutput(cast(int)args.length, cast(char**)args.ptr);
+        InitOutput(cast(int)args.length, argv.ptr);
 
         if (screenInfo.numScreens < 1)
             FatalError("no screens found");
         LogMessageVerb(X_INFO, 1, "Output(s) initialized\n");
 
-        InitExtensions(cast(int)args.length, cast(char**)args.ptr);
+        InitExtensions(cast(int)args.length, argv.ptr);
         LogMessageVerb(X_INFO, 1, "Extensions initialized\n");
 
         mixin(DIX_FOR_EACH_GPU_SCREEN!("{
@@ -160,7 +166,7 @@ static if(XINERAMA){
         LogMessageVerb(X_INFO, 1, "Screen(s) initialized\n");
 
         InitCoreDevices();
-        InitInput(cast(int)args.length, cast(char**)args.ptr);
+        InitInput(cast(int)args.length, argv.ptr);
         InitAndStartDevices();
         LogMessageVerb(X_INFO, 1, "Input(s) initialized\n");
 
