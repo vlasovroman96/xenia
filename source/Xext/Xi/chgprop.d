@@ -61,7 +61,6 @@ import build.dix_config;
 import dix.dix_priv;
 import dix.exevents_priv;
 import dix.request_priv;
-import dix.window_priv;
 import Xi.handlers;
 
 import dix.inputstr;           /* DeviceIntPtr      */
@@ -106,7 +105,7 @@ int ProcXChangeDeviceDontPropagateList(ClientPtr client)
                                  X_ChangeDeviceDontPropagateList)) != Success)
         return rc;
 
-    others = mixin(wOtherInputMasks!("pWin"));
+    others = pWin.getOtherInputMasks();
     if (!others && stuff.mode == DeleteFromList)
         return Success;
     for (i = 0; i < EMASKSIZE; i++) {

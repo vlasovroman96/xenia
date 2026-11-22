@@ -31,7 +31,6 @@ import dix.screenint_priv;
 import dix.screensaver_priv;
 import dix.selection_priv;
 import dix.screenint_priv;
-import dix.window_priv;
 import mi.mi_priv;         /* miPaintWindow */
 import os.auth;
 import os.client_priv;
@@ -117,7 +116,6 @@ enum RedirectDraw : uint {
     Automatic,
     Manual
 }
-
 struct WindowRec {
     DrawableRec drawable;
     PrivateRec* devPrivates;
@@ -165,12 +163,43 @@ struct WindowRec {
             : def);
     }
 
+    auto getTrackParent(string field)() {
+        return this.optional ? 
+            mixin("this.optional."~field) : 
+            mixin("FindWindowWithOptional(&this).optional." ~ field);
+    }
+
     bool hasBorder() {
         return this.borderWidth || this.getClipShape();
     }
 
+    //IDEA: WindowOptGetter for delegating getters
     alias getClipShape = useDefault!("clipShape", null);
+
+    auto getCursor() => this.cursorIsNone ? null : getTrackParent!`cursor`;
+    auto getColormap() => this.drawable.class_ == InputOnly ? None : getTrackParent!`colormap`;
+    alias getVisual = getTrackParent!(`visual`);
+
+    auto getDontPropagateMask() => this.optional ? 
+            this.optional.dontPropagateMask : 
+            DontPropagateMasks[this.dontPropagate];
+
+    alias getOtherEventMasks = useDefault!(`otherEventMasks`, 0);
+    alias getOtherClients = useDefault!(`otherClients`, null);
+    alias getOtherInputMasks = useDefault!(`inputMasks`, null);
+    alias getPassiveGrabs = useDefault!(`passiveGrabs`, null);
+    alias getBackingBitPlanes = useDefault!(`backingBitPlanes`, ~0L);
+    alias getBackingPixel = useDefault!(`backingPixel`, 0);
+    alias getBoundingShape = useDefault!(`boundingShape`, null);
+    alias getInputShape = useDefault!(`inputShape`, null);
 }
+
+enum string SameBackground(string as, string a, string bs, string b) = `
+    ((` ~ as ~ `) == (` ~ bs ~ `) && ((` ~ as ~ `) == None ||				
+                      (` ~ as ~ `) == ParentRelative ||			
+                      SamePixUnion(` ~ a ~ `,` ~ b ~ `,` ~ as ~ ` == BackgroundPixel)))`;
+
+enum string SameBorder(string as, string a, string bs, string b) = `EqualPixUnion(` ~ as ~ `, ` ~ a ~ `, ` ~ bs ~ `, ` ~ b ~ `)`;
 
 alias WindowPtr = WindowRec*;
 enum NullWindow = null;
@@ -239,14 +268,14 @@ enum InputOnlyLegalMask = (CWWinGravity | CWEventMask |
 			      CWDontPropagate | CWOverrideRedirect | CWCursor );
 
 enum string RedirectSend(string pWin) = `
-    ((` ~ pWin ~ `.eventMask| `~wOtherEventMasks!(pWin)~`) & SubstructureRedirectMask)`;
+    ((` ~ pWin ~ `.eventMask| `~pWin~`.getOtherEventMasks()) & SubstructureRedirectMask)`;
 
 // enum string SubSend(string pWin) = `
-//     ((` ~ pWin ~ `.eventMask|`~wOtherEventMasks!(pWin)~` & SubstructureNotifyMask))`;
+//     ((` ~ pWin ~ `.eventMask|"~pWin~".getOtherEventMasks() & SubstructureNotifyMask))`;
 
 import x11.X;
     enum string SubSend(string pWin) = `
-    ((`~pWin~`.eventMask| `~wOtherEventMasks!(pWin)~`) & SubstructureNotifyMask)`;
+    ((`~pWin~`.eventMask| `~pWin~`.getOtherEventMasks()) & SubstructureNotifyMask)`;
 pragma(msg, typeof(SubstructureRedirectMask).stringof);
 pragma(msg, __traits(identifier, SubstructureRedirectMask));
 
@@ -256,7 +285,7 @@ pragma(msg, __traits(compiles, cast(Mask)SubstructureRedirectMask));
 
 
 enum string StrSend(string pWin) = `
-    ((` ~ pWin ~ `.eventMask|`~wOtherEventMasks!(pWin)~`) & StructureNotifyMask)`;
+    ((` ~ pWin ~ `.eventMask|`~pWin~`.getOtherEventMasks()) & StructureNotifyMask)`;
 
 enum string SubStrSend(string pWin,string pParent) = `(` ~ StrSend!(pWin) ~ ` || ` ~ SubSend!(pParent) ~ `)`;
 
@@ -1015,12 +1044,12 @@ private void FreeWindowResources(WindowPtr pWin)
     RegionUninit(&pWin.winSize);
     RegionUninit(&pWin.borderClip);
     RegionUninit(&pWin.borderSize);
-    if (mixin(wBoundingShape!("pWin")))
-        RegionDestroy(mixin(wBoundingShape!("pWin")));
+    if (pWin.getBoundingShape())
+        RegionDestroy(pWin.getBoundingShape());
     if (pWin.getClipShape())
         RegionDestroy(pWin.getClipShape());
-    if (mixin(wInputShape!("pWin")))
-        RegionDestroy(mixin(wInputShape!("pWin")));
+    if (pWin.getInputShape())
+        RegionDestroy(pWin.getInputShape());
     if (pWin.borderIsPixel == False)
         dixDestroyPixmap(pWin.border.pixmap, 0);
     if (pWin.backgroundState == BackgroundPixmap)
@@ -1419,8 +1448,8 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
             if (cmap == CopyFromParent) {
                 if (pWin.parent &&
                     (!pWin.optional ||
-                     pWin.optional.visual == mixin(wVisual!("pWin.parent")))) {
-                    cmap = mixin(wColormap!("pWin.parent"));
+                     pWin.optional.visual == pWin.parent.getVisual())) {
+                    cmap = cast(uint)pWin.parent.getColormap();
                 }
                 else
                     cmap = None;
@@ -1436,19 +1465,19 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
                 client.errorValue = cast(uint)cmap;
                 goto PatchUp;
             }
-            if (pCmap.pVisual.vid != mixin(wVisual!("pWin")) ||
+            if (pCmap.pVisual.vid != pWin.getVisual() ||
                 pCmap.pScreen != pScreen) {
                 error = BadMatch;
                 goto PatchUp;
             }
-            if (cmap != mixin(wColormap!("pWin"))) {
+            if (cmap != pWin.getColormap()) {
                 if (!pWin.optional) {
                     if (!MakeWindowOptional(pWin)) {
                         error = BadAlloc;
                         goto PatchUp;
                     }
                 }
-                else if (pWin.parent && cmap == mixin(wColormap!("pWin.parent")))
+                else if (pWin.parent && cmap == pWin.parent.getColormap())
                     checkOptional = True;
 
                 /*
@@ -1508,7 +1537,7 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
                 }
             }
 
-            if (pCursor != mixin(wCursor!"pWin")) {
+            if (pCursor != pWin.getCursor()) {
                 /*
                  * patch up child windows so they don't lose cursors.
                  */
@@ -1538,7 +1567,7 @@ int ChangeWindowAttributes(WindowPtr pWin, Mask vmask, XID* vlist, ClientPtr cli
                             goto PatchUp;
                         }
                     }
-                    else if (pWin.parent && pCursor == mixin(wCursor!("pWin.parent")))
+                    else if (pWin.parent && pCursor == pWin.parent.getCursor())
                         checkOptional = True;
                     pOldCursor = pWin.optional.cursor;
                     pWin.optional.cursor = RefCursor(pCursor);
@@ -1614,20 +1643,20 @@ int ProcGetWindowAttributes(ClientPtr client)
         reply.bitGravity = cast(ubyte)pWin.bitGravity,
         reply.winGravity = cast(ubyte)pWin.winGravity,
         reply.backingStore = cast(ubyte)pWin.backingStore,
-        reply.backingBitPlanes = cast(uint)mixin(wBackingBitPlanes!("pWin")),
-        reply.backingPixel = mixin(wBackingPixel!("pWin")),
+        reply.backingBitPlanes = cast(uint)pWin.getBackingBitPlanes(),
+        reply.backingPixel = pWin.getBackingPixel(),
         reply.saveUnder = cast(BOOL) pWin.saveUnder,
         reply.override_ = cast(ubyte)pWin.overrideRedirect,
         reply.mapState = (!pWin.mapped ? IsUnmapped :
                      (pWin.realized ? IsViewable : IsUnviewable)),
-        reply.colormap = cast(uint)mixin(wColormap!("pWin")),
-        reply.mapInstalled = (mixin(wColormap!("pWin")) == None) ? cast(ubyte)xFalse
-             : cast(ubyte)IsMapInstalled(mixin(wColormap!("pWin")), pWin),
+        reply.colormap = cast(uint)pWin.getColormap(),
+        reply.mapInstalled = (pWin.getColormap() == None) ? cast(ubyte)xFalse
+             : cast(ubyte)IsMapInstalled(cast(uint)pWin.getColormap(), pWin),
         reply.yourEventMask = cast(uint)EventMaskForClient(pWin, client),
-        reply.allEventMasks = cast(uint)(pWin.eventMask | mixin(wOtherEventMasks!("pWin"))),
-        reply.doNotPropagateMask = cast(ushort)mixin(wDontPropagateMask!("pWin")),
+        reply.allEventMasks = cast(uint)(pWin.eventMask | pWin.getOtherEventMasks()),
+        reply.doNotPropagateMask = cast(ushort)pWin.getDontPropagateMask(),
         reply.class_ = pWin.drawable.class_,
-        reply.visualID = cast(uint)mixin(wVisual!("pWin"));
+        reply.visualID = cast(uint)pWin.getVisual();
     // };
 
     if (client.swapped) {
@@ -1744,11 +1773,11 @@ void SetWinSize(WindowPtr pWin)
                              pWin.drawable.x, pWin.drawable.y,
                              cast(int) pWin.drawable.width,
                              cast(int) pWin.drawable.height);
-    if (mixin(wBoundingShape!("pWin")) || pWin.getClipShape()) {
+    if (pWin.getBoundingShape() || pWin.getClipShape()) {
         RegionTranslate(&pWin.winSize, -pWin.drawable.x, -pWin.drawable.y);
-        if (mixin(wBoundingShape!("pWin")))
+        if (pWin.getBoundingShape())
             RegionIntersect(&pWin.winSize, &pWin.winSize,
-                            mixin(wBoundingShape!("pWin")));
+                            pWin.getBoundingShape());
         if (pWin.getClipShape())
             RegionIntersect(&pWin.winSize, &pWin.winSize, pWin.getClipShape());
         RegionTranslate(&pWin.winSize, pWin.drawable.x, pWin.drawable.y);
@@ -1779,11 +1808,11 @@ void SetBorderSize(WindowPtr pWin)
                                  pWin.drawable.x - bw, pWin.drawable.y - bw,
                                  cast(int) (pWin.drawable.width + (bw << 1)),
                                  cast(int) (pWin.drawable.height + (bw << 1)));
-        if (mixin(wBoundingShape!("pWin"))) {
+        if (pWin.getBoundingShape()) {
             RegionTranslate(&pWin.borderSize, -pWin.drawable.x,
                             -pWin.drawable.y);
             RegionIntersect(&pWin.borderSize, &pWin.borderSize,
-                            mixin(wBoundingShape!("pWin")));
+                            pWin.getBoundingShape());
             RegionTranslate(&pWin.borderSize, pWin.drawable.x,
                             pWin.drawable.y);
             RegionUnion(&pWin.borderSize, &pWin.borderSize, &pWin.winSize);
@@ -1959,15 +1988,15 @@ private BoxPtr WindowExtents(WindowPtr pWin, BoxPtr pBox)
     return pBox;
 }
 
-enum string IS_SHAPED(string pWin) = `(`~wBoundingShape!(pWin) ~ `!is null)`;
+enum string IS_SHAPED(string pWin) = pWin~`.getBoundingShape() != null`;
 
 private RegionPtr MakeBoundingRegion(WindowPtr pWin, BoxPtr pBox)
 {
     RegionPtr pRgn = RegionCreate(pBox, 1);
 
-    if (mixin(wBoundingShape!("pWin"))) {
+    if (pWin.getBoundingShape()) {
         RegionTranslate(pRgn, -pWin.origin.x, -pWin.origin.y);
-        RegionIntersect(pRgn, pRgn, mixin(wBoundingShape!("pWin")));
+        RegionIntersect(pRgn, pRgn, pWin.getBoundingShape());
         RegionTranslate(pRgn, pWin.origin.x, pWin.origin.y);
     }
     return pRgn;
@@ -2305,7 +2334,7 @@ static if(XINERAMA){
             || (h != pWin.drawable.height);
 
         if (size_change &&
-            ((pWin.eventMask | mixin(wOtherEventMasks!("pWin"))) & (1 << 18))) { //ResizeRedirectMask
+            ((pWin.eventMask | pWin.getOtherEventMasks()) & (1 << 18))) { //ResizeRedirectMask
             xEvent eventT; 
 
                 eventT.u.resizeRequest.window = cast(uint)pWin.drawable.id,
@@ -2984,8 +3013,8 @@ Bool PointInWindowIsVisible(WindowPtr pWin, int x, int y)
     if (!pWin.realized)
         return False;
     if (RegionContainsPoint(&pWin.borderClip, x, y, &box)
-        && (!mixin(wInputShape!("pWin")) ||
-            RegionContainsPoint(mixin(wInputShape!("pWin")),
+        && (!pWin.getInputShape() ||
+            RegionContainsPoint(pWin.getInputShape(),
                                 x - pWin.drawable.x,
                                 y - pWin.drawable.y, &box)))
         return True;
@@ -3272,7 +3301,7 @@ private Bool TileScreenSaver(ScreenPtr pScreen, int kind)
                      cast(ushort) pScreen.width + RANDOM_WIDTH,
                      cast(ushort) pScreen.height + RANDOM_WIDTH,
                      0, InputOutput, mask, attributes.ptr, 0, serverClient,
-                     mixin(wVisual!("pScreen.root")), &result);
+                     pScreen.root.getVisual(), &result);
 
     if (cursor)
         FreeResource(cast(uint)cursorID, X11_RESTYPE_NONE);
@@ -3670,7 +3699,7 @@ void SetRootClip(ScreenPtr pScreen, int enable)
 VisualPtr WindowGetVisual(WindowPtr pWin)
 {
     ScreenPtr pScreen = pWin.drawable.pScreen;
-    VisualID vid = mixin(wVisual!("pWin"));
+    VisualID vid = pWin.getVisual();
 
     for (int i = 0; i < pScreen.numVisuals; i++)
         if (pScreen.visuals[i].vid == vid)

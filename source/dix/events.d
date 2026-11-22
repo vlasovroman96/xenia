@@ -136,7 +136,6 @@ import dix.reqhandlers_priv;
 import dix.request_priv;
 import dix.resource_priv;
 import dix.screenint_priv;
-import dix.window_priv;
 import os.bug_priv;
 import os.client_priv;
 import os.fmt;
@@ -823,7 +822,7 @@ int GetXI2MaskByte(XI2Mask* mask, DeviceIntPtr dev, int event_type)
  */
 Bool WindowXI2MaskIsset(DeviceIntPtr dev, WindowPtr win, xEvent* ev)
 {
-    OtherInputMasks* inputMasks = mixin(wOtherInputMasks!("win"));
+    OtherInputMasks* inputMasks = win.getOtherInputMasks();
     int evtype = void;
 
     if (!inputMasks || xi2_get_type(ev) == 0)
@@ -1251,7 +1250,7 @@ static if(XINERAMA){
         }
         else /* XINERAMA */
         {
-            if (mixin(wBoundingShape!("pWin")))
+            if (pWin.getBoundingShape())
                 reg = &pWin.borderSize;
         }
 
@@ -1290,7 +1289,7 @@ static if(XINERAMA){
         }
 } /* XINERAMA */
         pSprite.hotLimits = *RegionExtents(&pWin.borderSize);
-        pSprite.hotShape = mixin(wBoundingShape!("pWin")) ? &pWin.borderSize
+        pSprite.hotShape = pWin.getBoundingShape() ? &pWin.borderSize
             : NullRegion;
         CheckPhysLimits(pDev, pSprite.current, generateEvents,
                         confineToScreen, pWin.drawable.pScreen);
@@ -2505,7 +2504,7 @@ private BOOL ActivateImplicitGrab(DeviceIntPtr dev, ClientPtr client, WindowPtr 
     tempGrab.grabtype = grabtype;
 
     /* get the XI and XI2 device mask */
-    inputMasks = mixin(wOtherInputMasks!("win"));
+    inputMasks = win.getOtherInputMasks();
     tempGrab.deviceMask = (inputMasks) ? inputMasks.inputEvents[dev.id] : 0;
 
     if (inputMasks)
@@ -2524,7 +2523,7 @@ private EventDeliveryState DeliverToWindowOwner(DeviceIntPtr dev, WindowPtr win,
 {
     /* if nobody ever wants to see this event, skip some work */
     if (filter != CantBeFiltered &&
-        !((mixin(wOtherEventMasks!("win")) | win.eventMask) & filter))
+        !((win.getOtherEventMasks() | win.eventMask) & filter))
         return EVENT_SKIP;
 
     if (IsInterferingGrab(dixClientForWindow(win), dev, events))
@@ -2556,9 +2555,9 @@ private Bool GetClientsForDelivery(DeviceIntPtr dev, WindowPtr win, xEvent* even
     int rc = 0;
 
     if (core_get_type(events) != 0)
-        *iclients = cast(InputClients*) mixin(wOtherClients!("win"));
+        *iclients = cast(InputClients*) win.getOtherClients();
     else if (xi2_get_type(events) != 0) {
-        OtherInputMasks* inputMasks = mixin(wOtherInputMasks!("win"));
+        OtherInputMasks* inputMasks = win.getOtherInputMasks();
 
         /* Has any client selected for the event? */
         if (!WindowXI2MaskIsset(dev, win, events))
@@ -2566,7 +2565,7 @@ private Bool GetClientsForDelivery(DeviceIntPtr dev, WindowPtr win, xEvent* even
         *iclients = inputMasks.inputClients;
     }
     else {
-        OtherInputMasks* inputMasks = mixin(wOtherInputMasks!("win"));
+        OtherInputMasks* inputMasks = win.getOtherInputMasks();
 
         /* Has any client selected for the event? */
         if (!inputMasks || !(inputMasks.inputEvents[dev.id] & filter))
@@ -2870,7 +2869,7 @@ static if(XINERAMA){
         return TryClientEvents(dixClientForWindow(pWin), null, pEvents, 1,
                                pWin.eventMask, filter, NullGrab) == 1;
     }
-    for (OtherClients* other = mixin(wOtherClients!("pWin")); other; other = other.next) {
+    for (OtherClients* other = pWin.getOtherClients(); other; other = other.next) {
         if (other.mask & filter) {
             if (mixin(SameClient!("other", "dontClient")))
                 return False;
@@ -3063,7 +3062,7 @@ int EventIsDeliverable(DeviceIntPtr dev, int evtype, WindowPtr win)
     int rc = 0;
     int filter = 0;
     int type = void;
-    OtherInputMasks* inputMasks = mixin(wOtherInputMasks!("win"));
+    OtherInputMasks* inputMasks = win.getOtherInputMasks();
 
     if ((type = GetXI2Type(cast(EventType)evtype)) != 0) {
         if (inputMasks && xi2mask_isset(inputMasks.xi2mask, dev, type))
@@ -3090,11 +3089,11 @@ int EventIsDeliverable(DeviceIntPtr dev, int evtype, WindowPtr win)
 
         /* Check for core mask */
         if ((win.deliverableEvents & filter) &&
-            ((mixin(wOtherEventMasks!("win")) | win.eventMask) & filter))
+            ((win.getOtherEventMasks() | win.eventMask) & filter))
             rc |= EVENT_CORE_MASK;
 
         /* Check for core DontPropagate mask */
-        if (filter & mixin(wDontPropagateMask!("win")))
+        if (filter & win.getDontPropagateMask())
             rc |= EVENT_DONT_PROPAGATE_MASK;
     }
 
@@ -3634,7 +3633,7 @@ void InitializeSprite(DeviceIntPtr pDev, WindowPtr pWin)
     pSprite.win = pWin;
 
     if (pWin) {
-        pCursor = mixin(wCursor!"pWin");
+        pCursor = pWin.getCursor();
         pSprite.spriteTrace = cast(WindowPtr*) calloc(1, 32 * WindowPtr.sizeof);
         if (!pSprite.spriteTrace)
             FatalError("Failed to allocate spriteTrace");
@@ -3735,7 +3734,7 @@ void UpdateSpriteForScreen(DeviceIntPtr pDev, ScreenPtr pScreen)
     pSprite.hotLimits.x2 = pScreen.width;
     pSprite.hotLimits.y2 = pScreen.height;
     pSprite.win = win;
-    pCursor = RefCursor(mixin(wCursor!("win")));
+    pCursor = RefCursor(win.getCursor());
     FreeCursor(pSprite.current, 0);
     pSprite.current = pCursor;
     pSprite.spriteTraceGood = 1;
@@ -3852,8 +3851,8 @@ Bool XineramaPointInWindowIsVisible(WindowPtr pWin, int x, int y)
         y = yoff - walkScreen.y;
 
         if (RegionContainsPoint(&pWin.borderClip, x, y, &box)
-            && (!mixin(wInputShape!("pWin")) ||
-                RegionContainsPoint(mixin(wInputShape!("pWin")),
+            && (!pWin.getInputShape() ||
+                RegionContainsPoint(pWin.getInputShape(),
                                     x - pWin.drawable.x,
                                     y - pWin.drawable.y, &box)))
             return True;
@@ -4342,7 +4341,7 @@ Bool CheckPassiveGrab(DeviceIntPtr device, GrabPtr grab, InternalEvent* event, B
 
 GrabPtr CheckPassiveGrabsOnWindow(WindowPtr pWin, DeviceIntPtr device, InternalEvent* event, BOOL checkCore, BOOL activate)
 {
-    GrabPtr grab = mixin(wPassiveGrabs!("pWin"));
+    GrabPtr grab = pWin.getPassiveGrabs();
     GrabPtr tempGrab = void;
 
     if (!grab)
@@ -4770,16 +4769,16 @@ void RecalculateDeliverableEvents(WindowPtr pWin)
     while (1) {
         if (pChild.optional) {
             pChild.optional.otherEventMasks = 0;
-            for (OtherClients* others = mixin(wOtherClients!("pChild")); others; others = others.next) {
+            for (OtherClients* others = pChild.getOtherClients(); others; others = others.next) {
                 pChild.optional.otherEventMasks |= others.mask;
             }
         }
         pChild.deliverableEvents =cast(ushort)( pChild.eventMask |
-            mixin(wOtherEventMasks!("pChild")));
+            pChild.getOtherEventMasks());
         if (pChild.parent)
             pChild.deliverableEvents |=
                 (pChild.parent.deliverableEvents &
-                 ~mixin(wDontPropagateMask!("pChild")) & PropagateMask);
+                 ~pChild.getDontPropagateMask() & PropagateMask);
         if (pChild.firstChild) {
             pChild = pChild.firstChild;
             continue;
@@ -4800,7 +4799,7 @@ int OtherClientGone(void* value, XID id)
 {
     WindowPtr pWin = cast(WindowPtr) value;
 
-    for (OtherClientsPtr other = mixin(wOtherClients!("pWin")), prev = null; other; other = other.next) {
+    for (OtherClientsPtr other = pWin.getOtherClients(), prev = null; other; other = other.next) {
         if (other.resource == id) {
             if (prev)
                 prev.next = other.next;
@@ -4835,13 +4834,13 @@ int EventSelectForWindow(WindowPtr pWin, ClientPtr client, Mask mask)
             return rc;
     }
     check = (mask & AtMostOneClient);
-    if (check & (pWin.eventMask | mixin(wOtherEventMasks!("pWin")))) {
+    if (check & (pWin.eventMask | pWin.getOtherEventMasks())) {
         /* It is illegal for two different clients to select on any of the
            events for AtMostOneClient. However, it is OK, for some client to
            continue selecting on one of those events.  */
         if ((dixClientForWindow(pWin) != client) && (check & pWin.eventMask))
             return BadAccess;
-        for (OtherClients* others = mixin(wOtherClients!("pWin")); others; others = others.next) {
+        for (OtherClients* others = pWin.getOtherClients(); others; others = others.next) {
             if (!mixin(SameClient!("others", "client")) && (check & others.mask))
                 return BadAccess;
         }
@@ -4851,7 +4850,7 @@ int EventSelectForWindow(WindowPtr pWin, ClientPtr client, Mask mask)
         pWin.eventMask = mask;
     }
     else {
-        for (OtherClients* others = mixin(wOtherClients!("pWin")); others; others = others.next) {
+        for (OtherClients* others = pWin.getOtherClients(); others; others = others.next) {
             if (mixin(SameClient!("others", "client"))) {
                 check = others.mask;
                 if (mask == 0) {
@@ -4958,7 +4957,7 @@ void CoreEnterLeaveEvent(DeviceIntPtr mouse, int type, int mode, int detail, Win
             mask |= EventMaskForClient(pWin, dixClientForGrab(grab));
     }
     else {
-        mask = pWin.eventMask | mixin(wOtherEventMasks!("pWin"));
+        mask = pWin.eventMask | pWin.getOtherEventMasks();
     }
 
     event.u.enterLeave.time = currentTime.milliseconds;
@@ -5097,7 +5096,7 @@ void CoreFocusEvent(DeviceIntPtr dev, int type, int mode, int detail, WindowPtr 
     DeliverEventsToWindow(dev, pWin, &event, 1,
                           GetEventFilter(dev, &event), NullGrab);
     if ((type == FocusIn) &&
-        ((pWin.eventMask | mixin(wOtherEventMasks!("pWin"))) & KeymapStateMask)) {
+        ((pWin.eventMask | pWin.getOtherEventMasks()) & KeymapStateMask)) {
         xKeymapEvent ke = {
             type: KeymapNotify
         };
@@ -5828,7 +5827,7 @@ int ProcSendEvent(ClientPtr client)
                 return Success;
             if (pWin == effectiveFocus)
                 return Success;
-            stuff.eventMask &= ~mixin(wDontPropagateMask!("pWin"));
+            stuff.eventMask &= ~pWin.getDontPropagateMask();
             if (!stuff.eventMask)
                 break;
         }
@@ -6193,9 +6192,9 @@ void DeleteWindowFromAnyEvents(WindowPtr pWin, Bool freeResources)
     if (freeResources) {
         if (pWin.dontPropagate)
             DontPropagateRefCnts[pWin.dontPropagate]--;
-        while ((oc = mixin(wOtherClients!("pWin"))) !is null)
+        while ((oc = pWin.getOtherClients()) !is null)
             FreeResource(cast(uint)oc.resource, X11_RESTYPE_NONE);
-        while ((passive = mixin(wPassiveGrabs!("pWin"))) !is null)
+        while ((passive = pWin.getPassiveGrabs()) !is null)
             FreeResource(cast(uint)passive.resource, X11_RESTYPE_NONE);
     }
 
@@ -6234,7 +6233,7 @@ Mask EventMaskForClient(WindowPtr pWin, ClientPtr client)
 {
     if (dixClientForWindow(pWin) == client)
         return pWin.eventMask;
-    for (OtherClientsPtr other = mixin(wOtherClients!("pWin")); other; other = other.next) {
+    for (OtherClientsPtr other = pWin.getOtherClients(); other; other = other.next) {
         if (mixin(SameClient!("other", "client")))
             return other.mask;
     }

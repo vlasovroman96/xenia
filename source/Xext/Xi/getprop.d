@@ -61,7 +61,6 @@ import externs.X11.extensions.XIproto;
 import dix.dix_priv;
 import dix.request_priv;
 import dix.rpcbuf;
-import dix.window_priv;
 import Xi.handlers;
 public import Xi.extinit;
 
@@ -104,7 +103,7 @@ int ProcXGetDeviceDontPropagateList(ClientPtr client)
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
-    if ((others = mixin(wOtherInputMasks!("pWin"))) !is null) {
+    if ((others = pWin.getOtherInputMasks()) !is null) {
         for (i = 0; i < EMASKSIZE; i++)
             ClassFromMask(null, others.dontPropagateMask[i], i, &count, COUNT);
         if (count) {

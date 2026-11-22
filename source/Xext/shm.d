@@ -56,7 +56,6 @@ import dix.request_priv;
 import dix.screenint_priv;
 import dix.screen_hooks_priv;
 import dix.screenint_priv;
-import dix.window_priv;
 import miext.extinit_priv;
 import os.auth;
 import os.busfault;
@@ -652,7 +651,7 @@ private int ShmGetImage(ClientPtr client, xShmGetImageReq* stuff)
                stuff.y + cast(int) stuff.height >
                (cast(WindowPtr) pDraw).borderWidth + cast(int) pDraw.height)
             return BadMatch;
-        visual = mixin(wVisual!("cast(WindowPtr) pDraw"));
+        visual = (cast(WindowPtr) pDraw).getVisual();
         if (pDraw.type == DRAWABLE_WINDOW)
             pVisibleRegion = &(cast(WindowPtr) pDraw).borderClip;
         pDraw.pScreen.SourceValidate(pDraw, stuff.x, stuff.y,
@@ -921,7 +920,7 @@ static if(XINERAMA){
     free(drawables);
 
     xShmGetImageReply reply = {
-        visual: mixin(wVisual!("cast(WindowPtr) pDraw")),
+        visual: (cast(WindowPtr) pDraw).getVisual(),
         depth: pDraw.depth,
         size: cast(uint)length
     };

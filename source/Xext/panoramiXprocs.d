@@ -40,7 +40,6 @@ import dix.request_priv;
 import dix.rpcbuf;
 import dix.screenint_priv;
 import dix.server_priv;
-import dix.window_priv;
 import os.osdep;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
@@ -656,8 +655,8 @@ int PanoramiXTranslateCoords(ClientPtr client)
              * is made to see if the point is inside
              * borderSize
              */
-            && (!mixin(wBoundingShape!("pWin")) ||
-                RegionContainsPoint(mixin(wBoundingShape!("pWin")),
+            && (!pWin.getBoundingShape() ||
+                RegionContainsPoint(pWin.getBoundingShape(),
                                     x - pWin.drawable.x,
                                     y - pWin.drawable.y, &box))
             ) {
@@ -2098,7 +2097,7 @@ int PanoramiXGetImage(ClientPtr client)
     }
 
     xGetImageReply reply = {
-        visual: cast(uint)mixin(wVisual!("cast(WindowPtr) pDraw")),
+        visual: cast(uint)(cast(WindowPtr) pDraw).getVisual(),
         depth: pDraw.depth,
     };
 

@@ -95,7 +95,6 @@ import build.dix_config;
 
 //import   x11.X;
 
-import dix.window_priv;
 import mi.mi_priv;
 
 import    dix.scrnintstr;
@@ -240,7 +239,7 @@ private void miComputeClips(WindowPtr pParent, ScreenPtr pScreen, RegionPtr univ
         {
             RegionPtr pBounding = void;
 
-            if ((pBounding = mixin(wBoundingShape!("pParent")))!is null) {
+            if ((pBounding = pParent.getBoundingShape())!is null) {
                 switch (miShapedWindowIn(universe, pBounding,
                                          &borderSize,
                                          pParent.drawable.x,
@@ -262,7 +261,7 @@ private void miComputeClips(WindowPtr pParent, ScreenPtr pScreen, RegionPtr univ
     pParent.visibility = newVis;
     if (oldVis != newVis &&
         ((pParent.
-          eventMask | mixin(wOtherEventMasks!("pParent"))) & VisibilityChangeMask))
+          eventMask | pParent.getOtherEventMasks()) & VisibilityChangeMask))
         SendVisibilityNotify(pParent);
 
     dx = pParent.drawable.x - pParent.valdata.before.oldAbsCorner.x;
@@ -480,7 +479,7 @@ private void miTreeObscured(WindowPtr pParent)
             oldVis = pChild.visibility;
             if (oldVis != (pChild.visibility = VisibilityFullyObscured) &&
                 ((pChild.
-                  eventMask | mixin(wOtherEventMasks!("pChild"))) & VisibilityChangeMask))
+                  eventMask | pChild.getOtherEventMasks()) & VisibilityChangeMask))
                 SendVisibilityNotify(pChild);
             if (pChild.firstChild) {
                 pChild = pChild.firstChild;

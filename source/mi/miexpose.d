@@ -85,7 +85,6 @@ import region;
 
 import dix.dix_priv;
 import dix.screenint_priv;
-import dix.window_priv;
 import mi.mi_priv;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
@@ -236,7 +235,7 @@ RegionPtr miHandleExposures(DrawablePtr pSrcDrawable, DrawablePtr pDstDrawable, 
         RegionPtr region = void;
 
         if (((region = pSrcWin.getClipShape()) is null))
-            region = mixin(wBoundingShape!("pSrcWin"));
+            region = pSrcWin.getBoundingShape();
         /*
          * If you try to CopyArea the extents of a shaped window, compacting the
          * exposed region will undo all our work!
@@ -362,7 +361,7 @@ void miWindowExposures(WindowPtr pWin, RegionPtr prgn)
 
     if (prgn && !RegionNil(prgn)) {
         RegionRec expRec = void;
-        int clientInterested = cast(int)((pWin.eventMask | mixin(wOtherEventMasks!("pWin"))) & ExposureMask);
+        int clientInterested = cast(int)((pWin.eventMask | pWin.getOtherEventMasks()) & ExposureMask);
         if (clientInterested && (RegionNumRects(prgn) > RECTLIMIT)) {
             /*
              * If we have LOTS of rectangles, we decide to take the extents

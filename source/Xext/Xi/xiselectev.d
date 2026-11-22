@@ -35,7 +35,6 @@ import dix.exevents_priv;
 import dix.inpututils_priv;
 import dix.request_priv;
 import dix.resource_priv;
-import dix.window_priv;
 import Xi.handlers;
 
 import dix.dixstruct_priv;
@@ -57,7 +56,7 @@ import common.swap;
  */
 private int check_for_touch_selection_conflicts(ClientPtr B, WindowPtr win, int deviceid, int evtype)
 {
-    OtherInputMasks* inputMasks = mixin(wOtherInputMasks!("win"));
+    OtherInputMasks* inputMasks = win.getOtherInputMasks();
     InputClients* A = null;
 
     if (inputMasks)
@@ -340,9 +339,9 @@ int ProcXIGetSelectedEvents(ClientPtr client)
         RepType: X_XIGetSelectedEvents,
     };
 
-    masks = mixin(wOtherInputMasks!("win"));
+    masks = win.getOtherInputMasks();
     if (masks) {
-        for (others = mixin(wOtherInputMasks!("win")).inputClients; others;
+        for (others = win.getOtherInputMasks().inputClients; others;
              others = others.next) {
             if (mixin(SameClient!("others", "client"))) {
                 break;

@@ -62,7 +62,6 @@ import dix.dixgrabs_priv;
 import dix.exevents_priv;
 import dix.inpututils_priv;
 import dix.resource_priv;
-import dix.window_priv;
 import os.auth;
 import os.client_priv;
 
@@ -318,7 +317,7 @@ int DeletePassiveGrab(void* value, XID id)
     GrabPtr pGrab = cast(GrabPtr) value;
 
     /* it is OK if the grab isn't found */
-    for (GrabPtr g = (mixin(wPassiveGrabs!("pGrab.window"))), prev = null; g; g = g.next) {
+    for (GrabPtr g = (pGrab.window.getPassiveGrabs()), prev = null; g; g = g.next) {
         if (pGrab == g) {
             if (prev)
                 prev.next = g.next;
@@ -512,7 +511,7 @@ int AddPassiveGrabToList(ClientPtr client, GrabPtr pGrab)
     Mask access_mode = DixGrabAccess;
     int rc = void;
 
-    for (GrabPtr grab = mixin(wPassiveGrabs!("pGrab.window")); grab; grab = grab.next) {
+    for (GrabPtr grab = pGrab.window.getPassiveGrabs(); grab; grab = grab.next) {
         if (GrabMatchesSecond(pGrab, grab, (pGrab.grabtype == CORE))) {
             if (dixClientIdForXID(pGrab.resource) != dixClientIdForXID(grab.resource)) {
                 FreeGrab(pGrab);
@@ -529,7 +528,7 @@ int AddPassiveGrabToList(ClientPtr client, GrabPtr pGrab)
         return rc;
 
     /* Remove all grabs that match the new one exactly */
-    for (GrabPtr grab = mixin(wPassiveGrabs!("pGrab.window")); grab; grab = grab.next) {
+    for (GrabPtr grab = pGrab.window.getPassiveGrabs(); grab; grab = grab.next) {
         if (GrabsAreIdentical(pGrab, grab)) {
             DeletePassiveGrabFromList(grab);
             break;
@@ -568,7 +567,7 @@ enum string UPDATE(string mask,string exact) = `
 	  updates[nups++] = &(` ~ mask ~ `);`;
 
     i = 0;
-    for (GrabPtr grab = mixin(wPassiveGrabs!("pMinuendGrab.window")); grab; grab = grab.next)
+    for (GrabPtr grab = pMinuendGrab.window.getPassiveGrabs(); grab; grab = grab.next)
         i++;
     if (!i)
         return True;
@@ -590,7 +589,7 @@ enum string UPDATE(string mask,string exact) = `
         cast(uint) XIAnyKeycode : cast(uint) AnyKey;
     ndels = nadds = nups = 0;
     ok = True;
-    for (GrabPtr grab = mixin(wPassiveGrabs!("pMinuendGrab.window"));
+    for (GrabPtr grab = pMinuendGrab.window.getPassiveGrabs();
          grab && ok; grab = grab.next) {
         if ((dixClientIdForXID(grab.resource) != dixClientIdForXID(pMinuendGrab.resource))
             || !GrabMatchesSecond(grab, pMinuendGrab, (grab.grabtype == CORE)))

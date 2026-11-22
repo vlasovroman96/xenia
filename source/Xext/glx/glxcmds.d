@@ -45,7 +45,6 @@ import dix.resource_priv;
 import dix.request_priv;
 import dix.rpcbuf;
 import dix.screenint_priv;
-import dix.window_priv;
 import os.bug_priv;
 import present.present_priv;
 //  import Xext.glx.fix;
@@ -160,7 +159,7 @@ private int validGlxFBConfigForWindow(ClientPtr client, __GLXconfig* config, Dra
     XID vid = void;
     int i = void;
 
-    vid = mixin(wVisual!("cast(WindowPtr)pDraw"));
+    vid = (cast(WindowPtr)pDraw).getVisual();
     for (i = 0; i < pScreen.numVisuals; i++) {
         if (pScreen.visuals[i].vid == vid) {
             pVisual = &pScreen.visuals[i];
@@ -492,7 +491,7 @@ __GLXcontext* __glXLookupContextByTag(__GLXclientState* cl, GLXContextTag tag)
 
 private __GLXconfig* inferConfigForWindow(__GLXscreen* pGlxScreen, WindowPtr pWin)
 {
-    int i = void, vid = cast(int)mixin(wVisual!("pWin"));
+    int i = void, vid = cast(int)pWin.getVisual();
 
     for (i = 0; i < pGlxScreen.numVisuals; i++)
         if (pGlxScreen.visuals[i].visualID == vid)

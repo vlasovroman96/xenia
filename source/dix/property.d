@@ -57,7 +57,6 @@ import dix.dix_priv;
 import dix.input_priv;
 import dix.property_priv;
 import dix.request_priv;
-import dix.window_priv;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
 

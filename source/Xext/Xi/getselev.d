@@ -62,7 +62,6 @@ import dix.dix_priv;
 import dix.resource_priv;
 import dix.request_priv;
 import dix.rpcbuf;
-import dix.window_priv;
 import Xi.handlers;
 
 import dix.inputstr;           /* DeviceIntPtr      */
@@ -106,7 +105,7 @@ int ProcXGetSelectedExtensionEvents(ClientPtr client)
 
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
-    if ((pOthers = mixin(wOtherInputMasks!("pWin"))) !is null) {
+    if ((pOthers = pWin.getOtherInputMasks()) !is null) {
         for (others = pOthers.inputClients; others; others = others.next)
             for (i = 0; i < EMASKSIZE; i++)
                 ClassFromMask(null, others.mask[i], i,

@@ -47,7 +47,6 @@ import dix.dix_priv;
 import dix.dixgrabs_priv;
 import dix.request_priv;
 import dix.screensaver_priv;
-import dix.window_priv;
 import miext.extinit_priv;
 import os.osdep;
 import os.screensaver;
@@ -560,7 +559,7 @@ private Bool CreateSaverWindow(ScreenPtr pScreen)
     pSaver.pWindow = pWin;
 
     /* check and install our own colormap if it isn't installed now */
-    wantMap = mixin(wColormap!("pWin"));
+    wantMap = cast(uint)pWin.getColormap();
     if (wantMap == None || IsMapInstalled(wantMap, pWin)) {
         return True;
     }

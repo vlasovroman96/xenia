@@ -122,7 +122,6 @@ import dix.screensaver_priv;
 import dix.selection_priv;
 import dix.server_priv;
 import dix.settings_priv;
-import dix.window_priv;
 import dix.resource;
 import miext.extinit_priv;
 import os.auth;
@@ -1267,11 +1266,11 @@ int ProcTranslateCoords(ClientPtr client)
                  * is made to see if the point is inside
                  * borderSize
                  */
-                && (!mixin(wBoundingShape!("pWin")) ||
+                && (!pWin.getBoundingShape() ||
                     RegionContainsPoint(&pWin.borderSize, x, y, &box))
 
-                && (!mixin(wInputShape!("pWin")) ||
-                    RegionContainsPoint(mixin(wInputShape!("pWin")),
+                && (!pWin.getInputShape() ||
+                    RegionContainsPoint(pWin.getInputShape(),
                                         x - pWin.drawable.x,
                                         y - pWin.drawable.y, &box))
                 ) {
@@ -2238,7 +2237,7 @@ private int DoGetImage(ClientPtr client, int format, Drawable drawable, int x, i
             pBoundingDraw = cast(DrawablePtr) pDraw.pScreen.root;
         }
 
-        reply.visual = cast(uint)mixin(wVisual!("pWin"));
+        reply.visual = cast(uint)pWin.getVisual();
     }
     else {
         pBoundingDraw = pDraw;
@@ -3844,7 +3843,7 @@ static if(XINERAMA){
         xDepth* pDepth = void;
         WindowPtr pRoot = walkScreen.root;
 
-        root.currentInputMask = cast(uint)(pRoot.eventMask | mixin(wOtherEventMasks!("pRoot")));
+        root.currentInputMask = cast(uint)(pRoot.eventMask | pRoot.getOtherEventMasks());
         pDepth = cast(xDepth*) (root + 1);
         for (uint j = 0; j < root.nDepths; j++) {
             pDepth = cast(xDepth*) ((cast(char*) (pDepth + 1)) +

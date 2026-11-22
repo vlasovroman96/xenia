@@ -46,7 +46,6 @@ import dix.exevents_priv;
 import dix.inpututils_priv;
 import dix.request_priv;
 import dix.screensaver_priv;
-import dix.window_priv;
 import mi.mi_priv;
 import mi.mipointer_priv;
 import miext.extinit_priv;
@@ -156,7 +155,7 @@ private int ProcXTestCompareCursor(ClientPtr client)
     }
 
     xXTestCompareCursorReply reply = {
-        same: (mixin(wCursor!("pWin")) is pCursor)
+        same: (pWin.getCursor() is pCursor)
     };
 
     return mixin(X_SEND_REPLY_SIMPLE!("client", "reply"));

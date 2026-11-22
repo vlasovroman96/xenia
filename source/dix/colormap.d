@@ -64,7 +64,6 @@ import externs.strings;
 import dix.colormap_priv;
 import dix.dix_priv;
 import dix.resource_priv;
-import dix.window_priv;
 import os.osdep;
 import os.bug_priv;
 
@@ -396,7 +395,7 @@ int FreeColormap(void* value, XID mid)
 /* Tell window that pmid has disappeared */
 private int TellNoMap(WindowPtr pwin, Colormap* pmid)
 {
-    if (mixin(wColormap!("pwin")) == *pmid) {
+    if (pwin.getColormap() == *pmid) {
         /* This should be call to DeliverEvent */
         xEvent xE;
         // pragma(msg, typeof(xE.u.colormap.window).stringof);
@@ -432,7 +431,7 @@ static if(XINERAMA){
     if (!noPanoramiXExtension && pwin.drawable.pScreen.myNum)
         return WinTreeWalking.Stop;
 } /* XINERAMA */
-    if (mixin(wColormap!("pwin")) == *pmid) {
+    if (pwin.getColormap() == *pmid) {
         /* This should be call to DeliverEvent */
         // xEvent xE = {
         //     u:colormap:window: cast(uint)pWin.drawable.id,
@@ -462,7 +461,7 @@ static if(XINERAMA){
     if (!noPanoramiXExtension && pwin.drawable.pScreen.myNum)
         return WinTreeWalking.Stop;
 } /* XINERAMA */
-    if (mixin(wColormap!("pwin")) == *pmid) {
+    if (pwin.getColormap() == *pmid) {
         /* This should be call to DeliverEvent */
         xEvent xE;
             xE.u.colormap.window = cast(uint)pwin.drawable.id;

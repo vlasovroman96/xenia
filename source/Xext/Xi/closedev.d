@@ -61,7 +61,6 @@ import build.dix_config;
 import dix.request_priv;
 import dix.resource_priv;
 import dix.screenint_priv;
-import dix.window_priv;
 import Xi.handlers;
 
 import dix.inputstr;           /* DeviceIntPtr      */
@@ -84,12 +83,12 @@ private void DeleteDeviceEvents(DeviceIntPtr dev, WindowPtr pWin, ClientPtr clie
     OtherInputMasks* pOthers = void;
     GrabPtr grab = void, next = void;
 
-    if ((pOthers = mixin(wOtherInputMasks!("pWin")) )!is null)
+    if ((pOthers = pWin.getOtherInputMasks() )!is null)
         for (others = pOthers.inputClients; others; others = others.next)
             if (mixin(SameClient!("others", "client")))
                 others.mask[dev.id] = NoEventMask;
 
-    for (grab = mixin(wPassiveGrabs!("pWin")); grab; grab = next) {
+    for (grab = pWin.getPassiveGrabs(); grab; grab = next) {
         next = grab.next;
         if ((grab.device == dev) &&
             (client.clientAsMask == CLIENT_BITS(grab.resource)))

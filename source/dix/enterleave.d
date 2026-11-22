@@ -40,7 +40,6 @@ import dix.extension_priv;
 import dix.input_priv;
 import dix.inpututils_priv;
 import dix.screenint_priv;
-import dix.window_priv;
 import os.bug_priv;
 
 import dix.inputstr;
@@ -683,8 +682,8 @@ private void DeliverStateNotifyEvent(DeviceIntPtr dev, WindowPtr win)
     ValuatorClassPtr v = void;
     int nval = 0, nkeys = 0, nbuttons = 0, first = 0;
 
-    if (!(mixin(wOtherInputMasks!("win"))) ||
-        !(mixin(wOtherInputMasks!("win")).inputEvents[dev.id] & DeviceStateNotifyMask))
+    if (!win.getOtherInputMasks() ||
+        !(win.getOtherInputMasks().inputEvents[dev.id] & DeviceStateNotifyMask))
         return;
 
     if ((b = dev.button) !is null) {

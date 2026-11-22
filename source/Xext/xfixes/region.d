@@ -28,7 +28,6 @@ import build.xlibre_server;;
 import dix.dix_priv;
 import dix.request_priv;
 import dix.rpcbuf;
-import dix.window_priv;
 import render.picturestr_priv;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
@@ -156,7 +155,7 @@ int ProcXFixesCreateRegionFromWindow(ClientPtr client)
     }
     switch (stuff.kind) {
     case WindowRegionBounding:
-        pRegion = mixin(wBoundingShape!("pWin"));
+        pRegion = pWin.getBoundingShape();
         if (!pRegion) {
             pRegion = CreateBoundingShape(pWin);
             copy = False;

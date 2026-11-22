@@ -36,7 +36,6 @@ import dix.input_priv;
 import dix.inpututils_priv;
 import dix.resource_priv;
 import dix.screenint_priv;
-import dix.window_priv;
 import mi.mi_priv;
 import os.bug_priv;
 
@@ -235,7 +234,7 @@ private void GestureAddRegularListener(DeviceIntPtr dev, GestureInfoPtr gi, Wind
     if (!mask)
         return;
 
-    inputMasks = mixin(wOtherInputMasks!("win"));
+    inputMasks = win.getOtherInputMasks();
 
     if ((mask & EVENT_XI2_MASK) && (inputMasks !is null)) {
         foreach(iclients; inputMasks.inputClients.ntRange!"next") {

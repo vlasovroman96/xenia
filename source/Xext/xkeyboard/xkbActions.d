@@ -47,7 +47,7 @@ import dix.dix_priv;
 import dix.dixgrabs_priv;
 import dix.input_priv;
 import dix.inpututils_priv;
-import dix.window_priv;
+import dix.window;
 import mi.mi_priv;
 import mi.mipointer_priv;
 import xkb.xkbsrv_priv;

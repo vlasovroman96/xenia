@@ -37,7 +37,6 @@ import dix.input_priv;
 import dix.inpututils_priv;
 import dix.resource_priv;
 import dix.screenint_priv;
-import dix.window_priv;
 import mi.mi_priv;
 import os.bug_priv;
 import os.log_priv;
@@ -726,7 +725,7 @@ private Bool TouchAddRegularListener(DeviceIntPtr dev, TouchPointInfoPtr ti, Win
     if (!mask)
         return False;
 
-    inputMasks = mixin(wOtherInputMasks!("win"));
+    inputMasks = win.getOtherInputMasks();
 
     if ((mask & EVENT_XI2_MASK) && (inputMasks !is null)) {
         foreach(iclients; inputMasks.inputClients.ntRange!"next") {
@@ -774,7 +773,7 @@ private Bool TouchAddRegularListener(DeviceIntPtr dev, TouchPointInfoPtr ti, Win
         }
 
         /* all others */
-        foreach(oclients; mixin(wOtherClients!(`win`)).ntRange!"next") {
+        foreach(oclients; win.getOtherClients().ntRange!"next") {
             if (!(oclients.mask & core_filter))
                 continue;
 

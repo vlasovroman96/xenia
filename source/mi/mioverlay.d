@@ -12,7 +12,6 @@ import dix.cursor_priv;
 import dix.dix_priv;
 import dix.screen_hooks_priv;
 import dix.screensaver_priv;
-import dix.window_priv;
 import mi.mi_priv;
 
 import dix.scrnintstr;
@@ -498,7 +497,7 @@ private void miOverlayComputeClips(WindowPtr pParent, RegionPtr universe, VTKind
         {
             RegionPtr pBounding = void;
 
-            if ((pBounding = mixin(wBoundingShape!("pParent"))) !is null) {
+            if ((pBounding = pParent.getBoundingShape()) !is null) {
                 switch (miShapedWindowIn(universe, pBounding,
                                          &borderSize,
                                          pParent.drawable.x,
@@ -992,7 +991,7 @@ private void miOverlayWindowExposures(WindowPtr pWin, RegionPtr prgn)
 
     if (prgn && !RegionNil(prgn)) {
         RegionRec expRec = void;
-        int clientInterested = cast(int)((pWin.eventMask | mixin(wOtherEventMasks!("pWin"))) & ExposureMask);
+        int clientInterested = cast(int)((pWin.eventMask | pWin.getOtherEventMasks()) & ExposureMask);
         if (clientInterested && (RegionNumRects(prgn) > RECTLIMIT)) {
             miOverlayScreenPtr pPriv = mixin(MIOVERLAY_GET_SCREEN_PRIVATE!(`pScreen`));
             BoxRec box = void;

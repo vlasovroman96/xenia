@@ -45,7 +45,6 @@ import dix.request_priv;
 import dix.rpcbuf;
 import dix.screen_hooks_priv;
 import dix.screenint_priv;
-import dix.window_priv;
 import miext.extinit_priv;
 
 import dix.scrnintstr;
@@ -193,7 +192,7 @@ private int ProcDbeAllocateBackBufferName(ClientPtr client)
     }
 
     /* See if the window's visual is on the list. */
-    VisualID visual = mixin(wVisual!("pWin"));
+    VisualID visual = pWin.getVisual();
     Bool visualMatched = False;
     for (int i = 0; (i < scrVisInfo.count) && !visualMatched; i++) {
         if (scrVisInfo.visinfo[i].visual == visual) {

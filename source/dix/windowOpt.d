@@ -57,3 +57,35 @@ struct WindowOpt {
     }
 }
 alias WindowOptPtr = WindowOpt*;
+
+// struct WindowOptGetter {
+//     RegionPtr function() getClipShape;
+//     _OtherClients* function() getOtherClients;
+//     Mask function() getOtherEventMasks;
+//     _OtherInputMasks* function() getOtherInputMasks;
+//     // _OtherClients*  = useDefault!(`otherClients`, null);
+//     alias getOtherInputMasks = useDefault!(`inputMasks`, null);
+//     alias getPassiveGrabs = useDefault!(`passiveGrabs`, null);
+//     alias getBackingBitPlanes = useDefault!(`backingBitPlanes`, ~0L);
+//     alias getBackingPixel = useDefault!(`backingPixel`, 0);
+//     alias getBoundingShape = useDefault!(`boundingShape`, null);
+//     alias getInputShape = useDefault!(`inputShape`, null);
+
+//     auto getDontPropagateMask() => this.optional ? 
+//             this.optional.dontPropagateMask : 
+//             DontPropagateMasks[this.dontPropagate];
+//     auto getCursor() => this.cursorIsNone ? null : getTrackParent!`cursor`;
+//     auto getColormap() => this.drawable.class_ == InputOnly ? None : getTrackParent!`colormap`;
+//     alias getVisual = getTrackParent!(`visual`);
+//     WindowOptPtr opts;
+
+//     this(WindowOptPtr opts) {
+//         this.opts = opts;
+//     }
+// }
+
+// enum WindowOptGettet defaultGetter = {
+
+// }
+
+// auto getter(WindowOptPtr opts) => WindowOptGetter(opts);

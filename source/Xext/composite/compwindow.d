@@ -49,7 +49,6 @@ import build.xlibre_server;
 import dix.dix_priv;
 import dix.resource_priv;
 import dix.screensaver_priv;
-import dix.window_priv;
 import os.osdep;
 import Xext.panoramiXsrv;
 
@@ -347,8 +346,8 @@ private Bool compImplicitRedirect(WindowPtr pWin, WindowPtr pParent)
 {
     if (pParent) {
         ScreenPtr pScreen = pWin.drawable.pScreen;
-        XID winVisual = mixin(wVisual!("pWin"));
-        XID parentVisual = mixin(wVisual!("pParent"));
+        XID winVisual = pWin.getVisual();
+        XID parentVisual = pParent.getVisual();
 
         if (CompositeIsImplicitRedirectException(pScreen, parentVisual, winVisual))
             return False;

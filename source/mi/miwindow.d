@@ -55,7 +55,6 @@ import build.dix_config;
 import dix.cursor_priv;
 import dix.dix_priv;
 import dix.input_priv;
-import dix.window_priv;
 import region;
 import mi.mi_priv;
 
@@ -754,9 +753,9 @@ WindowPtr miSpriteTrace(SpritePtr pSprite, int x, int y)
              * is made to see if the point is inside
              * borderSize
              */
-            && (!mixin(wBoundingShape!("pWin")) || PointInBorderSize(pWin, x, y))
-            && (!mixin(wInputShape!("pWin")) ||
-                RegionContainsPoint(mixin(wInputShape!("pWin")),
+            && (!pWin.getBoundingShape() || PointInBorderSize(pWin, x, y))
+            && (!pWin.getInputShape() ||
+                RegionContainsPoint(pWin.getInputShape(),
                                     x - pWin.drawable.x,
                                     y - pWin.drawable.y, &box))
             /* In rootless mode windows may be offscreen, even when

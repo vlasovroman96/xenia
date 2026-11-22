@@ -25,7 +25,6 @@ import externs.xcb.xcb_aux;
 //import x11.Xdefs;
 //import x11.Xproto;
 
-import dix.window_priv;
 import region;
 import mi.mi_priv;
 
@@ -95,11 +94,11 @@ Bool xnestCreateWindow(WindowPtr pWin)
 
         if (pWin.parent) {
             if (pWin.optional &&
-                pWin.optional.visual != mixin(wVisual!("pWin.parent"))) {
-                visual = xnest_visual_map_to_upstream(mixin(wVisual!("pWin")));
+                pWin.optional.visual != pWin.parent.getVisual()) {
+                visual = xnest_visual_map_to_upstream(pWin.getVisual());
                 mask |= XCB_CW_COLORMAP;
                 if (pWin.optional.colormap) {
-                    dixLookupResourceByType(cast(void**) &pCmap, mixin(wColormap!("pWin")),
+                    dixLookupResourceByType(cast(void**) &pCmap, pWin.getColormap(),
                                             X11_RESTYPE_COLORMAP, serverClient,
                                             DixUseAccess);
                     attributes.colormap = xnestColormap(pCmap);
@@ -111,8 +110,8 @@ Bool xnestCreateWindow(WindowPtr pWin)
                 visual = CopyFromParent;
         }
         else {                  /* root windows have their own colormaps at creation time */
-            visual = xnest_visual_map_to_upstream(mixin(wVisual!("pWin")));
-            dixLookupResourceByType(cast(void**) &pCmap, mixin(wColormap!("pWin")),
+            visual = xnest_visual_map_to_upstream(pWin.getVisual());
+            dixLookupResourceByType(cast(void**) &pCmap, pWin.getColormap(),
                                     X11_RESTYPE_COLORMAP, serverClient, DixUseAccess);
             mask |= XCB_CW_COLORMAP;
             attributes.colormap = xnestColormap(pCmap);
@@ -340,7 +339,7 @@ Bool xnestChangeWindowAttributes(WindowPtr pWin, c_ulong mask)
     if (mask & XCB_CW_COLORMAP) {
         ColormapPtr pCmap = void;
 
-        dixLookupResourceByType(cast(void**) &pCmap, mixin(wColormap!("pWin")),
+        dixLookupResourceByType(cast(void**) &pCmap, pWin.getColormap(),
                                 X11_RESTYPE_COLORMAP, serverClient, DixUseAccess);
 
         attributes.colormap = xnestColormap(pCmap);
@@ -423,11 +422,11 @@ private Bool xnestRegionEqual(RegionPtr pReg1, RegionPtr pReg2)
 void xnestShapeWindow(WindowPtr pWin)
 {
     if (!xnestRegionEqual(xnestWindowPriv(pWin).bounding_shape,
-                          mixin(wBoundingShape!("pWin")))) {
+                          pWin.getBoundingShape())) {
 
-        if (mixin(wBoundingShape!("pWin"))) {
+        if (pWin.getBoundingShape()) {
             RegionCopy(xnestWindowPriv(pWin).bounding_shape,
-                       mixin(wBoundingShape!("pWin")));
+                       pWin.getBoundingShape());
 
             const(int) num_rects = RegionNumRects(xnestWindowPriv(pWin).bounding_shape);
             const(BoxPtr) pBox = RegionRects(xnestWindowPriv(pWin).bounding_shape);

@@ -43,7 +43,6 @@ import dix.request_priv;
 import dix.rpcbuf;
 import dix.screenint_priv;
 import dix.screen_hooks_priv;
-import dix.window_priv;
 import miext.extinit_priv;
 import Xext.panoramiX;
 import Xext.panoramiXsrv;
@@ -482,7 +481,7 @@ private int ShapeCombine(ClientPtr client, xShapeCombineReq* stuff)
         return rc;
     switch (stuff.srcKind) {
     case ShapeBounding:
-        srcRgn = mixin(wBoundingShape!("pSrcWin"));
+        srcRgn = pSrcWin.getBoundingShape();
         createSrc = &CreateBoundingShape;
         break;
     case ShapeClip:
@@ -490,7 +489,7 @@ private int ShapeCombine(ClientPtr client, xShapeCombineReq* stuff)
         createSrc = &CreateClipShape;
         break;
     case ShapeInput:
-        srcRgn = mixin(wInputShape!("pSrcWin"));
+        srcRgn = pSrcWin.getInputShape();
         createSrc = &CreateBoundingShape;
         break;
     default:
@@ -581,13 +580,13 @@ private int ShapeOffset(ClientPtr client, xShapeOffsetReq* stuff)
         return rc;
     switch (stuff.destKind) {
     case ShapeBounding:
-        srcRgn = mixin(wBoundingShape!("pWin"));
+        srcRgn = pWin.getBoundingShape();
         break;
     case ShapeClip:
         srcRgn = pWin.getClipShape();
         break;
     case ShapeInput:
-        srcRgn = mixin(wInputShape!("pWin"));
+        srcRgn = pWin.getInputShape();
         break;
     default:
         client.errorValue = cast(uint)stuff.destKind;
@@ -645,7 +644,7 @@ private int ProcShapeQueryExtents(ClientPtr client)
 
     RegionPtr boundRegion = void;
     BoxRec boundBox = void;
-    if ((boundRegion = mixin(wBoundingShape!("pWin"))) !is null) {
+    if ((boundRegion = pWin.getBoundingShape()) !is null) {
         /* this is done in two steps because of a compiler bug on SunOS 4.1.3 */
         BoxRec* pExtents = RegionExtents(boundRegion);
         boundBox = *pExtents;
@@ -672,7 +671,7 @@ private int ProcShapeQueryExtents(ClientPtr client)
     }
 
     xShapeQueryExtentsReply reply = {
-        boundingShaped: (mixin(wBoundingShape!("pWin")) !is null),
+        boundingShaped: (pWin.getBoundingShape() !is null),
         clipShaped: (pWin.getClipShape() !is null),
         xBoundingShape: boundBox.x1,
         yBoundingShape: boundBox.y1,
@@ -757,7 +756,7 @@ void SendShapeNotify(WindowPtr pWin, int which)
 
     switch (which) {
     case ShapeBounding:
-        region = mixin(wBoundingShape!("pWin"));
+        region = pWin.getBoundingShape();
         if (region) {
             extents = *RegionExtents(region);
             shaped = xTrue;
@@ -785,7 +784,7 @@ void SendShapeNotify(WindowPtr pWin, int which)
         }
         break;
     case ShapeInput:
-        region = mixin(wInputShape!("pWin"));
+        region = pWin.getInputShape();
         if (region) {
             extents = *RegionExtents(region);
             shaped = xTrue;
@@ -862,13 +861,13 @@ private int ProcShapeGetRectangles(ClientPtr client)
         return rc;
     switch (stuff.kind) {
     case ShapeBounding:
-        region = mixin(wBoundingShape!("pWin"));
+        region = pWin.getBoundingShape();
         break;
     case ShapeClip:
         region = pWin.getClipShape();
         break;
     case ShapeInput:
-        region = mixin(wInputShape!("pWin"));
+        region = pWin.getInputShape();
         break;
     default:
         client.errorValue = cast(uint)stuff.kind;

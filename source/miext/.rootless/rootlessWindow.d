@@ -45,7 +45,7 @@ import dix.dix_priv;
 import dix.property_priv;
 import dix.screen_hooks_priv;
 import dix.screenint_priv;
-import dix.window_priv;
+import dix.window;
 import fb.fb_priv;
 import mi.mi_priv;
 

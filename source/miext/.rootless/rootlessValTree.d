@@ -97,7 +97,7 @@ import dix-config;
 import core.stdc.stddef;             /* For NULL */
 import x11.X;
 
-import dix.window_priv;
+import dix.window;
 import mi.mi_priv;
 
 import    scrnintstr;

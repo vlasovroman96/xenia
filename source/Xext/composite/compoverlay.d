@@ -47,7 +47,6 @@ extern(C): __gshared:
 import build.dix_config;
 //import x11.Xmd;
 
-import dix.window_priv;
 import Xext.panoramiXsrv;
 
 import composite.compint;
