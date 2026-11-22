@@ -396,6 +396,8 @@ struct WindowRec {
         if (!this.optional)
             return;
 
+        cursorIsNone = this.optional.cursor is null;
+
         this.optional.dispose();
 
         free(this.optional);
