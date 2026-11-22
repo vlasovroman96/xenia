@@ -155,43 +155,6 @@ struct ColormapRec {
 
 alias ColormapPtr = ColormapRec*;
 
-// int dixCreateColormap(Colormap mid, ScreenPtr pScreen, VisualPtr pVisual, ColormapPtr* ppcmap, int alloc, ClientPtr client);
-
-/* should only be called via resource type's destructor */
-// int FreeColormap(void* pmap, XID mid);
-
-// int TellLostMap(WindowPtr pwin, void* value);
-
-// int TellGainedMap(WindowPtr pwin, void* value);
-
-// int CopyColormapAndFree(Colormap mid, ColormapPtr pSrc, int client);
-
-// void  AllocColor(ColormapPtr pmap, ushort* pred, ushort* pgreen, ushort* pblue, Pixel* pPix, int client);
-
-// void FakeAllocColor(ColormapPtr pmap, xColorItem* item);
-
-// void FakeFreeColor(ColormapPtr pmap, Pixel pixel);
-
-// int QueryColors(ColormapPtr pmap, int count, Pixel* ppixIn, xrgb* prgbList, ClientPtr client);
-
-/* should only be called via resource type's destructor */
-// int FreeClientPixels(void* pcr, XID fakeid);
-
-// int AllocColorCells(ClientPtr pClient, ColormapPtr pmap, int colors, int planes, Bool contig, Pixel* ppix, Pixel* masks);
-
-// int AllocColorPlanes(int client, ColormapPtr pmap, int colors, int r, int g, int b, Bool contig, Pixel* pixels, Pixel* prmask, Pixel* pgmask, Pixel* pbmask);
-
-// int FreeColors(ColormapPtr pmap, int client, int count, Pixel* pixels, Pixel mask);
-
-// int StoreColors(ColormapPtr pmap, int count, xColorItem* defs, ClientPtr client);
-
-// int IsMapInstalled(Colormap map, WindowPtr pWin);
-
-/* only exported for glx, but should not be used by external drivers */
-// Bool ResizeVisualArray(ScreenPtr pScreen, int new_vis_count, DepthPtr depth);
-
- /* _XSERVER_DIX_COLORMAP_PRIV_H */
-
 alias ColorCompareProcPtr = int function(EntryPtr, xrgb*);
 /* SimpleColor -- a local color for a PseudoColor cell. DirectColor maps always
  * use the first value (called red) in the structure.  What channel they
