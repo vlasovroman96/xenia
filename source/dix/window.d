@@ -312,6 +312,46 @@ struct WindowRec {
         this.damagedDescendants = False;
         return &this;
     }
+
+    void makeRootTile() {
+        ScreenPtr pScreen = this.drawable.pScreen;
+        GCPtr pGC = void;
+        ubyte[128] back = void;
+        int len = mixin(BitmapBytePad!("c_long.sizeof"));
+        ubyte* to = void;
+
+        this.background.pixmap = (*pScreen.CreatePixmap) (pScreen, 4, 4,
+                                                            pScreen.rootDepth, 0);
+
+        this.backgroundState = BackgroundPixmap;
+        pGC = GetScratchGC(pScreen.rootDepth, pScreen);
+        if (!this.background.pixmap || !pGC)
+            FatalError("could not create root tile");
+
+        {
+            ChangeGCVal[2] attributes = void;
+
+            attributes[0].val = cast(uint)pScreen.whitePixel;
+            attributes[1].val = cast(uint)pScreen.blackPixel;
+
+            cast(void) ChangeGC(null, pGC, cast(uint)(GCForeground | GCBackground),
+                            attributes.ptr);
+        }
+
+        ValidateGC(cast(DrawablePtr) this.background.pixmap, pGC);
+
+        const(ubyte)* from = (screenInfo.bitmapBitOrder == LSBFirst) ? _back_lsb.ptr : _back_msb.ptr;
+        to = back.ptr;
+
+        for (int i = 4; i > 0; i--, from++)
+            for (int j = len; j > 0; j--)
+                *to++ = *from;
+
+        (*pGC.ops.PutImage) (cast(DrawablePtr) this.background.pixmap, pGC, 1,
+                            0, 0, len, 4, 0, XYBitmap, cast(char*) back);
+
+        FreeScratchGC(pGC);
+    }
 }
 
 enum string SameBackground(string as, string a, string bs, string b) = `
@@ -389,137 +429,6 @@ enum InputOnlyLegalMask = (CWWinGravity | CWEventMask |
 
 ///------------------------------------------------------------------------------------
 
-private void MakeRootTile(WindowPtr pWin)
-{
-    ScreenPtr pScreen = pWin.drawable.pScreen;
-    GCPtr pGC = void;
-    ubyte[128] back = void;
-    int len = mixin(BitmapBytePad!("c_long.sizeof"));
-    ubyte* to = void;
-
-    pWin.background.pixmap = (*pScreen.CreatePixmap) (pScreen, 4, 4,
-                                                        pScreen.rootDepth, 0);
-
-    pWin.backgroundState = BackgroundPixmap;
-    pGC = GetScratchGC(pScreen.rootDepth, pScreen);
-    if (!pWin.background.pixmap || !pGC)
-        FatalError("could not create root tile");
-
-    {
-        ChangeGCVal[2] attributes = void;
-
-        attributes[0].val = cast(uint)pScreen.whitePixel;
-        attributes[1].val = cast(uint)pScreen.blackPixel;
-
-        cast(void) ChangeGC(null, pGC, cast(uint)(GCForeground | GCBackground),
-                        attributes.ptr);
-    }
-
-    ValidateGC(cast(DrawablePtr) pWin.background.pixmap, pGC);
-
-    const(ubyte)* from = (screenInfo.bitmapBitOrder == LSBFirst) ? _back_lsb.ptr : _back_msb.ptr;
-    to = back.ptr;
-
-    for (int i = 4; i > 0; i--, from++)
-        for (int j = len; j > 0; j--)
-            *to++ = *from;
-
-    (*pGC.ops.PutImage) (cast(DrawablePtr) pWin.background.pixmap, pGC, 1,
-                           0, 0, len, 4, 0, XYBitmap, cast(char*) back);
-
-    FreeScratchGC(pGC);
-
-}
-
-/*****
- * CreateRootWindow
- *    Makes a window at initialization time for specified screen
- *****/
-
-Bool CreateRootWindow(ScreenPtr pScreen)
-{
-    WindowPtr pWin = void;
-    BoxRec box = void;
-    PixmapFormatRec* format = void;
-
-    pWin = cast(WindowRec*)mixin(dixAllocateScreenObjectWithPrivates!("pScreen", "WindowRec", "PRIVATE_WINDOW"));
-    if (!pWin)
-        return False;
-
-    pScreen.screensaver.pWindow = null;
-    pScreen.screensaver.wid = dixAllocServerXID();
-    pScreen.screensaver.ExternalScreenSaver = null;
-    screenIsSaved = SCREEN_SAVER_OFF;
-
-    pScreen.root = pWin;
-
-    pWin.drawable.pScreen = pScreen;
-    pWin.drawable.type = DRAWABLE_WINDOW;
-
-    pWin.drawable.depth = pScreen.rootDepth;
-    for (format = cast(PixmapFormatRec*)screenInfo.formats.ptr;
-         format.depth != pScreen.rootDepth; format++){}
-    pWin.drawable.bitsPerPixel = format.bitsPerPixel;
-
-    pWin.drawable.serialNumber = NEXT_SERIAL_NUMBER;
-
-    pWin.parent = NullWindow;
-    pWin.setDefault();
-
-    pWin.optional = cast(WindowOptPtr) calloc(1, WindowOpt.sizeof);
-    if (!pWin.optional)
-        return False;
-
-    pWin.optional.initByWindow(pWin, true);
-
-    pWin.nextSib = NullWindow;
-
-    pWin.drawable.id = dixAllocServerXID();
-
-    pWin.origin.x = pWin.origin.y = 0;
-    pWin.drawable.height = pScreen.height;
-    pWin.drawable.width = pScreen.width;
-    pWin.drawable.x = pWin.drawable.y = 0;
-
-    box.x1 = 0;
-    box.y1 = 0;
-    box.x2 = pScreen.width;
-    box.y2 = pScreen.height;
-    RegionInit(&pWin.clipList, &box, 1);
-    RegionInit(&pWin.winSize, &box, 1);
-    RegionInit(&pWin.borderSize, &box, 1);
-    RegionInit(&pWin.borderClip, &box, 1);
-
-    pWin.drawable.class_ = InputOutput;
-
-    pWin.backgroundState = BackgroundPixel;
-    pWin.background.pixel = pScreen.whitePixel;
-
-    pWin.borderIsPixel = True;
-    pWin.border.pixel = pScreen.blackPixel;
-    pWin.borderWidth = 0;
-
-    /*  security creation/labeling check
-     */
-    if (XaceHookResourceAccess(serverClient, pWin.drawable.id,
-                 X11_RESTYPE_WINDOW, pWin, X11_RESTYPE_NONE, null, DixCreateAccess))
-        return False;
-
-    if (!AddResource(cast(uint)pWin.drawable.id, X11_RESTYPE_WINDOW, cast(void*) pWin))
-        return False;
-
-    if (disableBackingStore)
-        pScreen.backingStoreSupport = NotUseful;
-    if (enableBackingStore)
-        pScreen.backingStoreSupport = WhenMapped;
-    if (noCompositeExtension)
-        pScreen.backingStoreSupport = NotUseful;
-
-    pScreen.saveUnderSupport = NotUseful;
-
-    return True;
-}
-
 void InitRootWindow(WindowPtr pWin)
 {
     ScreenPtr pScreen = pWin.drawable.pScreen;
@@ -534,7 +443,7 @@ void InitRootWindow(WindowPtr pWin)
     pWin.optional.cursor = RefCursor(rootCursor);
 
     if (party_like_its_1989) {
-        MakeRootTile(pWin);
+        pWin.makeRootTile();
         backFlag |= CWBackPixmap;
     }
     else if (pScreen.canDoBGNoneRoot && bgNoneRoot) {
@@ -3115,7 +3024,7 @@ private Bool TileScreenSaver(ScreenPtr pScreen, int kind)
         return False;
 
     if (mask & CWBackPixmap) {
-        MakeRootTile(pWin);
+        pWin.makeRootTile();
         (*pWin.drawable.pScreen.ChangeWindowAttributes) (pWin, CWBackPixmap);
     }
     MapWindow(pWin, serverClient);
