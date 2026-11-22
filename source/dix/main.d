@@ -1,4 +1,4 @@
-module main;
+module dix.main;
 @nogc nothrow:
 extern(C): __gshared:
 
