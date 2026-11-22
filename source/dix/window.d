@@ -401,7 +401,7 @@ enum string SameBorder(string as, string a, string bs, string b) = `EqualPixUnio
 alias WindowPtr = WindowRec*;
 enum NullWindow = null;
 
-// XXX: used additionaly with Visibility* enums fron X11 oriti 
+// XXX: used additionaly with Visibility* enums from X11 proto
 enum VisibilityNotViewable =	3;
 
 enum RootClipMode {
