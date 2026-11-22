@@ -11,49 +11,19 @@ module dix.main;
  * See COPYING for the full license texts.
  */
 
-// import build.xlibre_server;
-// import config.version_config;
-
-import dsl.pixman;
-//import x11.X;
-// //import x11.Xos;            /* for unistd.h  */
-// //import x11.Xproto;
-// //import externs.X11.fonts.font;
-// //import externs.X11.fonts.fontstruct;
+//Need secodary cleaning after refactoring
+import build.xlibre_server;
 import externs.X11.fonts.libxfont2;
-
-import config.hotplug_priv;
 import dix.atom;
-import dix.callback;
 import dix.cursor_priv;
-import dix.dix_priv;
-import dix.input_priv;
-import dix.gc_priv;
 import dix.registry_priv;
 import dix.screensaver_priv;
 import dix.selection_priv;
-import dix.server_priv;
-import os.audit_priv;
-import os.auth;
 import os.client_priv;
-import os.cmdline;
 import os.ddx_priv;
-import os.osdep;
-import os.screensaver;
 import os.serverlock;
 import Xext.panoramiXsrv;
-
-import dix.scrnintstr;
-import os.os;
-import dix.resource;
-import dix.dixstruct_priv;
-import dix.gc;
-import dix.cursor;
-import common.servermd;
 import dix.dixfonts;
-import dix.privates;
-import Xi.exevents;
-import os.utils;
 import os.osinit;
 import os.log;
 import dix.dix_priv;
@@ -61,24 +31,13 @@ import externs.attrs;
 import os.connection;
 import os.WaitFor;
 import mi.miinitext;
-import dix.extension;
-import dix.window;
 import dix.dispatch;
-import dix.dixstruct_priv;
 
 static if(DPMSExtension) {
-//import externs.X11.extensions.dpmsconst;
-import Xext.dpmsproc;
+    import Xext.dpmsproc;
 }
 
-void Dispatch();
-
-// CallbackListPtr RootWindowFinalizeCallback = null;
-// CallbackListPtr PostInitRootWindowCallback = null;
-
-int dix_main(string[] args)
-{
-
+int dix_main(string[] args) {
     display = "0";
 
     InitRegions();
