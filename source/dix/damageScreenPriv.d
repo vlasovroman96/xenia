@@ -3,7 +3,17 @@ module dix.damageScreenPriv;
 @nogc: nothrow:
 extern(C):
 
+/* 
+ * SPDX-License-Identifier: MIT OR X11
+ *
+ * Copyright © 2026, Roman Vlasov
+ * Copyright © 2003 Keith Packard
+ *
+ * See COPYING for the full license texts.
+ */
+
 import dix.pixmap;
+import dix.gc;
 import dix.damage;
 
 alias DamageScreenCreateFunc = void function(DamagePtr);
