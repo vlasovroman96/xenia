@@ -55,6 +55,29 @@ struct WindowOpt {
             this.colormap = parentOptional.colormap;
         }
     }
+
+    void dispose() {
+        /*
+        * everything is peachy.  Delete the optional record
+        * and clean up
+        */
+        FreeCursor(this.cursor, cast(Cursor) 0);
+
+        //TODO: migrate it on common.list interface
+        if (this.deviceCursors) {
+            DevCursorList pList = void;
+            DevCursorList pPrev = void;
+
+            pList = this.deviceCursors;
+            while (pList) {
+                FreeCursor(pList.cursor, cast(XID) 0);
+                pPrev = pList;
+                pList = pList.next;
+                free(pPrev);
+            }
+            this.deviceCursors = null;
+        }
+    }
 }
 alias WindowOptPtr = WindowOpt*;
 

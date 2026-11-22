@@ -391,6 +391,16 @@ struct WindowRec {
 
         MapWindow(&this, serverClient);
     }
+
+    void disposeOpt() {
+        if (!this.optional)
+            return;
+
+        this.optional.dispose();
+
+        free(this.optional);
+        this.optional = null;
+    }
 }
 
 enum string SameBackground(string as, string a, string bs, string b) = `
@@ -702,39 +712,6 @@ WindowPtr dixCreateWindow(Window wid, WindowPtr pParent, int x, int y, uint w, u
     return pWin;
 }
 
-private void DisposeWindowOptional(WindowPtr pWin)
-{
-    if (!pWin.optional)
-        return;
-    /*
-     * everything is peachy.  Delete the optional record
-     * and clean up
-     */
-    if (pWin.optional.cursor) {
-        FreeCursor(pWin.optional.cursor, cast(Cursor) 0);
-        pWin.cursorIsNone = False;
-    }
-    else
-        pWin.cursorIsNone = True;
-
-    if (pWin.optional.deviceCursors) {
-        DevCursorList pList = void;
-        DevCursorList pPrev = void;
-
-        pList = pWin.optional.deviceCursors;
-        while (pList) {
-            FreeCursor(pList.cursor, cast(XID) 0);
-            pPrev = pList;
-            pList = pList.next;
-            free(pPrev);
-        }
-        pWin.optional.deviceCursors = null;
-    }
-
-    free(pWin.optional);
-    pWin.optional = null;
-}
-
 void FreeWindowResources(WindowPtr pWin)
 {
     DeleteWindowFromAnySaveSet(pWin);
@@ -759,7 +736,7 @@ void FreeWindowResources(WindowPtr pWin)
 
     /* We SHOULD check for an error value here XXX */
     dixScreenRaiseWindowDestroy(pWin);
-    DisposeWindowOptional(pWin);
+    pWin.disposeOpt();
 }
 
 /*****
@@ -3048,7 +3025,7 @@ void CheckWindowOptionalNeed(WindowPtr w)
         return;
     if (optional.colormap != parentOptional.colormap)
         return;
-    DisposeWindowOptional(w);
+    w.disposeOpt();
 }
 
 /*
