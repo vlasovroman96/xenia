@@ -202,7 +202,7 @@ struct WindowRec {
     }
 
     //TODO: make it @property this.name()
-    const(char)* getPropWindowName() {
+    const(char)* getNameProp() {
         enum const(char)* overlay_win_name = "<composite overlay>";
         
         enum WINDOW_NAME_BUF_LEN = 512;
@@ -225,6 +225,59 @@ struct WindowRec {
         }
 
         return null;
+    }
+
+    void logInfo(int depth) {
+        const(char)* win_name = void, visibility = void;
+        BoxPtr rects = void;
+
+        for (int i = 0; i < (depth << 2); i++)
+            ErrorF(" ");
+
+        win_name = this.getNameProp;
+        ErrorF("win 0x%.8x (%s), [%d, %d] to [%d, %d]",
+            cast(uint) this.drawable.id,
+            win_name ? win_name : "no name",
+            this.drawable.x, this.drawable.y,
+            this.drawable.x + this.drawable.width,
+            this.drawable.y + this.drawable.height);
+
+        if (this.overrideRedirect)
+            ErrorF(" (override redirect)");
+        if (this.redirectDraw)
+            ErrorF(" (%s compositing: pixmap %x)",
+                (this.redirectDraw == RedirectDraw.Automatic) ?
+                "automatic".ptr : "manual".ptr,
+                cast(uint) this.drawable.pScreen.GetWindowPixmap(&this).drawable.id);
+
+        switch (this.visibility) {
+        case VisibilityUnobscured:
+            visibility = "unobscured";
+            break;
+        case VisibilityPartiallyObscured:
+            visibility = "partially obscured";
+            break;
+        case VisibilityFullyObscured:
+            visibility = "fully obscured";
+            break;
+        case VisibilityNotViewable:
+            visibility = "unviewable";
+            break;
+        default: break;}
+        ErrorF(", %s", visibility);
+
+        if (RegionNotEmpty(&this.clipList)) {
+            ErrorF(", clip list:");
+            rects = RegionRects(&this.clipList);
+            for (int i = 0; i < RegionNumRects(&this.clipList); i++)
+                ErrorF(" [(%d, %d) to (%d, %d)]",
+                    rects[i].x1, rects[i].y1, rects[i].x2, rects[i].y2);
+            ErrorF("; extents [(%d, %d) to (%d, %d)]",
+                this.clipList.extents.x1, this.clipList.extents.y1,
+                this.clipList.extents.x2, this.clipList.extents.y2);
+        }
+
+        ErrorF("\n");
     }
 }
 
@@ -302,61 +355,6 @@ enum InputOnlyLegalMask = (CWWinGravity | CWEventMask |
 			      CWDontPropagate | CWOverrideRedirect | CWCursor );
 
 ///------------------------------------------------------------------------------------
-
-
-void log_window_info(WindowPtr pWin, int depth)
-{
-    const(char)* win_name = void, visibility = void;
-    BoxPtr rects = void;
-
-    for (int i = 0; i < (depth << 2); i++)
-        ErrorF(" ");
-
-    win_name = pWin.getPropWindowName;
-    ErrorF("win 0x%.8x (%s), [%d, %d] to [%d, %d]",
-           cast(uint) pWin.drawable.id,
-           win_name ? win_name : "no name",
-           pWin.drawable.x, pWin.drawable.y,
-           pWin.drawable.x + pWin.drawable.width,
-           pWin.drawable.y + pWin.drawable.height);
-
-    if (pWin.overrideRedirect)
-        ErrorF(" (override redirect)");
-    if (pWin.redirectDraw)
-        ErrorF(" (%s compositing: pixmap %x)",
-               (pWin.redirectDraw == RedirectDraw.Automatic) ?
-               "automatic".ptr : "manual".ptr,
-               cast(uint) pWin.drawable.pScreen.GetWindowPixmap(pWin).drawable.id);
-
-    switch (pWin.visibility) {
-    case VisibilityUnobscured:
-        visibility = "unobscured";
-        break;
-    case VisibilityPartiallyObscured:
-        visibility = "partially obscured";
-        break;
-    case VisibilityFullyObscured:
-        visibility = "fully obscured";
-        break;
-    case VisibilityNotViewable:
-        visibility = "unviewable";
-        break;
-    default: break;}
-    ErrorF(", %s", visibility);
-
-    if (RegionNotEmpty(&pWin.clipList)) {
-        ErrorF(", clip list:");
-        rects = RegionRects(&pWin.clipList);
-        for (int i = 0; i < RegionNumRects(&pWin.clipList); i++)
-            ErrorF(" [(%d, %d) to (%d, %d)]",
-                   rects[i].x1, rects[i].y1, rects[i].x2, rects[i].y2);
-        ErrorF("; extents [(%d, %d) to (%d, %d)]",
-               pWin.clipList.extents.x1, pWin.clipList.extents.y1,
-               pWin.clipList.extents.x2, pWin.clipList.extents.y2);
-    }
-
-    ErrorF("\n");
-}
 
 /* hack to force no backing store */
 // Bool disableBackingStore = False;

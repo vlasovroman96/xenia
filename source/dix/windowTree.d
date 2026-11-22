@@ -16,7 +16,7 @@ void PrintWindowTree()
         WindowPtr pWin = walkScreen.root;
         int depth = 1;
         while (pWin) {
-            log_window_info(pWin, depth);
+            pWin.logInfo(depth);
             if (pWin.firstChild) {
                 pWin = pWin.firstChild;
                 depth++;
