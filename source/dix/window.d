@@ -200,6 +200,32 @@ struct WindowRec {
         auto StrSend() => (this.eventMask | this.getOtherEventMasks()) & StructureNotifyMask;
         auto SubStrSend() => this.StrSend || this.parent.SubSend;
     }
+
+    //TODO: make it @property this.name()
+    const(char)* getPropWindowName() {
+        enum const(char)* overlay_win_name = "<composite overlay>";
+        
+        enum WINDOW_NAME_BUF_LEN = 512;
+        static char[WINDOW_NAME_BUF_LEN] buf = 0;
+        int len = void;
+
+        CompScreenPtr comp_screen = mixin(GetCompScreen!("this.drawable.pScreen"));
+
+        if (comp_screen && &this == comp_screen.pOverlayWin)
+            return overlay_win_name;
+
+        for (PropertyPtr prop = this.properties; prop; prop = prop.next) {
+            if (prop.propertyName == XA_WM_NAME && prop.type == XA_STRING &&
+                prop.data) {
+                len = min(prop.size, WINDOW_NAME_BUF_LEN - 1);
+                memcpy(buf.ptr, prop.data, len);
+                buf[len] = '\0';
+                return buf.ptr;
+            }
+        }
+
+        return null;
+    }
 }
 
 enum string SameBackground(string as, string a, string bs, string b) = `
@@ -277,31 +303,6 @@ enum InputOnlyLegalMask = (CWWinGravity | CWEventMask |
 
 ///------------------------------------------------------------------------------------
 
-private const(char)* overlay_win_name = "<composite overlay>";
-
-private const(char)* get_window_name(WindowPtr pWin)
-{
-enum WINDOW_NAME_BUF_LEN = 512;
-    static char[WINDOW_NAME_BUF_LEN] buf = 0;
-    int len = void;
-
-    CompScreenPtr comp_screen = mixin(GetCompScreen!("pWin.drawable.pScreen"));
-
-    if (comp_screen && pWin == comp_screen.pOverlayWin)
-        return overlay_win_name;
-
-    for (PropertyPtr prop = pWin.properties; prop; prop = prop.next) {
-        if (prop.propertyName == XA_WM_NAME && prop.type == XA_STRING &&
-            prop.data) {
-            len = min(prop.size, WINDOW_NAME_BUF_LEN - 1);
-            memcpy(buf.ptr, prop.data, len);
-            buf[len] = '\0';
-            return buf.ptr;
-        }
-    }
-
-    return null;
-}
 
 void log_window_info(WindowPtr pWin, int depth)
 {
@@ -311,7 +312,7 @@ void log_window_info(WindowPtr pWin, int depth)
     for (int i = 0; i < (depth << 2); i++)
         ErrorF(" ");
 
-    win_name = get_window_name(pWin);
+    win_name = pWin.getPropWindowName;
     ErrorF("win 0x%.8x (%s), [%d, %d] to [%d, %d]",
            cast(uint) pWin.drawable.id,
            win_name ? win_name : "no name",
