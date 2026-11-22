@@ -1,6 +1,4 @@
 module dix.main;
-@nogc nothrow:
-extern(C): __gshared:
 
 /* 
  * SPDX-License-Identifier: MIT OR X11
