@@ -279,6 +279,39 @@ struct WindowRec {
 
         ErrorF("\n");
     }
+
+    //???: WindowRec.init?
+    WindowPtr setDefault() {
+        this.prevSib = NullWindow;
+        this.firstChild = NullWindow;
+        this.lastChild = NullWindow;
+
+        this.valdata = null;
+        this.optional = null;
+        this.cursorIsNone = True;
+
+        this.backingStore = NotUseful;
+
+        this.mapped = False;       /* off */
+        this.realized = False;     /* off */
+        this.viewable = False;
+        this.visibility = VisibilityNotViewable;
+        this.overrideRedirect = False;
+        this.saveUnder = False;
+
+        this.bitGravity = ForgetGravity;
+        this.winGravity = NorthWestGravity;
+
+        this.eventMask = 0;
+        this.deliverableEvents = 0;
+        this.dontPropagate = 0;
+        this.redirectDraw = RedirectDraw.None;
+        this.forcedBG = False;
+        this.unhittable = False;
+
+        this.damagedDescendants = False;
+        return &this;
+    }
 }
 
 enum string SameBackground(string as, string a, string bs, string b) = `
@@ -356,42 +389,6 @@ enum InputOnlyLegalMask = (CWWinGravity | CWEventMask |
 
 ///------------------------------------------------------------------------------------
 
-/* hack to force no backing store */
-// Bool disableBackingStore = False;
-// Bool enableBackingStore = False;
-
-void SetWindowToDefaults(WindowPtr pWin)
-{
-    pWin.prevSib = NullWindow;
-    pWin.firstChild = NullWindow;
-    pWin.lastChild = NullWindow;
-
-    pWin.valdata = null;
-    pWin.optional = null;
-    pWin.cursorIsNone = True;
-
-    pWin.backingStore = NotUseful;
-
-    pWin.mapped = False;       /* off */
-    pWin.realized = False;     /* off */
-    pWin.viewable = False;
-    pWin.visibility = VisibilityNotViewable;
-    pWin.overrideRedirect = False;
-    pWin.saveUnder = False;
-
-    pWin.bitGravity = ForgetGravity;
-    pWin.winGravity = NorthWestGravity;
-
-    pWin.eventMask = 0;
-    pWin.deliverableEvents = 0;
-    pWin.dontPropagate = 0;
-    pWin.redirectDraw = RedirectDraw.None;
-    pWin.forcedBG = False;
-    pWin.unhittable = False;
-
-    pWin.damagedDescendants = False;
-}
-
 private void MakeRootTile(WindowPtr pWin)
 {
     ScreenPtr pScreen = pWin.drawable.pScreen;
@@ -467,7 +464,7 @@ Bool CreateRootWindow(ScreenPtr pScreen)
     pWin.drawable.serialNumber = NEXT_SERIAL_NUMBER;
 
     pWin.parent = NullWindow;
-    SetWindowToDefaults(pWin);
+    pWin.setDefault();
 
     pWin.optional = cast(WindowOptPtr) calloc(1, WindowOpt.sizeof);
     if (!pWin.optional)
@@ -698,7 +695,7 @@ WindowPtr dixCreateWindow(Window wid, WindowPtr pParent, int x, int y, uint w, u
     pWin.drawable.class_ = cast(ubyte)class_;
 
     pWin.parent = pParent;
-    SetWindowToDefaults(pWin);
+    pWin.setDefault();
 
     if (visual != ancwopt.visual) {
         if (!MakeWindowOptional(pWin)) {
