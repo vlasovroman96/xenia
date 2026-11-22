@@ -426,28 +426,29 @@ enum RootClipMode {
 
 /* Quartz support on Mac OS X uses the HIToolbox
    framework whose ChangeWindowAttributes function conflicts here. */
-version (OSX) {
-enum ChangeWindowAttributes = Darwin_X_ChangeWindowAttributes;
-}
+//XXX: What is you, mthfckr?
+// version (OSX) {
+// enum ChangeWindowAttributes = Darwin_X_ChangeWindowAttributes;
+// }
 
-/* Quartz support on Mac OS X uses the HIToolbox
-   framework whose GetWindowAttributes function conflicts here. */
-version (OSX) {
-   void Darwin_X_GetWindowAttributes(
-                                             WindowPtr /*pWin */ ,
-                                             ClientPtr /*client */ ,
-                                             xGetWindowAttributesReply *
-                                             /* wa */ );
-   alias GetWindowAttributes = Darwin_X_GetWindowAttributes; 
-}
-else {
+// /* Quartz support on Mac OS X uses the HIToolbox
+//    framework whose GetWindowAttributes function conflicts here. */
+// version (OSX) {
+//    void Darwin_X_GetWindowAttributes(
+//                                              WindowPtr /*pWin */ ,
+//                                              ClientPtr /*client */ ,
+//                                              xGetWindowAttributesReply *
+//                                              /* wa */ );
+//    alias GetWindowAttributes = Darwin_X_GetWindowAttributes; 
+// }
+// else {
 
-   void GetWindowAttributes(
-                                             WindowPtr /*pWin */ ,
-                                             ClientPtr /*client */ ,
-                                             xGetWindowAttributesReply *
-                                             /* wa */ );
-}
+//    void GetWindowAttributes(
+//                                              WindowPtr /*pWin */ ,
+//                                              ClientPtr /*client */ ,
+//                                              xGetWindowAttributesReply *
+//                                              /* wa */ );
+// }
 /******
  * Window stuff for server
  *
