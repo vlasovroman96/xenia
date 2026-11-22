@@ -84,7 +84,7 @@ struct _xf86RandR12Info {
     int palette_green_size;
     int palette_blue_size;
     int palette_size;
-    LOCO* palette;
+    SimpleColor* palette;
 
     /* Used to wrap EnterVT so we can re-probe the outputs when a laptop unsuspends
      * (actually, any time that we switch back into our VT).
@@ -1232,7 +1232,7 @@ private Bool xf86RandR12CrtcSet(ScreenPtr pScreen, RRCrtcPtr randr_crtc, RRModeP
     return xf86RandR12CrtcNotify(randr_crtc);
 }
 
-private void xf86RandR12CrtcComputeGamma(xf86CrtcPtr crtc, LOCO* palette, int palette_red_size, int palette_green_size, int palette_blue_size, CARD16* gamma_red, CARD16* gamma_green, CARD16* gamma_blue, int gamma_size)
+private void xf86RandR12CrtcComputeGamma(xf86CrtcPtr crtc, SimpleColor* palette, int palette_red_size, int palette_green_size, int palette_blue_size, CARD16* gamma_red, CARD16* gamma_green, CARD16* gamma_blue, int gamma_size)
 {
     int gamma_slots = void;
     uint shift = void;
@@ -1912,7 +1912,7 @@ private Bool xf86RandR13SetPanning(ScreenPtr pScreen, RRCrtcPtr randr_crtc, BoxP
 /*
  * Compatibility with colormaps and XF86VidMode's gamma
  */
-void xf86RandR12LoadPalette(ScrnInfoPtr pScrn, int numColors, int* indices, LOCO* colors, VisualPtr pVisual)
+void xf86RandR12LoadPalette(ScrnInfoPtr pScrn, int numColors, int* indices, SimpleColor* colors, VisualPtr pVisual)
 {
     ScreenPtr pScreen = pScrn.pScreen;
     xf86CrtcConfigPtr config = mixin(XF86_CRTC_CONFIG_PTR!("pScrn"));
@@ -1933,7 +1933,7 @@ void xf86RandR12LoadPalette(ScrnInfoPtr pScrn, int numColors, int* indices, LOCO
         XF86RandRInfoPtr randrp = mixin(XF86RANDRINFO!(`pScreen`));
 
         if (randrp.palette_size != palette_size) {
-            randrp.palette = cast(LOCO*)reallocarray(randrp.palette, palette_size,
+            randrp.palette = cast(SimpleColor*)reallocarray(randrp.palette, palette_size,
                                            typeof(colors[0]).sizeof);
             if (!randrp.palette) {
                 randrp.palette_size = 0;

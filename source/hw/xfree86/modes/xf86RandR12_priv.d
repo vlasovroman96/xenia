@@ -16,7 +16,7 @@ import hw.xfree86.common.xf86str;
 
 
 
-void xf86RandR12LoadPalette(ScrnInfoPtr pScrn, int numColors, int* indices, LOCO* colors, VisualPtr pVisual);
+void xf86RandR12LoadPalette(ScrnInfoPtr pScrn, int numColors, int* indices, SimpleColor* colors, VisualPtr pVisual);
 Bool xf86RandR12InitGamma(ScrnInfoPtr pScrn, uint gammaSize);
 
 void xf86RandR12CloseScreen(ScreenPtr pScreen);

@@ -659,7 +659,7 @@ alias xf86ChangeGammaProc = int function(ScrnInfoPtr, Gamma) @nogc nothrow;
 alias xf86PointerMovedProc = void function(ScrnInfoPtr, int, int) @nogc nothrow;
 alias xf86PMEventProc = Bool function(ScrnInfoPtr, pmEvent, Bool) @nogc nothrow;
 alias xf86DPMSSetProc = void function(ScrnInfoPtr, int, int) @nogc nothrow;
-alias xf86LoadPaletteProc = void function(ScrnInfoPtr, int, int *, LOCO *, VisualPtr) @nogc nothrow;
+alias xf86LoadPaletteProc = void function(ScrnInfoPtr, int, int *, SimpleColor *, VisualPtr) @nogc nothrow;
 alias xf86SetOverscanProc = void function(ScrnInfoPtr, int) @nogc nothrow;
 alias xf86ModeSetProc = void function(ScrnInfoPtr) @nogc nothrow;
 

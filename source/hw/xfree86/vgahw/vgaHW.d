@@ -1890,7 +1890,7 @@ void vgaHWEnable(vgaHWPtr hwp)
     hwp.writeEnable(hwp, hwp.readEnable(hwp) | 0x01);
 }
 
-private void vgaHWLoadPalette(ScrnInfoPtr pScrn, int numColors, int* indices, LOCO* colors, VisualPtr pVisual)
+private void vgaHWLoadPalette(ScrnInfoPtr pScrn, int numColors, int* indices, SimpleColor* colors, VisualPtr pVisual)
 {
     vgaHWPtr hwp = mixin(VGAHWPTR!(`pScrn`));
     int i = void, index = void;

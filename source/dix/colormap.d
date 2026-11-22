@@ -97,35 +97,41 @@ enum CM_AllAllocated = 2;
 enum CM_BeingCreated = 4;
 
 /* Shared color -- the color is used by AllocColorPlanes */
-struct SHAREDCOLOR {
+struct SharedColorChannel {
     ushort color;
     short refcnt;
 }
 
-/* SHCO -- a shared color for a PseudoColor cell. Used with AllocColorPlanes.
+/* SharedColor -- a shared color for a PseudoColor cell. Used with AllocColorPlanes.
  * DirectColor maps always use the first value (called red) in the structure.
  * What channel they are really talking about depends on which map they
  * are in. */
-struct SHCO {
-    SHAREDCOLOR* red, green, blue;
+struct SharedColor {
+    SharedColorChannel* red, green, blue;
+}
+
+struct SimpleColor {
+    ushort red, green, blue;
+}
+
+union ColorUnion {
+    SimpleColor local;
+    SharedColor shco;
 }
 
 /* color map entry */
-struct _CMEntry {
-    union _Co {
-        LOCO local;
-        SHCO shco;
-    }_Co co;
+struct ColorMapEntry {
+    ColorUnion co;
     short refcnt;
     Bool fShared;
-}alias Entry = _CMEntry;
-alias EntryPtr = _CMEntry*;
+}
+alias EntryPtr = ColorMapEntry*;
 
 /* COLORMAPs can be used for either Direct or Pseudo color.  PseudoColor
  * only needs one cell table, we arbitrarily pick red.  We keep track
  * of that table with freeRed, numPixelsRed, and clientPixelsRed */
 
-struct _ColormapRec {
+struct ColormapRec {
     VisualPtr pVisual;
     short class_;                /* PseudoColor or DirectColor */
     XID mid;                    /* client's name for colormap */
@@ -141,14 +147,13 @@ struct _ColormapRec {
     Pixel** clientPixelsRed;
     Pixel** clientPixelsGreen;
     Pixel** clientPixelsBlue;
-    Entry* red;
-    Entry* green;
-    Entry* blue;
+    ColorMapEntry* red;
+    ColorMapEntry* green;
+    ColorMapEntry* blue;
     PrivateRec* devPrivates;
 }
 
-alias ColormapRec = _ColormapRec;
-alias ColormapPtr = _ColormapRec*;
+alias ColormapPtr = ColormapRec*;
 
 // int dixCreateColormap(Colormap mid, ScreenPtr pScreen, VisualPtr pVisual, ColormapPtr* ppcmap, int alloc, ClientPtr client);
 
@@ -188,12 +193,9 @@ alias ColormapPtr = _ColormapRec*;
  /* _XSERVER_DIX_COLORMAP_PRIV_H */
 
 alias ColorCompareProcPtr = int function(EntryPtr, xrgb*);
-/* LOCO -- a local color for a PseudoColor cell. DirectColor maps always
+/* SimpleColor -- a local color for a PseudoColor cell. DirectColor maps always
  * use the first value (called red) in the structure.  What channel they
  * are really talking about depends on which map they are in. */
- struct LOCO {
-    ushort red, green, blue;
-}
 
 
 
@@ -295,7 +297,7 @@ int dixCreateColormap(Colormap mid, ScreenPtr pScreen, VisualPtr pVisual, Colorm
         return BadMatch;
 
     int size = pVisual.ColormapEntries;
-    c_ulong sizebytes = (size * Entry.sizeof) +
+    c_ulong sizebytes = (size * ColorMapEntry.sizeof) +
         (LimitClients * (Pixel*).sizeof) + (LimitClients * int.sizeof);
     if ((class_ | DynamicClass) == DirectColor)
         sizebytes *= 3;
@@ -319,7 +321,7 @@ int dixCreateColormap(Colormap mid, ScreenPtr pScreen, VisualPtr pVisual, Colorm
             return BadAlloc;
     }
     pmap.red = cast(EntryPtr) (cast(char*) pmap + ColormapRec.sizeof);
-    sizebytes = size * Entry.sizeof;
+    sizebytes = size * ColorMapEntry.sizeof;
     pmap.clientPixelsRed = cast(Pixel**) (cast(char*) pmap.red + sizebytes);
     pmap.numPixelsRed = cast(int*) (cast(char*) pmap.clientPixelsRed +
                                   (LimitClients * (Pixel*).sizeof));
@@ -596,12 +598,12 @@ int CopyColormapAndFree(Colormap mid, ColormapPtr pSrc, int client)
             return result;
     }
     if (alloc == AllocAll) {
-        memmove(cast(char*) pmap.red, cast(char*) pSrc.red, size * Entry.sizeof);
+        memmove(cast(char*) pmap.red, cast(char*) pSrc.red, size * ColorMapEntry.sizeof);
         if ((pmap.class_ | DynamicClass) == DirectColor) {
             memmove(cast(char*) pmap.green, cast(char*) pSrc.green,
-                    size * Entry.sizeof);
+                    size * ColorMapEntry.sizeof);
             memmove(cast(char*) pmap.blue, cast(char*) pSrc.blue,
-                    size * Entry.sizeof);
+                    size * ColorMapEntry.sizeof);
         }
         pSrc.flags &= ~CM_AllAllocated;
         FreePixels(pSrc, client);
@@ -1961,13 +1963,13 @@ private Bool AllocShared(ColormapPtr pmap, Pixel* ppix, int c, int r, int g, int
     int npixClientNew = c << (r + g + b);
     int npixShared = (c << r) + (c << g) + (c << b);
 
-    SHAREDCOLOR** psharedList = cast(SHAREDCOLOR**) calloc(npixShared, (SHAREDCOLOR*).sizeof);
+    SharedColorChannel** psharedList = cast(SharedColorChannel**) calloc(npixShared, (SharedColorChannel*).sizeof);
     if (!psharedList)
         return False;
 
-    SHAREDCOLOR** ppshared = psharedList;
+    SharedColorChannel** ppshared = psharedList;
     for (int z = npixShared; --z >= 0;) {
-        if (((ppshared[z] = cast(SHAREDCOLOR*) calloc(1, SHAREDCOLOR.sizeof)) is null)) {
+        if (((ppshared[z] = cast(SharedColorChannel*) calloc(1, SharedColorChannel.sizeof)) is null)) {
             for (z++; z < npixShared; z++)
                 free(ppshared[z]);
             free(psharedList);
@@ -1980,7 +1982,7 @@ private Bool AllocShared(ColormapPtr pmap, Pixel* ppix, int c, int r, int g, int
     for (pptr = ppix, npix = c; --npix >= 0; pptr++) {
         Pixel basemask = ~(gmask | bmask);
         Pixel common = *pptr & basemask;
-        SHAREDCOLOR* pshared = null;
+        SharedColorChannel* pshared = null;
         if (rmask) {
             Pixel bits = 0;
             Pixel base = mixin(lowbit!rmask);
@@ -2417,9 +2419,9 @@ int StoreColors(ColormapPtr pmap, int count, xColorItem* defs, ClientPtr client)
             if (!ok) {
                 /* have to run through the colormap and change anybody who
                  * shares this value */
-                SHAREDCOLOR* pred = pent.co.shco.red;
-                SHAREDCOLOR* pgreen = pent.co.shco.green;
-                SHAREDCOLOR* pblue = pent.co.shco.blue;
+                SharedColorChannel* pred = pent.co.shco.red;
+                SharedColorChannel* pgreen = pent.co.shco.green;
+                SharedColorChannel* pblue = pent.co.shco.blue;
                 int ChgRed = pdef.flags & DoRed;
                 int ChgGreen = pdef.flags & DoGreen;
                 int ChgBlue = pdef.flags & DoBlue;

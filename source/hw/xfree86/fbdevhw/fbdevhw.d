@@ -872,7 +872,7 @@ void fbdevHWRestore(ScrnInfoPtr pScrn)
 /* callback for xf86HandleColormaps                                     */
 
 //pragma(mangle, mixin(cFixer!(__MODULE__, __LINE__)))
-void fbdevHWLoadPalette(ScrnInfoPtr pScrn, int numColors, int* indices, LOCO* colors, VisualPtr pVisual)
+void fbdevHWLoadPalette(ScrnInfoPtr pScrn, int numColors, int* indices, SimpleColor* colors, VisualPtr pVisual)
 {
     fbdevHWPtr fPtr = mixin(FBDEVHWPTR!(`pScrn`));
     fb_cmap cmap = void;

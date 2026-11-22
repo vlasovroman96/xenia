@@ -105,7 +105,7 @@ struct _CMapScreenRec {
     int maxColors;
     int sigRGBbits;
     int gammaElements;
-    LOCO* gamma;
+    SimpleColor* gamma;
     int* PreAllocIndices;
     CMapLinkPtr maps;
     uint flags;
@@ -115,7 +115,7 @@ alias CMapScreenPtr = CMapScreenRec*;
 
 struct _CMapColormapRec {
     int numColors;
-    LOCO* colors;
+    SimpleColor* colors;
     Bool recalculate;
     int overscan;
 }alias CMapColormapRec = _CMapColormapRec;
@@ -167,7 +167,7 @@ Bool xf86HandleColormaps(ScreenPtr pScreen, int maxColors, int sigRGBbits, xf86L
     ScrnInfoPtr pScrn = xf86ScreenToScrn(pScreen);
     ColormapPtr pDefMap = null;
     CMapScreenPtr pScreenPriv = void;
-    LOCO* gamma = void;
+    SimpleColor* gamma = void;
     int* indices = void;
     int elements = void;
 
@@ -177,7 +177,7 @@ Bool xf86HandleColormaps(ScreenPtr pScreen, int maxColors, int sigRGBbits, xf86L
 
     elements = 1 << sigRGBbits;
 
-    if (((gamma = cast(LOCO*) calloc(elements, LOCO.sizeof)) is null))
+    if (((gamma = cast(SimpleColor*) calloc(elements, SimpleColor.sizeof)) is null))
         return False;
 
     if (((indices = cast(int*) calloc(maxColors, int.sizeof)) is null)) {
@@ -270,14 +270,14 @@ private Bool CMapAllocateColormapPrivate(ColormapPtr pmap)
                                          CMapScreenKey);
     CMapColormapPtr pColPriv = void;
     int numColors = void;
-    LOCO* colors = void;
+    SimpleColor* colors = void;
 
     if (CMapColormapUseMax(pmap.pVisual, pScreenPriv))
         numColors = pmap.pVisual.ColormapEntries;
     else
         numColors = 1 << pmap.pVisual.nplanes;
 
-    if (((colors = cast(LOCO*) calloc(numColors, LOCO.sizeof)) is null))
+    if (((colors = cast(SimpleColor*) calloc(numColors, SimpleColor.sizeof)) is null))
         return False;
 
     if (((pColPriv = cast(CMapColormapRec*) calloc(1, CMapColormapRec.sizeof)) is null)) {
@@ -544,7 +544,7 @@ private void CMapRefreshColors(ColormapPtr pmap, int defs, int* indices)
     VisualPtr pVisual = pmap.pVisual;
     ScrnInfoPtr pScrn = xf86ScreenToScrn(pmap.pScreen);
     int numColors = void, i = void;
-    LOCO* gamma = void, colors = void;
+    SimpleColor* gamma = void, colors = void;
     EntryPtr entry = void;
     int reds = void, greens = void, blues = void, maxValue = void, index = void, shift = void;
 
@@ -650,7 +650,7 @@ private void CMapRefreshColors(ColormapPtr pmap, int defs, int* indices)
 
 }
 
-private Bool CMapCompareColors(LOCO* color1, LOCO* color2)
+private Bool CMapCompareColors(SimpleColor* color1, SimpleColor* color2)
 {
     /* return True if the color1 is "closer" to black than color2 */
 version (DEBUGOVERSCAN) {
@@ -672,7 +672,7 @@ private void CMapSetOverscan(ColormapPtr pmap, int defs, int* indices)
     ScrnInfoPtr pScrn = xf86ScreenToScrn(pmap.pScreen);
     VisualPtr pVisual = pmap.pVisual;
     int i = void;
-    LOCO* colors = void;
+    SimpleColor* colors = void;
     int index = void;
     Bool newOverscan = False;
     int overscan = void, tmpOverscan = void;
@@ -962,7 +962,7 @@ int CMapChangeGamma(ScrnInfoPtr pScrn, Gamma gamma)
 private void ComputeGammaRamp(CMapScreenPtr priv, ushort* red, ushort* green, ushort* blue)
 {
     int elements = priv.gammaElements;
-    LOCO* entry = priv.gamma;
+    SimpleColor* entry = priv.gamma;
     int shift = 16 - priv.sigRGBbits;
 
     while (elements--) {
@@ -1054,7 +1054,7 @@ int xf86GetGammaRampSize(ScreenPtr pScreen)
 int xf86GetGammaRamp(ScreenPtr pScreen, int size, ushort* red, ushort* green, ushort* blue)
 {
     CMapScreenPtr pScreenPriv = void;
-    LOCO* entry = void;
+    SimpleColor* entry = void;
     int shift = void, sigbits = void;
 
     if (!mixin(CMapScreenKeyRegistered))

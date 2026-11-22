@@ -4466,7 +4466,7 @@ Bool drmmode_set_desired_modes(ScrnInfoPtr pScrn, drmmode_ptr drmmode, Bool set_
     return success;
 }
 
-private void drmmode_load_palette(ScrnInfoPtr pScrn, int numColors, int* indices, LOCO* colors, VisualPtr pVisual)
+private void drmmode_load_palette(ScrnInfoPtr pScrn, int numColors, int* indices, SimpleColor* colors, VisualPtr pVisual)
 {
     xf86CrtcConfigPtr xf86_config = mixin(XF86_CRTC_CONFIG_PTR!("pScrn"));
     ushort[256] lut_r = void, lut_g = void, lut_b = void;

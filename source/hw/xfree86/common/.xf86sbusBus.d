@@ -659,7 +659,7 @@ alias sbusCmapPtr = _sbusCmap*;
 enum string SBUSCMAPPTR(string pScreen) = `(cast(sbusCmapPtr) 
     dixLookupPrivate(&(` ~ pScreen ~ `).devPrivates, sbusPaletteKey))`;
 
-private void xf86SbusCmapLoadPalette(ScrnInfoPtr pScrn, int numColors, int* indices, LOCO* colors, VisualPtr pVisual)
+private void xf86SbusCmapLoadPalette(ScrnInfoPtr pScrn, int numColors, int* indices, SimpleColor* colors, VisualPtr pVisual)
 {
     int i = void, index = void;
     sbusCmapPtr cmap = void;
