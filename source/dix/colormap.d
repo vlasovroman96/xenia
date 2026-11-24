@@ -113,12 +113,13 @@ struct SharedColor {
 /* SimpleColor -- a local color for a PseudoColor cell. DirectColor maps always
  * use the first value (called red) in the structure.  What channel they
  * are really talking about depends on which map they are in. */
-// Xenia v0.0.8 - Now its alias for xrgb from X11 proto;
-// struct SimpleColor {
-//     ushort red, green, blue;
-// }
+struct SimpleColor {
+    ushort red, green, blue;
 
-alias SimpleColor = x11.Xproto.xrgb;
+    SimpleColor fromXrgb(xrgb clr) {
+        return SimpleColor(clr.red, clr.green, clr.blue);
+    }
+}
 
 union ColorUnion {
     SimpleColor local;
