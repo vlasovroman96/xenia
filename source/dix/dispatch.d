@@ -166,7 +166,8 @@ import dix.timestamp;
 import dix.atom;
 import dix.window;
 import common.math;
-
+import std.range;
+import std.algorithm;
 import externs.libdbus;
 
 import hw.xfree86.common.xf86Helper;
@@ -196,7 +197,7 @@ xConnSetupPrefix connSetupPrefix;
 PaddingInfo[33] PixmapWidthPaddingInfo;
 
 private ClientPtr grabClient;
-private ClientPtr currentClient; /* Client for the request currently being dispatched */
+// private ClientPtr currentClient; /* Client for the request currently being dispatched */
 
 // CallbackListPtr ServerGrabCallback;
 
@@ -2310,7 +2311,7 @@ private int DoGetImage(ClientPtr client, int format, Drawable drawable, int x, i
     else if (format == ZPixmap) {
         linesDone = 0;
         while (height - linesDone > 0) {
-            size_t nlines = min(linesPerBuf, height - linesDone);
+            size_t nlines = common.math.min(linesPerBuf, height - linesDone);
 
             char* pBuf = cast(char*)rpcbuf.reserve(nlines * widthBytesLine).ptr;
             if (!pBuf) {
@@ -2342,7 +2343,7 @@ private int DoGetImage(ClientPtr client, int format, Drawable drawable, int x, i
             if (planemask & plane) {
                 linesDone = 0;
                 while (height - linesDone > 0) {
-                    size_t nlines = min(linesPerBuf, height - linesDone);
+                    size_t nlines = common.math.min(linesPerBuf, height - linesDone);
 
                     // char* pBuf = cast(char*)rpcbuf.reserve((nlines * widthBytesLine));
                     char* pBuf = cast(char*)rpcbuf.reserve(nlines * widthBytesLine).ptr;
@@ -3442,16 +3443,11 @@ int ProcChangeAccessControl(ClientPtr client)
  *    and destroy their resources.
  *********************/
 
-private void CloseDownRetainedResources()
-{
-    ClientPtr client = void;
-
-    for (int i = 1; i < server.currentMaxClients; i++) {
-        client = server.clients[i];
-        if (client && (client.closeDownMode == RetainTemporary)
-            && (client.clientGone))
-            CloseDownClient(client);
-    }
+private void CloseDownRetainedResources() {
+    server.activeClients
+        .drop(1)
+        .filter!(client => client.closeDownMode == RetainTemporary && client.clientGone)
+        .each!(client => CloseDownClient(client));
 }
 
 int ProcKillClient(ClientPtr client)

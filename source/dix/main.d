@@ -71,7 +71,7 @@ int dix_main(string[] args) {
             // InitClient(server.serverClient, 0, cast(void*) null);
 
         import abi.globals;
-        abi.globals.clients = server._clients.data;
+        abi.globals.clients = server.clients.data;
         abi.globals.serverClient = server.serverClient;
         abi.globals.currentMaxClients = &server.currentMaxClients;
 

@@ -12,15 +12,15 @@ import std.range;
 
 struct XServer {
 	//Sparce array of clients
-	Array!ClientPtr _clients;
+	Array!ClientPtr clients;
 	ClientPtr 		serverClient;
 	int				currentMaxClients;
 
 	void initClients() {
 		//for backward compatible
-		this._clients.length = MAXCLIENTS;
+		this.clients.length = MAXCLIENTS;
 
-		this._clients[1..LimitClients] = null;
+		this.clients[1..LimitClients] = null;
 
 		this.serverClient = new ClientRec;
 		if (!server.serverClient)
@@ -28,7 +28,13 @@ struct XServer {
 
 		InitClient(server.serverClient, 0, cast(void*) null);
 
-		this._clients[0] = this.serverClient;
+		this.clients[0] = this.serverClient;
         this.currentMaxClients = 1;
+	}
+
+	@property 
+	auto activeClients() {
+		return clients[0..currentMaxClients]
+			.filter!(a => a != null);
 	}
 }

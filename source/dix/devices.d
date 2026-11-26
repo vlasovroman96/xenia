@@ -108,7 +108,7 @@ import xkb.xkbstr;
 import dix.timestamp;
 import common.math;
 import common.swap;
-
+import std.algorithm;
 /** @file
  * This file handles input device-related stuff.
  */
@@ -2382,7 +2382,7 @@ private void RecalculateMasterButtons(DeviceIntPtr slave)
             GetMaster(dev, MASTER_ATTACHED) != master || !dev.button)
             continue;
 
-        maxbuttons = max(maxbuttons, dev.button.numButtons);
+        maxbuttons = common.math.max(maxbuttons, dev.button.numButtons);
     }
 
     if (master.button && master.button.numButtons != maxbuttons) {
