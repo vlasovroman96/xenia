@@ -358,8 +358,8 @@ private int ScreenSaverFreeAttr(void* value, XID id)
     FreeScreenAttr(pOldAttr);
     pPriv.attr = null;
     if (pPriv.hasWindow) {
-        dixSaveScreens(serverClient, SCREEN_SAVER_FORCER, ScreenSaverReset);
-        dixSaveScreens(serverClient, SCREEN_SAVER_FORCER, ScreenSaverActive);
+        dixSaveScreens(server.serverClient, SCREEN_SAVER_FORCER, ScreenSaverReset);
+        dixSaveScreens(server.serverClient, SCREEN_SAVER_FORCER, ScreenSaverActive);
     }
     CheckScreenPrivate(pScreen);
     return True;
@@ -464,7 +464,7 @@ private void UninstallSaverColormap(ScreenPtr pScreen)
     if (pPriv && pPriv.installedMap != None) {
         ColormapPtr pCmap = void;
         int rc = dixLookupResourceByType(cast(void**) &pCmap, pPriv.installedMap,
-                                     X11_RESTYPE_COLORMAP, serverClient,
+                                     X11_RESTYPE_COLORMAP, server.serverClient,
                                      DixUninstallAccess);
         if ((rc == Success) && (pCmap.pScreen) && (pCmap.pScreen.UninstallColormap)) {
             (*pCmap.pScreen.UninstallColormap) (pCmap);
@@ -510,7 +510,7 @@ private Bool CreateSaverWindow(ScreenPtr pScreen)
                         pAttr.x, pAttr.y, pAttr.width, pAttr.height,
                         pAttr.borderWidth, pAttr.class_,
                         cast(uint)pAttr.mask, cast(XID*) pAttr.values,
-                        pAttr.depth, serverClient, pAttr.visual, &result);
+                        pAttr.depth, server.serverClient, pAttr.visual, &result);
     if (!pWin) {
         return False;
     }
@@ -550,10 +550,10 @@ private Bool CreateSaverWindow(ScreenPtr pScreen)
 
     if (pAttr.colormap != None) {
         cast(void) ChangeWindowAttributes(pWin, CWColormap, &pAttr.colormap,
-                                      serverClient);
+                                      server.serverClient);
     }
 
-    MapWindow(pWin, serverClient);
+    MapWindow(pWin, server.serverClient);
 
     pPriv.hasWindow = True;
     pSaver.pWindow = pWin;
@@ -565,7 +565,7 @@ private Bool CreateSaverWindow(ScreenPtr pScreen)
     }
 
     result = dixLookupResourceByType(cast(void**) &pCmap, wantMap, X11_RESTYPE_COLORMAP,
-                                     serverClient, DixInstallAccess);
+                                     server.serverClient, DixInstallAccess);
     if (result != Success) {
         return True;
     }

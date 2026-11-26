@@ -195,8 +195,8 @@ private int add_master(ClientPtr client, xXIAddMasterInfo* c, int* flags)
     flags[XTestptr.id] |= XISlaveAttached;
     flags[XTestkeybd.id] |= XISlaveAttached;
 
-    for (int i = 0; i < currentMaxClients; i++)
-        XIBarrierNewMasterDevice(clients[i], ptr.id);
+    for (int i = 0; i < server.currentMaxClients; i++)
+        XIBarrierNewMasterDevice(server.clients[i], ptr.id);
 
  unwind:
     free(name);
@@ -207,8 +207,8 @@ private void disable_clientpointer(DeviceIntPtr dev)
 {
     int i = void;
 
-    for (i = 0; i < currentMaxClients; i++) {
-        ClientPtr client = clients[i];
+    for (i = 0; i < server.currentMaxClients; i++) {
+        ClientPtr client = server.clients[i];
 
         if (client && client.clientPtr == dev)
             client.clientPtr = null;
@@ -321,8 +321,8 @@ private int remove_master(ClientPtr client, xXIRemoveMasterInfo* r, int* flags)
         }
     }
 
-    for (int i = 0; i < currentMaxClients; i++)
-        XIBarrierRemoveMasterDevice(clients[i], ptr.id);
+    for (int i = 0; i < server.currentMaxClients; i++)
+        XIBarrierRemoveMasterDevice(server.clients[i], ptr.id);
 
     /* disable the remove the devices, XTest devices must be done first
        else the sprites they rely on will be destroyed  */

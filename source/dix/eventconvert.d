@@ -436,7 +436,7 @@ private int getValuatorEvents(DeviceEvent* ev, deviceValuator* xv)
     if (num_valuators > 0) {
         DeviceIntPtr dev = null;
 
-        dixLookupDevice(&dev, ev.deviceid, serverClient, DixUseAccess);
+        dixLookupDevice(&dev, ev.deviceid, server.serverClient, DixUseAccess);
         /* State needs to be assembled BEFORE the device is updated. */
         state = (dev &&
                  dev.key) ? mixin(XkbStateFieldFromRec!("&dev.key.xkbInfo.

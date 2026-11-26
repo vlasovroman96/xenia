@@ -254,12 +254,12 @@ version (DUMB_WINDOW_MANAGERS) {
             if (xnest_visual_map_to_upstream(pWin.getVisual()) ==
                 xnest_visual_map_to_upstream(pScreen.rootVisual))
                 dixLookupResourceByType(cast(void**) &pCmap, pWin.getColormap(),
-                                        X11_RESTYPE_COLORMAP, serverClient,
+                                        X11_RESTYPE_COLORMAP, server.serverClient,
                                         DixUseAccess);
             else
                 dixLookupResourceByType(cast(void**) &pCmap,
                                         pScreen.defColormap, X11_RESTYPE_COLORMAP,
-                                        serverClient, DixUseAccess);
+                                        server.serverClient, DixUseAccess);
 
             uint cmap = xnestColormap(pCmap);
             xcb_change_window_attributes(xnestUpstreamInfo.conn,
@@ -302,7 +302,7 @@ void xnestDirectInstallColormaps(ScreenPtr pScreen)
         ColormapPtr pCmap = void;
 
         dixLookupResourceByType(cast(void**) &pCmap, pCmapIDs[i], X11_RESTYPE_COLORMAP,
-                                serverClient, DixInstallAccess);
+                                server.serverClient, DixInstallAccess);
         if (pCmap)
             xcb_install_colormap(xnestUpstreamInfo.conn, xnestColormap(pCmap));
     }
@@ -322,7 +322,7 @@ void xnestDirectUninstallColormaps(ScreenPtr pScreen)
         ColormapPtr pCmap = void;
 
         dixLookupResourceByType(cast(void**) &pCmap, pCmapIDs[i], X11_RESTYPE_COLORMAP,
-                                serverClient, DixUninstallAccess);
+                                server.serverClient, DixUninstallAccess);
         if (pCmap)
             xcb_uninstall_colormap(xnestUpstreamInfo.conn, xnestColormap(pCmap));
     }
@@ -356,7 +356,7 @@ void xnestUninstallColormap(ColormapPtr pCmap)
             dixLookupResourceByType(cast(void**) &pCurCmap,
                                     pCmap.pScreen.defColormap,
                                     X11_RESTYPE_COLORMAP,
-                                    serverClient, DixInstallAccess);
+                                    server.serverClient, DixInstallAccess);
             (*pCmap.pScreen.InstallColormap) (pCurCmap);
         }
     }
@@ -442,7 +442,7 @@ Bool xnestCreateDefaultColormap(ScreenPtr pScreen)
 
     if (dixCreateColormap(pScreen.defColormap, pScreen, pVisual, &pCmap,
                        (pVisual.class_ & DynamicClass) ? AllocNone : AllocAll,
-                       serverClient)
+                       server.serverClient)
         != Success)
         return False;
 

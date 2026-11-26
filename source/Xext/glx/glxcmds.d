@@ -2397,7 +2397,7 @@ private void __glXpresentCompleteNotify(WindowPtr window, CARD8 present_kind, CA
         return;
 
     rc = dixLookupResourceByType(cast(void**) &drawable, window.drawable.id,
-                                 __glXDrawableRes, serverClient, DixGetAttrAccess);
+                                 __glXDrawableRes, server.serverClient, DixGetAttrAccess);
 
     if (rc != Success)
         return;

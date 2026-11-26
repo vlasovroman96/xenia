@@ -220,7 +220,7 @@ private void SendDPMSInfoNotify()
     int i = void;
 
     i = dixLookupResourceByType(cast(void**)&pHead, eventResource, DPMSEventType,
-                                serverClient,
+                                server.serverClient,
                                 DixReadAccess);
     if (i != Success || !pHead) {
         return;
@@ -476,7 +476,7 @@ private int ProcDPMSDispatch(ClientPtr client)
 
 private void DPMSCloseDownExtension(_ExtensionEntry* e)
 {
-    DPMSSet(serverClient, DPMSModeOn);
+    DPMSSet(server.serverClient, DPMSModeOn);
 }
 
 void DPMSExtensionInit()

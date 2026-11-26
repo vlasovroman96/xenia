@@ -60,7 +60,7 @@ void KdSetColormap(ScreenPtr pScreen)
         pixels[i] = i;
 
     QueryColors(pCmap, (1 << pScreenPriv.screen.fb.depth), pixels.ptr, colors.ptr,
-                serverClient);
+                server.serverClient);
 
     for (i = 0; i < (1 << pScreenPriv.screen.fb.depth); i++) {
         defs[i].pixel = i;
@@ -172,7 +172,7 @@ void KdUninstallColormap(ColormapPtr pCmap)
 
     /* install default */
     dixLookupResourceByType(cast(void**) &defMap, defMapID, X11_RESTYPE_COLORMAP,
-                            serverClient, DixInstallAccess);
+                            server.serverClient, DixInstallAccess);
     if (defMap)
         (*pCmap.pScreen.InstallColormap) (defMap);
     else {

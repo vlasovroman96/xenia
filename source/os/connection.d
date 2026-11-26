@@ -639,8 +639,8 @@ private void EstablishNewConnections(int curconn, int ready, void* data)
 
     connect_time = GetTimeInMillis();
     /* kill off stragglers */
-    for (i = 1; i < currentMaxClients; i++) {
-        if ((client = clients[i]) !is null) {
+    for (i = 1; i < server.currentMaxClients; i++) {
+        if ((client = server.clients[i]) !is null) {
             oc = cast(OsCommPtr) (client.osPrivate);
             if ((oc && (oc.conn_time != 0) &&
                  (connect_time - oc.conn_time) >= TimeOutValue) ||
@@ -1068,8 +1068,8 @@ private void set_poll_clients()
 {
     int i = void;
 
-    for (i = 1; i < currentMaxClients; i++) {
-        ClientPtr client = clients[i];
+    for (i = 1; i < server.currentMaxClients; i++) {
+        ClientPtr client = server.clients[i];
         if (client && !client.clientGone)
             set_poll_client(client);
     }

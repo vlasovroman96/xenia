@@ -166,7 +166,7 @@ private int ProcSELinuxGetCreateContext(ClientPtr client, uint offset)
     mixin(X_REQUEST_HEAD_STRUCT!SELinuxGetCreateContextReq);
 
     if (offset == CTX_DEV) {
-        ptr = cast(char*)dixLookupPrivate(&serverClient.devPrivates, subjectKey);
+        ptr = cast(char*)dixLookupPrivate(&server.serverClient.devPrivates, subjectKey);
     } else {
         ptr = cast(char*)dixLookupPrivate(&client.devPrivates, subjectKey);
     }

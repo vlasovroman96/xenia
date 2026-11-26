@@ -260,7 +260,7 @@ DeviceIntPtr XIGetDevice(xEvent* xE)
 
         id = (cast(deviceKeyButtonPointer*) xE).deviceid & ~MORE_EVENTS;
 
-        rc = dixLookupDevice(&pDev, id, serverClient, DixUnknownAccess);
+        rc = dixLookupDevice(&pDev, id, server.serverClient, DixUnknownAccess);
         if (rc != Success)
             ErrorF("[dix] XIGetDevice failed on XACE restrictions (%d)\n", rc);
     }
@@ -793,7 +793,7 @@ private void ChangeMasterDeviceClasses(DeviceIntPtr device, DeviceChangedEvent* 
     if (!InputDevIsMaster(device))
         return;
 
-    rc = dixLookupDevice(&slave, dce.sourceid, serverClient, DixReadAccess);
+    rc = dixLookupDevice(&slave, dce.sourceid, server.serverClient, DixReadAccess);
 
     if (rc != Success)
         return;                 /* Device has disappeared */
@@ -1368,7 +1368,7 @@ private Bool RetrieveTouchDeliveryData(DeviceIntPtr dev, TouchPointInfoPtr ti, I
     else {
         rc = dixLookupResourceByType(cast(void**) win, listener.listener,
                                      listener.resource_type,
-                                     serverClient, DixSendAccess);
+                                     server.serverClient, DixSendAccess);
         if (rc != Success)
             return False;
 
@@ -1710,7 +1710,7 @@ private void ProcessBarrierEvent(InternalEvent* e, DeviceIntPtr dev)
     if (!InputDevIsMaster(dev))
         return;
 
-    if (dixLookupWindow(&pWin, be.window, serverClient, DixReadAccess) != Success)
+    if (dixLookupWindow(&pWin, be.window, server.serverClient, DixReadAccess) != Success)
         return;
 
     if (grab)
@@ -2240,7 +2240,7 @@ private Bool RetrieveGestureDeliveryData(DeviceIntPtr dev, InternalEvent* ev, Ge
     }
     else {
         rc = dixLookupResourceByType(cast(void**) win, listener.listener, listener.resource_type,
-                                     serverClient, DixSendAccess);
+                                     server.serverClient, DixSendAccess);
         if (rc != Success)
             return False;
 
@@ -2941,7 +2941,7 @@ int ChangeKeyMapping(ClientPtr client, DeviceIntPtr dev, uint len, int type, Key
     keysyms.map = map;
 
     XkbApplyMappingChange(dev, &keysyms, firstKeyCode, keyCodes, null,
-                          serverClient);
+                          server.serverClient);
 
     return Success;
 }
@@ -3048,7 +3048,7 @@ int MaybeSendDeviceMotionNotifyHint(deviceKeyButtonPointer* pEvents, Mask mask)
 {
     DeviceIntPtr dev = void;
 
-    dixLookupDevice(&dev, pEvents.deviceid & DEVICE_BITS, serverClient,
+    dixLookupDevice(&dev, pEvents.deviceid & DEVICE_BITS, server.serverClient,
                     DixReadAccess);
     if (!dev)
         return 0;
@@ -3071,7 +3071,7 @@ void CheckDeviceGrabAndHintWindow(WindowPtr pWin, int type, deviceKeyButtonPoint
 {
     DeviceIntPtr dev = void;
 
-    dixLookupDevice(&dev, xE.deviceid & DEVICE_BITS, serverClient,
+    dixLookupDevice(&dev, xE.deviceid & DEVICE_BITS, server.serverClient,
                     DixGrabAccess);
     if (!dev)
         return;

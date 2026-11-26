@@ -466,7 +466,7 @@ private int ProcXTestFakeInput(ClientPtr client)
         break;
     default: break;}
     if (screenIsSaved == SCREEN_SAVER_ON)
-        dixSaveScreens(serverClient, SCREEN_SAVER_OFF, ScreenSaverReset);
+        dixSaveScreens(server.serverClient, SCREEN_SAVER_OFF, ScreenSaverReset);
 
     valuator_mask_set_range(&mask, firstValuator, numValuators, valuators.ptr);
 
@@ -542,7 +542,7 @@ private int XTestSwapFakeInput(ClientPtr client, xReq* req)
  */
 void InitXTestDevices()
 {
-    if (AllocXTestDevice(serverClient, "Virtual core",
+    if (AllocXTestDevice(server.serverClient, "Virtual core",
                          &xtestpointer, &xtestkeyboard,
                          inputInfo.pointer, inputInfo.keyboard) != Success) {
          FatalError("Failed to allocate XTest devices");

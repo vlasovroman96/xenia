@@ -222,7 +222,7 @@ private Bool XkbWriteRulesProp()
         ErrorF("[xkb] Internal Error! bad size (%d!=%d) for _XKB_RULES_NAMES\n",
                out_, len);
     }
-    dixChangeWindowProperty(serverClient, dixGetMasterScreen().root, name,
+    dixChangeWindowProperty(server.serverClient, dixGetMasterScreen().root, name,
                             XA_STRING, 8, PropModeReplace, len, pval, True);
     free(pval);
     return True;

@@ -81,13 +81,13 @@ void xf86RotateCrtcRedisplay(xf86CrtcPtr crtc, PixmapPtr dst_pixmap, DrawableRec
                         src_drawable,
                         format,
                         CPSubwindowMode,
-                        &include_inferiors, serverClient, &error);
+                        &include_inferiors, server.serverClient, &error);
     if (!src)
         return;
 
     dst = CreatePicture(None,
                         &dst_pixmap.drawable,
-                        format, 0L, null, serverClient, &error);
+                        format, 0L, null, server.serverClient, &error);
     if (!dst)
         return;
 

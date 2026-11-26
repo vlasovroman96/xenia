@@ -147,7 +147,7 @@ private int compSetPixmapVisitWindow(WindowPtr pWindow, void* data)
     SetWinSize(pWindow);
     SetBorderSize(pWindow);
     if (pVisit.bw)
-        QueueWorkProc(&compRepaintBorder, serverClient,
+        QueueWorkProc(&compRepaintBorder, server.serverClient,
                       cast(void*) cast(intptr_t) pWindow.drawable.id);
     return WinTreeWalking.ToChild;
 }
@@ -427,7 +427,7 @@ void compReparentWindow(WindowPtr pWin, WindowPtr pPriorParent)
      * Remove any implicit redirect due to synthesized visual
      */
     if (compImplicitRedirect(pWin, pPriorParent))
-        compUnredirectWindow(serverClient, pWin, CompositeRedirectAutomatic);
+        compUnredirectWindow(server.serverClient, pWin, CompositeRedirectAutomatic);
     /*
      * Handle subwindows redirection
      */
@@ -437,7 +437,7 @@ void compReparentWindow(WindowPtr pWin, WindowPtr pPriorParent)
      * Add any implicit redirect due to synthesized visual
      */
     if (compImplicitRedirect(pWin, pWin.parent))
-        compRedirectWindow(serverClient, pWin, CompositeRedirectAutomatic);
+        compRedirectWindow(server.serverClient, pWin, CompositeRedirectAutomatic);
 
     /*
      * Allocate any necessary redirect pixmap
@@ -566,7 +566,7 @@ Bool compCreateWindow(WindowPtr pWin)
                 compRedirectWindow(dixClientForXID(ccw.id),
                                    pWin, ccw.update);
         if (compImplicitRedirect(pWin, pWin.parent))
-            compRedirectWindow(serverClient, pWin, CompositeRedirectAutomatic);
+            compRedirectWindow(server.serverClient, pWin, CompositeRedirectAutomatic);
     }
     cs.CreateWindow = pScreen.CreateWindow;
     pScreen.CreateWindow = &compCreateWindow;
@@ -648,14 +648,14 @@ private void compWindowUpdateAutomatic(WindowPtr pWin)
     PicturePtr pSrcPicture = CreatePicture(0, &pSrcPixmap.drawable,
                                            pSrcFormat,
                                            0, null,
-                                           serverClient,
+                                           server.serverClient,
                                            &error);
     XID subwindowMode = IncludeInferiors;
     PicturePtr pDstPicture = CreatePicture(0, &pParent.drawable,
                                            pDstFormat,
                                            CPSubwindowMode,
                                            &subwindowMode,
-                                           serverClient,
+                                           server.serverClient,
                                            &error);
 
     /*

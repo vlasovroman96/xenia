@@ -248,7 +248,7 @@ void GlxExtensionInit()
 
     /* We'd better have found at least one vendor */
     mixin(DIX_FOR_EACH_SCREEN!q{
-        if (GlxGetVendorForScreen(serverClient, walkScreen))
+        if (GlxGetVendorForScreen(server.serverClient, walkScreen))
             return;
     });
 

@@ -61,7 +61,7 @@ private int DeliverPropertyEvent(WindowPtr pWin, void* value)
     RREventPtr* pHead = void; RREventPtr pRREvent = void;
 
     dixLookupResourceByType(cast(void**) &pHead, pWin.drawable.id,
-                            RREventType, serverClient, DixReadAccess);
+                            RREventType, server.serverClient, DixReadAccess);
     if (!pHead)
         return WinTreeWalking.ToChild;
 

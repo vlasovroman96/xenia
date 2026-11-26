@@ -139,7 +139,7 @@ private void resume(pmEvent event, Bool undo)
         if (xf86Screens[i].EnableDisableFBAccess)
             (*xf86Screens[i].EnableDisableFBAccess) (xf86Screens[i], True);
     }
-    dixSaveScreens(serverClient, SCREEN_SAVER_FORCER, ScreenSaverReset);
+    dixSaveScreens(server.serverClient, SCREEN_SAVER_FORCER, ScreenSaverReset);
     pInfo = xf86InputDevs;
     while (pInfo) {
         EnableDevice(pInfo.dev, True);

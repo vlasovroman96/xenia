@@ -81,9 +81,9 @@ private void xtest_init()
     screen.DeviceCursorInitialize = device_cursor_init;
     screen.DeviceCursorCleanup = device_cursor_cleanup;
     dixResetPrivates();
-    serverClient = &server_client;
-    InitClient(serverClient, 0, cast(void*) null);
-    if (!InitClientResources(serverClient)) /* for root resources */
+    server.serverClient = &server_client;
+    InitClient(server.serverClient, 0, cast(void*) null);
+    if (!InitClientResources(server.serverClient)) /* for root resources */
         FatalError("couldn't init server resources");
     InitAtoms();
     SyncExtensionInit();

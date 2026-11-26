@@ -749,7 +749,7 @@ Bool InitClientResources(ClientPtr client)
 {
     int i = void;
 
-    if (client == serverClient) {
+    if (client == server.serverClient) {
         lastResourceType = X11_RESTYPE_LASTPREDEF;
         lastResourceClass = RC_LASTPREDEF;
         TypeMask = RC_LASTPREDEF - 1;
@@ -869,7 +869,7 @@ uint GetXIDList(ClientPtr pClient, uint count, XID* pids)
 
     maxid = id | RESOURCE_ID_MASK;
     while ((found < count) && (id <= maxid)) {
-        rc = dixLookupResourceByClass(&val, id, RC_ANY, serverClient,
+        rc = dixLookupResourceByClass(&val, id, RC_ANY, server.serverClient,
                                       DixGetAttrAccess);
         if (rc == BadValue) {
             pids[found++] = id;
@@ -904,7 +904,7 @@ XID FakeClientID(int client)
     if (!id) {
         if (!client)
             FatalError("FakeClientID: server internal ids exhausted\n");
-        dixMarkClientException(clients[client]);
+        dixMarkClientException(server.clients[client]);
         id = (cast(Mask) client << CLIENTOFFSET) | (SERVER_BIT * 3);
         maxid = id | RESOURCE_ID_MASK;
     }
@@ -1099,7 +1099,7 @@ void FindClientResourcesByType(ClientPtr client, RESTYPE type, FindResType func,
     int* eltptr = void;
 
     if (!client)
-        client = serverClient;
+        client = server.serverClient;
 
     resources = clientTable[client.index].resources;
     eltptr = &clientTable[client.index].elements;
@@ -1129,7 +1129,7 @@ void FindAllClientResources(ClientPtr client, FindAllRes func, void* cdata)
     int* eltptr = void;
 
     if (!client)
-        client = serverClient;
+        client = server.serverClient;
 
     resources = clientTable[client.index].resources;
     eltptr = &clientTable[client.index].elements;
@@ -1150,7 +1150,7 @@ void* LookupClientResourceComplex(ClientPtr client, RESTYPE type, FindComplexRes
     void* value = void;
 
     if (!client)
-        client = serverClient;
+        client = server.serverClient;
 
     resources = clientTable[client.index].resources;
     for (int i = 0; i < clientTable[client.index].buckets; i++) {
@@ -1250,9 +1250,9 @@ version (XSERVER_DTRACE) {
 
 void FreeAllResources()
 {
-    for (int i = currentMaxClients; --i >= 0;) {
+    for (int i = server.currentMaxClients; --i >= 0;) {
         if (clientTable[i].buckets)
-            FreeClientResources(clients[i]);
+            FreeClientResources(server.clients[i]);
     }
 }
 
@@ -1273,7 +1273,7 @@ static if(XINERAMA){
     }
 } /* XINERAMA */
     if (client.clientAsMask == (id & ~RESOURCE_ID_MASK)) {
-        rc = dixLookupResourceByClass(&val, id, RC_ANY, serverClient,
+        rc = dixLookupResourceByClass(&val, id, RC_ANY, server.serverClient,
                                       DixGetAttrAccess);
         return rc == BadValue;
     }

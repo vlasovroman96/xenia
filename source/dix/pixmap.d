@@ -484,13 +484,13 @@ private void PixmapDirtyCompositeRotate(PixmapPtr dst_pixmap, PixmapDirtyUpdateP
                         dirty.src,
                         format,
                         CPSubwindowMode,
-                        &include_inferiors, serverClient, &error);
+                        &include_inferiors, server.serverClient, &error);
     if (!src)
         return;
 
     dst = CreatePicture(None,
                         &dst_pixmap.drawable,
-                        format, 0L, null, serverClient, &error);
+                        format, 0L, null, server.serverClient, &error);
     if (!dst)
         return;
 

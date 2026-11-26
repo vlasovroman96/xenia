@@ -266,11 +266,11 @@ Bool SetDefaultFont(const(char)* defaultfontname)
     XID fid = void;
 
     fid = dixAllocServerXID();
-    err = OpenFont(serverClient, fid, FontLoadAll | FontOpenSync,
+    err = OpenFont(server.serverClient, fid, FontLoadAll | FontOpenSync,
                    cast(uint) strlen(defaultfontname), defaultfontname);
     if (err != Success)
         return False;
-    err = dixLookupResourceByType(cast(void**) &pf, fid, X11_RESTYPE_FONT, serverClient,
+    err = dixLookupResourceByType(cast(void**) &pf, fid, X11_RESTYPE_FONT, server.serverClient,
                                   DixReadAccess);
     if (err != Success)
         return False;
@@ -468,7 +468,7 @@ static if(GLYPHPADBYTES == 8)
         assumeNoGC(&xfont2_cache_font_pattern)(patternCache, c.origFontName, c.origFontNameLen,
                                   pfont);
  bail:
-    if (err != Successful && c.client != serverClient) {
+    if (err != Successful && c.client != server.serverClient) {
         SendErrorToClient(c.client, X_OpenFont, 0,
                           c.fontid, cast(ubyte)FontToXError(err));
     }
@@ -1432,7 +1432,7 @@ private int doPolyText(ClientPtr client, poly_text_closure* c)
 
     if (c.err != Success)
         err = c.err;
-    if (err != Success && c.client != serverClient) {
+    if (err != Success && c.client != server.serverClient) {
 static if(XINERAMA){
         if (noPanoramiXExtension || !c.pGC.pScreen.myNum)
             SendErrorToClient(c.client, c.reqType, 0, 0, cast(ubyte)err);
@@ -1581,7 +1581,7 @@ private int doImageText(ClientPtr client, image_text_closure* c)
 
  bail:
 
-    if (err != Success && c.client != serverClient) {
+    if (err != Success && c.client != server.serverClient) {
         SendErrorToClient(c.client, c.reqType, 0, 0, cast(ubyte)err);
     }
     if (ClientIsAsleep(client)) {
@@ -1891,7 +1891,7 @@ private c_ulong get_server_generation()
 
 private void* get_server_client()
 {
-    return serverClient;
+    return server.serverClient;
 }
 
 private int get_default_point_size()
@@ -1943,7 +1943,7 @@ private FontPtr find_old_font(XID id)
 {
     void* pFont = void;
 
-    dixLookupResourceByType(&pFont, id, X11_RESTYPE_NONE, serverClient, DixReadAccess);
+    dixLookupResourceByType(&pFont, id, X11_RESTYPE_NONE, server.serverClient, DixReadAccess);
     return cast(FontPtr) pFont;
 }
 

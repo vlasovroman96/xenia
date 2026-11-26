@@ -66,6 +66,7 @@ import dix.dixstruct_priv;
 import os.os;
 import dix.timestamp;
 import dix.atom;
+import pix.server.server;
 
 ScreenInfo screenInfo;
 
@@ -89,9 +90,10 @@ PtrCtrl defaultPointerControl = {
 
 AtomManager atomMgr;
 
-ClientPtr[MAXCLIENTS] clients;
-ClientPtr serverClient;
-int currentMaxClients;          /* current size of clients array */
+XServer server;
+// ClientPtr[MAXCLIENTS] clients;
+// ClientPtr server.serverClient;
+// int server.currentMaxClients;          /* current size of clients array */
 c_long maxBigRequestSize = MAX_BIG_REQUEST_SIZE;
 
 static c_ulong globalSerialNumber = 0;

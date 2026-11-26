@@ -97,7 +97,7 @@ private void compReportDamage(DamagePtr pDamage, RegionPtr pRegion, void* closur
     CompWindowPtr cw = mixin(GetCompWindow!("pWin"));
 
     if (!cs.pendingScreenUpdate) {
-        QueueWorkProc(&compScreenUpdate, serverClient, pScreen);
+        QueueWorkProc(&compScreenUpdate, server.serverClient, pScreen);
         cs.pendingScreenUpdate = True;
     }
     cw.damaged = True;
@@ -585,13 +585,13 @@ private PixmapPtr compNewPixmap(WindowPtr pWin, int x, int y, int w, int h)
                                                pSrcFormat,
                                                CPSubwindowMode,
                                                &inferiors,
-                                               serverClient, &error);
+                                               server.serverClient, &error);
 
         PicturePtr pDstPicture = CreatePicture(0,
                                                &pPixmap.drawable,
                                                pDstFormat,
                                                0, null,
-                                               serverClient, &error);
+                                               server.serverClient, &error);
 
         if (pSrcPicture && pDstPicture) {
             CompositePicture(PictOpSrc,

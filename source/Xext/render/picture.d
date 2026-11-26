@@ -425,7 +425,7 @@ private Bool PictureInitIndexedFormat(ScreenPtr pScreen, PictFormatPtr format)
     if (format.index.vid == pScreen.rootVisual) {
         dixLookupResourceByType(cast(void**) &format.index.pColormap,
                                 cast(uint)pScreen.defColormap, X11_RESTYPE_COLORMAP,
-                                serverClient, DixGetAttrAccess);
+                                server.serverClient, DixGetAttrAccess);
     }
     else {
         VisualPtr pVisual = PictureFindVisual(pScreen, format.index.vid);

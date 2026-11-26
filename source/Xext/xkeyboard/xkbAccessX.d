@@ -738,7 +738,7 @@ void ProcessPointerEvent(InternalEvent* ev, DeviceIntPtr mouse)
             DeviceIntPtr source = void;
             int rc = void;
 
-            rc = dixLookupDevice(&source, event.sourceid, serverClient,
+            rc = dixLookupDevice(&source, event.sourceid, server.serverClient,
                     DixWriteAccess);
             if (rc != Success)
                 ErrorF("[xkb] bad sourceid '%d' on button release event.\n",

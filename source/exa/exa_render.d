@@ -1049,7 +1049,7 @@ private PicturePtr exaCreateAlphaPicture(ScreenPtr pScreen, PicturePtr pDst, Pic
     exaPixmapDirty(pPixmap, 0, 0, width, height);
     FreeScratchGC(pGC);
     pPicture = CreatePicture(0, &pPixmap.drawable, pPictFormat,
-                             0, null, serverClient, &error);
+                             0, null, server.serverClient, &error);
     dixDestroyPixmap(pPixmap, 0);
     return pPicture;
 }

@@ -1580,7 +1580,7 @@ Bool DRIDrawablePrivDelete(void* pResource, XID id)
     /* For DRIDrawablePrivResType, the XID is the client's fake ID. The
      * important XID is the value in pResource. */
     id = cast(XID) cast(intptr_t) pResource;
-    rc = dixLookupWindow(&pWin, id, serverClient, DixGetAttrAccess);
+    rc = dixLookupWindow(&pWin, id, server.serverClient, DixGetAttrAccess);
 
     if (rc == Success) {
         DRIDrawablePrivPtr pDRIDrwPriv = mixin(DRI_DRAWABLE_PRIV_FROM_WINDOW!("pWin"));

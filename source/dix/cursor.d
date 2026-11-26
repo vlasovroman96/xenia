@@ -517,20 +517,20 @@ CursorPtr CreateRootCursor()
     const(char)[7] defaultCursorFont = "cursor";
 
     XID fontID = dixAllocServerXID();
-    int err = OpenFont(serverClient, fontID, FontLoadAll | FontOpenSync,
+    int err = OpenFont(server.serverClient, fontID, FontLoadAll | FontOpenSync,
                    cast(uint) strlen(defaultCursorFont.ptr), defaultCursorFont.ptr);
     if (err != Success)
         return NullCursor;
 
     FontPtr cursorfont = void;
     err = dixLookupResourceByType(cast(void**) &cursorfont, fontID, X11_RESTYPE_FONT,
-                                  serverClient, DixReadAccess);
+                                  server.serverClient, DixReadAccess);
     if (err != Success)
         return NullCursor;
 
     CursorPtr curs = void;
     if (AllocGlyphCursor(fontID, 0, fontID, 1, 0, 0, 0, cast(ushort)~0U, cast(ushort)~0U, cast(ushort)~0U,
-                         &curs, serverClient, cast(XID) 0) != Success)
+                         &curs, server.serverClient, cast(XID) 0) != Success)
         return NullCursor;
 
     if (!AddResource(cast(uint)dixAllocServerXID(), X11_RESTYPE_CURSOR, cast(void*) curs))

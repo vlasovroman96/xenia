@@ -508,7 +508,7 @@ static if (GLAMOR) {
         for (i = 0; i < entries; i++)
             ppix[i] = i;
         /* XXX truecolor */
-        QueryColors(pmap, entries, ppix, prgb, serverClient);
+        QueryColors(pmap, entries, ppix, prgb, server.serverClient);
 
         for (i = 0; i < entries; i++) { /* convert xrgbs to xColorItems */
             defs[i].pixel = ppix[i] & 0xff;     /* change pixel to index */

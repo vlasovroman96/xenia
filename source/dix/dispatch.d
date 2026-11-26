@@ -471,9 +471,9 @@ private void SetDispatchExceptionTimer()
 
 private Bool ShouldDisconnectRemainingClients()
 {
-    for (int i = 1; i < currentMaxClients; i++) {
-        if (clients[i]) {
-            if (!XFixesShouldDisconnectClient(clients[i]))
+    for (int i = 1; i < server.currentMaxClients; i++) {
+        if (server.clients[i]) {
+            if (!XFixesShouldDisconnectClient(server.clients[i]))
                 return False;
         }
     }
@@ -1202,7 +1202,7 @@ private void UngrabServer(ClientPtr client)
         while (!mixin(GETBIT!(`grabWaiters`, `i`)))
             i++;
         mixin(BITCLEAR!(`grabWaiters`, `i`));
-        AttendClient(clients[i]);
+        AttendClient(server.clients[i]);
     }
 
     if (ServerGrabCallback) {
@@ -3446,8 +3446,8 @@ private void CloseDownRetainedResources()
 {
     ClientPtr client = void;
 
-    for (int i = 1; i < currentMaxClients; i++) {
-        client = clients[i];
+    for (int i = 1; i < server.currentMaxClients; i++) {
+        client = server.clients[i];
         if (client && (client.closeDownMode == RetainTemporary)
             && (client.clientGone))
             CloseDownClient(client);
@@ -3668,12 +3668,12 @@ version (XSERVER_DTRACE) {
 }
         if (client.index < nextFreeClientID)
             nextFreeClientID = client.index;
-        clients[client.index] = null;
+        server.clients[client.index] = null;
         SmartLastClient = null;
         mixin(dixFreeObjectWithPrivatesM!("client", "PRIVATE_CLIENT"));
 
-        while (!clients[currentMaxClients - 1])
-            currentMaxClients--;
+        while (!server.clients[server.currentMaxClients - 1])
+            server.currentMaxClients--;
     }
 
     if (ShouldDisconnectRemainingClients())
@@ -3682,11 +3682,11 @@ version (XSERVER_DTRACE) {
 
 private void KillAllClients()
 {
-    for (int i = 1; i < currentMaxClients; i++)
-        if (clients[i]) {
+    for (int i = 1; i < server.currentMaxClients; i++)
+        if (server.clients[i]) {
             /* Make sure Retained clients are released. */
-            clients[i].closeDownMode = DestroyAll;
-            CloseDownClient(clients[i]);
+            server.clients[i].closeDownMode = DestroyAll;
+            CloseDownClient(server.clients[i]);
         }
 }
 
@@ -3721,7 +3721,7 @@ ClientPtr NextAvailableClient(void* ospriv)
     i = nextFreeClientID;
     if (i == LimitClients)
         return cast(ClientPtr) null;
-    clients[i] = client =
+    server.clients[i] = client =
         mixin(dixAllocateObjectWithPrivates!("ClientRec", "PRIVATE_CLIENT"));
     if (!client)
         return cast(ClientPtr) null;
@@ -3737,9 +3737,9 @@ ClientPtr NextAvailableClient(void* ospriv)
         mixin(dixFreeObjectWithPrivatesM!("client", "PRIVATE_CLIENT"));
         return cast(ClientPtr) null;
     }
-    if (i == currentMaxClients)
-        currentMaxClients++;
-    while ((nextFreeClientID < LimitClients) && clients[nextFreeClientID])
+    if (i == server.currentMaxClients)
+        server.currentMaxClients++;
+    while ((nextFreeClientID < LimitClients) && server.clients[nextFreeClientID])
         nextFreeClientID++;
 
     /* Enable client ID tracking. This must be done before

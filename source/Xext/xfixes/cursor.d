@@ -249,7 +249,7 @@ private int XFixesSelectCursorInput(ClientPtr pClient, WindowPtr pWindow, CARD32
          * catch window destroy
          */
         rc = dixLookupResourceByType(&val, pWindow.drawable.id,
-                                     CursorWindowType, serverClient,
+                                     CursorWindowType, server.serverClient,
                                      DixGetAttrAccess);
         if (rc != Success)
             if (!AddResource(cast(uint)pWindow.drawable.id, CursorWindowType,
@@ -581,15 +581,15 @@ private void ReplaceCursor(CursorPtr pCursor, TestCursorFunc testCursor, void* c
     rcl.closure = closure;
 
     /* for each client */
-    for (clientIndex = 0; clientIndex < currentMaxClients; clientIndex++) {
-        if (!clients[clientIndex])
+    for (clientIndex = 0; clientIndex < server.currentMaxClients; clientIndex++) {
+        if (!server.clients[clientIndex])
             continue;
         for (resIndex = 0; resIndex < CursorRestypes.length; resIndex++) {
             rcl.type = CursorRestypes[resIndex];
             /*
              * This function walks the entire client resource database
              */
-            LookupClientResourceComplex(clients[clientIndex],
+            LookupClientResourceComplex(server.clients[clientIndex],
                                         rcl.type,
                                         &ReplaceCursorLookup, cast(void*) &rcl);
         }

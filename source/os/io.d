@@ -786,7 +786,7 @@ int WriteToClient(ClientPtr who, int count, const(void)* __buf)
 version (DEBUG_COMMUNICATION) {
     Bool multicount = False;
 }
-    if (!count || !who || who == serverClient || who.clientGone)
+    if (!count || !who || who == server.serverClient || who.clientGone)
         return 0;
     oc = cast(OsCommPtr)who.osPrivate;
 version (DEBUG_COMMUNICATION) {

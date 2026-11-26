@@ -389,7 +389,7 @@ struct WindowRec {
         /* We SHOULD check for an error value here XXX */
         (*pScreen.ChangeWindowAttributes) (&this, backFlag);
 
-        MapWindow(&this, serverClient);
+        MapWindow(&this, server.serverClient);
     }
 
     void disposeOpt() {
@@ -2465,7 +2465,7 @@ static if(XINERAMA){
                 int rc = dixLookupResourceByType(cast(void**) &win,
                                                  pChild.drawable.id,
                                                  XRT_WINDOW,
-                                                 serverClient, DixWriteAccess);
+                                                 server.serverClient, DixWriteAccess);
 
                 if (rc == Success)
                     win.u.win.visibility = VisibilityNotViewable;
@@ -2699,7 +2699,7 @@ static if(XINERAMA){
             if (walkScreenIdx == Scrnum)
                 continue;
 
-            rc = dixLookupWindow(&pWin2, win.info[walkScreenIdx].id, serverClient,
+            rc = dixLookupWindow(&pWin2, win.info[walkScreenIdx].id, server.serverClient,
                                  DixWriteAccess);
 
             if (rc == Success) {
@@ -2714,7 +2714,7 @@ static if(XINERAMA){
             break;
         case VisibilityPartiallyObscured:
             if (Scrnum) {
-                rc = dixLookupWindow(&pWin2, win.info[0].id, serverClient,
+                rc = dixLookupWindow(&pWin2, win.info[0].id, server.serverClient,
                                      DixWriteAccess);
                 if (rc == Success)
                     pWin = pWin2;
@@ -2725,7 +2725,7 @@ static if(XINERAMA){
             if (walkScreenIdx == Scrnum)
                 continue;
 
-            rc = dixLookupWindow(&pWin2, win.info[walkScreenIdx].id, serverClient,
+            rc = dixLookupWindow(&pWin2, win.info[walkScreenIdx].id, server.serverClient,
                                  DixWriteAccess);
 
             if (rc == Success) {
@@ -2861,7 +2861,7 @@ int dixSaveScreens(ClientPtr client, int on, int mode)
 
 int SaveScreens(int on, int mode)
 {
-    return dixSaveScreens(serverClient, on, mode);
+    return dixSaveScreens(server.serverClient, on, mode);
 }
 
 private Bool TileScreenSaver(ScreenPtr pScreen, int kind)
@@ -2919,7 +2919,7 @@ private Bool TileScreenSaver(ScreenPtr pScreen, int kind)
         for (int j = 0; j < mixin(BitmapBytePad!("32")) * 16; j++)
             srcbits[j] = mskbits[j] = 0x0;
         result = AllocARGBCursor(srcbits, mskbits, null, &cm, 0, 0, 0, 0, 0, 0,
-                                 &cursor, serverClient, cast(XID) 0);
+                                 &cursor, server.serverClient, cast(XID) 0);
         if (cursor) {
             cursorID = dixAllocServerXID();
             if (AddResource(cast(uint)cursorID, X11_RESTYPE_CURSOR, cast(void*) cursor)) {
@@ -2941,7 +2941,7 @@ private Bool TileScreenSaver(ScreenPtr pScreen, int kind)
                      -RANDOM_WIDTH, -RANDOM_WIDTH,
                      cast(ushort) pScreen.width + RANDOM_WIDTH,
                      cast(ushort) pScreen.height + RANDOM_WIDTH,
-                     0, InputOutput, mask, attributes.ptr, 0, serverClient,
+                     0, InputOutput, mask, attributes.ptr, 0, server.serverClient,
                      pScreen.root.getVisual(), &result);
 
     if (cursor)
@@ -2958,7 +2958,7 @@ private Bool TileScreenSaver(ScreenPtr pScreen, int kind)
         pWin.makeRootTile();
         (*pWin.drawable.pScreen.ChangeWindowAttributes) (pWin, CWBackPixmap);
     }
-    MapWindow(pWin, serverClient);
+    MapWindow(pWin, server.serverClient);
     return True;
 }
 
@@ -3351,17 +3351,17 @@ VisualPtr WindowGetVisual(WindowPtr pWin)
 /*
  * @brief check whether a window (ID) is a screen root window
  *
- * The underlying resource query is explicitly done on behalf of serverClient,
+ * The underlying resource query is explicitly done on behalf of server.serverClient,
  * so XACE resource hooks don't recognize this as a client action.
  * It's explicitly designed for use in hooks that don't wanna cause unncessary
- * traffic in other XACE resource hooks: things done by the serverClient usually
+ * traffic in other XACE resource hooks: things done by the server.serverClient usually
  * considered safe enough for not needing any additional security checks.
  * (we don't have any way for completely skipping the XACE hook yet)
  */
 Bool dixWindowIsRoot(Window window)
 {
     WindowPtr pWin = void;
-    int rc = dixLookupWindow(&pWin, window, serverClient, DixGetAttrAccess);
+    int rc = dixLookupWindow(&pWin, window, server.serverClient, DixGetAttrAccess);
     if (rc != Success)
         return False;
     return (pWin == pWin.drawable.pScreen.root);

@@ -1068,7 +1068,7 @@ Bool RRScreenInit(ScreenPtr pScreen)
     pRREvent = cast(RREventPtr) data;
     pWin = pRREvent.window;
     dixLookupResourceByType(cast(void**) &pHead, pWin.drawable.id,
-                            RREventType, serverClient, DixDestroyAccess);
+                            RREventType, server.serverClient, DixDestroyAccess);
     if (pHead) {
         pPrev = null;
         for (pCur = *pHead; pCur && pCur != pRREvent; pCur = pCur.next)
@@ -1174,13 +1174,13 @@ private int TellChanged(WindowPtr pWin, void* value)
     int i = void;
 
     dixLookupResourceByType(cast(void**) &pHead, pWin.drawable.id,
-                            RREventType, serverClient, DixReadAccess);
+                            RREventType, server.serverClient, DixReadAccess);
     if (!pHead)
         return WinTreeWalking.ToChild;
 
     for (pRREvent = *pHead; pRREvent; pRREvent = pRREvent.next) {
         client = pRREvent.client;
-        if (client == serverClient || client.clientGone)
+        if (client == server.serverClient || client.clientGone)
             continue;
 
         if (pRREvent.mask & RRScreenChangeNotifyMask)

@@ -644,7 +644,7 @@ private void ms_dri2_flip_handler(modesettingPtr ms, ulong msc, ulong ust, void*
     DrawablePtr drawable = void;
     int status = void;
 
-    status = dixLookupDrawable(&drawable, event.drawable_id, serverClient,
+    status = dixLookupDrawable(&drawable, event.drawable_id, server.serverClient,
                                M_ANY, DixWriteAccess);
     if (status == Success)
         DRI2SwapComplete(event.client, drawable, frame, tv_sec, tv_usec,

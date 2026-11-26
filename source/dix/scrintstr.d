@@ -800,7 +800,7 @@ Bool CreateRootWindow(ScreenPtr pScreen)
 
     /*  security creation/labeling check
      */
-    if (XaceHookResourceAccess(serverClient, pWin.drawable.id,
+    if (XaceHookResourceAccess(server.serverClient, pWin.drawable.id,
                  X11_RESTYPE_WINDOW, pWin, X11_RESTYPE_NONE, null, DixCreateAccess))
         return False;
 

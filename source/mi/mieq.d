@@ -559,18 +559,18 @@ void mieqProcessInputEvents()
 
 static if(DPMSExtension) {
         if (screenIsSaved == SCREEN_SAVER_ON) {
-            dixSaveScreens(serverClient, SCREEN_SAVER_OFF, ScreenSaverReset);
+            dixSaveScreens(server.serverClient, SCREEN_SAVER_OFF, ScreenSaverReset);
         }
         else if(DPMSPowerLevel == DPMSModeOn) {
             SetScreenSaverTimer();
         }
 
         if (DPMSPowerLevel != DPMSModeOn)
-            DPMSSet(serverClient, DPMSModeOn);
+            DPMSSet(server.serverClient, DPMSModeOn);
 }
 else {
      if (screenIsSaved == SCREEN_SAVER_ON)
-            dixSaveScreens(serverClient, SCREEN_SAVER_OFF, ScreenSaverReset);
+            dixSaveScreens(server.serverClient, SCREEN_SAVER_OFF, ScreenSaverReset);
 }
 
         mieqProcessDeviceEvent(dev, &event, screen);

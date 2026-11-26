@@ -247,7 +247,7 @@ private void AddSeatId(CallbackListPtr* pcbl, void* data, void* screen)
     Atom SeatAtom = dixAddAtom(SEAT_ATOM_NAME);
     int err = void;
 
-    err = dixChangeWindowProperty(serverClient, pScreen.root, SeatAtom,
+    err = dixChangeWindowProperty(server.serverClient, pScreen.root, SeatAtom,
                                   XA_STRING, 8, PropModeReplace,
                                   strlen(cast(char*)data) + 1, data, False);
 
@@ -264,11 +264,11 @@ enum VT_ATOM_NAME =         "XFree86_VT";
     Atom VTAtom = dixAddAtom(VT_ATOM_NAME);
     Atom HasVTAtom = dixAddAtom(HAS_VT_ATOM_NAME);
 
-    err = dixChangeWindowProperty(serverClient, pScreen.root, VTAtom,
+    err = dixChangeWindowProperty(server.serverClient, pScreen.root, VTAtom,
                                   XA_INTEGER, 32, PropModeReplace, 1,
                                   &xf86Info.vtno, False);
 
-    err |= dixChangeWindowProperty(serverClient, pScreen.root, HasVTAtom,
+    err |= dixChangeWindowProperty(server.serverClient, pScreen.root, HasVTAtom,
                                    XA_INTEGER, 32, PropModeReplace, 1,
                                    &HasVT, False);
 
@@ -873,7 +873,7 @@ void ddxGiveUp(ExitCode error)
         /* try to restore the original video state */
 static if(DPMSExtension) {            /* Turn screens back on */
         if (DPMSPowerLevel != DPMSModeOn)
-            DPMSSet(serverClient, DPMSModeOn);
+            DPMSSet(server.serverClient, DPMSModeOn);
 }
         if (xf86Screens) {
             for (i = 0; i < xf86NumScreens; i++)

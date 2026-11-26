@@ -788,18 +788,18 @@ void PrintPassiveGrabs()
 
     ErrorF("Printing all currently registered grabs\n");
 
-    for (int i = 1; i < currentMaxClients; i++) {
-        if (!clients[i] || clients[i].clientState != ClientStateRunning)
+    for (int i = 1; i < server.currentMaxClients; i++) {
+        if (!server.clients[i] || server.clients[i].clientState != ClientStateRunning)
             continue;
 
-        clientpid = GetClientPid(clients[i]);
-        cmdname = GetClientCmdName(clients[i]);
-        cmdargs = GetClientCmdArgs(clients[i]);
+        clientpid = GetClientPid(server.clients[i]);
+        cmdname = GetClientCmdName(server.clients[i]);
+        cmdargs = GetClientCmdArgs(server.clients[i]);
         if ((clientpid > 0) && (cmdname !is null)) {
             ErrorF("  Printing all registered grabs of client pid %ld %s %s\n",
                    cast(c_long) clientpid, cmdname, cmdargs ? cmdargs : "");
         } else {
-            if (GetLocalClientCreds(clients[i], &lcc) == -1) {
+            if (GetLocalClientCreds(server.clients[i], &lcc) == -1) {
                 ErrorF("  GetLocalClientCreds() failed\n");
                 continue;
             }
@@ -810,7 +810,7 @@ void PrintPassiveGrabs()
             FreeLocalClientCreds(lcc);
         }
 
-        FindClientResourcesByType(clients[i], X11_RESTYPE_PASSIVEGRAB, &log_grab_info, null);
+        FindClientResourcesByType(server.clients[i], X11_RESTYPE_PASSIVEGRAB, &log_grab_info, null);
     }
     ErrorF("End list of registered passive grabs\n");
 }

@@ -261,7 +261,7 @@ Bool miInitIndexed(ScreenPtr pScreen, PictFormatPtr pFormat)
     /*
      * Build mapping from pixel value to ARGB
      */
-    QueryColors(pColormap, num, pixels.ptr, rgb.ptr, serverClient);
+    QueryColors(pColormap, num, pixels.ptr, rgb.ptr, server.serverClient);
     for (i = 0; i < num; i++) {
         p = pixels[i];
         pFormat.index.pValues[i].pixel = p;

@@ -1061,7 +1061,7 @@ private int _XkbFilterDeviceBtn(XkbSrvInfoPtr xkbi, XkbFilterPtr filter, uint ke
         DeviceIntPtr dev = void;
         int button = void;
 
-        _XkbLookupButtonDevice(&dev, pAction.devbtn.device, serverClient,
+        _XkbLookupButtonDevice(&dev, pAction.devbtn.device, server.serverClient,
                                DixUnknownAccess, &button);
         if (!dev || !dev.public_.on)
             return 1;
@@ -1106,7 +1106,7 @@ private int _XkbFilterDeviceBtn(XkbSrvInfoPtr xkbi, XkbFilterPtr filter, uint ke
 
         filter.active = 0;
         _XkbLookupButtonDevice(&dev, filter.upAction.devbtn.device,
-                               serverClient, DixUnknownAccess, &button);
+                               server.serverClient, DixUnknownAccess, &button);
         if (!dev || !dev.public_.on)
             return 1;
 

@@ -372,7 +372,7 @@ private RegionPtr DamageExtSubtractWindowClip(DamageExtPtr pDamageExt)
         return &PanoramiXScreenRegion;
 
     dixLookupResourceByType(cast(void**)&res, win.drawable.id, XRT_WINDOW,
-                            serverClient, DixReadAccess);
+                            server.serverClient, DixReadAccess);
     if (!res)
         return null;
 
@@ -381,7 +381,7 @@ private RegionPtr DamageExtSubtractWindowClip(DamageExtPtr pDamageExt)
         return null;
 
     mixin(XINERAMA_FOR_EACH_SCREEN_FORWARD!(q{
-        if (Success != dixLookupWindow(&win, res.info[walkScreenIdx].id, serverClient,
+        if (Success != dixLookupWindow(&win, res.info[walkScreenIdx].id, server.serverClient,
                                        DixReadAccess))
             goto out_;
 

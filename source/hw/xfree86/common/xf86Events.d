@@ -343,7 +343,7 @@ private void xf86UpdateHasVTProperty(Bool hasVT)
 
     Atom property_name = dixAddAtom(HAS_VT_ATOM_NAME);
     for (i = 0; i < xf86NumScreens; i++) {
-        dixChangeWindowProperty(serverClient,
+        dixChangeWindowProperty(server.serverClient,
                                 xf86ScrnToScreen(xf86Screens[i]).root,
                                 property_name, XA_INTEGER, 32,
                                 PropModeReplace, 1, &value, True);
@@ -386,7 +386,7 @@ void xf86VTLeave()
            (dispatchException & DE_TERMINATE) ? "True".ptr : "False".ptr);
 static if(DPMSExtension) {
     if (DPMSPowerLevel != DPMSModeOn)
-        DPMSSet(serverClient, DPMSModeOn);
+        DPMSSet(server.serverClient, DPMSModeOn);
 }
     for (i = 0; i < xf86NumScreens; i++) {
         if (!(dispatchException & DE_TERMINATE))
@@ -454,7 +454,7 @@ switch_failed:
                 (*xf86Screens[i].EnableDisableFBAccess) (xf86Screens[i], True);
         }
     }
-    dixSaveScreens(serverClient, SCREEN_SAVER_FORCER, ScreenSaverReset);
+    dixSaveScreens(server.serverClient, SCREEN_SAVER_FORCER, ScreenSaverReset);
 
     for (pInfo = xf86InputDevs; pInfo; pInfo = pInfo.next)
         xf86EnableInputDeviceForVTSwitch(pInfo);
@@ -497,7 +497,7 @@ void xf86VTEnter()
     }
 
     /* Turn screen saver off when switching back */
-    dixSaveScreens(serverClient, SCREEN_SAVER_FORCER, ScreenSaverReset);
+    dixSaveScreens(server.serverClient, SCREEN_SAVER_FORCER, ScreenSaverReset);
 
     for (pInfo = xf86InputDevs; pInfo; pInfo = pInfo.next) {
         /* Devices with server managed fds get enabled on logind/libseat resume */

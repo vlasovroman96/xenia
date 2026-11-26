@@ -948,14 +948,14 @@ Bool XineramaSetWindowPntrs(DeviceIntPtr pDev, WindowPtr pWin)
         int rc = void;
 
         rc = dixLookupResourceByType(cast(void**) &win, pWin.drawable.id,
-                                     XRT_WINDOW, serverClient, DixReadAccess);
+                                     XRT_WINDOW, server.serverClient, DixReadAccess);
         if (rc != Success)
             return False;
 
         mixin(XINERAMA_FOR_EACH_SCREEN_BACKWARD!(q{
             rc = dixLookupWindow(pSprite.windows.ptr + walkScreenIdx,
                                  win.info[walkScreenIdx].id,
-                                 serverClient, DixReadAccess);
+                                 server.serverClient, DixReadAccess);
             if (rc != Success)  /* window is being unmapped */
                 return False;
         }));
@@ -1822,10 +1822,10 @@ private void ReattachToOldMaster(DeviceIntPtr dev)
     if (InputDevIsMaster(dev))
         return;
 
-    dixLookupDevice(&master, dev.saved_master_id, serverClient, DixUseAccess);
+    dixLookupDevice(&master, dev.saved_master_id, server.serverClient, DixUseAccess);
 
     if (master) {
-        AttachDevice(serverClient, dev, master);
+        AttachDevice(server.serverClient, dev, master);
         dev.saved_master_id = 0;
     }
 }
@@ -1842,7 +1842,7 @@ private DeviceIntPtr CurrentOrOldMasterKeyboard(DeviceIntPtr dev)
         return kbd;
 
     if (dev.saved_master_id) {
-        dixLookupDevice(&kbd, dev.saved_master_id, serverClient, DixUseAccess);
+        dixLookupDevice(&kbd, dev.saved_master_id, server.serverClient, DixUseAccess);
         if (!kbd)
             return null;
         /* if dev is a pointer the saved master is a master pointer,
@@ -2378,7 +2378,7 @@ version (DEBUG_EVENTS) {
            (client && client.clientGone) ? " (gone)" : "");
 }
 
-    if (!client || client == serverClient || client.clientGone) {
+    if (!client || client == server.serverClient || client.clientGone) {
 version (DEBUG_EVENTS) {
         ErrorF(" not delivered to fake/dead client\n");
 }
@@ -2834,7 +2834,7 @@ void DeliverRawEvent(RawDeviceEvent* ev, DeviceIntPtr device)
 static if(XINERAMA){
 pragma(inline, true) private Bool XineramaTryClientEventsResult(ClientPtr client, GrabPtr grab, Mask mask, Mask filter)
 {
-    if ((client) && (client != serverClient) && (!client.clientGone) &&
+    if ((client) && (client != server.serverClient) && (!client.clientGone) &&
         ((filter == CantBeFiltered) || (mask & filter))) {
         if (grab && !mixin(SameClient!("grab", "client")))
             return False;
@@ -6311,7 +6311,7 @@ static if(XINERAMA){
     xEvent* eventTo = void, eventFrom = void;
     int eventlength = xEvent.sizeof;
 
-    if (!pClient || pClient == serverClient || pClient.clientGone)
+    if (!pClient || pClient == server.serverClient || pClient.clientGone)
         return;
 
     for (int i = 0; i < count; i++)

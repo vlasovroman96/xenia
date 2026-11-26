@@ -1471,7 +1471,7 @@ private Status EphyrKeyboardInit(KdKeyboardInfo* ki)
         XkbApplyMappingChange(ki.dixdev, &keySyms,
                               keySyms.minKeyCode,
                               cast(ubyte)(keySyms.maxKeyCode - keySyms.minKeyCode + 1),
-                              modmap.ptr, serverClient);
+                              modmap.ptr, server.serverClient);
         XkbDDXChangeControls(ki.dixdev, &controls, &controls);
         free(keySyms.map);
     }

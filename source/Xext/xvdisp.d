@@ -727,7 +727,7 @@ private int SingleXvShmPutImage(ClientPtr client)
         return BadMatch;
 
     status = dixLookupResourceByType(cast(void**) &shmdesc, stuff.shmseg,
-                                     ShmSegType, serverClient, DixReadAccess);
+                                     ShmSegType, server.serverClient, DixReadAccess);
     if (status != Success)
         return status;
 

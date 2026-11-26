@@ -166,7 +166,7 @@ private int miDbeAllocBackBufferName(WindowPtr pWin, XID bufId, int swapAction)
         }
 
         /* Security creation/labeling check. */
-        rc = XaceHookResourceAccess(serverClient, bufId, dbeDrawableResType,
+        rc = XaceHookResourceAccess(server.serverClient, bufId, dbeDrawableResType,
                                     pDbeWindowPriv.pBackBuffer, X11_RESTYPE_WINDOW,
                                     pWin, DixCreateAccess);
 

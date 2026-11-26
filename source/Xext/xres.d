@@ -181,8 +181,8 @@ private int ProcXResQueryClients(ClientPtr client)
     RPCBuffer rpcbuf = { swapped: cast(bool)client.swapped, err_clear: True };
 
     int num_clients = 0;
-    for (int i = 0; i < currentMaxClients; i++) {
-        ClientPtr walkClient = clients[i];
+    for (int i = 0; i < server.currentMaxClients; i++) {
+        ClientPtr walkClient = server.clients[i];
         if (walkClient &&
             (dixCallClientAccessCallback(client, walkClient, DixReadAccess) == Success)) {
             rpcbuf.writeCard32(cast(uint)walkClient.clientAsMask); /* resource_base */
@@ -414,11 +414,11 @@ private int ConstructClientIds(ClientPtr client, int numSpecs, xXResClientIdSpec
 {
     for (int specIdx = 0; specIdx < numSpecs; ++specIdx) {
         if (specs[specIdx].client == 0) {
-            for (int c = 0; c < currentMaxClients; ++c) {
-                if (clients[c] &&
-                    (dixCallClientAccessCallback(client, clients[c], DixReadAccess)
+            for (int c = 0; c < server.currentMaxClients; ++c) {
+                if (server.clients[c] &&
+                    (dixCallClientAccessCallback(client, server.clients[c], DixReadAccess)
                                           == Success)) {
-                    if (!ConstructClientIdValue(client, clients[c],
+                    if (!ConstructClientIdValue(client, server.clients[c],
                                                 specs[specIdx].mask, ctx)) {
                         return BadAlloc;
                     }
@@ -774,8 +774,8 @@ private int ConstructResourceBytes(XID aboutClient, ConstructResourceBytesCtx* c
 
         ConstructClientResourceBytes(null, ctx);
 
-        for (clientIdx = 0; clientIdx < currentMaxClients; ++clientIdx) {
-            ClientPtr client = clients[clientIdx];
+        for (clientIdx = 0; clientIdx < server.currentMaxClients; ++clientIdx) {
+            ClientPtr client = server.clients[clientIdx];
 
             if (client) {
                 ConstructClientResourceBytes(client, ctx);

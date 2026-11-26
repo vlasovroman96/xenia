@@ -53,7 +53,7 @@ private int edidSize(const(xf86MonPtr) DDC)
 private void setRootWindowEDID(ScreenPtr pScreen, xf86MonPtr DDC)
 {
     Atom atom = dixAddAtom(EDID1_ATOM_NAME);
-    dixChangeWindowProperty(serverClient, pScreen.root, atom, XA_INTEGER,
+    dixChangeWindowProperty(server.serverClient, pScreen.root, atom, XA_INTEGER,
                             8, PropModeReplace, edidSize(DDC), DDC.rawData,
                             False);
 }

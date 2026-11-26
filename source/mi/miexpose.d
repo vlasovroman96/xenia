@@ -339,7 +339,7 @@ static if(XINERAMA){
                 return;
             }
             realWin = win.info[0].id;
-            dixLookupWindow(&pWin, realWin, serverClient, DixSendAccess);
+            dixLookupWindow(&pWin, realWin, server.serverClient, DixSendAccess);
         }
         if (x || y || scrnum)
             for (i = 0; i < numRects; i++) {

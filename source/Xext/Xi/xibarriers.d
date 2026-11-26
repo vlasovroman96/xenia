@@ -730,7 +730,7 @@ private void remove_master_func(void* res, XID id, void* devid)
     int rc = void;
     Time ms = GetTimeInMillis();
 
-    rc = dixLookupDevice(&dev, *deviceid, serverClient, DixSendAccess);
+    rc = dixLookupDevice(&dev, *deviceid, server.serverClient, DixSendAccess);
     if (rc != Success)
         return;
 

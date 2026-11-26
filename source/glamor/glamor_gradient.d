@@ -875,7 +875,7 @@ PicturePtr glamor_generate_radial_gradient_picture(ScreenPtr screen, PicturePtr 
     dst_picture = CreatePicture(0, &pixmap.drawable,
                                 PictureMatchFormat(screen,
                                                    PIXMAN_FORMAT_DEPTH(format),
-                                                   format), 0, null, serverClient,
+                                                   format), 0, null, server.serverClient,
                                 &error);
 
     /* Release the reference, picture will hold the last one. */
@@ -1178,7 +1178,7 @@ PicturePtr glamor_generate_linear_gradient_picture(ScreenPtr screen, PicturePtr 
     dst_picture = CreatePicture(0, &pixmap.drawable,
                                 PictureMatchFormat(screen,
                                                    PIXMAN_FORMAT_DEPTH(format),
-                                                   format), 0, null, serverClient,
+                                                   format), 0, null, server.serverClient,
                                 &error);
 
     /* Release the reference, picture will hold the last one. */

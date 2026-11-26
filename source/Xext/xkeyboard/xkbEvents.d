@@ -98,26 +98,26 @@ private void XkbSendLegacyMapNotify(DeviceIntPtr kbd, CARD16 xkb_event, CARD16 c
     if (!keymap_changed && !modmap_changed)
         return;
 
-    /* 0 is serverClient. */
-    for (i = 1; i < currentMaxClients; i++) {
-        if (!clients[i] || clients[i].clientState != ClientStateRunning)
+    /* 0 is server.serverClient. */
+    for (i = 1; i < server.currentMaxClients; i++) {
+        if (!server.clients[i] || server.clients[i].clientState != ClientStateRunning)
             continue;
 
         /* XKB allows clients to restrict the MappingNotify events sent to
          * them.  This was broken for three years.  Sorry. */
         if (xkb_event == XkbMapNotify &&
-            (clients[i].xkbClientFlags & _XkbClientInitialized) &&
-            !(clients[i].mapNotifyMask & changed))
+            (server.clients[i].xkbClientFlags & _XkbClientInitialized) &&
+            !(server.clients[i].mapNotifyMask & changed))
             continue;
         /* Emulate previous server behaviour: any client which has activated
          * XKB will not receive core events emulated from a NewKeyboardNotify
          * at all. */
         if (xkb_event == XkbNewKeyboardNotify &&
-            (clients[i].xkbClientFlags & _XkbClientInitialized))
+            (server.clients[i].xkbClientFlags & _XkbClientInitialized))
             continue;
 
         /* Don't send core events to clients who don't know about us. */
-        if (!XIShouldNotify(clients[i], kbd))
+        if (!XIShouldNotify(server.clients[i], kbd))
             continue;
 
         if (keymap_changed) {
@@ -127,17 +127,17 @@ private void XkbSendLegacyMapNotify(DeviceIntPtr kbd, CARD16 xkb_event, CARD16 c
 
             /* Clip the keycode range to what the client knows about, so it
              * doesn't freak out. */
-            if (first_key >= clients[i].minKC)
+            if (first_key >= server.clients[i].minKC)
                 core_mn.u.mappingNotify.firstKeyCode = cast(ubyte)first_key;
             else
-                core_mn.u.mappingNotify.firstKeyCode = clients[i].minKC;
-            if (first_key + num_keys - 1 <= clients[i].maxKC)
+                core_mn.u.mappingNotify.firstKeyCode = server.clients[i].minKC;
+            if (first_key + num_keys - 1 <= server.clients[i].maxKC)
                 core_mn.u.mappingNotify.count = cast(ubyte)num_keys;
             else
-                core_mn.u.mappingNotify.count = cast(ubyte)(clients[i].maxKC -
-                    clients[i].minKC + 1);
+                core_mn.u.mappingNotify.count = cast(ubyte)(server.clients[i].maxKC -
+                    server.clients[i].minKC + 1);
 
-            WriteEventsToClient(clients[i], 1, &core_mn);
+            WriteEventsToClient(server.clients[i], 1, &core_mn);
         }
         if (modmap_changed) {
             xEvent core_mn;
@@ -145,7 +145,7 @@ private void XkbSendLegacyMapNotify(DeviceIntPtr kbd, CARD16 xkb_event, CARD16 c
                 core_mn.u.mappingNotify.firstKeyCode = 0;
                 core_mn.u.mappingNotify.count = 0;
             core_mn.u.u.type = MappingNotify;
-            WriteEventsToClient(clients[i], 1, &core_mn);
+            WriteEventsToClient(server.clients[i], 1, &core_mn);
         }
     }
 
@@ -189,24 +189,24 @@ void XkbSendNewKeyboardNotify(DeviceIntPtr kbd, xkbNewKeyboardNotify* pNKN)
     pNKN.type = cast(ubyte)(cast(ubyte)(XkbEventCode + XkbEventBase));
     pNKN.xkbType = XkbNewKeyboardNotify;
 
-    for (i = 1; i < currentMaxClients; i++) {
-        if (!clients[i] || clients[i].clientState != ClientStateRunning)
+    for (i = 1; i < server.currentMaxClients; i++) {
+        if (!server.clients[i] || server.clients[i].clientState != ClientStateRunning)
             continue;
 
-        if (!(clients[i].newKeyboardNotifyMask & changed))
+        if (!(server.clients[i].newKeyboardNotifyMask & changed))
             continue;
 
         pNKN.time = cast(uint)time;
         pNKN.changed = changed;
-        if (clients[i].swapped) {
+        if (server.clients[i].swapped) {
             swapl(&pNKN.time);
             swaps(&pNKN.changed);
         }
-        xmitClientEvent(clients[i], *cast(xEvent*)pNKN);
+        xmitClientEvent(server.clients[i], *cast(xEvent*)pNKN);
 
         if (changed & XkbNKN_KeycodesMask) {
-            clients[i].minKC = pNKN.minKeyCode;
-            clients[i].maxKC = pNKN.maxKeyCode;
+            server.clients[i].minKC = pNKN.minKeyCode;
+            server.clients[i].maxKC = pNKN.maxKeyCode;
         }
     }
 
@@ -291,22 +291,22 @@ void XkbSendMapNotify(DeviceIntPtr kbd, xkbMapNotify* pMN)
     pMN.xkbType = XkbMapNotify;
     pMN.deviceID = cast(ubyte)cast(ubyte)kbd.id;
 
-    /* 0 is serverClient. */
-    for (i = 1; i < currentMaxClients; i++) {
-        if (!clients[i] || clients[i].clientState != ClientStateRunning)
+    /* 0 is server.serverClient. */
+    for (i = 1; i < server.currentMaxClients; i++) {
+        if (!server.clients[i] || server.clients[i].clientState != ClientStateRunning)
             continue;
 
-        if (!(clients[i].mapNotifyMask & changed))
+        if (!(server.clients[i].mapNotifyMask & changed))
             continue;
 
         pMN.time = time;
         pMN.changed = changed;
 
-        if (clients[i].swapped) {
+        if (server.clients[i].swapped) {
             swapl(&pMN.time);
             swaps(&pMN.changed);
         }
-        xmitClientEvent(clients[i], *cast(xEvent*)pMN);
+        xmitClientEvent(server.clients[i], *cast(xEvent*)pMN);
     }
 
     XkbSendLegacyMapNotify(kbd, XkbMapNotify, changed, pMN.firstKeySym,

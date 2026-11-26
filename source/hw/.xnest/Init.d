@@ -123,7 +123,7 @@ void InitInput(int argc, char** argv)
 {
     int rc = void;
 
-    rc = AllocDevicePair(serverClient, "Xnest",
+    rc = AllocDevicePair(server.serverClient, "Xnest",
                          &xnestPointerDevice,
                          &xnestKeyboardDevice,
                          xnestPointerProc, xnestKeyboardProc, False);

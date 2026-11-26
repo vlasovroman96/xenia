@@ -342,7 +342,7 @@ enum string dixInitScreenPrivates(string s, string o, string v, string type) = `
  * For objects created during server initialization, this allows those
  * privates to be re-allocated as new private keys are registered.
  *
- * This includes screens, the serverClient, default colormaps and
+ * This includes screens, the server.serverClient, default colormaps and
  * extensions entries.
  */
 int dixAllocatePrivates(PrivatePtr* privates, DevPrivateType type);
@@ -571,8 +571,8 @@ private Bool fixupScreens(FixupFunc fixup, uint bytes)
 
 private Bool fixupServerClient(FixupFunc fixup, uint bytes)
 {
-    if (serverClient)
-        return fixup(&serverClient.devPrivates, global_keys[PRIVATE_CLIENT].offset,
+    if (server.serverClient)
+        return fixup(&server.serverClient.devPrivates, global_keys[PRIVATE_CLIENT].offset,
                      bytes);
     return True;
 }
@@ -595,7 +595,7 @@ private Bool fixupDefaultColormaps(FixupFunc fixup, uint bytes)
         ColormapPtr cmap = void;
         dixLookupResourceByType(cast(void**) &cmap,
                                 cast(uint)walkScreen.defColormap, X11_RESTYPE_COLORMAP,
-                                serverClient, DixCreateAccess);
+                                server.serverClient, DixCreateAccess);
         if (cmap &&
             !fixup(&cmap.devPrivates, walkScreen.screenSpecificPrivates[PRIVATE_COLORMAP].offset, bytes))
             return False;

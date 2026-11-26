@@ -151,14 +151,14 @@ static if(XINERAMA){
         dixCreateWindow(cs.overlayWid, pRoot, x, y, w, h, 0,
                      InputOutput, CWBackPixmap | CWOverrideRedirect, &attrs[0],
                      pRoot.drawable.depth,
-                     serverClient, cast(uint)pScreen.rootVisual, &result);
+                     server.serverClient, cast(uint)pScreen.rootVisual, &result);
     if (pWin is null)
         return False;
 
     if (!AddResource(cast(uint)pWin.drawable.id, X11_RESTYPE_WINDOW, cast(void*) pWin))
         return False;
 
-    MapWindow(pWin, serverClient);
+    MapWindow(pWin, server.serverClient);
 
     return True;
 }

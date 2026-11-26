@@ -660,9 +660,9 @@ void glxSuspendClients()
 {
     int i = void;
 
-    for (i = 1; i < currentMaxClients; i++) {
-        if (clients[i] && glxGetClient(clients[i]).client)
-            IgnoreClient(clients[i]);
+    for (i = 1; i < server.currentMaxClients; i++) {
+        if (server.clients[i] && glxGetClient(server.clients[i]).client)
+            IgnoreClient(server.clients[i]);
     }
 
     glxBlockClients = TRUE;
@@ -675,9 +675,9 @@ void glxResumeClients()
 
     glxBlockClients = FALSE;
 
-    for (i = 1; i < currentMaxClients; i++) {
-        if (clients[i] && glxGetClient(clients[i]).client)
-            AttendClient(clients[i]);
+    for (i = 1; i < server.currentMaxClients; i++) {
+        if (server.clients[i] && glxGetClient(server.clients[i]).client)
+            AttendClient(server.clients[i]);
     }
 
     for (cx = glxPendingDestroyContexts; cx !is null; cx = next) {

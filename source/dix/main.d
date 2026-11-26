@@ -64,15 +64,16 @@ int dix_main(string[] args) {
         OsInit();
 
             CreateWellKnownSockets();
-            for (int i = 1; i < LimitClients; i++)
-                clients[i] = null;
-            serverClient = cast(ClientRec*) calloc(1, ClientRec.sizeof);
-            if (!serverClient)
-                FatalError("couldn't create server client");
-            InitClient(serverClient, 0, cast(void*) null);
+            server.initClients();
 
-        clients[0] = serverClient;
-        currentMaxClients = 1;
+            // if (!server.serverClient)
+            //     FatalError("couldn't create server client");
+            // InitClient(server.serverClient, 0, cast(void*) null);
+
+        import abi.globals;
+        abi.globals.clients = server._clients.data;
+        abi.globals.serverClient = server.serverClient;
+        abi.globals.currentMaxClients = &server.currentMaxClients;
 
         /* clear any existing selections */
         InitSelections();
@@ -83,10 +84,10 @@ int dix_main(string[] args) {
         /* Initialize server client devPrivates, to be reallocated as
          * more client privates are registered
          */
-        if (!dixAllocatePrivates(&serverClient.devPrivates, PRIVATE_CLIENT))
+        if (!dixAllocatePrivates(&server.serverClient.devPrivates, PRIVATE_CLIENT))
             FatalError("failed to create server client privates");
 
-        if (!InitClientResources(serverClient)) /* for root resources */
+        if (!InitClientResources(server.serverClient)) /* for root resources */
             FatalError("couldn't init server resources");
 
         HWEventQueueType[2] alwaysCheckForInput = [ 0, 1 ];
@@ -170,9 +171,9 @@ static if(XINERAMA){
         InitAndStartDevices();
         LogMessageVerb(X_INFO, 1, "Input(s) initialized\n");
 
-        ReserveClientIds(serverClient);
+        ReserveClientIds(server.serverClient);
 
-        dixSaveScreens(serverClient, SCREEN_SAVER_FORCER, ScreenSaverReset);
+        dixSaveScreens(server.serverClient, SCREEN_SAVER_FORCER, ScreenSaverReset);
 
         dixCloseRegistry();
 
@@ -209,7 +210,7 @@ else {
 
         /* Now free up whatever must be freed */
         if (screenIsSaved == SCREEN_SAVER_ON)
-            dixSaveScreens(serverClient, SCREEN_SAVER_OFF, ScreenSaverReset);
+            dixSaveScreens(server.serverClient, SCREEN_SAVER_OFF, ScreenSaverReset);
         FreeScreenSaverTimer();
         CloseDownExtensions();
 
@@ -253,9 +254,9 @@ static if(XINERAMA){
         }
         memset(&screenInfo.screens, 0, typeof(screenInfo.screens).sizeof);
 
-        ReleaseClientIds(serverClient);
-        dixFreePrivates(serverClient.devPrivates, PRIVATE_CLIENT);
-        serverClient.devPrivates = null;
+        ReleaseClientIds(server.serverClient);
+        dixFreePrivates(server.serverClient.devPrivates, PRIVATE_CLIENT);
+        server.serverClient.devPrivates = null;
 
 	dixFreeRegistry();
 

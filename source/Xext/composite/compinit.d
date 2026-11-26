@@ -121,10 +121,10 @@ private void compInstallColormap(ColormapPtr pColormap)
 private void compCheckBackingStore(WindowPtr pWin)
 {
     if (pWin.backingStore != NotUseful) {
-        compRedirectWindow(serverClient, pWin, CompositeRedirectAutomatic);
+        compRedirectWindow(server.serverClient, pWin, CompositeRedirectAutomatic);
     }
     else {
-        compUnredirectWindow(serverClient, pWin,
+        compUnredirectWindow(server.serverClient, pWin,
                              CompositeRedirectAutomatic);
     }
 }

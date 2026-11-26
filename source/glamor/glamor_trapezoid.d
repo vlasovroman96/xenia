@@ -76,7 +76,7 @@ private PicturePtr glamor_create_mask_picture(ScreenPtr screen, PicturePtr dst, 
     if (!pixmap)
         return null;
     picture = CreatePicture(0, &pixmap.drawable, pict_format,
-                            0, null, serverClient, &error);
+                            0, null, server.serverClient, &error);
     glamor_destroy_pixmap(pixmap);
     return picture;
 }

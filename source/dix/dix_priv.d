@@ -614,8 +614,8 @@ void InitBlockAndWakeupHandlers();
 pragma(inline, true) private ClientPtr dixLookupXIDOwner(XID xid)
 {
     int clientId = dixClientIdForXID(xid);
-    if (clientId < currentMaxClients)
-        return clients[clientId];
+    if (clientId < server.currentMaxClients)
+        return server.clients[clientId];
     return null;
 }
 

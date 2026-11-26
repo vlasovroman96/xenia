@@ -337,7 +337,7 @@ int ProcConvertSelection(ClientPtr client)
     /* If the specified selection has an owner, the X server sends
        SelectionRequest event to that owner */
     if (rc == Success && pSel.window != None && pSel.client &&
-        pSel.client != serverClient && !pSel.client.clientGone)
+        pSel.client != server.serverClient && !pSel.client.clientGone)
     {
         SelectionFilterParamRec evParam = {
             client: client,

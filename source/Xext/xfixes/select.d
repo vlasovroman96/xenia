@@ -204,7 +204,7 @@ int ProcXFixesSelectSelectionInput(ClientPtr client)
          * catch window destroy
          */
         rc = dixLookupResourceByType(&val, pWindow.drawable.id,
-                                     SelectionWindowType, serverClient,
+                                     SelectionWindowType, server.serverClient,
                                      DixGetAttrAccess);
         if (rc != Success)
             if (!AddResource(cast(uint)pWindow.drawable.id, SelectionWindowType,

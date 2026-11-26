@@ -420,7 +420,7 @@ PanoramiXRes* PanoramiXFindIDByScrnum(RESTYPE type, XID id, int screen)
     void* val = void;
 
     if (!screen) {
-        dixLookupResourceByType(&val, id, type, serverClient, DixReadAccess);
+        dixLookupResourceByType(&val, id, type, server.serverClient, DixReadAccess);
         return cast(PanoramiXRes*)val;
     }
 

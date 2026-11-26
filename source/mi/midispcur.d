@@ -175,7 +175,7 @@ private PicturePtr miDCMakePicture(PicturePtr* ppPicture, DrawablePtr pDraw, Win
         return null;
     pPicture = CreatePicture(0, pDraw, pFormat,
                              CPSubwindowMode, &subwindow_mode,
-                             serverClient, &error);
+                             server.serverClient, &error);
     *ppPicture = pPicture;
     return pPicture;
 }
@@ -218,7 +218,7 @@ private Bool miDCRealize(ScreenPtr pScreen, CursorPtr pCursor)
                                0, ZPixmap, cast(char*) pCursor.bits.argb);
         FreeScratchGC(pGC);
         pPicture = CreatePicture(0, &pPixmap.drawable,
-                                 pFormat, 0, null, serverClient, &error);
+                                 pFormat, 0, null, server.serverClient, &error);
         dixDestroyPixmap(pPixmap, 0);
         if (!pPicture)
             return False;
@@ -340,7 +340,7 @@ private GCPtr miDCMakeGC(WindowPtr pWin)
     gcvals[1] = False;
     pGC = CreateGC(cast(DrawablePtr) pWin,
                    cast(uint)(GCSubwindowMode | GCGraphicsExposures), gcvals.ptr, &status,
-                   cast(XID) 0, serverClient);
+                   cast(XID) 0, server.serverClient);
     return pGC;
 }
 

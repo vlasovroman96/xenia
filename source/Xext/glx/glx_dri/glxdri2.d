@@ -917,7 +917,7 @@ private __GLXscreen* __glXDRIscreenProbe(ScreenPtr pScreen)
     if (screen is null)
         return null;
 
-    if (!DRI2Connect(serverClient, pScreen, DRI2DriverDRI,
+    if (!DRI2Connect(server.serverClient, pScreen, DRI2DriverDRI,
                      &screen.fd, &driverName, &deviceName)) {
         LogMessage(X_INFO,
                    "AIGLX: Screen %d is not DRI2 capable\n", pScreen.myNum);

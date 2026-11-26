@@ -115,7 +115,7 @@ private void* truep = cast(void*) 1;
  */
 private int SELinuxDoCheck(SELinuxSubjectRec* subj, SELinuxObjectRec* obj, security_class_t class_, Mask mode, SELinuxAuditRec* auditdata)
 {
-    /* serverClient requests OK */
+    /* server.serverClient requests OK */
     if (subj.privileged) {
         return Success;
     }
@@ -205,25 +205,25 @@ private void SELinuxLabelInitial()
     char* ctx = void;
     void* unused = void;
 
-    /* Do the serverClient */
-    subj = cast(SELinuxSubjectRec*)dixLookupPrivate(&serverClient.devPrivates, subjectKey);
-    obj = cast(SELinuxObjectRec*)dixLookupPrivate(&serverClient.devPrivates, objectKey);
+    /* Do the server.serverClient */
+    subj = cast(SELinuxSubjectRec*)dixLookupPrivate(&server.serverClient.devPrivates, subjectKey);
+    obj = cast(SELinuxObjectRec*)dixLookupPrivate(&server.serverClient.devPrivates, objectKey);
     subj.privileged = 1;
 
-    /* Use the context of the X server process for the serverClient */
+    /* Use the context of the X server process for the server.serverClient */
     if (getcon_raw_d(&ctx) < 0) {
         FatalError("SELinux: couldn't get context of X server process\n");
     }
 
     /* Get a SID from the context */
     if (avc_context_to_sid_raw_d(ctx, &subj.sid) < 0) {
-        FatalError("SELinux: serverClient: context_to_sid(%s) failed\n", ctx);
+        FatalError("SELinux: server.serverClient: context_to_sid(%s) failed\n", ctx);
     }
 
     obj.sid = subj.sid;
     freecon_d(ctx);
 
-    srec.client = serverClient;
+    srec.client = server.serverClient;
     srec.access_mode = DixCreateAccess;
     srec.status = Success;
 
@@ -234,7 +234,7 @@ private void SELinuxLabelInitial()
 
         /* Do the default colormap */
         dixLookupResourceByType(&unused, walkScreen.defColormap,
-                                X11_RESTYPE_COLORMAP, serverClient, DixCreateAccess);
+                                X11_RESTYPE_COLORMAP, server.serverClient, DixCreateAccess);
     });
 }
 
@@ -513,7 +513,7 @@ private void SELinuxExtension(CallbackListPtr* pcbl, void* unused, void* calldat
     if (obj.sid is null) {
         security_id_t sid = void;
 
-        serv = cast(SELinuxSubjectRec*)dixLookupPrivate(&serverClient.devPrivates, subjectKey);
+        serv = cast(SELinuxSubjectRec*)dixLookupPrivate(&server.serverClient.devPrivates, subjectKey);
         int rc = SELinuxExtensionToSID(rec.ext.name, &sid);
         if (rc != Success) {
             rec.status = rc;
@@ -786,7 +786,7 @@ private void SELinuxServer(CallbackListPtr* pcbl, void* unused, void* calldata)
     SELinuxAuditRec auditdata = {client: rec.client };
 
     subj = cast(SELinuxSubjectRec*)dixLookupPrivate(&rec.client.devPrivates, subjectKey);
-    obj = cast(SELinuxObjectRec*)dixLookupPrivate(&serverClient.devPrivates, objectKey);
+    obj = cast(SELinuxObjectRec*)dixLookupPrivate(&server.serverClient.devPrivates, objectKey);
 
     int rc = SELinuxDoCheck(subj, obj, SECCLASS_X_SERVER, rec.access_mode,
                         &auditdata);
@@ -837,7 +837,7 @@ private void SELinuxResourceState(CallbackListPtr* pcbl, void* unused, void* cal
         if (rc < 0) {
             FatalError("SELinux: Failed to get security context!\n");
         }
-        rc = dixChangeWindowProperty(serverClient,
+        rc = dixChangeWindowProperty(server.serverClient,
                                      pWin, atom_client_ctx, XA_STRING, 8,
                                      PropModeReplace, strlen(ctx), ctx, False);
         if (rc != Success) {
@@ -857,7 +857,7 @@ private void SELinuxResourceState(CallbackListPtr* pcbl, void* unused, void* cal
         if (rc < 0) {
             FatalError("SELinux: Failed to get security context!\n");
         }
-        rc = dixChangeWindowProperty(serverClient,
+        rc = dixChangeWindowProperty(server.serverClient,
                                      pWin, atom_ctx, XA_STRING, 8,
                                      PropModeReplace, strlen(ctx), ctx, False);
         if (rc != Success) {

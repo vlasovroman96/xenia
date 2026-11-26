@@ -946,7 +946,7 @@ int ProcRenderAddGlyphs(ClientPtr client)
 
                 PicturePtr pSrc = CreatePicture(0, &pSrcPix.drawable,
                                      glyphSet.format, 0, null,
-                                     serverClient, &error);
+                                     server.serverClient, &error);
                 if (!pSrc) {
                     err = BadAlloc;
                     FreeScratchPixmapHeader(pSrcPix);
@@ -967,7 +967,7 @@ int ProcRenderAddGlyphs(ClientPtr client)
                 PicturePtr pDst = CreatePicture(0, &pDstPix.drawable,
                                   glyphSet.format,
                                   CPComponentAlpha, cast(uint*)&component_alpha,
-                                  serverClient, &error);
+                                  server.serverClient, &error);
                 SetGlyphPicture(glyph, walkScreen, pDst);
 
                 /* The picture takes a reference to the pixmap, so we

@@ -1455,7 +1455,7 @@ private PicturePtr glamor_convert_gradient_picture(ScreenPtr screen, PicturePtr 
         return null;
 
     dst = CreatePicture(0,
-                        &pixmap.drawable, pFormat, 0, null, serverClient, &error);
+                        &pixmap.drawable, pFormat, 0, null, server.serverClient, &error);
     glamor_destroy_pixmap(pixmap);
     if (!dst)
         return null;

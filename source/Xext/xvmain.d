@@ -404,7 +404,7 @@ private int XvdiSendVideoNotify(XvPortPtr pPort, DrawablePtr pDraw, int reason)
     XvVideoNotifyPtr pn = void;
 
     dixLookupResourceByType(cast(void**) &pn, pDraw.id, XvRTVideoNotifyList,
-                            serverClient, DixReadAccess);
+                            server.serverClient, DixReadAccess);
 
     while (pn) {
         xvEvent event;

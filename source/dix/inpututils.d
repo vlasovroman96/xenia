@@ -91,15 +91,15 @@ private void do_butmap_change(DeviceIntPtr dev, CARD8* map, int len, ClientPtr c
     core_mn.u.mappingNotify.request = MappingPointer;
 
     /* 0 is the server client. */
-    for (int i = 1; i < currentMaxClients; i++) {
+    for (int i = 1; i < server.currentMaxClients; i++) {
         /* Don't send irrelevant events to naïve clients. */
-        if (!clients[i] || clients[i].clientState != ClientStateRunning)
+        if (!server.clients[i] || server.clients[i].clientState != ClientStateRunning)
             continue;
 
-        if (!XIShouldNotify(clients[i], dev))
+        if (!XIShouldNotify(server.clients[i], dev))
             continue;
 
-        WriteEventsToClient(clients[i], 1, &core_mn);
+        WriteEventsToClient(server.clients[i], 1, &core_mn);
     }
 
     xi_mn = deviceMappingNotify (
@@ -220,7 +220,7 @@ private int check_modmap_change_slave(ClientPtr client, DeviceIntPtr master, Dev
 /* Actually change the modifier map, and send notifications.  Cannot fail. */
 private void do_modmap_change(ClientPtr client, DeviceIntPtr dev, CARD8* modmap)
 {
-    XkbApplyMappingChange(dev, null, 0, 0, modmap, serverClient);
+    XkbApplyMappingChange(dev, null, 0, 0, modmap, server.serverClient);
 }
 
 /* Rebuild modmap (key -> mod) from map (mod -> key). */

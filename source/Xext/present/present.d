@@ -83,7 +83,7 @@ void present_copy_region(DrawablePtr drawable, PixmapPtr pixmap, RegionPtr updat
 
         changes[0].val = x_off;
         changes[1].val = y_off;
-        ChangeGC(serverClient, gc,
+        ChangeGC(server.serverClient, gc,
                  cast(uint)(GCClipXOrigin|GCClipYOrigin),
                  changes.ptr);
         (*gc.funcs.ChangeClip)(gc, CT_REGION, update, 0);

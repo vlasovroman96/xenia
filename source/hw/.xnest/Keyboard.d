@@ -161,7 +161,7 @@ int xnestKeyboardProc(DeviceIntPtr pDev, int onoff)
 
         XkbApplyMappingChange(pDev, &keySyms, keySyms.minKeyCode,
                               keySyms.maxKeyCode - keySyms.minKeyCode + 1,
-                              modmap.ptr, serverClient);
+                              modmap.ptr, server.serverClient);
 
         free(keymap_reply);
 

@@ -161,8 +161,8 @@ private void SecurityLabelInitial()
 {
     SecurityStateRec* state = void;
 
-    /* Do the serverClient */
-    state = cast(SecurityStateRec*)dixLookupPrivate(&serverClient.devPrivates, stateKey);
+    /* Do the server.serverClient */
+    state = cast(SecurityStateRec*)dixLookupPrivate(&server.serverClient.devPrivates, stateKey);
     state.trustLevel = XSecurityClientTrusted;
     state.haveState = True;
     state.live = False;
@@ -225,13 +225,13 @@ private int SecurityDeleteAuthorization(void* value, XID id)
 
     /* kill all clients using this auth */
 
-    for (i = 1; i < currentMaxClients; i++)
-        if (clients[i]) {
+    for (i = 1; i < server.currentMaxClients; i++)
+        if (server.clients[i]) {
             SecurityStateRec* state = void;
 
-            state = cast(SecurityStateRec*)dixLookupPrivate(&clients[i].devPrivates, stateKey);
+            state = cast(SecurityStateRec*)dixLookupPrivate(&server.clients[i].devPrivates, stateKey);
             if (state.haveState && state.authId == pAuth.id)
-                CloseDownClient(clients[i]);
+                CloseDownClient(server.clients[i]);
         }
 
     SecurityAudit("revoked authorization ID %lu\n", cast(c_ulong)pAuth.id);
@@ -636,7 +636,7 @@ private void SecurityDevice(CallbackListPtr* pcbl, void* unused, void* calldata)
     Mask allowed = SecurityDeviceMask;
 
     subj = cast(SecurityStateRec*)dixLookupPrivate(&rec.client.devPrivates, stateKey);
-    obj = cast(SecurityStateRec*)dixLookupPrivate(&serverClient.devPrivates, stateKey);
+    obj = cast(SecurityStateRec*)dixLookupPrivate(&server.serverClient.devPrivates, stateKey);
 
     if (rec.dev != inputInfo.keyboard)
         /* this extension only supports the core keyboard */
@@ -751,7 +751,7 @@ private void SecurityServer(CallbackListPtr* pcbl, void* unused, void* calldata)
     Mask allowed = SecurityServerMask;
 
     subj = cast(SecurityStateRec*)dixLookupPrivate(&rec.client.devPrivates, stateKey);
-    obj = cast(SecurityStateRec*)dixLookupPrivate(&serverClient.devPrivates, stateKey);
+    obj = cast(SecurityStateRec*)dixLookupPrivate(&server.serverClient.devPrivates, stateKey);
 
     if (SecurityDoCheck(subj, obj, requested, allowed) != Success) {
         SecurityAudit("Security: denied client %d access to server "
@@ -891,7 +891,7 @@ private void SecurityClientState(CallbackListPtr* pcbl, void* unused, void* call
     {
         state.authId = AuthorizationIDOfClient(pci.client);
         int rc = dixLookupResourceByType(cast(void**) &pAuth, state.authId,
-                                     SecurityAuthorizationResType, serverClient,
+                                     SecurityAuthorizationResType, server.serverClient,
                                      DixGetAttrAccess);
         if (rc == Success) {
             /* it is a generated authorization */
@@ -908,7 +908,7 @@ private void SecurityClientState(CallbackListPtr* pcbl, void* unused, void* call
     case ClientStateRetained:
     {
         int rc = dixLookupResourceByType(cast(void**) &pAuth, state.authId,
-                                     SecurityAuthorizationResType, serverClient,
+                                     SecurityAuthorizationResType, server.serverClient,
                                      DixGetAttrAccess);
         if (rc == Success && state.live) {
             /* it is a generated authorization */

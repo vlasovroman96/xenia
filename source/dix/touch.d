@@ -81,7 +81,7 @@ enum TOUCH_HISTORY_SIZE = 100;
  * Check which devices need a bigger touch event queue and grow their
  * last.touches by half its current size.
  *
- * @param client Always the serverClient
+ * @param client Always the server.serverClient
  * @param closure Always NULL
  *
  * @return Always True. If we fail to grow we probably will topple over soon

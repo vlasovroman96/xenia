@@ -120,7 +120,7 @@ void miUninstallColormap(ColormapPtr pmap)
         if (pmap.mid != pmap.pScreen.defColormap) {
             dixLookupResourceByType(cast(void**) &curpmap,
                                     cast(uint)pmap.pScreen.defColormap,
-                                    X11_RESTYPE_COLORMAP, serverClient, DixUseAccess);
+                                    X11_RESTYPE_COLORMAP, server.serverClient, DixUseAccess);
             (*pmap.pScreen.InstallColormap) (curpmap);
         }
     }
@@ -290,7 +290,7 @@ Bool miCreateDefColormap(ScreenPtr pScreen)
         alloctype = AllocAll;
 
     if (dixCreateColormap(cast(uint)pScreen.defColormap, pScreen, pVisual, &cmap,
-                          alloctype, serverClient) != Success)
+                          alloctype, server.serverClient) != Success)
         return False;
 
     if (pScreen.rootDepth > 1) {

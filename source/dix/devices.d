@@ -729,7 +729,7 @@ enum NAXES = 2;
  */
 void InitCoreDevices()
 {
-    int result = AllocDevicePair(serverClient, "Virtual core",
+    int result = AllocDevicePair(server.serverClient, "Virtual core",
                              &inputInfo.pointer, &inputInfo.keyboard,
                              &CorePointerProc, &CoreKeyboardProc, True);
     if (result != Success) {
@@ -1010,10 +1010,10 @@ private void CloseDevice(DeviceIntPtr dev)
     }
 
     /* a client may have the device set as client pointer */
-    for (int j = 0; j < currentMaxClients; j++) {
-        if (clients[j] && clients[j].clientPtr == dev) {
-            clients[j].clientPtr = null;
-            clients[j].clientPtr = PickPointer(clients[j]);
+    for (int j = 0; j < server.currentMaxClients; j++) {
+        if (server.clients[j] && server.clients[j].clientPtr == dev) {
+            server.clients[j].clientPtr = null;
+            server.clients[j].clientPtr = PickPointer(server.clients[j]);
         }
     }
 
@@ -2715,7 +2715,7 @@ void valuator_set_mode(DeviceIntPtr dev, int axis, int mode)
 void DeliverDeviceClassesChangedEvent(int sourceid, Time time)
 {
     DeviceIntPtr dev = void;
-    dixLookupDevice(&dev, sourceid, serverClient, DixWriteAccess);
+    dixLookupDevice(&dev, sourceid, server.serverClient, DixWriteAccess);
 
     if (!dev)
         return;

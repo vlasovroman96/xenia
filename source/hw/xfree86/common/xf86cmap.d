@@ -233,7 +233,7 @@ static if(XFreeXDGA){
 
     /* get the default map */
     dixLookupResourceByType(cast(void**) &pDefMap, cast(uint)pScreen.defColormap,
-                            X11_RESTYPE_COLORMAP, serverClient, DixInstallAccess);
+                            X11_RESTYPE_COLORMAP, server.serverClient, DixInstallAccess);
 
     if (!CMapAllocateColormapPrivate(pDefMap)) {
         CMapCloseScreen(null, pScreen, null);

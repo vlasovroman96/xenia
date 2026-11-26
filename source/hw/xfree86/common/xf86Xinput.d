@@ -464,7 +464,7 @@ private DeviceIntPtr xf86ActivateDevice(InputInfoPtr pInfo)
 {
     DeviceIntPtr dev = void;
 
-    dev = AddInputDevice(serverClient, pInfo.device_control, True);
+    dev = AddInputDevice(server.serverClient, pInfo.device_control, True);
 
     if (dev is null) {
         LogMessageVerb(X_ERROR, 1, "Too many input devices. Ignoring %s\n", pInfo.name);

@@ -228,7 +228,7 @@ int dixCreateColormap(Colormap mid, ScreenPtr pScreen, VisualPtr pVisual, Colorm
     const(int) class_ = pVisual.class_;
 
     if (!(class_ & DynamicClass) && (alloc != AllocNone) &&
-        (pClient != serverClient))
+        (pClient != server.serverClient))
         return BadMatch;
 
     int size = pVisual.ColormapEntries;
@@ -528,7 +528,7 @@ int CopyColormapAndFree(Colormap mid, ColormapPtr pSrc, int client)
 
     /* If the create returns non-0, it failed */
     {
-        const(int) result = dixCreateColormap(mid, pScreen, pVisual, &pmap, alloc, clients[client]);
+        const(int) result = dixCreateColormap(mid, pScreen, pVisual, &pmap, alloc, server.clients[client]);
         if (result != Success)
             return result;
     }
@@ -992,7 +992,7 @@ int AllocColor(ColormapPtr pmap, ushort* pred, ushort* pgreen, ushort* pblue, Pi
 
             dixLookupResourceByType(cast(void**) &prootmap,
                                     cast(uint)pmap.pScreen.defColormap, X11_RESTYPE_COLORMAP,
-                                    clients[client], DixReadAccess);
+                                    server.clients[client], DixReadAccess);
 
             if (pmap.class_ == prootmap.class_)
                 FindColorInRootCmap(prootmap, prootmap.red, entries, &rgb,
@@ -1010,7 +1010,7 @@ int AllocColor(ColormapPtr pmap, ushort* pred, ushort* pgreen, ushort* pblue, Pi
 
             dixLookupResourceByType(cast(void**) &prootmap,
                                     cast(uint)pmap.pScreen.defColormap, X11_RESTYPE_COLORMAP,
-                                    clients[client], DixReadAccess);
+                                    server.clients[client], DixReadAccess);
 
             if (pmap.class_ == prootmap.class_) {
                 pixR = (*pPix & pVisual.redMask) >> pVisual.offsetRed;
@@ -1434,7 +1434,7 @@ int FreeClientPixels(void* value, XID fakeid)
     void* pmap = void;
     colorResource* pcr = cast(colorResource*)value;
 
-    int rc = dixLookupResourceByType(&pmap, pcr.mid, X11_RESTYPE_COLORMAP, serverClient,
+    int rc = dixLookupResourceByType(&pmap, pcr.mid, X11_RESTYPE_COLORMAP, server.serverClient,
                                  DixRemoveAccess);
     if (rc == Success)
         FreePixels(cast(ColormapPtr) pmap, pcr.client);
@@ -2036,7 +2036,7 @@ int FreeColors(ColormapPtr pmap, int client, int count, Pixel* pixels, Pixel mas
         result = FreeCo(pmap, client, PSEUDOMAP, count, pixels, rmask);
     }
     if ((mask != rmask) && count) {
-        clients[client].errorValue = *pixels | mask;
+        server.clients[client].errorValue = *pixels | mask;
         result = BadValue;
     }
     /* XXX should worry about removing any X11_RESTYPE_CMAPENTRY resource */
@@ -2112,7 +2112,7 @@ private int FreeCo(ColormapPtr pmap, int client, int color, int npixIn, Pixel* p
         for (int n = npixIn; --n >= 0; pptr++) {
             Pixel pixTest = ((*pptr | bits) & cmask) >> offset;
             if ((pixTest >= numents) || (*pptr & rgbbad)) {
-                clients[client].errorValue = *pptr | bits;
+                server.clients[client].errorValue = *pptr | bits;
                 errVal = BadValue;
                 continue;
             }
@@ -2473,7 +2473,7 @@ Bool ResizeVisualArray(ScreenPtr pScreen, int new_visual_count, DepthPtr depth)
         visuals: visuals,
         pScreen: pScreen,
     };
-    FindClientResourcesByType(serverClient, X11_RESTYPE_COLORMAP,
+    FindClientResourcesByType(server.serverClient, X11_RESTYPE_COLORMAP,
                               &_colormap_find_resource, &cdata);
 
     pScreen.visuals = visuals;

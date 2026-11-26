@@ -905,7 +905,7 @@ int KdAddKeyboard(KdKeyboardInfo* ki)
     if (!ki)
         return !Success;
 
-    ki.dixdev = AddInputDevice(serverClient, &KdKeyboardProc, True);
+    ki.dixdev = AddInputDevice(server.serverClient, &KdKeyboardProc, True);
     if (!ki.dixdev) {
         ErrorF("Couldn't register keyboard device %s\n",
                ki.name ? ki.name : "(unnamed)");
@@ -969,7 +969,7 @@ int KdAddPointer(KdPointerInfo* pi)
     pi.mouseState = start;
     pi.eventHeld = False;
 
-    pi.dixdev = AddInputDevice(serverClient, &KdPointerProc, True);
+    pi.dixdev = AddInputDevice(server.serverClient, &KdPointerProc, True);
     if (!pi.dixdev) {
         ErrorF("Couldn't add pointer device %s\n",
                pi.name ? pi.name : "(unnamed)");

@@ -72,7 +72,7 @@ private int check_for_touch_selection_conflicts(ClientPtr B, WindowPtr win, int 
         else if (deviceid == XIAllMasterDevices)
             tmp = inputInfo.all_master_devices;
         else
-            dixLookupDevice(&tmp, deviceid, serverClient, DixReadAccess);
+            dixLookupDevice(&tmp, deviceid, server.serverClient, DixReadAccess);
         if (!tmp)
             return BadImplementation;       /* this shouldn't happen */
 

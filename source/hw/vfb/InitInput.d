@@ -137,8 +137,8 @@ void InitInput(int argc, char** argv)
     DeviceIntPtr p = void, k = void;
     Atom xiclass = void;
 
-    p = AddInputDevice(serverClient, &vfbMouseProc, True);
-    k = AddInputDevice(serverClient, &vfbKeybdProc, True);
+    p = AddInputDevice(server.serverClient, &vfbMouseProc, True);
+    k = AddInputDevice(server.serverClient, &vfbKeybdProc, True);
     xiclass = dixAddAtom(XI_MOUSE);
     AssignTypeAndName(p, xiclass, "Xvfb mouse");
     xiclass = dixAddAtom(XI_KEYBOARD);

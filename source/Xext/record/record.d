@@ -1208,12 +1208,12 @@ private XID* RecordCanonicalizeClientSpecifiers(XID* pClientspecs, int* pNumClie
     for (i = 0; i < numClients; i++) {
         if (pClientspecs[i] == XRecordAllClients || pClientspecs[i] == XRecordCurrentClients) { /* expand All/Current */
             int j = void, nc = void;
-            XID* pCanon = cast(XID*) calloc(currentMaxClients + 1, XID.sizeof);
+            XID* pCanon = cast(XID*) calloc(server.currentMaxClients + 1, XID.sizeof);
 
             if (!pCanon)
                 return null;
-            for (nc = 0, j = 1; j < currentMaxClients; j++) {
-                ClientPtr client = clients[j];
+            for (nc = 0, j = 1; j < server.currentMaxClients; j++) {
+                ClientPtr client = server.clients[j];
 
                 if (client !is null &&
                     client.clientState == ClientStateRunning &&

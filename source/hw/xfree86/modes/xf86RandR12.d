@@ -1792,7 +1792,7 @@ private void xf86RandR12CreateMonitors(ScreenPtr pScreen)
             }
         }
 
-        ret = RRMonitorAdd(serverClient, pScreen, monitor);
+        ret = RRMonitorAdd(server.serverClient, pScreen, monitor);
         if (ret) {
             RRMonitorFree(monitor);
             return;

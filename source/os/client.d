@@ -123,7 +123,7 @@ pid_t DetermineClientPid(_Client* client)
     if (client is null)
         return pid;
 
-    if (client == serverClient)
+    if (client == server.serverClient)
         return getpid();
 
     if (GetLocalClientCreds(client, &lcc) != -1) {

@@ -394,7 +394,7 @@ static if(DPMSExtension) {
 
 enum string DPMS_CHECK_MODE(string mode,string time) = `
     if (` ~ time ~ ` > 0 && DPMSPowerLevel < ` ~ mode ~ ` && timeout >= ` ~ time ~ `)
-	DPMSSet(serverClient, ` ~ mode ~ `);`;
+	DPMSSet(server.serverClient, ` ~ mode ~ `);`;
 
 enum string DPMS_CHECK_TIMEOUT(string time) = `
     if (` ~ time ~ ` > 0 && (` ~ time ~ ` - timeout) > 0)
@@ -461,7 +461,7 @@ static if(DPMSExtension) {
     }
 
     ResetOsBuffers();           /* not ideal, but better than nothing */
-    dixSaveScreens(serverClient, SCREEN_SAVER_ON, ScreenSaverActive);
+    dixSaveScreens(server.serverClient, SCREEN_SAVER_ON, ScreenSaverActive);
 
     if (ScreenSaverInterval > 0) {
         nextTimeout = nextTimeout > 0 ?

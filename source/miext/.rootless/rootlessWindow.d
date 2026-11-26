@@ -122,7 +122,7 @@ void RootlessNativeWindowMoved(WindowPtr pWin)
 
     /* pretend we're the owner of the window! */
     err =
-        dixLookupResourceOwner(&pClient, pWin.drawable.id, serverClient,
+        dixLookupResourceOwner(&pClient, pWin.drawable.id, server.serverClient,
                         DixUnknownAccess);
     if (err != Success) {
         ErrorF("RootlessNativeWindowMoved(): Failed to lookup window: 0x%x\n",
@@ -288,7 +288,7 @@ Bool RootlessChangeWindowAttributes(WindowPtr pWin, c_ulong vmask)
         if (pWin.backgroundState == ParentRelative) {
             XID pixel = 0;
 
-            ChangeWindowAttributes(pWin, CWBackPixel, &pixel, serverClient);
+            ChangeWindowAttributes(pWin, CWBackPixel, &pixel, server.serverClient);
         }
     }
 
@@ -434,7 +434,7 @@ Bool RootlessRealizeWindow(WindowPtr pWin)
         if (pWin.backgroundState == ParentRelative) {
             XID pixel = 0;
 
-            ChangeWindowAttributes(pWin, CWBackPixel, &pixel, serverClient);
+            ChangeWindowAttributes(pWin, CWBackPixel, &pixel, server.serverClient);
         }
     }
 
@@ -1021,7 +1021,7 @@ void RootlessReparentWindow(WindowPtr pWin, WindowPtr pPriorParent)
 
     pWin.unhittable = False;
 
-    DeleteProperty(serverClient, pWin, xa_native_window_id());
+    DeleteProperty(server.serverClient, pWin, xa_native_window_id());
 
     if (WINREC(pTopWin) !is null) {
         /* We're screwed. */
@@ -1182,7 +1182,7 @@ void RootlessDisableRoot(ScreenPtr pScreen)
         return;
 
     RootlessDestroyFrame(pRoot, winRec);
-    DeleteProperty(serverClient, pRoot, xa_native_window_id());
+    DeleteProperty(server.serverClient, pRoot, xa_native_window_id());
 }
 
 void RootlessHideAllWindows()
@@ -1258,7 +1258,7 @@ void RootlessSetPixmapOfAncestors(WindowPtr pWin)
             // disallow ParentRelative background state on top level
             XID pixel = 0;
 
-            ChangeWindowAttributes(pWin, CWBackPixel, &pixel, serverClient);
+            ChangeWindowAttributes(pWin, CWBackPixel, &pixel, server.serverClient);
             RL_DEBUG_MSG("Cleared ParentRelative on %p (%lu).\n", pWin, RootlessWID(pWin));
             break;
         }

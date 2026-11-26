@@ -107,7 +107,7 @@ pragma(inline, true) ushort dixClientIdForXID(XID xid) {
 pragma(inline, true) ClientPtr dixClientForXID(XID xid) {
     const(int) idx = dixClientIdForXID(xid);
     if (idx < MAXCLIENTS)
-        return clients[idx];
+        return server.clients[idx];
     return null;
 }
 
@@ -118,7 +118,7 @@ pragma(inline, true) ClientPtr dixClientForXID(XID xid) {
  * @return True if resource is server owned
  */
 pragma(inline, true) Bool dixResouceIsServerOwned(XID xid) {
-    return (dixClientForXID(xid) == serverClient);
+    return (dixClientForXID(xid) == server.serverClient);
 }
 
 /*

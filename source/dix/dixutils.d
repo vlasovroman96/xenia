@@ -223,18 +223,18 @@ int dixLookupResourceOwner(ClientPtr* result, XID id, ClientPtr client, Mask acc
     void* pRes = void;
     int rc = BadValue, clientIndex = dixClientIdForXID(id);
 
-    if (!clientIndex || !clients[clientIndex] || (id & SERVER_BIT))
+    if (!clientIndex || !server.clients[clientIndex] || (id & SERVER_BIT))
         goto bad;
 
     rc = dixLookupResourceByClass(&pRes, id, RC_ANY, client, DixGetAttrAccess);
     if (rc != Success)
         goto bad;
 
-    rc = dixCallClientAccessCallback(client, clients[clientIndex], access_mode);
+    rc = dixCallClientAccessCallback(client, server.clients[clientIndex], access_mode);
     if (rc != Success)
         goto bad;
 
-    *result = clients[clientIndex];
+    *result = server.clients[clientIndex];
     return Success;
  bad:
     if (client)
@@ -294,8 +294,8 @@ void DeleteWindowFromAnySaveSet(WindowPtr pWin)
 {
     ClientPtr client = void;
 
-    for (int i = 0; i < currentMaxClients; i++) {
-        client = clients[i];
+    for (int i = 0; i < server.currentMaxClients; i++) {
+        client = server.clients[i];
         if (client && client.numSaved)
             cast(void) AlterSaveSetForClient(client, pWin, SetModeDelete, False,
                                          True);
