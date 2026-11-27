@@ -258,7 +258,7 @@ ClientPtr GetCurrentClient()
         return null;
     }
 
-    return currentClient;
+    return server.dispatcher.currentClient;
 }
 
 void UpdateCurrentTime()
@@ -580,10 +580,10 @@ version (XSERVER_DTRACE) {
                         }
                     }
                     if (result == Success) {
-                        currentClient = client;
+                        server.dispatcher.currentClient = client;
                         result =
                             (*client.requestVector[client.majorOp]) (client);
-                        currentClient = null;
+                        server.dispatcher.currentClient = null;
                     }
                 }
                 if (!SmartScheduleSignalEnable)

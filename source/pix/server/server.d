@@ -9,12 +9,15 @@ import dix.dispatch;
 import os.log;
 import std.algorithm;
 import std.range;
+import pix.server.dispatcher;
 
 struct XServer {
 	//Sparce array of clients
 	Array!ClientPtr clients;
 	ClientPtr 		serverClient;
 	int				currentMaxClients;
+
+	Dispatcher		dispatcher;
 
 	void initClients() {
 		//for backward compatible
