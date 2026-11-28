@@ -174,6 +174,8 @@ import hw.xfree86.common.xf86Helper;
 import common.bytes;
 import common.swap;
 import dix.dixstruct_priv;
+// import pix.server.dispatcher;
+import pix.server.serverGrab;
 
 alias INT32_MAX = core.stdc.stdint.INT32_MAX;
 
@@ -196,27 +198,6 @@ xConnSetupPrefix connSetupPrefix;
 
 PaddingInfo[33] PixmapWidthPaddingInfo;
 
-private ClientPtr grabClient;
-// private ClientPtr currentClient; /* Client for the request currently being dispatched */
-
-// CallbackListPtr ServerGrabCallback;
-
-struct ServerGrabInfoRec {
-    ClientPtr client;
-    ServerGrabState grabstate;
-}
-
-enum ServerGrabState { SERVER_GRABBED, SERVER_UNGRABBED,
-    CLIENT_PERVIOUS, CLIENT_IMPERVIOUS
-}
-alias SERVER_GRABBED = ServerGrabState.SERVER_GRABBED;
-alias SERVER_UNGRABBED = ServerGrabState.SERVER_UNGRABBED;
-alias CLIENT_PERVIOUS = ServerGrabState.CLIENT_PERVIOUS;
-alias CLIENT_IMPERVIOUS = ServerGrabState.CLIENT_IMPERVIOUS;
-
-enum GrabNone = 0;
-enum GrabActive = 1;
-private int grabState = GrabNone;
 private c_long[mskcnt] grabWaiters;
 CallbackListPtr ServerGrabCallback = null;
 // HWEventQueuePtr[2] checkForInput;
@@ -1164,7 +1145,7 @@ int ProcGrabServer(ClientPtr client)
     int rc = void;
 
     mixin(REQUEST_AT_LEAST_SIZE!xReq);
-    if (grabState != GrabNone && client != grabClient) {
+    if(server.isGrabbed() && !server.isGrabbedBy(client)) {
         ResetCurrentRequest(client);
         client.sequence--;
         mixin(BITSET!(`grabWaiters`, `client.index`));
@@ -1174,16 +1155,12 @@ int ProcGrabServer(ClientPtr client)
     rc = OnlyListenToOneClient(client);
     if (rc != Success)
         return rc;
-    grabState = GrabActive;
-    grabClient = client;
+    server.grabbing.grabServer(client, ServerGrabState.ServerGrabbed);
+
     mark_client_grab(client);
 
     if (ServerGrabCallback) {
-        ServerGrabInfoRec grabinfo = void;
-
-        grabinfo.client = client;
-        grabinfo.grabstate = SERVER_GRABBED;
-        CallCallbacks(&ServerGrabCallback, cast(void*) &grabinfo);
+        CallCallbacks(&ServerGrabCallback, cast(void*) &server.grabbing);
     }
 
     return Success;
@@ -1193,8 +1170,12 @@ private void UngrabServer(ClientPtr client)
 {
     int i = void;
 
-    grabState = GrabNone;
-    grabClient = null;
+    //save state for callback
+    auto cbArg = server.grabbing;
+    cbArg.grabstate = ServerGrabState.ServerUngrabbed;
+
+    server.grabbing.ungrab();
+
     ListenToAllClients();
     mark_client_ungrab();
     for (i = mskcnt; --i >= 0 && !grabWaiters[i];){}
@@ -1207,11 +1188,7 @@ private void UngrabServer(ClientPtr client)
     }
 
     if (ServerGrabCallback) {
-        ServerGrabInfoRec grabinfo = void;
-
-        grabinfo.client = client;
-        grabinfo.grabstate = SERVER_UNGRABBED;
-        CallCallbacks(&ServerGrabCallback, cast(void*) &grabinfo);
+        CallCallbacks(&ServerGrabCallback, cast(void*) &cbArg);
     }
 }
 
@@ -3594,7 +3571,7 @@ void CloseDownClient(ClientPtr client)
 
     if (!client.clientGone) {
         /* ungrab server if grabbing client dies */
-        if (grabState != GrabNone && grabClient == client) {
+        if (server.isGrabbed && server.isGrabbedBy(client)) {
             UngrabServer(client);
         }
         mixin(BITCLEAR!(`grabWaiters`, `client.index`));

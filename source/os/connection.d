@@ -124,6 +124,7 @@ import os.probes_priv;
 import dix.dixstruct_priv;
 import core.sys.posix.pthread;
 import Xext.xace;
+import pix.server.serverGrab;
 
 alias sockaddr = core.sys.posix.sys.socket.sockaddr;
 alias in_addr = core.sys.posix.arpa.inet.in_addr;
@@ -918,10 +919,8 @@ void MakeClientGrabImpervious(ClientPtr client)
     set_poll_client(client);
 
     if (ServerGrabCallback) {
-        ServerGrabInfoRec grabinfo = void;
-
-        grabinfo.client = client;
-        grabinfo.grabstate = CLIENT_IMPERVIOUS;
+        auto grabinfo = 
+            ServerGrabInfo(client, ServerGrabState.ClientImpervious);          
         CallCallbacks(&ServerGrabCallback, &grabinfo);
     }
 }
@@ -937,10 +936,8 @@ void MakeClientGrabPervious(ClientPtr client)
     isItTimeToYield = True;
 
     if (ServerGrabCallback) {
-        ServerGrabInfoRec grabinfo = void;
-
-        grabinfo.client = client;
-        grabinfo.grabstate = CLIENT_PERVIOUS;
+        auto grabinfo = 
+            ServerGrabInfo(client, ServerGrabState.ClientPervious);
         CallCallbacks(&ServerGrabCallback, &grabinfo);
     }
 }

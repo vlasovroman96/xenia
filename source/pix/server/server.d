@@ -10,14 +10,16 @@ import os.log;
 import std.algorithm;
 import std.range;
 import pix.server.dispatcher;
+import pix.server.serverGrab;
 
 struct XServer {
 	//Sparce array of clients
 	Array!ClientPtr clients;
-	ClientPtr 		serverClient;
+	ClientPtr		serverClient;
 	int				currentMaxClients;
 
 	Dispatcher		dispatcher;
+	ServerGrabInfo	grabbing;
 
 	void initClients() {
 		//for backward compatible
@@ -32,7 +34,7 @@ struct XServer {
 		InitClient(server.serverClient, 0, cast(void*) null);
 
 		this.clients[0] = this.serverClient;
-        this.currentMaxClients = 1;
+		this.currentMaxClients = 1;
 	}
 
 	@property 
@@ -40,4 +42,7 @@ struct XServer {
 		return clients[0..currentMaxClients]
 			.filter!(a => a != null);
 	}
+
+	alias isGrabbed = grabbing.isGrabbed;
+	alias isGrabbedBy = grabbing.isGrabbedBy;
 }
